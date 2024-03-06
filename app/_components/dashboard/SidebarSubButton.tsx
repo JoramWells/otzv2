@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
+import '../../globals.css'
 
 interface SidebarSubButtonProps {
 //   icon: React.ReactNode;

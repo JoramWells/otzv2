@@ -1,4 +1,5 @@
 'use client'
+import '../../globals.css'
 
 import { Collapse, useDisclosure } from '@chakra-ui/react'
 // import Link from 'next/link'

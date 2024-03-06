@@ -1,4 +1,5 @@
 'use client'
+import '../../globals.css'
 
 import { useId } from 'react'
 // import { SidebarButton } from './SidebarButton'
@@ -41,7 +42,7 @@ const SidebarItems = () => {
           },
           {
             id: useId(),
-            link: '/users',
+            link: '/dashboard/users',
             label: 'Users'
           }
         ]}

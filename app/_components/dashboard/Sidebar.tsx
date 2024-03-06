@@ -1,5 +1,5 @@
 'use client'
-
+import '../../globals.css'
 export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
@@ -9,6 +9,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
     fixed
     z-20
     border-r
+    border-slate-200
 
     "
     >
