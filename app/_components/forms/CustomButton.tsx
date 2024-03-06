@@ -1,10 +1,14 @@
-const CustomButton = () => {
+interface ButtonProps {
+  label?: string
+}
+
+const CustomButton = ({ label = '' }: ButtonProps) => {
   return (
     <button
-    className="bg-sky-800 mt-5
-    w-full rounded-lg h-10 text-white font-bold
+    className="bg-teal-500
+    w-full rounded-md h-10 text-white font-semibold text-lg
     "
-    >CustomButton</button>
+    >{label}</button>
   )
 }
 
