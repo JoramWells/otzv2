@@ -1,0 +1,8 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "editor.formatOnSave": "explicit"
+    },
+    "eslint.validate": ["javascript"],
+    "prettier.disableLanguages": ["javascript"]
+}

@@ -1,0 +1,75 @@
+/* eslint-disable import/prefer-default-export */
+import { configureStore } from '@reduxjs/toolkit'
+import { schoolCategoryApi } from '../api/school/schoolCategory.api'
+import { disclosureChecklistApi } from '../api/treatmentplan/disclosureChecklist.api'
+import { appointmentStatusApi } from '../api/appointment/appointmentStatus.api'
+import { appointmentAgendaApi } from '../api/appointment/appointmentAgenda.api'
+import { otzEnrollmentApi } from '../api/enrollment/otzEnrollment.api'
+import { caregiverApi } from '../api/caregiver/patients.api'
+import { patientsApi } from '../api/patient/patients.api'
+import { vitalSignsApi } from '../api/vitalsigns/vitalSigns.api'
+import { artRegimenApi } from '../api/art/artRegimen.api.'
+import { artRegimenPhaseApi } from '../api/art/artRegimenPhase.api'
+import { artRegimenCategoryApi } from '../api/art/artRegimenCategory.api'
+import { userApi } from '../api/users/users.api'
+import { homeVisitReasonApi } from '../api/homevisit/homeVisitReason.api'
+import { homeVisitFrequencyApi } from '../api/homevisit/homeVisitFrequency.api'
+import { homeVisitApi } from '../api/homevisit/homeVisit.api'
+import { timeAndWorkApi } from '../api/treatmentplan/timeAndWork.api'
+import { mmasApi } from '../api/treatmentplan/mmas.api'
+import { appointmentApi } from '../api/appointment/appointment.api.'
+import { schoolSubCategoryApi } from '../api/school/schoolSubCategory.api'
+import { schoolClassesApi } from '../api/school/schoolClasses.api'
+import { schoolTermApi } from '../api/school/schoolTerm.api'
+import { schoolTermHolidayApi } from '../api/school/schoolTermHoliday.api'
+
+export const store = configureStore({
+  reducer: {
+    [patientsApi.reducerPath]: patientsApi.reducer,
+    [vitalSignsApi.reducerPath]: vitalSignsApi.reducer,
+    [artRegimenApi.reducerPath]: artRegimenApi.reducer,
+    [artRegimenPhaseApi.reducerPath]: artRegimenPhaseApi.reducer,
+    [artRegimenCategoryApi.reducerPath]: artRegimenCategoryApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
+    [homeVisitReasonApi.reducerPath]: homeVisitReasonApi.reducer,
+    [homeVisitFrequencyApi.reducerPath]: homeVisitFrequencyApi.reducer,
+    [homeVisitApi.reducerPath]: homeVisitApi.reducer,
+    [timeAndWorkApi.reducerPath]: timeAndWorkApi.reducer,
+    [mmasApi.reducerPath]: mmasApi.reducer,
+    [appointmentApi.reducerPath]: appointmentApi.reducer,
+    [disclosureChecklistApi.reducerPath]: disclosureChecklistApi.reducer,
+    [appointmentStatusApi.reducerPath]: appointmentStatusApi.reducer,
+    [appointmentAgendaApi.reducerPath]: appointmentAgendaApi.reducer,
+    [otzEnrollmentApi.reducerPath]: otzEnrollmentApi.reducer,
+    [caregiverApi.reducerPath]: caregiverApi.reducer,
+    [schoolCategoryApi.reducerPath]: schoolCategoryApi.reducer,
+    [schoolSubCategoryApi.reducerPath]: schoolSubCategoryApi.reducer,
+    [schoolClassesApi.reducerPath]: schoolClassesApi.reducer,
+    [schoolTermApi.reducerPath]: schoolTermApi.reducer,
+    [schoolTermHolidayApi.reducerPath]: schoolTermHolidayApi.reducer
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(patientsApi.middleware)
+      .concat(vitalSignsApi.middleware)
+      .concat(artRegimenApi.middleware)
+      .concat(artRegimenPhaseApi.middleware)
+      .concat(artRegimenCategoryApi.middleware)
+      .concat(userApi.middleware)
+      .concat(homeVisitReasonApi.middleware)
+      .concat(homeVisitFrequencyApi.middleware)
+      .concat(homeVisitApi.middleware)
+      .concat(timeAndWorkApi.middleware)
+      .concat(mmasApi.middleware)
+      .concat(appointmentApi.middleware)
+      .concat(disclosureChecklistApi.middleware)
+      .concat(appointmentStatusApi.middleware)
+      .concat(appointmentAgendaApi.middleware)
+      .concat(otzEnrollmentApi.middleware)
+      .concat(caregiverApi.middleware)
+      .concat(schoolCategoryApi.middleware)
+      .concat(schoolSubCategoryApi.middleware)
+      .concat(schoolClassesApi.middleware)
+      .concat(schoolTermApi.middleware)
+      .concat(schoolTermHolidayApi.middleware)
+})
