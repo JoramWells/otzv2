@@ -23,7 +23,7 @@ const LocationDetails = ({
       style={{
         width: '100%'
       }}
-    >w
+    >
       <CustomInput label="Phone No."
       value={phoneNo}
       onChange={setPhoneNo}

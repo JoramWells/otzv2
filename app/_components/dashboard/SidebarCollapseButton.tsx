@@ -14,11 +14,12 @@ interface ItemListProps {
 }
 
 interface SidebarCollapseButtonProps {
+  icon?: React.ReactNode
   label: string
   itemList?: ItemListProps[]
 }
 
-export const SidebarCollapseButton = ({ label = 'Dashboard', itemList }: SidebarCollapseButtonProps) => {
+export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <div/> }: SidebarCollapseButtonProps) => {
   const { isOpen, onToggle } = useDisclosure()
   const pathname = usePathname()
   const isActive = useMemo(() => {
@@ -29,21 +30,22 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', itemList }: Sidebar
       <div
         onClick={onToggle}
         className={`flex h-10 items-center pl-4 pr-4 justify-between font-semibold
-        hover:cursor-pointer overflow-y-auto hover:bg-teal-50 hover:text-teal-500 ${isActive && 'bg-teal-50 text-teal-500'}
+        hover:cursor-pointer overflow-y-auto hover:bg-teal-50 hover:text-teal-500 ${
+          isActive && 'bg-teal-50 text-teal-500'
+        }
         `}
       >
-        <p
-          // href={'/'}
+        <div
+        className='flex flex-row items-center space-x-2'
         >
-          {label}
-        </p>
-        {isOpen
-          ? (
-          <FaChevronDown />
-            )
-          : (
-          <FaChevronRight />
-            )}
+        {icon}
+          <p
+          // href={'/'}
+          >
+            {label}
+          </p>
+        </div>
+        {isOpen ? <FaChevronDown /> : <FaChevronRight />}
       </div>
 
       <Collapse in={isOpen}>
