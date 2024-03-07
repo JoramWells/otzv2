@@ -9,7 +9,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFrequency.api'
 import { useState } from 'react'
 
-const Users = () => {
+const School = () => {
   const [value, setValue] = useState(1)
   const { data } = useGetAllHomeVisitFrequenciesQuery()
   console.log(data, 'dtc')
@@ -86,4 +86,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default School

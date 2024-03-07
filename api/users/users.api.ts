@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
@@ -11,7 +12,7 @@ export const userApi = createApi({
     baseUrl: 'http://localhost:5000/users'
   }),
   endpoints: (builder) => ({
-    getAllUsers: builder.query<UserProps, number>({
+    getAllUsers: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addUser: builder.mutation({

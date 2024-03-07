@@ -42,13 +42,18 @@ const SidebarItems = () => {
           },
           {
             id: useId(),
-            link: '/dashboard/users',
-            label: 'Users'
+            link: '/dashboard/home-visit',
+            label: 'Home Visit'
           },
           {
             id: useId(),
-            link: '/dashboard/home-visit',
-            label: 'Home Visit'
+            link: '/dashboard/schools',
+            label: 'Schools'
+          },
+          {
+            id: useId(),
+            link: '/dashboard/users',
+            label: 'Users'
           }
         ]}
       />

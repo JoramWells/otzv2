@@ -1,5 +1,9 @@
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import { useReactTable, type ColumnDef, getCoreRowModel, flexRender } from '@tanstack/react-table'
+import {
+  useReactTable, type ColumnDef, getCoreRowModel,
+  getSortedRowModel, flexRender
+} from '@tanstack/react-table'
+import { useState } from 'react'
 
 interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
@@ -10,14 +14,23 @@ export function CustomTable<TData, TValue> ({
   data,
   columns
 }: CustomTableProps<TData, TValue>) {
+  const [rowSelection, setRowSelection] = useState({})
+
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel()
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onRowSelectionChange: setRowSelection,
+    state: {
+      rowSelection
+    }
   })
 
   return (
-    <TableContainer className="bg-white">
+    <TableContainer className="bg-white border
+    rounded-md
+    ">
       <Table
       size={'md'}
       >
