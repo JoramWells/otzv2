@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { configureStore } from '@reduxjs/toolkit'
-import { schoolCategoryApi } from '../api/school/schoolCategory.api'
+import { curriculumCategoryApi } from '../api/school/curriculumCategory.api'
 import { disclosureChecklistApi } from '../api/treatmentplan/disclosureChecklist.api'
 import { appointmentStatusApi } from '../api/appointment/appointmentStatus.api'
 import { appointmentAgendaApi } from '../api/appointment/appointmentAgenda.api'
@@ -42,7 +42,7 @@ export const store = configureStore({
     [appointmentAgendaApi.reducerPath]: appointmentAgendaApi.reducer,
     [otzEnrollmentApi.reducerPath]: otzEnrollmentApi.reducer,
     [caregiverApi.reducerPath]: caregiverApi.reducer,
-    [schoolCategoryApi.reducerPath]: schoolCategoryApi.reducer,
+    [curriculumCategoryApi.reducerPath]: curriculumCategoryApi.reducer,
     [schoolSubCategoryApi.reducerPath]: schoolSubCategoryApi.reducer,
     [schoolClassesApi.reducerPath]: schoolClassesApi.reducer,
     [schoolTermApi.reducerPath]: schoolTermApi.reducer,
@@ -67,7 +67,7 @@ export const store = configureStore({
       .concat(appointmentAgendaApi.middleware)
       .concat(otzEnrollmentApi.middleware)
       .concat(caregiverApi.middleware)
-      .concat(schoolCategoryApi.middleware)
+      .concat(curriculumCategoryApi.middleware)
       .concat(schoolSubCategoryApi.middleware)
       .concat(schoolClassesApi.middleware)
       .concat(schoolTermApi.middleware)

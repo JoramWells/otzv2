@@ -1,25 +1,25 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const schoolCategoryApi = createApi({
-  reducerPath: 'schoolCategoryApi',
+export const curriculumCategoryApi = createApi({
+  reducerPath: 'CurriculumCategoryApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:5004/school-category'
   }),
   endpoints: (builder) => ({
-    getAllSchoolCategories: builder.query({
+    getAllCurriculumCategories: builder.query({
       query: () => 'fetchAll'
     }),
-    addSchoolCategory: builder.mutation({
+    addCurriculumCategory: builder.mutation({
       query: (newUser) => ({
         url: 'add',
         method: 'POST',
         body: newUser
       })
     }),
-    getSchoolCategory: builder.query({
+    getCurriculumCategory: builder.query({
       query: (id) => `detail/${id}`
     }),
-    updateSchoolCategory: builder.mutation({
+    updateCurriculumCategory: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
         method: 'PUT',
@@ -27,7 +27,7 @@ export const schoolCategoryApi = createApi({
       })
     }),
 
-    deleteSchoolCategory: builder.mutation({
+    deleteCurriculumCategory: builder.mutation({
       query (id) {
         return {
           url: `delete${id}`,
@@ -39,7 +39,7 @@ export const schoolCategoryApi = createApi({
 })
 
 export const {
-  useGetAllSchoolCategoriesQuery, useAddSchoolCategoryMutation,
-  useGetSchoolCategoryQuery, useUpdateSchoolCategoryMutation,
-  useDeleteSchoolCategoryMutation
-} = schoolCategoryApi
+  useGetAllCurriculumCategoriesQuery, useAddCurriculumCategoryMutation,
+  useGetCurriculumCategoryQuery, useUpdateCurriculumCategoryMutation,
+  useDeleteCurriculumCategoryMutation
+} = curriculumCategoryApi

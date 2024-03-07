@@ -3,15 +3,15 @@
 'use client'
 import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { columns, type UserProps } from './columns'
-import { useGetAllUsersQuery } from '@/api/users/users.api'
+import { columns } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFrequency.api'
 import { useState } from 'react'
+import { useGetAllCurriculumCategoriesQuery } from '@/api/school/curriculumCategory.api'
 
 const School = () => {
   const [value, setValue] = useState(1)
-  const { data } = useGetAllHomeVisitFrequenciesQuery()
+  const { data } = useGetAllCurriculumCategoriesQuery()
   console.log(data, 'dtc')
 
   const router = useRouter()
@@ -24,9 +24,11 @@ const School = () => {
     <div className="ml-64 pt-12">
       <div className="p-5">
         <div className="flex flex-row gap-x-2">
-          <div className="p-2 bg-gray-50 border rounded-md gap-x-2
+          <div
+            className="p-2 bg-gray-50 border rounded-md gap-x-2
           justify-between flex flex-row
-          ">
+          "
+          >
             <Button
               rounded={'md'}
               size={'sm'}
@@ -38,7 +40,7 @@ const School = () => {
                 color: `${value === 1 && 'white'}`
               }}
             >
-              Frequency
+              Curriculum
             </Button>
             <Button
               rounded={'md'}
@@ -47,18 +49,25 @@ const School = () => {
                 setValue(2)
               }}
             >
-              Reasons
+              Terms
+            </Button>
+            <Button
+              rounded={'md'}
+              size={'sm'}
+              onClick={() => {
+                setValue(2)
+              }}
+            >
+              Schools
             </Button>
           </div>
         </div>
         <div className="flex flex-row justify-between items-center p-1">
-          <div className="flex flex-row gap-x-2 items-center mb-4">
+          <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
             <p
-              className="text-lg text-slate-700
-          font-semibold
-          "
+              className="text-lg text-slate-700"
             >
-              Home Reasons
+              Curriculum Sub Category
             </p>
             <Tag
               m={0}
