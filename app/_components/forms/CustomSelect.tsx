@@ -7,17 +7,24 @@ interface DataItem {
 
 export interface SelectProps {
   label: string
+  value: string
+  onChange: (value: any) => void
   data: DataItem[]
 }
 
-const CustomSelect = ({ label = 'Label', data = [] }: SelectProps) => {
+const CustomSelect = ({ label = 'Label', data = [], onChange, value }: SelectProps) => {
   return (
     <div className="w-full">
       <p className="mb-1 font-bold text-slate-700">{label}</p>
-      <Select placeholder="Select Location">
+      {value}
+      <Select placeholder="Select Location"
+      onChange={e => { onChange(e.target.value) }}
+      value={value}
+      >
         {data.map((item) => (
-          <option value=""
+          <option
           key={item.id}
+          value={item.id}
           >{item.label}</option>
         ))}
       </Select>

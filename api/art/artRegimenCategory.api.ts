@@ -1,4 +1,10 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+export interface ARTCategoryProps {
+  artCategoryDescription: string
+  artPhaseID: string
+}
 
 export const artRegimenCategoryApi = createApi({
   reducerPath: 'artRegimenCategoryApi',
@@ -6,7 +12,7 @@ export const artRegimenCategoryApi = createApi({
     baseUrl: 'http://localhost:5000/art-regimen-category'
   }),
   endpoints: (builder) => ({
-    getAllArtRegimenCategories: builder.query({
+    getAllArtRegimenCategories: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addArtRegimenCategory: builder.mutation({

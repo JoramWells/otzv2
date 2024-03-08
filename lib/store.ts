@@ -18,7 +18,7 @@ import { homeVisitApi } from '../api/homevisit/homeVisit.api'
 import { timeAndWorkApi } from '../api/treatmentplan/timeAndWork.api'
 import { mmasApi } from '../api/treatmentplan/mmas.api'
 import { appointmentApi } from '../api/appointment/appointment.api.'
-import { schoolSubCategoryApi } from '../api/school/schoolSubCategory.api'
+import { curriculumSubCategoryApi } from '../api/school/curriculumSubCategory.api'
 import { schoolClassesApi } from '../api/school/schoolClasses.api'
 import { schoolTermApi } from '../api/school/schoolTerm.api'
 import { schoolTermHolidayApi } from '../api/school/schoolTermHoliday.api'
@@ -43,7 +43,7 @@ export const store = configureStore({
     [otzEnrollmentApi.reducerPath]: otzEnrollmentApi.reducer,
     [caregiverApi.reducerPath]: caregiverApi.reducer,
     [curriculumCategoryApi.reducerPath]: curriculumCategoryApi.reducer,
-    [schoolSubCategoryApi.reducerPath]: schoolSubCategoryApi.reducer,
+    [curriculumSubCategoryApi.reducerPath]: curriculumSubCategoryApi.reducer,
     [schoolClassesApi.reducerPath]: schoolClassesApi.reducer,
     [schoolTermApi.reducerPath]: schoolTermApi.reducer,
     [schoolTermHolidayApi.reducerPath]: schoolTermHolidayApi.reducer
@@ -68,7 +68,7 @@ export const store = configureStore({
       .concat(otzEnrollmentApi.middleware)
       .concat(caregiverApi.middleware)
       .concat(curriculumCategoryApi.middleware)
-      .concat(schoolSubCategoryApi.middleware)
+      .concat(curriculumSubCategoryApi.middleware)
       .concat(schoolClassesApi.middleware)
       .concat(schoolTermApi.middleware)
       .concat(schoolTermHolidayApi.middleware)

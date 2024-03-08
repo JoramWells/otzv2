@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const artRegimenApi = createApi({
@@ -6,7 +7,7 @@ export const artRegimenApi = createApi({
     baseUrl: 'http://localhost:5000/art-regimen'
   }),
   endpoints: (builder) => ({
-    getAllArtRegimen: builder.query({
+    getAllArtRegimen: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addArtRegimen: builder.mutation({

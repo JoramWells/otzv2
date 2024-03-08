@@ -3,50 +3,49 @@
 'use client'
 import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { curriculumSubCategoryColumns, curriculumCategoryColumns, classesColumn, holidaysColumn } from './columns'
+import { artCategoryColumns, artColumns, columns, type UserProps } from './columns'
+import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { usePathname, useRouter } from 'next/navigation'
-import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFrequency.api'
+import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import { useState } from 'react'
-import { useGetAllCurriculumCategoriesQuery } from '@/api/school/curriculumCategory.api'
-import { useGetAllSchoolSubCurriculumsQuery } from '@/api/school/curriculumSubCategory.api'
-import { useGetAllSchoolClassesQuery } from '@/api/school/schoolClasses.api'
-import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
+import { type ARTCategoryProps, useGetAllArtRegimenCategoriesQuery } from '@/api/art/artRegimenCategory.api'
+import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 
 const categoryList = [
   {
     id: 1,
-    text: 'Classes'
+    text: 'ART'
   },
   {
     id: 2,
-    text: 'Curriculum Category'
+    text: 'Category'
   },
   {
     id: 3,
-    text: 'Curriculum Sub-category'
-  },
-  {
-    id: 4,
-    text: 'Holidays'
-  },
-  {
-    id: 5,
-    text: 'Schools'
+    text: 'Phases'
   }
 ]
 
-const School = () => {
+const Art = () => {
   const [value, setValue] = useState(1)
-  const { data } = useGetAllCurriculumCategoriesQuery()
-  const { data: curriculumSubCategory } = useGetAllSchoolSubCurriculumsQuery()
-  const { data: classesData } = useGetAllSchoolClassesQuery()
-  const { data: holidaysData } = useGetAllSchoolTermHolidaysQuery()
-  console.log(holidaysData, 'dtc')
+
+  const { data } = useGetAllArtRegimenPhaseQuery()
+  const { data: artCategoryData } = useGetAllArtRegimenCategoriesQuery()
+  const { data: artData } = useGetAllArtRegimenQuery()
+  console.log(artData, 'dtc')
 
   const router = useRouter()
   const pathname = usePathname()
+
+  // handle onClick button for creating new entities on the NEW button
   const handleClick = () => {
-    router.push(`${pathname}/add-user`)
+    if (value === 1) {
+      router.push(`${pathname}/add-art`)
+    } else if (value === 2) {
+      router.push(`${pathname}/add-art-category`)
+    } else {
+      router.push(`${pathname}/add-art-phase`)
+    }
   }
 
   return (
@@ -82,8 +81,18 @@ const School = () => {
           {value}
         </div>
         <div className="flex flex-row justify-between items-center p-1">
-          <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
-            <p className="text-lg text-slate-700">Curriculum Sub Category</p>
+          <div className="flex flex-row gap-x-2 items-center mb-4">
+            <p
+              className="text-lg text-slate-700
+          font-semibold
+          "
+            >
+              {value === 1
+                ? 'ART Details'
+                : value === 2
+                  ? 'ART Categories'
+                  : 'ART Phases'}
+            </p>
             <Tag
               m={0}
               rounded={'full'}
@@ -100,30 +109,26 @@ const School = () => {
             variant={'outline'}
             onClick={handleClick}
           >
-            {value === 1 '/dashboard/add-classes' ? value === 2? '/dashboard/add-category': ''}
+            New
           </Button>
         </div>
-        {value === 1 && (
-          <CustomTable columns={classesColumn} data={classesData ?? []} />
-        )}
+
+        {/* art details */}
+        {value === 1 && <CustomTable columns={artColumns} data={artData ?? []} />}
+
+        {/* art category */}
         {value === 2 && (
-          <CustomTable columns={curriculumCategoryColumns} data={data ?? []} />
-        )}
-        {value === 3 && (
           <CustomTable
-            columns={curriculumSubCategoryColumns}
-            data={curriculumSubCategory ?? []}
+            columns={artCategoryColumns}
+            data={artCategoryData ?? []}
           />
         )}
-        {value === 4 && (
-          <CustomTable columns={holidaysColumn} data={holidaysData ?? []} />
-        )}
-        {value === 5 && (
-          <CustomTable columns={holidaysColumn} data={holidaysData ?? []} />
-        )}
+
+        {/* art phases */}
+        {value === 3 && <CustomTable columns={columns} data={data ?? []} />}
       </div>
     </div>
   )
 }
 
-export default School
+export default Art

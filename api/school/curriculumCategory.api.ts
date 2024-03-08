@@ -6,7 +6,7 @@ export const curriculumCategoryApi = createApi({
     baseUrl: 'http://localhost:5004/school-category'
   }),
   endpoints: (builder) => ({
-    getAllCurriculumCategories: builder.query({
+    getAllCurriculumCategories: builder.query<any, any>({
       query: () => 'fetchAll'
     }),
     addCurriculumCategory: builder.mutation({

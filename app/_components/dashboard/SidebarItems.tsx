@@ -37,13 +37,18 @@ const SidebarItems = () => {
           },
           {
             id: useId(),
-            link: '/art',
+            link: '/dashboard/art',
             label: 'Drugs'
           },
           {
             id: useId(),
             link: '/dashboard/home-visit',
             label: 'Home Visit'
+          },
+          {
+            id: useId(),
+            link: '/dashboard/matrons',
+            label: 'Matrons'
           },
           {
             id: useId(),

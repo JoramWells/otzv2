@@ -1,4 +1,9 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+export interface ArtProps {
+  artPhaseDescription: string
+}
 
 export const artRegimenPhaseApi = createApi({
   reducerPath: 'artRegimenPhaseApi',
@@ -6,11 +11,11 @@ export const artRegimenPhaseApi = createApi({
     baseUrl: 'http://localhost:5000/art-regimen-phase'
   }),
   endpoints: (builder) => ({
-    getAllArtRegimenPhase: builder.query({
+    getAllArtRegimenPhase: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
-    addArtRegimenPhase: builder.mutation({
-      query: (newUser) => ({
+    addArtRegimenPhase: builder.mutation<string, ArtProps>({
+      query: (newUser: ArtProps) => ({
         url: 'add',
         method: 'POST',
         body: newUser
