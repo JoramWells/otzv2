@@ -3,6 +3,17 @@
 import CustomInput from '../../../_components/forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
 
+const genderOptions = [
+  {
+    id: '1',
+    label: 'MALE'
+  },
+  {
+    id: '2',
+    label: 'FEMALE'
+  }
+]
+
 interface PersonalDetailProps {
   firstName: string
   middleName: string
@@ -57,12 +68,13 @@ const PersonalDetail = ({
       <CustomInput label="DOB"
       value={dob}
       onChange={setDOB}
+      type='date'
       />
       <CustomSelect
       label='Select Gender'
-      // data=[]
+      data={genderOptions}
       value={gender}
-      onChange={e => { setGender(e.target.value) }}
+      onChange={setGender}
       />
       {/* <CustomInput label="Select Gender"
       value={gender}

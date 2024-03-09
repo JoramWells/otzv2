@@ -16,7 +16,6 @@ const CustomSelect = ({ label = 'Label', data = [], onChange, value }: SelectPro
   return (
     <div className="w-full">
       <p className="mb-1 font-bold text-slate-700">{label}</p>
-      {value}
       <Select placeholder="Select Location"
       onChange={e => { onChange(e.target.value) }}
       value={value}
