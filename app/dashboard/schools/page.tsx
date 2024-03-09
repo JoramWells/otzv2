@@ -10,7 +10,7 @@ import { useGetAllCurriculumCategoriesQuery } from '@/api/school/curriculumCateg
 import { useGetAllSchoolSubCurriculumsQuery } from '@/api/school/curriculumSubCategory.api'
 import { useGetAllSchoolClassesQuery } from '@/api/school/schoolClasses.api'
 import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
-
+import { FaPlus } from 'react-icons/fa'
 const categoryList = [
   {
     id: 1,
@@ -60,16 +60,17 @@ const School = () => {
   return (
     <div className="ml-64 pt-12">
       <div className="p-5">
-        <div className="flex flex-row gap-x-2">
+        <div className="flex flex-col gap-y-2 mb-4">
+          <p className="font-bold text-xl">Categories</p>
           <div
-            className="p-2 bg-gray-50 border rounded-md gap-x-2
-          justify-between flex flex-row
+            className="rounded-md gap-x-4
+           flex flex-row
           "
           >
             {categoryList.map((item) => (
               <Button
                 key={item.id}
-                rounded={'md'}
+                rounded={'full'}
                 size={'sm'}
                 bgColor={`${value === item.id && 'gray.700'}`}
                 color={`${value === item.id && 'white'}`}
@@ -86,7 +87,6 @@ const School = () => {
               </Button>
             ))}
           </div>
-
         </div>
         <div className="flex flex-row justify-between items-center p-1">
           <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
@@ -114,10 +114,11 @@ const School = () => {
           <Button
             size={'sm'}
             colorScheme="teal"
-            variant={'outline'}
+            // variant={'outline'}
             onClick={() => {
               handleClick(value)
             }}
+            // leftIcon={<FaPlus />}
           >
             NEW
           </Button>

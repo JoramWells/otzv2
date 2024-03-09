@@ -1,6 +1,7 @@
 'use client'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
+import CustomSelect from '../../forms/CustomSelect'
 
 interface PersonalDetailProps {
   firstName: string
@@ -57,10 +58,16 @@ const PersonalDetail = ({
       value={dob}
       onChange={setDOB}
       />
-      <CustomInput label="Select Gender"
+      <CustomSelect
+      label='Select Gender'
+      // data=[]
+      value={gender}
+      onChange={e => { setGender(e.target.value) }}
+      />
+      {/* <CustomInput label="Select Gender"
       value={gender}
       onChange={setGender}
-      />
+      /> */}
       <CustomInput label="ID No."
       value={idNo}
       onChange={setIDNo}

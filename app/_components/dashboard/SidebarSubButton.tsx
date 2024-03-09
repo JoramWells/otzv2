@@ -3,7 +3,6 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import '../../globals.css'
 
@@ -28,7 +27,10 @@ export const SidebarSubButton = ({
   }, [link, pathname])
   return (
     <div className={`flex h-10 items-center pl-4
-    text-slate-500 text-md bg-white text-md ml-4 rounded-md ${isActive && 'bg-teal-50 text-teal-500'}
+    text-slate-500 text-md
+    text-md ml-6 rounded-md
+    ${isActive && 'bg-teal-50'}
+    ${isActive && 'bg-teal-50 text-teal-500'}
     `}
     >
       <Link href={link}

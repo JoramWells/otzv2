@@ -61,9 +61,20 @@ const AddPatient = () => {
   const [originalART, setOriginalART] = useState('')
   const [currentRegimeLine, setCurrentRegimenLine] = useState('')
 
-  const handleStepChange = useCallback((step: number) => {
-    setSelected(step)
-  }, [])
+  const inputValues = {
+    firstName,
+    middleName,
+    lastName,
+    gender,
+    dob: DOB,
+    phoneNo,
+    idNo: IDNo,
+    cccNo: '',
+    residence,
+    artStartDate: ARTStartDate,
+    originalART,
+    currentRegimeLine
+  }
 
   // const { activeStep } = useSteps({
   //   index: 1,
@@ -150,7 +161,9 @@ const AddPatient = () => {
         />}
 
         <div className="flex justify-end pt-2 gap-x-2">
-          <Button size={'sm'} onClick={handleBack}>
+          <Button size={'sm'} onClick={handleBack}
+          disabled={activeStep === 1}
+          >
             Back
           </Button>
           <Button

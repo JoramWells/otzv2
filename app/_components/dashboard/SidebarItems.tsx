@@ -133,7 +133,7 @@ const SidebarItems = () => {
           },
           {
             id: useId(),
-            link: '/patents/add-patients',
+            link: '/patients/add-patients',
             label: 'Add Patients'
           }
         ]}

@@ -3,7 +3,7 @@ import '../../globals.css'
 
 import { Collapse, useDisclosure } from '@chakra-ui/react'
 // import Link from 'next/link'
-import { FaChevronDown, FaChevronRight } from 'react-icons/fa'
+import { ChevronRight, ChevronDown } from 'lucide-react'
 import { SidebarSubButton } from './SidebarSubButton'
 import { useMemo } from 'react'
 import { usePathname } from 'next/navigation'
@@ -27,7 +27,7 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <d
     return pathname.includes(label.toLowerCase())
   }, [pathname, label])
   return (
-    <>
+    <div className="mb-2">
       <div
         onClick={onToggle}
         className={`flex h-10 items-center pl-4 pr-4 justify-between font-semibold
@@ -36,17 +36,15 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <d
         }
         `}
       >
-        <div
-        className='flex flex-row items-center space-x-2'
-        >
-        {icon}
+        <div className="flex flex-row items-center space-x-2">
+          {icon}
           <p
           // href={'/'}
           >
             {label}
           </p>
         </div>
-        {isOpen ? <FaChevronDown /> : <FaChevronRight />}
+        {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
       </div>
 
       <Collapse in={isOpen}>
@@ -54,6 +52,6 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <d
           <SidebarSubButton key={item.id} label={item.label} link={item.link} />
         ))}
       </Collapse>
-    </>
+    </div>
   )
 }
