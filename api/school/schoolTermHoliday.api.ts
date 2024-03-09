@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const schoolTermHolidayApi = createApi({
@@ -6,7 +7,7 @@ export const schoolTermHolidayApi = createApi({
     baseUrl: 'http://localhost:5004/school-term-holidays'
   }),
   endpoints: (builder) => ({
-    getAllSchoolTermHolidays: builder.query({
+    getAllSchoolTermHolidays: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addSchoolTermHoliday: builder.mutation({

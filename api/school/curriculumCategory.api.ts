@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const curriculumCategoryApi = createApi({
@@ -6,7 +7,7 @@ export const curriculumCategoryApi = createApi({
     baseUrl: 'http://localhost:5004/school-category'
   }),
   endpoints: (builder) => ({
-    getAllCurriculumCategories: builder.query<any, any>({
+    getAllCurriculumCategories: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addCurriculumCategory: builder.mutation({

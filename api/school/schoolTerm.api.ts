@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const schoolTermApi = createApi({
@@ -6,7 +7,7 @@ export const schoolTermApi = createApi({
     baseUrl: 'http://localhost:5004/school-terms'
   }),
   endpoints: (builder) => ({
-    getAllSchoolTerms: builder.query({
+    getAllSchoolTerms: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addSchoolTerm: builder.mutation({

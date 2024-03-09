@@ -5,7 +5,6 @@ import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { curriculumSubCategoryColumns, curriculumCategoryColumns, classesColumn, holidaysColumn } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
-import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFrequency.api'
 import { useState } from 'react'
 import { useGetAllCurriculumCategoriesQuery } from '@/api/school/curriculumCategory.api'
 import { useGetAllSchoolSubCurriculumsQuery } from '@/api/school/curriculumSubCategory.api'
@@ -45,8 +44,17 @@ const School = () => {
 
   const router = useRouter()
   const pathname = usePathname()
-  const handleClick = () => {
-    router.push(`${pathname}/add-user`)
+  const handleClick = (selectedValue: number) => {
+    if (selectedValue === 1) {
+      router.push(`${pathname}/add-classes`)
+    } else if (selectedValue === 2) {
+      router.push(`${pathname}/add-category`)
+    } else if (selectedValue === 3) {
+      router.push(`${pathname}/add-sub-category`)
+    } else if (selectedValue === 4) {
+      router.push(`${pathname}/add-holidays`)
+    }
+    router.push(`${pathname}/add-schools`)
   }
 
   return (
@@ -79,11 +87,20 @@ const School = () => {
             ))}
           </div>
 
-          {value}
         </div>
         <div className="flex flex-row justify-between items-center p-1">
           <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
-            <p className="text-lg text-slate-700">Curriculum Sub Category</p>
+            <p className="text-lg text-slate-700">
+              {value === 1
+                ? 'Classes'
+                : value === 2
+                  ? 'Category'
+                  : value === 3
+                    ? 'Sub-category'
+                    : value === 4
+                      ? 'Holidays'
+                      : 'Schools'}
+            </p>
             <Tag
               m={0}
               rounded={'full'}
@@ -98,9 +115,11 @@ const School = () => {
             size={'sm'}
             colorScheme="teal"
             variant={'outline'}
-            onClick={handleClick}
+            onClick={() => {
+              handleClick(value)
+            }}
           >
-            {value === 1 '/dashboard/add-classes' ? value === 2? '/dashboard/add-category': ''}
+            NEW
           </Button>
         </div>
         {value === 1 && (
