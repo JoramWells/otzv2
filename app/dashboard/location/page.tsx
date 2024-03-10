@@ -3,10 +3,12 @@
 'use client'
 import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { columns } from './columns'
+import { columns, subCountyColumns } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllOccupationQuery } from '@/api/occupation.api'
 import { useState } from 'react'
+import { useGetAllCountiesQuery } from '@/api/location/county.api'
+import { useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 
 const categoryList = [
   {
@@ -26,8 +28,9 @@ const categoryList = [
 const Occupations = () => {
   const [value, setValue] = useState(1)
 
-  const { data } = useGetAllOccupationQuery()
-  console.log(data, 'dtc')
+  const { data } = useGetAllCountiesQuery()
+  const { data: subCountyData } = useGetAllSubCountiesQuery()
+  console.log(subCountyData, 'dtc')
 
   const router = useRouter()
   const pathname = usePathname()
@@ -93,7 +96,9 @@ const Occupations = () => {
           </Button>
         </div>
 
-        <CustomTable columns={columns} data={data ?? []} />
+        {value === 1 && <CustomTable columns={columns} data={data ?? []} />}
+
+        {value === 2 && <CustomTable columns={subCountyColumns} data={subCountyData ?? []} />}
       </div>
     </div>
   )

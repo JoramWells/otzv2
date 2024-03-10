@@ -57,6 +57,7 @@ const AddPatient = () => {
   const [occupation, setOccupation] = useState('')
   const [IDNo, setIDNo] = useState('')
   const [residence, setResidence] = useState('')
+  const [subCountyName, setSubCountyName] = useState('')
   const [ARTStartDate, setARTStartDate] = useState('')
   const [originalART, setOriginalART] = useState('')
   const [currentRegimeLine, setCurrentRegimenLine] = useState('')
@@ -128,42 +129,47 @@ const AddPatient = () => {
             ))}
           </Stepper>
         </div>
-        {activeStep === 1 && <PersonalDetail
-        firstName={firstName}
-        middleName={middleName}
-        lastName={lastName}
-        dob={DOB}
-        gender={gender}
-        idNo={IDNo}
-        setFirstName={setFirstName}
-        setMiddleName={setMiddleName}
-        setLastName={setLastName}
-        setDOB={setDOB}
-        setGender={setGender}
-        setIDNo={setIDNo}
-        />}
-        {activeStep === 2 && <LocationDetails
-        phoneNo={phoneNo}
-        occupation={occupation}
-        residence={residence}
-        setPhoneNo={setPhoneNo}
-        setOccupation={setOccupation}
-        setResidence={setResidence}
-        />}
-        {activeStep === 3 && <ArtDetails
-        artName={originalART}
-        dateIssued={ARTStartDate}
-        currentRegimeLine={currentRegimeLine}
-        setArtName={setOriginalART}
-        setDateIssued={setARTStartDate}
-        setCurrentRegimenLine={setCurrentRegimenLine}
-
-        />}
+        {activeStep === 1 && (
+          <PersonalDetail
+            firstName={firstName}
+            middleName={middleName}
+            lastName={lastName}
+            dob={DOB}
+            gender={gender}
+            idNo={IDNo}
+            setFirstName={setFirstName}
+            setMiddleName={setMiddleName}
+            setLastName={setLastName}
+            setDOB={setDOB}
+            setGender={setGender}
+            setIDNo={setIDNo}
+          />
+        )}
+        {activeStep === 2 && (
+          <LocationDetails
+            phoneNo={phoneNo}
+            occupation={occupation}
+            residence={residence}
+            subCountyName={subCountyName}
+            setPhoneNo={setPhoneNo}
+            setOccupation={setOccupation}
+            setResidence={setResidence}
+            setSubCountyName={setSubCountyName}
+          />
+        )}
+        {activeStep === 3 && (
+          <ArtDetails
+            artName={originalART}
+            dateIssued={ARTStartDate}
+            currentRegimeLine={currentRegimeLine}
+            setArtName={setOriginalART}
+            setDateIssued={setARTStartDate}
+            setCurrentRegimenLine={setCurrentRegimenLine}
+          />
+        )}
 
         <div className="flex justify-end pt-2 gap-x-2">
-          <Button size={'sm'} onClick={handleBack}
-          disabled={activeStep === 1}
-          >
+          <Button size={'sm'} onClick={handleBack} disabled={activeStep === 1}>
             Back
           </Button>
           <Button

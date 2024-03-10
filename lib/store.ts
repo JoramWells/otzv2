@@ -23,6 +23,9 @@ import { schoolClassesApi } from '../api/school/schoolClasses.api'
 import { schoolTermApi } from '../api/school/schoolTerm.api'
 import { schoolTermHolidayApi } from '../api/school/schoolTermHoliday.api'
 import { occupationApi } from '@/api/occupation.api'
+import { countyApi } from '@/api/location/county.api'
+import { subCountyApi } from '@/api/location/subCounty.api'
+import { wardApi } from '@/api/location/ward.api'
 
 export const store = configureStore({
   reducer: {
@@ -48,7 +51,10 @@ export const store = configureStore({
     [schoolClassesApi.reducerPath]: schoolClassesApi.reducer,
     [schoolTermApi.reducerPath]: schoolTermApi.reducer,
     [schoolTermHolidayApi.reducerPath]: schoolTermHolidayApi.reducer,
-    [occupationApi.reducerPath]: occupationApi.reducer
+    [occupationApi.reducerPath]: occupationApi.reducer,
+    [countyApi.reducerPath]: countyApi.reducer,
+    [subCountyApi.reducerPath]: subCountyApi.reducer,
+    [wardApi.reducerPath]: wardApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -75,4 +81,7 @@ export const store = configureStore({
       .concat(schoolTermApi.middleware)
       .concat(schoolTermHolidayApi.middleware)
       .concat(occupationApi.middleware)
+      .concat(countyApi.middleware)
+      .concat(subCountyApi.middleware)
+      .concat(wardApi.middleware)
 })
