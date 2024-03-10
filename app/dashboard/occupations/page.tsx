@@ -7,14 +7,14 @@ import { columns, type UserProps } from './columns'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { usePathname, useRouter } from 'next/navigation'
 
-const Users = () => {
+const Occupations = () => {
   const { data } = useGetAllUsersQuery()
   console.log(data, 'dtc')
 
   const router = useRouter()
   const pathname = usePathname()
   const handleClick = () => {
-    router.push(`${pathname}/add-user`)
+    router.push(`${pathname}/add-occupation`)
   }
 
   return (
@@ -29,7 +29,7 @@ const Users = () => {
           font-semibold
           "
             >
-              Patients
+              Occupations
             </p>
             <Tag
               m={0}
@@ -55,4 +55,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default Occupations
