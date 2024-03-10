@@ -3,18 +3,12 @@
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
-import { useId, useState } from 'react'
-import CustomSelect from '@/app/_components/forms/CustomSelect'
+import { useState } from 'react'
 
 const AddSchool = () => {
-  const [firstName, setFirstName] = useState('')
-  const [middleName, setMiddleName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [dob, setDOB] = useState('')
-  const [gender, setGender] = useState('')
-  const [idNo, setIDNo] = useState('')
-  const [residence, setResidence] = useState('')
-  const [password, setPassword] = useState('')
+  const [schoolName, setSchoolName] = useState('')
+  const [location, setLocation] = useState('')
+  const [description, setDescription] = useState('')
 
   return (
     <div className="flex flex-row justify-center">
@@ -26,52 +20,16 @@ const AddSchool = () => {
           width: '40%'
         }}
       >
-        <div
-        className='flex flex-row gap-x-2'
-        >
-          <CustomInput
-            label="First Name"
-            value={firstName}
-            onChange={setFirstName}
-          />
-          <CustomInput
-            label="Second Name"
-            value={middleName}
-            onChange={setMiddleName}
-          />
-          <CustomInput
-            label="Last Name"
-            value={lastName}
-            onChange={setLastName}
-          />
-        </div>
-        <CustomInput label="DOB" value={dob} onChange={setDOB} />
+        <CustomInput label="School Name" value={schoolName} onChange={setSchoolName} />
         <CustomInput
-          label="Select Gender"
-          value={gender}
-          onChange={setGender}
+          label="Location"
+          value={location}
+          onChange={setLocation}
         />
-        <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
-        <CustomInput
-          label="Select Residence"
-          value={residence}
-          onChange={setResidence}
-        />
-
-        <CustomSelect
-          label="Select Location"
-          data={[
-            {
-              id: useId(),
-              label: 'Nanyuki'
-            }
-          ]}
-        />
-
-        <CustomInput label="Password" value={password} onChange={setPassword} />
+        <CustomInput label="Description" value={description} onChange={setDescription} />
 
         <Button colorScheme="teal" width={'full'}>
-          Add Patient
+          Add School
         </Button>
       </div>
     </div>

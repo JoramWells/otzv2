@@ -54,7 +54,7 @@ const School = () => {
     } else if (selectedValue === 4) {
       router.push(`${pathname}/add-holidays`)
     }
-    router.push(`${pathname}/add-schools`)
+    router.push(`${pathname}/add-school`)
   }
 
   return (
