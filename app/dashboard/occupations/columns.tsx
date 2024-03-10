@@ -1,6 +1,5 @@
-import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { View } from 'lucide-react'
+import { Pencil, Trash2 } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -26,41 +25,26 @@ export interface UserProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: 'patient_name',
-    header: 'Patient Name',
-    cell: (props: any) => (
-      <div className="flex flex-row items-center gap-x-2">
-        <Avatar
-          size={'sm'}
-          className="font-bold"
-          name={`${props.row.original?.firstName} ${props.row.original?.middleName}`}
-        />
-        <p className="capitalize font-semibold">{`${props.row.original?.firstName} ${props.row.original?.middleName}`}</p>
-      </div>
-    )
+    accessorKey: 'occupationDescription',
+    header: 'Occupation Description'
   },
   {
-    accessorKey: 'dob',
-    header: 'DOB'
-  },
-  {
-    accessorKey: 'gender',
-    header: 'Gender'
-  },
-  {
-    accessorKey: 'email',
-    header: 'Email'
-  },
-  {
-    accessorKey: 'phone_no',
-    header: 'Phone No.'
+    accessorKey: 'updatedAt',
+    header: 'Updated'
   },
   {
     // accessorKey: 'action',
     header: 'Action',
     cell: () => (
-      <div>
-        <View className="hover:cursor-pointer" size={20} />
+      <div className="flex flex-row gap-x-2">
+        <Pencil
+          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+          size={25}
+        />
+        <Trash2
+          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+          size={25}
+        />
       </div>
     )
   }

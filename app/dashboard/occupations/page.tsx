@@ -6,9 +6,10 @@ import { CustomTable } from '../../_components/table/CustomTable'
 import { columns, type UserProps } from './columns'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { usePathname, useRouter } from 'next/navigation'
+import { useGetAllOccupationQuery } from '@/api/occupation.api'
 
 const Occupations = () => {
-  const { data } = useGetAllUsersQuery()
+  const { data } = useGetAllOccupationQuery()
   console.log(data, 'dtc')
 
   const router = useRouter()

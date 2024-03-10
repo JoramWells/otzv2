@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
 import { useState } from 'react'
+import { useAddOccupationMutation } from '@/api/occupation.api'
 
 const AddUser = () => {
   const [occupationDescription, setOccupation] = useState('')
+  const [addOccupation, { isLoading }] = useAddOccupationMutation()
   const inputValues = {
     occupationDescription
   }
@@ -26,7 +30,10 @@ const AddUser = () => {
           onChange={setOccupation}
         />
 
-        <Button colorScheme="teal" width={'full'}>
+        <Button colorScheme="teal" width={'full'}
+        isLoading={isLoading}
+        onClick={() => addOccupation(inputValues)}
+        >
           Add Occupation
         </Button>
       </div>

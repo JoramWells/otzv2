@@ -22,6 +22,7 @@ import { curriculumSubCategoryApi } from '../api/school/curriculumSubCategory.ap
 import { schoolClassesApi } from '../api/school/schoolClasses.api'
 import { schoolTermApi } from '../api/school/schoolTerm.api'
 import { schoolTermHolidayApi } from '../api/school/schoolTermHoliday.api'
+import { occupationApi } from '@/api/occupation.api'
 
 export const store = configureStore({
   reducer: {
@@ -46,7 +47,8 @@ export const store = configureStore({
     [curriculumSubCategoryApi.reducerPath]: curriculumSubCategoryApi.reducer,
     [schoolClassesApi.reducerPath]: schoolClassesApi.reducer,
     [schoolTermApi.reducerPath]: schoolTermApi.reducer,
-    [schoolTermHolidayApi.reducerPath]: schoolTermHolidayApi.reducer
+    [schoolTermHolidayApi.reducerPath]: schoolTermHolidayApi.reducer,
+    [occupationApi.reducerPath]: occupationApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -72,4 +74,5 @@ export const store = configureStore({
       .concat(schoolClassesApi.middleware)
       .concat(schoolTermApi.middleware)
       .concat(schoolTermHolidayApi.middleware)
+      .concat(occupationApi.middleware)
 })
