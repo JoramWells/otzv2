@@ -2,24 +2,17 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { Pencil, Trash2 } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
 
-export interface FullNameProps {
-  firstName?: string
-}
-
 interface ColumnProps {
   header: string
-  accessorKey?: keyof UserProps
+  accessorKey?: keyof OccupationProps
   // render?: (props: any) => React.ReactNode
 }
 
-export interface UserProps {
-  id?: string
-  patient_name?: FullNameProps
-  age?: number
-  dob?: string
-  gender?: string
-  email?: string
-  phone_no?: string
+export interface OccupationProps {
+  id: string
+  occupationDescription?: number
+  updatedAt?: string
+
   // action?: React.ReactNode
 }
 

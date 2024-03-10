@@ -3,8 +3,7 @@
 'use client'
 import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { columns, type UserProps } from './columns'
-import { useGetAllUsersQuery } from '@/api/users/users.api'
+import { columns } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllOccupationQuery } from '@/api/occupation.api'
 

@@ -21,9 +21,9 @@ import LocationDetails from '@/app/_components/patient/steps/LocationDetails'
 import ArtDetails from '@/app/_components/patient/steps/ArtDetails'
 
 const steps = [
-  { title: 'First', description: 'Contact Info' },
-  { title: 'Second', description: 'Date & Time' },
-  { title: 'Third', description: 'Select Rooms' }
+  { title: 'Personal Details', description: 'Personal Information' },
+  { title: 'Contact/Location', description: 'Contact, Location, Occupation' },
+  { title: 'ART Status', description: 'Current Regimen' }
 ]
 
 const itemList = [

@@ -1,6 +1,9 @@
 'use client'
+import { type OccupationProps, useGetAllOccupationQuery } from '@/api/occupation.api'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../forms/CustomInput'
+import { useCallback } from 'react'
+import CustomSelect from '../../forms/CustomSelect'
 
 export interface LocationDetailsProps {
   phoneNo: string
@@ -15,6 +18,13 @@ const LocationDetails = ({
   phoneNo, occupation, residence,
   setPhoneNo, setOccupation, setResidence
 }: LocationDetailsProps) => {
+  const { data } = useGetAllOccupationQuery()
+  const occupationOptions = useCallback(() => {
+    return data?.map((item: OccupationProps) => ({
+      id: item.id, label: item.occupationDescription
+    }))
+  }, [data])
+
   return (
     <div
       className="border border-gray-200
@@ -28,9 +38,10 @@ const LocationDetails = ({
       value={phoneNo}
       onChange={setPhoneNo}
       />
-      <CustomInput label="Select Occupation."
+      <CustomSelect label="Select Occupation."
       value={occupation}
       onChange={setOccupation}
+      data={occupationOptions()}
       />
       <CustomInput label="Select Residence."
       value={residence}
