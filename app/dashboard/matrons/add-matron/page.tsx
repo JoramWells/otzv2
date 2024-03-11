@@ -58,7 +58,7 @@ const AddUser = () => {
           onChange={setResidence}
         />
 
-        <CustomSelect
+        {/* <CustomSelect
           label="Select Location"
           data={[
             {
@@ -66,7 +66,7 @@ const AddUser = () => {
               label: 'Nanyuki'
             }
           ]}
-        />
+        /> */}
 
         <CustomInput label="Password" value={password} onChange={setPassword} />
 

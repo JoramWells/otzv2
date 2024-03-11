@@ -6,6 +6,9 @@ import { Trash2, Pencil } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
 
 interface ColumnProps {
+  schoolTerm: any
+  schoolCategory: any
+  schoolSubCategory: any
   header: string
   accessorKey?: keyof CurriculumProps
   render?: (props: CurriculumProps) => React.ReactNode
@@ -217,7 +220,7 @@ export const holidaysColumn: Array<ColumnDef<ColumnProps>> = [
     header: 'Term Description',
     cell: ({ row }) => (
       <p className="font-bold text-slate-700">
-        {row.getValue('schoolTerm')?.termDescription}
+        {row.original.schoolTerm?.termDescription}
       </p>
     )
   },
