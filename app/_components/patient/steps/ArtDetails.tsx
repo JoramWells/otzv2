@@ -46,6 +46,7 @@ const ArtDetails = ({
       />
       <CustomInput
         label="Date Issued"
+        type='date'
         value={dateIssued}
         onChange={setDateIssued}
       />

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { type OccupationProps, useGetAllOccupationQuery } from '@/api/occupation.api'
 // import { Button } from '@chakra-ui/react'
@@ -6,7 +7,8 @@ import { useCallback } from 'react'
 import CustomSelect from '../../forms/CustomSelect'
 import { type CountyProps, useGetAllCountiesQuery } from '@/api/location/county.api'
 import { type SubCountyProps, useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
-import { useGetAllWardsQuery } from '@/api/location/ward.api'
+import { type WardProps, useGetAllWardsQuery } from '@/api/location/ward.api'
+import { useGetAllSchoolsQuery } from '@/api/school/school.api'
 
 export interface LocationDetailsProps {
   phoneNo: string
@@ -27,7 +29,9 @@ const LocationDetails = ({
   const { data: countyData } = useGetAllCountiesQuery()
   const { data: subCountyData } = useGetAllSubCountiesQuery()
   const { data: wardData } = useGetAllWardsQuery()
-  console.log(subCountyData, 'dtc')
+  const { data: schoolsData } = useGetAllSchoolsQuery()
+
+  console.log(schoolsData, 'dtc')
   const occupationOptions = useCallback(() => {
     return data?.map((item: OccupationProps) => ({
       id: item.id,
@@ -45,23 +49,33 @@ const LocationDetails = ({
 
   // sub counties
   const subCountyOptions = useCallback(() => {
-    const tempData = wardData?.filter((item) => item.county.id.includes(residence))
+    const tempData = subCountyData?.filter((item: any) =>
+      item.county.id.includes(residence)
+    )
     return tempData?.map((item: SubCountyProps) => ({
       id: item.id,
       label: item.subCountyName
     }))
   }, [wardData, residence])
 
+  const schoolOptions = useCallback(() => {
+    return schoolsData?.map((item: any) => ({
+      id: item.id,
+      label: item.schoolName
+    }))
+  }, [schoolsData])
+
   // ward options
   // const wardOptions = useCallback(() => {
-  //   const tempData = subCountyData?.filter((item) =>
-  //     item.subCountyName.toLowerCase().includes(setSubCountyName)
+  //   const tempData = wardData?.filter((item: any) =>
+  //     item.subCountyName === subCountyName.label.toLowerCase()
   //   )
-  //   return tempData?.map((item: SubCountyProps) => ({
+  //   console.log(subCountyName.label.toLowerCase(), 'trr')
+  //   return tempData?.map((item: WardProps) => ({
   //     id: item.id,
-  //     label: item.subCountyName
+  //     label: item.ward
   //   }))
-  // }, [subCountyData, setSubCountyName])
+  // }, [wardData, subCountyName])
 
   return (
     <div
@@ -82,14 +96,12 @@ const LocationDetails = ({
       />
 
       {occupation === '8b326c14-2ee6-491d-a8b5-c1c2c55a5a07' && (
-        <div
-        className='w-full bg-gray-50 rounded-md border p-2'
-        >
+        <div className="w-full bg-gray-50 rounded-md border p-2">
           <CustomSelect
             label="School Name"
             value={occupation}
             onChange={setOccupation}
-            data={occupationOptions()}
+            data={schoolOptions()}
           />
         </div>
       )}
@@ -108,6 +120,14 @@ const LocationDetails = ({
         onChange={setSubCountyName}
         data={subCountyOptions()}
       />
+
+      {/* select ward */}
+      {/* <CustomSelect
+        label="Select Ward"
+        value={subCountyName}
+        onChange={setSubCountyName}
+        data={wardOptions()}
+      /> */}
     </div>
   )
 }
