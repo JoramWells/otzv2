@@ -12,7 +12,7 @@ type PostsResponse = Post[]
 export const patientsApi = createApi({
   reducerPath: 'patientsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5001/patient'
+    baseUrl: 'http://localhost:5000/patients'
   }),
   endpoints: (builder) => ({
     getAllPatients: builder.query<any, void>({

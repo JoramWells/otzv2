@@ -7,6 +7,8 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  artRegimenPhase: any
+  artCategory: any
   header: string
   accessorKey?: keyof UserProps
   // render?: (props: any) => React.ReactNode
@@ -80,7 +82,7 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'artRegimenPhase',
     header: 'ART Phase',
     cell: ({ row }) => (
-      <p>{row.getValue('artRegimenPhase')?.artPhaseDescription}</p>
+      <p>{row.original.artRegimenPhase?.artPhaseDescription}</p>
     )
   },
   {

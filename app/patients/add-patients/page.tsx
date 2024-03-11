@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
@@ -19,6 +20,7 @@ import {
 import PersonalDetail from '@/app/_components/patient/steps/PersonalDetails'
 import LocationDetails from '@/app/_components/patient/steps/LocationDetails'
 import ArtDetails from '@/app/_components/patient/steps/ArtDetails'
+import { useAddPatientMutation } from '@/api/patient/patients.api'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
@@ -66,7 +68,7 @@ const AddPatient = () => {
     firstName,
     middleName,
     lastName,
-    gender,
+    patient_gender: gender,
     dob: DOB,
     phoneNo,
     idNo: IDNo,
@@ -82,8 +84,12 @@ const AddPatient = () => {
   //   count: steps.length
   // })
 
-  const handleNext = () => {
-    setActiveStep((prevStep) => prevStep + 1)
+  const handleNext = async () => {
+    if (activeStep === 3) {
+      await addPatient(inputValues)
+    } else {
+      setActiveStep((prevStep) => prevStep + 1)
+    }
     // navigate({
     //   pathname: '/add-invoice',
     //   search: `?id=${invoiceId}`,
@@ -94,6 +100,8 @@ const AddPatient = () => {
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1)
   }
+
+  const [addPatient, { isLoading }] = useAddPatientMutation()
 
   return (
     <div className="pt-14 ml-64 flex flex-row justify-center">
@@ -169,7 +177,7 @@ const AddPatient = () => {
         )}
 
         <div className="flex justify-end pt-2 gap-x-2">
-          <Button size={'sm'} onClick={handleBack} disabled={activeStep === 1}>
+          <Button size={'sm'} onClick={handleBack} isDisabled={activeStep === 1}>
             Back
           </Button>
           <Button
@@ -178,8 +186,9 @@ const AddPatient = () => {
             onClick={() => {
               handleNext()
             }}
+            isLoading={isLoading}
           >
-            Next
+            {activeStep === 3 ? 'Complete' : 'Next'}
           </Button>
         </div>
       </div>
