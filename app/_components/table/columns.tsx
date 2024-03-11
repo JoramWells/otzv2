@@ -1,6 +1,6 @@
 import { Avatar, Tag } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { View } from 'lucide-react'
+import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -8,6 +8,7 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  id: any
   header: string
   accessorKey?: keyof PatientProps
   // render?: (props: any) => React.ReactNode
@@ -57,10 +58,17 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     header: 'Enrollment',
-    cell: () => (
+    cell: ({ row }) => (
       <div className="flex flex-row space-x-2">
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          OTZ
+        <Tag
+          size={'sm'}
+          fontWeight={'bold'}
+          color={'slategrey'}
+          _hover={{
+            cursor: 'pointer'
+          }}
+        >
+          <Link href={`/enrollment/enroll-otz/${row.original.id}`}>OTZ</Link>
         </Tag>
         <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
           OVC
@@ -77,10 +85,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: () => (
-      <div>
-        <View className="hover:cursor-pointer" size={20} />
-      </div>
+    cell: ({ row }) => (
+<Link href={`/patients/${row.original.id}`}>See Patient</Link>
     )
   }
 ]
