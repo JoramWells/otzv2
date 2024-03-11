@@ -1,6 +1,7 @@
-import { Avatar, Tag } from '@chakra-ui/react'
+import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
+import moment from 'moment/moment'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -8,6 +9,8 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  artRegimenPhase: any
+  art: any
   id: any
   header: string
   accessorKey?: keyof PatientProps
@@ -16,7 +19,7 @@ interface ColumnProps {
 
 export interface PatientProps {
   id?: string
-  patient_name?: FullNameProps
+  patient?: FullNameProps
   age?: number
   dob?: string
   gender?: string
@@ -27,66 +30,56 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: 'patient_name',
+    accessorKey: 'patient',
     header: 'Patient Name',
     cell: (props: any) => (
       <div className="flex flex-row items-center gap-x-2">
         <Avatar
           size={'sm'}
           className="font-bold"
-          name={`${props.row.original?.firstName} ${props.row.original?.middleName}`}
+          name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${props.row.original?.firstName} ${props.row.original?.middleName}`}</p>
+        <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
       </div>
     )
   },
   {
-    accessorKey: 'dob',
-    header: 'DOB'
+    accessorKey: 'art',
+    header: 'ART NAME',
+    cell: ({ row }) => <p>{row.original.art?.artName}</p>
   },
   {
-    accessorKey: 'gender',
-    header: 'Gender'
-  },
-  {
-    accessorKey: 'mflCode',
-    header: 'MFL code'
-  },
-  {
-    accessorKey: 'occupation',
-    header: 'Occupation'
-  },
-  {
-    header: 'Enrollment',
+    accessorKey: 'dateOfEnrollmentToOTZ',
+    header: 'Enrollment Date',
     cell: ({ row }) => (
-      <div className="flex flex-row space-x-2">
-        <Tag
-          size={'sm'}
-          fontWeight={'bold'}
-          color={'slategrey'}
-          _hover={{
-            cursor: 'pointer'
-          }}
-        >
-          <Link href={`/enrollment/enroll-otz/${row.original.id}`}>OTZ</Link>
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          OVC
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          PAMA
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          PMTCT
-        </Tag>
-      </div>
+      <p>{moment(row.getValue('dateOfEnrollmentToOTZ')).format('ll')}</p>
+    )
+  },
+  {
+    accessorKey: 'dateOfVL',
+    header: 'Date Of VL',
+    cell: ({ row }) => <p>{moment(row.getValue('dateOfVL')).format('ll')}</p>
+  },
+  {
+    accessorKey: 'isValid',
+    header: 'VL VALID'
+  },
+  {
+    accessorKey: 'vlCopies',
+    header: 'VL results'
+  },
+  {
+    accessorKey: 'artRegimenPhase',
+    header: 'Regimen Line',
+    cell: ({ row }) => (
+      <p>{row.original.artRegimenPhase.artPhaseDescription}</p>
     )
   },
   {
     // accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => (
-<Link href={`/patients/${row.original.id}`}>See Patient</Link>
+      <Link href={`/enrollment/otz/${row.original.id}`}>See Patient</Link>
     )
   }
 ]

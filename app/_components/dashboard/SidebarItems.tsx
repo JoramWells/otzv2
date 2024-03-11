@@ -100,7 +100,7 @@ const SidebarItems = () => {
         ]}
       />
       <SidebarCollapseButton
-        label="Enrollments"
+        label="Enrollment"
         icon={<BookCheck size={18} />}
         itemList={[
           {

@@ -13,8 +13,8 @@ const OTZ = () => {
   return (
     <div className="ml-64 pt-12">
       <div className="p-5">
-        <p className="mb-4 text-xl font-semibold text-slate-700">
-          Registered Patients
+        <p className="mb-4 text-xl text-slate-700">
+          OTZ Patients
         </p>
         <CustomTable columns={columns} data={data || []} />
       </div>
