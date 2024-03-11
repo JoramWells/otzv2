@@ -23,10 +23,10 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     id: 'useId()',
     header: ({ table }) => (
       <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
+        // checked={
+        //   table.getIsAllPageRowsSelected() ||
+        //   (table.getIsSomePageRowsSelected() && 'indeterminate')
+        // }
         onChange={(value) => {
           table.toggleAllPageRowsSelected(!value)
         }}
