@@ -21,6 +21,7 @@ const CustomSelect = ({ label = 'Label', data = [], onChange, value }: SelectPro
         onChange(e.target.value)
       }}
       value={value}
+      placeholder='Select...'
       >
         {data.map((item) => (
           <option

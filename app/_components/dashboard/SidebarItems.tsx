@@ -102,6 +102,18 @@ const SidebarItems = () => {
       <SidebarCollapseButton
         label="Enrollments"
         icon={<BookCheck size={18} />}
+        itemList={[
+          {
+            id: useId(),
+            link: '/enrollment/otz',
+            label: 'OTZ'
+          },
+          {
+            id: useId(),
+            link: '/ovc',
+            label: 'OVC'
+          }
+        ]}
       />
       <SidebarCollapseButton
         label="Facilities"

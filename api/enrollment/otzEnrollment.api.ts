@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const otzEnrollmentApi = createApi({
   reducerPath: 'otzEnrollmentApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/otz-enrollment'
+    baseUrl: 'http://localhost:5003/otz-enrollment'
   }),
   endpoints: (builder) => ({
-    getAllOTZEnrollments: builder.query({
+    getAllOTZEnrollments: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addOTZEnrollment: builder.mutation({

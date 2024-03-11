@@ -56,7 +56,6 @@ const AddArtCategory = () => {
           value={artCategoryDescription}
           onChange={setArtCategoryDescription}
         />
-
         <CustomSelect
           label="Select ART Phase"
           data={phaseDataOption()}
