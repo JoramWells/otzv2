@@ -9,6 +9,7 @@ interface ColumnProps {
 }
 
 interface SubCountyColumnProps {
+  [x: string]: any
   header: string
   accessorKey?: keyof SubCountyProps
   // render?: (props: any) => React.ReactNode
@@ -57,7 +58,7 @@ export const subCountyColumns: Array<ColumnDef<SubCountyColumnProps>> = [
   {
     accessorKey: 'county',
     header: 'County Name',
-    cell: ({ row }) => <p>{row.getValue('county')?.countyName}</p>
+    cell: ({ row }) => <p>{row.original.county?.countyName}</p>
   },
   {
     accessorKey: 'subCountyName',
