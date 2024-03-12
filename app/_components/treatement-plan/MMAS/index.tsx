@@ -14,13 +14,11 @@ import {
   StepSeparator,
   StepStatus,
   StepTitle,
-  Stepper,
-  useSteps
+  Stepper
 } from '@chakra-ui/react'
-import PersonalDetail from '@/app/_components/patient/steps/PersonalDetails'
-import LocationDetails from '@/app/_components/patient/steps/LocationDetails'
-import ArtDetails from '@/app/_components/patient/steps/ArtDetails'
 import { useAddPatientMutation } from '@/api/patient/patients.api'
+import MmasFour from './MMASFour'
+import MmasEight from './MMASEight'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
@@ -47,36 +45,27 @@ const itemList = [
   }
 ]
 
-const AddPatient = () => {
-  const [selected, setSelected] = useState(0)
+const MMASForm = () => {
   const [activeStep, setActiveStep] = useState(1)
-  const [firstName, setFirstName] = useState('')
-  const [middleName, setMiddleName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [gender, setGender] = useState('')
-  const [DOB, setDOB] = useState('')
-  const [phoneNo, setPhoneNo] = useState('')
-  const [occupation, setOccupation] = useState('')
-  const [IDNo, setIDNo] = useState('')
-  const [residence, setResidence] = useState('')
-  const [subCountyName, setSubCountyName] = useState('')
-  const [ARTStartDate, setARTStartDate] = useState('')
-  const [originalART, setOriginalART] = useState('')
-  const [currentRegimeLine, setCurrentRegimenLine] = useState('')
+
+  const [isForget, setIsForget] = useState('')
+  const [isCareless, setIsCareless] = useState('')
+  const [isQuitWorse, setIsQuitWorse] = useState('')
+  const [isQuitBetter, setIsQuitBetter] = useState('')
+  const [isTookYesterday, setIsTookYesterday] = useState('')
+  const [isQuitControl, setIsQuitControl] = useState('')
+  const [isUnderPressure, setIsUnderPressure] = useState('')
+  const [isDifficultyRemembering, setIsDifficultyRemembering] = useState('')
 
   const inputValues = {
-    firstName,
-    middleName,
-    lastName,
-    patient_gender: gender,
-    dob: DOB,
-    phoneNo,
-    idNo: IDNo,
-    cccNo: '',
-    residence,
-    artStartDate: ARTStartDate,
-    originalART,
-    currentRegimeLine
+    isForget,
+    isCareless,
+    isQuitWorse,
+    isQuitBetter,
+    isTookYesterday,
+    isQuitControl,
+    isUnderPressure,
+    isDifficultyRemembering
   }
 
   // const { activeStep } = useSteps({
@@ -138,46 +127,36 @@ const AddPatient = () => {
           </Stepper>
         </div>
         {activeStep === 1 && (
-          <PersonalDetail
-            firstName={firstName}
-            middleName={middleName}
-            lastName={lastName}
-            dob={DOB}
-            gender={gender}
-            idNo={IDNo}
-            setFirstName={setFirstName}
-            setMiddleName={setMiddleName}
-            setLastName={setLastName}
-            setDOB={setDOB}
-            setGender={setGender}
-            setIDNo={setIDNo}
+          <MmasFour
+            isForget={isForget}
+            setIsForget={setIsForget}
+            isCareless={isCareless}
+            setIsCareless={setIsCareless}
+            isQuitWorse={isQuitWorse}
+            setIsQuitWorse={setIsQuitWorse}
+            isQuitBetter={isQuitBetter}
+            setIsQuitBetter={setIsQuitBetter}
           />
         )}
         {activeStep === 2 && (
-          <LocationDetails
-            phoneNo={phoneNo}
-            occupation={occupation}
-            residence={residence}
-            subCountyName={subCountyName}
-            setPhoneNo={setPhoneNo}
-            setOccupation={setOccupation}
-            setResidence={setResidence}
-            setSubCountyName={setSubCountyName}
-          />
-        )}
-        {activeStep === 3 && (
-          <ArtDetails
-            artName={originalART}
-            dateIssued={ARTStartDate}
-            currentRegimeLine={currentRegimeLine}
-            setArtName={setOriginalART}
-            setDateIssued={setARTStartDate}
-            setCurrentRegimenLine={setCurrentRegimenLine}
+          <MmasEight
+            isTookYesterday={isTookYesterday}
+            setIsTookYesterday={setIsTookYesterday}
+            isQuitControl={isQuitControl}
+            setIsQuitControl={setIsQuitControl}
+            isUnderPressure={isUnderPressure}
+            setIsUnderPressure={setIsUnderPressure}
+            isDifficultyRemembering={isDifficultyRemembering}
+            setIsDifficultyRemembering={setIsDifficultyRemembering}
           />
         )}
 
         <div className="flex justify-end pt-2 gap-x-2">
-          <Button size={'sm'} onClick={handleBack} isDisabled={activeStep === 1}>
+          <Button
+            size={'sm'}
+            onClick={handleBack}
+            isDisabled={activeStep === 1}
+          >
             Back
           </Button>
           <Button
@@ -196,4 +175,4 @@ const AddPatient = () => {
   )
 }
 
-export default AddPatient
+export default MMASForm
