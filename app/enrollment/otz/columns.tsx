@@ -1,4 +1,3 @@
-import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
 import moment from 'moment/moment'
@@ -30,25 +29,6 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: 'patient',
-    header: 'Patient Name',
-    cell: (props: any) => (
-      <div className="flex flex-row items-center gap-x-2">
-        <Avatar
-          size={'sm'}
-          className="font-bold"
-          name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
-        />
-        <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
-      </div>
-    )
-  },
-  {
-    accessorKey: 'art',
-    header: 'ART NAME',
-    cell: ({ row }) => <p>{row.original.art?.artName}</p>
-  },
-  {
     accessorKey: 'dateOfEnrollmentToOTZ',
     header: 'Enrollment Date',
     cell: ({ row }) => (
@@ -67,13 +47,6 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'vlCopies',
     header: 'VL results'
-  },
-  {
-    accessorKey: 'artRegimenPhase',
-    header: 'Regimen Line',
-    cell: ({ row }) => (
-      <p>{row.original.artRegimenPhase.artPhaseDescription}</p>
-    )
   },
   {
     // accessorKey: 'action',

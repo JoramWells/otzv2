@@ -27,6 +27,7 @@ import { countyApi } from '@/api/location/county.api'
 import { subCountyApi } from '@/api/location/subCounty.api'
 import { wardApi } from '@/api/location/ward.api'
 import { schoolApi } from '@/api/school/school.api'
+import { viralLoadApi } from '@/api/enrollment/viralLoadTests.api'
 
 export const store = configureStore({
   reducer: {
@@ -56,7 +57,8 @@ export const store = configureStore({
     [countyApi.reducerPath]: countyApi.reducer,
     [subCountyApi.reducerPath]: subCountyApi.reducer,
     [wardApi.reducerPath]: wardApi.reducer,
-    [schoolApi.reducerPath]: schoolApi.reducer
+    [schoolApi.reducerPath]: schoolApi.reducer,
+    [viralLoadApi.reducerPath]: viralLoadApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -87,4 +89,5 @@ export const store = configureStore({
       .concat(subCountyApi.middleware)
       .concat(wardApi.middleware)
       .concat(schoolApi.middleware)
+      .concat(viralLoadApi.middleware)
 })
