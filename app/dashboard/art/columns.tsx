@@ -99,3 +99,23 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
     )
   }
 ]
+
+export const artSwitchReasonColumns: Array<ColumnDef<ColumnProps>> = [
+  {
+    accessorKey: 'reason',
+    header: 'Reason'
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: 'Updated'
+  },
+  {
+    // accessorKey: 'action',
+    header: 'Action',
+    cell: () => (
+      <div>
+        <View className="hover:cursor-pointer" size={20} />
+      </div>
+    )
+  }
+]

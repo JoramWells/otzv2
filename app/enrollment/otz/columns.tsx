@@ -1,6 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
 import moment from 'moment/moment'
+import { Avatar } from '@chakra-ui/react'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -28,6 +29,20 @@ export interface PatientProps {
 }
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
+  {
+    accessorKey: 'patient_name',
+    header: 'Patient Name',
+    cell: (props: any) => (
+      <div className="flex flex-row items-center gap-x-2">
+        <Avatar
+          size={'sm'}
+          className="font-bold"
+          name={`${props.row.original?.firstName} ${props.row.original.patient?.middleName}`}
+        />
+        <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
+      </div>
+    )
+  },
   {
     accessorKey: 'dateOfEnrollmentToOTZ',
     header: 'Enrollment Date',

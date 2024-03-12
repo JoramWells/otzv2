@@ -18,6 +18,10 @@ const itemList = [
   {
     id: 2,
     text: 'Regimen Switch'
+  },
+  {
+    id: 3,
+    text: 'Transition'
   }
 ]
 
@@ -55,10 +59,10 @@ const OTZDetail = ({ params }: any) => {
           {itemList.map((item) => (
             <Button
               key={item.id}
-              rounded={'md'}
+              rounded={'full'}
               size={'sm'}
               bgColor={`${value === item.id && 'gray.700'}`}
-              color={`${value === item.id && 'white'}`}
+              color={`${value === item.id ? 'white' : 'gray.600'}`}
               // shadow={`${value === item.id && 'md'}`}
               _hover={{
                 bgColor: `${value === item.id && 'black'}`,

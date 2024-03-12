@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
@@ -63,15 +64,22 @@ const ARTSwitch = ({ params }: any) => {
         />
 
         <CustomInput
-          label="VL Results (Copies/ml)"
+          label="Select Date"
           value={vlCopies}
           onChange={setVLCopies}
+          type='date'
         />
-        <CustomInput
-          label="Date of Enrollment"
-          type="date"
-          value={dateOfVL}
-          onChange={setDateOfVL}
+
+        <CustomSelect
+          label="Reasons"
+          value={vlCopies}
+          onChange={setVLCopies}
+          data={[
+            {
+              id: useId(),
+              label: 'Treatment Failure'
+            }
+          ]}
         />
 
         <Button

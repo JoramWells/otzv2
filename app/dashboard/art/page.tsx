@@ -3,13 +3,13 @@
 'use client'
 import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { artCategoryColumns, artColumns, columns, type UserProps } from './columns'
-import { useGetAllUsersQuery } from '@/api/users/users.api'
+import { artCategoryColumns, artColumns, artSwitchReasonColumns, columns, type UserProps } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import { useState } from 'react'
 import { type ARTCategoryProps, useGetAllArtRegimenCategoriesQuery } from '@/api/art/artRegimenCategory.api'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
+import { useGetAllArtSwitchReasonsQuery } from '@/api/art/artSwitchReason.api'
 
 const categoryList = [
   {
@@ -23,6 +23,10 @@ const categoryList = [
   {
     id: 3,
     text: 'Phases'
+  },
+  {
+    id: 4,
+    text: 'ART Switch Reasons'
   }
 ]
 
@@ -32,6 +36,7 @@ const Art = () => {
   const { data } = useGetAllArtRegimenPhaseQuery()
   const { data: artCategoryData } = useGetAllArtRegimenCategoriesQuery()
   const { data: artData } = useGetAllArtRegimenQuery()
+  const { data: artSwitchReasonsData } = useGetAllArtSwitchReasonsQuery()
   console.log(artData, 'dtc')
 
   const router = useRouter()
@@ -43,8 +48,10 @@ const Art = () => {
       router.push(`${pathname}/add-art`)
     } else if (value === 2) {
       router.push(`${pathname}/add-art-category`)
-    } else {
+    } else if (value === 3) {
       router.push(`${pathname}/add-art-phase`)
+    } else {
+      router.push(`${pathname}/add-art-switch-reason`)
     }
   }
 
@@ -53,17 +60,17 @@ const Art = () => {
       <div className="p-5">
         <div className="flex flex-row gap-x-2">
           <div
-            className="p-2 bg-gray-50 border rounded-md gap-x-2
-          justify-between flex flex-row
+            className="rounded-md gap-x-4
+          justify-between flex flex-row mb-4
           "
           >
             {categoryList.map((item) => (
               <Button
                 key={item.id}
-                rounded={'md'}
+                rounded={'full'}
                 size={'sm'}
                 bgColor={`${value === item.id && 'gray.700'}`}
-                color={`${value === item.id && 'white'}`}
+                color={`${value === item.id ? 'white' : 'gray.500'}`}
                 // shadow={`${value === item.id && 'md'}`}
                 _hover={{
                   bgColor: `${value === item.id && 'black'}`,
@@ -77,8 +84,6 @@ const Art = () => {
               </Button>
             ))}
           </div>
-
-          {value}
         </div>
         <div className="flex flex-row justify-between items-center p-1">
           <div className="flex flex-row gap-x-2 items-center mb-4">
@@ -91,7 +96,7 @@ const Art = () => {
                 ? 'ART Details'
                 : value === 2
                   ? 'ART Categories'
-                  : 'ART Phases'}
+                  : value === 3 ? 'ART Phases' : 'Switch Reasons'}
             </p>
             <Tag
               m={0}
@@ -114,7 +119,9 @@ const Art = () => {
         </div>
 
         {/* art details */}
-        {value === 1 && <CustomTable columns={artColumns} data={artData ?? []} />}
+        {value === 1 && (
+          <CustomTable columns={artColumns} data={artData ?? []} />
+        )}
 
         {/* art category */}
         {value === 2 && (
@@ -126,6 +133,12 @@ const Art = () => {
 
         {/* art phases */}
         {value === 3 && <CustomTable columns={columns} data={data ?? []} />}
+        {value === 4 && (
+          <div>
+            <p className='mb-3 text-slate-700'>Reasons for SWITCH to 2nd line or Higher</p>
+            <CustomTable columns={artSwitchReasonColumns} data={artSwitchReasonsData ?? []} />
+          </div>
+        )}
       </div>
     </div>
   )
