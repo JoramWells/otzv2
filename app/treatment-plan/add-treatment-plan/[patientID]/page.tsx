@@ -3,12 +3,11 @@
 
 import { useCallback, useState } from 'react'
 import SideMenuBar from '../../../_components/treatement-plan/SideMenuBar'
-import {
-  Box, Button, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator,
-  StepStatus, StepTitle, Stepper, useSteps
-} from '@chakra-ui/react'
+
 import MMASForm from '@/app/_components/treatement-plan/MMAS'
 import FormOne from '@/app/_components/treatement-plan/FormOne'
+import DisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist'
+import { Avatar } from '@chakra-ui/react'
 
 const steps = [
   { title: 'First', description: 'Contact Info' },
@@ -41,39 +40,44 @@ const AddTreatmentPlan = () => {
     setSelected(step)
   }, [])
 
-  const { activeStep } = useSteps({
-    index: 1,
-    count: steps.length
-  })
-
   return (
     <div className="ml-64 pt-12">
       <div className="p-3 flex flex-row space-x-6">
-        <div
-          className="p-2 space-y-1 border border-gray-200 w-72
-      rounded-md flex flex-col items-center justify-center
+        <div>
+          <div
+          >
+            <Avatar name="Lisa Kim" />
+            <p className="text-lg mb-4 mt-2">Treatment Plan Forms</p>
+          </div>
+          <div
+            className="p-2 space-y-1 border border-gray-200 w-80
+      rounded-md flex flex-col items-center justify-center gap-y-2
       "
-          style={{
-            height: '200px'
-          }}
-        >
-          {itemList.map((item, idx) => (
-            <SideMenuBar
-              key={item.id}
-              text={item.label}
-              onClick={() => {
-                handleStepChange(idx + 1)
-              }}
-              selected={item.id === 1}
-            />
-          ))}
+            style={{
+              height: '250px'
+            }}
+          >
+            {itemList.map((item, idx) => (
+              <SideMenuBar
+                key={item.id}
+                text={item.label}
+                onClick={() => {
+                  handleStepChange(idx + 1)
+                }}
+                selected={item.id === 1}
+              />
+            ))}
+          </div>
         </div>
 
-        <div style={{
-          width: '50%'
-        }}>
+        <div
+          style={{
+            width: '50%'
+          }}
+        >
           {selected === 1 && <FormOne />}
           {selected === 2 && <MMASForm />}
+          {selected === 3 && <DisclosureChecklist />}
         </div>
       </div>
     </div>

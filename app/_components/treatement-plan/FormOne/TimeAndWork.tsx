@@ -1,6 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
+import CustomTimeInput from '../../forms/CustomTimeInput'
+
 export interface TimeAndWorkProps {
   wakeUpTime: string
   setWakeUpTime: (wakeUp: string) => void
@@ -27,11 +29,10 @@ const TimeAndWork = ({
   setArrivalHomeTime
 }: TimeAndWorkProps) => (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
-    <div>
-      <div>Hours</div>
-      <div>Minutes</div>
-    </div>
-
+    <CustomTimeInput label="What time do you wake up mostly?" />
+    <CustomTimeInput label="What time do you leave for school or work?" />
+    <CustomTimeInput label="What time do you leave from work or school?" />
+    <CustomTimeInput label="What time do you get home from work or school?" />
   </div>
 )
 

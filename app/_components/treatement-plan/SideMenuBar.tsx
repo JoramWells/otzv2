@@ -18,8 +18,8 @@ const SideMenuBar = ({ selected, text, onClick }: SideMenuBarProps) => {
 
   return (
     <div
-      className="bg-gray-200
-    w-full h-10 flex flex-row items-center pl-4 rounded-md text-sm
+      className="bg-slate-100
+    w-full h-12 flex flex-row items-center pl-4 rounded-md text-sm
     hover:cursor-pointer
     "
     onClick={onClick}
