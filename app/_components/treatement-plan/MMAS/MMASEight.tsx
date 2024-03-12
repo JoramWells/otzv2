@@ -1,16 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { Checkbox } from '@chakra-ui/react'
+import CustomCheckbox from '../../forms/CustomCheckbox'
 
 export interface MMASEightProps {
-  isTookYesterday: string
-  setIsTookYesterday: (yesterday: string) => void
-  isQuitControl: string
-  setIsQuitControl: (quit: string) => void
-  isUnderPressure: string
-  setIsUnderPressure: (pressure: string) => void
-  isDifficultyRemembering: string
-  setIsDifficultyRemembering: (remb: string) => void
+  isTookYesterday: boolean
+  setIsTookYesterday: (yesterday: boolean) => void
+  isQuitControl: boolean
+  setIsQuitControl: (quit: boolean) => void
+  isUnderPressure: boolean
+  setIsUnderPressure: (pressure: boolean) => void
+  isDifficultyRemembering: boolean
+  setIsDifficultyRemembering: (remb: boolean) => void
 }
 const MmasEight = ({
   isTookYesterday,
@@ -22,26 +22,25 @@ const MmasEight = ({
   isDifficultyRemembering,
   setIsDifficultyRemembering
 }: MMASEightProps) => (
-  <div>
-    <Checkbox>Did you take your medicine yesterday?</Checkbox>
-    {/* <CustomCheckBox
-      text="Did you take your medicine yesterday?"
-      isChecked={isTookYesterday}
-      setIsChecked={setIsTookYesterday}
-    /> */}
-
-    {/* <CustomCheckBox
-      text="When you feel your
-          symptoms are out of control, do you sometimes stop taking your medicine?"
-      isChecked={isQuitControl}
-      setIsChecked={setIsQuitControl}
+  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+    <CustomCheckbox
+      label="Did you take your medicine yesterday?"
+      value={isTookYesterday}
+      onChange={setIsTookYesterday}
     />
 
-    <CustomCheckBox
-      text="Taking medicine is a real inconvenience for some people. Do you feel under
+    <CustomCheckbox
+      label="When you feel your
+          symptoms are out of control, do you sometimes stop taking your medicine?"
+      value={isQuitControl}
+      onChange={setIsQuitControl}
+    />
+
+    <CustomCheckbox
+      label="Taking medicine is a real inconvenience for some people. Do you feel under
           pressure about sticking to your treatment plan?"
-      isChecked={isUnderPressure}
-      setIsChecked={setIsUnderPressure}
+      value={isUnderPressure}
+      onChange={setIsUnderPressure}
     />
 
     <p
@@ -49,9 +48,11 @@ const MmasEight = ({
         color: '#434343',
         fontSize: '16px'
       }}
+      className='ml-6'
     >
       How ofter do you find difficulty remembering to take all your medications
     </p>
+    {/*
     <Select
       style={{
         width: '100%',

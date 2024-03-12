@@ -8,6 +8,7 @@ import {
   StepStatus, StepTitle, Stepper, useSteps
 } from '@chakra-ui/react'
 import MMASForm from '@/app/_components/treatement-plan/MMAS'
+import FormOne from '@/app/_components/treatement-plan/FormOne'
 
 const steps = [
   { title: 'First', description: 'Contact Info' },
@@ -46,14 +47,15 @@ const AddTreatmentPlan = () => {
   })
 
   return (
-    <div
-    className='ml-64 pt-12'
-    >
-      <div className="p-3 flex flex-row space-x-6 justify-between">
+    <div className="ml-64 pt-12">
+      <div className="p-3 flex flex-row space-x-6">
         <div
           className="p-2 space-y-1 border border-gray-200 w-72
       rounded-md flex flex-col items-center justify-center
       "
+          style={{
+            height: '200px'
+          }}
         >
           {itemList.map((item, idx) => (
             <SideMenuBar
@@ -67,8 +69,11 @@ const AddTreatmentPlan = () => {
           ))}
         </div>
 
-        <div className="flex-1 bg-red-100">
-{selected === 1 && <MMASForm />}
+        <div style={{
+          width: '50%'
+        }}>
+          {selected === 1 && <FormOne />}
+          {selected === 2 && <MMASForm />}
         </div>
       </div>
     </div>

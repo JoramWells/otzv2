@@ -1,17 +1,17 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
-import { Checkbox } from '@chakra-ui/react'
+import CustomCheckbox from '../../forms/CustomCheckbox'
 
 export interface MMASFourProps {
-  isForget: string
-  setIsForget: (forget: string) => void
-  isCareless: string
-  setIsCareless: (careless: string) => void
-  isQuitWorse: string
-  setIsQuitWorse: (worse: string) => void
-  isQuitBetter: string
-  setIsQuitBetter: (better: string) => void
+  isForget: boolean
+  setIsForget: (forget: boolean) => void
+  isCareless: boolean
+  setIsCareless: (careless: boolean) => void
+  isQuitWorse: boolean
+  setIsQuitWorse: (worse: boolean) => void
+  isQuitBetter: boolean
+  setIsQuitBetter: (better: boolean) => void
 }
 
 const MmasFour = ({
@@ -24,32 +24,32 @@ const MmasFour = ({
   isQuitBetter,
   setIsQuitBetter
 }: MMASFourProps) => (
-  <div>
-
-    <Checkbox>Do you ever forget to take medicine?</Checkbox>
-    {/* <CustomCheckBox
-      text="Do you ever forget to take your medicine?"
-      isChecked={isForget}
-      setIsChecked={setIsForget}
+  <div
+  className='flex flex-col gap-y-6 border p-4 rounded-lg mt-4'
+  >
+    <CustomCheckbox
+      label="Do you ever forget to take medicine?"
+      onChange={setIsForget}
+      value={isForget}
     />
 
-    {/* <CustomCheckBox
-      text="Are you careless at times about taking your medicine?"
-      isChecked={isCareless}
-      setIsChecked={setIsCareless}
+    <CustomCheckbox
+      label="Are you careless at times about taking your medicine?"
+      value={isCareless}
+      onChange={setIsCareless}
     />
 
-    {/* <CustomCheckBox
-      text="Sometimes, if you feel worse when you take medicine, do you stop taking it?"
-      isChecked={isQuitWorse}
-      setIsChecked={setIsQuitWorse}
-    /> */}
+    <CustomCheckbox
+      label="Sometimes, if you feel worse when you take medicine, do you stop taking it?"
+      value={isQuitWorse}
+      onChange={setIsQuitWorse}
+    />
 
-    {/* <CustomCheckBox
-      text="When you feel better do you sometimes stop taking your medicine?"
-      isChecked={isQuitBetter}
-      setIsChecked={setIsQuitBetter}
-    /> */}
+    <CustomCheckbox
+      label="When you feel better do you sometimes stop taking your medicine?"
+      value={isQuitBetter}
+      onChange={setIsQuitBetter}
+    />
   </div>
 )
 

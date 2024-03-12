@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { useCallback, useState } from 'react'
+import { type Dispatch, type SetStateAction, useCallback, useState } from 'react'
 import {
   Box,
   Button,
@@ -21,9 +21,8 @@ import MmasFour from './MMASFour'
 import MmasEight from './MMASEight'
 
 const steps = [
-  { title: 'Personal Details', description: 'Personal Information' },
-  { title: 'Contact/Location', description: 'Contact, Location, Occupation' },
-  { title: 'ART Status', description: 'Current Regimen' }
+  { title: 'MMAS-4', description: 'MMAS-4 Form' },
+  { title: 'MMAS-8', description: 'MMAS-8 Form' }
 ]
 
 const itemList = [
@@ -48,14 +47,14 @@ const itemList = [
 const MMASForm = () => {
   const [activeStep, setActiveStep] = useState(1)
 
-  const [isForget, setIsForget] = useState('')
-  const [isCareless, setIsCareless] = useState('')
-  const [isQuitWorse, setIsQuitWorse] = useState('')
-  const [isQuitBetter, setIsQuitBetter] = useState('')
-  const [isTookYesterday, setIsTookYesterday] = useState('')
-  const [isQuitControl, setIsQuitControl] = useState('')
-  const [isUnderPressure, setIsUnderPressure] = useState('')
-  const [isDifficultyRemembering, setIsDifficultyRemembering] = useState('')
+  const [isForget, setIsForget]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isCareless, setIsCareless]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isQuitWorse, setIsQuitWorse]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isQuitBetter, setIsQuitBetter]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isTookYesterday, setIsTookYesterday]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isQuitControl, setIsQuitControl]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isUnderPressure, setIsUnderPressure]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isDifficultyRemembering, setIsDifficultyRemembering]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
 
   const inputValues = {
     isForget,
@@ -93,12 +92,11 @@ const MMASForm = () => {
   const [addPatient, { isLoading }] = useAddPatientMutation()
 
   return (
-    <div className="pt-14 ml-64 flex flex-row justify-center">
-      <div
-        style={{
-          width: '45%'
-        }}
-      >
+    <div
+    style={{
+      width: '100%'
+    }}
+    >
         <div
           style={{
             width: '100%'
@@ -170,7 +168,6 @@ const MMASForm = () => {
             {activeStep === 3 ? 'Complete' : 'Next'}
           </Button>
         </div>
-      </div>
     </div>
   )
 }
