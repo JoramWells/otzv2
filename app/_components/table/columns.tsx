@@ -74,7 +74,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
           OVC
         </Tag>
         <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          PAMA
+          <Link href={`/enrollment/enroll-pama/${row.original.id}`}>PAMA</Link>
         </Tag>
         <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
           PMTCT
@@ -86,7 +86,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     // accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => (
-<Link href={`/patients/${row.original.id}`}>See Patient</Link>
+      <Link href={`/patients/${row.original.id}`}>See Patient</Link>
     )
   }
 ]

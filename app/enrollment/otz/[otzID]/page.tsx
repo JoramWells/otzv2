@@ -9,6 +9,7 @@ import React, { useState } from 'react'
 import { columns } from '../columns'
 import moment from 'moment'
 import { AreaChart, ArrowLeftRight } from 'lucide-react'
+import { useGetAllArtRegimenSwitchQuery, useGetArtRegimenSwitchQuery } from '@/api/art/artRegimenSwitch.api'
 
 const itemList = [
   {
@@ -30,6 +31,7 @@ const OTZDetail = ({ params }: any) => {
   const [value, setValue] = useState(1)
 
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
+  const { data: switchHistoryData } = useGetArtRegimenSwitchQuery(patientID)
   console.log(vlData, 'dtc')
 
   return (
@@ -114,13 +116,9 @@ const OTZDetail = ({ params }: any) => {
                 colorScheme="orange"
                 variant={'ghost'}
                 size={'sm'}
-                leftIcon={<ArrowLeftRight
-                size={20}
-                />}
+                leftIcon={<ArrowLeftRight size={20} />}
               >
-                <Link
-                href={`/enrollment/otz/switch-art/${patientID}`}
-                >
+                <Link href={`/enrollment/otz/switch-art/${patientID}`}>
                   SWITCH
                 </Link>
               </Button>
@@ -141,7 +139,7 @@ const OTZDetail = ({ params }: any) => {
 
             {/* body */}
 
-            <CustomTable columns={columns} data={vlData || []} />
+            <CustomTable columns={columns} data={switchHistoryData || []} />
           </>
         )}
       </div>
