@@ -37,7 +37,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         <Avatar
           size={'sm'}
           className="font-bold"
-          name={`${props.row.original?.firstName} ${props.row.original.patient?.middleName}`}
+          name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
         />
         <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
       </div>

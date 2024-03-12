@@ -30,6 +30,7 @@ const OTZDetail = ({ params }: any) => {
   const [value, setValue] = useState(1)
 
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
+  console.log(vlData, 'dtc')
 
   return (
     <div className="ml-64 pt-12">

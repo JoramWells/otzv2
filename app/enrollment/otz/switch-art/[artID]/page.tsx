@@ -2,27 +2,58 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { useId, useState } from 'react'
+import { useCallback, useId, useState } from 'react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../../_components/forms/CustomInput'
 import { Button } from '@chakra-ui/react'
 import { useAddViralLoadTestMutation } from '@/api/enrollment/viralLoadTests.api'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
+import { useGetAllArtSwitchReasonsQuery } from '@/api/art/artSwitchReason.api'
+import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
+import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
+import { useAddArtRegimenSwitchMutation } from '@/api/art/artRegimenSwitch.api'
 // import { useRouter } from 'next/router'
 
 const ARTSwitch = ({ params }: any) => {
   // const router = useRouter()
   const patientID = params.otzID
 
-  const [currentRegimen, setCurrentRegimen] = useState('')
-  const [dateOfVL, setDateOfVL] = useState('')
-  const [vlCopies, setVLCopies] = useState('')
-  const [addViralLoadTest, { isLoading }] = useAddViralLoadTestMutation()
+  const [artID, setArtID] = useState('')
+  const [regimenLineID, setRegimenLineID] = useState('')
+  const [switchDate, setSwitchDate] = useState('')
+  const [switchReasonID, setSwitchReasonID] = useState('')
+  const { data: reasonData } = useGetAllArtSwitchReasonsQuery()
+  const { data: lineData } = useGetAllArtRegimenPhaseQuery()
+  const { data: artData } = useGetAllArtRegimenQuery()
+
+  const reasonOptions = useCallback(() => {
+    return reasonData?.map((item: any) => ({
+      id: item.id, label: item.reason
+    }))
+  }, [reasonData])
+
+  const lineOptions = useCallback(() => {
+    return lineData?.map((item: any) => ({
+      id: item.id,
+      label: item.artPhaseDescription
+    }))
+  }, [lineData])
+
+  const artOptions = useCallback(() => {
+    return artData?.map((item: any) => ({
+      id: item.id,
+      label: item.artName
+    }))
+  }, [artData])
+
+  const [addArtRegimenSwitch, { isLoading }] = useAddArtRegimenSwitchMutation()
 
   const inputValues = {
     patientID,
-    vlCopies,
-    dateOfVL
+    artID,
+    regimenLineID,
+    switchDate,
+    switchReasonID
   }
 
   return (
@@ -40,53 +71,38 @@ const ARTSwitch = ({ params }: any) => {
         </div>
 
         <CustomSelect
-          label="Current Regimen"
-          value={currentRegimen}
-          onChange={setCurrentRegimen}
-          data={[
-            {
-              id: useId(),
-              label: 'art'
-            }
-          ]}
+          label="ART Regimen"
+          value={artID}
+          onChange={setArtID}
+          data={artOptions()}
         />
 
         <CustomSelect
-          label="Current Regimen Regimen Line"
-          value={currentRegimen}
-          onChange={setCurrentRegimen}
-          data={[
-            {
-              id: useId(),
-              label: 'art'
-            }
-          ]}
+          label="Regimen Line"
+          value={regimenLineID}
+          onChange={setRegimenLineID}
+          data={lineOptions()}
         />
 
         <CustomInput
           label="Select Date"
-          value={vlCopies}
-          onChange={setVLCopies}
-          type='date'
+          value={switchDate}
+          onChange={setSwitchDate}
+          type="date"
         />
 
         <CustomSelect
           label="Reasons"
-          value={vlCopies}
-          onChange={setVLCopies}
-          data={[
-            {
-              id: useId(),
-              label: 'Treatment Failure'
-            }
-          ]}
+          value={switchReasonID}
+          onChange={setSwitchReasonID}
+          data={reasonOptions()}
         />
 
         <Button
           w="full"
           colorScheme="teal"
           isLoading={isLoading}
-          onClick={() => addViralLoadTest(inputValues)}
+          onClick={() => addArtRegimenSwitch(inputValues)}
         >
           Update Viral Load
         </Button>
