@@ -16,7 +16,8 @@ import {
   Users,
   Syringe,
   Home,
-  PersonStanding
+  PersonStanding,
+  Tablets
 } from 'lucide-react'
 
 const SidebarItems = () => {
@@ -120,9 +121,14 @@ const SidebarItems = () => {
         icon={<Warehouse size={18} />}
       />
       <SidebarCollapseButton
-        label="Home Visits"
+        label="Home-Visits"
         icon={<Home size={18} />}
         itemList={[
+          {
+            id: useId(),
+            link: '/home-visits',
+            label: 'Home Visit'
+          },
           {
             id: useId(),
             link: '/add-home-visit',
@@ -131,7 +137,7 @@ const SidebarItems = () => {
         ]}
       />
       <SidebarCollapseButton label="Lab" icon={<TestTubes size={18} />} />
-      <SidebarCollapseButton label="Pharmacy" icon={<Pill size={18} />} />
+      <SidebarCollapseButton label="Pharmacy" icon={<Tablets size={18} />} />
       <SidebarCollapseButton label="PMTCT" icon={<Baby size={18} />} />
       <SidebarCollapseButton
         label="Treatment Plan"
@@ -160,7 +166,17 @@ const SidebarItems = () => {
           }
         ]}
       />
-      <SidebarCollapseButton label="Charges" />
+      <SidebarCollapseButton
+        label="Pill Box"
+        icon={<Pill size={18} />}
+        itemList={[
+          {
+            id: useId(),
+            link: '/',
+            label: 'View Pill Box'
+          }
+        ]}
+      />
       <SidebarCollapseButton
         label="Support Group"
         icon={<PersonStanding size={18} />}

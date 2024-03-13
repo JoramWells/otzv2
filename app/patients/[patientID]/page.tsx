@@ -82,6 +82,20 @@ const PatientDetails = ({ params }: any) => {
         </div>
       )}
 
+{/* home visit */}
+      {value === 2 && (
+        <div>
+          <p>Home Visit </p>
+          <div>
+            <Button size={'sm'} colorScheme="green" variant={'outline'}>
+              <Link href={`/home-visits/add-home-visit/${patientID}`}>
+                NEW
+              </Link>
+            </Button>
+          </div>
+        </div>
+      )}
+
       {value === 3 && (
         <div>
           Requests
@@ -92,16 +106,18 @@ const PatientDetails = ({ params }: any) => {
         </div>
       )}
 
-      {value === 4 && <div>
-        <p>Treatment Plan</p>
-        <div><Button
-        size={'sm'}
-        colorScheme='green'
-        variant={'outline'}
-        >
-          <Link href={`/treatment-plan/add-treatment-plan/${patientID}`}>NEW</Link>
-          </Button></div>
-        </div>}
+      {value === 4 && (
+        <div>
+          <p>Treatment Plan</p>
+          <div>
+            <Button size={'sm'} colorScheme="green" variant={'outline'}>
+              <Link href={`/treatment-plan/add-treatment-plan/${patientID}`}>
+                NEW
+              </Link>
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
