@@ -71,7 +71,7 @@ const PatientDetails = ({ params }: any) => {
         <div>
           <div>
             <Button size={'sm'} colorScheme="green" variant={'outline'}>
-              New
+              <Link href={`/appointments/add-appointment/${patientID}`}>NEW</Link>
             </Button>
           </div>
           <ol>
@@ -82,15 +82,13 @@ const PatientDetails = ({ params }: any) => {
         </div>
       )}
 
-{/* home visit */}
+      {/* home visit */}
       {value === 2 && (
         <div>
           <p>Home Visit </p>
           <div>
             <Button size={'sm'} colorScheme="green" variant={'outline'}>
-              <Link href={`/home-visits/add-home-visit/${patientID}`}>
-                NEW
-              </Link>
+              <Link href={`/home-visits/add-home-visit/${patientID}`}>NEW</Link>
             </Button>
           </div>
         </div>

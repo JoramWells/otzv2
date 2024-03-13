@@ -3,8 +3,10 @@
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
-import { useId, useState } from 'react'
+import { useCallback, useId, useState } from 'react'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
+import { useGetAllCountiesQuery } from '@/api/location/county.api'
+import { useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 
 const AddUser = () => {
   const [firstName, setFirstName] = useState('')
@@ -13,8 +15,17 @@ const AddUser = () => {
   const [dob, setDOB] = useState('')
   const [gender, setGender] = useState('')
   const [idNo, setIDNo] = useState('')
-  const [residence, setResidence] = useState('')
+  const [county, setCounty] = useState('')
   const [password, setPassword] = useState('')
+
+  const { data } = useGetAllCountiesQuery()
+  const { data: subCountyData } = useGetAllSubCountiesQuery()
+
+  const countiesOption = useCallback(() => {
+    return data?.map((item: any) => ({
+      id: item.id, label: item.countyName
+    }))
+  }, [data])
 
   return (
     <div className="flex flex-row justify-center">
@@ -45,17 +56,28 @@ const AddUser = () => {
             onChange={setLastName}
           />
         </div>
-        <CustomInput label="DOB" value={dob} onChange={setDOB} />
-        <CustomInput
+        <CustomInput label="DOB" value={dob} onChange={setDOB}
+        type='date'
+        />
+        <CustomSelect
           label="Select Gender"
           value={gender}
           onChange={setGender}
+          data={[
+            {
+              id: '1', label: 'MALE'
+            },
+            {
+              id: '2', label: 'FEMALE'
+            }
+          ]}
         />
         <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
-        <CustomInput
-          label="Select Residence"
-          value={residence}
-          onChange={setResidence}
+        <CustomSelect
+          label="Select County"
+          value={county}
+          onChange={setCounty}
+          data={countiesOption()}
         />
 
         {/* <CustomSelect

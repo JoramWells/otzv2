@@ -4,11 +4,13 @@
 'use client'
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../_components/forms/CustomInput'
+import CustomInput from '../../../_components/forms/CustomInput'
 import { useCallback, useState } from 'react'
 import { useAddArtRegimenPhaseMutation, useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
 import { useAddArtRegimenCategoryMutation } from '@/api/art/artRegimenCategory.api'
+import { useAddAppointmentMutation } from '@/api/appointment/appointment.api.'
+import moment from 'moment'
 
 interface PhaseProps {
   id: string
@@ -21,7 +23,8 @@ interface CategoryProps {
   artPhaseID: string
 }
 
-const AddArtCategory = () => {
+const AddArtCategory = ({ params }: any) => {
+  const patientID = params.patientID
   const [agenda, setAppointmentAgenda] = useState('')
   const [appointmentDate, setAppointmentDate] = useState('')
   const [appointmentTime, setAppointmentTime] = useState('')
@@ -29,8 +32,7 @@ const AddArtCategory = () => {
 
   const [artCategoryDescription, setArtCategoryDescription] = useState('')
   const [artPhaseID, setArtPhaseID] = useState('')
-  const [addArtRegimenCategory, { isLoading }] =
-    useAddArtRegimenCategoryMutation()
+  const [addAppointment, { isLoading }] = useAddAppointmentMutation()
 
   const { data: phaseData } = useGetAllArtRegimenPhaseQuery()
 
@@ -42,8 +44,12 @@ const AddArtCategory = () => {
   }, [phaseData])
 
   const inputValues = {
-    artCategoryDescription,
-    artPhaseID
+    appointmentAgendaID: agenda,
+    patientID,
+    // userID,
+    appointmentDate,
+    appointmentTime: moment(new Date(appointmentTime)).format('HH:mm:ss'),
+    appointmentStatusID: status
   }
 
   return (
@@ -68,11 +74,11 @@ const AddArtCategory = () => {
 
         <CustomInput
           label="Select Date"
-          type='date'
+          type="date"
           value={appointmentDate}
           onChange={setAppointmentDate}
         />
-{/*
+        {/*
         <CustomTimePicker
           label="Select Time"
           description="At what time will the meeting happen?"
@@ -99,7 +105,7 @@ const AddArtCategory = () => {
         <Button
           colorScheme="teal"
           width={'full'}
-          onClick={() => addArtRegimenCategory(inputValues)}
+          onClick={() => addAppointment(inputValues)}
           isLoading={isLoading}
         >
           Create Appointment
