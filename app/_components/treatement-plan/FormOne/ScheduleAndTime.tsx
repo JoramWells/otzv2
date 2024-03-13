@@ -44,14 +44,22 @@ const ScheduleAndTime = ({
       </p>
       <div className="flex flex-row gap-x-6">
         <CustomTimeInput label="Morning Time" />
-        <CustomInput label="Enter Place" />
+        <CustomInput
+          label="Enter Place"
+          value={morningPlace}
+          onChange={setMorningPlace}
+        />
       </div>
     </div>
 
     {/*  */}
     <div className="flex flex-row gap-x-6">
       <CustomTimeInput label="Evening Time" />
-      <CustomInput label="Enter Place" />
+      <CustomInput
+        label="Enter Place"
+        value={eveningPlace}
+        onChange={setEveningPlace}
+      />
     </div>
 
     <Divider />
@@ -63,11 +71,19 @@ const ScheduleAndTime = ({
       </p>
       <div className="flex flex-row gap-x-6">
         <CustomTimeInput label="Morning Time" />
-        <CustomInput label="Enter Place" />
+        <CustomInput
+          label="Enter Place"
+          value={morningPlace}
+          onChange={setMorningPlace}
+        />
       </div>
       <div className="flex flex-row gap-x-6">
         <CustomTimeInput label="Evening Time" />
-        <CustomInput label="Enter Place" />
+        <CustomInput
+          label="Enter Place"
+          value={eveningPlace}
+          onChange={setEveningPlace}
+        />
       </div>
     </div>
 
@@ -76,17 +92,27 @@ const ScheduleAndTime = ({
       <CustomInput
         label="Which is the best place to keep medicines in order to adhere to this
         schedule?"
+        value={medicineStorage}
+        onChange={setMedicineStorage}
       />
     </div>
 
     {/*  */}
     <div>
-      <CustomInput label="What tools and cues will you use to help with adherence?" />
+      <CustomInput
+        label="What tools and cues will you use to help with adherence?"
+        value={toolsAndCues}
+        onChange={setToolsAndCues}
+      />
     </div>
 
     {/*  */}
     <div>
-      <CustomInput label="What is the ultimate goal for this plan?" />
+      <CustomInput
+        label="What is the ultimate goal for this plan?"
+        value={goal}
+        onChange={setGoal}
+      />
     </div>
   </div>
 )
