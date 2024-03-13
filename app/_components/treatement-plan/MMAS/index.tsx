@@ -165,7 +165,7 @@ const MMASForm = () => {
             }}
             isLoading={isLoading}
           >
-            {activeStep === 3 ? 'Complete' : 'Next'}
+            {activeStep === 2 ? 'Complete' : 'Next'}
           </Button>
         </div>
     </div>

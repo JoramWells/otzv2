@@ -3,10 +3,14 @@
 'use client'
 import { CustomTable } from '../table/CustomTable'
 import { columns } from './columns'
-import { useGetAllHomeVisitsQuery } from '@/api/homevisit/homeVisit.api'
+import { useGetAllHomeVisitsQuery, useGetHomeVisitQuery } from '@/api/homevisit/homeVisit.api'
 
-const HomeVisitTab = () => {
-  const { data } = useGetAllHomeVisitsQuery()
+export interface HomeVisitProps {
+  patientID: string
+}
+
+const HomeVisitTab = ({ patientID }: HomeVisitProps) => {
+  const { data } = useGetHomeVisitQuery(patientID)
   console.log(data, 'dtc')
 
   return (

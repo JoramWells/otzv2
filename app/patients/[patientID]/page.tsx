@@ -4,7 +4,7 @@
 
 import { useState } from 'react'
 
-import { useAddPatientMutation } from '@/api/patient/patients.api'
+import { Clock } from 'lucide-react'
 import { Button } from '@chakra-ui/react'
 import Link from 'next/link'
 import AppointmentTab from '@/app/_components/patient/appointmentTab/AppointmentTab'
@@ -72,9 +72,7 @@ const PatientDetails = ({ params }: any) => {
       {value === 1 && (
         <div>
           <div>
-            <div
-            className='flex flex-row items-center justify-between'
-            >
+            <div className="flex flex-row items-center justify-between">
               <p className="mb-2 text-lg font-semibold text-slate-700">
                 Recent Appointments
               </p>
@@ -86,9 +84,7 @@ const PatientDetails = ({ params }: any) => {
               </Button>
             </div>
           </div>
-          <ol
-          className='flex'
-          >
+          <ol className="flex">
             <li>grid view</li>
             <li>table view</li>
             <li>calendar view</li>
@@ -100,13 +96,18 @@ const PatientDetails = ({ params }: any) => {
       {/* home visit */}
       {value === 2 && (
         <div>
-          <p>Home Visit </p>
-          <div>
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-row items-center space-x-2">
+              <Clock size={18} className="text-slate-600" />
+              <p className="text-lg font-semibold text-slate-700">
+                Recent Home Visits
+              </p>
+            </div>
             <Button size={'sm'} colorScheme="green" variant={'outline'}>
               <Link href={`/home-visits/add-home-visit/${patientID}`}>NEW</Link>
             </Button>
           </div>
-          <HomeVisitTab />
+          <HomeVisitTab patientID={patientID} />
         </div>
       )}
 
@@ -116,6 +117,8 @@ const PatientDetails = ({ params }: any) => {
           <ul>
             <li>Lab</li>
             <li>Pharmacy</li>
+            <li>Viral Load</li>
+            <li>Vital Signs</li>
           </ul>
         </div>
       )}
