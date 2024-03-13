@@ -8,6 +8,7 @@ import { useAddPatientMutation } from '@/api/patient/patients.api'
 import { Button } from '@chakra-ui/react'
 import Link from 'next/link'
 import AppointmentTab from '@/app/_components/patient/appointmentTab/AppointmentTab'
+import HomeVisitTab from '@/app/_components/home-visit/HomevisitTab'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
@@ -105,6 +106,7 @@ const PatientDetails = ({ params }: any) => {
               <Link href={`/home-visits/add-home-visit/${patientID}`}>NEW</Link>
             </Button>
           </div>
+          <HomeVisitTab />
         </div>
       )}
 

@@ -5,6 +5,8 @@ import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFre
 import CustomInput from '../../forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
 import { useCallback } from 'react'
+import { useGetHomeVisitReasonsQuery } from '@/api/homevisit/homeVisitReason.api'
+import { useGetAllUsersQuery } from '@/api/users/users.api'
 
 export interface TaskOneProps {
   homeVisitReason: string
@@ -28,25 +30,44 @@ const TaskOne = ({
   setFrequency
 }: TaskOneProps) => {
   const { data: frequencyData } = useGetAllHomeVisitFrequenciesQuery()
+  const { data: userData } = useGetAllUsersQuery()
+  const { data: reasonData } = useGetHomeVisitReasonsQuery()
 
   const frequencyOptions = useCallback(() => {
-    return frequencyData?.map((item:any) => ({
-      id: item.id
+    return frequencyData?.map((item: any) => ({
+      id: item.id,
+      label: item.homeVisitFrequencyDescription
     }))
   }, [frequencyData])
+
+  // reason
+  const reasonOptions = useCallback(() => {
+    return reasonData?.map((item: any) => ({
+      id: item.id,
+      label: item.homeVisitReasonDescription
+    }))
+  }, [reasonData])
+
+  // users
+  const usersOption = useCallback(() => {
+    return userData?.map((item: any) => ({
+      id: item.id,
+      label: item.firstName
+    }))
+  }, [userData])
 
   return (
     <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
       <CustomSelect
         label="Reason for visit"
-        data={[]}
+        data={reasonOptions()}
         onChange={setHomeVisitReason}
         value={homeVisitReason}
       />
 
       <CustomSelect
         label="Requested by"
-        data={[]}
+        data={usersOption()}
         onChange={setRequestedBy}
         value={requestedBy}
       />
