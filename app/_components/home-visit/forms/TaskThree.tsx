@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import CustomInput from '../forms/CustomInput'
-import CustomSelect from '../forms/CustomSelect'
+import CustomInput from '../../forms/CustomInput'
+import CustomSelect from '../../forms/CustomSelect'
 
 export interface TaskThreeProps {
   dateHomeVisitRequested: string

@@ -10,12 +10,9 @@ const AppointmentTab = () => {
   console.log(data, 'dtc')
 
   return (
-    <div className="pt-12">
-      <div className="p-5">
-        <p className='mb-4 text-xl font-semibold text-slate-700'>Patient Appointments</p>
+      <div className="mt-4">
         <CustomTable columns={columns} data={data || []} />
       </div>
-    </div>
   )
 }
 

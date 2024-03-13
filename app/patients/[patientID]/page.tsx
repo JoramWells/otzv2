@@ -71,16 +71,28 @@ const PatientDetails = ({ params }: any) => {
       {value === 1 && (
         <div>
           <div>
-            <Button size={'sm'} colorScheme="green" variant={'outline'}>
-              <Link href={`/appointments/add-appointment/${patientID}`}>NEW</Link>
-            </Button>
+            <div
+            className='flex flex-row items-center justify-between'
+            >
+              <p className="mb-2 text-lg font-semibold text-slate-700">
+                Recent Appointments
+              </p>
+
+              <Button size={'sm'} colorScheme="green" variant={'outline'}>
+                <Link href={`/appointments/add-appointment/${patientID}`}>
+                  NEW
+                </Link>
+              </Button>
+            </div>
           </div>
-          <ol>
+          <ol
+          className='flex'
+          >
             <li>grid view</li>
             <li>table view</li>
             <li>calendar view</li>
           </ol>
-          <AppointmentTab/>
+          <AppointmentTab />
         </div>
       )}
 

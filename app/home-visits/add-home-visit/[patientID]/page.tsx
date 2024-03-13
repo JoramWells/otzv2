@@ -17,10 +17,10 @@ import {
   Stepper
 } from '@chakra-ui/react'
 import { useAddPatientMutation } from '@/api/patient/patients.api'
-import TaskOne from '../../../_components/home-visit/TaskOne'
-import TaskTwo from '../../../_components/home-visit/TaskTwo'
-import TaskThree from '../../../_components/home-visit/TaskThree'
-import TaskFour from '../../../_components/home-visit/TaskFour'
+import TaskOne from '../../../_components/home-visit/forms/TaskOne'
+import TaskTwo from '../../../_components/home-visit/forms/TaskTwo'
+import TaskThree from '../../../_components/home-visit/forms/TaskThree'
+import TaskFour from '../../../_components/home-visit/forms/TaskFour'
 
 const steps = [
   { title: 'Task One', description: 'Task One Form' },

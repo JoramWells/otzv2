@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
-import CustomInput from '../forms/CustomInput'
-import CustomSelect from '../forms/CustomSelect'
+import CustomInput from '../../forms/CustomInput'
+import CustomSelect from '../../forms/CustomSelect'
 
 export interface TaskOneProps {
   homeVisitReason: string

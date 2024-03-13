@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import CustomCheckbox from '../forms/CustomCheckbox'
-import CustomInput from '../forms/CustomInput'
-import CustomSelect from '../forms/CustomSelect'
+import CustomCheckbox from '../../forms/CustomCheckbox'
+import CustomInput from '../../forms/CustomInput'
+import CustomSelect from '../../forms/CustomSelect'
 
 export interface TaskTwoProps {
   isARV: boolean

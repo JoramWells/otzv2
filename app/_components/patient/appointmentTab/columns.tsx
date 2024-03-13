@@ -32,24 +32,17 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: 'patient',
-    header: 'Patient Name',
+    accessorKey: 'user',
+    header: 'Requested By',
     cell: (props: any) => (
       <div className="flex flex-row items-center gap-x-2">
         <Avatar
           size={'sm'}
           className="font-bold"
-          name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
+          name={`${props.row.original.user?.firstName} ${props.row.original.user?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
+        <p className="capitalize font-semibold">{`${props.row.original.user?.firstName} ${props.row.original.user?.middleName}`}</p>
       </div>
-    )
-  },
-  {
-    accessorKey: 'user',
-    header: 'REQUESTED BY',
-    cell: ({ row }) => (
-      <p>{`${row.original.user?.firstName} ${row.original.user?.middleName}`}</p>
     )
   },
   {
