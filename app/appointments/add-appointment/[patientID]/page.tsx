@@ -11,6 +11,9 @@ import CustomSelect from '@/app/_components/forms/CustomSelect'
 import { useAddArtRegimenCategoryMutation } from '@/api/art/artRegimenCategory.api'
 import { useAddAppointmentMutation } from '@/api/appointment/appointment.api.'
 import moment from 'moment'
+import { useGetAllUsersQuery } from '@/api/users/users.api'
+import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
+import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 
 interface PhaseProps {
   id: string
@@ -25,28 +28,46 @@ interface CategoryProps {
 
 const AddArtCategory = ({ params }: any) => {
   const patientID = params.patientID
+  const [userID, setUserID] = useState('')
   const [agenda, setAppointmentAgenda] = useState('')
   const [appointmentDate, setAppointmentDate] = useState('')
   const [appointmentTime, setAppointmentTime] = useState('')
   const [status, setStatus] = useState('')
 
-  const [artCategoryDescription, setArtCategoryDescription] = useState('')
-  const [artPhaseID, setArtPhaseID] = useState('')
   const [addAppointment, { isLoading }] = useAddAppointmentMutation()
 
-  const { data: phaseData } = useGetAllArtRegimenPhaseQuery()
+  const { data: usersData } = useGetAllUsersQuery()
 
-  const phaseDataOption = useCallback(() => {
-    return phaseData?.map((item: PhaseProps) => ({
+  const { data: appointmentAgendaData } = useGetAllAppointmentAgendaQuery()
+  const { data: appointmentStatusData } = useGetAllAppointmentStatusQuery()
+
+  const usersOption = useCallback(() => {
+    return usersData?.map((item: any) => ({
       id: item.id,
-      label: item.artPhaseDescription
+      label: item.firstName
     }))
-  }, [phaseData])
+  }, [usersData])
+
+  //
+  const appointmentOptions = useCallback(() => {
+    return appointmentAgendaData?.map((item: any) => ({
+      id: item.id,
+      label: item.agendaDescription
+    }))
+  }, [appointmentAgendaData])
+
+  //
+  const appointmentStatusOptions = useCallback(() => {
+    return appointmentStatusData?.map((item: any) => ({
+      id: item.id,
+      label: item.statusDescription
+    }))
+  }, [appointmentStatusData])
 
   const inputValues = {
     appointmentAgendaID: agenda,
     patientID,
-    // userID,
+    userID,
     appointmentDate,
     appointmentTime: moment(new Date(appointmentTime)).format('HH:mm:ss'),
     appointmentStatusID: status
@@ -62,13 +83,12 @@ const AddArtCategory = ({ params }: any) => {
           width: '40%'
         }}
       >
-        {/* <CustomSelect
+        <CustomSelect
           label="Requested By"
-          link="/add-user"
-          data={[]}
+          data={usersOption()}
           value={userID}
           onChange={setUserID}
-        /> */}
+        />
 
         {/* date-picker input */}
 
@@ -89,7 +109,7 @@ const AddArtCategory = ({ params }: any) => {
         {/*  */}
         <CustomSelect
           label="Agenda/Reason"
-          data={[]}
+          data={appointmentOptions()}
           value={agenda}
           onChange={setAppointmentAgenda}
         />
@@ -97,7 +117,7 @@ const AddArtCategory = ({ params }: any) => {
         {/*  */}
         <CustomSelect
           label="Status"
-          data={[]}
+          data={appointmentStatusOptions()}
           value={status}
           onChange={setStatus}
         />

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { Button } from '@chakra-ui/react'
@@ -7,6 +9,7 @@ import { useCallback, useId, useState } from 'react'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
 import { useGetAllCountiesQuery } from '@/api/location/county.api'
 import { useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
+import { useAddUserMutation } from '@/api/users/users.api'
 
 const AddUser = () => {
   const [firstName, setFirstName] = useState('')
@@ -17,6 +20,19 @@ const AddUser = () => {
   const [idNo, setIDNo] = useState('')
   const [county, setCounty] = useState('')
   const [password, setPassword] = useState('')
+
+  const inputValues = {
+    firstName,
+    middleName,
+    lastName,
+    dob,
+    gender,
+    idNo,
+    county,
+    password
+  }
+
+  const [addUser, { isLoading }] = useAddUserMutation()
 
   const { data } = useGetAllCountiesQuery()
   const { data: subCountyData } = useGetAllSubCountiesQuery()
@@ -92,7 +108,10 @@ const AddUser = () => {
 
         <CustomInput label="Password" value={password} onChange={setPassword} />
 
-        <Button colorScheme="teal" width={'full'}>
+        <Button colorScheme="teal" width={'full'}
+        isLoading={isLoading}
+        onClick={() => addUser(inputValues)}
+        >
           Add Patient
         </Button>
       </div>
