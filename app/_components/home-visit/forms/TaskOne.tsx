@@ -1,8 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
+import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFrequency.api'
 import CustomInput from '../../forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
+import { useCallback } from 'react'
 
 export interface TaskOneProps {
   homeVisitReason: string
@@ -24,38 +26,48 @@ const TaskOne = ({
   setDateRequested,
   frequency,
   setFrequency
-}: TaskOneProps) => (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
-    <CustomSelect
-      label="Reason for visit"
-      data={[]}
-      onChange={setHomeVisitReason}
-      value={homeVisitReason}
-    />
+}: TaskOneProps) => {
+  const { data: frequencyData } = useGetAllHomeVisitFrequenciesQuery()
 
-    <CustomSelect
-      label="Requested by"
-      data={[]}
-      onChange={setRequestedBy}
-      value={requestedBy}
-    />
+  const frequencyOptions = useCallback(() => {
+    return frequencyData?.map((item:any) => ({
+      id: item.id
+    }))
+  }, [frequencyData])
 
-    <CustomInput
-      label="Date Requested"
-      value={dateRequested}
-      onChange={setDateRequested}
-      type='date'
-    />
+  return (
+    <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+      <CustomSelect
+        label="Reason for visit"
+        data={[]}
+        onChange={setHomeVisitReason}
+        value={homeVisitReason}
+      />
 
-    {/*  */}
+      <CustomSelect
+        label="Requested by"
+        data={[]}
+        onChange={setRequestedBy}
+        value={requestedBy}
+      />
 
-    <CustomSelect
-      label="Frequency of home visit"
-      data={[]}
-      onChange={setFrequency}
-      value={frequency}
-    />
-  </div>
-)
+      <CustomInput
+        label="Date Requested"
+        value={dateRequested}
+        onChange={setDateRequested}
+        type="date"
+      />
+
+      {/*  */}
+
+      <CustomSelect
+        label="Frequency of home visit"
+        data={frequencyOptions()}
+        onChange={setFrequency}
+        value={frequency}
+      />
+    </div>
+  )
+}
 
 export default TaskOne

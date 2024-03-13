@@ -6,7 +6,7 @@ import CustomInput from '../../../_components/forms/CustomInput'
 import { useId, useState } from 'react'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
 
-const AddUser = () => {
+const AddHomeVisit = () => {
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -78,4 +78,4 @@ const AddUser = () => {
   )
 }
 
-export default AddUser
+export default AddHomeVisit

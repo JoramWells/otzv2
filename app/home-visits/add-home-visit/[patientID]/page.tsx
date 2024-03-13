@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   Step,
-  StepDescription,
   StepIcon,
   StepIndicator,
   StepNumber,
@@ -16,11 +15,11 @@ import {
   StepTitle,
   Stepper
 } from '@chakra-ui/react'
-import { useAddPatientMutation } from '@/api/patient/patients.api'
 import TaskOne from '../../../_components/home-visit/forms/TaskOne'
 import TaskTwo from '../../../_components/home-visit/forms/TaskTwo'
 import TaskThree from '../../../_components/home-visit/forms/TaskThree'
 import TaskFour from '../../../_components/home-visit/forms/TaskFour'
+import { useAddHomeVisitMutation } from '@/api/homevisit/homeVisit.api'
 
 const steps = [
   { title: 'Task One', description: 'Task One Form' },
@@ -98,7 +97,7 @@ const DisclosureChecklist = ({ params }: any) => {
 
   const handleNext = async () => {
     if (activeStep === 4) {
-      await addPatient(inputValues)
+      await addHomeVisit(inputValues)
     } else {
       setActiveStep((prevStep) => prevStep + 1)
     }
@@ -113,7 +112,7 @@ const DisclosureChecklist = ({ params }: any) => {
     setActiveStep((prevStep) => prevStep - 1)
   }
 
-  const [addPatient, { isLoading }] = useAddPatientMutation()
+  const [addHomeVisit, { isLoading }] = useAddHomeVisitMutation()
 
   return (
     <div className="ml-64 pt-16 flex flex-col justify-center items-center">

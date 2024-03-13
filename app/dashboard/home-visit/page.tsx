@@ -20,7 +20,7 @@ const categoryList = [
   }
 ]
 
-const Users = () => {
+const HomeVisitPage = () => {
   const [value, setValue] = useState(1)
   const { data } = useGetAllHomeVisitFrequenciesQuery()
   const { data: reasonsData } = useGetHomeVisitReasonsQuery()
@@ -101,4 +101,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default HomeVisitPage
