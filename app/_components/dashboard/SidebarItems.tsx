@@ -38,6 +38,11 @@ const SidebarItems = () => {
           },
           {
             id: useId(),
+            link: '/dashboard/appointment',
+            label: 'Appointment'
+          },
+          {
+            id: useId(),
             link: '/dashboard/art',
             label: 'Drugs'
           },

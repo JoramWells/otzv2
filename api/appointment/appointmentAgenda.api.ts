@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const appointmentAgendaApi = createApi({
@@ -6,7 +7,7 @@ export const appointmentAgendaApi = createApi({
     baseUrl: 'http://localhost:5000/appointment-agenda'
   }),
   endpoints: (builder) => ({
-    getAllAppointmentAgenda: builder.query({
+    getAllAppointmentAgenda: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addAppointmentAgenda: builder.mutation({
