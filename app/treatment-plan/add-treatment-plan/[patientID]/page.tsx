@@ -8,6 +8,7 @@ import MMASForm from '@/app/_components/treatement-plan/MMAS'
 import FormOne from '@/app/_components/treatement-plan/FormOne'
 import DisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist'
 import { Avatar } from '@chakra-ui/react'
+import FollowUpChecklist from '@/app/_components/treatement-plan/FollowUpChecklist/FollowUpChecklist'
 
 const steps = [
   { title: 'First', description: 'Contact Info' },
@@ -44,8 +45,7 @@ const AddTreatmentPlan = () => {
     <div className="ml-64 pt-12">
       <div className="p-3 flex flex-row space-x-6">
         <div>
-          <div
-          >
+          <div className="flex flex-col items-center justify-center">
             <Avatar name="Lisa Kim" />
             <p className="text-lg mb-4 mt-2">Treatment Plan Forms</p>
           </div>
@@ -78,6 +78,7 @@ const AddTreatmentPlan = () => {
           {selected === 1 && <FormOne />}
           {selected === 2 && <MMASForm />}
           {selected === 3 && <DisclosureChecklist />}
+          {selected === 4 && <FollowUpChecklist />}
         </div>
       </div>
     </div>
