@@ -2,18 +2,33 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { Clock } from 'lucide-react'
 import { Button } from '@chakra-ui/react'
 import Link from 'next/link'
 import AppointmentTab from '@/app/_components/patient/appointmentTab/AppointmentTab'
 import HomeVisitTab from '@/app/_components/home-visit/HomevisitTab'
+import TreatmentPlanTab from '@/app/_components/treatement-plan/treatementPlanTab/TreatmentPlanTab'
+import SideMenuBar from '@/app/_components/treatement-plan/SideMenuBar'
 
-const steps = [
-  { title: 'Personal Details', description: 'Personal Information' },
-  { title: 'Contact/Location', description: 'Contact, Location, Occupation' },
-  { title: 'ART Status', description: 'Current Regimen' }
+const itemList = [
+  {
+    id: 1,
+    label: 'Forms'
+  },
+  {
+    id: 2,
+    label: 'Morisky Medication Adherence Scale'
+  },
+  {
+    id: 3,
+    label: 'Disclosure Checklist'
+  },
+  {
+    id: 4,
+    label: 'Follow Up Checklist'
+  }
 ]
 
 const categoryList = [
@@ -37,7 +52,14 @@ const categoryList = [
 
 const PatientDetails = ({ params }: any) => {
   const [value, setValue] = useState(1)
+  const [selected, setSelected] = useState(0)
+
   const patientID = params.patientID
+
+  const handleStepChange = useCallback((step: number) => {
+    setSelected(step)
+  }, [])
+
   return (
     <div className="pt-14 ml-64 p-3">
       <p>Patient Details</p>
@@ -125,13 +147,39 @@ const PatientDetails = ({ params }: any) => {
 
       {value === 4 && (
         <div>
-          <p>Treatment Plan</p>
-          <div>
-            <Button size={'sm'} colorScheme="green" variant={'outline'}>
-              <Link href={`/treatment-plan/add-treatment-plan/${patientID}`}>
-                NEW
-              </Link>
-            </Button>
+          <div className="flex flex-row justify-between items-center">
+            <p className="text-lg font-bold">Treatment Plan</p>
+            <div>
+              <Button size={'sm'} colorScheme="green" variant={'outline'}>
+                <Link href={`/treatment-plan/add-treatment-plan/${patientID}`}>
+                  NEW
+                </Link>
+              </Button>
+            </div>
+          </div>
+          <div className="flex flex-row gap-x-4">
+            <div
+              className="p-2 space-y-1 border border-gray-200 w-80
+      rounded-md flex flex-col items-center justify-center gap-y-2
+      "
+              style={{
+                height: '250px'
+              }}
+            >
+              {itemList.map((item, idx) => (
+                <SideMenuBar
+                  key={item.id}
+                  text={item.label}
+                  onClick={() => {
+                    handleStepChange(idx + 1)
+                  }}
+                  selected={item.id === 1}
+                />
+              ))}
+            </div>
+
+            {/*  */}
+            <TreatmentPlanTab />
           </div>
         </div>
       )}

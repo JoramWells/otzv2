@@ -75,8 +75,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     header: 'Action',
     cell: () => (
       <div>
-        {/* <Ellipsis /> */}
-        more
+        <Ellipsis />
       </div>
     )
   }

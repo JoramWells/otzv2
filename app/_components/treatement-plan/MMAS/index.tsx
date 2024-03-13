@@ -19,6 +19,7 @@ import {
 import { useAddPatientMutation } from '@/api/patient/patients.api'
 import MmasFour from './MMASFour'
 import MmasEight from './MMASEight'
+import { useAddMmasMutation } from '@/api/treatmentplan/mmas.api'
 
 const steps = [
   { title: 'MMAS-4', description: 'MMAS-4 Form' },
@@ -73,8 +74,8 @@ const MMASForm = () => {
   // })
 
   const handleNext = async () => {
-    if (activeStep === 3) {
-      await addPatient(inputValues)
+    if (activeStep === 2) {
+      await addMmas(inputValues)
     } else {
       setActiveStep((prevStep) => prevStep + 1)
     }
@@ -89,7 +90,7 @@ const MMASForm = () => {
     setActiveStep((prevStep) => prevStep - 1)
   }
 
-  const [addPatient, { isLoading }] = useAddPatientMutation()
+  const [addMmas, { isLoading }] = useAddMmasMutation()
 
   return (
     <div

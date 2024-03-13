@@ -24,7 +24,7 @@ const SideMenuBar = ({ selected, text, onClick }: SideMenuBarProps) => {
     "
     onClick={onClick}
     >
-      <p className="text-black">{text} {selected ? 'selected' : 'not'}</p>
+      <p className="text-black">{text}</p>
     </div>
   )
 }
