@@ -1,16 +1,16 @@
 'use client'
 
-import '../../globals.css'
+import '../globals.css'
 
 // import { Providers } from '../providers'
-import Navbar from '../../_components/dashboard/Navbar'
-import { Sidebar } from '../../_components/dashboard/Sidebar'
-import SidebarItems from '../../_components/dashboard/SidebarItems'
+import Navbar from '../_components/dashboard/Navbar'
+import { Sidebar } from '../_components/dashboard/Sidebar'
+import SidebarItems from '../_components/dashboard/SidebarItems'
 import { ChakraProvider } from '@chakra-ui/react'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 
-const SchoolLayout = ({ children }: { children: React.ReactNode }) => {
+const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
       <ChakraProvider>
@@ -27,4 +27,4 @@ const SchoolLayout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default SchoolLayout
+export default PatientLayout
