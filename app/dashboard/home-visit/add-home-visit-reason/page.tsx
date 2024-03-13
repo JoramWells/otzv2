@@ -5,13 +5,13 @@ import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
 import { useState } from 'react'
-import { useAddHomeVisitFrequencyMutation } from '@/api/homevisit/homeVisitFrequency.api'
+import { useAddHomeVisitReasonMutation } from '@/api/homevisit/homeVisitReason.api'
 
 const AddHomeVisitReason = () => {
-  const [homeVisitFrequencyDescription, setHomeVisitFrequencyDescription] = useState('')
-  const [addHomeVisitFrequency, { isLoading }] = useAddHomeVisitFrequencyMutation()
+  const [homeVisitReasonDescription, setHomeVisitReasonDescription] = useState('')
+  const [addHomeVisitReason, { isLoading }] = useAddHomeVisitReasonMutation()
   const inputValues = {
-    homeVisitFrequencyDescription
+    homeVisitReasonDescription
   }
 
   return (
@@ -26,15 +26,17 @@ const AddHomeVisitReason = () => {
       >
         <CustomInput
           label="Description"
-          value={homeVisitFrequencyDescription}
-          onChange={setHomeVisitFrequencyDescription}
+          value={homeVisitReasonDescription}
+          onChange={setHomeVisitReasonDescription}
         />
 
-        <Button colorScheme="teal" width={'full'}
-        isLoading={isLoading}
-        onClick={() => addHomeVisitFrequency(inputValues)}
+        <Button
+          colorScheme="teal"
+          width={'full'}
+          isLoading={isLoading}
+          onClick={() => addHomeVisitReason(inputValues)}
         >
-          Frequency of Visit
+          Add
         </Button>
       </div>
     </div>

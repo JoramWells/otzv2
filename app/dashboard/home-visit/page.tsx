@@ -3,53 +3,66 @@
 'use client'
 import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { columns, type UserProps } from './columns'
-import { useGetAllUsersQuery } from '@/api/users/users.api'
+import { columns, reasonColumns, type UserProps } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFrequency.api'
 import { useState } from 'react'
+import { useGetHomeVisitReasonsQuery } from '@/api/homevisit/homeVisitReason.api'
+
+const categoryList = [
+  {
+    id: 1,
+    text: 'Frequency'
+  },
+  {
+    id: 2,
+    text: 'Reasons'
+  }
+]
 
 const Users = () => {
   const [value, setValue] = useState(1)
   const { data } = useGetAllHomeVisitFrequenciesQuery()
-  console.log(data, 'dtc')
+  const { data: reasonsData } = useGetHomeVisitReasonsQuery()
+  console.log(reasonsData, 'dtc')
 
   const router = useRouter()
   const pathname = usePathname()
   const handleClick = () => {
-    router.push(`${pathname}/add-user`)
+    if (value === 1) {
+      router.push(`${pathname}/add-home-visit-frequency`)
+    } else {
+      router.push(`${pathname}/add-home-visit-reason`)
+    }
   }
 
   return (
     <div className="ml-64 pt-12">
       <div className="p-5">
-        <div className="flex flex-row gap-x-2">
-          <div className="p-2 bg-gray-50 border rounded-md gap-x-2
-          justify-between flex flex-row
-          ">
+        <div
+          className="rounded-md gap-x-4
+           flex flex-row mb-4
+          "
+        >
+          {categoryList.map((item) => (
             <Button
-              rounded={'md'}
+              key={item.id}
+              rounded={'full'}
               size={'sm'}
-              bgColor={`${value === 1 && 'gray.700'}`}
-              color={`${value === 1 && 'white'}`}
-              shadow={`${value === 1 && 'md'}`}
+              bgColor={`${value === item.id && 'gray.700'}`}
+              color={`${value === item.id && 'white'}`}
+              // shadow={`${value === item.id && 'md'}`}
               _hover={{
-                bgColor: `${value === 1 && 'black'}`,
-                color: `${value === 1 && 'white'}`
+                bgColor: `${value === item.id && 'black'}`,
+                color: `${value === item.id && 'white'}`
               }}
-            >
-              Frequency
-            </Button>
-            <Button
-              rounded={'md'}
-              size={'sm'}
               onClick={() => {
-                setValue(2)
+                setValue(item.id)
               }}
             >
-              Reasons
+              {item.text}
             </Button>
-          </div>
+          ))}
         </div>
         <div className="flex flex-row justify-between items-center p-1">
           <div className="flex flex-row gap-x-2 items-center mb-4">
@@ -79,8 +92,10 @@ const Users = () => {
             New
           </Button>
         </div>
+        {value === 1 && <CustomTable columns={columns} data={data ?? []} />}
 
-        <CustomTable columns={columns} data={data ?? []} />
+        {/* frequency */}
+        {value === 2 && <CustomTable columns={reasonColumns} data={reasonsData ?? []} />}
       </div>
     </div>
   )

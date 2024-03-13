@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const homeVisitReasonApi = createApi({
@@ -6,7 +7,7 @@ export const homeVisitReasonApi = createApi({
     baseUrl: 'http://localhost:5000/home-visit-reason'
   }),
   endpoints: (builder) => ({
-    getHomeVisitReasons: builder.query({
+    getHomeVisitReasons: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addHomeVisitReason: builder.mutation({
