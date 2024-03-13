@@ -4,7 +4,7 @@
 'use client'
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
+import CustomInput from '../../_components/forms/CustomInput'
 import { useCallback, useState } from 'react'
 import { useAddArtRegimenPhaseMutation, useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
@@ -22,6 +22,11 @@ interface CategoryProps {
 }
 
 const AddArtCategory = () => {
+  const [agenda, setAppointmentAgenda] = useState('')
+  const [appointmentDate, setAppointmentDate] = useState('')
+  const [appointmentTime, setAppointmentTime] = useState('')
+  const [status, setStatus] = useState('')
+
   const [artCategoryDescription, setArtCategoryDescription] = useState('')
   const [artPhaseID, setArtPhaseID] = useState('')
   const [addArtRegimenCategory, { isLoading }] =
@@ -51,16 +56,44 @@ const AddArtCategory = () => {
           width: '40%'
         }}
       >
+        {/* <CustomSelect
+          label="Requested By"
+          link="/add-user"
+          data={[]}
+          value={userID}
+          onChange={setUserID}
+        /> */}
+
+        {/* date-picker input */}
+
         <CustomInput
-          label="Description"
-          value={artCategoryDescription}
-          onChange={setArtCategoryDescription}
+          label="Select Date"
+          type='date'
+          value={appointmentDate}
+          onChange={setAppointmentDate}
         />
+{/*
+        <CustomTimePicker
+          label="Select Time"
+          description="At what time will the meeting happen?"
+          value={appointmentTime}
+          onChange={setAppointmentTime}
+        /> */}
+
+        {/*  */}
         <CustomSelect
-          label="Select ART Phase"
-          data={phaseDataOption()}
-          value={artPhaseID}
-          onChange={setArtPhaseID}
+          label="Agenda/Reason"
+          data={[]}
+          value={agenda}
+          onChange={setAppointmentAgenda}
+        />
+
+        {/*  */}
+        <CustomSelect
+          label="Status"
+          data={[]}
+          value={status}
+          onChange={setStatus}
         />
 
         <Button
@@ -69,7 +102,7 @@ const AddArtCategory = () => {
           onClick={() => addArtRegimenCategory(inputValues)}
           isLoading={isLoading}
         >
-          Add Phase
+          Create Appointment
         </Button>
       </div>
     </div>

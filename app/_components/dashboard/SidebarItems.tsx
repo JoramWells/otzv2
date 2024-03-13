@@ -95,12 +95,12 @@ const SidebarItems = () => {
         itemList={[
           {
             id: useId(),
-            link: '/',
+            link: '/appointments/add-appointment',
             label: 'New Appointment'
           },
           {
             id: useId(),
-            link: '/',
+            link: '/appointments',
             label: 'View Appointments'
           }
         ]}

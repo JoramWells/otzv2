@@ -1,6 +1,5 @@
-import { Avatar, Tag } from '@chakra-ui/react'
+import { Trash2, Pencil } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
-import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -27,7 +26,7 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: 'appointmentAgenda',
+    accessorKey: 'agendaDescription',
     header: 'Agenda Description'
   },
   {
@@ -37,34 +36,42 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     header: 'Action',
     cell: ({ row }) => (
-      <div className="flex flex-row space-x-2">
-        <Tag
-          size={'sm'}
-          fontWeight={'bold'}
-          color={'slategrey'}
-          _hover={{
-            cursor: 'pointer'
-          }}
-        >
-          <Link href={`/enrollment/enroll-otz/${row.original.id}`}>OTZ</Link>
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          OVC
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          <Link href={`/enrollment/enroll-pama/${row.original.id}`}>PAMA</Link>
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          PMTCT
-        </Tag>
+      <div className="flex flex-row gap-x-2">
+        <Pencil
+          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+          size={25}
+        />
+        <Trash2
+          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+          size={25}
+        />
       </div>
     )
+  }
+]
+
+export const appointmentStatusColumns: Array<ColumnDef<ColumnProps>> = [
+  {
+    accessorKey: 'statusDescription',
+    header: 'Status Description'
   },
   {
-    // accessorKey: 'action',
+    accessorKey: 'updatedAt',
+    header: 'Updated At'
+  },
+  {
     header: 'Action',
     cell: ({ row }) => (
-      <Link href={`/patients/${row.original.id}`}>See Patient</Link>
+      <div className="flex flex-row gap-x-2">
+        <Pencil
+          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+          size={25}
+        />
+        <Trash2
+          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+          size={25}
+        />
+      </div>
     )
   }
 ]

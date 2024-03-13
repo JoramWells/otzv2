@@ -2,11 +2,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { columns } from './columns'
+import { appointmentStatusColumns, columns } from './columns'
 import { useState } from 'react'
 import { Button, Tag } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
+import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 
 const categoryList = [
   {
@@ -24,7 +25,8 @@ const Appointment = () => {
   const pathname = usePathname()
   const [value, setValue] = useState(1)
   const { data: appointmentAgendaData } = useGetAllAppointmentAgendaQuery()
-  console.log(appointmentAgendaData, 'dtc')
+  const { data: appointmentStatusData } = useGetAllAppointmentStatusQuery()
+  console.log(appointmentStatusData, 'dtc')
 
   const handleClick = (selectedValue: number) => {
     if (selectedValue === 1) {
@@ -77,7 +79,6 @@ const Appointment = () => {
               {appointmentAgendaData?.length}
             </Tag>
           </div>
-          {value}
           <Button
             size={'sm'}
             colorScheme="teal"
@@ -90,7 +91,13 @@ const Appointment = () => {
             NEW
           </Button>
         </div>
-        <CustomTable columns={columns} data={appointmentAgendaData || []} />
+        {value === 1 && (
+          <CustomTable columns={columns} data={appointmentAgendaData || []} />
+        )}
+
+        {value === 2 && (
+          <CustomTable columns={appointmentStatusColumns} data={appointmentStatusData || []} />
+        )}
       </div>
     </div>
   )
