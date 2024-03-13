@@ -3,7 +3,7 @@
 'use client'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { CustomTable } from '../_components/table/CustomTable'
-import { columns, type PatientProps } from '../_components/table/columns'
+import { columns, type PatientProps } from './columns'
 
 const Patients = () => {
   // const datax = await getPatients()
