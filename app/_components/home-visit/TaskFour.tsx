@@ -3,115 +3,75 @@
 import CustomCheckbox from '../forms/CustomCheckbox'
 
 export interface TaskFourProps {
-  isPeerRelationshipAssessed: boolean
-  setIsPeerRelationshipAssessed: (val: boolean) => void
-  isChildActivityAssessed: boolean
-  setIsChildActivityAssessed: (val: boolean) => void
-  isChildQuestionsAllowed: boolean
-  setIsChildQuestionsAllowed: (val: boolean) => void
-  isAddressedNegativeImage: boolean
-  setIsAddressedNegativeImage: (val: boolean) => void
-  isAssessedMoodiness: boolean
-  setIsAssessedMoodiness: (val: boolean) => void
-  isReferredForPhysic: boolean
-  setIsReferredForPhysic: (val: boolean) => void
-  isGivenInfo: boolean
-  setIsGivenInfo: (val: boolean) => void
-  taskFourComments: string
-  setTaskFourComments: (val: string) => void
-  finalComments: string
-  setFinalComments: (val: string) => void
+  isCountedPills: boolean
+  setIsCountedPills: (val: boolean) => void
+  isClinicVisits: boolean
+  setIsClinicVisits: (val: boolean) => void
+  isDisclosure: boolean
+  setIsDisclosure: (val: boolean) => void
+  isGuardianSupport: boolean
+  setIsGuardianSupport: (val: boolean) => void
+  isSupportGroupAttendance: boolean
+  setIsSupportGroupAttendance: (val: boolean) => void
+  isHouseholdTested: boolean
+  setIsHouseholdTested: (val: boolean) => void
 }
 const TaskFour = ({
-  isPeerRelationshipAssessed,
-  setIsPeerRelationshipAssessed,
-  isChildActivityAssessed,
-  setIsChildActivityAssessed,
-  isChildQuestionsAllowed,
-  setIsChildQuestionsAllowed,
-  isAddressedNegativeImage,
-  setIsAddressedNegativeImage,
-  isAssessedMoodiness,
-  setIsAssessedMoodiness,
-  isReferredForPhysic,
-  setIsReferredForPhysic,
-  isGivenInfo,
-  setIsGivenInfo,
-  taskFourComments,
-  setTaskFourComments,
-  finalComments,
-  setFinalComments
+  isCountedPills,
+  setIsCountedPills,
+  isClinicVisits,
+  setIsClinicVisits,
+  isDisclosure,
+  setIsDisclosure,
+  isGuardianSupport,
+  setIsGuardianSupport,
+  isSupportGroupAttendance,
+  setIsSupportGroupAttendance,
+  isHouseholdTested,
+  setIsHouseholdTested
 }: TaskFourProps) => (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
     <CustomCheckbox
-      label="Assessed family, social and peer relationship and support after disclose?"
-      value={isPeerRelationshipAssessed}
-      onChange={setIsPeerRelationshipAssessed}
+      value={isCountedPills}
+      onChange={setIsCountedPills}
+      label="Pill Counted(YES/NO)"
+    />
+
+    {/*  */}
+
+    <CustomCheckbox
+      value={isClinicVisits}
+      onChange={setIsClinicVisits}
+      label="Clinic Visits(Yes/No)?"
     />
 
     {/*  */}
     <CustomCheckbox
-      label="Assessed the child interest and engagement in children activities like playing?"
-      value={isChildActivityAssessed}
-      onChange={setIsChildActivityAssessed}
+      value={isDisclosure}
+      onChange={setIsDisclosure}
+      label="Disclosure (Yes/No)?"
     />
 
     {/*  */}
     <CustomCheckbox
-      label="Allowed questions from the child and assessed self-perception and outlook?"
-      value={isChildQuestionsAllowed}
-      onChange={setIsChildQuestionsAllowed}
+      value={isGuardianSupport}
+      onChange={setIsGuardianSupport}
+      label="Guardian Support (Yes/No)?"
     />
 
     {/*  */}
     <CustomCheckbox
-      label="Addressed negative body or self-image issues?"
-      value={isAddressedNegativeImage}
-      onChange={setIsAddressedNegativeImage}
+      value={isSupportGroupAttendance}
+      onChange={setIsSupportGroupAttendance}
+      label="Support Group Attendance(Yes/No)?"
     />
 
     {/*  */}
     <CustomCheckbox
-      label="Have you assessed the child for moodiness and negative behaviors?"
-      value={isAssessedMoodiness}
-      onChange={setIsAssessedMoodiness}
+      value={isHouseholdTested}
+      onChange={setIsHouseholdTested}
+      label="Household members tested(Yes/No)?"
     />
-
-    {/*  */}
-    <CustomCheckbox
-      label="Referred appropriately for psychiatrical and other
-          complications developed post disclosure if indicated?"
-      value={isReferredForPhysic}
-      onChange={setIsReferredForPhysic}
-    />
-
-    {/*  */}
-    <CustomCheckbox
-      label="Given age appropriate adherence information?"
-      value={isGivenInfo}
-      onChange={setIsGivenInfo}
-    />
-
-    <p
-      style={{
-        color: '#434343',
-        fontSize: '16px'
-      }}
-      className="ml-6"
-    >
-      How ofter do you find difficulty remembering to take all your medications
-    </p>
-    {/*
-    <Select
-      style={{
-        width: '100%',
-        height: '39px'
-      }}
-      value={isDifficultyRemembering}
-      onChange={(val) => setIsDifficultyRemembering(val)}
-    >
-      <Select.Option>Rarely</Select.Option>
-    </Select> */}
   </div>
 )
 

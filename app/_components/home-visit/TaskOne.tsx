@@ -1,53 +1,59 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
-import CustomCheckbox from '../forms/CustomCheckbox'
 import CustomInput from '../forms/CustomInput'
+import CustomSelect from '../forms/CustomSelect'
 
 export interface TaskOneProps {
-  isCorrectAge: boolean
-  setIsCorrectAge: (age: boolean) => void
-  isWillingToDisclose: boolean
-  setIsWillingToDisclose: (willing: boolean) => void
-  isKnowledgeable: boolean
-  setIsKnowledgeable: (know: boolean) => void
-  taskOneComments: string
-  setTaskOneComments: (comments: string) => void
+  homeVisitReason: string
+  setHomeVisitReason: (val: string) => void
+  requestedBy: string
+  setRequestedBy: (val: string) => void
+  dateRequested: string
+  setDateRequested: (val: string) => void
+  frequency: string
+  setFrequency: (val: string) => void
 }
 
 const TaskOne = ({
-  isCorrectAge,
-  setIsCorrectAge,
-  isWillingToDisclose,
-  setIsWillingToDisclose,
-  isKnowledgeable,
-  setIsKnowledgeable,
-  taskOneComments,
-  setTaskOneComments
+  homeVisitReason,
+  setHomeVisitReason,
+  requestedBy,
+  setRequestedBy,
+  dateRequested,
+  setDateRequested,
+  frequency,
+  setFrequency
 }: TaskOneProps) => (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
-    <CustomCheckbox
-      label="Child has met age criteria (10 - 6 years)?"
-      onChange={setIsCorrectAge}
-      value={isCorrectAge}
+    <CustomSelect
+      label="Reason for visit"
+      data={[]}
+      onChange={setHomeVisitReason}
+      value={homeVisitReason}
     />
 
-    <CustomCheckbox
-      label="Child and caregiver knowledgeable on the benefits of disclosure?"
-      value={isWillingToDisclose}
-      onChange={setIsWillingToDisclose}
-    />
-
-    <CustomCheckbox
-      label="Caregiver willing to disclose to the child?"
-      value={isKnowledgeable}
-      onChange={setIsKnowledgeable}
+    <CustomSelect
+      label="Requested by"
+      data={[]}
+      onChange={setRequestedBy}
+      value={requestedBy}
     />
 
     <CustomInput
-      label="Task 1 comments."
-      value={taskOneComments}
-      onChange={setTaskOneComments}
+      label="Date Requested"
+      value={dateRequested}
+      onChange={setDateRequested}
+      type='date'
+    />
+
+    {/*  */}
+
+    <CustomSelect
+      label="Frequency of home visit"
+      data={[]}
+      onChange={setFrequency}
+      value={frequency}
     />
   </div>
 )

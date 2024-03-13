@@ -29,71 +29,66 @@ const steps = [
   { title: 'Task Four', description: 'Task Four Form' }
 ]
 
-const DisclosureChecklist = () => {
+const DisclosureChecklist = ({ params }: any) => {
+  const patientID = params.patientID
   const [activeStep, setActiveStep] = useState(1)
 
-  const [isCorrectAge, setIsCorrectAge]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isWillingToDisclose, setIsWillingToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isKnowledgeable, setIsKnowledgeable]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [taskOneComments, setTaskOneComments] = useState('')
-  const [isFreeFromSevereIllness, setIsFreeFromSevereIllness]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isFamilySupport, setIsFamilySupport]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isEnvironmentInterest, setIsEnvironmentInterest]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isAware, setIsAware]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isSchoolFree, setIsSchoolFree]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isDisclosureReady, setIsDisclosureReady]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isChildCommunicated, setIsChildCommunicated]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isSecuredPatientInfo, setIsSecuredPatientInfo]: [ boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [taskTwoComments, setTaskTwoComments] = useState('')
+  const [homeVisitReason, setHomeVisitReason] = useState('')
+  const [requestedBy, setRequestedBy] = useState('')
+  const [dateRequested, setDateRequested] = useState('')
+  const [frequency, setFrequency] = useState('')
 
-  // task three
-  const [isReassuredCaregiver, setIsReassuredCaregiver]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isAssessedChildCaregiverComfort, setIsAssessedChildCaregiverComfort]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isAssessedChildSafety, setIsAssessedChildSafety]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isSupportedCaregiverChildToDisclose, setIsSupportedCaregiverChildToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isObservedReactions, setIsObserved]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isInvitedChildQuestions, setIsInvitedChildQuestions]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isReviewedBenefitsOfDisclosure, setIsReviewedBenefitsOfDisclosure]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isExplainedCareOptions, setIsExplainedCareOptions]: [ boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isConcludedSessionReassured, setIsConcludedSessionReassured]: [ boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [taskThreeComments, setTaskThreeComments] = useState('')
+  // 2
+  const [isARV, setIsARV]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isTB, setIsTB]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [currentRegimenBegan, setCurrentRegimenBegan] = useState('')
+  const [treatmentStartDate, setTreatmentStartDate] = useState('')
+  const [treatmentEndDate, setTreatmentEndDate] = useState('')
+  const [intensivePhaseEndDate, setIntensivePhaseEndDate] = useState('')
+  const [currentRegimen, setCurrentRegimen] = useState('')
+  const [oralDrugs, setOralDrugs] = useState('')
 
-  // task four
-  const [isPeerRelationshipAssessed, setIsPeerRelationshipAssessed]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isChildActivityAssessed, setIsChildActivityAssessed]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isChildQuestionsAllowed, setIsChildQuestionsAllowed]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isAddressedNegativeImage, setIsAddressedNegativeImage]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isAssessedMoodiness, setIsAssessedMoodiness]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isReferredForPhysic, setIsReferredForPhysic]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isGivenInfo, setIsGivenInfo]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [taskFourComments, setTaskFourComments] = useState('')
-  const [finalComments, setFinalComments] = useState('')
+  // 3
+  const [dateHomeVisitRequested, setDateHomeVisitRequested] = useState('')
+  const [noOfMedicine, setNoOfMedicine] = useState('')
+  const [medicineStatus, setMedicineStatus] = useState('')
+  const [actionTaken, setActionTaken] = useState('')
+  const [evaluationOfAction, setEvaluationOfAction] = useState('')
+  const [returnToClinic, setReturnToClinic] = useState('')
+
+  // 4
+  const [isCountedPills, setIsCountedPills]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isClinicVisits, setIsClinicVisits]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isDisclosure, setIsDisclosure]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isGuardianSupport, setIsGuardianSupport]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isSupportGroupAttendance, setIsSupportGroupAttendance]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isHouseholdTested, setIsHouseholdTested]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
 
   const inputValues = {
-    isCorrectAge,
-    isWillingToDisclose,
-    isKnowledgeable,
-    taskOneComments,
-    isFreeFromSevereIllness,
-    isFamilySupport,
-    isEnvironmentInterest,
-    isAware,
-    isSchoolFree,
-    isDisclosureReady,
-    isChildCommunicated,
-    isSecuredPatientInfo,
-    taskTwoComments,
-
-    // four
-    isPeerRelationshipAssessed,
-    isChildActivityAssessed,
-    isChildQuestionsAllowed,
-    isAddressedNegativeImage,
-    isAssessedMoodiness,
-    isReferredForPhysic,
-    isGivenInfo,
-    taskFourComments,
-    finalComments
+    homeVisitReasonID: homeVisitReason,
+    userID: requestedBy,
+    patientID,
+    dateRequested,
+    homeVisitFrequencyID: frequency,
+    is_arv: isARV,
+    current_regimen_date: currentRegimenBegan,
+    artPrescriptionID: currentRegimen,
+    ol_drugs: oralDrugs,
+    is_TB: isTB,
+    treatment_start_date: treatmentStartDate,
+    intensive_phase_date: intensivePhaseEndDate,
+    end_of_treatment_date: treatmentEndDate,
+    date_of_home_visit_requested: dateHomeVisitRequested,
+    medicine_counted: noOfMedicine,
+    medicine_status: medicineStatus,
+    action_taken: actionTaken,
+    return_to_clinic: returnToClinic,
+    is_pills_counted: isCountedPills,
+    is_clinic_visits: isClinicVisits,
+    is_disclosure: isDisclosure,
+    is_guardian_support: isGuardianSupport,
+    is_support_group_attendance: isSupportGroupAttendance,
+    is_household_tested: isHouseholdTested
   }
 
   // const { activeStep } = useSteps({
@@ -102,7 +97,7 @@ const DisclosureChecklist = () => {
   // })
 
   const handleNext = async () => {
-    if (activeStep === 3) {
+    if (activeStep === 4) {
       await addPatient(inputValues)
     } else {
       setActiveStep((prevStep) => prevStep + 1)
@@ -149,98 +144,74 @@ const DisclosureChecklist = () => {
         </Stepper>
       </div>
       <div
-      style={{
-        width: '45%'
-      }}
+        style={{
+          width: '45%'
+        }}
       >
         {activeStep === 1 && (
           <TaskOne
-            isCorrectAge={isCorrectAge}
-            setIsCorrectAge={setIsCorrectAge}
-            isWillingToDisclose={isWillingToDisclose}
-            setIsWillingToDisclose={setIsWillingToDisclose}
-            isKnowledgeable={isKnowledgeable}
-            setIsKnowledgeable={setIsKnowledgeable}
-            taskOneComments={taskOneComments}
-            setTaskOneComments={setTaskOneComments}
+            homeVisitReason={homeVisitReason}
+            setHomeVisitReason={setHomeVisitReason}
+            requestedBy={requestedBy}
+            setRequestedBy={setRequestedBy}
+            dateRequested={dateRequested}
+            setDateRequested={setDateRequested}
+            frequency={frequency}
+            setFrequency={setFrequency}
           />
         )}
         {activeStep === 2 && (
           <TaskTwo
-            isFreeFromSevereIllness={isFreeFromSevereIllness}
-            setIsFreeFromSevereIllness={setIsFreeFromSevereIllness}
-            isFamilySupport={isFamilySupport}
-            setIsFamilySupport={setIsFamilySupport}
-            isEnvironmentInterest={isEnvironmentInterest}
-            setIsEnvironmentInterest={setIsEnvironmentInterest}
-            isAware={isAware}
-            setIsAware={setIsAware}
-            isSchoolFree={isSchoolFree}
-            setIsSchoolFree={setIsSchoolFree}
-            isDisclosureReady={isDisclosureReady}
-            setIsDisclosureReady={setIsDisclosureReady}
-            isChildCommunicated={isChildCommunicated}
-            setIsChildCommunicated={setIsChildCommunicated}
-            isSecuredPatientInfo={isSecuredPatientInfo}
-            setIsSecuredPatientInfo={setIsSecuredPatientInfo}
-            taskTwoComments={taskTwoComments}
-            setTaskTwoComments={setTaskTwoComments}
+            isARV={isARV}
+            setIsARV={setIsARV}
+            isTB={isTB}
+            setIsTB={setIsTB}
+            currentRegimen={currentRegimen}
+            setCurrentRegimen={setCurrentRegimen}
+            currentRegimenBegan={currentRegimenBegan}
+            setCurrentRegimenBegan={setCurrentRegimenBegan}
+            treatmentStartDate={treatmentStartDate}
+            setTreatmentStartDate={setTreatmentStartDate}
+            treatmentEndDate={treatmentEndDate}
+            setTreatmentEndDate={setTreatmentEndDate}
+            intensivePhaseEndDate={intensivePhaseEndDate}
+            setIntensivePhaseEndDate={setIntensivePhaseEndDate}
+            oralDrugs={oralDrugs}
+            setOralDrugs={setOralDrugs}
           />
         )}
 
         {activeStep === 3 && (
           <TaskThree
-            isReassuredCaregiver={isReassuredCaregiver}
-            setIsReassuredCaregiver={setIsReassuredCaregiver}
-            isAssessedChildCaregiverComfort={isAssessedChildCaregiverComfort}
-            setIsAssessedChildCaregiverComfort={
-              setIsAssessedChildCaregiverComfort
-            }
-            isAssessedChildSafety={isAssessedChildSafety}
-            setIsAssessedChildSafety={setIsAssessedChildSafety}
-            isSupportedCaregiverChildToDisclose={
-              isSupportedCaregiverChildToDisclose
-            }
-            setIsSupportedCaregiverChildToDisclose={
-              setIsSupportedCaregiverChildToDisclose
-            }
-            isObservedReactions={isObservedReactions}
-            setIsObserved={setIsObserved}
-            isInvitedChildQuestions={isInvitedChildQuestions}
-            setIsInvitedChildQuestions={setIsInvitedChildQuestions}
-            isReviewedBenefitsOfDisclosure={isReviewedBenefitsOfDisclosure}
-            setIsReviewedBenefitsOfDisclosure={
-              setIsReviewedBenefitsOfDisclosure
-            }
-            isExplainedCareOptions={isExplainedCareOptions}
-            setIsExplainedCareOptions={setIsExplainedCareOptions}
-            isConcludedSessionReassured={isConcludedSessionReassured}
-            setIsConcludedSessionReassured={setIsConcludedSessionReassured}
-            taskThreeComments={taskThreeComments}
-            setTaskThreeComments={setTaskThreeComments}
+            dateHomeVisitRequested={dateHomeVisitRequested}
+            setDateHomeVisitRequested={setDateHomeVisitRequested}
+            noOfMedicine={noOfMedicine}
+            setNoOfMedicine={setNoOfMedicine}
+            medicineStatus={medicineStatus}
+            setMedicineStatus={setMedicineStatus}
+            actionTaken={actionTaken}
+            setActionTaken={setActionTaken}
+            evaluationOfAction={evaluationOfAction}
+            setEvaluationOfAction={setEvaluationOfAction}
+            returnToClinic={returnToClinic}
+            setReturnToClinic={setReturnToClinic}
           />
         )}
 
         {activeStep === 4 && (
           <TaskFour
-            isPeerRelationshipAssessed={isPeerRelationshipAssessed}
-            setIsPeerRelationshipAssessed={setIsPeerRelationshipAssessed}
-            isChildActivityAssessed={isChildActivityAssessed}
-            setIsChildActivityAssessed={setIsChildActivityAssessed}
-            isChildQuestionsAllowed={isChildQuestionsAllowed}
-            setIsChildQuestionsAllowed={setIsChildQuestionsAllowed}
-            isAddressedNegativeImage={isAddressedNegativeImage}
-            setIsAddressedNegativeImage={setIsAddressedNegativeImage}
-            isAssessedMoodiness={isAssessedMoodiness}
-            setIsAssessedMoodiness={setIsAssessedMoodiness}
-            isReferredForPhysic={isReferredForPhysic}
-            setIsReferredForPhysic={setIsReferredForPhysic}
-            isGivenInfo={isGivenInfo}
-            setIsGivenInfo={setIsGivenInfo}
-            taskFourComments={taskFourComments}
-            setTaskFourComments={setTaskFourComments}
-            finalComments={finalComments}
-            setFinalComments={setFinalComments}
+            isCountedPills={isCountedPills}
+            setIsCountedPills={setIsCountedPills}
+            isClinicVisits={isClinicVisits}
+            setIsClinicVisits={setIsClinicVisits}
+            isDisclosure={isDisclosure}
+            setIsDisclosure={setIsDisclosure}
+            isGuardianSupport={isGuardianSupport}
+            setIsGuardianSupport={setIsGuardianSupport}
+            isSupportGroupAttendance={isSupportGroupAttendance}
+            setIsSupportGroupAttendance={setIsSupportGroupAttendance}
+            isHouseholdTested={isHouseholdTested}
+            setIsHouseholdTested={setIsHouseholdTested}
           />
         )}
 
@@ -260,7 +231,7 @@ const DisclosureChecklist = () => {
             }}
             isLoading={isLoading}
           >
-            {activeStep === 3 ? 'Complete' : 'Next'}
+            {activeStep === 4 ? 'Complete' : 'Next'}
           </Button>
         </div>
       </div>
