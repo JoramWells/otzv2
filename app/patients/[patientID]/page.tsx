@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { useAddPatientMutation } from '@/api/patient/patients.api'
 import { Button } from '@chakra-ui/react'
 import Link from 'next/link'
+import AppointmentTab from '@/app/_components/patient/appointmentTab/AppointmentTab'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
@@ -79,6 +80,7 @@ const PatientDetails = ({ params }: any) => {
             <li>table view</li>
             <li>calendar view</li>
           </ol>
+          <AppointmentTab/>
         </div>
       )}
 
