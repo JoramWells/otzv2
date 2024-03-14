@@ -47,19 +47,19 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'appointmentDate',
-    header: 'Appointment Date',
+    header: 'Date',
     cell: ({ row }) => <p>{`${row.original.appointmentDate}`}</p>
   },
   {
     accessorKey: 'appointmentAgenda',
-    header: 'Appointment agenda',
+    header: 'agenda',
     cell: ({ row }) => (
       <p>{`${row.original.appointmentAgenda?.agendaDescription}`}</p>
     )
   },
   {
     accessorKey: 'appointmentStatus',
-    header: 'APPOINTMENT STATUS',
+    header: 'STATUS',
     cell: ({ row }) => (
       <Tag>{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
     )

@@ -3,7 +3,7 @@
 import '../globals.css'
 
 // import { Providers } from '../providers'
-import Navbar from '../_components/dashboard/Navbar'
+import Navbar from '../_components/Navbar/Nav/Navbar'
 import { Sidebar } from '../_components/dashboard/Sidebar'
 import SidebarItems from '../_components/dashboard/SidebarItems'
 import { ChakraProvider } from '@chakra-ui/react'

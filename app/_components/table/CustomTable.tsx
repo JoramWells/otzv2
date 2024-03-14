@@ -8,7 +8,7 @@ import {
   useReactTable, type ColumnDef, getCoreRowModel,
   getSortedRowModel, flexRender, type VisibilityState
 } from '@tanstack/react-table'
-import { ChevronDownIcon, Trash2, ArrowDownToLine } from 'lucide-react'
+import { ChevronDownIcon, Trash2, ArrowDownToLine, Printer } from 'lucide-react'
 import { useState } from 'react'
 import { CSVLink } from 'react-csv'
 
@@ -51,10 +51,13 @@ export function CustomTable<TData, TValue> ({
           className="border h-10 rounded-md p-1"
         />
 
-        <div className="flex flex-row space-x-2 items-center">
+        <div className="flex flex-row space-x-4 items-center">
           <CSVLink data={data}>
-            <ArrowDownToLine className="bg-slate-50 p-1 h-8 rounded-md w-8 hover:cursor-pointer hover:bg-slate-100" />
+            <ArrowDownToLine size={10}
+            className="bg-slate-100 text-slate-600 p-1 h-8 rounded-md w-8 hover:cursor-pointer hover:bg-slate-100" />
           </CSVLink>
+          <Printer size={10}
+          className="bg-slate-100 text-slate-600 p-1 h-8 rounded-md w-8 hover:cursor-pointer hover:bg-slate-100" />
           <Menu>
             <MenuButton
               as={Button}

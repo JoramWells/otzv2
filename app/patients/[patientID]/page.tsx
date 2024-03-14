@@ -5,39 +5,16 @@
 
 import { useCallback, useState } from 'react'
 
-import { Clock } from 'lucide-react'
-import { Avatar, Button } from '@chakra-ui/react'
+import { Clock, Pencil } from 'lucide-react'
+import { Avatar, Button, Divider } from '@chakra-ui/react'
 import Link from 'next/link'
 import AppointmentTab from '@/app/_components/patient/appointmentTab/AppointmentTab'
 import HomeVisitTab from '@/app/_components/home-visit/HomevisitTab'
 import TreatmentPlanTab from '@/app/_components/treatement-plan/treatementPlanTab/TreatmentPlanTab'
-import SideMenuBar from '@/app/_components/treatement-plan/SideMenuBar'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
-import moment from 'moment'
 import LabTab from '@/app/_components/lab/LabTab'
-
-const categoryList = [
-  {
-    id: 1,
-    label: 'Appointments'
-  },
-  {
-    id: 2,
-    label: 'Home Visit'
-  },
-  {
-    id: 3,
-    label: 'Medical History'
-  },
-  {
-    id: 4,
-    label: 'Lab'
-  },
-  {
-    id: 5,
-    label: 'Treatment Plan'
-  }
-]
+import PatientProfileCard from '@/app/_components/patient/patientProfileCard/PatientProfileCard'
+import EnrollmentTab from '@/app/_components/enrollments/EnrollmentTab'
 
 const PatientDetails = ({ params }: any) => {
   const [value, setValue] = useState(1)
@@ -53,73 +30,19 @@ const PatientDetails = ({ params }: any) => {
     gap-x-4
     "
     >
-      <div
-        className="border p-2 rounded-lg shadow-sm
-        flex flex-col justify-center
-        "
-        style={{
-          height: '400px'
-        }}
-      >
-        <div
-          className="flex flex-col gap-x-4
-        items-center
-        "
-        >
-          <Avatar name={`${userData?.firstName} ${userData?.middleName}`} />
-          <p className="capitalize font-bold">{`${userData?.firstName} ${userData?.middleName}`}</p>
-
-          <p className="text-slate-500 text-sm">
-            {moment().diff(moment(new Date(userData?.dob)), 'years')} yrs
-          </p>
-          <p className="text-slate-500 text-sm">Gender: {userData?.gender}</p>
-        </div>
-
-        {/* list items */}
-        <div
-          className="flex flex-col mt-4 w-72
-        "
-        >
-          {categoryList.map((item) => (
-            <Button
-              key={item.id}
-              rounded={'md'}
-              h={10}
-              size={'sm'}
-              w={'full'}
-              // borderBottom={'2px'}
-              fontWeight={'normal'}
-              bgColor={`${value === item.id ? 'gray.50' : 'transparent'}`}
-              color={`${value === item.id ? 'teal' : 'gray.500'}`}
-              // bgColor={'white'}
-              // shadow={`${value === item.id && 'md'}`}
-              _hover={
-                {
-                  // bgColor: `${value === item.id && 'black'}`,
-                  // color: `${value === item.id && 'white'}`
-                }
-              }
-              onClick={() => {
-                setValue(item.id)
-              }}
-            >
-              {item.label}
-            </Button>
-          ))}
-        </div>
-      </div>
-
+      <PatientProfileCard
+        value={value}
+        setValue={setValue}
+        userData={userData}
+      />
       {/* body */}
       {/* appointments */}
-      {value === 1 && (
+      {value === 1 && <AppointmentTab patientID={patientID} />}
 
-          <AppointmentTab
-          patientID={patientID}
-          />
-      )}
+      {value === 2 && <EnrollmentTab/>}
 
       {/* home visit */}
-      {value === 2 && (
+      {value === 3 && (
         <div>
           <div className="flex flex-row justify-between">
             <div className="flex flex-row items-center space-x-2">
@@ -136,7 +59,7 @@ const PatientDetails = ({ params }: any) => {
         </div>
       )}
 
-      {value === 3 && (
+      {value === 4 && (
         <div>
           Requests
           <ul>
@@ -148,13 +71,9 @@ const PatientDetails = ({ params }: any) => {
         </div>
       )}
 
-      {value === 4 && (<LabTab />)}
+      {value === 5 && <LabTab />}
 
-      {value === 5 && (
-            <TreatmentPlanTab
-            patientID={patientID}
-            />
-      )}
+      {value === 6 && <TreatmentPlanTab patientID={patientID} />}
     </div>
   )
 }

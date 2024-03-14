@@ -10,7 +10,6 @@ import { useGetAllCurriculumCategoriesQuery } from '@/api/school/curriculumCateg
 import { useGetAllSchoolSubCurriculumsQuery } from '@/api/school/curriculumSubCategory.api'
 import { useGetAllSchoolClassesQuery } from '@/api/school/schoolClasses.api'
 import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
-import { FaPlus } from 'react-icons/fa'
 const categoryList = [
   {
     id: 1,
