@@ -29,7 +29,7 @@ const SidebarItems = () => {
       {/* <SidebarButton /> */}
       <SidebarCollapseButton
         label="Dashboard"
-        icon={<LayoutDashboard size={18} />}
+        icon={<LayoutDashboard size={17} />}
         itemList={[
           {
             id: useId(),
@@ -80,7 +80,7 @@ const SidebarItems = () => {
       />
       <SidebarCollapseButton
         label="Accounts"
-        icon={<HandCoins size={18} />}
+        icon={<HandCoins size={17} />}
         itemList={[
           {
             id: useId(),
@@ -91,7 +91,7 @@ const SidebarItems = () => {
       />
       <SidebarCollapseButton
         label="Appointments"
-        icon={<CalendarDays size={18} />}
+        icon={<CalendarDays size={17} />}
         itemList={[
           {
             id: useId(),
@@ -107,7 +107,7 @@ const SidebarItems = () => {
       />
       <SidebarCollapseButton
         label="Enrollment"
-        icon={<BookCheck size={18} />}
+        icon={<BookCheck size={17} />}
         itemList={[
           {
             id: useId(),
@@ -123,11 +123,11 @@ const SidebarItems = () => {
       />
       <SidebarCollapseButton
         label="Facilities"
-        icon={<Warehouse size={18} />}
+        icon={<Warehouse size={17} />}
       />
       <SidebarCollapseButton
         label="Home-Visits"
-        icon={<Home size={18} />}
+        icon={<Home size={17} />}
         itemList={[
           {
             id: useId(),
@@ -141,12 +141,12 @@ const SidebarItems = () => {
           }
         ]}
       />
-      <SidebarCollapseButton label="Lab" icon={<TestTubes size={18} />} />
-      <SidebarCollapseButton label="Pharmacy" icon={<Tablets size={18} />} />
-      <SidebarCollapseButton label="PMTCT" icon={<Baby size={18} />} />
+      <SidebarCollapseButton label="Lab" icon={<TestTubes size={17} />} />
+      <SidebarCollapseButton label="Pharmacy" icon={<Tablets size={17} />} />
+      <SidebarCollapseButton label="PMTCT" icon={<Baby size={17} />} />
       <SidebarCollapseButton
         label="Treatment Plan"
-        icon={<Syringe size={18} />}
+        icon={<Syringe size={17} />}
         itemList={[
           {
             id: useId(),
@@ -157,7 +157,7 @@ const SidebarItems = () => {
       />
       <SidebarCollapseButton
         label="Patients"
-        icon={<Users size={18} />}
+        icon={<Users size={17} />}
         itemList={[
           {
             id: useId(),
@@ -173,7 +173,7 @@ const SidebarItems = () => {
       />
       <SidebarCollapseButton
         label="Pill Box"
-        icon={<Pill size={18} />}
+        icon={<Pill size={17} />}
         itemList={[
           {
             id: useId(),
@@ -184,7 +184,7 @@ const SidebarItems = () => {
       />
       <SidebarCollapseButton
         label="Support Group"
-        icon={<PersonStanding size={18} />}
+        icon={<PersonStanding size={17} />}
         itemList={[
           {
             id: useId(),

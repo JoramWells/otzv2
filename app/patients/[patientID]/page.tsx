@@ -14,25 +14,7 @@ import TreatmentPlanTab from '@/app/_components/treatement-plan/treatementPlanTa
 import SideMenuBar from '@/app/_components/treatement-plan/SideMenuBar'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import moment from 'moment'
-
-const itemList = [
-  {
-    id: 1,
-    label: 'Forms'
-  },
-  {
-    id: 2,
-    label: 'Morisky Medication Adherence Scale'
-  },
-  {
-    id: 3,
-    label: 'Disclosure Checklist'
-  },
-  {
-    id: 4,
-    label: 'Follow Up Checklist'
-  }
-]
+import LabTab from '@/app/_components/lab/LabTab'
 
 const categoryList = [
   {
@@ -49,22 +31,21 @@ const categoryList = [
   },
   {
     id: 4,
+    label: 'Lab'
+  },
+  {
+    id: 5,
     label: 'Treatment Plan'
   }
 ]
 
 const PatientDetails = ({ params }: any) => {
   const [value, setValue] = useState(1)
-  const [selected, setSelected] = useState(0)
 
   const patientID = params.patientID
 
   const { data: userData } = useGetPatientQuery(patientID)
   console.log(userData, 'usd')
-
-  const handleStepChange = useCallback((step: number) => {
-    setSelected(step)
-  }, [])
 
   return (
     <div
@@ -77,7 +58,7 @@ const PatientDetails = ({ params }: any) => {
         flex flex-col justify-center
         "
         style={{
-          height: '350px'
+          height: '400px'
         }}
       >
         <div
@@ -96,8 +77,7 @@ const PatientDetails = ({ params }: any) => {
 
         {/* list items */}
         <div
-          className="flex flex-col space-y-2 mt-4
-        justify-center items-start w-72
+          className="flex flex-col mt-4 w-72
         "
         >
           {categoryList.map((item) => (
@@ -108,6 +88,7 @@ const PatientDetails = ({ params }: any) => {
               size={'sm'}
               w={'full'}
               // borderBottom={'2px'}
+              fontWeight={'normal'}
               bgColor={`${value === item.id ? 'gray.50' : 'transparent'}`}
               color={`${value === item.id ? 'teal' : 'gray.500'}`}
               // bgColor={'white'}
@@ -167,43 +148,12 @@ const PatientDetails = ({ params }: any) => {
         </div>
       )}
 
-      {value === 4 && (
-        <div>
-          <div className="flex flex-row justify-between items-center">
-            <p className="text-lg font-bold">Treatment Plan</p>
-            <div>
-              <Button size={'sm'} colorScheme="green" variant={'outline'}>
-                <Link href={`/treatment-plan/add-treatment-plan/${patientID}`}>
-                  NEW
-                </Link>
-              </Button>
-            </div>
-          </div>
-          <div className="flex flex-row gap-x-4">
-            <div
-              className="p-2 space-y-1 border border-gray-200 w-80
-      rounded-md flex flex-col items-center justify-center gap-y-2
-      "
-              style={{
-                height: '250px'
-              }}
-            >
-              {itemList.map((item, idx) => (
-                <SideMenuBar
-                  key={item.id}
-                  text={item.label}
-                  onClick={() => {
-                    handleStepChange(idx + 1)
-                  }}
-                  selected={item.id === 1}
-                />
-              ))}
-            </div>
+      {value === 4 && (<LabTab />)}
 
-            {/*  */}
-            <TreatmentPlanTab />
-          </div>
-        </div>
+      {value === 5 && (
+            <TreatmentPlanTab
+            patientID={patientID}
+            />
       )}
     </div>
   )
