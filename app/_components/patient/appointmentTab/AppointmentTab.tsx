@@ -18,14 +18,12 @@ const AppointmentTab = () => {
 
   return (
     <div className="mt-4">
-      <div
-      className='flex flex-row justify-end mb-2'
-      >
+      <div className="flex flex-row justify-end mb-2">
         <CalendarDays
           onClick={() => {
             setIsCalendarVisible(!isCalendarVisible)
           }}
-          className="hover:cursor-pointer bg-gray-100 h-9 w-9 p-2 rounded-md"
+          className={`hover:cursor-pointer bg-gray-100 h-9 w-9 p-2 rounded-md ${isCalendarVisible && 'bg-teal-600 text-white'}`}
         />
       </div>
 
@@ -35,26 +33,30 @@ const AppointmentTab = () => {
           )
         : (
         <div
-          className="h-1/2 min-h-screen p-4"
-          style={{
-            maxHeight: '500px',
-            maxWidth: '50%'
-          }}
+        className='flex flex-row justify-center'
         >
-          <FullCalendar
-            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
-            headerToolbar={{
-              left: 'prev.next today',
-              center: 'title',
-              right: 'resourceTimelineWeek, dayGridMonth, timeGridWeek'
+          <div
+            className=""
+            style={{
+              minHeight: '400px',
+              minWidth: '65%'
             }}
-            events={[]}
-            nowIndicator={true}
-            editable={true}
-            droppable={true}
-            selectable={true}
-            selectMirror={true}
-          />
+          >
+            <FullCalendar
+              plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+              // headerToolbar={{
+              //   left: 'prev.next today',
+              //   center: 'title',
+              //   right: 'resourceTimelineWeek, dayGridMonth, timeGridWeek'
+              // }}
+              events={[]}
+              nowIndicator={true}
+              editable={true}
+              droppable={true}
+              selectable={true}
+              selectMirror={true}
+            />
+          </div>
         </div>
           )}
     </div>

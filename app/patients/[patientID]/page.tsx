@@ -95,7 +95,7 @@ const PatientDetails = ({ params }: any) => {
         <div>
           <div>
             <div className="flex flex-row items-center justify-between">
-              <p className="mb-2 text-lg font-semibold text-slate-700">
+              <p className="text-lg font-semibold text-slate-700">
                 Recent Appointments
               </p>
 
@@ -106,11 +106,6 @@ const PatientDetails = ({ params }: any) => {
               </Button>
             </div>
           </div>
-          <ol className="flex">
-            <li>grid view</li>
-            <li>table view</li>
-            <li>calendar view</li>
-          </ol>
           <AppointmentTab />
         </div>
       )}

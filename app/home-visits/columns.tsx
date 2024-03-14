@@ -1,7 +1,7 @@
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
-import { Ellipsis } from 'lucide-react'
+// import { Ellipsis } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -75,7 +75,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     header: 'Action',
     cell: () => (
       <div>
-        <Ellipsis />
+        {/* <Ellipsis /> */}
+        more
       </div>
     )
   }
