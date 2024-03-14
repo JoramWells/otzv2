@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
@@ -5,12 +6,14 @@
 import { useCallback, useState } from 'react'
 
 import { Clock } from 'lucide-react'
-import { Button } from '@chakra-ui/react'
+import { Avatar, Button } from '@chakra-ui/react'
 import Link from 'next/link'
 import AppointmentTab from '@/app/_components/patient/appointmentTab/AppointmentTab'
 import HomeVisitTab from '@/app/_components/home-visit/HomevisitTab'
 import TreatmentPlanTab from '@/app/_components/treatement-plan/treatementPlanTab/TreatmentPlanTab'
 import SideMenuBar from '@/app/_components/treatement-plan/SideMenuBar'
+import { useGetPatientQuery } from '@/api/patient/patients.api'
+import moment from 'moment'
 
 const itemList = [
   {
@@ -56,58 +59,82 @@ const PatientDetails = ({ params }: any) => {
 
   const patientID = params.patientID
 
+  const { data: userData } = useGetPatientQuery(patientID)
+  console.log(userData, 'usd')
+
   const handleStepChange = useCallback((step: number) => {
     setSelected(step)
   }, [])
 
   return (
-    <div className="pt-14 ml-64 p-3">
-      <p>Patient Details</p>
-      <div className="flex flex-row space-x-4 mt-4 mb-4">
-        {categoryList.map((item) => (
-          <Button
-            key={item.id}
-            rounded={'0'}
-            size={'sm'}
-            borderBottom={'2px'}
-            borderBottomColor={`${value === item.id ? 'teal' : 'white'}`}
-            color={`${value === item.id && 'teal'}`}
-            bgColor={'white'}
-            // shadow={`${value === item.id && 'md'}`}
-            _hover={
-              {
-                // bgColor: `${value === item.id && 'black'}`,
-                // color: `${value === item.id && 'white'}`
+    <div
+      className="pt-16 ml-64 p-3 flex flex-row
+    gap-x-4
+    "
+    >
+      <div
+        className="border p-2 rounded-lg shadow-sm
+        flex flex-col justify-center
+        "
+        style={{
+          height: '350px'
+        }}
+      >
+        <div
+          className="flex flex-col gap-x-4
+        items-center
+        "
+        >
+          <Avatar name={`${userData?.firstName} ${userData?.middleName}`} />
+          <p className="capitalize font-bold">{`${userData?.firstName} ${userData?.middleName}`}</p>
+
+          <p className="text-slate-500 text-sm">
+            {moment().diff(moment(new Date(userData?.dob)), 'years')} yrs
+          </p>
+          <p className="text-slate-500 text-sm">Gender: {userData?.gender}</p>
+        </div>
+
+        {/* list items */}
+        <div
+          className="flex flex-col space-y-2 mt-4
+        justify-center items-start w-72
+        "
+        >
+          {categoryList.map((item) => (
+            <Button
+              key={item.id}
+              rounded={'md'}
+              h={10}
+              size={'sm'}
+              w={'full'}
+              // borderBottom={'2px'}
+              bgColor={`${value === item.id ? 'gray.50' : 'transparent'}`}
+              color={`${value === item.id ? 'teal' : 'gray.500'}`}
+              // bgColor={'white'}
+              // shadow={`${value === item.id && 'md'}`}
+              _hover={
+                {
+                  // bgColor: `${value === item.id && 'black'}`,
+                  // color: `${value === item.id && 'white'}`
+                }
               }
-            }
-            onClick={() => {
-              setValue(item.id)
-            }}
-          >
-            {item.label}
-          </Button>
-        ))}
+              onClick={() => {
+                setValue(item.id)
+              }}
+            >
+              {item.label}
+            </Button>
+          ))}
+        </div>
       </div>
 
       {/* body */}
       {/* appointments */}
       {value === 1 && (
-        <div>
-          <div>
-            <div className="flex flex-row items-center justify-between">
-              <p className="text-lg font-semibold text-slate-700">
-                Recent Appointments
-              </p>
 
-              <Button size={'sm'} colorScheme="green" variant={'outline'}>
-                <Link href={`/appointments/add-appointment/${patientID}`}>
-                  NEW
-                </Link>
-              </Button>
-            </div>
-          </div>
-          <AppointmentTab />
-        </div>
+          <AppointmentTab
+          patientID={patientID}
+          />
       )}
 
       {/* home visit */}
