@@ -112,7 +112,7 @@ export function CustomTable<TData, TValue> ({
 
       {/*  */}
       <TableContainer
-        className="bg-white border
+        className="bg-white
     rounded-md
     "
       >
@@ -124,7 +124,7 @@ export function CustomTable<TData, TValue> ({
                   <Th
                     key={header.id}
                     style={{
-                      fontSize: '14px'
+                      fontSize: '12px'
                     }}
                   >
                     {header.isPlaceholder
@@ -142,7 +142,7 @@ export function CustomTable<TData, TValue> ({
             {table.getRowModel().rows.map((row) => (
               <Tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <Td key={cell.id} fontSize="14px">
+                  <Td key={cell.id} fontSize="12px">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>
                 ))}

@@ -1,45 +1,49 @@
 import { Button } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import Urine from './urine/Urine'
+import UrineMicroscopy from './panel/UrineMicroscopy'
 
 const categoryList = [
   {
     id: 1,
-    label: 'Blood'
+    label: 'Urine Microscopy'
   },
   {
     id: 2,
-    label: 'Stool'
+    label: 'Renal Function'
   },
   {
     id: 3,
-    label: 'Sputum'
+    label: 'Routine Urine'
   },
   {
     id: 4,
-    label: 'Histology'
+    label: 'Urethral Urine Examination'
   },
   {
     id: 5,
-    label: 'High Vaginal Swab'
+    label: 'Pregnancy Test'
   },
   {
     id: 6,
-    label: 'Urine'
+    label: 'TB Monitoring'
   }
 ]
 
-const LabTab = () => {
+const Urine = () => {
   const [value, setValue] = useState<number>(0)
   return (
-    <div className="w-full">
-      <div className="flex flex-row space-x-4">
+    <div className="flex space-x-4">
+      <div className="flex flex-col w-[200px] border-r">
         {categoryList.map((item) => (
           <Button
             key={item.id}
             rounded={'lg'}
             h={10}
             size={'sm'}
+            textAlign={'left'}
+            display={'flex'}
+            justifyItems={'start'}
+            justifyContent={'start'}
             // w={'full'}
             // borderBottom={`${value === item.id ? '2px' : '0'}`}
             fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
@@ -61,9 +65,11 @@ const LabTab = () => {
           </Button>
         ))}
       </div>
-      {value === 6 && <Urine/>}
+      <div
+      className='cols-span-2'
+      >{value === 1 && <UrineMicroscopy />}</div>
     </div>
   )
 }
 
-export default LabTab
+export default Urine

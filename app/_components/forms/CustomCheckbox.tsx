@@ -5,18 +5,26 @@ export interface CheckboxProps {
   onChange: (checked: boolean) => void
   value: boolean
   label: string
+  description?: string
 }
 
-const CustomCheckbox = ({ onChange, value, label }: CheckboxProps) => {
+const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) => {
   return (
-    <Checkbox
-      isChecked={value}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => {
-        onChange(e.target.checked)
-      }}
-    >
-      {label}
-    </Checkbox>
+    <div>
+      <Checkbox
+        isChecked={value}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          onChange(e.target.checked)
+        }}
+        fontWeight={'bold'}
+        textColor={'gray.700'}
+      >
+        {label}
+      </Checkbox>
+      <p className="ml-6 text-slate-500 text-sm">
+        {description}
+      </p>
+    </div>
   )
 }
 

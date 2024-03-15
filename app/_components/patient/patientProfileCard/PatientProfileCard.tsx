@@ -30,7 +30,7 @@ const categoryList = [
 ]
 
 export interface PatientProfileCardProps {
-  userData: keyof UserDataProps
+  userData: UserDataProps
   value: number
   setValue: (value: number) => void
 }
@@ -62,7 +62,7 @@ const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardPro
         <p className="capitalize font-bold">{`${userData?.firstName} ${userData?.middleName}`}</p>
 
         <p className="text-slate-500 text-sm">
-          {moment().diff(moment(new Date(userData?.dob)), 'years')} yrs
+          {moment().diff(moment(userData?.dob), 'years')} yrs
         </p>
         <p className="text-slate-500 text-sm">Gender: {userData?.gender}</p>
         <div className="flex flex-row items-center gap-x-2 text-blue-500 font-bold text-sm">
