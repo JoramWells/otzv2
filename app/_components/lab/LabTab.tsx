@@ -1,6 +1,7 @@
 import { Button } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import Urine from './urine/Urine'
+import Blood from './blood/Blood'
 
 const categoryList = [
   {
@@ -33,12 +34,12 @@ const LabTab = () => {
   const [value, setValue] = useState<number>(0)
   return (
     <div className="w-full">
-      <p
-      className='text-xl font-bold mb-4'
-      >Lab Tests</p>
-      <div className="flex flex-row space-x-4
+      <p className="text-xl font-bold mb-4">Lab Tests</p>
+      <div
+        className="flex flex-row space-x-4
       border-b mb-4
-      ">
+      "
+      >
         {categoryList.map((item) => (
           <Button
             key={item.id}
@@ -66,7 +67,8 @@ const LabTab = () => {
           </Button>
         ))}
       </div>
-      {value === 6 && <Urine/>}
+      {value === 1 && <Blood />}
+      {value === 6 && <Urine />}
     </div>
   )
 }
