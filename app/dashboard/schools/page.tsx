@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
@@ -10,6 +11,7 @@ import { useGetAllCurriculumCategoriesQuery } from '@/api/school/curriculumCateg
 import { useGetAllSchoolSubCurriculumsQuery } from '@/api/school/curriculumSubCategory.api'
 import { useGetAllSchoolClassesQuery } from '@/api/school/schoolClasses.api'
 import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
+import School from '@/app/_components/school/School'
 const categoryList = [
   {
     id: 1,
@@ -33,7 +35,7 @@ const categoryList = [
   }
 ]
 
-const School = () => {
+const SchoolPage = () => {
   const [value, setValue] = useState(1)
   const { data } = useGetAllCurriculumCategoriesQuery()
   const { data: curriculumSubCategory } = useGetAllSchoolSubCurriculumsQuery()
@@ -87,18 +89,16 @@ const School = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-row justify-between items-center p-1">
+        {/* <div className="flex flex-row justify-between items-center p-1">
           <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
             <p className="text-lg text-slate-700">
-              {value === 1
-                ? 'Classes'
-                : value === 2
-                  ? 'Category'
-                  : value === 3
-                    ? 'Sub-category'
-                    : value === 4
-                      ? 'Holidays'
-                      : 'Schools'}
+              {value === 1 &&
+                'Classes'}
+                 {value === 2 &&
+                  'Category'}
+                  {value === 3 &&
+                    'Sub-category'}
+                    {value === 4 && 'Holidays'}
             </p>
             <Tag
               m={0}
@@ -121,7 +121,7 @@ const School = () => {
           >
             NEW
           </Button>
-        </div>
+        </div> */}
         {value === 1 && (
           <CustomTable columns={classesColumn} data={classesData ?? []} />
         )}
@@ -138,11 +138,16 @@ const School = () => {
           <CustomTable columns={holidaysColumn} data={holidaysData ?? []} />
         )}
         {value === 5 && (
-          <CustomTable columns={holidaysColumn} data={holidaysData ?? []} />
+          <School
+          handleClick={() => handleClick(value)}
+          value={value}
+          column={holidaysColumn}
+          data={holidaysData}
+          />
         )}
       </div>
     </div>
   )
 }
 
-export default School
+export default SchoolPage

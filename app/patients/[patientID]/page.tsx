@@ -68,6 +68,7 @@ const PatientDetails = ({ params }: any) => {
             <li>Viral Load</li>
             <li>Vital Signs</li>
           </ul>
+          <Button>Add prescription</Button>
         </div>
       )}
 

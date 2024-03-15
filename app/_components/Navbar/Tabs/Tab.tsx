@@ -10,8 +10,7 @@ export interface TabProps {
 
 interface TabDataProps {
   id: number
-  value: number
-  text: number
+  text: string
 }
 
 const Tab = ({ data, setValue, value, children }: TabProps) => {
