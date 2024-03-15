@@ -33,15 +33,20 @@ const LabTab = () => {
   const [value, setValue] = useState<number>(0)
   return (
     <div className="w-full">
-      <div className="flex flex-row space-x-4">
+      <p
+      className='text-xl font-bold mb-4'
+      >Lab Tests</p>
+      <div className="flex flex-row space-x-4
+      border-b mb-4
+      ">
         {categoryList.map((item) => (
           <Button
             key={item.id}
-            rounded={'lg'}
+            rounded={'0'}
             h={10}
             size={'sm'}
             // w={'full'}
-            // borderBottom={`${value === item.id ? '2px' : '0'}`}
+            borderBottom={`${value === item.id ? '2px' : '0'}`}
             fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
             bgColor={`${value === item.id ? 'teal.50' : 'transparent'}`}
             color={`${value === item.id ? 'teal' : 'gray.500'}`}

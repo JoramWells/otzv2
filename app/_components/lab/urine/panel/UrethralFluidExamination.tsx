@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import CustomCheckbox from '@/app/_components/forms/CustomCheckbox'
 import { Button, Divider } from '@chakra-ui/react'
 
-const UrineMicroscopy = () => {
+const UrethralFluidExamination = () => {
   const [value, setValue] = useState(false)
   return (
     <div className="flex flex-col gap-y-4 w-[70%] border p-5 rounded-lg">
 
       <p
       className='text-lg font-bold'
-      >Choose Urine Microscopy Tests</p>
+      >Select Urethral Fluid Examination Tests </p>
       <CustomCheckbox
         label="Erythrocytes (RBCs)"
         description=" It may indicate the presence of a urinary tract infection, kidney stones, urinary tract trauma, kidney disease, or other medical conditions."
@@ -101,4 +101,4 @@ const UrineMicroscopy = () => {
   )
 }
 
-export default UrineMicroscopy
+export default UrethralFluidExamination
