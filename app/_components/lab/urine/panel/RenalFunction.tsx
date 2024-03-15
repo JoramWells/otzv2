@@ -5,7 +5,7 @@ import { Button, Divider } from '@chakra-ui/react'
 const RenalFunction = () => {
   const [value, setValue] = useState(false)
   return (
-    <div className="flex flex-col gap-y-4 w-[70%] border p-5 rounded-lg">
+    <div className="flex flex-col gap-y-4 w-[80%] border p-5 rounded-lg">
       <p className="text-lg font-bold">Choose Renal Function Test</p>
       <CustomCheckbox
         label="Blood Urea Nitrogen (BUN) (mg/dL)"

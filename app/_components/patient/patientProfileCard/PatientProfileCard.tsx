@@ -83,8 +83,8 @@ const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardPro
             w={'full'}
             // borderBottom={'2px'}
             fontWeight={'normal'}
-            bgColor={`${value === item.id ? 'gray.50' : 'transparent'}`}
-            color={`${value === item.id ? 'teal' : 'gray.500'}`}
+            bgColor={`${value === item.id ? 'slate.300' : 'transparent'}`}
+            color={`${value === item.id ? 'black' : 'gray.500'}`}
             // bgColor={'white'}
             // shadow={`${value === item.id && 'md'}`}
             _hover={
