@@ -52,7 +52,7 @@ export function CustomTable<TData, TValue> ({
         />
 
         <div className="flex flex-row space-x-4 items-center">
-          <CSVLink data={data}>
+          <CSVLink data={data as object[]}>
             <Button
               size={'sm'}
               rounded={'full'}

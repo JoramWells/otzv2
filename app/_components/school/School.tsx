@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import React, { useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Map } from 'lucide-react'
 import { Button } from '@chakra-ui/react'
 import MapComponent from '../map/MapComponent'
+import useCurrentLocation from '@/hooks/useCurrentLocation'
 
 interface ColumnProps {
   schoolTerm: any
@@ -23,6 +26,8 @@ interface SchoolProps {
 
 const School = ({ column, data, handleClick, value }: SchoolProps) => {
   const [isMapVisible, setIsMapVisible] = useState(false)
+  const currentLocation = useCurrentLocation()
+  // get current location
   return (
     <div>
       <div
@@ -53,7 +58,9 @@ const School = ({ column, data, handleClick, value }: SchoolProps) => {
         </div>
       </div>
       {isMapVisible
-        ? <MapComponent/>
+        ? <MapComponent
+        center={currentLocation || undefined}
+        />
         : <CustomTable columns={column} data={data ?? []} />}
     </div>
   )

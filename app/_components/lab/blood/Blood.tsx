@@ -6,6 +6,7 @@ import RenalFunction from './panel/RenalFunction'
 import RoutineUrine from './panel/RoutineUrine'
 import UrethralFluidExamination from './panel/UrethralFluidExamination'
 import TBMonitoring from './panel/TBMonotoring'
+import HIVMonitoring from './panel/HIVMonitoring'
 
 const categoryList = [
   {
@@ -71,7 +72,7 @@ const categoryList = [
 ]
 
 const Blood = () => {
-  const [value, setValue] = useState<number>(0)
+  const [value, setValue] = useState<number>(1)
   return (
     <div className="flex space-x-4">
       <div className="flex flex-col w-[200px] border-r">
@@ -113,6 +114,7 @@ const Blood = () => {
         {value === 4 && <TBMonitoring />}
         {value === 5 && <UrineMicroscopy />}
         {value === 6 && <UrethralFluidExamination />}
+        {value === 7 && <HIVMonitoring />}
       </div>
     </div>
   )

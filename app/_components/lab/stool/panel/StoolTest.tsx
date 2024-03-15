@@ -2,27 +2,43 @@ import React, { useState } from 'react'
 import CustomCheckbox from '@/app/_components/forms/CustomCheckbox'
 import { Button, Divider } from '@chakra-ui/react'
 
-const HIVMonitoring = () => {
+const StoolTest = () => {
   const [value, setValue] = useState(false)
   return (
     <div className="flex flex-col gap-y-4 w-[80%] border p-5 rounded-lg">
       <p className="text-lg font-bold">HIV Monitoring Tests</p>
       <CustomCheckbox
-        label="CD4 Percentage"
+        label="Fecal Occult Blood Test"
         description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
         value={value}
         onChange={setValue}
       />
       {/* 2 */}
       <CustomCheckbox
-        label="CD4 Count"
+        label="Stool Exam"
         description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
         value={value}
         onChange={setValue}
       />
       {/* 2 */}
       <CustomCheckbox
-        label="Viral Load"
+        label="Stool fat test semi-quantitative"
+        description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
+        value={value}
+        onChange={setValue}
+      />
+
+      {/* 2 */}
+      <CustomCheckbox
+        label="Stool microscopy wit concentration"
+        description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
+        value={value}
+        onChange={setValue}
+      />
+
+      {/* 2 */}
+      <CustomCheckbox
+        label="Stool fat test semi-quantitative"
         description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
         value={value}
         onChange={setValue}
@@ -41,4 +57,4 @@ const HIVMonitoring = () => {
   )
 }
 
-export default HIVMonitoring
+export default StoolTest

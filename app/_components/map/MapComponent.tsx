@@ -1,6 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
 import React from 'react'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
+
+interface MapProps {
+  center?: google.maps.LatLngLiteral
+}
 
 const containerStyle = {
   width: '50%',
@@ -8,27 +13,22 @@ const containerStyle = {
   borderRadius: '10px'
 }
 
-const center = {
-  lat: -3.745,
-  lng: -38.523
-}
-
-const MapComponent = () => {
+const MapComponent: React.FC<MapProps> = ({ center }) => {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyDSg2RZcb6i3EohltpyGWSd4GGnfWpA4bQ'
   })
-  const [map, setMap] = React.useState(null)
+  const [map, setMap] = React.useState<google.maps.Map | null>(null)
 
-  const onLoad = React.useCallback(function callback (map) {
+  const onLoad = React.useCallback(function callback (map: google.maps.Map) {
     // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(center)
+    const bounds = new google.maps.LatLngBounds(center)
     map.fitBounds(bounds)
 
     setMap(map)
   }, [])
 
-  const onUnmount = React.useCallback(function callback (map) {
+  const onUnmount = React.useCallback(function callback () {
     setMap(null)
   }, [])
   return isLoaded ? (

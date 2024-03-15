@@ -1,40 +1,15 @@
 import { Button } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import UrineMicroscopy from './panel/UrineMicroscopy'
-import PregnancyTest from './panel/PregnancyTest'
-import RenalFunction from './panel/RenalFunction'
-import RoutineUrine from './panel/RoutineUrine'
-import UrethralFluidExamination from './panel/UrethralFluidExamination'
-import TBMonitoring from './panel/TBMonotoring'
+import StoolTest from './panel/StoolTest'
 
 const categoryList = [
   {
     id: 1,
-    label: 'Pregnancy Test'
-  },
-  {
-    id: 2,
-    label: 'Renal Function'
-  },
-  {
-    id: 3,
-    label: 'Routine Urine'
-  },
-  {
-    id: 4,
-    label: 'TB Monitoring'
-  },
-  {
-    id: 5,
-    label: 'Urine Microscopy'
-  },
-  {
-    id: 6,
-    label: 'Urethral Fluid Examination'
+    label: 'Stool Test'
   }
 ]
 
-const Urine = () => {
+const Stool = () => {
   const [value, setValue] = useState<number>(1)
   return (
     <div className="flex space-x-4">
@@ -71,15 +46,10 @@ const Urine = () => {
         ))}
       </div>
       <div className="cols-span-2">
-        {value === 1 && <PregnancyTest />}
-        {value === 2 && <RenalFunction />}
-        {value === 3 && <RoutineUrine />}
-        {value === 4 && <TBMonitoring />}
-        {value === 5 && <UrineMicroscopy />}
-        {value === 6 && <UrethralFluidExamination />}
+        {value === 1 && <StoolTest />}
       </div>
     </div>
   )
 }
 
-export default Urine
+export default Stool

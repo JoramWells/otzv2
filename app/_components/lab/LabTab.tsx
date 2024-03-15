@@ -2,6 +2,7 @@ import { Button } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import Urine from './urine/Urine'
 import Blood from './blood/Blood'
+import Stool from './stool/Stool'
 
 const categoryList = [
   {
@@ -31,7 +32,7 @@ const categoryList = [
 ]
 
 const LabTab = () => {
-  const [value, setValue] = useState<number>(0)
+  const [value, setValue] = useState<number>(1)
   return (
     <div className="w-full">
       <p className="text-xl font-bold mb-4">Lab Tests</p>
@@ -68,6 +69,7 @@ const LabTab = () => {
         ))}
       </div>
       {value === 1 && <Blood />}
+      {value === 2 && <Stool />}
       {value === 6 && <Urine />}
     </div>
   )
