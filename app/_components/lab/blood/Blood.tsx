@@ -1,12 +1,12 @@
 import { Button } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import UrineMicroscopy from './panel/UrineMicroscopy'
-import PregnancyTest from './panel/PregnancyTest'
-import RenalFunction from './panel/RenalFunction'
 import RoutineUrine from './panel/RoutineUrine'
 import UrethralFluidExamination from './panel/UrethralFluidExamination'
 import TBMonitoring from './panel/TBMonotoring'
 import HIVMonitoring from './panel/HIVMonitoring'
+import Anaemia from './panel/Anaemia'
+import BloodCount from './panel/BloodCount'
 
 const categoryList = [
   {
@@ -108,8 +108,8 @@ const Blood = () => {
         ))}
       </div>
       <div className="cols-span-2">
-        {value === 1 && <PregnancyTest />}
-        {value === 2 && <RenalFunction />}
+        {value === 1 && <Anaemia />}
+        {value === 2 && <BloodCount />}
         {value === 3 && <RoutineUrine />}
         {value === 4 && <TBMonitoring />}
         {value === 5 && <UrineMicroscopy />}

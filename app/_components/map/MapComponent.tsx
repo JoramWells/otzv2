@@ -26,7 +26,7 @@ const MapComponent: React.FC<MapProps> = ({ center }) => {
     map.fitBounds(bounds)
 
     setMap(map)
-  }, [])
+  }, [center])
 
   const onUnmount = React.useCallback(function callback () {
     setMap(null)

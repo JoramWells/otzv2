@@ -2,43 +2,35 @@ import React, { useState } from 'react'
 import CustomCheckbox from '@/app/_components/forms/CustomCheckbox'
 import { Button, Divider } from '@chakra-ui/react'
 
-const HIVMonitoring = () => {
+const Anaemia = () => {
   const [value, setValue] = useState(false)
   return (
     <div className="flex flex-col gap-y-4 w-[80%] border p-5 rounded-lg">
-      <p className="text-lg font-bold">HIV Monitoring Tests</p>
+      <p className="text-lg font-bold">Anaemia Tests</p>
 
       {/* 2 */}
       <CustomCheckbox
-        label="Adherence Drug Resistance"
+        label="Hematocrit"
         description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
         value={value}
         onChange={setValue}
       />
       <CustomCheckbox
-        label="CD4 Percentage"
-        description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
-        value={value}
-        onChange={setValue}
-      />
-      {/* 2 */}
-      <CustomCheckbox
-        label="CD4 Count"
+        label="Haemoglobin"
         description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
         value={value}
         onChange={setValue}
       />
       {/* 2 */}
       <CustomCheckbox
-        label="HIV DNA Polymerase Chain Reaction, Qualitative"
+        label="Haemoglobin electrophoresis"
         description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
         value={value}
         onChange={setValue}
       />
-
       {/* 2 */}
       <CustomCheckbox
-        label="Viral Load"
+        label="Platelets"
         description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
         value={value}
         onChange={setValue}
@@ -46,7 +38,7 @@ const HIVMonitoring = () => {
 
       {/* 2 */}
       <CustomCheckbox
-        label="Rapid Test for HIV"
+        label="Reticulocytes (%)"
         description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
         value={value}
         onChange={setValue}
@@ -54,7 +46,7 @@ const HIVMonitoring = () => {
 
       {/* 2 */}
       <CustomCheckbox
-        label="Serum Cryptococcal Antigen (CRAG)"
+        label="Sickle Cell Screening Test"
         description="Detects the presence of human chorionic gonadotropin (hCG), a hormone produced by the placenta during pregnancy, in a woman's urine."
         value={value}
         onChange={setValue}
@@ -73,4 +65,4 @@ const HIVMonitoring = () => {
   )
 }
 
-export default HIVMonitoring
+export default Anaemia
