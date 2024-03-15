@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Map } from 'lucide-react'
 import { Button } from '@chakra-ui/react'
+import MapComponent from '../map/MapComponent'
 
 interface ColumnProps {
   schoolTerm: any
@@ -21,6 +22,7 @@ interface SchoolProps {
 }
 
 const School = ({ column, data, handleClick, value }: SchoolProps) => {
+  const [isMapVisible, setIsMapVisible] = useState(false)
   return (
     <div>
       <div
@@ -34,6 +36,7 @@ const School = ({ column, data, handleClick, value }: SchoolProps) => {
           className='h-8 w-8 p-1 bg-slate-200 rounded-md
           hover:cursor-pointer
           '
+          onClick={() => { setIsMapVisible(!isMapVisible) }}
           />
 
           <Button
@@ -49,7 +52,9 @@ const School = ({ column, data, handleClick, value }: SchoolProps) => {
           </Button>
         </div>
       </div>
-      <CustomTable columns={column} data={data ?? []} />
+      {isMapVisible
+        ? <MapComponent/>
+        : <CustomTable columns={column} data={data ?? []} />}
     </div>
   )
 }

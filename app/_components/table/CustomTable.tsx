@@ -54,8 +54,8 @@ export function CustomTable<TData, TValue> ({
         <div className="flex flex-row space-x-4 items-center">
           <CSVLink data={data}>
             <Button
-              size={"sm"}
-              rounded={"full"}
+              size={'sm'}
+              rounded={'full'}
               // color={'gray.500'}
               leftIcon={<ArrowDownToLine size={20} />}
             >
@@ -63,8 +63,8 @@ export function CustomTable<TData, TValue> ({
             </Button>
           </CSVLink>
           <Button
-            size={"sm"}
-            rounded={"full"}
+            size={'sm'}
+            rounded={'full'}
             // color={'gray.500'}
             leftIcon={<Printer size={20} />}
           >
@@ -75,11 +75,11 @@ export function CustomTable<TData, TValue> ({
             <MenuButton
               as={Button}
               rightIcon={<ChevronDownIcon size={15} />}
-              size={"sm"}
+              size={'sm'}
               // colorScheme="teal"
-              bgColor={"white"}
-              borderColor={"black"}
-              variant={"outline"}
+              bgColor={'white'}
+              borderColor={'black'}
+              variant={'outline'}
             >
               Columns
             </MenuButton>
@@ -94,7 +94,7 @@ export function CustomTable<TData, TValue> ({
                     key={column.id}
                     checked={column.getIsVisible()}
                     onChange={(value: any) => {
-                      column.toggleVisibility(!value);
+                      column.toggleVisibility(!value)
                     }}
                   >
                     {column.id}
@@ -116,23 +116,23 @@ export function CustomTable<TData, TValue> ({
     rounded-md
     "
       >
-        <Table size={"md"}>
+        <Table size={'md'}>
           {table.getHeaderGroups().map((headerGroup) => (
-            <Thead key={headerGroup.id} bgColor={"gray.50"}>
+            <Thead key={headerGroup.id} bgColor={'gray.50'}>
               <Tr>
                 {headerGroup.headers.map((header) => (
                   <Th
                     key={header.id}
                     style={{
-                      fontSize: "14px",
+                      fontSize: '14px'
                     }}
                   >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </Th>
                 ))}
               </Tr>
@@ -152,5 +152,5 @@ export function CustomTable<TData, TValue> ({
         </Table>
       </TableContainer>
     </div>
-  );
+  )
 }
