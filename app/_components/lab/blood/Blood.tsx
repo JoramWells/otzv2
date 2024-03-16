@@ -71,7 +71,11 @@ const categoryList = [
   }
 ]
 
-const Blood = () => {
+interface PatientIDProps {
+  patientID: string
+}
+
+const Blood = ({ patientID }: PatientIDProps) => {
   const [value, setValue] = useState<number>(1)
   return (
     <div className="flex space-x-4">
@@ -114,7 +118,9 @@ const Blood = () => {
         {value === 4 && <TBMonitoring />}
         {value === 5 && <UrineMicroscopy />}
         {value === 6 && <UrethralFluidExamination />}
-        {value === 7 && <HIVMonitoring />}
+        {value === 7 && <HIVMonitoring
+        patientID={patientID}
+        />}
       </div>
     </div>
   )

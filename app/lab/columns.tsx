@@ -1,5 +1,8 @@
-import { Avatar, Tag } from '@chakra-ui/react'
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { Avatar, Button, Tag } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
+import { Beaker } from 'lucide-react'
+import moment from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 
@@ -27,69 +30,54 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: 'patient_name',
+    accessorKey: 'patient',
     header: 'Patient Name',
     cell: (props: any) => (
       <div className="flex flex-row items-center gap-x-2">
         <Avatar
           size={'sm'}
           className="font-bold"
-          name={`${props.row.original?.firstName} ${props.row.original?.middleName}`}
+          name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
         />
         <Link
           className="capitalize font-semibold underline"
           href={`/patients/${props.row.original.id}`}
-        >{`${props.row.original?.firstName} ${props.row.original?.middleName}`}</Link>
+        >{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</Link>
       </div>
     )
   },
   {
-    accessorKey: 'dob',
-    header: 'DOB'
+    accessorKey: 'testName',
+    header: 'Test'
   },
   {
-    accessorKey: 'gender',
-    header: 'Gender'
-  },
-  {
-    accessorKey: 'mflCode',
-    header: 'MFL code'
-  },
-  {
-    accessorKey: 'occupation',
-    header: 'Occupation'
-  },
-  {
-    header: 'Enrollment',
+    accessorKey: 'dateRequested',
+    header: 'REQUESTED',
     cell: ({ row }) => (
-      <div className="flex flex-row space-x-2">
-        <Tag
-          size={'sm'}
-          fontWeight={'bold'}
-          color={'slategrey'}
-          _hover={{
-            cursor: 'pointer'
-          }}
-        >
-          <Link href={`/enrollment/enroll-otz/${row.original.id}`}>OTZ</Link>
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          OVC
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          <Link href={`/enrollment/enroll-pama/${row.original.id}`}>PAMA</Link>
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          PMTCT
-        </Tag>
-      </div>
+      <p>{moment(row.original?.dateRequested).format('ll')}</p>
     )
+  },
+  {
+    accessorKey: 'reason',
+    header: 'Reason'
+  },
+  {
+    accessorKey: 'urgency',
+    header: 'Urgency',
+    cell: ({ row }) => <div>{row.getValue('urgency').toLowerCase() === 'urgent'.toLowerCase()
+      ? <Tag
+    colorScheme='red'
+    size={'sm'}
+    >{row.getValue('urgency')}</Tag>
+      : <Tag
+      size={'sm'}
+      >{row.getValue('urgency')}</Tag>}</div>
   },
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => (
-      <Link href={`/patients/${row.original.id}`}>See Patient</Link>
-    )
+    cell: ({ row }) => <Button
+    size={'sm'}
+    >Post Results</Button>
   }
 ]

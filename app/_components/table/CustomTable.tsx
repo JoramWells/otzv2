@@ -74,12 +74,13 @@ export function CustomTable<TData, TValue> ({
           <Menu>
             <MenuButton
               as={Button}
-              rightIcon={<ChevronDownIcon size={15} />}
+              leftIcon={<ChevronDownIcon size={20} />}
               size={'sm'}
+              rounded={'full'}
               // colorScheme="teal"
-              bgColor={'white'}
-              borderColor={'black'}
-              variant={'outline'}
+              // bgColor={'white'}
+              // borderColor={'black'}
+              // variant={'outline'}
             >
               Columns
             </MenuButton>

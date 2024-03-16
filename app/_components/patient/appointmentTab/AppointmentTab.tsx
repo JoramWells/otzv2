@@ -11,7 +11,6 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction'
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 import multiMonthPlugin from '@fullcalendar/multimonth'
 
 import { useEffect, useState } from 'react'
@@ -22,40 +21,39 @@ export interface AppointmentTabProps {
   patientID: string
 }
 
+interface Event {
+  title: string
+  start?: Date | string
+  allDay?: boolean
+  id: number
+}
+
 const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
   const [events, setEvents] = useState([
     {
-      id: 1,
-      title: 'Support Group',
-      start: new Date(),
-      allDay: false
+      id: '1',
+      title: 'Support Group'
     },
     {
-      id: 2,
-      title: 'Refill',
-      start: new Date(),
-      allDay: false
+      id: '2',
+      title: 'Refill'
     },
     {
-      id: 3,
-      title: 'Home visit',
-      start: new Date(),
-      allDay: false
+      id: '3',
+      title: 'Home visit'
     },
     {
-      id: 4,
-      title: 'Viral Load',
-      start: new Date(),
-      allDay: false
+      id: '4',
+      title: 'Viral Load'
     }
   ])
 
-  const [allEvents, setAllEvents] = useState([])
-  const [newEvent, setNewEvent] = useState({
+  const [allEvents, setAllEvents] = useState<Event[]>([])
+  const [newEvent, setNewEvent] = useState<Event>({
     id: 0,
     title: '',
     start: '',
-    allDay: 'false'
+    allDay: false
   })
 
   useEffect(() => {
@@ -64,10 +62,10 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
       new Draggable(draggableEl, {
         itemSelector: '.fc-event',
         eventData: function (eventEl) {
-          const title = eventEl.getAttribute('title')
-          const id = eventEl.getAttribute('data')
-          const start = eventEl.getAttribute('start')
-          return { title, id, start }
+          const title = eventEl.innerText
+          const id = eventEl.dataset.id
+          // const start = eventEl.getAttribute('start')
+          return { title, id }
         }
       })
     }
@@ -126,7 +124,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
                 left: 'multiMonthYear, dayGridMonth ,timeGridWeek',
                 right: 'prev,next,today'
               }}
-              events={[]}
+              events={events}
               nowIndicator={true}
               editable={true}
               droppable={true}
@@ -147,7 +145,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
             <div id="draggable-el">
               {events.map((item: any) => (
                 <div
-                  key={item.key}
+                  key={item.id}
                   className="fc-event
                   p-2 rounded-lg bg-slate-200
                   hover:cursor-pointer mt-2 mb-2"

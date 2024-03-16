@@ -4,6 +4,7 @@ import { useAddInternalLabRequestMutation } from '@/api/viraload/internalLabRequ
 import { Button } from '@chakra-ui/react'
 import { useState } from 'react'
 import Select from 'react-select'
+import { type PatientIDProps } from '../../constants/patient'
 
 const options = [
   {
@@ -43,11 +44,7 @@ const reasonOption = [
   }
 ]
 
-interface PatientProps {
-  patientID: string
-}
-
-const HIVMonitoring = ({ patientID }: PatientProps) => {
+const HIVMonitoring = ({ patientID }: PatientIDProps) => {
   // const [specimenType, setSpecimenType] = useState('')
   const [testName, setTestName] = useState({ label: '', value: '' })
   const [urgency, setUrgency] = useState({ label: '', value: '' })

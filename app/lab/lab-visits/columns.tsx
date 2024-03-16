@@ -29,19 +29,19 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: 'patient_name',
+    accessorKey: 'patient',
     header: 'Patient Name',
     cell: (props: any) => (
       <div className="flex flex-row items-center gap-x-2">
         <Avatar
           size={'sm'}
           className="font-bold"
-          name={`${props.row.original?.firstName} ${props.row.original?.middleName}`}
+          name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
         />
         <Link
           className="capitalize font-semibold underline"
           href={`/patients/${props.row.original.id}`}
-        >{`${props.row.original?.firstName} ${props.row.original?.middleName}`}</Link>
+        >{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</Link>
       </div>
     )
   },

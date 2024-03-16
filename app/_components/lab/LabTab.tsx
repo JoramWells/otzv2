@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Urine from './urine/Urine'
 import Blood from './blood/Blood'
 import Stool from './stool/Stool'
+import { type PatientIDProps } from './constants/patient'
 
 const categoryList = [
   {
@@ -31,11 +32,7 @@ const categoryList = [
   }
 ]
 
-interface PatientProps {
-  patientID: string
-}
-
-const LabTab = ({ patientID }: PatientProps) => {
+const LabTab = ({ patientID }: PatientIDProps) => {
   const [value, setValue] = useState<number>(1)
   return (
     <div className="w-full">
@@ -72,7 +69,9 @@ const LabTab = ({ patientID }: PatientProps) => {
           </Button>
         ))}
       </div>
-      {value === 1 && <Blood />}
+      {value === 1 && <Blood
+      patientID={patientID}
+      />}
       {value === 2 && <Stool />}
       {value === 6 && <Urine />}
     </div>
