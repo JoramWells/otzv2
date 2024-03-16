@@ -64,20 +64,27 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'urgency',
     header: 'Urgency',
-    cell: ({ row }) => <div>{row.getValue('urgency').toLowerCase() === 'urgent'.toLowerCase()
-      ? <Tag
-    colorScheme='red'
-    size={'sm'}
-    >{row.getValue('urgency')}</Tag>
-      : <Tag
-      size={'sm'}
-      >{row.getValue('urgency')}</Tag>}</div>
+    cell: ({ row }) => (
+      <div>
+        {row.getValue('urgency').toLowerCase() === 'urgent'.toLowerCase()
+          ? (
+          <Tag colorScheme="red" size={'sm'}>
+            {row.getValue('urgency')}
+          </Tag>
+            )
+          : (
+          <Tag size={'sm'}>{row.getValue('urgency')}</Tag>
+            )}
+      </div>
+    )
   },
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <Button
-    size={'sm'}
-    >Post Results</Button>
+    cell: ({ row }) => (
+      <Button size={'sm'}>
+        <Link href={`/lab/${row.original.id}`}>Post Results</Link>
+      </Button>
+    )
   }
 ]

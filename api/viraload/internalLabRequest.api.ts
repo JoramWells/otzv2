@@ -22,7 +22,7 @@ export const internalLabRequestApi = createApi({
     }),
     updateInternalLabRequest: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `update${id}`,
+        url: `update/${id}`,
         method: 'PUT',
         body: patch
       })
@@ -39,6 +39,6 @@ export const internalLabRequestApi = createApi({
 })
 
 export const {
-  useGetAllInternalLabRequestsQuery,
+  useGetAllInternalLabRequestsQuery, useUpdateInternalLabRequestMutation,
   useAddInternalLabRequestMutation, useGetInternalLabRequestQuery
 } = internalLabRequestApi

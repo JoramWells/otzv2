@@ -11,6 +11,7 @@ import SideMenuBar from '../SideMenuBar'
 import { Button } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
+import socketIOClient from 'socket.io-client'
 
 const itemList = [
   {
@@ -47,15 +48,8 @@ const TreatmentPlanTab = ({ patientID }: TreatmentPlanProps) => {
   }, [])
 
   const [notificationPermission, setNotificationPermission] = useState('default')
-  useEffect(() => {
-    if ('Notification' in window) {
-      Notification.requestPermission().then(permission => {
-        setNotificationPermission(permission)
-      })
-    }
-  }, [])
 
-  const showNotification = () => {
+  const showNotification = useCallback(() => {
     if (notificationPermission === 'granted') {
       const notification = new Notification('Hello from appointments', {
         body: 'Please take your medicines'
@@ -63,7 +57,21 @@ const TreatmentPlanTab = ({ patientID }: TreatmentPlanProps) => {
       notificationAudion.play()
       setTimeout(notification.close.bind(notification), 3000)
     }
-  }
+  }, [notificationAudion, notificationPermission])
+
+  useEffect(() => {
+    const socket = socketIOClient('http://localhost:5000/internal-lab-request')
+
+    if ('Notification' in window) {
+      Notification.requestPermission().then(permission => {
+        setNotificationPermission(permission)
+      })
+    }
+
+    socket.on('lab-update', () => { showNotification() })
+
+    // return () => socket.disconnect()
+  }, [showNotification])
 
   return (
     <div>
