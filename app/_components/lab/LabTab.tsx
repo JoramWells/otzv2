@@ -31,7 +31,11 @@ const categoryList = [
   }
 ]
 
-const LabTab = () => {
+interface PatientProps {
+  patientID: string
+}
+
+const LabTab = ({ patientID }: PatientProps) => {
   const [value, setValue] = useState<number>(1)
   return (
     <div className="w-full">

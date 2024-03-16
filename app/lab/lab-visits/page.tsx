@@ -1,11 +1,26 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
-import { CustomTable } from '../_components/table/CustomTable'
-import { columns } from './columns'
-import { useState } from 'react'
 import { Button } from '@chakra-ui/react'
+import { CustomTable } from '../../_components/table/CustomTable'
+import { useGetAllInternalLabRequestsQuery } from '@/api/viraload/internalLabRequest.api'
+import { useState } from 'react'
+import { columns } from './columns'
+
+// const testsLists = [
+//   {
+//     id: 1,
+//     label: 'CD4'
+//   },
+//   {
+//     id: 2,
+//     label: 'Viral Load'
+//   },
+//   {
+//     id: 3,
+//     label: 'TB'
+//   }
+// ]
 
 const categoryList = [
   {
@@ -30,17 +45,42 @@ const categoryList = [
   }
 ]
 
-const Patients = () => {
-  const [value, setValue] = useState<number>(1)
-  const { data } = useGetAllAppointmentsQuery()
+const LabPage = () => {
+  // const datax = await getPatients()
+  const { data } = useGetAllInternalLabRequestsQuery()
   console.log(data, 'dtc')
+  const [value, setValue] = useState<number>(1)
 
   return (
     <div className="ml-64 pt-12">
       <div className="p-5">
-        <p className="mb-4 text-xl font-semibold text-slate-700">
-          Patient Appointments
-        </p>
+        <p className="mb-4 text-xl font-semibold text-slate-700">Lab Visits</p>
+        {/* <div
+          className="rounded-md gap-x-4
+           flex flex-row mb-4
+          "
+        >
+          {testsLists.map((item) => (
+            <Button
+              key={item.id}
+              rounded={'full'}
+              size={'sm'}
+              bgColor={`${value === item.id && 'gray.700'}`}
+              color={`${value === item.id && 'white'}`}
+              // shadow={`${value === item.id && 'md'}`}
+              _hover={{
+                bgColor: `${value === item.id && 'black'}`,
+                color: `${value === item.id && 'white'}`
+              }}
+              onClick={() => {
+                setValue(item.id)
+              }}
+            >
+              {item.label}
+            </Button>
+          ))}
+        </div> */}
+
         <div
           className="flex flex-row space-x-4
       border-b mb-4
@@ -73,11 +113,10 @@ const Patients = () => {
             </Button>
           ))}
         </div>
-
         <CustomTable columns={columns} data={data || []} />
       </div>
     </div>
   )
 }
 
-export default Patients
+export default LabPage

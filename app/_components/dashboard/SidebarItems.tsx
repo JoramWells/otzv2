@@ -141,7 +141,22 @@ const SidebarItems = () => {
           }
         ]}
       />
-      <SidebarCollapseButton label="Lab" icon={<TestTubes size={17} />} />
+      <SidebarCollapseButton
+        label="Lab"
+        icon={<TestTubes size={17} />}
+        itemList={[
+          {
+            id: useId(),
+            link: '/lab',
+            label: 'View Lab Requests'
+          },
+          {
+            id: useId(),
+            link: '/lab/lab-visits',
+            label: 'Lab Visits'
+          }
+        ]}
+      />
       <SidebarCollapseButton label="Pharmacy" icon={<Tablets size={17} />} />
       <SidebarCollapseButton label="PMTCT" icon={<Baby size={17} />} />
       <SidebarCollapseButton

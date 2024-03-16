@@ -30,6 +30,7 @@ import { schoolApi } from '@/api/school/school.api'
 import { viralLoadApi } from '@/api/enrollment/viralLoadTests.api'
 import { artSwitchReasonApi } from '@/api/art/artSwitchReason.api'
 import { artRegimenSwitchApi } from '@/api/art/artRegimenSwitch.api'
+import { internalLabRequestApi } from '@/api/viraload/internalLabRequest.api'
 
 export const store = configureStore({
   reducer: {
@@ -62,7 +63,8 @@ export const store = configureStore({
     [schoolApi.reducerPath]: schoolApi.reducer,
     [viralLoadApi.reducerPath]: viralLoadApi.reducer,
     [artSwitchReasonApi.reducerPath]: artSwitchReasonApi.reducer,
-    [artRegimenSwitchApi.reducerPath]: artRegimenSwitchApi.reducer
+    [artRegimenSwitchApi.reducerPath]: artRegimenSwitchApi.reducer,
+    [internalLabRequestApi.reducerPath]: internalLabRequestApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -96,4 +98,5 @@ export const store = configureStore({
       .concat(viralLoadApi.middleware)
       .concat(artSwitchReasonApi.middleware)
       .concat(artRegimenSwitchApi.middleware)
+      .concat(internalLabRequestApi.middleware)
 })

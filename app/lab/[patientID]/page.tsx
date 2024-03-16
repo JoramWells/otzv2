@@ -72,7 +72,7 @@ const PatientDetails = ({ params }: any) => {
         </div>
       )}
 
-      {value === 5 && <LabTab patientID={patientID} />}
+      {value === 5 && <LabTab />}
 
       {value === 6 && <TreatmentPlanTab patientID={patientID} />}
     </div>
