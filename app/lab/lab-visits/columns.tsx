@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { Avatar, Tag } from '@chakra-ui/react'
+import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import moment from 'moment'
+import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 
@@ -10,6 +10,7 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  dateRequested: MomentInput
   id: any
   header: string
   accessorKey?: keyof PatientProps

@@ -56,7 +56,7 @@ const LocationDetails = ({
       id: item.id,
       label: item.subCountyName
     }))
-  }, [wardData, residence])
+  }, [subCountyData, residence])
 
   const schoolOptions = useCallback(() => {
     return schoolsData?.map((item: any) => ({

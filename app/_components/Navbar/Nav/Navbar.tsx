@@ -3,8 +3,8 @@ import { Bell, CircleUserRound, MessageSquareText } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import useNotification from '@/hooks/useNotification'
 import socketIOClient, { type Socket } from 'socket.io-client'
-import { useContext, useEffect, useState } from 'react'
-import { NotificationContext } from '@/context/NotificationContext'
+import { useContext, useEffect } from 'react'
+import { NotificationContext, type NotificationProps } from '@/context/NotificationContext'
 
 const Navbar = () => {
   const { notifications, addNotification } = useContext(NotificationContext)
@@ -15,20 +15,16 @@ const Navbar = () => {
   useEffect(() => {
     const socket: Socket = socketIOClient('http://localhost:5000')
 
-    socket.on('lab-updated', (socket: any) => {
+    socket.on('lab-updated', (socketData: NotificationProps) => {
       showNotification()
-      console.log(socket)
-      addNotification(socket)
+      addNotification(socketData)
+      console.log(notifications)
     })
 
     return () => {
       socket.disconnect()
     }
   }, [showNotification, notifications, addNotification])
-
-  useEffect(() => {
-    console.log(notifications, 'datam')
-  }, [notifications])
 
   return (
       <div
@@ -50,7 +46,7 @@ const Navbar = () => {
         h-4 w-4 rounded-full text-sm flex
         "
           >
-            {notifications.length}
+            {[].length}
           </div>
         </div>
         <MessageSquareText

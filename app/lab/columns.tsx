@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Avatar, Button, Tag } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Beaker } from 'lucide-react'
-import moment from 'moment'
+import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 
@@ -11,6 +10,8 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  urgency: any
+  dateRequested: MomentInput
   id: any
   header: string
   accessorKey?: keyof PatientProps
@@ -66,7 +67,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     header: 'Urgency',
     cell: ({ row }) => (
       <div>
-        {row.getValue('urgency').toLowerCase() === 'urgent'.toLowerCase()
+        {row.original.urgency.toLowerCase() === 'urgent'.toLowerCase()
           ? (
           <Tag colorScheme="red" size={'sm'}>
             {row.getValue('urgency')}

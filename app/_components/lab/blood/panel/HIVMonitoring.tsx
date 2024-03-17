@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { useAddInternalLabRequestMutation } from '@/api/viraload/internalLabRequest.api'
@@ -5,96 +6,94 @@ import { Button } from '@chakra-ui/react'
 import { useState } from 'react'
 import Select from 'react-select'
 import { type PatientIDProps } from '../../constants/patient'
+import CustomSelect from '@/app/_components/forms/CustomSelect'
 
 const options = [
   {
-    value: 1,
+    id: '1',
     label: 'Adherence Drug Resistance'
   },
   {
-    value: 2,
+    id: '2',
     label: 'CD4 Percentage'
   },
   {
-    value: 3,
+    id: '3',
     label: 'CD4 Count'
   },
   {
-    value: 4,
+    id: '4',
     label: 'HIV DNA Polymerase Chain Reaction, Qualitative'
   },
   {
-    value: 5,
+    id: '5',
     label: 'Viral Load'
   },
   {
-    value: 6,
+    id: '6',
     label: 'Rapid Test for HIV'
   },
   {
-    value: 7,
+    id: '7',
     label: 'Serum Cryptococcal Antigen (CRAG)'
   }
 ]
 
 const reasonOption = [
   {
-    value: 1,
+    id: '1',
     label: 'Suspected Treatment Failure'
   }
 ]
 
 const HIVMonitoring = ({ patientID }: PatientIDProps) => {
   // const [specimenType, setSpecimenType] = useState('')
-  const [testName, setTestName] = useState({ label: '', value: '' })
-  const [urgency, setUrgency] = useState({ label: '', value: '' })
+  const [testName, setTestName] = useState('')
+  const [urgency, setUrgency] = useState('')
   const [dateRequested, setDateRequested] = useState(new Date())
-  const [reason, setReason] = useState({ label: '', value: '' })
+  const [reason, setReason] = useState('')
   const [addInternalLabRequest, { isLoading }] = useAddInternalLabRequestMutation()
   const inputValues = {
     patientID,
     specimenType: 'Blood',
-    testName: testName.label,
-    urgency: urgency.label,
+    testName,
+    urgency,
     dateRequested,
-    reason: reason.label
+    reason
   }
   return (
     <div className="flex flex-col gap-y-4 w-[600px] border p-5 rounded-lg">
       <p className="text-lg font-bold">HIV Monitoring Tests</p>
-      <div>
-        <p className="font-bold mb-1">Select Test</p>
-        <Select options={options}
+
+        <CustomSelect
+        label='Select Test'
+        data={options}
         onChange={setTestName}
         value={testName}
         />
-      </div>
 
-      <div>
-        <p className="font-bold mb-1">Select Urgency</p>
-        <Select
+        <CustomSelect
+        label='Select Urgency'
         value={urgency}
         onChange={setUrgency}
-          options={[
-            { value: '1', label: 'Urgent' },
-            { value: '2', label: 'Routine' }
+          data={[
+            { id: '1', label: 'Urgent' },
+            { id: '2', label: 'Routine' }
           ]}
         />
-      </div>
-      <div>
-        <p className="font-bold mb-1">Select Reason</p>
-        <Select
+
+      <CustomSelect
+      label='Select Reason'
+      value={reason}
+      onChange={setReason}
+      data={reasonOption}
+      />
+
+        <CustomSelect
+        label='Reason (Other)'
         value={reason}
         onChange={setReason}
-        options={reasonOption} />
-      </div>
-      <div>
-        <p className="font-bold mb-1">Select Reason(Other)</p>
-        <Select
-        value={reason}
-        onChange={setReason}
-        options={reasonOption} />
-      </div>
+        data={reasonOption} />
 
       {/* 2 */}
 

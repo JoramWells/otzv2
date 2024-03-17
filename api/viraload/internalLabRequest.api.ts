@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+interface LabRequestProps {
+  id: string
+}
+
 export const internalLabRequestApi = createApi({
   reducerPath: 'internalLabRequestApi',
   baseQuery: fetchBaseQuery({
@@ -20,7 +24,7 @@ export const internalLabRequestApi = createApi({
     getInternalLabRequest: builder.query({
       query: (id) => `detail/${id}`
     }),
-    updateInternalLabRequest: builder.mutation({
+    updateInternalLabRequest: builder.mutation<LabRequestProps, any>({
       query: ({ id, ...patch }) => ({
         url: `update/${id}`,
         method: 'PUT',
