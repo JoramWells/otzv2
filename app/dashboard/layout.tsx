@@ -6,20 +6,23 @@ import Navbar from '../_components/Navbar/Nav/Navbar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { ChakraProvider } from '@chakra-ui/react'
+import { NotificationProvider } from '@/context/NotificationContext'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
-      <ChakraProvider>
-        <div className="h-screen">
-          <Navbar />
-          <Sidebar>
-            <SidebarItems />
-          </Sidebar>
+      <NotificationProvider>
+        <ChakraProvider>
+          <div className="h-screen">
+            <Navbar />
+            <Sidebar>
+              <SidebarItems />
+            </Sidebar>
 
-          {children}
-        </div>
-      </ChakraProvider>
+            {children}
+          </div>
+        </ChakraProvider>
+      </NotificationProvider>
     </Provider>
   )
 }

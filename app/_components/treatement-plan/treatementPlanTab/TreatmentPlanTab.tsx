@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../../table/CustomTable'
@@ -11,7 +11,6 @@ import SideMenuBar from '../SideMenuBar'
 import { Button } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
-import socketIOClient from 'socket.io-client'
 
 const itemList = [
   {
@@ -37,7 +36,6 @@ export interface TreatmentPlanProps {
 }
 
 const TreatmentPlanTab = ({ patientID }: TreatmentPlanProps) => {
-  const notificationAudion = new Audio('/audio/message-tone-checked-off.mp3')
   const [selected, setSelected] = useState(0)
 
   const { data } = useGetAllAppointmentsQuery()
@@ -46,32 +44,6 @@ const TreatmentPlanTab = ({ patientID }: TreatmentPlanProps) => {
   const handleStepChange = useCallback((step: number) => {
     setSelected(step)
   }, [])
-
-  const [notificationPermission, setNotificationPermission] = useState('default')
-
-  const showNotification = useCallback(() => {
-    if (notificationPermission === 'granted') {
-      const notification = new Notification('Hello from appointments', {
-        body: 'Please take your medicines'
-      })
-      notificationAudion.play()
-      setTimeout(notification.close.bind(notification), 3000)
-    }
-  }, [notificationAudion, notificationPermission])
-
-  useEffect(() => {
-    const socket = socketIOClient('http://localhost:5000/internal-lab-request')
-
-    if ('Notification' in window) {
-      Notification.requestPermission().then(permission => {
-        setNotificationPermission(permission)
-      })
-    }
-
-    socket.on('lab-update', () => { showNotification() })
-
-    // return () => socket.disconnect()
-  }, [showNotification])
 
   return (
     <div>
@@ -82,7 +54,6 @@ const TreatmentPlanTab = ({ patientID }: TreatmentPlanProps) => {
           <div>
             <Printer
             className='hover:cursor-pointer'
-            onClick={showNotification}
             />
           </div>
           <Button size={'sm'} colorScheme="green" variant={'outline'}>

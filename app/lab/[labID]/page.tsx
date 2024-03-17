@@ -24,19 +24,19 @@ const LabDetails = ({ params }: any) => {
 
   const [updateInternalLabRequest, { isLoading, data: updatedData }] =
     useUpdateInternalLabRequestMutation(labID)
-  console.log(updatedData, 'usd')
+  // console.log(updatedData, 'usd')
 
-  useEffect(() => {
-    if (updatedData) {
-      toast({
-        title: 'Test Updated.',
-        description: `${updatedData?.testName} test updated successfully!!`,
-        status: 'success',
-        isClosable: true,
-        position: 'top-right'
-      })
-    }
-  }, [updatedData, toast])
+  // useEffect(() => {
+  //   if (updatedData) {
+  //     toast({
+  //       title: 'Test Updated.',
+  //       description: `${updatedData?.testName} test updated successfully!!`,
+  //       status: 'success',
+  //       isClosable: true,
+  //       position: 'top-right'
+  //     })
+  //   }
+  // }, [updatedData, toast])
 
   const inputValues = {
     id: labID,
