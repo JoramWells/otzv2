@@ -1,7 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { type ColumnDef } from '@tanstack/react-table'
 import moment from 'moment/moment'
-import { Avatar, Button, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
-import { Menu, MoreHorizontal } from 'lucide-react'
+import { Avatar, Tag } from '@chakra-ui/react'
+import { Menu, MoreHorizontal, MoreHorizontalIcon } from 'lucide-react'
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel,
+  DropdownMenuSeparator, DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -9,6 +15,10 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  currentRegimenLine: ReactNode
+  currentARTRegimen: ReactNode
+  currentRegimenLine: ReactNode
+  isValid: string
   artRegimenPhase: any
   art: any
   id: any
@@ -39,7 +49,17 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
           className="font-bold"
           name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
+        <div>
+          <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
+          <p className="uppercase text-slate-500 font-sm mt-1">
+            {`${props.row.original.patient?.sex === 'M' ? 'Male' : 'Female'}`} .{' '}
+            {moment().diff(
+              moment(new Date(props.row.original.patient?.dob)).format('ll'),
+              'years'
+            )}{' '}
+            yrs
+          </p>
+        </div>
       </div>
     )
   },
@@ -57,34 +77,74 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'isValid',
-    header: 'VL VALID'
+    header: 'VL VALID',
+    cell: ({ row }) => (
+      <div>
+        {row.original.isValid === 'Valid'
+          ? (
+          <Tag colorScheme="green" size={'sm'}>
+            Valid
+          </Tag>
+            )
+          : (
+          <Tag colorScheme="red" size={'sm'}>
+            Invalid
+          </Tag>
+            )}
+      </div>
+    )
   },
   {
-    accessorKey: 'vlCopies',
+    accessorKey: 'vlResults',
     header: 'VL results'
+  },
+  {
+    accessorKey: 'currentRegimenLine',
+    header: 'Regimen Details',
+    cell: ({ row }) => (
+      <div className="flex flex-col gap-y-1">
+        <p>{row.original.currentRegimenLine}</p>
+        <p className="text-slate-500">{row.original.currentARTRegimen}</p>
+        {/* <p
+        className='text-xs'
+        >{moment(new Date(row.original.currentARTStartDate)).format('ll')}</p> */}
+      </div>
+    )
   },
   {
     // accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => (
-      <Menu>
-        <MenuButton
-          as={Button}
-          leftIcon={<MoreHorizontal size={20} />}
-          size={'sm'}
-          rounded={'full'}
-          // colorScheme="teal"
-          // bgColor={'white'}
-          // borderColor={'black'}
-          // variant={'outline'}
-        >
-          Columns
-        </MenuButton>
-        <MenuList className="flex flex-col p-2 gap-y-3">
-          {/* <MenuItem>Hello</MenuItem> */}
-          H
-        </MenuList>
-      </Menu>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <MoreHorizontal
+            size={20}
+            className="hover:cursor-pointer text-slate-500 hover: hover:text-slate-600"
+          />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56">
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Enrollment Details</DropdownMenuItem>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Dialog>
+                <DialogTrigger asChild>
+                  {/* <Button variant="outline">Edit Profile</Button> */}
+                  <MoreHorizontalIcon />
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogDescription>
+                      Make changes to your profile here. Click save when you
+                      done.
+                    </DialogDescription>
+
+                </DialogContent>
+              </Dialog>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     )
   }
 ]
