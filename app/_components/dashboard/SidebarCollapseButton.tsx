@@ -31,8 +31,8 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <d
       <div
         onClick={onToggle}
         className={`flex h-10 items-center pl-4 pr-4 justify-between text-slate-600 text-sm
-        hover:cursor-pointer overflow-y-auto hover:bg-teal-50 hover:text-teal-500 font-bold ${
-          isActive && 'bg-teal-50 text-teal-500'
+        hover:cursor-pointer overflow-y-auto hover:bg-sky-50 hover:text-sky-500 font-bold ${
+          isActive && 'bg-sky-50 text-sky-500'
         }
         `}
       >

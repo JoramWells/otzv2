@@ -24,6 +24,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "@tanstack/react-table": "^8.13.2",
     "axios": "^1.6.7",
+    "chart.js": "^4.4.2",
     "framer-motion": "^11.0.6",
     "lucide-react": "^0.344.0",
     "moment": "^2.30.1",

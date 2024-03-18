@@ -15,11 +15,13 @@ import { CSVLink } from 'react-csv'
 interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
+  isSearch?: boolean
 
 }
 export function CustomTable<TData, TValue> ({
   data,
-  columns
+  columns,
+  isSearch = true
 }: CustomTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({})
 
@@ -41,75 +43,77 @@ export function CustomTable<TData, TValue> ({
 
   return (
     <div>
-      <div
-        className="flex flex-row justify-between items-center
+      {isSearch && (
+        <div
+          className="flex flex-row justify-between items-center
         mb-4
         "
-      >
-        <input
-          placeholder="Search patient name"
-          className="border h-10 rounded-md p-1"
-        />
+        >
+          <input
+            placeholder="Search patient name"
+            className="border h-10 rounded-md p-1"
+          />
 
-        <div className="flex flex-row space-x-4 items-center">
-          <CSVLink data={data as object[]}>
+          <div className="flex flex-row space-x-4 items-center">
+            <CSVLink data={data as object[]}>
+              <Button
+                size={'sm'}
+                rounded={'full'}
+                // color={'gray.500'}
+                leftIcon={<ArrowDownToLine size={20} />}
+              >
+                Download
+              </Button>
+            </CSVLink>
             <Button
               size={'sm'}
               rounded={'full'}
               // color={'gray.500'}
-              leftIcon={<ArrowDownToLine size={20} />}
+              leftIcon={<Printer size={20} />}
             >
-              Download
+              Print
             </Button>
-          </CSVLink>
-          <Button
-            size={'sm'}
-            rounded={'full'}
-            // color={'gray.500'}
-            leftIcon={<Printer size={20} />}
-          >
-            Print
-          </Button>
 
-          <Menu>
-            <MenuButton
-              as={Button}
-              leftIcon={<ChevronDownIcon size={20} />}
-              size={'sm'}
-              rounded={'full'}
-              // colorScheme="teal"
-              // bgColor={'white'}
-              // borderColor={'black'}
-              // variant={'outline'}
-            >
-              Columns
-            </MenuButton>
-            <MenuList className="flex flex-col p-2 gap-y-3">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => (
-                  <Checkbox
-                    className="text-black capitalize"
-                    colorScheme="teal"
-                    key={column.id}
-                    checked={column.getIsVisible()}
-                    onChange={(value: any) => {
-                      column.toggleVisibility(!value)
-                    }}
-                  >
-                    {column.id}
-                  </Checkbox>
-                ))}
-              <MenuDivider />
-              <div className="text-center m-0 p-0 flex flex-row items-center text-gray-500  hover:cursor-pointer">
-                <Trash2 size={18} className="mr-2" />
-                Clear
-              </div>
-            </MenuList>
-          </Menu>
+            <Menu>
+              <MenuButton
+                as={Button}
+                leftIcon={<ChevronDownIcon size={20} />}
+                size={'sm'}
+                rounded={'full'}
+                // colorScheme="teal"
+                // bgColor={'white'}
+                // borderColor={'black'}
+                // variant={'outline'}
+              >
+                Columns
+              </MenuButton>
+              <MenuList className="flex flex-col p-2 gap-y-3">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => (
+                    <Checkbox
+                      className="text-black capitalize"
+                      colorScheme="teal"
+                      key={column.id}
+                      checked={column.getIsVisible()}
+                      onChange={(value: any) => {
+                        column.toggleVisibility(!value)
+                      }}
+                    >
+                      {column.id}
+                    </Checkbox>
+                  ))}
+                <MenuDivider />
+                <div className="text-center m-0 p-0 flex flex-row items-center text-gray-500  hover:cursor-pointer">
+                  <Trash2 size={18} className="mr-2" />
+                  Clear
+                </div>
+              </MenuList>
+            </Menu>
+          </div>
         </div>
-      </div>
+      )}
 
       {/*  */}
       <TableContainer
