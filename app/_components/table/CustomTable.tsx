@@ -6,7 +6,8 @@ import {
 } from '@chakra-ui/react'
 import {
   useReactTable, type ColumnDef, getCoreRowModel,
-  getSortedRowModel, flexRender, type VisibilityState
+  getSortedRowModel, flexRender, type VisibilityState,
+  getPaginationRowModel
 } from '@tanstack/react-table'
 import { ChevronDownIcon, Trash2, ArrowDownToLine, Printer } from 'lucide-react'
 import { useState } from 'react'
@@ -33,6 +34,7 @@ export function CustomTable<TData, TValue> ({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility,
     state: {
@@ -155,6 +157,20 @@ export function CustomTable<TData, TValue> ({
             ))}
           </Tbody>
         </Table>
+        <div
+        className='flex gap-x-4 mt-4 justify-end'
+        >
+          <Button
+          onClick={() => table.getCanPreviousPage()}
+          isDisabled={!table.getCanPreviousPage()}
+          size={'sm'}
+          >Prev</Button>
+          <Button
+          onClick={() => table.getCanNextPage()}
+          isDisabled={!table.getCanNextPage()}
+          size={'sm'}
+          >Next</Button>
+        </div>
       </TableContainer>
     </div>
   )

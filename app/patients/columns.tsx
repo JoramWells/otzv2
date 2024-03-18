@@ -37,7 +37,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
           name={`${props.row.original?.firstName} ${props.row.original?.middleName}`}
         />
         <Link
-          className="capitalize font-semibold underline"
+          className="capitalize"
           href={`/patients/${props.row.original.id}`}
         >{`${props.row.original?.firstName} ${props.row.original?.middleName}`}</Link>
       </div>
