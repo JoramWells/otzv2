@@ -9,7 +9,7 @@ import {
   getSortedRowModel, flexRender, type VisibilityState,
   getPaginationRowModel
 } from '@tanstack/react-table'
-import { ChevronDownIcon, Trash2, ArrowDownToLine, Printer } from 'lucide-react'
+import { ChevronDownIcon, Trash2, ArrowDownToLine, Printer, BookOpen } from 'lucide-react'
 import { useState } from 'react'
 import { CSVLink } from 'react-csv'
 
@@ -157,19 +157,38 @@ export function CustomTable<TData, TValue> ({
             ))}
           </Tbody>
         </Table>
-        <div
-        className='flex gap-x-4 mt-4 justify-end'
-        >
-          <Button
-          onClick={() => table.getCanPreviousPage()}
-          isDisabled={!table.getCanPreviousPage()}
-          size={'sm'}
-          >Prev</Button>
-          <Button
-          onClick={() => table.getCanNextPage()}
-          isDisabled={!table.getCanNextPage()}
-          size={'sm'}
-          >Next</Button>
+        <div className="flex gap-x-4 mt-4 justify-between">
+          <div className="flex flex-row items-center text-slate-500
+          gap-x-2
+          ">
+            <BookOpen size={20} />
+            <p className='text-sm'>
+              Page {table.getState().pagination.pageIndex + 1} of{' '}
+              {table.getPageCount()}
+            </p>
+          </div>
+          <div
+          className='flex flex-row items-center gap-x-2'
+          >
+            <Button
+              onClick={() => {
+                table.previousPage()
+              }}
+              isDisabled={!table.getCanPreviousPage()}
+              size={'sm'}
+            >
+              Prev
+            </Button>
+            <Button
+              onClick={() => {
+                table.nextPage()
+              }}
+              isDisabled={!table.getCanNextPage()}
+              size={'sm'}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </TableContainer>
     </div>

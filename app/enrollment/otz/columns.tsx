@@ -1,7 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
-import Link from 'next/link'
 import moment from 'moment/moment'
-import { Avatar } from '@chakra-ui/react'
+import { Avatar, Button, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import { Menu, MoreHorizontal } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -67,7 +67,24 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     // accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => (
-      <Link href={`/enrollment/otz/${row.original.id}`}>See Patient</Link>
+      <Menu>
+        <MenuButton
+          as={Button}
+          leftIcon={<MoreHorizontal size={20} />}
+          size={'sm'}
+          rounded={'full'}
+          // colorScheme="teal"
+          // bgColor={'white'}
+          // borderColor={'black'}
+          // variant={'outline'}
+        >
+          Columns
+        </MenuButton>
+        <MenuList className="flex flex-col p-2 gap-y-3">
+          {/* <MenuItem>Hello</MenuItem> */}
+          H
+        </MenuList>
+      </Menu>
     )
   }
 ]
