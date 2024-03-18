@@ -13,7 +13,7 @@ export interface PieChartProps {
 
 const PieChart = ({ data }: Props) => {
   return (
-    <div className="w-[400px] h-[400px] p-2 border rounded-lg">
+    <div className="p-2 border rounded-lg">
       <Pie
         data={data}
         options={{
@@ -22,7 +22,9 @@ const PieChart = ({ data }: Props) => {
               display: true,
               text: 'Patient Data'
             }
-          }
+          },
+          responsive: true,
+          maintainAspectRatio: false
         }}
       />
     </div>

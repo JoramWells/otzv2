@@ -14,7 +14,7 @@ export interface LineChartProps {
 
 const LineChart = ({ data }: Props) => {
   return (
-    <div className="w-[1000px] h-[450px] p-2">
+    <div className="lg:w-1/2 h-[400px] md:w-full">
       <Line
         data={data}
         options={{

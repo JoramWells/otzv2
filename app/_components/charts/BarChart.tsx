@@ -14,8 +14,7 @@ export interface BarChartProps {
 
 const BarChart = ({ data }: Props) => {
   return (
-    <div className="w-[400px] h-[400px] p-2
-    border rounded-lg
+    <div className="border rounded-lg
     ">
       <Bar
         data={data}

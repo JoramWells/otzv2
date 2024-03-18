@@ -30,7 +30,7 @@ export const SidebarSubButton = ({
     text-slate-500 text-md
     text-md ml-6 rounded-md
     ${isActive && 'bg-sky-50'}
-    ${isActive && 'bg-teal-50 text-sky-500'}
+    ${isActive && 'bg-sky-50 text-sky-500'}
     `}
     >
       <Link href={link}

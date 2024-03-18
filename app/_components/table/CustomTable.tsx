@@ -147,7 +147,7 @@ export function CustomTable<TData, TValue> ({
             {table.getRowModel().rows.map((row) => (
               <Tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <Td key={cell.id} fontSize="12px">
+                  <Td key={cell.id} fontSize="14px">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>
                 ))}

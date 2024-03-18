@@ -9,14 +9,14 @@ import LineChart, { type LineChartProps } from '../_components/charts/LineChart'
 import { CustomTable } from '../_components/table/CustomTable'
 import { columns } from './art/columns'
 
-interface dataPops {
+interface DataPops {
   id: number
   year: number
   userGain: number
   userLost: number
 }
 
-export const data: dataPops[] = [
+const chartData: DataPops[] = [
   {
     id: 1,
     year: 2016,
@@ -53,53 +53,44 @@ Chart.register(...registerables)
 
 const Dashboard = () => {
   const [pieChartData, setChartData] = useState<PieChartProps>({
-    labels: data.map((item: dataPops) => item.year.toString()),
+    labels: chartData.map((item: DataPops) => item.year.toString()),
     datasets: [
       {
         label: 'Users Gained',
-        data: data.map((item) => item.userGain)
+        data: chartData.map((item) => item.userGain)
       }
     ]
   })
 
   //
   const [barCharData, setBarChartData] = useState<BarChartProps>({
-    labels: data.map((item: dataPops) => item.year.toString()),
+    labels: chartData.map((item: DataPops) => item.year.toString()),
     datasets: [
       {
         label: 'Users Gained',
-        data: data.map((item) => item.userGain)
+        data: chartData.map((item) => item.userGain)
       }
     ]
   })
 
   //
   const [lineChartData, setLineChartData] = useState<LineChartProps>({
-    labels: data.map((item: dataPops) => item.year.toString()),
+    labels: chartData.map((item: DataPops) => item.year.toString()),
     datasets: [
       {
         label: 'Users Gained',
-        data: data.map((item) => item.userGain)
+        data: chartData.map((item) => item.userGain)
       }
     ]
   })
 
   return (
     <div className="ml-64 pt-12 p-3">
-      <div
-        className="grid grid-cols-6
-      "
-      >
+      <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4 p-4 ">
+        <PieChart data={pieChartData} />
+        <BarChart data={barCharData} />
         <div
-          className="flex flex-row
-        gap-x-4
-        "
-        >
-          <PieChart data={pieChartData} />
-          <BarChart data={barCharData} />
-        </div>
-        <div
-          className="w-[500px] border
+          className="border
         p-2
         "
         >
@@ -109,7 +100,9 @@ const Dashboard = () => {
           <CustomTable isSearch={false} columns={columns} data={[]} />
         </div>
       </div>
-      <LineChart data={lineChartData} />
+      <div className='grid md:grid-cols-1'>
+        <LineChart data={lineChartData} />
+      </div>
     </div>
   )
 }
