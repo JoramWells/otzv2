@@ -74,7 +74,6 @@ const AddPatient = () => {
     dob: DOB,
     phoneNo,
     idNo: IDNo,
-    cccNo: '',
     residence,
     artStartDate: ARTStartDate,
     originalART,

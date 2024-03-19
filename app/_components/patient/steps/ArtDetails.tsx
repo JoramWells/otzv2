@@ -4,6 +4,7 @@ import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import CustomInput from '../../forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
 import { useCallback } from 'react'
+import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 
 export interface ARTProps {
   artName: string
@@ -24,12 +25,22 @@ const ArtDetails = ({
   setArtName, setDateIssued, setCurrentRegimenLine
 }: ARTProps) => {
   const { data: phaseData } = useGetAllArtRegimenPhaseQuery()
+  const { data: artData } = useGetAllArtRegimenQuery()
+
   const phaseOptions = useCallback(() => {
     return phaseData?.map((item: PhaseProps) => ({
       id: item.id,
       label: item.artPhaseDescription
     }))
   }, [phaseData])
+
+  const artOptions = useCallback(() => {
+    return artData?.map((item: any) => ({
+      id: item.id,
+      label: item.artName
+    }))
+  }, [artData])
+
   return (
     <div
       className="border border-gray-200
@@ -39,14 +50,17 @@ const ArtDetails = ({
         width: '100%'
       }}
     >
-      <CustomInput
+
+      <CustomSelect
         label="Current ART Regimen"
         value={artName}
         onChange={setArtName}
+        data={artOptions()}
       />
+
       <CustomInput
         label="Date Issued"
-        type='date'
+        type="date"
         value={dateIssued}
         onChange={setDateIssued}
       />
