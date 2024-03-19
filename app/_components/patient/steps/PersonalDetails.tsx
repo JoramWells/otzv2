@@ -21,12 +21,16 @@ interface PersonalDetailProps {
   dob: string
   gender: string
   idNo: string
+  cccNo: string
+  mflCode: string
   setFirstName: (val: string) => void
   setMiddleName: (val: string) => void
   setLastName: (val: string) => void
   setDOB: (val: string) => void
   setGender: (val: string) => void
   setIDNo: (val: string) => void
+  setCCCNo: (val: string) => void
+  setMFLCode: (val: string) => void
 }
 
 const PersonalDetail = ({
@@ -36,11 +40,15 @@ const PersonalDetail = ({
   dob,
   gender,
   idNo,
+  cccNo,
+  mflCode,
   setFirstName,
   setMiddleName,
   setLastName,
   setDOB, setGender,
-  setIDNo
+  setIDNo,
+  setMFLCode,
+  setCCCNo
 }: PersonalDetailProps) => {
   return (
     <div
@@ -61,29 +69,22 @@ const PersonalDetail = ({
         value={middleName}
         onChange={setMiddleName}
       />
-      <CustomInput
-      label="Last Name"
-      value={lastName}
-      onChange={setLastName} />
-      <CustomInput label="DOB"
-      value={dob}
-      onChange={setDOB}
-      type='date'
-      />
+      <CustomInput label="Last Name" value={lastName} onChange={setLastName} />
+      <CustomInput label="DOB" value={dob} onChange={setDOB} type="date" />
       <CustomSelect
-      label='Select Gender'
-      data={genderOptions}
-      value={gender}
-      onChange={setGender}
+        label="Select Gender"
+        data={genderOptions}
+        value={gender}
+        onChange={setGender}
       />
       {/* <CustomInput label="Select Gender"
       value={gender}
       onChange={setGender}
       /> */}
-      <CustomInput label="ID No."
-      value={idNo}
-      onChange={setIDNo}
-      />
+      <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
+
+      <CustomInput label="NUPI" value={cccNo} onChange={setCCCNo} />
+      <CustomInput label="MFL Code" value={mflCode} onChange={setMFLCode} />
     </div>
   )
 }

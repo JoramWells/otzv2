@@ -1,10 +1,21 @@
 import { Clock1 } from 'lucide-react'
 
-export interface CustomTimeInputProps {
-  label: string
+export interface InputEventProps extends React.ChangeEvent<HTMLInputElement> {
+  target: HTMLInputElement & {
+    value: string
+    name?: string
+  }
 }
 
-const CustomTimeInput = ({ label }: CustomTimeInputProps) => {
+export interface CustomTimeInputProps {
+  label: string
+  hours: string
+  minutes: string
+  setHours: (value: string) => void
+  setMinutes: (value: string) => void
+}
+
+const CustomTimeInput = ({ label, hours, minutes, setHours, setMinutes }: CustomTimeInputProps) => {
   return (
     <div>
       <p className="font-bold mb-2">{label}</p>
@@ -17,6 +28,8 @@ const CustomTimeInput = ({ label }: CustomTimeInputProps) => {
             rounded-md flex items-center"
               type="number"
               placeholder="00"
+              value={hours}
+              onChange={(e: InputEventProps) => { setHours(e.target.value) }}
             />
           </div>
           <div className="flex flex-col space-y-1">
@@ -26,6 +39,9 @@ const CustomTimeInput = ({ label }: CustomTimeInputProps) => {
             rounded-md flex items-center"
               type="number"
               placeholder="00"
+              value={minutes}
+              onChange={(e: InputEventProps) => { setMinutes(e.target.value) }}
+
             />
           </div>
         </div>

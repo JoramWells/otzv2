@@ -4,36 +4,44 @@
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../_components/table/CustomTable'
 import { columns } from './columns'
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Button } from '@chakra-ui/react'
-
-const categoryList = [
-  {
-    id: 1,
-    label: 'All'
-  },
-  {
-    id: 2,
-    label: 'Cancelled'
-  },
-  {
-    id: 3,
-    label: 'Rescheduled'
-  },
-  {
-    id: 4,
-    label: 'Upcoming'
-  },
-  {
-    id: 5,
-    label: 'Missed'
-  }
-]
 
 const Patients = () => {
   const [value, setValue] = useState<number>(1)
   const { data } = useGetAllAppointmentsQuery()
-  console.log(data, 'dtc')
+
+  const missedAppointment = useCallback(() => {
+    return data?.filter((item: any) => item.appointmentStatus?.statusDescription.toLowerCase().includes('Missed'.toLowerCase()))
+  }, [data])
+
+  const categoryList = useMemo(
+    () => [
+      {
+        id: 1,
+        label: `All ${data?.length}`
+      },
+      {
+        id: 2,
+        label: 'Cancelled'
+      },
+      {
+        id: 3,
+        label: 'Rescheduled'
+      },
+      {
+        id: 4,
+        label: 'Upcoming'
+      },
+      {
+        id: 5,
+        label: `Missed ${missedAppointment()?.length}`
+      }
+    ],
+    [missedAppointment, data?.length]
+  )
+
+  console.log(missedAppointment(), 'dtc')
 
   return (
     <div className="ml-64 pt-12">
@@ -74,7 +82,13 @@ const Patients = () => {
           ))}
         </div>
 
-        <CustomTable columns={columns} data={data || []} />
+        {value === 5
+          ? <CustomTable
+        columns={columns}
+        data={missedAppointment() || []}
+        />
+          : <CustomTable columns={columns} data={data || []} />
+      }
       </div>
     </div>
   )

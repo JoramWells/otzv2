@@ -5,9 +5,15 @@ import {
   Button, Menu, MenuButton, MenuList, MenuDivider, Checkbox
 } from '@chakra-ui/react'
 import {
-  useReactTable, type ColumnDef, getCoreRowModel,
-  getSortedRowModel, flexRender, type VisibilityState,
-  getPaginationRowModel
+  useReactTable,
+  type ColumnDef,
+  getCoreRowModel,
+  getSortedRowModel,
+  flexRender,
+  type VisibilityState,
+  getPaginationRowModel,
+  type ColumnFiltersState,
+  getFilteredRowModel
 } from '@tanstack/react-table'
 import { ChevronDownIcon, Trash2, ArrowDownToLine, Printer, BookOpen } from 'lucide-react'
 import { useState } from 'react'
@@ -29,17 +35,24 @@ export function CustomTable<TData, TValue> ({
   const [columnVisibility, setColumnVisibility] =
       useState<VisibilityState>({})
 
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
+    []
+  )
+
   const table = useReactTable({
     data,
     columns,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       columnVisibility,
-      rowSelection
+      rowSelection,
+      columnFilters
     }
   })
 
@@ -54,6 +67,10 @@ export function CustomTable<TData, TValue> ({
           <input
             placeholder="Search patient name"
             className="border h-10 rounded-md p-1"
+            value={(table.getColumn('firstName')?.getFilterValue() as string) ?? ''}
+            onChange={(event) =>
+              table.getColumn('firstName')?.setFilterValue(event.target.value)
+            }
           />
 
           <div className="flex flex-row space-x-4 items-center">
@@ -158,18 +175,18 @@ export function CustomTable<TData, TValue> ({
           </Tbody>
         </Table>
         <div className="flex gap-x-4 mt-4 justify-between">
-          <div className="flex flex-row items-center text-slate-500
+          <div
+            className="flex flex-row items-center text-slate-500
           gap-x-2
-          ">
+          "
+          >
             <BookOpen size={20} />
-            <p className='text-sm'>
+            <p className="text-sm">
               Page {table.getState().pagination.pageIndex + 1} of{' '}
               {table.getPageCount()}
             </p>
           </div>
-          <div
-          className='flex flex-row items-center gap-x-2'
-          >
+          <div className="flex flex-row items-center gap-x-2">
             <Button
               onClick={() => {
                 table.previousPage()

@@ -4,17 +4,16 @@
 'use client'
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
-import { useCallback, useState } from 'react'
-import { useAddArtRegimenPhaseMutation, useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
+import { useCallback, useEffect, useState } from 'react'
+
 import CustomSelect from '@/app/_components/forms/CustomSelect'
-import { useAddArtRegimenCategoryMutation } from '@/api/art/artRegimenCategory.api'
-import { useAddAppointmentMutation } from '@/api/appointment/appointment.api.'
+import { useAddAppointmentMutation, useGetAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
 import moment from 'moment'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
-import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
+import { useGetAllAppointmentAgendaQuery, useGetAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import CustomTimeInput from '@/app/_components/forms/CustomTimeInput'
+import CustomInput from '@/app/_components/forms/CustomInput'
 
 interface PhaseProps {
   id: string
@@ -27,19 +26,29 @@ interface CategoryProps {
   artPhaseID: string
 }
 
-const AddArtCategory = ({ params }: any) => {
-  const patientID = params.patientID
+const EditAppointment = ({ params }: any) => {
+  const appointmentID = params.appointmentID
   const [userID, setUserID] = useState('')
   const [agenda, setAppointmentAgenda] = useState('')
   const [appointmentDate, setAppointmentDate] = useState('')
   const [appointmentTime, setAppointmentTime] = useState('')
   const [status, setStatus] = useState('')
-  const [hours, setHours] = useState('')
   const [minutes, setMinutes] = useState('')
 
   const [addAppointment, { isLoading }] = useAddAppointmentMutation()
 
   const { data: usersData } = useGetAllUsersQuery()
+
+  const { data: appointmentData } = useGetAppointmentDetailQuery(appointmentID)
+  const [hours, setHours] = useState('')
+
+  // useEffect(()=>{
+  //   if(appointmentData){
+  //     set
+  //   }
+  // },[])
+
+  console.log(appointmentData, 'gt')
 
   const { data: appointmentAgendaData } = useGetAllAppointmentAgendaQuery()
   const { data: appointmentStatusData } = useGetAllAppointmentStatusQuery()
@@ -69,7 +78,7 @@ const AddArtCategory = ({ params }: any) => {
 
   const inputValues = {
     appointmentAgendaID: agenda,
-    patientID,
+    appointmentID,
     userID,
     appointmentDate,
     appointmentTime: moment().hour(hours).minute(minutes).format('HH:mm'),
@@ -139,4 +148,4 @@ const AddArtCategory = ({ params }: any) => {
   )
 }
 
-export default AddArtCategory
+export default EditAppointment

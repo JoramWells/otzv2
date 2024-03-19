@@ -63,6 +63,8 @@ const AddPatient = () => {
   const [ARTStartDate, setARTStartDate] = useState('')
   const [originalART, setOriginalART] = useState('')
   const [currentRegimeLine, setCurrentRegimenLine] = useState('')
+  const [mflCode, setMFLCode] = useState('')
+  const [cccNo, setCCCNo] = useState('')
 
   const inputValues = {
     firstName,
@@ -76,7 +78,9 @@ const AddPatient = () => {
     residence,
     artStartDate: ARTStartDate,
     originalART,
-    currentRegimeLine
+    currentRegimeLine,
+    cccNo,
+    mflCode
   }
 
   // const { activeStep } = useSteps({
@@ -151,6 +155,10 @@ const AddPatient = () => {
             setDOB={setDOB}
             setGender={setGender}
             setIDNo={setIDNo}
+            cccNo={cccNo}
+            mflCode={mflCode}
+            setCCCNo={setCCCNo}
+            setMFLCode={setMFLCode}
           />
         )}
         {activeStep === 2 && (

@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
+import { useGetAllAppointmentsQuery, useGetAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../../table/CustomTable'
 import { columns } from './columns'
 import { CalendarDays } from 'lucide-react'
@@ -72,7 +72,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
   }, [])
 
   const [isCalendarVisible, setIsCalendarVisible] = useState(false)
-  const { data } = useGetAllAppointmentsQuery()
+  const { data } = useGetAppointmentDetailQuery(patientID)
   console.log(data, 'dtc')
 
   return (
