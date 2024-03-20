@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Trash2, Pencil } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Avatar, Tag } from '@chakra-ui/react'

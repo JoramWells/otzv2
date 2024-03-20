@@ -60,6 +60,33 @@ const FormOne = () => {
   const [toolAndCues, setToolAndCues] = useState('')
   const [goal, setGoal] = useState('')
 
+  //
+  const [morningHours, setMorningHours] = useState('')
+  const [morningMinutes, setMorningMinutes] = useState('')
+  const [eveningHours, setEveningHours] = useState('')
+  const [eveningMinutes, setEveningMinutes] = useState('')
+
+  //
+  const [morningHoursWeekend, setMorningHoursWeekend] = useState('')
+  const [morningMinutesWeekend, setMorningMinutesWeekend] = useState('')
+  const [eveningHoursWeekend, setEveningHoursWeekend] = useState('')
+  const [eveningMinutesWeekend, setEveningMinutesWeekend] = useState('')
+
+  //
+  const [wakeUpTimeHours, setWakeUpTimeHours] = useState('')
+  const [wakeUpTimeMinutes, setWakeUpTimeMinutes] = useState('')
+  const [departureHomeTimeHours, setDepartureHomeTimeHours] = useState('')
+  const [departureHomeTimeMinutes, setDepartureHomeTimeMinutes] = useState('')
+
+  //
+  const [arrivalTimeHours, setArrivalTimeHours] = useState('')
+  const [arrivalTimeMinutes, setArrivalTimeMinutes] = useState('')
+  // const [departureTime, setDepartureTime] = useState("");
+  // const [arrivalHomeTime, setArrivalHomeTime] = useState("");
+
+  const [departureTimeHours, setDepartureTimeHours] = useState('')
+  const [departureTimeMinutes, setDepartureTimeMinutes] = useState('')
+
   const inputValues = {
     wakeUpTime,
     departureHomeTime,
@@ -134,16 +161,27 @@ const FormOne = () => {
       </div>
       {activeStep === 1 && (
         <TimeAndWork
-          wakeUpTime={wakeUpTime}
-          setWakeUpTime={setWakeUpTime}
-          departureHomeTime={departureHomeTime}
-          setDepartureHomeTime={setDepartureHomeTime}
-          arrivalTime={arrivalTime}
-          setArrivalTime={setArrivalTime}
-          departureTime={departureTime}
-          setDepartureTime={setDepartureTime}
-          arrivalHomeTime={arrivalHomeTime}
-          setArrivalHomeTime={setArrivalHomeTime}
+          wakeUpTimeHours={wakeUpTimeHours}
+          setWakeUpTimeHours={setWakeUpTimeHours}
+          wakeUpTimeMinutes={wakeUpTimeMinutes}
+          setWakeUpTimeMinutes={setWakeUpTimeMinutes}
+          //
+          departureHomeTimeHours={departureHomeTimeHours}
+          setDepartureHomeTimeHours={setDepartureHomeTimeHours}
+          departureHomeTimeMinutes={departureHomeTimeMinutes}
+          setDepartureHomeTimeMinutes={setDepartureHomeTimeMinutes}
+          //
+          arrivalTimeHours={arrivalTimeHours}
+          setArrivalTimeHours={setArrivalTimeHours}
+          arrivalTimeMinutes={arrivalTimeMinutes}
+          setArrivalTimeMinutes={setArrivalTimeMinutes}
+          //
+          departureTimeHours={departureTimeHours}
+          setDepartureTimeHours={setDepartureTimeHours}
+          departureTimeMinutes={departureTimeMinutes}
+          setDepartureTimeMinutes={setDepartureTimeMinutes}
+          // arrivalHomeTime={arrivalHomeTime}
+          // setArrivalHomeTime={setArrivalHomeTime}
         />
       )}
       {activeStep === 2 && (
@@ -162,6 +200,26 @@ const FormOne = () => {
           setToolsAndCues={setToolAndCues}
           goal={goal}
           setGoal={setGoal}
+          // time
+          morningHours={morningHours}
+          setMorningHours={setMorningHours}
+          morningMinutes={morningMinutes}
+          setMorningMinutes={setMorningMinutes}
+          //
+          eveningHours={eveningHours}
+          setEveningHours={setEveningHours}
+          eveningMinutes={eveningMinutes}
+          setEveningMinutes={setEveningMinutes}
+          //
+          morningHoursWeekend={morningHoursWeekend}
+          setMorningMinutesWeekend={setMorningMinutesWeekend}
+          morningMinutesWeekend={morningMinutesWeekend}
+          setMorningHoursWeekend={setMorningHoursWeekend}
+          //
+          eveningHoursWeekend={eveningHoursWeekend}
+          setEveningHoursWeekend={setEveningHoursWeekend}
+          eveningMinutesWeekend={eveningMinutesWeekend}
+          setEveningMinutesWeekend={setEveningMinutesWeekend}
         />
       )}
 

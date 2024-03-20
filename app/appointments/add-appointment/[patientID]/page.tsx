@@ -6,26 +6,13 @@ import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
 import { useCallback, useState } from 'react'
-import { useAddArtRegimenPhaseMutation, useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
-import { useAddArtRegimenCategoryMutation } from '@/api/art/artRegimenCategory.api'
 import { useAddAppointmentMutation } from '@/api/appointment/appointment.api.'
 import moment from 'moment'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import CustomTimeInput from '@/app/_components/forms/CustomTimeInput'
-
-interface PhaseProps {
-  id: string
-  artPhaseDescription: string
-}
-
-interface CategoryProps {
-  id: string
-  artCategoryDescription: string
-  artPhaseID: string
-}
 
 const AddArtCategory = ({ params }: any) => {
   const patientID = params.patientID
@@ -72,7 +59,7 @@ const AddArtCategory = ({ params }: any) => {
     patientID,
     userID,
     appointmentDate,
-    appointmentTime: moment().hour(hours).minute(minutes).format('HH:mm'),
+    appointmentTime: moment().hour(parseInt(hours, 10)).minute(parseInt(minutes, 10)).format('HH:mm'),
     appointmentStatusID: status
   }
 

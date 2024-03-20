@@ -4,35 +4,87 @@
 import CustomTimeInput from '../../forms/CustomTimeInput'
 
 export interface TimeAndWorkProps {
-  wakeUpTime: string
-  setWakeUpTime: (wakeUp: string) => void
-  departureHomeTime: string
-  setDepartureHomeTime: (departure: string) => void
-  arrivalTime: string
-  setArrivalTime: (arrival: string) => void
-  departureTime: string
-  setDepartureTime: (depTime: string) => void
-  arrivalHomeTime: string
-  setArrivalHomeTime: (arr: string) => void
+  wakeUpTimeHours: string
+  setWakeUpTimeHours: (wakeUp: string) => void
+  wakeUpTimeMinutes: string
+  setWakeUpTimeMinutes: (wakeUp: string) => void
+  //
+  departureHomeTimeHours: string
+  setDepartureHomeTimeHours: (departure: string) => void
+  departureHomeTimeMinutes: string
+  setDepartureHomeTimeMinutes: (departure: string) => void
+
+  //
+  arrivalTimeHours: string
+  setArrivalTimeHours: (arrival: string) => void
+  arrivalTimeMinutes: string
+  setArrivalTimeMinutes: (arrival: string) => void
+
+  //
+  // departureTime: string
+  // setDepartureTime: (depTime: string) => void
+  // arrivalHomeTime: string
+  // setArrivalHomeTime: (arr: string) => void
+
+  //
+  //
+  departureTimeHours: string
+  setDepartureTimeHours: (depTime: string) => void
+  departureTimeMinutes: string
+  setDepartureTimeMinutes: (arr: string) => void
 }
 
 const TimeAndWork = ({
-  wakeUpTime,
-  setWakeUpTime,
-  departureHomeTime,
-  setDepartureHomeTime,
-  arrivalTime,
-  setArrivalTime,
-  departureTime,
-  setDepartureTime,
-  arrivalHomeTime,
-  setArrivalHomeTime
+  wakeUpTimeHours,
+  setWakeUpTimeHours,
+  wakeUpTimeMinutes,
+  setWakeUpTimeMinutes,
+  departureHomeTimeHours,
+  setDepartureHomeTimeHours,
+  departureHomeTimeMinutes,
+  setDepartureHomeTimeMinutes,
+
+  //
+  arrivalTimeHours,
+  setArrivalTimeHours,
+  arrivalTimeMinutes,
+  setArrivalTimeMinutes,
+
+  //
+  departureTimeHours,
+  setDepartureTimeHours,
+  departureTimeMinutes,
+  setDepartureTimeMinutes
 }: TimeAndWorkProps) => (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
-    <CustomTimeInput label="What time do you wake up mostly?" />
-    <CustomTimeInput label="What time do you leave for school or work?" />
-    <CustomTimeInput label="What time do you leave from work or school?" />
-    <CustomTimeInput label="What time do you get home from work or school?" />
+    <CustomTimeInput
+      label="What time do you wake up mostly?"
+      hours={wakeUpTimeHours}
+      setHours={setWakeUpTimeHours}
+      minutes={wakeUpTimeMinutes}
+      setMinutes={setWakeUpTimeMinutes}
+    />
+    <CustomTimeInput
+      label="What time do you leave for school or work?"
+      hours={departureHomeTimeHours}
+      setHours={setDepartureHomeTimeHours}
+      minutes={departureHomeTimeMinutes}
+      setMinutes={setDepartureHomeTimeMinutes}
+    />
+    <CustomTimeInput
+      label="What time do you leave from work or school?"
+      hours={arrivalTimeHours}
+      setHours={setArrivalTimeHours}
+      minutes={arrivalTimeMinutes}
+      setMinutes={setArrivalTimeMinutes}
+    />
+    <CustomTimeInput
+      label="What time do you get home from work or school?"
+      hours={departureTimeHours}
+      setHours={setDepartureTimeHours}
+      minutes={departureTimeMinutes}
+      setMinutes={setDepartureTimeMinutes}
+    />
   </div>
 )
 

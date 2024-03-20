@@ -2,12 +2,12 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import moment from 'moment/moment'
 import { Avatar, Tag } from '@chakra-ui/react'
-import { Menu, MoreHorizontal, MoreHorizontalIcon } from 'lucide-react'
+import { MoreHorizontal, MoreHorizontalIcon } from 'lucide-react'
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel,
-  DropdownMenuSeparator, DropdownMenuTrigger
+  DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -15,9 +15,8 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
-  currentRegimenLine: ReactNode
-  currentARTRegimen: ReactNode
-  currentRegimenLine: ReactNode
+  currentRegimenLine: string
+  currentARTRegimen: string
   isValid: string
   artRegimenPhase: any
   art: any

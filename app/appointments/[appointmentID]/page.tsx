@@ -81,7 +81,7 @@ const EditAppointment = ({ params }: any) => {
     appointmentID,
     userID,
     appointmentDate,
-    appointmentTime: moment().hour(hours).minute(minutes).format('HH:mm'),
+    appointmentTime: moment().hour(parseInt(hours, 10)).minute((parseInt(minutes, 10))).format('HH:mm'),
     appointmentStatusID: status
   }
 

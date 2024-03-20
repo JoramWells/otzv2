@@ -19,6 +19,22 @@ export interface ScheduleAndTimeProps {
   setToolsAndCues: (val: string) => void
   goal: string
   setGoal: (val: string) => void
+  morningHours: string
+  setMorningHours: (val: string) => void
+  morningMinutes: string
+  setMorningMinutes: (val: string) => void
+  eveningHours: string
+  setEveningHours: (val: string) => void
+  eveningMinutes: string
+  setEveningMinutes: (val: string) => void
+  morningHoursWeekend: string
+  setMorningHoursWeekend: (val: string) => void
+  morningMinutesWeekend: string
+  setMorningMinutesWeekend: (val: string) => void
+  eveningHoursWeekend: string
+  setEveningHoursWeekend: (val: string) => void
+  eveningMinutesWeekend: string
+  setEveningMinutesWeekend: (val: string) => void
 }
 const ScheduleAndTime = ({
   morningPlace,
@@ -34,7 +50,23 @@ const ScheduleAndTime = ({
   toolsAndCues,
   setToolsAndCues,
   goal,
-  setGoal
+  setGoal,
+  morningHours,
+  setMorningHours,
+  morningMinutes,
+  setMorningMinutes,
+  eveningHours,
+  setEveningHours,
+  eveningMinutes,
+  setEveningMinutes,
+  morningHoursWeekend,
+  setMorningHoursWeekend,
+  morningMinutesWeekend,
+  setMorningMinutesWeekend,
+  eveningHoursWeekend,
+  setEveningHoursWeekend,
+  eveningMinutesWeekend,
+  setEveningMinutesWeekend
 }: ScheduleAndTimeProps) => (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
     <div>
@@ -43,7 +75,13 @@ const ScheduleAndTime = ({
         medicine?
       </p>
       <div className="flex flex-row gap-x-6">
-        <CustomTimeInput label="Morning Time" />
+        <CustomTimeInput
+          label="Morning Time"
+          hours={morningHours}
+          setHours={setMorningHours}
+          minutes={morningMinutes}
+          setMinutes={setMorningMinutes}
+        />
         <CustomInput
           label="Enter Place"
           value={morningPlace}
@@ -54,7 +92,13 @@ const ScheduleAndTime = ({
 
     {/*  */}
     <div className="flex flex-row gap-x-6">
-      <CustomTimeInput label="Evening Time" />
+      <CustomTimeInput
+        label="Evening Time"
+        hours={eveningHours}
+        setHours={setEveningHours}
+        minutes={eveningMinutes}
+        setMinutes={setEveningMinutes}
+      />
       <CustomInput
         label="Enter Place"
         value={eveningPlace}
@@ -70,15 +114,28 @@ const ScheduleAndTime = ({
         modified?
       </p>
       <div className="flex flex-row gap-x-6">
-        <CustomTimeInput label="Morning Time" />
-        <CustomInput
-          label="Enter Place"
-          value={morningPlace}
-          onChange={setMorningPlace}
+        <div className="flex flex-row gap-x-6">
+          <CustomTimeInput
+            label="Morning Time"
+            hours={morningHoursWeekend}
+            setHours={setMorningHoursWeekend}
+            minutes={morningMinutesWeekend}
+            setMinutes={setMorningMinutesWeekend}
+          />
+          <CustomInput
+            label="Enter Place"
+            value={morningPlace}
+            onChange={setMorningPlace}
+          />
+        </div>
+
+        <CustomTimeInput
+          label="Evening Time"
+          hours={eveningHoursWeekend}
+          setHours={setEveningHoursWeekend}
+          minutes={eveningMinutesWeekend}
+          setMinutes={setEveningMinutesWeekend}
         />
-      </div>
-      <div className="flex flex-row gap-x-6">
-        <CustomTimeInput label="Evening Time" />
         <CustomInput
           label="Enter Place"
           value={eveningPlace}
