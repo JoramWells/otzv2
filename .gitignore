@@ -2,3 +2,5 @@ node_modules
 .next
 /*next
 next
+# Sentry Config File
+.sentryclirc
