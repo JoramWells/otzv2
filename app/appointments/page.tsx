@@ -15,6 +15,31 @@ const Patients = () => {
     return data?.filter((item: any) => item.appointmentStatus?.statusDescription.toLowerCase().includes('Missed'.toLowerCase()))
   }, [data])
 
+    const upcomingAppointment = useCallback(() => {
+      return data?.filter((item: any) =>
+        item.appointmentStatus?.statusDescription
+          .toLowerCase()
+          .includes("Upcoming".toLowerCase())
+      );
+    }, [data]);
+
+        const rescheduledAppointment = useCallback(() => {
+          return data?.filter((item: any) =>
+            item.appointmentStatus?.statusDescription
+              .toLowerCase()
+              .includes("Rescheduled".toLowerCase())
+          );
+        }, [data]);
+
+
+        const pendingAppointment = useCallback(() => {
+          return data?.filter((item: any) =>
+            item.appointmentStatus?.statusDescription
+              .toLowerCase()
+              .includes("Pending".toLowerCase())
+          );
+        }, [data]);
+
   const categoryList = useMemo(
     () => [
       {
@@ -23,15 +48,15 @@ const Patients = () => {
       },
       {
         id: 2,
-        label: 'Cancelled'
+        label: `Pending ${pendingAppointment()?.length}`
       },
       {
         id: 3,
-        label: 'Rescheduled'
+        label: `Rescheduled ${rescheduledAppointment()?.length}`
       },
       {
         id: 4,
-        label: 'Upcoming'
+        label: `Upcoming ${upcomingAppointment()?.length}`
       },
       {
         id: 5,
@@ -57,14 +82,14 @@ const Patients = () => {
           {categoryList.map((item) => (
             <Button
               key={item.id}
-              rounded={'0'}
+              rounded={"0"}
               h={10}
-              size={'sm'}
+              size={"sm"}
               // w={'full'}
-              borderBottom={`${value === item.id ? '2px' : '0'}`}
-              fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
-              bgColor={`${value === item.id ? 'teal.50' : 'transparent'}`}
-              color={`${value === item.id ? 'teal' : 'gray.500'}`}
+              borderBottom={`${value === item.id ? "2px" : "0"}`}
+              fontWeight={`${value === item.id ? "bold" : "normal"}`}
+              bgColor={`${value === item.id ? "teal.50" : "transparent"}`}
+              color={`${value === item.id ? "teal" : "gray.500"}`}
               // bgColor={'white'}
               // shadow={`${value === item.id && 'md'}`}
               _hover={
@@ -74,24 +99,33 @@ const Patients = () => {
                 }
               }
               onClick={() => {
-                setValue(item.id)
+                setValue(item.id);
               }}
             >
               {item.label}
             </Button>
           ))}
         </div>
+        {value === 1 && (
+          <CustomTable columns={columns} data={data || []} />
+        )}
 
-        {value === 5
-          ? <CustomTable
-        columns={columns}
-        data={missedAppointment() || []}
-        />
-          : <CustomTable columns={columns} data={data || []} />
-      }
+        {value === 2 && (
+          <CustomTable columns={columns} data={pendingAppointment() || []} />
+        )}
+
+        {value === 3 && (
+          <CustomTable columns={columns} data={rescheduledAppointment() || []} />
+        )}
+
+        {value === 4 && (
+          <CustomTable columns={columns} data={upcomingAppointment() || []} />
+        )}
+
+        {value === 5 && <CustomTable columns={columns} data={missedAppointment() || []} />  }
       </div>
     </div>
-  )
+  );
 }
 
 export default Patients

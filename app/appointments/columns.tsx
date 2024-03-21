@@ -3,6 +3,7 @@ import { Trash2, Pencil } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Avatar, Tag } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
+import moment from 'moment'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -34,64 +35,105 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: 'patient',
-    header: 'Patient Name',
+    accessorKey: "patient",
+    header: "Patient Name",
     cell: (props: any) => (
       <div className="flex flex-row items-center gap-x-2">
         <Avatar
-          size={'sm'}
+          size={"sm"}
           className="font-bold"
           name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
         />
         <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
       </div>
-    )
+    ),
   },
   {
-    accessorKey: 'user',
-    header: 'REQUESTED BY',
+    accessorKey: "user",
+    header: "REQUESTED BY",
     cell: ({ row }) => (
       <p>{`${row.original.user?.firstName} ${row.original.user?.middleName}`}</p>
-    )
+    ),
   },
   {
-    accessorKey: 'appointmentDate',
-    header: 'Appointment Date',
-    cell: ({ row }) => <p>{`${row.original.appointmentDate}`}</p>
+    accessorKey: "appointmentDate",
+    header: "Appointment Date",
+    cell: ({ row }) => (
+      <div>
+        <p>{moment(row.original.appointmentDate).format('ll')}</p>
+        <p className='text-slate-500'>{moment(row.original.appointmentTime,'HH:mm ss').format('HH:mm a')}</p>
+      </div>
+    ),
   },
   {
-    accessorKey: 'appointmentAgenda',
-    header: 'Appointment agenda',
+    accessorKey: "appointmentAgenda",
+    header: "Appointment agenda",
     cell: ({ row }) => (
       <p>{`${row.original.appointmentAgenda?.agendaDescription}`}</p>
-    )
+    ),
   },
   {
-    accessorKey: 'appointmentStatus',
-    header: 'APPOINTMENT STATUS',
-    cell: ({ row }) => (
-      <Tag>{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-    )
+    accessorKey: "appointmentStatus",
+    header: "APPOINTMENT STATUS",
+    cell: ({ row }) => {
+      const appointmentStatus =
+        row.original.appointmentStatus?.statusDescription;
+      if (appointmentStatus === "Missed") {
+        return (
+          <Tag
+            colorScheme="red"
+            rounded={"full"}
+          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
+        );
+      } else if (appointmentStatus === "Upcoming") {
+        return (
+          <Tag
+            colorScheme="blue"
+            rounded={"full"}
+          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
+        );
+      } else if (appointmentStatus === "Pending") {
+        return (
+          <Tag
+            colorScheme="orange"
+            rounded={"full"}
+          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
+        );
+      } else if (appointmentStatus === "Rescheduled") {
+        return (
+          <Tag
+            colorScheme="teal"
+            rounded={"full"}
+          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
+        );
+      } else {
+        <Tag
+          rounded={"full"}
+        >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>;
+      }
+    },
   },
   {
     // accessorKey: 'action',
-    header: 'Action',
+    header: "Action",
     cell: ({ row }) => {
-      const router = useRouter()
-      const pathname = usePathname()
+      const router = useRouter();
+      const pathname = usePathname();
       return (
         <div className="flex flex-row gap-x-2">
           <Pencil
             className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
             size={25}
-            onClick={() => { router.push(`${pathname}/${row.original.id}`) }}
+            onClick={() => {
+              router.push(`${pathname}/${row.original.id}`);
+            }}
           />
           <Trash2
             className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
             size={25}
           />
         </div>
-      )
-    }
-  }
-]
+      );
+    },
+  },
+];
