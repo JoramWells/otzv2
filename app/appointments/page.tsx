@@ -63,7 +63,7 @@ const Patients = () => {
         label: `Missed ${missedAppointment()?.length}`
       }
     ],
-    [missedAppointment, data?.length]
+    [missedAppointment, data?.length, pendingAppointment, rescheduledAppointment, upcomingAppointment]
   )
 
   console.log(missedAppointment(), 'dtc')

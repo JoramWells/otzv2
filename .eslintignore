@@ -1,3 +1,6 @@
 components/ui
 lib/utils.ts
 ./lib/utils.ts
+.next
+app/global-error.jsx
+app/sentry-example-page

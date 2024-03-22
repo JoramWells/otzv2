@@ -1,91 +1,94 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { CustomTable } from '../_components/table/CustomTable'
-import { columns, type PatientProps } from './columns'
+import { columns } from './columns'
 import { useCallback, useMemo, useState } from 'react'
 import { Button, Tag } from '@chakra-ui/react'
-import moment from 'moment'
+import { type MomentInput } from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
+
+interface ItemsProps {
+  dob: MomentInput
+}
 
 const Patients = () => {
   // const datax = await getPatients()
-  const { data } = useGetAllPatientsQuery();
-  const [value, setValue] = useState<number>(1);
+  const { data } = useGetAllPatientsQuery()
+  const [value, setValue] = useState<number>(1)
 
   const paedData = useCallback(() => {
-    const dtx = data?.filter((item: any) => {
-      const age = calculateAge(item.dob);
-      return age >= 0 && age <= 9;
-    });
-    return dtx;
-  }, [data]);
+    const dtx = data?.filter((item: ItemsProps) => {
+      const age = calculateAge(item.dob)
+      return age >= 0 && age <= 9
+    })
+    return dtx
+  }, [data])
 
   // otz
   const otzData = useCallback(() => {
-    const dtx = data?.filter((item: any) => {
-      const age = calculateAge(item.dob);
-      return age >= 9 && age <= 19;
-    });
-    return dtx;
-  }, [data]);
+    const dtx = data?.filter((item: ItemsProps) => {
+      const age = calculateAge(item.dob)
+      return age >= 9 && age <= 19
+    })
+    return dtx
+  }, [data])
 
   // otz plus
   const otzPlusData = useCallback(() => {
-    const dtx = data?.filter((item: any) => {
-      const age = calculateAge(item.dob);
-      return age >= 19 && age <= 24;
-    });
-    return dtx;
-  }, [data]);
+    const dtx = data?.filter((item: ItemsProps) => {
+      const age = calculateAge(item.dob)
+      return age >= 19 && age <= 24
+    })
+    return dtx
+  }, [data])
 
   // otz plus
   const adultData = useCallback(() => {
-    const dtx = data?.filter((item: any) => {
-      const age = calculateAge(item.dob);
-      return age >= 24;
-    });
-    return dtx;
-  }, [data]);
+    const dtx = data?.filter((item: ItemsProps) => {
+      const age = calculateAge(item.dob)
+      return age >= 24
+    })
+    return dtx
+  }, [data])
 
-  console.log(paedData(), "dtc");
+  console.log(paedData(), 'dtc')
 
   const categoryList = useMemo(
     () => [
       {
         id: 1,
-        label: `All`,
-        description: "All registered patients",
-        count: data?.length,
+        label: 'All',
+        description: 'All registered patients',
+        count: data?.length
       },
       {
         id: 2,
-        label: "Paeds",
-        description: "Between 0 yrs to 9 yrs",
-        count: paedData()?.length,
+        label: 'Paeds',
+        description: 'Between 0 yrs to 9 yrs',
+        count: paedData()?.length
       },
       {
         id: 3,
-        label: "OTZ",
-        description: "Between 9 yrs to 19 yrs",
-        count: otzData()?.length,
+        label: 'OTZ',
+        description: 'Between 9 yrs to 19 yrs',
+        count: otzData()?.length
       },
       {
         id: 4,
-        label: "OTZ plus",
-        description: "Between 19 yrs to 24 yrs",
-        count: otzPlusData()?.length,
+        label: 'OTZ plus',
+        description: 'Between 19 yrs to 24 yrs',
+        count: otzPlusData()?.length
       },
       {
         id: 5,
-        label: "Adults",
-        description: "Above 24 yrs",
-        count: adultData()?.length,
-      },
+        label: 'Adults',
+        description: 'Above 24 yrs',
+        count: adultData()?.length
+      }
     ],
-    [data?.length]
-  );
+    [data?.length, paedData, otzData, otzPlusData, adultData]
+  )
 
   return (
     <div className="ml-64 pt-12">
@@ -102,15 +105,15 @@ const Patients = () => {
           {categoryList.map((item) => (
             <Button
               key={item.id}
-              rounded={"0"}
+              rounded={'0'}
               h={10}
-              size={"sm"}
+              size={'sm'}
               // w={'full'}
-              borderBottom={`${value === item.id ? "2px" : "0"}`}
-              fontWeight={`${value === item.id ? "bold" : "bold"}`}
+              borderBottom={`${value === item.id ? '2px' : '0'}`}
+              fontWeight={`${value === item.id ? 'bold' : 'bold'}`}
               // bgColor={`${value === item.id ? "teal.50" : "transparent"}`}
-              color={`${value === item.id ? "teal" : "gray.500"}`}
-              bgColor={"white"}
+              color={`${value === item.id ? 'teal' : 'gray.500'}`}
+              bgColor={'white'}
               p={1}
               // shadow={`${value === item.id && 'md'}`}
               _hover={
@@ -120,20 +123,20 @@ const Patients = () => {
                 }
               }
               onClick={() => {
-                setValue(item.id);
+                setValue(item.id)
               }}
-              display={"flex"}
-              flexDirection={"column"}
-              justifyContent={"flex-start"}
+              display={'flex'}
+              flexDirection={'column'}
+              justifyContent={'flex-start'}
               // padding={2}
               height={14}
-              alignItems={"flex-start"}
+              alignItems={'flex-start'}
             >
               <div className="flex items-center space-x-2">
                 <p className="text-[16px]">{item.label}</p>
                 <Tag
-                  rounded={"full"}
-                  colorScheme={value === item.id ? "orange" : ""}
+                  rounded={'full'}
+                  colorScheme={value === item.id ? 'orange' : ''}
                 >
                   {item.count}
                 </Tag>
@@ -166,7 +169,7 @@ const Patients = () => {
         )}
       </div>
     </div>
-  );
+  )
 }
 
 export default Patients

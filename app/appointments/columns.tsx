@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Trash2, Pencil, Clock } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Avatar, Tag } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
-import moment, { MomentInput } from 'moment'
+import moment, { type MomentInput } from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
 // import { FaEdit } from 'react-icons/fa'
 
@@ -36,112 +37,112 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: "patient",
-    header: "Patient Name",
-    cell: (props: any) => (
+    accessorKey: 'patient',
+    header: 'Patient Name',
+    cell: ({ row }) => (
       <div className="flex flex-row items-start gap-x-2">
         <Avatar
-          size={"sm"}
+          size={'sm'}
           className="font-bold"
-          name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
+          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
-          <p className="capitalize text-slate-500">{props.row.original.patient?.sex} </p>
-          <p className="capitalize text-slate-500">{calculateAge(props.row.original.patient?.dob)} yrs</p>
+          <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
+          <p className="capitalize text-slate-500">{row.original.patient?.sex} </p>
+          <p className="capitalize text-slate-500">{calculateAge(row.original.patient?.dob)} yrs</p>
         </div>
       </div>
-    ),
+    )
   },
   {
-    accessorKey: "user",
-    header: "REQUESTED BY",
-    cell: ({ row }:any) => (
+    accessorKey: 'user',
+    header: 'REQUESTED BY',
+    cell: ({ row }: any) => (
       <p>{`${row.original.user?.firstName} ${row.original.user?.middleName}`}</p>
-    ),
+    )
   },
   {
-    accessorKey: "appointmentDate",
-    header: "Appointment Date",
+    accessorKey: 'appointmentDate',
+    header: 'Appointment Date',
     cell: ({ row }) => (
       <div className="flex flex-row gap-x-2">
         <Clock size={18} className="mt-1 text-slate-500" />
         <div>
-          <p>{moment(row.original.appointmentDate).format("ll")}</p>
+          <p>{moment(row.original.appointmentDate).format('ll')}</p>
           <p className="text-slate-500">
-            {moment(row.original.appointmentTime, "HH:mm ss").format("HH:mm a")}
+            {moment(row.original.appointmentTime, 'HH:mm ss').format('HH:mm a')}
           </p>
           <p className="font-bold text-slate-500">
             {moment
               .duration(moment(row.original.appointmentDate).diff(moment()))
-              .days()}{" "}
+              .days()}{' '}
             days remaining
           </p>
         </div>
       </div>
-    ),
+    )
   },
   {
-    accessorKey: "appointmentAgenda",
-    header: "Appointment agenda",
+    accessorKey: 'appointmentAgenda',
+    header: 'Appointment agenda',
     cell: ({ row }) => (
       <p>{`${row.original.appointmentAgenda?.agendaDescription}`}</p>
-    ),
+    )
   },
   {
-    accessorKey: "appointmentStatus",
-    header: "APPOINTMENT STATUS",
+    accessorKey: 'appointmentStatus',
+    header: 'APPOINTMENT STATUS',
     cell: ({ row }) => {
       const appointmentStatus =
-        row.original.appointmentStatus?.statusDescription;
-      if (appointmentStatus === "Missed") {
+        row.original.appointmentStatus?.statusDescription
+      if (appointmentStatus === 'Missed') {
         return (
           <Tag
             colorScheme="red"
-            rounded={"full"}
+            rounded={'full'}
           >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-        );
-      } else if (appointmentStatus === "Upcoming") {
+        )
+      } else if (appointmentStatus === 'Upcoming') {
         return (
           <Tag
             colorScheme="blue"
-            rounded={"full"}
+            rounded={'full'}
           >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-        );
-      } else if (appointmentStatus === "Pending") {
+        )
+      } else if (appointmentStatus === 'Pending') {
         return (
           <Tag
             colorScheme="orange"
-            rounded={"full"}
+            rounded={'full'}
           >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-        );
-      } else if (appointmentStatus === "Rescheduled") {
+        )
+      } else if (appointmentStatus === 'Rescheduled') {
         return (
           <Tag
             colorScheme="teal"
-            rounded={"full"}
+            rounded={'full'}
           >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-        );
+        )
       } else {
         <Tag
-          rounded={"full"}
-        >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>;
+          rounded={'full'}
+        >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
       }
-    },
+    }
   },
   {
     // accessorKey: 'action',
-    header: "Action",
+    header: 'Action',
     cell: ({ row }) => {
-      const router = useRouter();
-      const pathname = usePathname();
+      const router = useRouter()
+      const pathname = usePathname()
       return (
         <div className="flex flex-row gap-x-2">
           <Pencil
             className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
             size={25}
             onClick={() => {
-              router.push(`${pathname}/${row.original.id}`);
+              router.push(`${pathname}/${row.original.id}`)
             }}
           />
           <Trash2
@@ -149,7 +150,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
             size={25}
           />
         </div>
-      );
-    },
-  },
-];
+      )
+    }
+  }
+]

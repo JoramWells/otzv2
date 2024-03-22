@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import {  useGetAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
+import { useGetAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../../table/CustomTable'
 import { columns } from './columns'
 import { CalendarDays } from 'lucide-react'
