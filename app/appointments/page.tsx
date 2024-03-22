@@ -6,6 +6,7 @@ import { CustomTable } from '../_components/table/CustomTable'
 import { columns } from './columns'
 import { useCallback, useMemo, useState } from 'react'
 import { Button } from '@chakra-ui/react'
+import AppointmentStatusTab from '../_components/appointment/tabs/AppointmentStatusTab'
 
 const Patients = () => {
   const [value, setValue] = useState<number>(1)
@@ -111,7 +112,7 @@ const Patients = () => {
         )}
 
         {value === 2 && (
-          <CustomTable columns={columns} data={pendingAppointment() || []} />
+          <AppointmentStatusTab columns={columns} data={pendingAppointment() || []} />
         )}
 
         {value === 3 && (

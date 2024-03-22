@@ -28,7 +28,7 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: "patient_name",
+    accessorKey: "patient",
     header: "Patient Name",
     cell: (props: any) => (
       <div className="flex flex-row items-center gap-x-2">

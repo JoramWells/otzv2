@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Trash2, Pencil } from 'lucide-react'
+import { Trash2, Pencil, Clock } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Avatar, Tag } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import moment from 'moment'
+import { calculateAge } from '@/utils/calculateAge'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -24,7 +25,6 @@ interface ColumnProps {
 
 export interface PatientProps {
   id?: string
-  patient_name?: FullNameProps
   age?: number
   dob?: string
   gender?: string
@@ -38,20 +38,24 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: "patient",
     header: "Patient Name",
     cell: (props: any) => (
-      <div className="flex flex-row items-center gap-x-2">
+      <div className="flex flex-row items-start gap-x-2">
         <Avatar
           size={"sm"}
           className="font-bold"
           name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
+        <div>
+          <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
+          <p className="capitalize text-slate-500">{props.row.original.patient?.sex} </p>
+          <p className="capitalize text-slate-500">{calculateAge(props.row.original.patient?.dob)} yrs</p>
+        </div>
       </div>
     ),
   },
   {
     accessorKey: "user",
     header: "REQUESTED BY",
-    cell: ({ row }) => (
+    cell: ({ row }:any) => (
       <p>{`${row.original.user?.firstName} ${row.original.user?.middleName}`}</p>
     ),
   },
@@ -59,9 +63,20 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: "appointmentDate",
     header: "Appointment Date",
     cell: ({ row }) => (
-      <div>
-        <p>{moment(row.original.appointmentDate).format('ll')}</p>
-        <p className='text-slate-500'>{moment(row.original.appointmentTime,'HH:mm ss').format('HH:mm a')}</p>
+      <div className="flex flex-row gap-x-2">
+        <Clock size={18} className="mt-1 text-slate-500" />
+        <div>
+          <p>{moment(row.original.appointmentDate).format("ll")}</p>
+          <p className="text-slate-500">
+            {moment(row.original.appointmentTime, "HH:mm ss").format("HH:mm a")}
+          </p>
+          <p className="font-bold text-slate-500">
+            {moment
+              .duration(moment(row.original.appointmentDate).diff(moment()))
+              .days()}{" "}
+            days remaining
+          </p>
+        </div>
       </div>
     ),
   },
