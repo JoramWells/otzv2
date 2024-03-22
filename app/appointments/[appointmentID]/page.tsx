@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -14,6 +13,7 @@ import { useGetAllAppointmentAgendaQuery, useGetAppointmentAgendaQuery } from '@
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import CustomTimeInput from '@/app/_components/forms/CustomTimeInput'
 import CustomInput from '@/app/_components/forms/CustomInput'
+import { Button } from '@/components/ui/button'
 
 interface PhaseProps {
   id: string
@@ -136,10 +136,10 @@ const EditAppointment = ({ params }: any) => {
         />
 
         <Button
-          colorScheme="teal"
-          width={'full'}
+          // colorScheme="teal"
+          // width={'full'}
           onClick={() => addAppointment(inputValues)}
-          isLoading={isLoading}
+          // isLoading={isLoading}
         >
           Create Appointment
         </Button>

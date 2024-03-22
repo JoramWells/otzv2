@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
 import { useCallback, useState } from 'react'
@@ -13,6 +12,7 @@ import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import CustomTimeInput from '@/app/_components/forms/CustomTimeInput'
+import { Button } from '@/components/ui/button'
 
 const AddArtCategory = ({ params }: any) => {
   const patientID = params.patientID
@@ -114,10 +114,10 @@ const AddArtCategory = ({ params }: any) => {
         />
 
         <Button
-          colorScheme="teal"
-          width={'full'}
+          // colorScheme="teal"
+          // width={'full'}
           onClick={() => addAppointment(inputValues)}
-          isLoading={isLoading}
+          // isLoading={isLoading}
         >
           Create Appointment
         </Button>

@@ -1,12 +1,11 @@
 'use client'
 import '../../globals.css'
-
-import { Collapse, useDisclosure } from '@chakra-ui/react'
 // import Link from 'next/link'
 import { ChevronRight, ChevronDown } from 'lucide-react'
 import { SidebarSubButton } from './SidebarSubButton'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
+// import { Button } from '@/components/ui/button'
 
 interface ItemListProps {
   id?: string
@@ -21,11 +20,17 @@ interface SidebarCollapseButtonProps {
 }
 
 export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <div/> }: SidebarCollapseButtonProps) => {
-  const { isOpen, onToggle } = useDisclosure()
+  // const { isOpen, onToggle } = useDisclosure()
+  const [visible, setVisible] = useState(false)
   const pathname = usePathname()
   const isActive = useMemo(() => {
     return pathname.includes(label.toLowerCase())
   }, [pathname, label])
+
+  const onToggle = () => {
+    setVisible(prev => !prev)
+  }
+
   return (
     <div className="mb-2">
       <div
@@ -44,14 +49,20 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <d
             {label}
           </p>
         </div>
-        {isOpen ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+        {visible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
       </div>
 
-      <Collapse in={isOpen}>
+      <div className={`${visible ? 'inline' : 'hidden'} bg-gray-500 duration-100`}>
         {itemList?.map((item) => (
           <SidebarSubButton key={item.id} label={item.label} link={item.link} />
         ))}
-      </Collapse>
+      </div>
+
+      {/* <Collapse in={isOpen}>
+        {itemList?.map((item) => (
+          <SidebarSubButton key={item.id} label={item.label} link={item.link} />
+        ))}
+      </Collapse> */}
     </div>
   )
 }

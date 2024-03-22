@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import {
-  Table, TableContainer, Tbody, Td, Th, Thead, Tr,
-  Button, Menu, MenuButton, MenuList, MenuDivider, Checkbox
-} from '@chakra-ui/react'
+import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent } from '@/components/ui/dropdown-menu'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { ChevronDownIcon } from '@radix-ui/react-icons'
 import {
   useReactTable,
   type ColumnDef,
@@ -15,7 +16,7 @@ import {
   type ColumnFiltersState,
   getFilteredRowModel
 } from '@tanstack/react-table'
-import { ChevronDownIcon, Trash2, ArrowDownToLine, Printer, BookOpen } from 'lucide-react'
+import { BookOpen } from 'lucide-react'
 import { useState } from 'react'
 import { CSVLink } from 'react-csv'
 
@@ -67,9 +68,14 @@ export function CustomTable<TData, TValue> ({
           <input
             placeholder="Search patient name"
             className="border h-10 rounded-md p-1"
-            value={(table.getColumn('patient_name')?.getFilterValue() as string) ?? ''}
+            value={
+              (table.getColumn('patient_name')?.getFilterValue() as string) ??
+              ''
+            }
             onChange={(event) =>
-              table.getColumn('patient_name')?.setFilterValue(event.target.value)
+              table
+                .getColumn('patient_name')
+                ?.setFilterValue(event.target.value)
             }
           />
 
@@ -77,75 +83,63 @@ export function CustomTable<TData, TValue> ({
             <CSVLink data={data as object[]}>
               <Button
                 size={'sm'}
-                rounded={'full'}
+                // rounded={'full'}
                 // color={'gray.500'}
-                leftIcon={<ArrowDownToLine size={20} />}
+                // leftIcon={<ArrowDownToLine size={20} />}
               >
                 Download
               </Button>
             </CSVLink>
             <Button
               size={'sm'}
-              rounded={'full'}
+              // rounded={'full'}
               // color={'gray.500'}
-              leftIcon={<Printer size={20} />}
+              // leftIcon={<Printer size={20} />}
             >
               Print
             </Button>
 
-            <Menu>
-              <MenuButton
-                as={Button}
-                leftIcon={<ChevronDownIcon size={20} />}
-                size={'sm'}
-                rounded={'full'}
-                // colorScheme="teal"
-                // bgColor={'white'}
-                // borderColor={'black'}
-                // variant={'outline'}
-              >
-                Columns
-              </MenuButton>
-              <MenuList className="flex flex-col p-2 gap-y-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto">
+                  Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()
                   .filter((column) => column.getCanHide())
-                  .map((column) => (
-                    <Checkbox
-                      className="text-black capitalize"
-                      colorScheme="teal"
-                      key={column.id}
-                      checked={column.getIsVisible()}
-                      onChange={(value: any) => {
-                        column.toggleVisibility(!value)
-                      }}
-                    >
-                      {column.id}
-                    </Checkbox>
-                  ))}
-                <MenuDivider />
-                <div className="text-center m-0 p-0 flex flex-row items-center text-gray-500  hover:cursor-pointer">
-                  <Trash2 size={18} className="mr-2" />
-                  Clear
-                </div>
-              </MenuList>
-            </Menu>
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) => { column.toggleVisibility(!!value) }
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    )
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       )}
 
       {/*  */}
-      <TableContainer
+      <div
         className="bg-white
     rounded-md
     "
       >
-        <Table size={'md'}>
+        <Table>
           {table.getHeaderGroups().map((headerGroup) => (
-            <Thead key={headerGroup.id} bgColor={'gray.50'}>
-              <Tr>
+            <TableHeader key={headerGroup.id} className="bg-gray-50">
+              <TableRow>
                 {headerGroup.headers.map((header) => (
-                  <Th
+                  <TableHead
                     key={header.id}
                     style={{
                       fontSize: '12px'
@@ -157,22 +151,22 @@ export function CustomTable<TData, TValue> ({
                         header.column.columnDef.header,
                         header.getContext()
                       )}
-                  </Th>
+                  </TableHead>
                 ))}
-              </Tr>
-            </Thead>
+              </TableRow>
+            </TableHeader>
           ))}
-          <Tbody>
+          <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <Tr key={row.id}>
+              <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <Td key={cell.id} fontSize="14px">
+                  <TableCell key={cell.id} className="text-[14px]">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Td>
+                  </TableCell>
                 ))}
-              </Tr>
+              </TableRow>
             ))}
-          </Tbody>
+          </TableBody>
         </Table>
         <div className="flex gap-x-4 mt-4 justify-between">
           <div
@@ -191,7 +185,7 @@ export function CustomTable<TData, TValue> ({
               onClick={() => {
                 table.previousPage()
               }}
-              isDisabled={!table.getCanPreviousPage()}
+              // isDisabled={!table.getCanPreviousPage()}
               size={'sm'}
             >
               Prev
@@ -200,14 +194,14 @@ export function CustomTable<TData, TValue> ({
               onClick={() => {
                 table.nextPage()
               }}
-              isDisabled={!table.getCanNextPage()}
+              // isDisabled={!table.getCanNextPage()}
               size={'sm'}
             >
               Next
             </Button>
           </div>
         </div>
-      </TableContainer>
+      </div>
     </div>
   )
 }

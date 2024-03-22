@@ -5,8 +5,8 @@ import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../_components/table/CustomTable'
 import { columns } from './columns'
 import { useCallback, useMemo, useState } from 'react'
-import { Button } from '@chakra-ui/react'
 import AppointmentStatusTab from '../_components/appointment/tabs/AppointmentStatusTab'
+import { Button } from '@/components/ui/button'
 
 const Patients = () => {
   const [value, setValue] = useState<number>(1)
@@ -72,8 +72,9 @@ const Patients = () => {
     <div className="ml-64 pt-12">
       <div className="p-5">
         <p className="mb-4 text-xl font-semibold text-slate-700">
-          Patient Appointments
+          Patient Appointment
         </p>
+
         <div
           className="flex flex-row space-x-4
       border-b mb-4
@@ -82,22 +83,22 @@ const Patients = () => {
           {categoryList.map((item) => (
             <Button
               key={item.id}
-              rounded={'0'}
-              h={10}
-              size={'sm'}
+              // rounded={'0'}
+              // h={10}
+              // size={'sm'}
               // w={'full'}
-              borderBottom={`${value === item.id ? '2px' : '0'}`}
-              fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
-              bgColor={`${value === item.id ? 'teal.50' : 'transparent'}`}
-              color={`${value === item.id ? 'teal' : 'gray.500'}`}
+              // borderBottom={`${value === item.id ? '2px' : '0'}`}
+              // fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
+              // bgColor={`${value === item.id ? 'teal.50' : 'transparent'}`}
+              // color={`${value === item.id ? 'teal' : 'gray.500'}`}
               // bgColor={'white'}
               // shadow={`${value === item.id && 'md'}`}
-              _hover={
-                {
+              // _hover={
+              //   {
                   // bgColor: `${value === item.id && 'black'}`,
                   // color: `${value === item.id && 'white'}`
-                }
-              }
+              //   }
+              // }
               onClick={() => {
                 setValue(item.id)
               }}
