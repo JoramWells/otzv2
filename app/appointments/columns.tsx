@@ -3,7 +3,7 @@ import { Trash2, Pencil, Clock } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Avatar, Tag } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
-import moment from 'moment'
+import moment, { MomentInput } from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
 // import { FaEdit } from 'react-icons/fa'
 
@@ -11,7 +11,8 @@ export interface FullNameProps {
   firstName?: string
 }
 
-interface ColumnProps {
+export interface ColumnProps {
+  appointmentTime: MomentInput
   appointmentDate: any
   appointmentAgenda: any
   appointmentStatus: any

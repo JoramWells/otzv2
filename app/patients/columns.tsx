@@ -9,6 +9,8 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  school: any
+  hospital: any
   id: any
   header: string
   accessorKey?: keyof PatientProps

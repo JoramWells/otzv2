@@ -3,11 +3,13 @@ import { CustomTable } from '../../table/CustomTable'
 import { CalendarDays } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import Calendar from '../../calendar/Calendar';
+import { ColumnDef } from '@tanstack/react-table';
+import { ColumnProps } from '@/app/appointments/columns';
 
 
 interface AppointmentTabProps {
   data: [];
-  columns: string
+  columns: ColumnDef<ColumnProps>[]
 }
 
 const AppointmentStatusTab = ({data, columns}:AppointmentTabProps) => {

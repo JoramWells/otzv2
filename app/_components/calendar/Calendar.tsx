@@ -17,7 +17,7 @@ interface CalendarProps{
   data:[]
 }
 
-const getStatusColor = status =>{
+const getStatusColor = (status:any) =>{
   switch(status){
     case 'Pending':
       return 'orange'
@@ -25,7 +25,7 @@ const getStatusColor = status =>{
   }
 }
 
-const eventRender = event =>{
+const eventRender = (event: any) =>{
   return <div className={`fc-content bg-${getStatusColor(event.status)}-500 h-12 bg-teal-900`}>
     {event.title}
   </div>
