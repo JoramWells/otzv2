@@ -1,13 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { Chart, registerables } from 'chart.js'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import PieChart, { type PieChartProps } from '../_components/charts/PieChart'
 import BarChart, { type BarChartProps } from '../_components/charts/BarChart'
 import LineChart, { type LineChartProps } from '../_components/charts/LineChart'
 import { CustomTable } from '../_components/table/CustomTable'
 import { columns } from './art/columns'
+import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
+import { calculateAge } from '@/utils/calculateAge'
+import { type MomentInput } from 'moment'
+import { calculateAgeRange } from '@/utils/calculateAgeRange'
 
 interface DataPops {
   id: number
@@ -49,18 +55,63 @@ const chartData: DataPops[] = [
   }
 ]
 
+interface ItemsProps {
+  dob: MomentInput
+}
+
 Chart.register(...registerables)
 
 const Dashboard = () => {
-  const [pieChartData, setChartData] = useState<PieChartProps>({
-    labels: chartData.map((item: DataPops) => item.year.toString()),
+  const { data } = useGetAllPatientsQuery()
+
+  //
+  const paedData = useCallback(() => {
+    const dtx = data?.filter((item: ItemsProps) => {
+      const age = calculateAge(item.dob)
+      return age >= 0 && age <= 9
+    })
+    return dtx
+  }, [data])
+
+  // otz
+  const otzData = useCallback(() => {
+    const dtx = data?.filter((item: ItemsProps) => {
+      const age = calculateAge(item.dob)
+      return age >= 9 && age <= 19
+    })
+    return dtx
+  }, [data])
+
+  // otz plus
+  const otzPlusData = useCallback(() => {
+    const dtx = data?.filter((item: ItemsProps) => {
+      const age = calculateAge(item.dob)
+      return age >= 19 && age <= 24
+    })
+    return dtx
+  }, [data])
+
+  // otz plus
+  const adultData = useCallback(() => {
+    const dtx = data?.filter((item: ItemsProps) => {
+      const age = calculateAge(item.dob)
+      return age >= 24
+    })
+    return dtx
+  }, [data])
+
+  const ageRanges: Array<[number, number]> = [[0, 9], [10, 19], [20, 24], [25, Infinity]]
+
+  const pieChartData = {
+    labels: ['Paediatric', 'OTZ', 'OTZ Plus', 'Adult'],
     datasets: [
       {
-        label: 'Users Gained',
-        data: chartData.map((item) => item.userGain)
+        data: calculateAgeRange(data || [], ageRanges),
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+
       }
     ]
-  })
+  }
 
   //
   const [barCharData, setBarChartData] = useState<BarChartProps>({
@@ -86,6 +137,7 @@ const Dashboard = () => {
 
   return (
     <div className="ml-64 pt-12 p-3">
+      hello {paedData()?.length}
       <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4 p-4 ">
         <PieChart data={pieChartData} />
         <BarChart data={barCharData} />

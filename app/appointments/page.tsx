@@ -51,7 +51,7 @@ const AppointmentPage = () => {
     () => [
       {
         id: 1,
-        label: `All ${data?.length}`
+        label: `All ${appointments?.length}`
       },
       {
         id: 2,
@@ -70,20 +70,25 @@ const AppointmentPage = () => {
         label: `Missed ${missedAppointment()?.length}`
       }
     ],
-    [missedAppointment, data?.length, pendingAppointment, rescheduledAppointment, upcomingAppointment]
+    [missedAppointment, appointments?.length, pendingAppointment, rescheduledAppointment, upcomingAppointment]
   )
 
   useEffect(() => {
+    // if (data) {
+    // setAppointments(data)
+    // }
     const socket: Socket = socketIOClient('http://localhost:5000')
 
     socket.on('appointment-updated', (socketData: NotificationProps) => {
       showNotification()
+      // setAppointments(socketData)
+      console.log(socketData)
     })
 
     return () => {
       socket.disconnect()
     }
-  }, [showNotification])
+  }, [data, showNotification])
 
   return (
     <div className="ml-64 pt-12">

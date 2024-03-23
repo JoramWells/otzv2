@@ -14,7 +14,8 @@ import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useCallback, useEffect, useState } from 'react'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
-import { useUpdateAppointmentMutation } from '@/api/appointment/appointment.api.'
+import { useDeleteAppointmentMutation, useUpdateAppointmentMutation } from '@/api/appointment/appointment.api.'
+import { Loader2 } from 'lucide-react'
 
 interface DataProps {
   data: {
@@ -49,7 +50,8 @@ const CustomSheet = ({ data }: DataProps) => {
   const [appointmentStatus, setAppointmentStatus] = useState('')
   const [appointmentDate, setAppointmentDate] = useState('')
 
-  const [updateAppointment] = useUpdateAppointmentMutation(data.original.id)
+  const [updateAppointment, { isLoading: loadingUpdate }] = useUpdateAppointmentMutation()
+  const [deleteAppointment, { isLoading: loadingDelete }] = useDeleteAppointmentMutation()
 
   const inputValues = {
     id: data.original.id,
@@ -141,13 +143,21 @@ const CustomSheet = ({ data }: DataProps) => {
             className="text-red-500 border-red-500 hover:bg-red-50
             hover:text-red-600
             "
+            disabled={loadingDelete}
+            onClick={() => deleteAppointment(data.original.id)}
           >
+            {loadingDelete && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             Delete
           </Button>
-          <Button type="submit"
-          className='bg-teal-600 border-none hover:bg-teal-700'
-          onClick={() => updateAppointment(inputValues)}
-          >Edit</Button>
+          <Button
+            type="submit"
+            disabled={loadingUpdate}
+            className="bg-teal-600 border-none hover:bg-teal-700"
+            onClick={() => updateAppointment(inputValues)}
+          >
+            {loadingUpdate && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            Edit
+          </Button>
         </div>
       </SheetContent>
     </Sheet>

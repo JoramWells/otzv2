@@ -23,7 +23,7 @@ export const appointmentApi = createApi({
     getAppointmentDetail: builder.query({
       query: (id) => `appointment-detail/${id}`
     }),
-    updateAppointment: builder.mutation({
+    updateAppointment: builder.mutation<void, any>({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
         method: 'PUT',
@@ -33,7 +33,7 @@ export const appointmentApi = createApi({
     deleteAppointment: builder.mutation({
       query (id) {
         return {
-          url: `delete${id}`,
+          url: `delete/${id}`,
           method: 'DELETE'
         }
       }
