@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Trash2, Pencil, Clock } from 'lucide-react'
+import { Clock } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Avatar, Tag } from '@chakra-ui/react'
-import { usePathname, useRouter } from 'next/navigation'
 import moment, { type MomentInput } from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
+
+import CustomSheet from '../_components/appointment/CustomSheet'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -134,23 +135,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     // accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => {
-      const router = useRouter()
-      const pathname = usePathname()
-      return (
-        <div className="flex flex-row gap-x-2">
-          <Pencil
-            className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
-            size={25}
-            onClick={() => {
-              router.push(`${pathname}/${row.original.id}`)
-            }}
-          />
-          <Trash2
-            className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
-            size={25}
-          />
-        </div>
-      )
+      return <CustomSheet data={row} />
     }
   }
 ]

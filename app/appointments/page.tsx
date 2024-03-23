@@ -4,13 +4,20 @@
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../_components/table/CustomTable'
 import { columns } from './columns'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import AppointmentStatusTab from '../_components/appointment/tabs/AppointmentStatusTab'
 import { Button } from '@/components/ui/button'
+import CustomTab from '../_components/tab/CustomTab'
+import useNotification from '@/hooks/useNotification'
+import { type NotificationProps } from '@/context/NotificationContext'
+import socketIOClient, { type Socket } from 'socket.io-client'
 
-const Patients = () => {
+const AppointmentPage = () => {
+  const [appointments, setAppointments] = useState([])
   const [value, setValue] = useState<number>(1)
   const { data } = useGetAllAppointmentsQuery()
+
+  const showNotification = useNotification()
 
   const missedAppointment = useCallback(() => {
     return data?.filter((item: any) => item.appointmentStatus?.statusDescription.toLowerCase().includes('Missed'.toLowerCase()))
@@ -66,7 +73,17 @@ const Patients = () => {
     [missedAppointment, data?.length, pendingAppointment, rescheduledAppointment, upcomingAppointment]
   )
 
-  console.log(missedAppointment(), 'dtc')
+  useEffect(() => {
+    const socket: Socket = socketIOClient('http://localhost:5000')
+
+    socket.on('appointment-updated', (socketData: NotificationProps) => {
+      showNotification()
+    })
+
+    return () => {
+      socket.disconnect()
+    }
+  }, [showNotification])
 
   return (
     <div className="ml-64 pt-12">
@@ -75,58 +92,39 @@ const Patients = () => {
           Patient Appointment
         </p>
 
-        <div
-          className="flex flex-row space-x-4
-      border-b mb-4
-      "
-        >
-          {categoryList.map((item) => (
-            <Button
-              key={item.id}
-              // rounded={'0'}
-              // h={10}
-              // size={'sm'}
-              // w={'full'}
-              // borderBottom={`${value === item.id ? '2px' : '0'}`}
-              // fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
-              // bgColor={`${value === item.id ? 'teal.50' : 'transparent'}`}
-              // color={`${value === item.id ? 'teal' : 'gray.500'}`}
-              // bgColor={'white'}
-              // shadow={`${value === item.id && 'md'}`}
-              // _hover={
-              //   {
-                  // bgColor: `${value === item.id && 'black'}`,
-                  // color: `${value === item.id && 'white'}`
-              //   }
-              // }
-              onClick={() => {
-                setValue(item.id)
-              }}
-            >
-              {item.label}
-            </Button>
-          ))}
-        </div>
-        {value === 1 && (
-          <CustomTable columns={columns} data={data || []} />
-        )}
+        {/* tab navigation */}
+        <CustomTab
+          categoryList={categoryList}
+          setValue={setValue}
+          value={value}
+        />
+
+        {value === 1 && <CustomTable columns={columns} data={data || []} />}
 
         {value === 2 && (
-          <AppointmentStatusTab columns={columns} data={pendingAppointment() || []} />
+          <AppointmentStatusTab
+            columns={columns}
+            data={pendingAppointment() || []}
+          />
         )}
 
         {value === 3 && (
-          <CustomTable columns={columns} data={rescheduledAppointment() || []} />
+          <CustomTable
+            columns={columns}
+            data={rescheduledAppointment() || []}
+          />
         )}
 
         {value === 4 && (
           <CustomTable columns={columns} data={upcomingAppointment() || []} />
         )}
 
-        {value === 5 && <CustomTable columns={columns} data={missedAppointment() || []} /> }
+        {value === 5 && (
+          <CustomTable columns={columns} data={missedAppointment() || []} />
+        )}
       </div>
     </div>
   )
 }
 
-export default Patients
+export default AppointmentPage

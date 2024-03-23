@@ -23,9 +23,9 @@ export const appointmentApi = createApi({
     getAppointmentDetail: builder.query({
       query: (id) => `appointment-detail/${id}`
     }),
-    updateCreditPayment: builder.mutation({
+    updateAppointment: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `update${id}`,
+        url: `edit/${id}`,
         method: 'PUT',
         body: patch
       })
@@ -44,5 +44,5 @@ export const appointmentApi = createApi({
 export const {
   useGetAllAppointmentsQuery, useAddAppointmentMutation,
   useGetAppointmentQuery, useGetAppointmentDetailQuery,
-  useUpdateCreditPaymentMutation, useDeleteAppointmentMutation
+  useUpdateAppointmentMutation, useDeleteAppointmentMutation
 } = appointmentApi
