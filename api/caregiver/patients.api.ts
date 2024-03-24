@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const caregiverApi = createApi({
   reducerPath: 'caregiverApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/caregiver'
+    baseUrl: '/api/root-service/caregiver'
   }),
   endpoints: (builder) => ({
     getAllCaregivers: builder.query({

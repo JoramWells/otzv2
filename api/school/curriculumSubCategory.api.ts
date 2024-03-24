@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const curriculumSubCategoryApi = createApi({
   reducerPath: 'curriculumSubCategoryApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5004/school-sub-category'
+    baseUrl: '/api/school/school-sub-category'
   }),
   endpoints: (builder) => ({
     getAllSchoolSubCurriculums: builder.query<any, void>({

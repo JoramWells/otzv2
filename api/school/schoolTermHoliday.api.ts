@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const schoolTermHolidayApi = createApi({
   reducerPath: 'schoolTermHolidayApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5004/school-term-holidays'
+    baseUrl: '/api/school/school-term-holidays'
   }),
   endpoints: (builder) => ({
     getAllSchoolTermHolidays: builder.query<any, void>({

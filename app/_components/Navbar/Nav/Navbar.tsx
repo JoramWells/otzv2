@@ -56,6 +56,7 @@ const Navbar = () => {
         <CircleUserRound
           className="text-slate-500 hover:cursor-pointer hover:text-slate-600"
           size={24}
+          onClick={() => { router.push('/auth/login') }}
         />
       </div>
   )

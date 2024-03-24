@@ -108,7 +108,6 @@ const Dashboard = () => {
       {
         data: calculateAgeRange(data || [], ageRanges),
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-
       }
     ]
   }

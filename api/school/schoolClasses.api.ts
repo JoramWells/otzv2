@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const schoolClassesApi = createApi({
   reducerPath: 'schoolClassesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5004/school-classes'
+    baseUrl: '/api/school/school-classes'
   }),
   endpoints: (builder) => ({
     getAllSchoolClasses: builder.query<any, void>({
