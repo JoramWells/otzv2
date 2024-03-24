@@ -5,7 +5,6 @@ import useNotification from '@/hooks/useNotification'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { useContext, useEffect } from 'react'
 import { NotificationContext, type NotificationProps } from '@/context/NotificationContext'
-import { Button } from '@/components/ui/button'
 import { useSidebar } from '@/context/SidebarContext'
 
 const Navbar = () => {
@@ -15,7 +14,7 @@ const Navbar = () => {
   const showNotification = useNotification()
 
   useEffect(() => {
-    const socket: Socket = socketIOClient('http://localhost:5000')
+    const socket: Socket = socketIOClient('/api/root-service/')
 
     socket.on('lab-updated', (socketData: NotificationProps) => {
       showNotification()
@@ -30,7 +29,7 @@ const Navbar = () => {
 
   // const [isOpen, setIsOpen] = useState<boolean>(true)
 
-  const { isSidebarOpen, toggleSidebar } = useSidebar()
+  const { toggleSidebar } = useSidebar()
 
   return (
     <div
