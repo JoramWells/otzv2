@@ -91,7 +91,7 @@ const AppointmentPage = () => {
   }, [data, showNotification])
 
   return (
-    <div className="ml-64 pt-12">
+    <div className="">
       <div className="p-5">
         <p className="mb-4 text-xl font-semibold text-slate-700">
           Patient Appointment

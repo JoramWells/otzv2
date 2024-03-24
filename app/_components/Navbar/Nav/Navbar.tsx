@@ -1,10 +1,12 @@
 'use client'
-import { Bell, CircleUserRound, MessageSquareText } from 'lucide-react'
+import { Bell, CircleUserRound, Menu, MessageSquareText } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import useNotification from '@/hooks/useNotification'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { useContext, useEffect } from 'react'
 import { NotificationContext, type NotificationProps } from '@/context/NotificationContext'
+import { Button } from '@/components/ui/button'
+import { useSidebar } from '@/context/SidebarContext'
 
 const Navbar = () => {
   const { notifications, addNotification } = useContext(NotificationContext)
@@ -26,12 +28,24 @@ const Navbar = () => {
     }
   }, [showNotification, notifications, addNotification])
 
+  // const [isOpen, setIsOpen] = useState<boolean>(true)
+
+  const { isSidebarOpen, toggleSidebar } = useSidebar()
+
   return (
+    <div
+      className="
+    w-full h-14 flex items-center justify-between
+    border-b border-gray-200 z-10 bg-white p-2 space-x-4"
+    >
+      <Menu
+        onClick={toggleSidebar}
+        className="hover:cursor-pointer hover:bg-slate-100
+      rounded-md bg-slate-50 h-7 w-7 p-1 hover:text-slate-600
+      "
+      />
       <div
-        className="fixed
-    w-full h-12 flex items-center justify-end
-    border-b border-gray-200 z-10 bg-white p-2 space-x-4
-    "
+      className='flex flex-row space-x-6'
       >
         <div className="relative">
           <Bell
@@ -56,9 +70,12 @@ const Navbar = () => {
         <CircleUserRound
           className="text-slate-500 hover:cursor-pointer hover:text-slate-600"
           size={24}
-          onClick={() => { router.push('/auth/login') }}
+          onClick={() => {
+            router.push('/auth/login')
+          }}
         />
       </div>
+    </div>
   )
 }
 
