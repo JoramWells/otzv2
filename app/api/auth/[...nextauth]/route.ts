@@ -14,12 +14,15 @@ const handler = NextAuth({
         password: {}
       },
       async authorize (credentials, req) {
-        await axios.post('http://root-service:5000/users/login', {
+        console.log(credentials)
+        const response = await axios.post('http://root-service:5000/users/login', {
           email: credentials?.email,
           password: credentials?.password
         })
-          .then(response => { return response.data })
-          .catch(err => { console.log(err) })
+        if (response) {
+          return response.data
+        }
+        // .catch(err => { console.log(err) })
         return null
       }
     })

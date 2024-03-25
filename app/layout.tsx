@@ -1,4 +1,6 @@
+import AuthProviders from '@/components/providers'
 import type { Metadata } from 'next'
+// import { getServerSession } from 'next-auth'
 import { Inter } from 'next/font/google'
 // import { Providers } from './providers'
 const inter = Inter({
@@ -11,14 +13,17 @@ export const metadata: Metadata = {
   description: 'Mother ANgela'
 }
 
-export default function RootLayout ({
+export default async function RootLayout ({
   children
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // const session = await getServerSession()
   return (
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <AuthProviders>
+            <body className={inter.className}>{children}</body>
+        </AuthProviders>
       </html>
   )
 }
