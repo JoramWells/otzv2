@@ -1,6 +1,6 @@
 // 'use client'
 
-import { Bell, CircleUserRound, MessageSquareText } from 'lucide-react'
+import { Bell, MessageSquareText } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect } from 'react'
 import useNotification from '@/hooks/useNotification'

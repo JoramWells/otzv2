@@ -26,8 +26,8 @@ const LoginPage = () => {
     console.log('dtx')
     console.log(response)
     if (response?.error === null) {
-      // router.push('/dashboard')
-      // router.refresh()
+      router.push('/dashboard')
+      router.refresh()
     }
   }
   // const session = getServerSession()

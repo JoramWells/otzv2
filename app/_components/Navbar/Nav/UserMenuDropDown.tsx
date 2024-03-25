@@ -49,7 +49,7 @@ export function UserMenuDropDown () {
           className='flex items-center gap-x-4'
           >
             <Avatar
-              name={session?.user?.email || 'user'}
+              name={session?.user?.email ?? 'user'}
               size={'xs'}
               // text
               // name="jay"
