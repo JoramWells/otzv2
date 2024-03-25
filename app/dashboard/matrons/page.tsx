@@ -18,7 +18,6 @@ const Users = () => {
   }
 
   return (
-    <div className="ml-64 pt-12">
       <div className="p-5">
         <div
         className='flex flex-row justify-between items-center p-1'
@@ -51,7 +50,6 @@ const Users = () => {
 
         <CustomTable columns={columns} data={data ?? []} />
       </div>
-    </div>
   )
 }
 

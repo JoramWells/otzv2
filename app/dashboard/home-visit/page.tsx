@@ -37,7 +37,6 @@ const HomeVisitPage = () => {
   }
 
   return (
-    <div className="ml-64 pt-12">
       <div className="p-5">
         <div
           className="rounded-md gap-x-4
@@ -97,7 +96,6 @@ const HomeVisitPage = () => {
         {/* frequency */}
         {value === 2 && <CustomTable columns={reasonColumns} data={reasonsData ?? []} />}
       </div>
-    </div>
   )
 }
 

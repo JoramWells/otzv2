@@ -37,7 +37,6 @@ const Appointment = () => {
   }
 
   return (
-    <div className="ml-64 pt-12">
       <div className="p-5">
         <div
           className="rounded-md gap-x-4
@@ -99,7 +98,6 @@ const Appointment = () => {
           <CustomTable columns={appointmentStatusColumns} data={appointmentStatusData || []} />
         )}
       </div>
-    </div>
   )
 }
 

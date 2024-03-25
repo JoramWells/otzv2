@@ -135,8 +135,7 @@ const Dashboard = () => {
   })
 
   return (
-    <div className="ml-64 pt-12 p-3">
-      hello {paedData()?.length}
+    <div className="p-3">
       <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4 p-4 ">
         <PieChart data={pieChartData} />
         <BarChart data={barCharData} />

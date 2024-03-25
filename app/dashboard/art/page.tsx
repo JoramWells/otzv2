@@ -56,7 +56,6 @@ const Art = () => {
   }
 
   return (
-    <div className="ml-64 pt-12">
       <div className="p-5">
         <div className="flex flex-row gap-x-2">
           <div
@@ -140,7 +139,6 @@ const Art = () => {
           </div>
         )}
       </div>
-    </div>
   )
 }
 

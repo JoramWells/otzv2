@@ -11,12 +11,10 @@ const Patients = () => {
   console.log(data, 'dtc')
 
   return (
-    <div className="ml-64 pt-12">
       <div className="p-5">
         <p className='mb-4 text-xl font-semibold text-slate-700'>Home Visit</p>
         <CustomTable columns={columns} data={data || []} />
       </div>
-    </div>
   )
 }
 

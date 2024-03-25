@@ -39,7 +39,6 @@ const Occupations = () => {
   }
 
   return (
-    <div className="ml-64 pt-12">
       <div className="p-5">
         {/*  */}
         <div
@@ -100,7 +99,6 @@ const Occupations = () => {
 
         {value === 2 && <CustomTable columns={subCountyColumns} data={subCountyData ?? []} />}
       </div>
-    </div>
   )
 }
 

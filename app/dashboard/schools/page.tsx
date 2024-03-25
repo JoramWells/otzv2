@@ -59,7 +59,6 @@ const SchoolPage = () => {
   }
 
   return (
-    <div className="ml-64 pt-12">
       <div className="p-5">
         <div className="flex flex-col gap-y-2 mb-4">
           <p className="font-bold text-xl">Categories</p>
@@ -146,7 +145,6 @@ const SchoolPage = () => {
           />
         )}
       </div>
-    </div>
   )
 }
 
