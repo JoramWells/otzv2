@@ -32,7 +32,7 @@ const Navbar = () => {
   const { toggleSidebar } = useSidebar()
 
   return (
-    <div
+    <nav
       className="
     w-full h-14 flex items-center justify-between
     border-b border-gray-200 z-10 bg-white p-2 space-x-4"
@@ -70,11 +70,11 @@ const Navbar = () => {
           className="text-slate-500 hover:cursor-pointer hover:text-slate-600"
           size={24}
           onClick={() => {
-            router.push('/auth/login')
+            router.push('/login')
           }}
         />
       </div>
-    </div>
+    </nav>
   )
 }
 

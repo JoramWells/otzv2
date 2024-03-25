@@ -26,8 +26,8 @@ const PatientDetails = ({ params }: any) => {
 
   return (
     <div
-      className="pt-16 ml-64 p-3 flex flex-row
-    gap-x-4
+      className="flex flex-row
+    gap-x-4 p-5
     "
     >
       <PatientProfileCard
