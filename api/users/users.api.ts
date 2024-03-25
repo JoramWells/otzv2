@@ -22,6 +22,9 @@ export const userApi = createApi({
         body: newUser
       })
     }),
+    login: builder.mutation({
+      query: (email) => `login/${email}`
+    }),
     getUser: builder.query({
       query: (id) => `detail/${id}`
     }),
@@ -43,4 +46,4 @@ export const userApi = createApi({
   })
 })
 
-export const { useGetAllUsersQuery, useAddUserMutation, useGetUserQuery } = userApi
+export const { useGetAllUsersQuery, useAddUserMutation, useGetUserQuery, useLoginMutation } = userApi

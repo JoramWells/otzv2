@@ -1,23 +1,48 @@
+/* eslint-disable @typescript-eslint/promise-function-async */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
-
+import { signIn } from 'next-auth/react'
 import CustomInput from '@/app/_components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 // import CustomInput from '@/app/_components/forms/CustomInput'
-import React, { useState } from 'react'
+import { type FormEvent, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
-  const [userName, setUserName] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const router = useRouter()
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const response = await signIn('credentials', {
+      email,
+      password,
+      redirect: false
+    })
+    console.log(response)
+    if (!response?.error) {
+      router.push('/dashboard')
+      router.refresh()
+    }
+  }
+
   return (
-    <div className="flex flex-col w-[500px] border p-5 rounded-lg gap-y-6 mx-auto">
-      <CustomInput label="Username" value={userName} onChange={setUserName} />
+    <form className="flex flex-col w-[500px] border p-5 rounded-lg gap-y-6 mx-auto"
+    onSubmit={handleSubmit}
+    >
+      <CustomInput label="Email" value={email} onChange={setEmail} />
       <CustomInput label="Password" value={password} onChange={setPassword} />
-      <Button size={'lg'} className="bg-teal-600 hover:bg-teal-700 shadow-none">
+      <Button size={'lg'} className="bg-teal-600 hover:bg-teal-700 shadow-none"
+      // onClick={() => handleSubmit()}
+      type='submit'
+      >
         Login
       </Button>
       <Link href={'/auth/register'} className='text-center'>Dont have an account, register?</Link>
-    </div>
+    </form>
   )
 }
 

@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
 import { useCallback, useId, useState } from 'react'
@@ -10,6 +10,8 @@ import CustomSelect from '@/app/_components/forms/CustomSelect'
 import { useGetAllCountiesQuery } from '@/api/location/county.api'
 import { useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 import { useAddUserMutation } from '@/api/users/users.api'
+import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 const AddUser = () => {
   const [firstName, setFirstName] = useState('')
@@ -20,6 +22,8 @@ const AddUser = () => {
   const [idNo, setIDNo] = useState('')
   const [county, setCounty] = useState('')
   const [password, setPassword] = useState('')
+  const [phone_no, setPhone_no] = useState('')
+  const [email, setEmail] = useState('')
 
   const inputValues = {
     firstName,
@@ -29,6 +33,8 @@ const AddUser = () => {
     gender,
     idNo,
     county,
+    email,
+    phone_no,
     password
   }
 
@@ -44,18 +50,17 @@ const AddUser = () => {
   }, [data])
 
   return (
-    <div className="flex flex-row justify-center">
+    <div className="p-3">
       <div
         className="border border-gray-200
-        w-1/3 flex flex-col items-center
-      justify-center rounded-lg p-5 gap-y-4 mt-14"
+        w-1/3 flex flex-col rounded-lg p-5 gap-y-4"
         style={{
-          width: '40%'
+          width: '55%'
         }}
       >
-        <div
-        className='flex flex-row gap-x-2'
-        >
+        <h1 className="text-xl">Personal Details</h1>
+
+        <div className="flex flex-row gap-x-2">
           <CustomInput
             label="First Name"
             value={firstName}
@@ -72,28 +77,27 @@ const AddUser = () => {
             onChange={setLastName}
           />
         </div>
-        <CustomInput label="DOB" value={dob} onChange={setDOB}
-        type='date'
-        />
+        <CustomInput label="DOB" value={dob} onChange={setDOB} type="date" />
         <CustomSelect
           label="Select Gender"
           value={gender}
           onChange={setGender}
           data={[
             {
-              id: '1', label: 'MALE'
+              id: '1',
+              label: 'MALE'
             },
             {
-              id: '2', label: 'FEMALE'
+              id: '2',
+              label: 'FEMALE'
             }
           ]}
         />
         <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
-        <CustomSelect
-          label="Select County"
-          value={county}
-          onChange={setCounty}
-          data={countiesOption()}
+        <CustomInput
+          label="Phone No."
+          value={phone_no}
+          onChange={setPhone_no}
         />
 
         {/* <CustomSelect
@@ -107,12 +111,33 @@ const AddUser = () => {
         /> */}
 
         <CustomInput label="Password" value={password} onChange={setPassword} />
+      </div>
 
-        <Button colorScheme="teal" width={'full'}
-        isLoading={isLoading}
-        onClick={() => addUser(inputValues)}
+      <div
+        className="border border-gray-200
+        w-1/3 flex flex-col rounded-lg p-5 gap-y-4 mt-4"
+        style={{
+          width: '55%'
+        }}
+      >
+        <h1 className="text-xl">Contact and Location</h1>
+        <CustomInput label="Email Address" value={email} onChange={setEmail} />
+        <CustomSelect
+          label="Select County"
+          value={county}
+          onChange={setCounty}
+          data={countiesOption()}
+        />
+        <Button
+          // colorScheme="teal"
+          // width={'full'}
+          disabled={isLoading}
+          className="bg-teal-600 hover:bg-teal-700"
+          size={'lg'}
+          onClick={() => addUser(inputValues)}
         >
-          Add Patient
+          {isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+          Save
         </Button>
       </div>
     </div>

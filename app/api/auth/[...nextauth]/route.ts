@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import axios from 'axios'
 
 const handler = NextAuth({
+  session: {
+    strategy: 'jwt'
+  },
   providers: [
     CredentialsProvider({
       credentials: {
@@ -10,21 +14,31 @@ const handler = NextAuth({
         password: {}
       },
       async authorize (credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' }
-
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-        }
+        await axios.post('http://root-service:5000/users/login', {
+          email: credentials?.email,
+          password: credentials?.password
+        })
+          .then(response => { return response.data })
+          .catch(err => { console.log(err) })
+        return null
       }
     })
-  ]
+  ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.data = user
+      }
+      return token
+    },
+    session: async ({ session, token }) => {
+      if (token.data) {
+        session.user = token.data
+      }
+      return session
+    }
+  },
+  secret: process.env.NEXT_AUTH_SECRET
 })
 
 export { handler as GET, handler as POST }
