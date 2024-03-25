@@ -1,3 +1,5 @@
+import { Input } from '@/components/ui/input'
+
 export interface InputEventProps extends React.ChangeEvent<HTMLInputElement> {
   target: HTMLInputElement & {
     value: string
@@ -17,13 +19,15 @@ const CustomInput = ({ label, placeholder, value, type = 'text', onChange }: Cus
   return (
     <div className="w-full">
       <p className="mb-1 text-slate-800 font-bold">{label}</p>
-      <input
+      <Input
         className="border border-gray-200
             p-2 w-full rounded-lg
             "
-            value={value}
-            type={type}
-            onChange={(e: InputEventProps) => { onChange(e.target.value) }}
+        value={value}
+        type={type}
+        onChange={(e: InputEventProps) => {
+          onChange(e.target.value)
+        }}
       />
     </div>
   )

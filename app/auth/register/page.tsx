@@ -13,10 +13,13 @@ const LoginPage = () => {
     <div className="flex flex-col w-[500px] border p-5 rounded-lg gap-y-6">
       <CustomInput label="Username" value={userName} onChange={setUserName} />
       <CustomInput label="Password" value={password} onChange={setPassword} />
+      <CustomInput label="Confirm Password" value={password} onChange={setPassword} />
       <Button size={'lg'} className="bg-teal-600 hover:bg-teal-700 shadow-none">
-        Login
+        Register
       </Button>
-      <Link href={'/auth/register'} className='text-center'>Dont have an account, register?</Link>
+      <Link href={'/auth/register'} className="text-center">
+        Dont have an account, register?
+      </Link>
     </div>
   )
 }
