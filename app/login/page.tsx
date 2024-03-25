@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   return (
-    <div className="flex flex-col w-[500px] border p-5 rounded-lg gap-y-6">
+    <div className="flex flex-col w-[500px] border p-5 rounded-lg gap-y-6 mx-auto">
       <CustomInput label="Username" value={userName} onChange={setUserName} />
       <CustomInput label="Password" value={password} onChange={setPassword} />
       <Button size={'lg'} className="bg-teal-600 hover:bg-teal-700 shadow-none">
