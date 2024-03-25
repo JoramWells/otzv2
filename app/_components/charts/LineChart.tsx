@@ -14,7 +14,7 @@ export interface LineChartProps {
 
 const LineChart = ({ data }: Props) => {
   return (
-    <div className="lg:w-1/2 h-[400px] md:w-full">
+    <div className="h-[400px] md:w-full border rounded-lg p-5">
       <Line
         data={data}
         options={{
@@ -23,7 +23,9 @@ const LineChart = ({ data }: Props) => {
               display: true,
               text: 'Patient Data'
             }
-          }
+          },
+          responsive: true,
+          maintainAspectRatio: false
         }}
       />
     </div>

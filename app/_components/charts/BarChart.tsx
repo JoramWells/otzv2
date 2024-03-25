@@ -14,19 +14,25 @@ export interface BarChartProps {
 
 const BarChart = ({ data }: Props) => {
   return (
-    <div className="border rounded-lg
-    ">
-      <Bar
-        data={data}
-        options={{
-          plugins: {
-            title: {
-              display: true,
-              text: 'Patient Data'
-            }
-          }
-        }}
-      />
+    <div className="h-[320px] md:w-full border rounded-lg">
+      <h1 className="font-bold text-lg">Enrollment</h1>
+      <div
+      className='pb-10 pl-5 pr-5 w-full h-full'
+      >
+        <Bar
+          data={data}
+          options={{
+            plugins: {
+              // title: {
+              //   display: true,
+              //   text: 'Patient Data'
+              // }
+            },
+            responsive: true,
+            maintainAspectRatio: false
+          }}
+        />
+      </div>
     </div>
   )
 }

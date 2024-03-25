@@ -14,6 +14,7 @@ import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { calculateAge } from '@/utils/calculateAge'
 import { type MomentInput } from 'moment'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
+import HeaderCategories from '../_components/dashboard/HeaderCategories'
 
 interface DataPops {
   id: number
@@ -135,22 +136,26 @@ const Dashboard = () => {
   })
 
   return (
-    <div className="p-3">
-      <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4 p-4 ">
+    <div className="p-3 flex flex-col gap-y-4">
+      <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
+        <HeaderCategories />
+      </div>
+      <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
         <PieChart data={pieChartData} />
+
         <BarChart data={barCharData} />
         <div
           className="border
         p-2
         "
         >
-          <p className="text-xl font-bold mb-4 rounded-lg">
+          <p className="text-lg font-bold mb-4 rounded-lg">
             Upcoming Appointments
           </p>
           <CustomTable isSearch={false} columns={columns} data={[]} />
         </div>
       </div>
-      <div className='grid md:grid-cols-1'>
+      <div className="grid md:grid-cols-1">
         <LineChart data={lineChartData} />
       </div>
     </div>
