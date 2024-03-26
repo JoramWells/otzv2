@@ -78,8 +78,8 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
   return (
     <div className="w-full">
       {/* header */}
-      <div className="flex flex-row justify-between mb-4 bg-slate-50 p-2 items-center rounded-lg border">
-        <p className="text-lg font-semibold text-slate-700">
+      <div className="flex flex-row justify-between mb-4 items-center">
+        <p className="text-lg font-bold">
           Recent Appointments
         </p>
 

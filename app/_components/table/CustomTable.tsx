@@ -1,8 +1,19 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent } from '@/components/ui/dropdown-menu'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent
+} from '@/components/ui/dropdown-menu'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import {
@@ -24,7 +35,6 @@ interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
   isSearch?: boolean
-
 }
 export function CustomTable<TData, TValue> ({
   data,
@@ -33,12 +43,9 @@ export function CustomTable<TData, TValue> ({
 }: CustomTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({})
 
-  const [columnVisibility, setColumnVisibility] =
-      useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    []
-  )
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const table = useReactTable({
     data,
@@ -69,13 +76,10 @@ export function CustomTable<TData, TValue> ({
             placeholder="Search patient name"
             className="border h-10 rounded-md p-1"
             value={
-              (table.getColumn('patient_name')?.getFilterValue() as string) ??
-              ''
+              (table.getColumn('patient')?.getFilterValue() as string) ?? ''
             }
             onChange={(event) =>
-              table
-                .getColumn('patient_name')
-                ?.setFilterValue(event.target.value)
+              table.getColumn('patient')?.setFilterValue(event.target.value)
             }
           />
 
@@ -90,7 +94,7 @@ export function CustomTable<TData, TValue> ({
                 // color={'gray.500'}
                 // leftIcon={<ArrowDownToLine size={20} />}
               >
-                <Download size={18} className='mr-2' />
+                <Download size={18} className="mr-2" />
                 Download
               </Button>
             </CSVLink>

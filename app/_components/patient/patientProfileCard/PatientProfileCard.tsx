@@ -57,8 +57,16 @@ const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardPro
         items-center
         "
       >
-        <Avatar name={`${userData?.firstName} ${userData?.middleName}`} />
-        <p className="capitalize font-bold">{`${userData?.firstName} ${userData?.middleName}`}</p>
+        <div
+        className='bg-white p-[3px] rounded-full border-4 border-red-500'
+        >
+          <Avatar
+          size={'sm'}
+          name={`${userData?.firstName} ${userData?.middleName}`} />
+        </div>
+        <p className="capitalize font-bold
+        text-lg
+        ">{`${userData?.firstName} ${userData?.middleName}`}</p>
 
         <p className="text-slate-500 text-sm">
           {moment().diff(moment(userData?.dob), 'years')} yrs

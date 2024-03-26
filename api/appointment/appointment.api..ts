@@ -21,7 +21,7 @@ export const appointmentApi = createApi({
       query: (id) => `detail/${id}`
     }),
     getAppointmentDetail: builder.query({
-      query: (id) => `appointment-detail/${id}`
+      query: (id) => `appointmentDetail/${id}`
     }),
     updateAppointment: builder.mutation<void, any>({
       query: ({ id, ...patch }) => ({
