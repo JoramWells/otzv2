@@ -26,6 +26,10 @@ const categoryList = [
   {
     id: 6,
     label: 'Treatment Plan'
+  },
+  {
+    id: 7,
+    label: 'Settings'
   }
 ]
 
@@ -49,7 +53,7 @@ const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardPro
       className="flex flex-col justify-center border rounded-lg
         "
       style={{
-        height: '430px'
+        height: '455px'
       }}
     >
       <div

@@ -13,6 +13,7 @@ import LabTab from '@/app/_components/lab/LabTab'
 import PatientProfileCard from '@/app/_components/patient/patientProfileCard/PatientProfileCard'
 import EnrollmentTab from '@/app/_components/enrollments/EnrollmentTab'
 import { Button } from '@/components/ui/button'
+import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
 
 const PatientDetails = ({ params }: any) => {
   const [value, setValue] = useState(1)
@@ -35,6 +36,7 @@ const PatientDetails = ({ params }: any) => {
           <div
           className='flex flex-row space-x-4'
           >
+            <CaseManagerDialog />
             <Button>Assign Case Manager</Button>
             <Button>Care Giver</Button>
             <Button>Send Message</Button>
