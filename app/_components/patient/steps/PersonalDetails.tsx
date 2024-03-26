@@ -59,17 +59,25 @@ const PersonalDetail = ({
         width: '100%'
       }}
     >
-      <CustomInput
-        label="First Name"
-        value={firstName}
-        onChange={setFirstName}
-      />
-      <CustomInput
-        label="Second Name"
-        value={middleName}
-        onChange={setMiddleName}
-      />
-      <CustomInput label="Last Name" value={lastName} onChange={setLastName} />
+      <div
+      className='flex flex-row justify-between space-x-4'
+      >
+        <CustomInput
+          label="First Name"
+          value={firstName}
+          onChange={setFirstName}
+        />
+        <CustomInput
+          label="Second Name"
+          value={middleName}
+          onChange={setMiddleName}
+        />
+        <CustomInput
+          label="Last Name"
+          value={lastName}
+          onChange={setLastName}
+        />
+      </div>
       <CustomInput label="DOB" value={dob} onChange={setDOB} type="date" />
       <CustomSelect
         label="Select Gender"

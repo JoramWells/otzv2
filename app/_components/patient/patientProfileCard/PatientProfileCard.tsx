@@ -62,7 +62,7 @@ const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardPro
         "
       >
         <div
-        className='bg-white p-[3px] rounded-full border-4 border-red-500'
+        className='bg-white p-[3px] rounded-full border-2 border-red-500'
         >
           <Avatar
           size={'sm'}
