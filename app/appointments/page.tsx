@@ -11,6 +11,7 @@ import CustomTab from '../_components/tab/CustomTab'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
+import { CircleFadingPlus, PlusCircle } from 'lucide-react'
 
 const AppointmentPage = () => {
   const [appointments, setAppointments] = useState([])
@@ -93,9 +94,18 @@ const AppointmentPage = () => {
   return (
     <div className="">
       <div className="p-5">
-        <p className="mb-4 text-xl font-semibold text-slate-700">
-          Patient Appointment
-        </p>
+        <div className="flex flex-row mb-4 justify-between ">
+          <h1 className="text-lg font-semibold">Appointments</h1>
+
+          <Button
+            className="bg-teal-600 hover:bg-teal-700 shadow-none
+          font-bold
+          "
+          >
+            <PlusCircle size={18} className='mr-2' />
+            New Appointment
+          </Button>
+        </div>
 
         {/* tab navigation */}
         <CustomTab

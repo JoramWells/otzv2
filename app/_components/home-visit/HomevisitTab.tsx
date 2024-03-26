@@ -15,7 +15,7 @@ const HomeVisitTab = ({ patientID }: HomeVisitProps) => {
   console.log(data, 'dtc')
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 w-full">
       <CustomTable columns={columns} data={data || []} />
     </div>
   )

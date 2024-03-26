@@ -30,7 +30,9 @@ const CustomTab = ({ categoryList, setValue, value }: DataProps) => {
       {categoryList.map((item) => (
         <Button
           key={item.id}
-          className={`shadow-none font-bold bg-slate-50 text-slate-500 ${isChecked(item.id) && 'text-sky-500 bg-sky-50'}`}
+          className={`shadow-none font-bold bg-slate-50 text-slate-500 ${isChecked(item.id) && 'text-sky-600 bg-sky-50'}
+          border rounded-full hover:bg-sky-100
+          `}
           // rounded={'0'}
           // h={10}
           // size={'sm'}

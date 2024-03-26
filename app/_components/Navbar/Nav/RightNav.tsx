@@ -15,7 +15,7 @@ const RightNav = () => {
   const showNotification = useNotification()
 
   useEffect(() => {
-    const socket: Socket = socketIOClient('/api/root-service/')
+    const socket: Socket = socketIOClient('http://localhost:5000')
 
     socket.on('lab-updated', (socketData: NotificationProps) => {
       showNotification()

@@ -39,18 +39,17 @@ export interface UserDataProps {
   firstName?: string
   middleName?: string
   dob?: string
-  gender?: string
+  sex?: string
 
 }
 
 const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardProps) => {
   return (
     <div
-      className="border p-2 rounded-lg shadow-sm
-        flex flex-col justify-center
+      className="flex flex-col justify-center border rounded-lg
         "
       style={{
-        height: '450px'
+        height: '430px'
       }}
     >
       <div
@@ -64,7 +63,7 @@ const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardPro
         <p className="text-slate-500 text-sm">
           {moment().diff(moment(userData?.dob), 'years')} yrs
         </p>
-        <p className="text-slate-500 text-sm">Gender: {userData?.gender}</p>
+        <p className="text-slate-500 text-sm">Gender: {userData?.sex}</p>
         <div className="flex flex-row items-center gap-x-2 text-blue-500 font-bold text-sm">
           <Pencil size={15} /> <p>Edit Profile</p>
         </div>
@@ -73,17 +72,18 @@ const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardPro
       <Divider className="mt-4" />
 
       {/* list items */}
-      <div className="flex flex-col mt-4 w-80">
+      <div className="flex flex-col mt-2 w-80">
         {categoryList.map((item) => (
           <Button
             key={item.id}
-            rounded={'md'}
+            rounded={'0'}
             h={10}
             size={'sm'}
             w={'full'}
             // borderBottom={'2px'}
-            fontWeight={'normal'}
-            bgColor={`${value === item.id ? 'slate.300' : 'transparent'}`}
+            fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
+            borderLeft={`${value === item.id ? '4px' : '0px'}`}
+            bgColor={`${value === item.id ? 'slate.50' : 'transparent'}`}
             color={`${value === item.id ? 'black' : 'gray.500'}`}
             // bgColor={'white'}
             // shadow={`${value === item.id && 'md'}`}

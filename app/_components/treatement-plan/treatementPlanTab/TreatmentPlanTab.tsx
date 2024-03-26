@@ -46,15 +46,13 @@ const TreatmentPlanTab = ({ patientID }: TreatmentPlanProps) => {
   }, [])
 
   return (
-    <div>
+    <div className="w-full">
       {/* header */}
       <div className="flex flex-row justify-between items-center mb-4">
         <p className="text-lg font-bold">Treatment Plan</p>
-        <div className='flex flex-row items-center gap-x-4'>
+        <div className="flex flex-row items-center gap-x-4">
           <div>
-            <Printer
-            className='hover:cursor-pointer'
-            />
+            <Printer className="hover:cursor-pointer" />
           </div>
           <Button size={'sm'} colorScheme="green" variant={'outline'}>
             <Link href={`/treatment-plan/add-treatment-plan/${patientID}`}>
@@ -65,7 +63,7 @@ const TreatmentPlanTab = ({ patientID }: TreatmentPlanProps) => {
       </div>
 
       {/* flex-1 */}
-      <div className="flex flex-row gap-x-4">
+      <div className="flex flex-row gap-x-4 w-full">
         <div
           className="p-2 space-y-1 border border-gray-200 w-72
       rounded-md flex flex-col items-center justify-center gap-y-2
@@ -85,7 +83,11 @@ const TreatmentPlanTab = ({ patientID }: TreatmentPlanProps) => {
             />
           ))}
         </div>
-        <CustomTable columns={columns} data={data || []} />
+        <div
+        className='w-full'
+        >
+          <CustomTable columns={columns} data={data || []} />
+        </div>
       </div>
     </div>
   )

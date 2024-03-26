@@ -26,24 +26,23 @@ const PatientDetails = ({ params }: any) => {
 
   return (
     <div
-      className="flex flex-row
-    gap-x-4 p-5
-    "
+      className="flex flex-row space-x-4 p-3"
     >
-      <PatientProfileCard
-        value={value}
-        setValue={setValue}
-        userData={userData}
-      />
+
+        <PatientProfileCard
+          value={value}
+          setValue={setValue}
+          userData={userData}
+        />
       {/* body */}
       {/* appointments */}
       {value === 1 && <AppointmentTab patientID={patientID} />}
 
-      {value === 2 && <EnrollmentTab/>}
+      {value === 2 && <EnrollmentTab />}
 
       {/* home visit */}
       {value === 3 && (
-        <div>
+        <div className='w-full'>
           <div className="flex flex-row justify-between">
             <div className="flex flex-row items-center space-x-2">
               <Clock size={18} className="text-slate-600" />

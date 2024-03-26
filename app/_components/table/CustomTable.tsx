@@ -16,7 +16,7 @@ import {
   type ColumnFiltersState,
   getFilteredRowModel
 } from '@tanstack/react-table'
-import { BookOpen } from 'lucide-react'
+import { BookOpen, Download } from 'lucide-react'
 import { useState } from 'react'
 import { CSVLink } from 'react-csv'
 
@@ -82,22 +82,26 @@ export function CustomTable<TData, TValue> ({
           <div className="flex flex-row space-x-4 items-center">
             <CSVLink data={data as object[]}>
               <Button
-                size={'sm'}
+                // size={'sm'}
+                className="bg-slate-100 text-slate-600 hover:bg-slate-200
+                shadow-none font-bold
+                "
                 // rounded={'full'}
                 // color={'gray.500'}
                 // leftIcon={<ArrowDownToLine size={20} />}
               >
+                <Download size={18} className='mr-2' />
                 Download
               </Button>
             </CSVLink>
-            <Button
+            {/* <Button
               size={'sm'}
               // rounded={'full'}
               // color={'gray.500'}
               // leftIcon={<Printer size={20} />}
             >
               Print
-            </Button>
+            </Button> */}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -115,8 +119,9 @@ export function CustomTable<TData, TValue> ({
                         key={column.id}
                         className="capitalize"
                         checked={column.getIsVisible()}
-                        onCheckedChange={(value) => { column.toggleVisibility(!!value) }
-                        }
+                        onCheckedChange={(value) => {
+                          column.toggleVisibility(!!value)
+                        }}
                       >
                         {column.id}
                       </DropdownMenuCheckboxItem>
