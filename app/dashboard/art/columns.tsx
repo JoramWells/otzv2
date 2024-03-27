@@ -1,4 +1,4 @@
-import EditMeasuringUnit from '@/app/_components/art/EditMeasuringUnit'
+import EditMeasuringUnit from '@/app/_components/art/measuringUnit/EditMeasuringUnit'
 import { type ColumnDef } from '@tanstack/react-table'
 import { View } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
@@ -8,6 +8,7 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  measuringUnit: any
   artRegimenPhase: any
   artCategory: any
   header: string
@@ -83,9 +84,19 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'artRegimenPhase',
     header: 'ART Phase',
     cell: ({ row }) => (
-      <p>{row.original.artRegimenPhase?.artPhaseDescription}</p>
+      <p>{row.original.artCategory.artRegimenPhase?.artPhaseDescription}</p>
     )
   },
+  {
+    accessorKey: 'measuringUnit',
+    header: 'Art Name',
+    cell: ({ row }) => <p>{row.original.measuringUnit?.description}</p>
+  },
+  {
+    accessorKey: 'quantity',
+    header: 'Initial Quantity'
+  },
+
   {
     accessorKey: 'updatedAt',
     header: 'Updated'
@@ -125,6 +136,7 @@ export const artSwitchReasonColumns: Array<ColumnDef<ColumnProps>> = [
 
 //
 interface MeasuringUnitProps {
+  id: string
   description: string
   header: string
   accessorKey?: keyof UserProps
@@ -143,6 +155,6 @@ export const artMeasuringUnit: Array<ColumnDef<MeasuringUnitProps>> = [
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <EditMeasuringUnit value={row.original.description} />
+    cell: ({ row }) => <EditMeasuringUnit value={row.original.description} id={row.original.id} />
   }
 ]

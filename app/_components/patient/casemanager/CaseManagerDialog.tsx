@@ -21,7 +21,7 @@ export function CaseManagerDialog ({ children, description, label }: DataProps) 
         size={'sm'}
         >{label}</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-1/2">
+      <DialogContent className="w-3/4">
         <DialogHeader>
           <DialogTitle>{description}</DialogTitle>
         </DialogHeader>

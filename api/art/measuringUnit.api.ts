@@ -20,6 +20,13 @@ export const measuringUnitApi = createApi({
     getMeasuringUnit: builder.query({
       query: (id) => `detail/${id}`
     }),
+    updateMeasuringUnit: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: `update/${id}`,
+        method: 'PUT',
+        body: patch
+      })
+    }),
 
     deleteMeasuring: builder.mutation({
       query (id) {
@@ -34,6 +41,6 @@ export const measuringUnitApi = createApi({
 
 export const {
   useGetAllMeasuringQuery, useAddMeasuringUnitMutation,
-  useGetMeasuringUnitQuery,
+  useGetMeasuringUnitQuery, useUpdateMeasuringUnitMutation,
   useDeleteMeasuringMutation
 } = measuringUnitApi

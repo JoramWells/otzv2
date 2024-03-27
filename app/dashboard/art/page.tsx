@@ -11,7 +11,8 @@ import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { useGetAllArtSwitchReasonsQuery } from '@/api/art/artSwitchReason.api'
 import { useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
 import ArtCategory from '@/app/_components/art/ArtCategory'
-import MeasuringUnit from '@/app/_components/art/MeasuringUnit'
+import MeasuringUnit from '@/app/_components/art/measuringUnit/MeasuringUnit'
+import Regimen from '@/app/_components/art/regimen/Regimen'
 
 const categoryList = [
   {
@@ -40,10 +41,8 @@ const Art = () => {
   const [value, setValue] = useState(1)
 
   const { data } = useGetAllArtRegimenPhaseQuery()
-  const { data: artData } = useGetAllArtRegimenQuery()
   const { data: artSwitchReasonsData } = useGetAllArtSwitchReasonsQuery()
   const { data: measuringUnitData } = useGetAllMeasuringQuery()
-  console.log(artData, 'dtc')
 
   const router = useRouter()
   const pathname = usePathname()
@@ -126,7 +125,7 @@ const Art = () => {
       </div>
 
       {/* art details */}
-      {value === 1 && <CustomTable columns={artColumns} data={artData ?? []} />}
+      {value === 1 && <Regimen />}
 
       {/* art category */}
       {value === 2 && <ArtCategory />}

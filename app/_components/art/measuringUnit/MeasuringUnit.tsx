@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useAddMeasuringUnitMutation, useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
-import { CustomTable } from '../table/CustomTable'
+import { CustomTable } from '../../table/CustomTable'
 import { artMeasuringUnit } from '@/app/dashboard/art/columns'
-import { CaseManagerDialog } from '../patient/casemanager/CaseManagerDialog'
-import CustomInput from '../forms/CustomInput'
+import { CaseManagerDialog } from '../../patient/casemanager/CaseManagerDialog'
+import CustomInput from '../../forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import { useEffect, useState } from 'react'
 import { Loader2 } from 'lucide-react'

@@ -4,23 +4,36 @@
 'use client'
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
+import CustomInput from '../../forms/CustomInput'
 import { useCallback, useState } from 'react'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
 import { useGetAllArtRegimenCategoriesQuery } from '@/api/art/artRegimenCategory.api'
-import { useAddArtRegimenMutation } from '@/api/art/artRegimen.api.'
+import { useAddArtRegimenMutation, useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
+import { CaseManagerDialog } from '../../patient/casemanager/CaseManagerDialog'
+import { CustomTable } from '../../table/CustomTable'
+import { artColumns } from '@/app/dashboard/art/columns'
+import { useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
 
 interface PhaseProps {
   id: string
+  description: string
   artCategoryDescription: string
 }
 
-const AddArt = () => {
+const Regimen = () => {
   const [artName, setArtName] = useState('')
   const [artCategoryID, setArtCategoryID] = useState('')
   const [quantity, setQuantity] = useState('')
+  const [measuringUnitID, setMeasuringUnit] = useState('')
+
+  const { data: artData } = useGetAllArtRegimenQuery()
+
+  console.log(artData, 'kju')
+
   const [addArtRegimen, { isLoading }] =
     useAddArtRegimenMutation()
+
+  const { data: measuringUnitData } = useGetAllMeasuringQuery()
 
   const { data: categoryData } = useGetAllArtRegimenCategoriesQuery()
 
@@ -31,21 +44,24 @@ const AddArt = () => {
     }))
   }, [categoryData])
 
+  const measuringUnitOption = useCallback(() => {
+    return measuringUnitData?.map((item: PhaseProps) => ({
+      id: item.id,
+      label: item.description
+    }))
+  }, [measuringUnitData])
+
   const inputValues = {
     artName,
     artCategoryID,
+    measuringUnitID,
     quantity
   }
 
   return (
-    <div className="flex flex-row justify-center">
-      <div
-        className="border border-gray-200
-        w-1/3 flex flex-col items-center
-      justify-center rounded-lg p-5 gap-y-4 mt-14"
-        style={{
-          width: '40%'
-        }}
+    <div>
+      <CaseManagerDialog label="NEW"
+      description='Add ART'
       >
         <CustomInput
           label="Description"
@@ -62,9 +78,9 @@ const AddArt = () => {
 
         <CustomSelect
           label="Measuring Unit"
-          data={categoryDataOption()}
-          value={artCategoryID}
-          onChange={setArtCategoryID}
+          data={measuringUnitOption()}
+          value={measuringUnitID}
+          onChange={setMeasuringUnit}
         />
 
         <CustomInput
@@ -82,9 +98,12 @@ const AddArt = () => {
         >
           Add Art
         </Button>
-      </div>
+      </CaseManagerDialog>
+
+      {/* table */}
+      <CustomTable columns={artColumns} data={artData || []} />
     </div>
   )
 }
 
-export default AddArt
+export default Regimen
