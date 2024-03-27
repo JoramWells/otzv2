@@ -27,6 +27,10 @@ const categoryList = [
   {
     id: 4,
     text: 'ART Switch Reasons'
+  },
+  {
+    id: 5,
+    text: 'Measuring Unit'
   }
 ]
 

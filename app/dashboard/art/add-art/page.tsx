@@ -18,6 +18,7 @@ interface PhaseProps {
 const AddArt = () => {
   const [artName, setArtName] = useState('')
   const [artCategoryID, setArtCategoryID] = useState('')
+  const [quantity, setQuantity] = useState('')
   const [addArtRegimen, { isLoading }] =
     useAddArtRegimenMutation()
 
@@ -32,7 +33,8 @@ const AddArt = () => {
 
   const inputValues = {
     artName,
-    artCategoryID
+    artCategoryID,
+    quantity
   }
 
   return (
@@ -56,6 +58,20 @@ const AddArt = () => {
           data={categoryDataOption()}
           value={artCategoryID}
           onChange={setArtCategoryID}
+        />
+
+        <CustomSelect
+          label="Measuring Unit"
+          data={categoryDataOption()}
+          value={artCategoryID}
+          onChange={setArtCategoryID}
+        />
+
+        <CustomInput
+          label="Quantity"
+          value={quantity}
+          onChange={setQuantity}
+          type="number"
         />
 
         <Button

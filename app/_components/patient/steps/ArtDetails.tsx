@@ -41,6 +41,29 @@ const ArtDetails = ({
     }))
   }, [artData])
 
+  const clinicOptions = [
+    {
+      id:1,
+      label:'Adolescent Clinic'
+    },
+    {
+      id:2,
+      label:'CCC'
+    },
+    {
+      id:3,
+      label:'Paeds Clinic'
+    },
+    {
+      id:4,
+      label:'PMTCT'
+    },
+    {
+      id:5,
+      label:'TB-HIV'
+    }
+  ]
+
   return (
     <div
       className="border border-gray-200
@@ -50,6 +73,11 @@ const ArtDetails = ({
         width: '100%'
       }}
     >
+
+      <CustomSelect
+      label='Entry Point'
+      data={clinicOptions}
+      />
 
       <CustomSelect
         label="Current ART Regimen"
