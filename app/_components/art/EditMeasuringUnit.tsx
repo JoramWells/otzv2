@@ -1,0 +1,56 @@
+import { Button } from '@/components/ui/button'
+import CustomInput from '../forms/CustomInput'
+import { CaseManagerDialog } from '../patient/casemanager/CaseManagerDialog'
+import { useState } from 'react'
+import { Edit2, Trash2 } from 'lucide-react'
+
+interface DataProps {
+  value: string
+}
+
+export default function EditMeasuringUnit ({ value }: DataProps) {
+  const [description, setDescription] = useState(value)
+
+  return (
+    <CaseManagerDialog label="Edit" description="Add Measuring Unit">
+      <CustomInput
+        label="Description"
+        placeholder="Enter Description"
+        // type="number"
+        value={description}
+        onChange={setDescription}
+      />
+
+      <div className="w-full flex flex-row justify-end space-x-4">
+        <Button
+        //   size={'lg'}
+          className="border-red-600 hover:bg-white bg-red-50 shadow-none
+            text-red-500 hover:text-red-600
+            flex items-center space-x-2
+            "
+          // onClick={() => addMeasuringUnit(inputValues)}
+          // disabled={isMeasuringLoading}
+        >
+          {/* {isMeasuringLoading && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )} */}
+          <Trash2 className="h-4 w-4 mr-2" />
+          Delete
+        </Button>
+        <Button
+        //   size={'lg'}
+          className="bg-teal-600 hover:bg-teal-600 shadow-none font-bold
+        "
+          // onClick={() => addMeasuringUnit(inputValues)}
+          // disabled={isMeasuringLoading}
+        >
+          {/* {isMeasuringLoading && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )} */}
+          <Edit2 className="h-4 w-4 mr-2" />
+          Edit
+        </Button>
+      </div>
+    </CaseManagerDialog>
+  )
+}

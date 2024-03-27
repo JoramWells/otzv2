@@ -1,3 +1,4 @@
+import EditMeasuringUnit from '@/app/_components/art/EditMeasuringUnit'
 import { type ColumnDef } from '@tanstack/react-table'
 import { View } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
@@ -100,6 +101,8 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
   }
 ]
 
+//
+
 export const artSwitchReasonColumns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'reason',
@@ -117,5 +120,29 @@ export const artSwitchReasonColumns: Array<ColumnDef<ColumnProps>> = [
         <View className="hover:cursor-pointer" size={20} />
       </div>
     )
+  }
+]
+
+//
+interface MeasuringUnitProps {
+  description: string
+  header: string
+  accessorKey?: keyof UserProps
+  // render?: (props: any) => React.ReactNode
+}
+
+export const artMeasuringUnit: Array<ColumnDef<MeasuringUnitProps>> = [
+  {
+    accessorKey: 'description',
+    header: 'Description'
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: 'Updated'
+  },
+  {
+    // accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => <EditMeasuringUnit value={row.original.description} />
   }
 ]
