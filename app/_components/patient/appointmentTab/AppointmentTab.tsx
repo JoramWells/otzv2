@@ -100,7 +100,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
 
       {!isCalendarVisible ? (
         <>
-          {data.map((item: any) => (
+          {data?.map((item: any) => (
             <div
               key={item.id}
               className="border border-slate-200 p-2

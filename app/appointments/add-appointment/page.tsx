@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
+import CustomInput from '../../_components/forms/CustomInput'
 import { useCallback, useState } from 'react'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
 import { useAddAppointmentMutation } from '@/api/appointment/appointment.api.'

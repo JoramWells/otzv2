@@ -42,7 +42,6 @@ const AddTreatmentPlan = () => {
   }, [])
 
   return (
-    <div className="ml-64 pt-12">
       <div className="p-3 flex flex-row space-x-6">
         <div>
           <div className="flex flex-col items-center justify-center">
@@ -81,7 +80,6 @@ const AddTreatmentPlan = () => {
           {selected === 4 && <FollowUpChecklist />}
         </div>
       </div>
-    </div>
   )
 }
 
