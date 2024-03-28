@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable no-new */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -6,7 +7,7 @@
 import { useGetAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../../table/CustomTable'
 import { columns } from './columns'
-import { CalendarDays } from 'lucide-react'
+import { Calendar, CalendarDays, Clock2, Trash2 } from 'lucide-react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -14,8 +15,9 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction'
 import multiMonthPlugin from '@fullcalendar/multimonth'
 
 import { useEffect, useState } from 'react'
-import { Button, Tag } from '@chakra-ui/react'
+import { Button, Center, Divider, Tag } from '@chakra-ui/react'
 import Link from 'next/link'
+import moment from 'moment'
 
 export interface AppointmentTabProps {
   patientID: string
@@ -103,28 +105,63 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
           {data?.map((item: any) => (
             <div
               key={item.id}
-              className="border border-slate-200 p-2
+              className="border border-slate-200 p-4
                 rounded-lg w-3/4"
             >
               <div
-              className='flex flex-row space-x-4'
+                className="flex flex-row space-x-4
+              items-center justify-between"
               >
-                {item.appointmentAgenda?.agendaDescription}
-                <Tag>{item.appointmentStatus?.statusDescription}</Tag>
+                <div className="flex space-x-4">
+                  <p className="font-bold text-lg">
+                    {item.appointmentAgenda?.agendaDescription}
+                  </p>
+                  <Tag variant={'outline'} rounded={'full'} size={'sm'}>
+                    {item.appointmentStatus?.statusDescription}
+                  </Tag>
+                </div>
+                <Trash2 size={25} className="bg-slate-200 p-1 rounded-lg" />
               </div>
-              {item.user?.firstName}
-              <div>{item.appointmentDate}</div>
+              <div className="mb-2 mt-2">
+                <p className="text-slate-500 text-sm">
+                  Requested By: {item.user?.firstName} {item.user?.middleName}
+                </p>
+              </div>
+              <Divider />
+              <div
+                className="mt-4
+              flex flex-row items-center space-x-4
+              "
+              >
+                <div className="flex flex-row items-center space-x-2">
+                  <Calendar size={20} className="text-slate-500" />
+                  <p className="font-bold text-slate-500 text-sm">
+                    {' '}
+                    {moment(item.appointmentDate).format('ll')}{' '}
+                  </p>
+                </div>
+                <Divider orientation="vertical" h={'20px'} />
+
+                {/* clock */}
+                <div className="flex flex-row items-center space-x-2">
+                  <Clock2 size={20} className="text-slate-500" />
+                  <p className="font-bold text-slate-500 text-sm">
+                    {' '}
+                    {moment(item.appointmentTime, 'HH:mm').format('HH:mm a')}{' '}
+                  </p>
+                </div>
+              </div>
             </div>
           ))}
         </>
       ) : (
-        <div className="flex flex-row gap-x-4 w-full justify-between">
+        <div className="flex flex-row gap-x-4 w-full justify-center">
           {/*  */}
           <div
             className="overflow-y-auto rounded-lg border-t-8 pt-4 border-t-slate-300"
             style={{
-              minHeight: '550px',
-              minWidth: '80%'
+              minHeight: '400px',
+              minWidth: '75%'
             }}
           >
             <FullCalendar
@@ -148,29 +185,6 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
             />
           </div>
 
-          {/*  */}
-          <div
-            className="w-72"
-            style={{
-              height: '200px'
-            }}
-          >
-            <p className="font-bold">Events</p>
-            <p className="text-sm text-gray-500">Drag event to calendar</p>
-            <div id="draggable-el">
-              {events.map((item: any) => (
-                <div
-                  key={item.id}
-                  className="fc-event
-                  p-2 rounded-lg bg-slate-200
-                  hover:cursor-pointer mt-2 mb-2"
-                  title={item.title}
-                >
-                  {item.title}
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       )}
     </div>

@@ -15,6 +15,9 @@ import EnrollmentTab from '@/app/_components/enrollments/EnrollmentTab'
 import { Button } from '@/components/ui/button'
 import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
 import { MessageSquareText } from 'lucide-react'
+import CustomSelect from '@/app/_components/forms/CustomSelect'
+import CustomCheckbox from '@/app/_components/forms/CustomCheckbox'
+import { useRouter } from 'next/navigation'
 
 const PatientDetails = ({ params }: any) => {
   const [value, setValue] = useState(1)
@@ -23,6 +26,7 @@ const PatientDetails = ({ params }: any) => {
 
   const { data: userData } = useGetPatientQuery(patientID)
   console.log(userData, 'usd')
+  const router = useRouter()
 
   return (
     <div className="flex flex-row space-x-4 p-3">
@@ -40,14 +44,19 @@ const PatientDetails = ({ params }: any) => {
           <div className="flex flex-row space-x-4 justify-between">
             <p>Patient Profile</p>
             <div className="flex flex-row space-x-4">
-              <CaseManagerDialog label='Case Manaer'>
-                <p>case manaer</p>
-              </CaseManagerDialog>
+              <Button
+                variant={'link'}
+                onClick={() => { router.push('/casemanager/add-case-manager') }}
+              >
+                Case Manager
+              </Button>
               <Button>Care Giver</Button>
               <Button
                 className="bg-slate-100 text-slate-600
             shadow-none font-bold hover:bg-slate-200
             "
+                onClick={() => { router.push('/caregiver/add-care-giver') }}
+
               >
                 <MessageSquareText size={18} className="mr-2" />
                 Message
