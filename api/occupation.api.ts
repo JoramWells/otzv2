@@ -9,7 +9,7 @@ export interface OccupationProps {
 export const occupationApi = createApi({
   reducerPath: 'occupationApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/occupations'
+    baseUrl: '/api/root-service/occupations'
   }),
   endpoints: (builder) => ({
     getAllOccupation: builder.query<any, void>({

@@ -10,6 +10,7 @@ import { Loader2 } from 'lucide-react'
 import { useGetAllCountiesQuery } from '@/api/location/county.api'
 import { useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 import { useAddCaregiverMutation } from '@/api/caregiver/caregiver.api'
+import { useGetAllOccupationQuery } from '@/api/occupation.api'
 
 const CaseManager = ({ params }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -18,10 +19,13 @@ const CaseManager = ({ params }: any) => {
   const [dob, setDOB] = useState('')
   const [gender, setGender] = useState('')
   const [idNo, setIDNo] = useState('')
-  const [county, setCounty] = useState('')
-  const [password, setPassword] = useState('')
-  const [phone_no, setPhone_no] = useState('')
+  // const [county, setCounty] = useState('')
+  // const [password, setPassword] = useState('')
+  const [phoneNo, setPhoneNo] = useState('')
   const [email, setEmail] = useState('')
+  const [relationship, setRelationship] = useState('')
+  const [locationID, setLocationID] = useState('')
+  const [careerID, setCareerID] = useState('')
 
   const patientID = params.patientID
 
@@ -32,17 +36,17 @@ const CaseManager = ({ params }: any) => {
     dob,
     gender,
     idNo,
-    county,
+    locationID,
     email,
-    phone_no,
-    patientID,
-    password
+    phoneNo,
+    patientID
   }
 
   const [addCaregiver, { isLoading }] = useAddCaregiverMutation()
 
   const { data } = useGetAllCountiesQuery()
   const { data: subCountyData } = useGetAllSubCountiesQuery()
+  const { data: occupationData } = useGetAllOccupationQuery()
 
   const countiesOption = useCallback(() => {
     return data?.map((item: any) => ({
@@ -50,6 +54,13 @@ const CaseManager = ({ params }: any) => {
       label: item.countyName
     }))
   }, [data])
+
+  const occupationOptions = useCallback(() => {
+    return occupationData?.map((item: any) => ({
+      id: item.id,
+      label: item.occupationDescription
+    }))
+  }, [occupationData])
 
   return (
     <div className="p-3">
@@ -97,6 +108,50 @@ const CaseManager = ({ params }: any) => {
         />
         <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
 
+        <CustomSelect
+          label="Define Relationship"
+          value={relationship}
+          onChange={setRelationship}
+          data={[
+            {
+              id: 'Brother',
+              label: 'Brother'
+            },
+            {
+              id: 'Sister',
+              label: 'Sister'
+            },
+            {
+              id: 'Mother',
+              label: 'Mother'
+            },
+            {
+              id: 'Father',
+              label: 'Father'
+            },
+            {
+              id: 'Friend',
+              label: 'Friend'
+            },
+            {
+              id: 'Spouse',
+              label: 'Spouse'
+            },
+            {
+              id: 'Daughter',
+              label: 'Daughter'
+            },
+            {
+              id: 'Son',
+              label: 'Son'
+            },
+            {
+              id: 'Other',
+              label: 'Other'
+            }
+          ]}
+        />
+
         {/* <CustomSelect
           label="Select Location"
           data={[
@@ -116,18 +171,22 @@ const CaseManager = ({ params }: any) => {
         }}
       >
         <h1 className="text-xl font-bold">Contact and Location</h1>
-        <CustomInput
-          label="Phone No."
-          value={phone_no}
-          onChange={setPhone_no}
-        />
+        <CustomInput label="Phone No." value={phoneNo} onChange={setPhoneNo} />
         <CustomInput label="Email Address" value={email} onChange={setEmail} />
         <CustomSelect
           label="Select County"
-          value={county}
-          onChange={setCounty}
+          value={locationID}
+          onChange={setLocationID}
           data={countiesOption()}
         />
+
+        <CustomSelect
+          label="Occupation"
+          data={occupationOptions()}
+          value={careerID}
+          onChange={setCareerID}
+        />
+
         <Button
           // colorScheme="teal"
           // width={'full'}

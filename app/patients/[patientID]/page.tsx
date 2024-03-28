@@ -51,7 +51,7 @@ const PatientDetails = ({ params }: any) => {
                 Case Manager
               </Button>
               <Button
-                onClick={() => { router.push(`/caregiver/add-care-giver/${patientID}`) }}
+                onClick={() => { router.push(`/caregiver/${patientID}`) }}
 
               >Care Giver</Button>
               <Button
