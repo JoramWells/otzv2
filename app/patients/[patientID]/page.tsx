@@ -50,12 +50,14 @@ const PatientDetails = ({ params }: any) => {
               >
                 Case Manager
               </Button>
-              <Button>Care Giver</Button>
+              <Button
+                onClick={() => { router.push(`/caregiver/add-care-giver/${patientID}`) }}
+
+              >Care Giver</Button>
               <Button
                 className="bg-slate-100 text-slate-600
             shadow-none font-bold hover:bg-slate-200
             "
-                onClick={() => { router.push('/caregiver/add-care-giver') }}
 
               >
                 <MessageSquareText size={18} className="mr-2" />

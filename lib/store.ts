@@ -5,7 +5,7 @@ import { disclosureChecklistApi } from '../api/treatmentplan/disclosureChecklist
 import { appointmentStatusApi } from '../api/appointment/appointmentStatus.api'
 import { appointmentAgendaApi } from '../api/appointment/appointmentAgenda.api'
 import { otzEnrollmentApi } from '../api/enrollment/otzEnrollment.api'
-import { caregiverApi } from '../api/caregiver/patients.api'
+import { caregiverApi } from '../api/caregiver/caregiver.api'
 import { patientsApi } from '../api/patient/patients.api'
 import { vitalSignsApi } from '../api/vitalsigns/vitalSigns.api'
 import { artRegimenApi } from '../api/art/artRegimen.api.'

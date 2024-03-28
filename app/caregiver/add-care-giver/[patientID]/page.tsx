@@ -3,15 +3,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 'use client'
 import React, { useCallback, useState } from 'react'
-import CustomSelect from '../../_components/forms/CustomSelect'
+import CustomSelect from '../../../_components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import CustomInput from '@/app/_components/forms/CustomInput'
 import { Loader2 } from 'lucide-react'
-import { useAddUserMutation } from '@/api/users/users.api'
 import { useGetAllCountiesQuery } from '@/api/location/county.api'
 import { useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
+import { useAddCaregiverMutation } from '@/api/caregiver/caregiver.api'
 
-const CaseManager = () => {
+const CaseManager = ({ params }: any) => {
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -23,6 +23,8 @@ const CaseManager = () => {
   const [phone_no, setPhone_no] = useState('')
   const [email, setEmail] = useState('')
 
+  const patientID = params.patientID
+
   const inputValues = {
     firstName,
     middleName,
@@ -33,10 +35,11 @@ const CaseManager = () => {
     county,
     email,
     phone_no,
+    patientID,
     password
   }
 
-  const [addUser, { isLoading }] = useAddUserMutation()
+  const [addCaregiver, { isLoading }] = useAddCaregiverMutation()
 
   const { data } = useGetAllCountiesQuery()
   const { data: subCountyData } = useGetAllSubCountiesQuery()
@@ -131,7 +134,7 @@ const CaseManager = () => {
           disabled={isLoading}
           className="bg-teal-600 hover:bg-teal-700"
           size={'lg'}
-          onClick={() => addUser(inputValues)}
+          onClick={() => addCaregiver(inputValues)}
         >
           {isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
           Save
