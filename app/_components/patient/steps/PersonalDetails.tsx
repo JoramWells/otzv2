@@ -1,10 +1,9 @@
 'use client'
-import { calculateAge } from '@/utils/calculateAge'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
 import CustomCheckbox from '../../forms/CustomCheckbox'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const genderOptions = [
   {
@@ -53,9 +52,8 @@ const PersonalDetail = ({
   setMFLCode,
   setCCCNo
 }: PersonalDetailProps) => {
-
   const [isTeenager, setIsTeenager] = useState<boolean>(false)
-  const [isAdult, setIsAdult] = useState<boolean>(false);
+  const [isAdult, setIsAdult] = useState<boolean>(false)
 
   // useEffect(()=>{
   //   const val = calculateAge(dob)
@@ -71,7 +69,7 @@ const PersonalDetail = ({
         w-1/3 flex flex-col items-center
       justify-center rounded-lg p-5 gap-y-4 mt-2"
       style={{
-        width: "100%",
+        width: '100%'
       }}
     >
       <div className="flex flex-row justify-between space-x-4">
@@ -150,7 +148,7 @@ const PersonalDetail = ({
 
       <CustomInput label="NUPI" value={cccNo} onChange={setCCCNo} />
     </div>
-  );
+  )
 }
 
 export default PersonalDetail

@@ -40,7 +40,9 @@ const PatientDetails = ({ params }: any) => {
           <div className="flex flex-row space-x-4 justify-between">
             <p>Patient Profile</p>
             <div className="flex flex-row space-x-4">
-              <CaseManagerDialog />
+              <CaseManagerDialog label='Case Manaer'>
+                <p>case manaer</p>
+              </CaseManagerDialog>
               <Button>Care Giver</Button>
               <Button
                 className="bg-slate-100 text-slate-600

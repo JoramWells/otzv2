@@ -84,16 +84,16 @@ const LocationDetails = ({
   //   value
   // }]
 
-  const [numbers, setNumbers] = useState([])
-  const handleAddNumbers = () =>{
-    if(phoneNo.trim() !== ''){
-       setNumbers([...numbers, phoneNo])
+  const [numbers, setNumbers] = useState<string[]>([])
+  const handleAddNumbers = () => {
+    if (phoneNo.trim() !== '') {
+      setNumbers([...numbers, phoneNo])
       setPhoneNo('')
     }
   }
 
-  const [isOccupation, setIsOccupation] = useState<boolean>(false);
-  const [iSStudent, setIsStudent] = useState<boolean>(false);
+  const [isOccupation, setIsOccupation] = useState<boolean>(false)
+  const [iSStudent, setIsStudent] = useState<boolean>(false)
 
   return (
     <div
@@ -101,7 +101,7 @@ const LocationDetails = ({
         w-1/3 flex flex-col items-center
       justify-center rounded-lg p-5 gap-y-6 mt-2"
       style={{
-        width: "100%",
+        width: '100%'
       }}
     >
       <div className="w-full">
@@ -117,8 +117,8 @@ const LocationDetails = ({
         mt-2"
         >
           <Button
-            size={"sm"}
-            variant={"outline"}
+            size={'sm'}
+            variant={'outline'}
             className="border-teal-600 shadow-none
           font-bold text-teal-600 uppercase
           "
@@ -136,7 +136,7 @@ const LocationDetails = ({
       {/* {occupation} */}
       <div
         className={`w-full border border-slate-200 rounded-lg bg-slate-50 p-2 ${
-          isOccupation && "bg-white"
+          isOccupation && 'bg-white'
         }`}
       >
         <CustomCheckbox
@@ -160,7 +160,7 @@ const LocationDetails = ({
 
       <div
         className={`w-full border border-slate-200  rounded-lg bg-slate-50 p-2 ${
-          iSStudent && "bg-white"
+          iSStudent && 'bg-white'
         }`}
       >
         <CustomCheckbox
@@ -188,7 +188,7 @@ const LocationDetails = ({
         )}
       </div>
 
-      {occupation === "8b326c14-2ee6-491d-a8b5-c1c2c55a5a07" && (
+      {occupation === '8b326c14-2ee6-491d-a8b5-c1c2c55a5a07' && (
         <div className="w-full bg-gray-50 rounded-md border p-2">
           <CustomSelect
             label="School Name"
@@ -222,7 +222,7 @@ const LocationDetails = ({
         data={wardOptions()}
       /> */}
     </div>
-  );
+  )
 }
 
 export default LocationDetails

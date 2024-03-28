@@ -14,7 +14,7 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction'
 import multiMonthPlugin from '@fullcalendar/multimonth'
 
 import { useEffect, useState } from 'react'
-import { Button } from '@chakra-ui/react'
+import { Button, Tag } from '@chakra-ui/react'
 import Link from 'next/link'
 
 export interface AppointmentTabProps {
@@ -76,12 +76,10 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
   console.log(data, 'dtc')
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col justify-center items-center">
       {/* header */}
-      <div className="flex flex-row justify-between mb-4 items-center">
-        <p className="text-lg font-bold">
-          Recent Appointments
-        </p>
+      <div className="flex flex-row justify-between mb-4 items-center w-full">
+        <p className="text-lg font-bold">Recent Appointments</p>
 
         {/* right navbar */}
         <div className="flex flex-row items-center justify-between gap-x-4">
@@ -101,7 +99,24 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
       </div>
 
       {!isCalendarVisible ? (
-        <CustomTable columns={columns} data={data || []} />
+        <>
+          {data.map((item: any) => (
+            <div
+              key={item.id}
+              className="border border-slate-200 p-2
+                rounded-lg w-3/4"
+            >
+              <div
+              className='flex flex-row space-x-4'
+              >
+                {item.appointmentAgenda?.agendaDescription}
+                <Tag>{item.appointmentStatus?.statusDescription}</Tag>
+              </div>
+              {item.user?.firstName}
+              <div>{item.appointmentDate}</div>
+            </div>
+          ))}
+        </>
       ) : (
         <div className="flex flex-row gap-x-4 w-full justify-between">
           {/*  */}
@@ -140,8 +155,8 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
               height: '200px'
             }}
           >
-            <p className='font-bold'>Events</p>
-            <p className='text-sm text-gray-500'>Drag event to calendar</p>
+            <p className="font-bold">Events</p>
+            <p className="text-sm text-gray-500">Drag event to calendar</p>
             <div id="draggable-el">
               {events.map((item: any) => (
                 <div

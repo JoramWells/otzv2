@@ -10,11 +10,11 @@ interface CustomInputProps {
   placeholder?: string
   value?: string
   type?: string
-  description?:string
+  description?: string
   onChange: (value: any) => void
 }
 
-const CustomInput = ({ description,label, placeholder, value, type = 'text', onChange }: CustomInputProps) => {
+const CustomInput = ({ description, label, placeholder, value, type = 'text', onChange }: CustomInputProps) => {
   return (
     <div className="w-full">
       <p className="text-slate-800 font-bold">{label}</p>
@@ -26,11 +26,11 @@ const CustomInput = ({ description,label, placeholder, value, type = 'text', onC
         value={value}
         type={type}
         onChange={(e: InputEventProps) => {
-          onChange(e.target.value);
+          onChange(e.target.value)
         }}
       />
     </div>
-  );
+  )
 }
 
 export default CustomInput

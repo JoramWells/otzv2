@@ -3,7 +3,7 @@ import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 
 export interface ARTProps {
@@ -43,26 +43,28 @@ const ArtDetails = ({
 
   const clinicOptions = [
     {
-      id:1,
-      label:'Adolescent Clinic'
+      id: '1',
+      label: 'Adolescent Clinic'
     },
     {
-      id:2,
-      label:'CCC'
+      id: '2',
+      label: 'CCC'
     },
     {
-      id:3,
-      label:'Paeds Clinic'
+      id: '3',
+      label: 'Paeds Clinic'
     },
     {
-      id:4,
-      label:'PMTCT'
+      id: '4',
+      label: 'PMTCT'
     },
     {
-      id:5,
-      label:'TB-HIV'
+      id: '5',
+      label: 'TB-HIV'
     }
   ]
+
+  const [clinic, setClinic] = useState('')
 
   return (
     <div
@@ -77,6 +79,8 @@ const ArtDetails = ({
       <CustomSelect
       label='Entry Point'
       data={clinicOptions}
+      value={clinic}
+      onChange={setClinic}
       />
 
       <CustomSelect

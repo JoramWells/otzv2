@@ -56,7 +56,7 @@ const LoginPage = () => {
       console.log(error)
     }
   }
-
+  console.log(hospitalData)
   return (
     <div className="flex flex-col items-center justify-center w-full h-screen overflow-hidden">
       <form
