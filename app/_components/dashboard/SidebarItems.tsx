@@ -17,7 +17,8 @@ import {
   Syringe,
   Home,
   PersonStanding,
-  Tablets
+  Tablets,
+  ActivitySquare
 } from 'lucide-react'
 
 const SidebarItems = () => {
@@ -183,6 +184,7 @@ const SidebarItems = () => {
           }
         ]}
       />
+
       <SidebarCollapseButton
         label="Pill Box"
         icon={<Pill size={17} />}
@@ -206,6 +208,23 @@ const SidebarItems = () => {
         ]}
       />
 
+      {/*  */}
+      <SidebarCollapseButton
+        label="ViraTrack"
+        icon={<ActivitySquare size={17} />}
+        itemList={[
+          {
+            id: useId(),
+            link: '/track-tests',
+            label: 'Tests'
+          }
+          // {
+          //   id: useId(),
+          //   link: "/patients/add-patients",
+          //   label: "Add Patients",
+          // },
+        ]}
+      />
     </div>
   )
 }

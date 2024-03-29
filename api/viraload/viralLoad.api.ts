@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const userTypeApi = createApi({
   reducerPath: 'userTypeApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/viral-load'
+    baseUrl: '/api/root-service/viral-load'
   }),
   endpoints: (builder) => ({
     getUserTypes: builder.query({

@@ -115,7 +115,7 @@ const DisclosureChecklist = ({ params }: any) => {
   const [addHomeVisit, { isLoading }] = useAddHomeVisitMutation()
 
   return (
-    <div className="ml-64 pt-16 flex flex-col justify-center items-center">
+    <div className="mt-14 flex flex-col justify-center items-center p-3">
       <div
         style={{
           width: '45%'

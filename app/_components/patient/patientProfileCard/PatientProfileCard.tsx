@@ -1,3 +1,4 @@
+import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { Button } from '@/components/ui/button'
 import { Avatar, Divider, Tag } from '@chakra-ui/react'
 import { Pencil } from 'lucide-react'
@@ -52,6 +53,8 @@ export interface UserDataProps {
 
 const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardProps) => {
   const router = useRouter()
+  const { data: vlData } = useGetViralLoadTestQuery(userData?.id)
+  console.log(vlData, 'VL')
 
   return (
     <div
@@ -112,22 +115,22 @@ const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardPro
         >
           <h1 className="font-bold ">VL Status</h1>
           <div className="flex flex-row items-center justify-between">
-            <p className="text-sm font-bold text-slate-500">Status</p>{' '}
+            <p className="text-sm font-bold text-slate-500">Results</p>{' '}
             <Tag variant={'outline'} rounded={'full'} size={'sm'}>
-              LDL
+              {vlData?.vlResults}
             </Tag>
           </div>
 
           {/*  */}
           <div className="flex flex-row items-center justify-between">
             <p className="text-sm font-bold text-slate-500">Date Taken</p>{' '}
-            <p className="text-sm">{moment(new Date()).format('ll')}</p>
+            <p className="text-sm">{moment(vlData?.dateOfCurrentVL).format('ll')}</p>
           </div>
 
           {/*  */}
           <div className="flex flex-row items-center justify-between">
             <p className="text-sm font-bold text-slate-500">Next VL Test</p>{' '}
-            <p className="text-sm">{moment(new Date()).format('ll')}</p>
+            <p className="text-sm">{moment(vlData?.dateOfNextVL).format('ll')}</p>
           </div>
         </div>
 
