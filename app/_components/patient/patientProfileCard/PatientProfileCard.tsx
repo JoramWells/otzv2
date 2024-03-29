@@ -39,6 +39,7 @@ import { useRouter } from 'next/navigation'
 export interface PatientProfileCardProps {
   userData: UserDataProps
   value: number
+  patientID: string
   setValue: (value: number) => void
 }
 
@@ -51,9 +52,9 @@ export interface UserDataProps {
 
 }
 
-const PatientProfileCard = ({ userData, setValue, value }: PatientProfileCardProps) => {
+const PatientProfileCard = ({ userData, setValue, value, patientID }: PatientProfileCardProps) => {
   const router = useRouter()
-  const { data: vlData } = useGetViralLoadTestQuery(userData?.id)
+  const { data: vlData } = useGetViralLoadTestQuery(patientID)
   console.log(vlData, 'VL')
 
   return (

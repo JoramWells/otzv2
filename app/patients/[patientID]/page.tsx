@@ -64,6 +64,7 @@ const PatientDetails = ({ params }: any) => {
           value={value}
           setValue={setValue}
           userData={userData}
+          patientID={patientID}
         />
         {/* body */}
         <div className="w-full">

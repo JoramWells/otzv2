@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar, Tag } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Dot } from 'lucide-react'
-import { type MomentInput } from 'moment'
+import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
+import { type ReactNode } from 'react'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -11,6 +13,11 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  isValid: ReactNode
+  lastVLJustification: ReactNode
+  dateOfCurrentVL: MomentInput
+  vlResults: ReactNode
+  patient: any
   sex: ReactNode
   dob: MomentInput
   middleName: any
@@ -43,67 +50,55 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         <Avatar
           size={'xs'}
           className="font-bold"
-          name={`${row.original?.firstName} ${row.original?.middleName}`}
+          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
         />
-        <div className='flex flex-col space-y-1'>
+        <div className="flex flex-col space-y-1">
           <Link
             className="capitalize"
             href={`/patients/${row.original.id}`}
-          >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
+          >{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</Link>
 
-          <div
-          className='flex flex-row text-sm text-slate-500 items-center'
-          >
-            <p>{row.original?.sex}</p>
+          <div className="flex flex-row text-sm text-slate-500 items-center">
+            <p>{row.original.patient?.sex}</p>
             <Dot />
-            <p>{calculateAge(row.original.dob)} years</p>
+            <p>{calculateAge(row.original.patient?.dob)} years</p>
           </div>
         </div>
       </div>
     )
   },
   {
-    accessorKey: 'ddob',
-    header: 'Patient Type'
-  },
-  {
-    accessorKey: 'sex',
-    header: 'Gender'
-  },
-  {
     accessorKey: 'hospital',
-    header: 'Hospital',
-    cell: ({ row }) => <p>{row.original.hospital?.hospitalName}</p>
-  },
-  {
-    accessorKey: 'school',
-    header: 'School',
-    cell: ({ row }) => <p>{row.original.school?.schoolName}</p>
-  },
-  {
-    header: 'Enrollment',
+    header: 'Current VL Status',
     cell: ({ row }) => (
-      <div className="flex flex-row space-x-2">
-        <Tag
-          size={'sm'}
-          fontWeight={'bold'}
-          color={'slategrey'}
-          _hover={{
-            cursor: 'pointer'
-          }}
-        >
-          <Link href={`/enrollment/enroll-otz/${row.original.id}`}>OTZ</Link>
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          OVC
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          <Link href={`/enrollment/enroll-pama/${row.original.id}`}>PAMA</Link>
-        </Tag>
-        <Tag size={'sm'} fontWeight={'bold'} color={'slategrey'}>
-          PMTCT
-        </Tag>
+      <div className='flex flex-col space-y-4'>
+        <div className="flex flex-row justify-between">
+          <p>Results</p>
+          <p>{row.original.vlResults}</p>
+        </div>
+
+        {/*  */}
+        <div className="flex flex-row justify-between">
+          <p>Status</p>
+          <Tag>{row.original.isValid}</Tag>
+        </div>
+        <div className="flex flex-row justify-between">
+          <p>Date</p>
+          <p> {moment(row.original.dateOfCurrentVL).format('ll')} </p>
+        </div>
       </div>
+    )
+  },
+  {
+    accessorKey: 'lastVLJustification',
+    header: 'Justification',
+    cell: ({ row }) => <p>{row.original.lastVLJustification}</p>
+  },
+  {
+    accessorKey: 'dateOfNextVL',
+    header: 'Next VL',
+    cell: ({ row }) => (
+      <p> {moment(row.original.dateOfNextVL).format('ll')} </p>
     )
   },
   {
