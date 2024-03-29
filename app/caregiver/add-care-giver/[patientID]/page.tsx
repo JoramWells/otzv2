@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import CustomInput from '@/app/_components/forms/CustomInput'
 import { Loader2 } from 'lucide-react'
 import { useGetAllCountiesQuery } from '@/api/location/county.api'
-import { useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 import { useAddCaregiverMutation } from '@/api/caregiver/caregiver.api'
 import { useGetAllOccupationQuery } from '@/api/occupation.api'
 
@@ -45,7 +44,7 @@ const CaseManager = ({ params }: any) => {
   const [addCaregiver, { isLoading }] = useAddCaregiverMutation()
 
   const { data } = useGetAllCountiesQuery()
-  const { data: subCountyData } = useGetAllSubCountiesQuery()
+  // const { data: subCountyData } = useGetAllSubCountiesQuery()
   const { data: occupationData } = useGetAllOccupationQuery()
 
   const countiesOption = useCallback(() => {

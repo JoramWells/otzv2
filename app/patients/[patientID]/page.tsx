@@ -29,7 +29,7 @@ const PatientDetails = ({ params }: any) => {
   const router = useRouter()
 
   return (
-    <div className="flex flex-row space-x-4 p-3">
+    <div className="flex flex-row space-x-4 p-3 mt-14">
       <PatientProfileCard
         value={value}
         setValue={setValue}

@@ -136,7 +136,7 @@ const Dashboard = () => {
   })
 
   return (
-    <div className="p-3 flex flex-col gap-y-4">
+    <div className="p-3 flex flex-col gap-y-4 mt-14">
       <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
         <HeaderCategories />
       </div>
