@@ -63,7 +63,7 @@ const CaseManager = ({ params }: any) => {
   }, [occupationData])
 
   return (
-    <div className="p-3">
+    <div className="p-3 mt-14 flex flex-row justify-center">
       <div
         className="border border-gray-200
         w-1/3 flex flex-col rounded-lg p-5 gap-y-4"
@@ -161,16 +161,7 @@ const CaseManager = ({ params }: any) => {
             }
           ]}
         /> */}
-      </div>
 
-      <div
-        className="border border-gray-200
-        w-1/3 flex flex-col rounded-lg p-5 gap-y-4 mt-4"
-        style={{
-          width: '55%'
-        }}
-      >
-        <h1 className="text-xl font-bold">Contact and Location</h1>
         <CustomInput label="Phone No." value={phoneNo} onChange={setPhoneNo} />
         <CustomInput label="Email Address" value={email} onChange={setEmail} />
         <CustomSelect

@@ -14,7 +14,9 @@ export default function Navbar () {
     <nav
       className="
     w-full h-14 flex items-center justify-between
-    border-b border-gray-200 z-10 bg-white p-2 space-x-4"
+    border-b border-gray-200 z-10 bg-white p-2 space-x-4
+    absolute top-0 left-0
+    "
     >
       {/* {session && <span>{session.user?.email} Logout</span>} */}
       <LeftNav />

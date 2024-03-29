@@ -23,9 +23,6 @@ import {
 const SidebarItems = () => {
   return (
     <div className="z-40">
-      <div className="h-12 flex items-center justify-center font-xl font-extrabold">
-        <p>OTZ</p>
-      </div>
       {/* <SidebarButton /> */}
       <SidebarCollapseButton
         label="Dashboard"
@@ -208,6 +205,7 @@ const SidebarItems = () => {
           }
         ]}
       />
+
     </div>
   )
 }
