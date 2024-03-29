@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import AppointmentTab from '@/app/_components/patient/appointmentTab/AppointmentTab'
 import HomeVisitTab from '@/app/_components/home-visit/HomevisitTab'
@@ -18,6 +18,7 @@ import { MessageSquareText } from 'lucide-react'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
 import CustomCheckbox from '@/app/_components/forms/CustomCheckbox'
 import { useRouter } from 'next/navigation'
+import CustomTab from '@/app/_components/tab/CustomTab'
 
 const PatientDetails = ({ params }: any) => {
   const [value, setValue] = useState(1)
@@ -28,69 +29,69 @@ const PatientDetails = ({ params }: any) => {
   console.log(userData, 'usd')
   const router = useRouter()
 
+  const categoryList = useMemo(
+    () => [
+      {
+        id: 1,
+        label: 'Appointments'
+      },
+      {
+        id: 2,
+        label: 'Home Visit'
+      },
+      {
+        id: 3,
+        label: 'Medical File'
+      },
+      {
+        id: 4,
+        label: 'Treatment Plan'
+      }
+    ],
+    []
+  )
+
   return (
-    <div className="flex flex-row space-x-4 p-3 mt-14">
-      <PatientProfileCard
-        value={value}
+    <div className="flex flex-col space-x-4 p-3 mt-14">
+      {/* tab naviation */}
+      <CustomTab
+        categoryList={categoryList}
         setValue={setValue}
-        userData={userData}
+        value={value}
       />
-      {/* body */}
-      <div className="w-full">
-        <div
-          className="mb-4
-        "
-        >
-          <div className="flex flex-row space-x-4 justify-between">
-            <p>Patient Profile</p>
-            <div className="flex flex-row space-x-4">
-              <Button
-                variant={'link'}
-                onClick={() => { router.push('/casemanager/add-case-manager') }}
-              >
-                Case Manager
-              </Button>
-              <Button
-                onClick={() => { router.push(`/caregiver/${patientID}`) }}
+      <div className="flex flex-row space-x-4">
+        <PatientProfileCard
+          value={value}
+          setValue={setValue}
+          userData={userData}
+        />
+        {/* body */}
+        <div className="w-full">
+          {/* appointments */}
+          {value === 1 && <AppointmentTab patientID={patientID} />}
 
-              >Care Giver</Button>
-              <Button
-                className="bg-slate-100 text-slate-600
-            shadow-none font-bold hover:bg-slate-200
-            "
+          {value === 2 && <HomeVisitTab patientID={patientID} />}
 
-              >
-                <MessageSquareText size={18} className="mr-2" />
-                Message
-              </Button>
+          {/* home visit */}
+          {value === 3 && <HomeVisitTab patientID={patientID} />}
+
+          {value === 4 && (
+            <div>
+              Requests
+              <ul>
+                <li>Lab</li>
+                <li>Pharmacy</li>
+                <li>Viral Load</li>
+                <li>Vital Signs</li>
+              </ul>
+              <Button>Add prescription</Button>
             </div>
-          </div>
+          )}
+
+          {value === 5 && <LabTab patientID={patientID} />}
+
+          {value === 6 && <TreatmentPlanTab patientID={patientID} />}
         </div>
-
-        {/* appointments */}
-        {value === 1 && <AppointmentTab patientID={patientID} />}
-
-        {value === 2 && <EnrollmentTab />}
-
-        {/* home visit */}
-        {value === 3 && <HomeVisitTab patientID={patientID} />}
-
-        {value === 4 && (
-          <div>
-            Requests
-            <ul>
-              <li>Lab</li>
-              <li>Pharmacy</li>
-              <li>Viral Load</li>
-              <li>Vital Signs</li>
-            </ul>
-            <Button>Add prescription</Button>
-          </div>
-        )}
-
-        {value === 5 && <LabTab patientID={patientID} />}
-
-        {value === 6 && <TreatmentPlanTab patientID={patientID} />}
       </div>
     </div>
   )

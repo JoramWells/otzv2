@@ -18,10 +18,9 @@ const HomeVisitTab = ({ patientID }: HomeVisitProps) => {
   console.log(data, 'dtc')
 
   return (
-    <div className="w-full">
+    <div className="w-3/4">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center space-x-2">
-          <Clock size={18} className="text-slate-600" />
           <p className="text-lg font-semibold text-slate-700">
             Recent Home Visits
           </p>

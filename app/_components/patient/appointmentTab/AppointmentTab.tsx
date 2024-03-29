@@ -78,9 +78,9 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
   console.log(data, 'dtc')
 
   return (
-    <div className="w-full flex flex-col justify-center items-center">
+    <div className="w-full flex flex-col">
       {/* header */}
-      <div className="flex flex-row justify-between mb-4 items-center w-full">
+      <div className="flex flex-row justify-between mb-4 items-center w-3/4">
         <p className="text-lg font-bold">Recent Appointments</p>
 
         {/* right navbar */}
