@@ -12,6 +12,7 @@ import { useGetAllSchoolSubCurriculumsQuery } from '@/api/school/curriculumSubCa
 import { useGetAllSchoolClassesQuery } from '@/api/school/schoolClasses.api'
 import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
 import School from '@/app/_components/school/School'
+import Holidays from '@/app/_components/school/Holidays'
 const categoryList = [
   {
     id: 1,
@@ -59,36 +60,36 @@ const SchoolPage = () => {
   }
 
   return (
-      <div className="p-5">
-        <div className="flex flex-col gap-y-2 mb-4">
-          <p className="font-bold text-xl">Categories</p>
-          <div
-            className="rounded-md gap-x-4
+    <div className="p-5 mt-12">
+      <div className="flex flex-col gap-y-2 mb-4">
+        <p className="font-bold text-xl">Categories</p>
+        <div
+          className="rounded-md gap-x-4
            flex flex-row
           "
-          >
-            {categoryList.map((item) => (
-              <Button
-                key={item.id}
-                rounded={'full'}
-                size={'sm'}
-                bgColor={`${value === item.id && 'gray.700'}`}
-                color={`${value === item.id && 'white'}`}
-                // shadow={`${value === item.id && 'md'}`}
-                _hover={{
-                  bgColor: `${value === item.id && 'black'}`,
-                  color: `${value === item.id && 'white'}`
-                }}
-                onClick={() => {
-                  setValue(item.id)
-                }}
-              >
-                {item.text}
-              </Button>
-            ))}
-          </div>
+        >
+          {categoryList.map((item) => (
+            <Button
+              key={item.id}
+              rounded={'full'}
+              size={'sm'}
+              bgColor={`${value === item.id && 'gray.700'}`}
+              color={`${value === item.id && 'white'}`}
+              // shadow={`${value === item.id && 'md'}`}
+              _hover={{
+                bgColor: `${value === item.id && 'black'}`,
+                color: `${value === item.id && 'white'}`
+              }}
+              onClick={() => {
+                setValue(item.id)
+              }}
+            >
+              {item.text}
+            </Button>
+          ))}
         </div>
-        {/* <div className="flex flex-row justify-between items-center p-1">
+      </div>
+      {/* <div className="flex flex-row justify-between items-center p-1">
           <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
             <p className="text-lg text-slate-700">
               {value === 1 &&
@@ -121,30 +122,30 @@ const SchoolPage = () => {
             NEW
           </Button>
         </div> */}
-        {value === 1 && (
-          <CustomTable columns={classesColumn} data={classesData ?? []} />
-        )}
-        {value === 2 && (
-          <CustomTable columns={curriculumCategoryColumns} data={data ?? []} />
-        )}
-        {value === 3 && (
-          <CustomTable
-            columns={curriculumSubCategoryColumns}
-            data={curriculumSubCategory ?? []}
-          />
-        )}
-        {value === 4 && (
-          <CustomTable columns={holidaysColumn} data={holidaysData ?? []} />
-        )}
-        {value === 5 && (
-          <School
+      {value === 1 && (
+        <CustomTable columns={classesColumn} data={classesData ?? []} />
+      )}
+      {value === 2 && (
+        <CustomTable columns={curriculumCategoryColumns} data={data ?? []} />
+      )}
+      {value === 3 && (
+        <CustomTable
+          columns={curriculumSubCategoryColumns}
+          data={curriculumSubCategory ?? []}
+        />
+      )}
+      {value === 4 && (
+        <Holidays handleClick={() => handleClick(value)} value={value} />
+      )}
+      {value === 5 && (
+        <School
           handleClick={() => handleClick(value)}
           value={value}
           column={holidaysColumn}
           data={holidaysData}
-          />
-        )}
-      </div>
+        />
+      )}
+    </div>
   )
 }
 

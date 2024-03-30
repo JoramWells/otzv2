@@ -151,7 +151,8 @@ export function CustomTable<TData, TValue> ({
                   <TableHead
                     key={header.id}
                     style={{
-                      fontSize: '12px'
+                      fontSize: '12px',
+                      textTransform: 'uppercase'
                     }}
                   >
                     {header.isPlaceholder

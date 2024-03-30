@@ -30,24 +30,29 @@ const TrackPage = () => {
     () => [
       {
         id: 1,
-        label: 'CD4',
+        label: 'All',
         description: 'All patients',
         count: data?.length
       },
       {
         id: 2,
-        label: 'TB',
+        label: 'Early Years',
         description: '0 yrs to 9 yrs'
       },
       {
         id: 3,
-        label: 'Viral Load',
+        label: 'Middle School',
         description: '10 yrs to 19 yrs'
       },
       {
         id: 4,
-        label: 'Vital Signs',
-        description: '20 yrs to 24 yrs'
+        label: 'Senior',
+        description: 'Tertiary'
+      },
+      {
+        id: 4,
+        label: 'Tertiary ',
+        description: 'Tertiary'
       }
     ],
     [data?.length]

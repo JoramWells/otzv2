@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar, Tag } from '@chakra-ui/react'
@@ -13,6 +14,7 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  dateOfNextVL: MomentInput
   isValid: ReactNode
   lastVLJustification: ReactNode
   dateOfCurrentVL: MomentInput
@@ -71,19 +73,36 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'hospital',
     header: 'Current VL Status',
     cell: ({ row }) => (
-      <div className='flex flex-col space-y-4'>
+      <div className="flex flex-col space-y-4">
         <div className="flex flex-row justify-between">
           <p>Results</p>
-          <p>{row.original.vlResults}</p>
+          <p className="font-bold text-slate-500">{row.original.vlResults}</p>
         </div>
 
         {/*  */}
         <div className="flex flex-row justify-between">
-          <p>Status</p>
-          <Tag>{row.original.isValid}</Tag>
+          <p className="text-slate-500">Status</p>
+          {row.original.isValid === 'Valid' ? (
+            <Tag
+              colorScheme="teal"
+              // variant={'outline'}
+              // rounded={'full'}
+              size={'sm'}
+            >
+              Valid{' '}
+            </Tag>
+          ) : (
+            <Tag
+              colorScheme="red"
+              size={'sm'}
+              // variant={'outline'}
+            >
+              Invalid
+            </Tag>
+          )}
         </div>
         <div className="flex flex-row justify-between">
-          <p>Date</p>
+          <p className="text-slate-500">Date</p>
           <p> {moment(row.original.dateOfCurrentVL).format('ll')} </p>
         </div>
       </div>
@@ -92,7 +111,13 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'lastVLJustification',
     header: 'Justification',
-    cell: ({ row }) => <p>{row.original.lastVLJustification}</p>
+    cell: ({ row }) => (
+      <div
+      className='w-[200px]'
+      >
+        <p>{row.original.lastVLJustification}</p>
+      </div>
+    )
   },
   {
     accessorKey: 'dateOfNextVL',
