@@ -45,15 +45,13 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
           className="font-bold"
           name={`${row.original?.firstName} ${row.original?.middleName}`}
         />
-        <div className='flex flex-col space-y-1'>
+        <div className="flex flex-col space-y-1">
           <Link
             className="capitalize"
             href={`/patients/${row.original.id}`}
           >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
 
-          <div
-          className='flex flex-row text-sm text-slate-500 items-center'
-          >
+          <div className="flex flex-row text-sm text-slate-500 items-center">
             <p>{row.original?.sex}</p>
             <Dot />
             <p>{calculateAge(row.original.dob)} years</p>

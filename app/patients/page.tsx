@@ -11,15 +11,10 @@ import { calculateAge } from '@/utils/calculateAge'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import CustomTab from '../_components/tab/CustomTab'
 
 interface ItemsProps {
   dob: MomentInput
-}
-
-async function getPatients () {
-  const res = await fetch('http:/localhost:3000/api/patients')
-  const data = await res.json()
-  return data.data
 }
 
 const Patients = () => {
@@ -104,69 +99,26 @@ const Patients = () => {
 
   return (
     <div className="p-5">
-      <div
-      className='mb-4 flex flex-row justify-between items-center'
-      >
+      <div className="mb-4 flex flex-row justify-between items-center">
         <p className="text-lg font-bold">Registered Patients</p>
-        <Button className='bg-teal-600 hover:bg-teal-700
+        <Button
+          className="bg-teal-600 hover:bg-teal-700
         font-bold shadow-none
-        '
-        onClick={() => { router.push('/patients/add-patients') }}
+        "
+          onClick={() => {
+            router.push('/patients/add-patients')
+          }}
         >
-          <PlusCircle size={18} className='mr-2' />
-          New Patient</Button>
+          <PlusCircle size={18} className="mr-2" />
+          New Patient
+        </Button>
       </div>
 
-      <div
-        className="flex flex-row space-x-8
-      border-b mt-4 mb-6
-      "
-      >
-        {categoryList.map((item) => (
-          <Button
-            key={item.id}
-            // rounded={'0'}
-            // h={10}
-            size={'sm'}
-            // w={'full'}
-            // borderBottom={`${value === item.id ? '2px' : '0'}`}
-            // fontWeight={`${value === item.id ? 'bold' : 'bold'}`}
-            // bgColor={`${value === item.id ? "teal.50" : "transparent"}`}
-            // color={`${value === item.id ? 'teal' : 'gray.500'}`}
-            // bgColor={'white'}
-            // p={1}
-            // shadow={`${value === item.id && 'md'}`}
-
-            onClick={() => {
-              setValue(item.id)
-            }}
-            // display={'flex'}
-            // flexDirection={'column'}
-            // justifyContent={'flex-start'}
-            // padding={2}
-            // height={14}
-            // alignItems={'flex-start'}
-            className={`bg-white text-slate-600 shadow-none
-            border-b-2 border-teal-600 rounded-none ${value !== item.id && 'border-none'}
-            ${value === item.id && 'text-teal-600'} font-bold hover:bg-slate-50
-            `}
-          >
-            <div className="flex items-center space-x-2">
-              <p className="text-[16px]">{item.label}</p>
-              <Tag
-                rounded={'full'}
-                colorScheme={value === item.id ? 'orange' : 'gray'}
-                size={'sm'}
-              >
-                {item.count}
-              </Tag>
-            </div>
-            {/* <p className="mt-1 font-normal text-slate-500">
-                {item.description}
-              </p> */}
-          </Button>
-        ))}
-      </div>
+      <CustomTab
+        categoryList={categoryList}
+        value={value}
+        setValue={setValue}
+      />
 
       {value === 1 && <CustomTable columns={columns} data={data || []} />}
 

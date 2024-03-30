@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
+'use client'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
