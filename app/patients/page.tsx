@@ -98,7 +98,7 @@ const Patients = () => {
   const router = useRouter()
 
   return (
-    <div className="p-5">
+    <div className="p-5 mt-12">
       <div className="mb-4 flex flex-row justify-between items-center">
         <p className="text-lg font-bold">Registered Patients</p>
         <Button
