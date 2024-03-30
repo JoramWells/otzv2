@@ -1,46 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { Button } from '@/components/ui/button'
 import { Avatar, Divider, Tag } from '@chakra-ui/react'
 import { Pencil } from 'lucide-react'
-import moment from 'moment'
+import moment, { type MomentInput } from 'moment'
 import { useRouter } from 'next/navigation'
-
-// const categoryList = [
-//   {
-//     id: 1,
-//     label: 'Appointments'
-//   },
-//   {
-//     id: 2,
-//     label: 'Enrollments'
-//   },
-//   {
-//     id: 3,
-//     label: 'Home Visit'
-//   },
-//   {
-//     id: 4,
-//     label: 'Medical History'
-//   },
-//   {
-//     id: 5,
-//     label: 'Lab'
-//   },
-//   {
-//     id: 6,
-//     label: 'Treatment Plan'
-//   },
-//   {
-//     id: 7,
-//     label: 'Settings'
-//   }
-// ]
 
 export interface PatientProfileCardProps {
   userData: UserDataProps
-  value: number
   patientID: string
-  setValue: (value: number) => void
 }
 
 export interface UserDataProps {
@@ -49,10 +17,11 @@ export interface UserDataProps {
   middleName?: string
   dob?: string
   sex?: string
-
+  dateOfCurrentVL: MomentInput
+  dateOfNextVL: MomentInput
 }
 
-const PatientProfileCard = ({ userData, setValue, value, patientID }: PatientProfileCardProps) => {
+const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) => {
   const router = useRouter()
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
   console.log(vlData, 'VL')
@@ -164,33 +133,6 @@ const PatientProfileCard = ({ userData, setValue, value, patientID }: PatientPro
           </Button>
         </div>
 
-        {/* {categoryList.map((item) => (
-          <Button
-            key={item.id}
-            rounded={'0'}
-            h={10}
-            size={'sm'}
-            w={'full'}
-            // borderBottom={'2px'}
-            fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
-            borderLeft={`${value === item.id ? '4px' : '0px'}`}
-            bgColor={`${value === item.id ? 'slate.50' : 'transparent'}`}
-            color={`${value === item.id ? 'black' : 'gray.500'}`}
-            // bgColor={'white'}
-            // shadow={`${value === item.id && 'md'}`}
-            _hover={
-              {
-                // bgColor: `${value === item.id && 'black'}`,
-                // color: `${value === item.id && 'white'}`
-              }
-            }
-            onClick={() => {
-              setValue(item.id)
-            }}
-          >
-            {item.label}
-          </Button>
-        ))} */}
       </div>
     </div>
   )

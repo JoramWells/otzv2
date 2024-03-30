@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
@@ -13,6 +14,12 @@ import { useRouter } from 'next/navigation'
 
 interface ItemsProps {
   dob: MomentInput
+}
+
+async function getPatients () {
+  const res = await fetch('http:/localhost:3000/api/patients')
+  const data = await res.json()
+  return data.data
 }
 
 const Patients = () => {

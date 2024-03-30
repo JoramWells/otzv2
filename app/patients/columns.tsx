@@ -11,7 +11,7 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
-  sex: ReactNode
+  sex: string
   dob: MomentInput
   middleName: any
   firstName: any

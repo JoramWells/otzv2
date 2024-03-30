@@ -6,13 +6,13 @@ interface CategoryListProps {
   label: string
 }
 
-interface DataProps {
+export interface CustomTabProps {
   categoryList: CategoryListProps[]
   value: number
   setValue: (val: number) => void
 }
 
-const CustomTab = ({ categoryList, setValue, value }: DataProps) => {
+const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
   // check user
   const isChecked = useCallback((val: number) => {
     if (value === val) {
