@@ -30,7 +30,7 @@ interface Event {
   id: number
 }
 
-const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
+const CaseMangerTab = ({ patientID }: AppointmentTabProps) => {
   const [events, setEvents] = useState([
     {
       id: '1',
@@ -80,7 +80,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
   return (
     <div className="w-full flex flex-col">
       {/* header */}
-      <div className="flex flex-row justify-between mb-4 items-center w-full lg:w-3/4">
+      <div className="flex flex-row justify-between mb-4 items-center w-3/4">
         <p className="text-lg font-bold">Recent Appointments</p>
 
         {/* right navbar */}
@@ -106,7 +106,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
             <div
               key={item.id}
               className="border border-slate-200 p-4
-                rounded-lg w-3/4 md:w-3/4 lg:w-3/4 xl:w-3/4"
+                rounded-lg w-3/4"
             >
               <div
                 className="flex flex-row space-x-4
@@ -191,4 +191,4 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
   )
 }
 
-export default AppointmentTab
+export default CaseMangerTab

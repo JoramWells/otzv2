@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import LabTab from '../../lab/LabTab'
 import TreatmentPlanTab from '../../treatement-plan/treatementPlanTab/TreatmentPlanTab'
 import PatientProfileCard, { type UserDataProps } from '../patientProfileCard/PatientProfileCard'
+import CareGiverTab from '../appointmentTab/CareGiverTab'
 
 interface DataProps {
   patientID: string
@@ -35,7 +36,7 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
           {/* appointments */}
           {value === 1 && <AppointmentTab patientID={patientID} />}
 
-          {value === 2 && <HomeVisitTab patientID={patientID} />}
+          {value === 2 && <CareGiverTab patientID={patientID} />}
 
           {/* home visit */}
           {value === 3 && <HomeVisitTab patientID={patientID} />}

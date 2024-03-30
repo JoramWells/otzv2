@@ -12,14 +12,22 @@ const categoryList = [
   },
   {
     id: 2,
-    label: 'Home Visit'
+    label: 'Care Giver'
   },
   {
     id: 3,
-    label: 'Medical File'
+    label: 'Case Manager'
   },
   {
     id: 4,
+    label: 'Home Visit'
+  },
+  {
+    id: 5,
+    label: 'Medical File'
+  },
+  {
+    id: 6,
     label: 'Treatment Plan'
   }
 ]
@@ -33,7 +41,7 @@ const PatientDetails = ({ params }: any) => {
   console.log(userData, 'usd')
 
   return (
-    <div className="flex flex-col space-x-4 p-3 mt-14">
+    <div className="flex flex-col space-y-4 p-4 mt-14">
       <PatientDetailsContent
         patientID={patientID}
         listData={categoryList}

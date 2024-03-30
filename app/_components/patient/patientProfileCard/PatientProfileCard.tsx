@@ -24,11 +24,10 @@ export interface UserDataProps {
 const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) => {
   const router = useRouter()
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
-  console.log(vlData, 'VL')
 
   return (
     <div
-      className="flex flex-col justify-center w-[35%] pr-2 border border-slate-200 rounded-lg p-2"
+      className="flex flex-col justify-center w-full md:w-full lg:w-[35%] pr-2 border border-slate-200 rounded-lg p-2"
       // style={{
       //   height: '455px'
       // }}
@@ -94,13 +93,17 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
           {/*  */}
           <div className="flex flex-row items-center justify-between">
             <p className="text-sm font-bold text-slate-500">Date Taken</p>{' '}
-            <p className="text-sm">{moment(vlData?.dateOfCurrentVL).format('ll')}</p>
+            <p className="text-sm">
+              {moment(vlData?.dateOfCurrentVL).format('ll')}
+            </p>
           </div>
 
           {/*  */}
           <div className="flex flex-row items-center justify-between">
             <p className="text-sm font-bold text-slate-500">Next VL Test</p>{' '}
-            <p className="text-sm">{moment(vlData?.dateOfNextVL).format('ll')}</p>
+            <p className="text-sm">
+              {moment(vlData?.dateOfNextVL).format('ll')}
+            </p>
           </div>
         </div>
 
@@ -132,7 +135,6 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
             Message
           </Button>
         </div>
-
       </div>
     </div>
   )
