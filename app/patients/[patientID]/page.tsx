@@ -24,7 +24,7 @@ const categoryList = [
   },
   {
     id: 5,
-    label: 'Medical File'
+    label: 'Lab'
   },
   {
     id: 6,

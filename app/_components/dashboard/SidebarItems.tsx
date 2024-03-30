@@ -51,6 +51,11 @@ const SidebarItems = () => {
           },
           {
             id: useId(),
+            link: '/dashboard/lab',
+            label: 'Lab'
+          },
+          {
+            id: useId(),
             link: '/dashboard/location',
             label: 'Location'
           },

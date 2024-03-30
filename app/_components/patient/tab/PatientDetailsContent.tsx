@@ -44,12 +44,12 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
           {value === 4 && (
             <div>
               Requests
-              <ul>
+              <ol>
                 <li>Lab</li>
                 <li>Pharmacy</li>
                 <li>Viral Load</li>
                 <li>Vital Signs</li>
-              </ul>
+              </ol>
               <Button>Add prescription</Button>
             </div>
           )}
