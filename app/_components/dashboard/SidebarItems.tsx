@@ -98,13 +98,18 @@ const SidebarItems = () => {
         itemList={[
           {
             id: useId(),
-            link: '/appointments/add-appointment',
-            label: 'New Appointment'
+            link: '/notify',
+            label: 'Appointments'
           },
           {
             id: useId(),
             link: '/notify',
-            label: 'View Appointments'
+            label: 'SMS & Messages'
+          },
+          {
+            id: useId(),
+            link: '/notify',
+            label: 'Voice Call'
           }
         ]}
       />

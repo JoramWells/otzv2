@@ -92,52 +92,61 @@ const AppointmentPage = () => {
   }, [data, showNotification])
 
   return (
-    <div className="">
-      <div className="p-5">
-        <div className="flex flex-row mb-4 justify-between ">
-          <h1 className="text-lg font-semibold">Appointments</h1>
+    <div className="p-5 mt-12">
 
-          <Button
-            className="bg-teal-600 hover:bg-teal-700 shadow-none
+      <div className="flex flex-row mb-4 justify-between ">
+        <h1 className="text-lg font-semibold">Appointments</h1>
+
+        <Button
+          className="bg-teal-600 hover:bg-teal-700 shadow-none
           font-bold
           "
-          >
-            <PlusCircle size={18} className='mr-2' />
-            New Appointment
-          </Button>
-        </div>
-
-        {/* tab navigation */}
-        <CustomTab
-          categoryList={categoryList}
-          setValue={setValue}
-          value={value}
-        />
-
-        {value === 1 && <CustomTable columns={columns} data={data || []} />}
-
-        {value === 2 && (
-          <AppointmentStatusTab
-            columns={columns}
-            data={pendingAppointment() || []}
-          />
-        )}
-
-        {value === 3 && (
-          <CustomTable
-            columns={columns}
-            data={rescheduledAppointment() || []}
-          />
-        )}
-
-        {value === 4 && (
-          <CustomTable columns={columns} data={upcomingAppointment() || []} />
-        )}
-
-        {value === 5 && (
-          <CustomTable columns={columns} data={missedAppointment() || []} />
-        )}
+        >
+          <PlusCircle size={18} className="mr-2" />
+          New Appointment
+        </Button>
       </div>
+
+      <div className="flex flex-row space-x-2 mt-4 mb-4">
+        {['Overview', 'Insights'].map((item, idx) => (
+          <Button
+            key={idx}
+            size={'sm'}
+            className="rounded-full"
+            variant={'outline'}
+          >
+            {item}
+          </Button>
+        ))}
+      </div>
+
+      {/* tab navigation */}
+      <CustomTab
+        categoryList={categoryList}
+        setValue={setValue}
+        value={value}
+      />
+
+      {value === 1 && <CustomTable columns={columns} data={data || []} />}
+
+      {value === 2 && (
+        <AppointmentStatusTab
+          columns={columns}
+          data={pendingAppointment() || []}
+        />
+      )}
+
+      {value === 3 && (
+        <CustomTable columns={columns} data={rescheduledAppointment() || []} />
+      )}
+
+      {value === 4 && (
+        <CustomTable columns={columns} data={upcomingAppointment() || []} />
+      )}
+
+      {value === 5 && (
+        <CustomTable columns={columns} data={missedAppointment() || []} />
+      )}
     </div>
   )
 }
