@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
-import { Button } from '@/components/ui/button'
 import { Avatar, Divider, Tag } from '@chakra-ui/react'
-import { MessageSquareText, Pencil } from 'lucide-react'
+import { Pencil } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
+import { CustomSMSSheet } from '../../sms/CustomSMSSheet'
 
 export interface PatientProfileCardProps {
   userData: UserDataProps
@@ -106,16 +106,8 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
         </div>
 
         <div className="mt-4 w-full flex flex-col space-y-2">
-          <Button
-            className="w-full bg-slate-50 text-slate-600 font-bold shadow-none border border-slate-200 hover:bg-slate-100"
 
-            // variant={'link'}
-          >
-            <MessageSquareText size={20}
-            className='mr-2'
-            />
-            SMS
-          </Button>
+          <CustomSMSSheet/>
         </div>
       </div>
     </div>
