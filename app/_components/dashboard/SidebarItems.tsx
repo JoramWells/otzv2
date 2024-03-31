@@ -93,7 +93,7 @@ const SidebarItems = () => {
         ]}
       />
       <SidebarCollapseButton
-        label="Appointments"
+        label="Notify"
         icon={<CalendarDays size={17} />}
         itemList={[
           {
@@ -103,7 +103,7 @@ const SidebarItems = () => {
           },
           {
             id: useId(),
-            link: '/appointments',
+            link: '/notify',
             label: 'View Appointments'
           }
         ]}

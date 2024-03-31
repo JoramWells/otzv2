@@ -13,10 +13,10 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
-import { MessageSquareText } from 'lucide-react'
+import { MessageSquareText, Send } from 'lucide-react'
 
 export function CustomSMSSheet () {
-  const [addSMS] = useAddSMSMutation()
+  const [addSMS, { isLoading }] = useAddSMSMutation()
 
   const inputValues = {
     to: '+254799980846',
@@ -53,9 +53,20 @@ export function CustomSMSSheet () {
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit"
-            onClick={() => addSMS(inputValues)}
-            >SEND</Button>
+            <Button
+              type="submit"
+              onClick={() => addSMS(inputValues)}
+              disabled={isLoading}
+            >
+              {isLoading
+                ? (
+                <Send className="mr-2 h-4 w-4 animate-spin" />
+                  )
+                : (
+                <Send className="mr-2 h-4 w-4 " />
+                  )}
+              SEND SMS
+            </Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>
