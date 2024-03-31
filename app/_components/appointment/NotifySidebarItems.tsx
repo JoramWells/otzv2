@@ -36,7 +36,7 @@ const NotifySidebarItems = () => {
         itemList={[
           {
             id: useId(),
-            link: '/enrollment/otz',
+            link: '/sms',
             label: 'SMSes'
           },
           {

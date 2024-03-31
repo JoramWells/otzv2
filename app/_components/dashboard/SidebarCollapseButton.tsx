@@ -45,8 +45,9 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <d
           {icon}
           <p
           // href={'/'}
+          className={`${isActive ? 'text-sky-600' : 'text-slate-500'}`}
           >
-            {label}
+            {label} {isActive}
           </p>
         </div>
         {visible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
