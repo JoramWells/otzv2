@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
+import { Button } from '@/components/ui/button'
 import { Divider } from '@chakra-ui/react'
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -60,15 +61,58 @@ const NotifyPage = () => {
           </div>
         ))}
       </div>
-      <Divider/>
-      <div
-      className=''
-      >
-        <h1 className="font-semibold text-2xl
+      <Divider />
+      <div className="">
+        <h1
+          className="font-semibold text-2xl
         capitalize
-        ">group Appointments</h1>
+        "
+        >
+          group Appointments
+        </h1>
 
         <p>Scheduled the following appointments</p>
+      </div>
+
+      <div
+      className='flex flex-row w-full justify-between
+      space-x-4
+      '
+      >
+        {['high vl', 'lu'].map((item, idx) => (
+          <div
+            key={idx}
+            className="border border-slate-100 rounded-lg p-4
+        border-l-8 border-l-teal-600 flex-1
+        "
+          >
+            <h1
+              className="capitalize text-lg
+          font-semibold
+          "
+            >
+              Support group
+            </h1>
+            <h1
+              className="capitalize
+            text-slate-500
+          "
+            >
+              Book Appointments for patient with high vl
+            </h1>
+            <p className="mt-2 text-xl font-extrabold">35,567 Patients</p>
+
+            <div className="w-full flex justify-end">
+              <Button
+                className="bg-teal-600
+            shadow-none
+            "
+              >
+                Create Appointment
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )

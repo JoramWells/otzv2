@@ -27,7 +27,7 @@ const NotifySidebarItems = () => {
           },
           {
             id: useId(),
-            link: '/notify',
+            link: '/notify/appointments',
             label: 'View Appointments'
           }
         ]}
