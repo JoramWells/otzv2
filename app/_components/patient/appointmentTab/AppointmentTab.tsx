@@ -101,7 +101,9 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
       </div>
 
       {!isCalendarVisible ? (
-        <>
+        <div
+        className='flex flex-col space-y-4'
+        >
           {data?.map((item: any) => (
             <div
               key={item.id}
@@ -153,7 +155,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
               </div>
             </div>
           ))}
-        </>
+        </div>
       ) : (
         <div className="flex flex-row gap-x-4 w-full justify-center">
           {/*  */}

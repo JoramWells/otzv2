@@ -38,7 +38,7 @@ const EditAppointment = ({ params }: any) => {
   const [minutes, setMinutes] = useState('')
   const [isNotification, setIsNotification] = useState<boolean>(true)
   const [isSMS, setIsSMS] = useState<boolean>(true)
-  const [isWatsapp, setIsWatsapp] = useState<boolean>(false)
+  const [isWhatsapp, setIsWhatsapp] = useState<boolean>(false)
   const [isVoiceCall, setIsVoiceCall] = useState<boolean>(false)
 
   const [addAppointment, { isLoading }] = useAddAppointmentMutation()
@@ -141,8 +141,8 @@ const EditAppointment = ({ params }: any) => {
         />
 
         <CustomCheckbox
-          label="Allow Notification"
-          description="Choose Notification Type"
+          label="Allow Multi-Channel Access"
+          description="Choose Client Notification Type"
           value={isNotification}
           onChange={setIsNotification}
         />
@@ -155,26 +155,26 @@ const EditAppointment = ({ params }: any) => {
               onChange={setIsSMS}
             />
             {isSMS && (
-              <div className="bg-white p-4 rounded-lg mt-1 ml-6
+              <div
+                className="bg-white p-4 rounded-lg mt-1 ml-6
               flex flex-col space-y-4
-              ">
+              "
+              >
                 <CustomInput
-                  label="Pone No."
-                  description="Use tis pone number"
+                  label="Phone No."
+                  description="Use this phone number"
                 />
                 <div>
-                  <p
-                  className='font-bold mb-1'
-                  >Message</p>
+                  <p className="font-bold mb-1">Message</p>
                   <Textarea placeholder="Enter Message" />
                 </div>
               </div>
             )}
             <CustomCheckbox
-              label="Watsapp"
-              description="Use Watsapp"
-              value={isWatsapp}
-              onChange={setIsWatsapp}
+              label="Whatsapp"
+              description="Use Whatsapp"
+              value={isWhatsapp}
+              onChange={setIsWhatsapp}
             />
             <CustomCheckbox
               label="Voice Calls"
@@ -184,6 +184,12 @@ const EditAppointment = ({ params }: any) => {
             />
           </div>
         )}
+
+        <div>
+          <p
+          className='font-bold'
+          >Choose time buffer</p>
+        </div>
 
         <Button
           // colorScheme="teal"

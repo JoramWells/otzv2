@@ -4,7 +4,7 @@ import { CalendarDays } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Calendar from '../../calendar/Calendar'
 import { type ColumnDef } from '@tanstack/react-table'
-import { type ColumnProps } from '@/app/notify/columns'
+import { type ColumnProps } from '@/app/appointment/columns'
 
 interface AppointmentTabProps {
   data: []

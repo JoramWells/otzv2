@@ -46,7 +46,7 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
         <div className="flex flex-row items-center space-x-2">
           {icon}
 
-          {itemList?.length > 0
+          {!link
             ? (
             <p
               className={`${isActive ? 'text-sky-600' : 'text-slate-500'}`}

@@ -94,6 +94,7 @@ const SidebarItems = () => {
       />
       <SidebarCollapseButton
         label="Notify"
+        link='notify'
         icon={<CalendarDays size={17} />}
         itemList={[
           {
