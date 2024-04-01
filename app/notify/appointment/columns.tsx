@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-base-to-string */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Clock } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Avatar, Badge, Tag } from '@chakra-ui/react'
+import { Avatar, Tag } from '@chakra-ui/react'
 import moment, { type MomentInput } from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
 
@@ -16,11 +14,6 @@ export interface FullNameProps {
 }
 
 export interface ColumnProps {
-  messageText: any
-  notificationType: any
-  scheduleTime: MomentInput
-  scheduleDate: MomentInput
-  appointment: any
   appointmentTime: MomentInput
   appointmentDate: any
   appointmentAgenda: any
@@ -52,16 +45,12 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         <Avatar
           size={'sm'}
           className="font-bold"
-          name={`${row.original.appointment?.patient?.firstName} ${row.original.appointment?.patient?.middleName}`}
+          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.appointment?.patient?.firstName} ${row.original.appointment?.patient?.middleName}`}</p>
-          <p className="capitalize text-slate-500">
-            {row.original.appointment?.patient?.sex}{' '}
-          </p>
-          <p className="capitalize text-slate-500">
-            {calculateAge(row.original.appointment?.patient?.dob)} yrs
-          </p>
+          <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
+          <p className="capitalize text-slate-500">{row.original.patient?.sex} </p>
+          <p className="capitalize text-slate-500">{calculateAge(row.original.patient?.dob)} yrs</p>
         </div>
       </div>
     )
@@ -70,23 +59,23 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'user',
     header: 'REQUESTED BY',
     cell: ({ row }: any) => (
-      <p>{`${row.original.appointment?.user?.firstName} ${row.original.appointment?.user?.middleName}`}</p>
+      <p>{`${row.original.user?.firstName} ${row.original.user?.middleName}`}</p>
     )
   },
   {
-    accessorKey: 'scheduleDate',
-    header: 'Schedule Date',
+    accessorKey: 'appointmentDate',
+    header: 'Appointment Date',
     cell: ({ row }) => (
       <div className="flex flex-row gap-x-2">
         <Clock size={18} className="mt-1 text-slate-500" />
-        <div className="flex flex-col space-y-2">
-          <p>{moment(row.original.scheduleDate).format('ll')}</p>
+        <div>
+          <p>{moment(row.original.appointmentDate).format('ll')}</p>
           <p className="text-slate-500">
-            {moment(row.original.scheduleTime, 'HH:mm ss').format('HH:mm a')}
+            {moment(row.original.appointmentTime, 'HH:mm ss').format('HH:mm a')}
           </p>
           <p className="font-bold text-slate-500">
             {moment
-              .duration(moment(row.original.scheduleDate).diff(moment()))
+              .duration(moment(row.original.appointmentDate).diff(moment()))
               .days()}{' '}
             days remaining
           </p>
@@ -95,32 +84,15 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     )
   },
   {
-    accessorKey: 'messageText',
-    header: 'Message ',
+    accessorKey: 'appointmentAgenda',
+    header: 'Appointment agenda',
     cell: ({ row }) => (
-      <p className="capitalize">{`${row.original.messageText}`}</p>
-    )
-  },
-  {
-    accessorKey: 'notificationType',
-    header: 'Notification Type ',
-    cell: ({ row }) => (
-      <div>
-        {row.original.notificationType === 'SMS'
-          ? (
-          <Badge colorScheme="purple"
-          variant={'solid'}
-          >SMS</Badge>
-            )
-          : (
-          <Badge>Watsapp</Badge>
-            )}
-      </div>
+      <p>{`${row.original.appointmentAgenda?.agendaDescription}`}</p>
     )
   },
   {
     accessorKey: 'appointmentStatus',
-    header: 'STATUS',
+    header: 'APPOINTMENT STATUS',
     cell: ({ row }) => {
       const appointmentStatus =
         row.original.appointmentStatus?.statusDescription
@@ -162,6 +134,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <Link href={`/notify/${row.original.id}`}>Edit </Link>
+    cell: ({ row }) => <Link
+    href={`/notify/${row.original.id}`}
+    >Edit </Link>
   }
 ]
