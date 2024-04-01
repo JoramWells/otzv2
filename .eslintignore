@@ -6,3 +6,4 @@ app/global-error.jsx
 app/sentry-example-page
 app/api/sentry-example-api/route.js
 app/api/auth/register/route.ts
+app/api/auth/
