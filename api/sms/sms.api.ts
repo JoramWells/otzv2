@@ -2,8 +2,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export interface OccupationProps {
-  to?: string
-  message: string
+  appointmentID?: string
+  notificationType: string
+  phoneNo: string
+  messageText: string
+  bufferTime: string
+  scheduledDate: string
+  scheduledTime: string
 }
 
 export const smsApi = createApi({
@@ -17,7 +22,7 @@ export const smsApi = createApi({
     }),
     addSMS: builder.mutation<string, OccupationProps>({
       query: (newUser: OccupationProps) => ({
-        url: 'send',
+        url: 'add',
         method: 'POST',
         body: newUser
       })

@@ -13,7 +13,7 @@ import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { CircleFadingPlus, PlusCircle } from 'lucide-react'
 
-const AppointmentPage = () => {
+const SMSPage = () => {
   const [appointments, setAppointments] = useState([])
   const [value, setValue] = useState<number>(1)
   const { data } = useGetAllAppointmentsQuery()
@@ -107,6 +107,19 @@ const AppointmentPage = () => {
         </Button>
       </div>
 
+      <div className="flex flex-row space-x-2 mt-4 mb-4">
+        {['Overview', 'Insights'].map((item, idx) => (
+          <Button
+            key={idx}
+            size={'sm'}
+            className="rounded-full"
+            variant={'outline'}
+          >
+            {item}
+          </Button>
+        ))}
+      </div>
+
       {/* tab navigation */}
       <CustomTab
         categoryList={categoryList}
@@ -138,4 +151,4 @@ const AppointmentPage = () => {
   )
 }
 
-export default AppointmentPage
+export default SMSPage

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
@@ -16,6 +18,8 @@ import CustomInput from '@/app/_components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import CustomCheckbox from '@/app/_components/forms/CustomCheckbox'
 import { Textarea } from '@/components/ui/textarea'
+import { useAddSMSMutation } from '@/api/sms/sms.api'
+import { Loader2 } from 'lucide-react'
 
 interface PhaseProps {
   id: string
@@ -36,6 +40,10 @@ const EditAppointment = ({ params }: any) => {
   const [appointmentTime, setAppointmentTime] = useState('')
   const [status, setStatus] = useState('')
   const [minutes, setMinutes] = useState('')
+  const [notificationType, setNotificationType] = useState('')
+  const [phoneNo, setPhoneNo] = useState('')
+  const [messageText, setMessageText] = useState('')
+  const [scheduledTime, setScheduledTime] = useState('')
   const [isNotification, setIsNotification] = useState<boolean>(true)
   const [isSMS, setIsSMS] = useState<boolean>(true)
   const [isWhatsapp, setIsWhatsapp] = useState<boolean>(false)
@@ -48,16 +56,23 @@ const EditAppointment = ({ params }: any) => {
   const { data: appointmentData } = useGetAppointmentDetailQuery(appointmentID)
   const [hours, setHours] = useState('')
 
-  // useEffect(()=>{
-  //   if(appointmentData){
-  //     set
-  //   }
-  // },[])
+  useEffect(() => {
+    if (appointmentData) {
+      setUserID(appointmentData[0]?.userID)
+      setAppointmentDate(appointmentData[0]?.appointmentDate)
+      setHours(moment(appointmentData[0].appointmentTime, 'HH:mm:ss').hours().toString())
+      setMinutes(moment(appointmentData[0].appointmentTime, 'HH:mm:ss').minutes().toString())
+      setAppointmentAgenda(appointmentData[0]?.appointmentAgendaID)
+      setStatus(appointmentData[0]?.appointmentStatusID)
+    }
+  }, [appointmentData, appointmentData?.userID])
 
   console.log(appointmentData, 'gt')
 
   const { data: appointmentAgendaData } = useGetAllAppointmentAgendaQuery()
   const { data: appointmentStatusData } = useGetAllAppointmentStatusQuery()
+
+  const [addSMS, { isLoading: isSMSLoading }] = useAddSMSMutation()
 
   const usersOption = useCallback(() => {
     return usersData?.map((item: any) => ({
@@ -91,13 +106,23 @@ const EditAppointment = ({ params }: any) => {
     appointmentStatusID: status
   }
 
+  const inputValues2 = {
+    appointmentID,
+    notificationType: isSMS ? 'SMS' : '',
+    phoneNo,
+    messageText,
+    bufferTime: '10',
+    scheduledDate: appointmentDate,
+    scheduledTime: moment().hour(parseInt(hours, 10)).minute((parseInt(minutes, 10))).format('HH:mm')
+  }
+
   return (
-    <div className="flex flex-row mt-12">
+    <div className="flex flex-row mt-12 p-4 space-x-4">
       <div
         className="w-1/3 flex flex-col
-      rounded-lg p-5 gap-y-6"
+      rounded-lg p-5 gap-y-6 border border-slate-200"
         style={{
-          width: '50%'
+          width: '40%'
         }}
       >
         <CustomSelect
@@ -140,6 +165,25 @@ const EditAppointment = ({ params }: any) => {
           onChange={setStatus}
         />
 
+        <div>
+          <p className="font-bold">Choose time buffer</p>
+        </div>
+
+        {/*
+        <Button
+          // colorScheme="teal"
+          // width={'full'}
+          onClick={() => addAppointment(inputValues)}
+          // isLoading={isLoading}
+        >
+          Create Appointment
+        </Button> */}
+      </div>
+      <div
+        className="w-[40%] border border-slate-200 rounded-lg p-5
+      flex flex-col space-y-4
+      "
+      >
         <CustomCheckbox
           label="Allow Multi-Channel Access"
           description="Choose Client Notification Type"
@@ -163,11 +207,30 @@ const EditAppointment = ({ params }: any) => {
                 <CustomInput
                   label="Phone No."
                   description="Use this phone number"
+                  value={phoneNo}
+                  onChange={setPhoneNo}
                 />
                 <div>
                   <p className="font-bold mb-1">Message</p>
-                  <Textarea placeholder="Enter Message" />
+                  <Textarea
+                    placeholder="Enter Message"
+                    value={messageText}
+                    onChange={(val) => {
+                      setMessageText(val.target.value)
+                    }}
+                  />
                 </div>
+                <Button
+                  size={'sm'}
+                  className="font-bold"
+                  onClick={() => addSMS(inputValues2)}
+                  disabled={isSMSLoading}
+                >
+                  {isSMSLoading && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  SAVE
+                </Button>
               </div>
             )}
             <CustomCheckbox
@@ -184,21 +247,6 @@ const EditAppointment = ({ params }: any) => {
             />
           </div>
         )}
-
-        <div>
-          <p
-          className='font-bold'
-          >Choose time buffer</p>
-        </div>
-
-        <Button
-          // colorScheme="teal"
-          // width={'full'}
-          onClick={() => addAppointment(inputValues)}
-          // isLoading={isLoading}
-        >
-          Create Appointment
-        </Button>
       </div>
     </div>
   )
