@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useAddSMSMutation } from '@/api/sms/sms.api'
@@ -55,7 +56,7 @@ export function CustomSMSSheet () {
           <SheetClose asChild>
             <Button
               type="submit"
-              onClick={() => addSMS(inputValues)}
+              // onClick={() => addSMS(inputValues)}
               disabled={isLoading}
             >
               {isLoading

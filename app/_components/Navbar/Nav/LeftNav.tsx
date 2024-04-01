@@ -16,11 +16,10 @@ const LeftNav = () => {
       "
       />
       <Image
-        src={'logo1.svg'}
+        src={'/img/logo1.svg'}
         alt="img"
         width={120}
         height={80}
-        objectFit="contain"
         quality={100}
       />
     </div>

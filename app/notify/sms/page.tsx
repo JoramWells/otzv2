@@ -12,11 +12,12 @@ import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { CircleFadingPlus, PlusCircle } from 'lucide-react'
+import { useGetAllSMSQuery } from '@/api/sms/sms.api'
 
 const SMSPage = () => {
   const [appointments, setAppointments] = useState([])
   const [value, setValue] = useState<number>(1)
-  const { data } = useGetAllAppointmentsQuery()
+  const { data } = useGetAllSMSQuery()
 
   const showNotification = useNotification()
 
@@ -56,46 +57,44 @@ const SMSPage = () => {
       },
       {
         id: 2,
-        label: `Pending ${pendingAppointment()?.length}`
+        label: `Rescheduled ${pendingAppointment()?.length}`
       },
       {
         id: 3,
-        label: `Rescheduled ${rescheduledAppointment()?.length}`
-      },
-      {
-        id: 4,
-        label: `Upcoming ${upcomingAppointment()?.length}`
-      },
-      {
-        id: 5,
-        label: `Missed ${missedAppointment()?.length}`
+        label: `Sent ${rescheduledAppointment()?.length}`
       }
     ],
-    [missedAppointment, appointments?.length, pendingAppointment, rescheduledAppointment, upcomingAppointment]
+    [
+      appointments?.length,
+      pendingAppointment,
+      rescheduledAppointment
+
+    ]
   )
 
-  useEffect(() => {
-    // if (data) {
-    // setAppointments(data)
-    // }
-    const socket: Socket = socketIOClient('http://localhost:5000')
+  console.log(data, 'lki')
 
-    socket.on('appointment-updated', (socketData: NotificationProps) => {
-      showNotification()
-      // setAppointments(socketData)
-      console.log(socketData)
-    })
+  // useEffect(() => {
+  //   // if (data) {
+  //   // setAppointments(data)
+  //   // }
+  //   const socket: Socket = socketIOClient('http://localhost:5000')
 
-    return () => {
-      socket.disconnect()
-    }
-  }, [data, showNotification])
+  //   socket.on('appointment-updated', (socketData: NotificationProps) => {
+  //     showNotification()
+  //     // setAppointments(socketData)
+  //     console.log(socketData)
+  //   })
+
+  //   return () => {
+  //     socket.disconnect()
+  //   }
+  // }, [data, showNotification])
 
   return (
     <div className="p-5 mt-12">
-
       <div className="flex flex-row mb-4 justify-between ">
-        <h1 className="text-lg font-semibold">Appointments</h1>
+        <h1 className="text-lg font-semibold">SMS & Whatsapp</h1>
 
         <Button
           className="bg-teal-600 hover:bg-teal-700 shadow-none
@@ -103,21 +102,8 @@ const SMSPage = () => {
           "
         >
           <PlusCircle size={18} className="mr-2" />
-          New Appointment
+          New Notification
         </Button>
-      </div>
-
-      <div className="flex flex-row space-x-2 mt-4 mb-4">
-        {['Overview', 'Insights'].map((item, idx) => (
-          <Button
-            key={idx}
-            size={'sm'}
-            className="rounded-full"
-            variant={'outline'}
-          >
-            {item}
-          </Button>
-        ))}
       </div>
 
       {/* tab navigation */}

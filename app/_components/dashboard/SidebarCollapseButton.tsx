@@ -38,7 +38,7 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
       <div
         onClick={onToggle}
         className={`flex h-10 items-center pl-4 pr-4 justify-between text-slate-500 text-sm
-        hover:cursor-pointer overflow-y-auto hover:bg-sky-50 hover:text-sky-600 font-bold ${
+        hover:cursor-pointer overflow-y-auto hover:bg-sky-50 hover:text-sky-600 font-semibold ${
           isActive && 'bg-sky-50 text-sky-500'
         }
         `}
@@ -46,10 +46,10 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
         <div className="flex flex-row items-center space-x-2">
           {icon}
 
-          {!link
+          {(link == null)
             ? (
             <p
-              className={`${isActive ? 'text-sky-600' : 'text-slate-500'}`}
+              className={`${isActive ? 'text-sky-600' : 'black'}`}
             >
               {label} {isActive}
             </p>
@@ -60,14 +60,14 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
         </div>
 
         {/* ceck if item list is more tan 1 */}
-        {itemList && itemList?.length > 0 && (
+        {(itemList != null) && itemList?.length > 0 && (
           <>
             {visible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
           </>
         )}
       </div>
 
-      {itemList?.length > 0 && (
+      {(itemList != null) && itemList?.length > 0 && (
         <div
           className={`${
             visible ? 'inline' : 'hidden'

@@ -70,7 +70,7 @@ const NotifySidebarItems = () => {
       link="/appointment/insights"
       /> */}
 
-      <div className="flex-1 border border-slate-200 ml-2 mr-2" />
+      <div className="flex-1 border-[1px] border-slate-200 ml-2 mr-2" />
 
       {/* s */}
       <SidebarCollapseButton
