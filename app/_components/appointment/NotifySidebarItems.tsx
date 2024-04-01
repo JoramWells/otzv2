@@ -5,6 +5,8 @@ import { useId } from 'react'
 // import { SidebarButton } from './SidebarButton'
 // import { SidebarCollapseButton } from './SidebarCollapseButton'
 import {
+  BarChartBig,
+  BookCopy,
   CalendarDays,
   MessageSquareText,
   Phone
@@ -62,8 +64,25 @@ const NotifySidebarItems = () => {
           }
         ]}
       />
+
+      {/*  */}
+      {/* <SidebarSubButton label="Insights"
+      link="/appointment/insights"
+      /> */}
+
+      <div className="flex-1 border border-slate-200 ml-2 mr-2" />
+
+      {/* s */}
+      <SidebarCollapseButton
+        label="Insights"
+        link="appointment/insights"
+        icon={<BarChartBig size={17} />}
+      />
+      <SidebarCollapseButton label="Reports" icon={<BookCopy size={17} />} />
     </>
   )
 }
 
 export default NotifySidebarItems
+
+// 2.65cm

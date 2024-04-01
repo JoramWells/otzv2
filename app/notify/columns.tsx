@@ -6,7 +6,7 @@ import { Avatar, Tag } from '@chakra-ui/react'
 import moment, { type MomentInput } from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
 
-import CustomSheet from '../_components/appointment/CustomSheet'
+import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -134,8 +134,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => {
-      return <CustomSheet data={row} />
-    }
+    cell: ({ row }) => <Link
+    href={`/notify/${row.original.id}`}
+    >Edit </Link>
   }
 ]

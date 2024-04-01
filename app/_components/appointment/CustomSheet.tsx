@@ -16,6 +16,7 @@ import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAg
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { useDeleteAppointmentMutation, useUpdateAppointmentMutation } from '@/api/appointment/appointment.api.'
 import { Loader2 } from 'lucide-react'
+import CustomCheckbox from '../forms/CustomCheckbox'
 
 interface DataProps {
   data: {
@@ -60,6 +61,8 @@ const CustomSheet = ({ data }: DataProps) => {
     appointmentStatusID: appointmentStatus
 
   }
+
+  const [isNotified, setIsNotified] = useState<boolean>(false)
 
   const { data: caseManager } = useGetAllUsersQuery()
   const caseManagerOptions = useCallback(() => {
@@ -135,6 +138,18 @@ const CustomSheet = ({ data }: DataProps) => {
             value={appointmentDate}
             onChange={setAppointmentDate}
           />
+
+          {/*  */}
+          <div>
+            <CustomCheckbox
+            label='Allow Notification'
+            value={isNotified}
+            onChange={setIsNotified}
+            />
+          </div>
+          <div>
+            <p>Choose Notification Type</p>
+          </div>
         </div>
         <div className="mt-4 flex flex-row gap-x-4 justify-end">
           <Button

@@ -14,6 +14,8 @@ import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentSt
 import CustomTimeInput from '@/app/_components/forms/CustomTimeInput'
 import CustomInput from '@/app/_components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
+import CustomCheckbox from '@/app/_components/forms/CustomCheckbox'
+import { Textarea } from '@/components/ui/textarea'
 
 interface PhaseProps {
   id: string
@@ -34,6 +36,10 @@ const EditAppointment = ({ params }: any) => {
   const [appointmentTime, setAppointmentTime] = useState('')
   const [status, setStatus] = useState('')
   const [minutes, setMinutes] = useState('')
+  const [isNotification, setIsNotification] = useState<boolean>(true)
+  const [isSMS, setIsSMS] = useState<boolean>(true)
+  const [isWatsapp, setIsWatsapp] = useState<boolean>(false)
+  const [isVoiceCall, setIsVoiceCall] = useState<boolean>(false)
 
   const [addAppointment, { isLoading }] = useAddAppointmentMutation()
 
@@ -86,13 +92,12 @@ const EditAppointment = ({ params }: any) => {
   }
 
   return (
-    <div className="flex flex-row justify-center">
+    <div className="flex flex-row mt-12">
       <div
-        className="border border-gray-200
-        w-1/3 flex flex-col
-      rounded-lg p-5 gap-y-6 mt-14"
+        className="w-1/3 flex flex-col
+      rounded-lg p-5 gap-y-6"
         style={{
-          width: '40%'
+          width: '50%'
         }}
       >
         <CustomSelect
@@ -134,6 +139,51 @@ const EditAppointment = ({ params }: any) => {
           value={status}
           onChange={setStatus}
         />
+
+        <CustomCheckbox
+          label="Allow Notification"
+          description="Choose Notification Type"
+          value={isNotification}
+          onChange={setIsNotification}
+        />
+        {isNotification && (
+          <div className="bg-slate-50 p-2 border border-slate-200 rounded-lg">
+            <CustomCheckbox
+              label="SMS"
+              description="Use SMS"
+              value={isSMS}
+              onChange={setIsSMS}
+            />
+            {isSMS && (
+              <div className="bg-white p-4 rounded-lg mt-1 ml-6
+              flex flex-col space-y-4
+              ">
+                <CustomInput
+                  label="Pone No."
+                  description="Use tis pone number"
+                />
+                <div>
+                  <p
+                  className='font-bold mb-1'
+                  >Message</p>
+                  <Textarea placeholder="Enter Message" />
+                </div>
+              </div>
+            )}
+            <CustomCheckbox
+              label="Watsapp"
+              description="Use Watsapp"
+              value={isWatsapp}
+              onChange={setIsWatsapp}
+            />
+            <CustomCheckbox
+              label="Voice Calls"
+              description="Allow Voice Calls"
+              value={isVoiceCall}
+              onChange={setIsVoiceCall}
+            />
+          </div>
+        )}
 
         <Button
           // colorScheme="teal"

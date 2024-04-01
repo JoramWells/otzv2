@@ -5,6 +5,7 @@ import { ChevronRight, ChevronDown } from 'lucide-react'
 import { SidebarSubButton } from './SidebarSubButton'
 import { useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 // import { Button } from '@/components/ui/button'
 
 interface ItemListProps {
@@ -16,10 +17,11 @@ interface ItemListProps {
 interface SidebarCollapseButtonProps {
   icon?: React.ReactNode
   label: string
+  link?: string
   itemList?: ItemListProps[]
 }
 
-export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <div/> }: SidebarCollapseButtonProps) => {
+export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, icon = <div/> }: SidebarCollapseButtonProps) => {
   // const { isOpen, onToggle } = useDisclosure()
   const [visible, setVisible] = useState(false)
   const pathname = usePathname()
@@ -36,34 +38,50 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', itemList, icon = <d
       <div
         onClick={onToggle}
         className={`flex h-10 items-center pl-4 pr-4 justify-between text-slate-500 text-sm
-        hover:cursor-pointer overflow-y-auto hover:bg-sky-50 hover:text-sky-500 font-bold ${
+        hover:cursor-pointer overflow-y-auto hover:bg-sky-50 hover:text-sky-600 font-bold ${
           isActive && 'bg-sky-50 text-sky-500'
         }
         `}
       >
         <div className="flex flex-row items-center space-x-2">
           {icon}
-          <p
-          // href={'/'}
-          className={`${isActive ? 'text-sky-600' : 'text-slate-500'}`}
-          >
-            {label} {isActive}
-          </p>
+
+          {itemList?.length > 0
+            ? (
+            <p
+              className={`${isActive ? 'text-sky-600' : 'text-slate-500'}`}
+            >
+              {label} {isActive}
+            </p>
+              )
+            : (
+            <Link href={`/${link}`}>{label}</Link>
+              )}
         </div>
-        {visible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+
+        {/* ceck if item list is more tan 1 */}
+        {itemList && itemList?.length > 0 && (
+          <>
+            {visible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+          </>
+        )}
       </div>
 
-      <div className={`${visible ? 'inline' : 'hidden'} bg-gray-500 duration-100`}>
-        {itemList?.map((item) => (
-          <SidebarSubButton key={item.id} label={item.label} link={item.link} />
-        ))}
-      </div>
-
-      {/* <Collapse in={isOpen}>
-        {itemList?.map((item) => (
-          <SidebarSubButton key={item.id} label={item.label} link={item.link} />
-        ))}
-      </Collapse> */}
+      {itemList?.length > 0 && (
+        <div
+          className={`${
+            visible ? 'inline' : 'hidden'
+          } bg-gray-500 duration-100`}
+        >
+          {itemList?.map((item) => (
+            <SidebarSubButton
+              key={item.id}
+              label={item.label}
+              link={item.link}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
