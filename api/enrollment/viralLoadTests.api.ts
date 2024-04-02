@@ -10,6 +10,9 @@ export const viralLoadApi = createApi({
     getAllViralLoadTests: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
+    getAllVlCategories: builder.query<any, void>({
+      query: () => 'fetchAllVLCategory'
+    }),
     addViralLoadTest: builder.mutation({
       query: (newUser) => ({
         url: 'add',
@@ -44,5 +47,5 @@ export const viralLoadApi = createApi({
 export const {
   useGetAllViralLoadTestsQuery, useUpdateViralLoadTestMutation,
   useDeleteViralLoadTestMutation, useAddViralLoadTestMutation, useGetViralLoadTestQuery,
-  useGetOTZPatientEnrollmentQuery
+  useGetOTZPatientEnrollmentQuery, useGetAllVlCategoriesQuery
 } = viralLoadApi

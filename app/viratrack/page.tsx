@@ -1,67 +1,54 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { CustomTable } from '../_components/table/CustomTable'
-import { columns } from './columns'
-import { useMemo, useState } from 'react'
-// import { Tag } from '@chakra-ui/react'
-// import { type MomentInput } from 'moment'
-// import { calculateAge } from '@/utils/calculateAge'
+
 import { Button } from '@/components/ui/button'
-import { ListFilter, PlusCircle } from 'lucide-react'
+import { Divider } from '@chakra-ui/react'
+import { PlusCircle, Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import CustomTab from '../_components/tab/CustomTab'
-import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
+import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
+import { useGetAllVlCategoriesQuery } from '@/api/enrollment/viralLoadTests.api'
+import VLPieChart from '../_components/charts/VLPieChart'
 
-// interface ItemsProps {
-//   dob: MomentInput
-// }
+const dataList = [
+  {
+    id: '1',
+    label: 'Todays Appointment',
+    count: 50,
+    link: '/notify/appointment'
+  },
+  {
+    id: '2',
+    label: 'Scheduled SMS & Whatsapp',
+    count: 20,
+    link: ''
+  },
+  {
+    id: '3',
+    label: 'Scheduled Voice Calls',
+    count: 13,
+    link: ''
+  },
+  {
+    id: '4',
+    label: 'App Notification',
+    count: 7,
+    link: ''
+  }
+]
 
-const TrackPage = () => {
-  // const datax = await getPatients()
-  const { data } = useGetAllPatientsQuery()
-  const [value, setValue] = useState<number>(1)
+interface DataPops {
+  id: number
+  year: number
+  userGain: number
+  userLost: number
+}
 
-  const { data: vlData } = useGetAllViralLoadTestsQuery()
-
-  console.log(vlData, 'kli')
-
-  const categoryList = useMemo(
-    () => [
-      {
-        id: 1,
-        label: 'All',
-        description: 'All patients',
-        count: data?.length
-      },
-      {
-        id: 2,
-        label: 'Early Years',
-        description: '0 yrs to 9 yrs'
-      },
-      {
-        id: 3,
-        label: 'Middle School',
-        description: '10 yrs to 19 yrs'
-      },
-      {
-        id: 4,
-        label: 'Senior',
-        description: 'Tertiary'
-      },
-      {
-        id: 5,
-        label: 'Tertiary ',
-        description: 'Tertiary'
-      }
-    ],
-    [data?.length]
-  )
-
+const NotifyPage = () => {
   const router = useRouter()
 
   return (
-    <div className="p-5 mt-14">
+    <div className="w-full mt-12 p-5 flex-col flex space-y-6">
       <div className="mb-4 flex flex-row justify-between items-center">
         <div>
           <p className="text-lg font-bold">Welcome to ViraTrack</p>
@@ -82,38 +69,81 @@ const TrackPage = () => {
           New Patient
         </Button>
       </div>
+      <div className="flex w-full justify-between flex-wrap">
+        {dataList.map((item, idx) => (
+          <div
+            key={idx}
+            className="border border-slate-200 rounded-lg p-5
+             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
+      "
+            onClick={() => router.push('/notify/appointment')}
+          >
+            <div className="flex flex-row items-center justify-between">
+              <h1 className="font-bold text-lg">{item.label}</h1>
+              <Users size={20} />
+            </div>
+            <p className="text-2xl font-bold">{item.count}</p>
+            <p className="text-slate-500 text-sm">Since last month</p>
+          </div>
+        ))}
+      </div>
+      <Divider />
+      <div className="">
+        <h1
+          className="font-semibold text-2xl
+        capitalize
+        "
+        >
+          group Appointments
+        </h1>
 
-      <div className='flex flex-row justify-between mt-4 mb-4'>
-        <div className="flex flex-row space-x-2 ">
-          {['All', 'Due', 'Upcoming'].map((item, idx) => (
-            <Button key={idx} size={'sm'} className="shadow-none">
-              {item}
-            </Button>
-          ))}
-        </div>
-
-        <ListFilter />
+        <p>Scheduled the following appointments</p>
       </div>
 
-      <CustomTab
-        categoryList={categoryList}
-        setValue={setValue}
-        value={value}
-      />
+      {/* <div
+        className="flex flex-row w-full justify-between
+      space-x-4
+      "
+      >
+        {['high vl', 'lu'].map((item, idx) => (
+          <div
+            key={idx}
+            className="border border-slate-100 rounded-lg p-4
+        border-l-8 border-l-teal-600 flex-1
+        "
+          >
+            <h1
+              className="capitalize text-lg
+          font-semibold
+          "
+            >
+              Support group
+            </h1>
+            <h1
+              className="capitalize
+            text-slate-500
+          "
+            >
+              Book Appointments for patient with high vl
+            </h1>
+            <p className="mt-2 text-xl font-extrabold">35,567 Patients</p>
 
-      {value === 1 && <CustomTable columns={columns} data={vlData || []} />}
-
-      {value === 2 && <CustomTable columns={columns} data={vlData || []} />}
-
-      {value === 3 && <CustomTable columns={columns} data={vlData || []} />}
-
-      {/* plus */}
-      {value === 4 && <CustomTable columns={columns} data={vlData || []} />}
-
-      {/* adult */}
-      {value === 5 && <CustomTable columns={columns} data={vlData || []} />}
+            <div className="w-full flex justify-end">
+              <Button
+                className="bg-teal-600
+            shadow-none
+            "
+              >
+                Create Appointment
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div> */}
+      <WeeklyAppointmentBarChart />
+      <VLPieChart />
     </div>
   )
 }
 
-export default TrackPage
+export default NotifyPage
