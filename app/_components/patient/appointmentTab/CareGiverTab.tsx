@@ -69,19 +69,35 @@ const CareGiverTab = ({ patientID }: DataProps) => {
       </div>
 
       {/* ceck if ter is cariver */}
-      {data?.length === 0 && (
-        <p className="text-xl font-bold text-slate-500">
-          This Patient has No Caregiver
-        </p>
-      )}
-
-      <div className="w-3/4 mb-2 flex flex-row items-center justify-between">
-        <div className="w-1/2">
-          <Input placeholder="Search..." />
+      {data?.length === 0
+        ? (
+        <div
+          className="border border-slate-200
+        rounded-lg p-4 w-3/4 bg-slate-50
+        "
+        >
+          <p className="text-lg font-semibold ">
+            This Patient has No Caregiver
+          </p>
+          <p
+          className='text-slate-500'
+          >
+            Environment variables allow you to change site behavior across
+            different deploy contexts and scopes. For example, use variables to
+            set different configuration options for builds or to store secret
+            API keys for use in your functions.
+          </p>
         </div>
+          )
+        : (
+        <div className="w-3/4 mb-2 flex flex-row items-center justify-between">
+          <div className="w-1/2">
+            <Input placeholder="Search..." />
+          </div>
 
-        <SelectActive />
-      </div>
+          <SelectActive />
+        </div>
+          )}
 
       {/* iterate over te creivers */}
       {data?.map((item: any) => (

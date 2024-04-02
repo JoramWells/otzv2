@@ -20,6 +20,7 @@ import CustomCheckbox from '@/app/_components/forms/CustomCheckbox'
 import { Textarea } from '@/components/ui/textarea'
 import { useAddSMSMutation } from '@/api/sms/sms.api'
 import { Loader2 } from 'lucide-react'
+import { Avatar, Divider } from '@chakra-ui/react'
 
 interface PhaseProps {
   id: string
@@ -117,136 +118,157 @@ const EditAppointment = ({ params }: any) => {
   }
 
   return (
-    <div className="flex flex-row mt-12 p-4 space-x-4">
-      <div
-        className="w-1/3 flex flex-col
+    <div className='mt-12 p-4 w-full flex flex-col space-y-2'>
+      <Avatar
+      name={'Lucas B'}
+      />
+      <Divider className=''/>
+      <div className="flex flex-row space-x-4 mt-4">
+        <div
+          className="w-1/3 flex flex-col
       rounded-lg p-5 gap-y-6 border border-slate-200"
-        style={{
-          width: '40%'
-        }}
-      >
-        <CustomSelect
-          label="Requested By"
-          data={usersOption()}
-          value={userID}
-          onChange={setUserID}
-        />
-
-        {/* date-picker input */}
-
-        <CustomInput
-          label="Appointment Date"
-          type="date"
-          value={appointmentDate}
-          onChange={setAppointmentDate}
-        />
-
-        <CustomTimeInput
-          label="Appointment Time"
-          hours={hours}
-          setHours={setHours}
-          minutes={minutes}
-          setMinutes={setMinutes}
-        />
-
-        {/*  */}
-        <CustomSelect
-          label="Agenda/Reason"
-          data={appointmentOptions()}
-          value={agenda}
-          onChange={setAppointmentAgenda}
-        />
-
-        {/*  */}
-        <CustomSelect
-          label="Status"
-          data={appointmentStatusOptions()}
-          value={status}
-          onChange={setStatus}
-        />
-
-        <div>
-          <p className="font-bold">Choose time buffer</p>
-        </div>
-
-        {/*
-        <Button
-          // colorScheme="teal"
-          // width={'full'}
-          onClick={() => addAppointment(inputValues)}
-          // isLoading={isLoading}
+          style={{
+            width: '40%'
+          }}
         >
-          Create Appointment
-        </Button> */}
-      </div>
-      <div
-        className="w-[40%] border border-slate-200 rounded-lg p-5
+          <CustomSelect
+            label="Requested By"
+            data={usersOption()}
+            value={userID}
+            onChange={setUserID}
+          />
+
+          {/* date-picker input */}
+
+          <CustomInput
+            label="Appointment Date"
+            type="date"
+            value={appointmentDate}
+            onChange={setAppointmentDate}
+          />
+
+          <CustomTimeInput
+            label="Appointment Time"
+            hours={hours}
+            setHours={setHours}
+            minutes={minutes}
+            setMinutes={setMinutes}
+          />
+
+          {/*  */}
+          <CustomSelect
+            label="Agenda/Reason"
+            data={appointmentOptions()}
+            value={agenda}
+            onChange={setAppointmentAgenda}
+          />
+
+          {/*  */}
+          <CustomSelect
+            label="Status"
+            data={appointmentStatusOptions()}
+            value={status}
+            onChange={setStatus}
+          />
+
+          {/* <div>
+          <p className="font-bold">Choose time buffer</p>
+        </div> */}
+
+          <div className="w-full flex flex-row justify-end space-x-4">
+            <Button
+              // colorScheme="teal"
+              className="bg-red-50 shadow-none
+            text-red-500 font-bold hover:bg-red-100
+            "
+              // width={'full'}
+              // onClick={() => addAppointment(inputValues)}
+              // isLoading={isLoading}
+            >
+              Delete
+            </Button>
+            <Button
+              // colorScheme="teal"
+              className="bg-teal-600 shadow-none hover:bg-teal-600
+            font-bold
+            "
+              // width={'full'}
+              onClick={() => addAppointment(inputValues)}
+              // isLoading={isLoading}
+            >
+              Edit
+            </Button>
+          </div>
+        </div>
+        <div
+          className="w-[40%] border border-slate-200 rounded-lg p-5
       flex flex-col space-y-4
       "
-      >
-        <CustomCheckbox
-          label="Allow Multi-Channel Access"
-          description="Choose Client Notification Type"
-          value={isNotification}
-          onChange={setIsNotification}
-        />
-        {isNotification && (
-          <div className="bg-slate-50 p-2 border border-slate-200 rounded-lg">
-            <CustomCheckbox
-              label="SMS"
-              description="Use SMS"
-              value={isSMS}
-              onChange={setIsSMS}
-            />
-            {isSMS && (
-              <div
-                className="bg-white p-4 rounded-lg mt-1 ml-6
+        >
+          <CustomCheckbox
+            label="Allow Multi-Channel Access"
+            description="Choose Client Notification Type"
+            value={isNotification}
+            onChange={setIsNotification}
+          />
+          {isNotification && (
+            <div className="bg-slate-50 p-2 border border-slate-200 rounded-lg">
+              <CustomCheckbox
+                label="SMS"
+                description="Use SMS"
+                value={isSMS}
+                onChange={setIsSMS}
+              />
+              {isSMS && (
+                <div
+                  className="bg-white p-4 rounded-lg mt-1 ml-6
               flex flex-col space-y-4
               "
-              >
-                <CustomInput
-                  label="Phone No."
-                  description="Use this phone number"
-                  value={phoneNo}
-                  onChange={setPhoneNo}
-                />
-                <div>
-                  <p className="font-bold mb-1">Message</p>
-                  <Textarea
-                    placeholder="Enter Message"
-                    value={messageText}
-                    onChange={(val) => {
-                      setMessageText(val.target.value)
-                    }}
-                  />
-                </div>
-                <Button
-                  size={'sm'}
-                  className="font-bold"
-                  onClick={() => addSMS(inputValues2)}
-                  disabled={isSMSLoading}
                 >
-                  {isSMSLoading && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}
-                  SAVE
-                </Button>
-              </div>
-            )}
-            <CustomCheckbox
-              label="Whatsapp"
-              description="Use Whatsapp"
-              value={isWhatsapp}
-              onChange={setIsWhatsapp}
-            />
-            <CustomCheckbox
-              label="Voice Calls"
-              description="Allow Voice Calls"
-              value={isVoiceCall}
-              onChange={setIsVoiceCall}
-            />
-          </div>
-        )}
+                  <CustomInput
+                    label="Phone No."
+                    description="Use this phone number"
+                    value={phoneNo}
+                    onChange={setPhoneNo}
+                  />
+                  <div>
+                    <p className="font-bold mb-1">Message</p>
+                    <Textarea
+                      placeholder="Enter Message"
+                      value={messageText}
+                      onChange={(val) => {
+                        setMessageText(val.target.value)
+                      }}
+                    />
+                  </div>
+                  <Button
+                    size={'sm'}
+                    className="font-bold"
+                    onClick={() => addSMS(inputValues2)}
+                    disabled={isSMSLoading}
+                  >
+                    {isSMSLoading && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    SAVE
+                  </Button>
+                </div>
+              )}
+              <CustomCheckbox
+                label="Whatsapp"
+                description="Use Whatsapp"
+                value={isWhatsapp}
+                onChange={setIsWhatsapp}
+              />
+              <CustomCheckbox
+                label="Voice Calls"
+                description="Allow Voice Calls"
+                value={isVoiceCall}
+                onChange={setIsVoiceCall}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

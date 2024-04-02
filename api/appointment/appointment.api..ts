@@ -10,6 +10,9 @@ export const appointmentApi = createApi({
     getAllAppointments: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
+    getAllWeeklyAppointments: builder.query<any, void>({
+      query: () => 'fetchAllWeekly'
+    }),
     addAppointment: builder.mutation({
       query: (newUser) => ({
         url: 'add',
@@ -44,5 +47,6 @@ export const appointmentApi = createApi({
 export const {
   useGetAllAppointmentsQuery, useAddAppointmentMutation,
   useGetAppointmentQuery, useGetAppointmentDetailQuery,
-  useUpdateAppointmentMutation, useDeleteAppointmentMutation
+  useUpdateAppointmentMutation, useDeleteAppointmentMutation,
+  useGetAllWeeklyAppointmentsQuery
 } = appointmentApi

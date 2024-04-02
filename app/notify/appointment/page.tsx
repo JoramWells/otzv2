@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
+import { useGetAllAppointmentsQuery, useGetAllWeeklyAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
