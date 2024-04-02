@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
-import { Chart, registerables } from 'chart.js'
 
-import { useGetAllWeeklyAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { Button } from '@/components/ui/button'
 import { Divider } from '@chakra-ui/react'
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import BarChart, { type BarChartProps } from '../_components/charts/BarChart'
-import { useState } from 'react'
-import { Bar } from 'react-chartjs-2'
+import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
 
 const dataList = [
   {
@@ -46,99 +42,8 @@ interface DataPops {
   userLost: number
 }
 
-const chartData: DataPops[] = [
-  {
-    id: 1,
-    year: 2016,
-    userGain: 80000,
-    userLost: 823
-  },
-  {
-    id: 2,
-    year: 2017,
-    userGain: 45677,
-    userLost: 345
-  },
-  {
-    id: 3,
-    year: 2018,
-    userGain: 78888,
-    userLost: 555
-  },
-  {
-    id: 4,
-    year: 2019,
-    userGain: 90000,
-    userLost: 4555
-  },
-  {
-    id: 5,
-    year: 2020,
-    userGain: 4300,
-    userLost: 234
-  }
-]
-
-Chart.register(...registerables)
-
 const NotifyPage = () => {
   const router = useRouter()
-
-  const { data: weeklyData } = useGetAllWeeklyAppointmentsQuery()
-  console.log(weeklyData, 'wered')
-
-  const [barCharData, setBarChartData] = useState<BarChartProps>({
-    labels: chartData.map((item: DataPops) => item.year.toString()),
-    datasets: [
-      {
-        label: 'Users Gained',
-        data: chartData.map((item) => item.userGain)
-      }
-    ]
-  })
-
-  const transformDataToCart = () => {
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Tursday', 'Friday', 'Sartuday']
-    const appointmentsCountByDay = [0, 0, 0, 0, 0, 0, 0]
-
-    weeklyData.forEach(appointment => {
-      const appointmentDate = new Date(appointment.appointmentDate)
-      const dayOfWeek = appointmentDate.getDay()
-      appointmentsCountByDay[dayOfWeek]++
-    })
-
-    return {
-      labels: daysOfWeek,
-      datasets: [
-        {
-          label: 'Appointments',
-          data: appointmentsCountByDay
-        }
-      ]
-    }
-  }
-
-  const cartdata = transformDataToCart()
-
-  const cartOptions = {
-    scales: {
-      xAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Day of the Week'
-        }
-      }],
-      yAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Number of Appointments'
-        },
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    }
-  }
 
   return (
     <div className="w-full mt-12 p-5 flex-col flex space-y-6">
@@ -179,10 +84,10 @@ const NotifyPage = () => {
         <p>Scheduled the following appointments</p>
       </div>
 
-      <div
-      className='flex flex-row w-full justify-between
+      {/* <div
+        className="flex flex-row w-full justify-between
       space-x-4
-      '
+      "
       >
         {['high vl', 'lu'].map((item, idx) => (
           <div
@@ -218,10 +123,8 @@ const NotifyPage = () => {
             </div>
           </div>
         ))}
-      </div>
-
-<Bar data={cartdata} options={cartOptions} />
-
+      </div> */}
+      <WeeklyAppointmentBarChart />
     </div>
   )
 }

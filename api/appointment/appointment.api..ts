@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+interface AppointmentProps {
+  date?: string
+  mode?: string
+}
 
 export const appointmentApi = createApi({
   reducerPath: 'appointmentApi',
@@ -7,8 +13,17 @@ export const appointmentApi = createApi({
     baseUrl: '/api/root-service/appointments'
   }),
   endpoints: (builder) => ({
-    getAllAppointments: builder.query<any, void>({
-      query: () => 'fetchAll'
+    getAllAppointments: builder.query<any, AppointmentProps>({
+      query: (params) => {
+        if (params) {
+          const { date, mode } = params
+          let queryString = ''
+          queryString += `date=${date}`
+          queryString += `&mode=${mode}`
+          return `/fetchAll?${queryString}`
+        }
+        return '/fetchAll'
+      }
     }),
     getAllWeeklyAppointments: builder.query<any, void>({
       query: () => 'fetchAllWeekly'

@@ -222,6 +222,7 @@ const SidebarItems = () => {
       {/*  */}
       <SidebarCollapseButton
         label="ViraTrack"
+        link='viratrack'
         icon={<ActivitySquare size={17} />}
         itemList={[
           {
