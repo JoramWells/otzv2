@@ -4,11 +4,9 @@
 
 import { Button } from '@/components/ui/button'
 import { Divider } from '@chakra-ui/react'
-import { PlusCircle, Users } from 'lucide-react'
+import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
-import { useGetAllVlCategoriesQuery } from '@/api/enrollment/viralLoadTests.api'
-import VLPieChart from '../_components/charts/VLPieChart'
 
 const dataList = [
   {
@@ -49,25 +47,11 @@ const NotifyPage = () => {
 
   return (
     <div className="w-full mt-12 p-5 flex-col flex space-y-6">
-      <div className="mb-4 flex flex-row justify-between items-center">
-        <div>
-          <p className="text-lg font-bold">Welcome to ViraTrack</p>
-          <p className="text-sm text-slate-500">
-            We track realtime VL updates, CD4 Count, Patient Vitals and TB
-            treatment
-          </p>
-        </div>
-        <Button
-          className="bg-teal-600 hover:bg-teal-700
-        font-bold shadow-none
-        "
-          onClick={() => {
-            router.push('/patients/add-patients')
-          }}
-        >
-          <PlusCircle size={18} className="mr-2" />
-          New Patient
-        </Button>
+      <div className="">
+        <h1 className="font-semibold text-2xl">Welcome to notify!!</h1>
+        <p className="text-slate-500">
+          Manage Sent Notifications to client with ease.
+        </p>
       </div>
       <div className="flex w-full justify-between flex-wrap">
         {dataList.map((item, idx) => (
@@ -140,12 +124,7 @@ const NotifyPage = () => {
           </div>
         ))}
       </div> */}
-      <div
-      className='flex flex-row space-x-4'
-      >
-        <WeeklyAppointmentBarChart />
-        <VLPieChart />
-      </div>
+      <WeeklyAppointmentBarChart />
     </div>
   )
 }

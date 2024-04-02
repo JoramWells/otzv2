@@ -37,14 +37,14 @@ const VLPieChart = () => {
     datasets: [
       {
         data: data?.map((item: any) => item.count),
-        backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4caf50'],
-        hoverBackgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4caf50']
+        backgroundColor: ['#36a2eb', '#4caf50', '#ffce56', '#ff6384'],
+        hoverBackgroundColor: ['#36a2eb', '#4caf50', '#ffce56', '#ff6384']
       }
     ]
   }
 
   return (
-    <div className="border rounded-lg h-[320px]">
+    <div className="border rounded-lg h-[400px] w-[600px] ">
       <div className="flex flex-row items-center justify-between
       pl-4 pr-4 pt-2
       ">
