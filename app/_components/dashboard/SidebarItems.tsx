@@ -197,12 +197,12 @@ const SidebarItems = () => {
       />
 
       <SidebarCollapseButton
-        label="Pill Box"
+        label="Pill-Box"
         icon={<Pill size={17} />}
         itemList={[
           {
             id: useId(),
-            link: '/',
+            link: '/pill-box',
             label: 'View Pill Box'
           }
         ]}

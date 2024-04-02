@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { useGetAllAppointmentsQuery, useGetAllWeeklyAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -12,11 +11,14 @@ import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { CircleFadingPlus, PlusCircle } from 'lucide-react'
+import { useGetAllPillsQuery } from '@/api/pillbox/pillbox.api'
 
 const AppointmentPage = () => {
   const [appointments, setAppointments] = useState([])
   const [value, setValue] = useState<number>(1)
-  const { data } = useGetAllAppointmentsQuery()
+  const { data } = useGetAllPillsQuery()
+
+  console.log(data, 'yu')
 
   const showNotification = useNotification()
 

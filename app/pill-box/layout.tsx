@@ -9,7 +9,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
-import NotifySidebarItems from '../_components/appointment/NotifySidebarItems'
+import PillSidebarItems from '../_components/pills/PillSidebarItems'
 
 const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -18,7 +18,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
         <SidebarProvider>
           <div className="flex flex-row">
             <Sidebar>
-              <NotifySidebarItems />
+              <PillSidebarItems />
             </Sidebar>
             <div className="flex flex-col flex-1 h-screen overflow-y-auto">
               <Navbar />

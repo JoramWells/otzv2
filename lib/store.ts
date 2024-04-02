@@ -33,6 +33,7 @@ import { artRegimenSwitchApi } from '@/api/art/artRegimenSwitch.api'
 import { internalLabRequestApi } from '@/api/viraload/internalLabRequest.api'
 import { measuringUnitApi } from '@/api/art/measuringUnit.api'
 import { smsApi } from '@/api/sms/sms.api'
+import { pillBoxApi } from '@/api/pillbox/pillbox.api'
 
 export const store = configureStore({
   reducer: {
@@ -68,7 +69,8 @@ export const store = configureStore({
     [artRegimenSwitchApi.reducerPath]: artRegimenSwitchApi.reducer,
     [internalLabRequestApi.reducerPath]: internalLabRequestApi.reducer,
     [measuringUnitApi.reducerPath]: measuringUnitApi.reducer,
-    [smsApi.reducerPath]: smsApi.reducer
+    [smsApi.reducerPath]: smsApi.reducer,
+    [pillBoxApi.reducerPath]: pillBoxApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -105,4 +107,5 @@ export const store = configureStore({
       .concat(internalLabRequestApi.middleware)
       .concat(measuringUnitApi.middleware)
       .concat(smsApi.middleware)
+      .concat(pillBoxApi.middleware)
 })
