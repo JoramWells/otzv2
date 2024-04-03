@@ -7,6 +7,7 @@ import { Divider } from '@chakra-ui/react'
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
+import { useGetAllTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
 
 const dataList = [
   {
@@ -44,6 +45,13 @@ interface DataPops {
 
 const NotifyPage = () => {
   const router = useRouter()
+
+  const { data } = useGetAllTimeAndWorkQuery(
+    {
+      medicationsDue: true
+    }
+  )
+  console.log(data, 'kl')
 
   return (
     <div className="w-full mt-12 p-5 flex-col flex space-y-6">

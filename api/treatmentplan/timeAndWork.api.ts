@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const timeAndWorkApi = createApi({
@@ -7,7 +8,15 @@ export const timeAndWorkApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllTimeAndWork: builder.query({
-      query: () => 'fetchAll'
+      query: (params) => {
+        if (params) {
+          const { medicationsDue } = params
+          let queryString = ''
+          queryString += `medicationsDue=${medicationsDue}`
+          return `/fetchAll?${queryString}`
+        }
+        return 'fetchAll'
+      }
     }),
 
     addTimeAndWork: builder.mutation({

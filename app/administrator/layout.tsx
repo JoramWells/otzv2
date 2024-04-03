@@ -1,13 +1,13 @@
 'use client'
 import '../globals.css'
 import { Sidebar } from '../_components/dashboard/Sidebar'
-import SidebarItems from '../_components/dashboard/SidebarItems'
 import Navbar from '../_components/Navbar/Nav/Navbar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { ChakraProvider } from '@chakra-ui/react'
 import { NotificationProvider } from '@/context/NotificationContext'
 import { SidebarProvider } from '@/context/SidebarContext'
+import AdministratorSidebarItems from '../_components/dashboard/AdministratorSidebarItems'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -17,7 +17,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <ChakraProvider>
             <div className="flex flex-row">
               <Sidebar>
-                <SidebarItems />
+                <AdministratorSidebarItems />
               </Sidebar>
               <div className="flex flex-col flex-1 h-screen overflow-y-auto">
                 <Navbar />

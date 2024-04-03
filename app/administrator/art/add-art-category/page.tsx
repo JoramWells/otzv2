@@ -21,9 +21,21 @@ interface CategoryProps {
   artPhaseID: string
 }
 
+const ageLineOptions = [
+  {
+    id: 'Adults',
+    label: 'Adults'
+  },
+  {
+    id: 'Pediatric',
+    label: 'Pediatric'
+  }
+]
+
 const AddArtCategory = () => {
   const [artCategoryDescription, setArtCategoryDescription] = useState('')
   const [artPhaseID, setArtPhaseID] = useState('')
+  const [ageLine, setAgeLine] = useState('')
   const [addArtRegimenCategory, { isLoading }] =
     useAddArtRegimenCategoryMutation()
 
@@ -38,7 +50,8 @@ const AddArtCategory = () => {
 
   const inputValues = {
     artCategoryDescription,
-    artPhaseID
+    artPhaseID,
+    ageLine
   }
 
   return (
@@ -56,6 +69,13 @@ const AddArtCategory = () => {
           value={artCategoryDescription}
           onChange={setArtCategoryDescription}
         />
+        <CustomSelect
+          label="Select Age"
+          data={ageLineOptions}
+          value={ageLine}
+          onChange={setAgeLine}
+        />
+
         <CustomSelect
           label="Select ART Phase"
           data={phaseDataOption()}
