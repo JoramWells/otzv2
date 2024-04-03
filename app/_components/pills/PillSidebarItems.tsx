@@ -47,6 +47,9 @@ const PillSidebarItems = () => {
         // ]}
       />
 
+      <SidebarCollapseButton label="Daily Uptake" icon={<BookCopy size={17} />}
+      link='pill-box/daily-uptake'
+      />
       <SidebarCollapseButton label="Reports" icon={<BookCopy size={17} />} />
     </>
   )
