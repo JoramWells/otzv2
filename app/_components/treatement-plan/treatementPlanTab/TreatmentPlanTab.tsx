@@ -11,6 +11,7 @@ import SideMenuBar from '../SideMenuBar'
 import { Button } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
+import { useGetTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
 
 const itemList = [
   {
@@ -38,7 +39,7 @@ export interface TreatmentPlanProps {
 const TreatmentPlanTab = ({ patientID }: TreatmentPlanProps) => {
   const [selected, setSelected] = useState(0)
 
-  const { data } = useGetAllAppointmentsQuery()
+  const { data } = useGetTimeAndWorkQuery(patientID)
   console.log(data, 'dtc')
 
   const handleStepChange = useCallback((step: number) => {

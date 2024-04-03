@@ -18,7 +18,7 @@ const Users = () => {
   }
 
   return (
-      <div className="p-5">
+      <div className="p-5 mt-12">
         <div
         className='flex flex-row justify-between items-center p-1'
         >

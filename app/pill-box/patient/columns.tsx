@@ -62,15 +62,24 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'currentARTRegimen',
-    header: 'ART Regimen'
+    header: 'ART Regimen',
+    cell: ({ row }) => <p>{row.original.art?.artName}</p>
+  },
+  {
+    accessorKey: 'noOfPills',
+    header: 'Total Pills'
+  },
+  {
+    accessorKey: 'nofOfPills',
+    header: 'Remaining Pills'
   },
   {
     accessorKey: 'refillDate',
     header: 'Refill Date',
     cell: ({ row }) => (
-        <div>
-          <p>{moment(row.original.refillDate).format('ll')}</p>
-        </div>
+      <div>
+        <p>{moment(row.original.refillDate).format('ll')}</p>
+      </div>
     )
   },
   {

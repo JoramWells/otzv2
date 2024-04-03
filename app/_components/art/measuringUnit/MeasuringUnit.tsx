@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useAddMeasuringUnitMutation, useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
 import { CustomTable } from '../../table/CustomTable'
-import { artMeasuringUnit } from '@/app/dashboard/art/columns'
+import { artMeasuringUnit } from '@/app/administrator/art/columns'
 import { CaseManagerDialog } from '../../patient/casemanager/CaseManagerDialog'
 import CustomInput from '../../forms/CustomInput'
 import { Button } from '@/components/ui/button'

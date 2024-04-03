@@ -26,7 +26,8 @@ const SidebarItems = () => {
     <div className="z-40">
       {/* <SidebarButton /> */}
       <SidebarCollapseButton
-        label="Dashboard"
+        link="administrator"
+        label="Administrator"
         icon={<LayoutDashboard size={17} />}
         itemList={[
           {
@@ -94,7 +95,7 @@ const SidebarItems = () => {
       />
       <SidebarCollapseButton
         label="Notify"
-        link='notify'
+        link="notify"
         icon={<CalendarDays size={17} />}
         itemList={[
           {
@@ -222,7 +223,7 @@ const SidebarItems = () => {
       {/*  */}
       <SidebarCollapseButton
         label="ViraTrack"
-        link='viratrack'
+        link="viratrack"
         icon={<ActivitySquare size={17} />}
         itemList={[
           {

@@ -7,7 +7,7 @@ import { Button } from '@chakra-ui/react'
 import MapComponent from '../map/MapComponent'
 import useCurrentLocation from '@/hooks/useCurrentLocation'
 import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
-import { holidaysColumn } from '@/app/dashboard/schools/columns'
+import { holidaysColumn } from '@/app/administrator/schools/columns'
 
 interface SchoolProps {
   handleClick: (value: number) => void

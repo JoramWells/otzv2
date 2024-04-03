@@ -12,7 +12,7 @@ import { useGetAllArtRegimenCategoriesQuery } from '@/api/art/artRegimenCategory
 import { useAddArtRegimenMutation, useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { CaseManagerDialog } from '../../patient/casemanager/CaseManagerDialog'
 import { CustomTable } from '../../table/CustomTable'
-import { artColumns } from '@/app/dashboard/art/columns'
+import { artColumns } from '@/app/administrator/art/columns'
 import { useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
 
 interface PhaseProps {

@@ -37,7 +37,7 @@ const Appointment = () => {
   }
 
   return (
-      <div className="p-5">
+      <div className="p-5 mt-12">
         <div
           className="rounded-md gap-x-4
            flex flex-row mt-4 mb-4
