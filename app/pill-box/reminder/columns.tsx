@@ -2,13 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import { Avatar, Tag, TagLeftIcon } from '@chakra-ui/react'
+import { Tag, TagLeftIcon } from '@chakra-ui/react'
 import { type MomentInput } from 'moment'
 import Link from 'next/link'
 import { Check, X } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 import { type ChangeEvent, useState } from 'react'
 import { useUpdatePillDailyUptakeMutation } from '@/api/treatmentplan/uptake.api'
+import Avatar from '@/app/_components/Avatar'
 // import { FaEdit } from 'react-icons/fa'
 
 // {
@@ -90,8 +91,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     cell: ({ row }) => (
       <div className="flex flex-row items-start gap-x-2">
         <Avatar
-          size={'sm'}
-          className="font-bold"
+          // size={'sm'}
+          // className="font-bold"
           name={`${row.original.timeAndWork?.patient?.firstName} ${row.original.timeAndWork?.patient?.middleName}`}
         />
         <div>

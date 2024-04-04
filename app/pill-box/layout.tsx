@@ -5,7 +5,6 @@ import '../globals.css'
 // import { Providers } from '../providers'
 import Navbar from '../_components/Navbar/Nav/Navbar'
 import { Sidebar } from '../_components/dashboard/Sidebar'
-import { ChakraProvider } from '@chakra-ui/react'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
@@ -14,7 +13,6 @@ import PillSidebarItems from '../_components/pills/PillSidebarItems'
 const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
-      <ChakraProvider>
         <SidebarProvider>
           <div className="flex flex-row">
             <Sidebar>
@@ -27,7 +25,6 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
         </SidebarProvider>
-      </ChakraProvider>
     </Provider>
   )
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Bar } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
 
@@ -33,13 +32,40 @@ const DoubleARTUptakeBarChart = ({
     ]
   }
 
-  const options = {
-    scales: {
-      xAxes: [{ stacked: true }],
-      yAxes: [{ stacked: true }]
-    }
-  }
-  return <Bar data={data} options={options} />
+  return (
+    <div
+      className="h-[350px] md:1/2 border rounded-lg
+  w-1/2
+  "
+    >
+      <Bar
+        data={data}
+        options={{
+          // scales: {
+          //   xAxes: [
+          //     {
+          //       scaleLabel: {
+          //         display: true,
+          //         labelString: 'Time Duration'
+          //       }
+          //     }
+          //   ]
+          // },
+          plugins: {
+            title: {
+              display: true,
+              text: 'Daily Dosage'
+            }
+          },
+          // scales: {
+          //   xAxes: [{ stacked: true }]
+          // },
+          responsive: true,
+          maintainAspectRatio: false
+        }}
+      />
+    </div>
+  )
 }
 
 export default DoubleARTUptakeBarChart
