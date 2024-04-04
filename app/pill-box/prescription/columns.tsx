@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Clock } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Avatar, Tag } from '@chakra-ui/react'
 import moment, { type MomentInput } from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
 
 import Link from 'next/link'
+import Avatar from '@/app/_components/Avatar'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -44,8 +43,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     cell: ({ row }) => (
       <div className="flex flex-row items-start gap-x-2">
         <Avatar
-          size={'sm'}
-          className="font-bold"
+          // size={'sm'}
+          // className="font-bold"
           name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
         />
         <div>

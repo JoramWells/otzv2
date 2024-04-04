@@ -4,11 +4,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Clock } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Avatar, Badge, Tag } from '@chakra-ui/react'
 import moment, { type MomentInput } from 'moment'
-import { calculateAge } from '@/utils/calculateAge'
 
 import Link from 'next/link'
+import Avatar from '../_components/Avatar'
+import Badge from '../_components/Badge'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -48,19 +48,16 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-start gap-x-2">
+      <div className="flex flex-row items-center gap-x-2">
         <Avatar
-          size={'sm'}
-          className="font-bold"
+          // size={'sm'}
+          // className="font-bold"
           name={`${row.original.appointment?.patient?.firstName} ${row.original.appointment?.patient?.middleName}`}
         />
         <div>
           <p className="capitalize font-semibold">{`${row.original.appointment?.patient?.firstName} ${row.original.appointment?.patient?.middleName}`}</p>
           <p className="capitalize text-slate-500">
             {row.original.appointment?.patient?.sex}{' '}
-          </p>
-          <p className="capitalize text-slate-500">
-            {calculateAge(row.original.appointment?.patient?.dob)} yrs
           </p>
         </div>
       </div>
@@ -108,8 +105,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
       <div>
         {row.original.notificationType === 'SMS'
           ? (
-          <Badge colorScheme="purple"
-          variant={'solid'}
+          <Badge color='teal'
           >SMS</Badge>
             )
           : (
@@ -117,47 +113,6 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
             )}
       </div>
     )
-  },
-  {
-    accessorKey: 'appointmentStatus',
-    header: 'STATUS',
-    cell: ({ row }) => {
-      const appointmentStatus =
-        row.original.appointmentStatus?.statusDescription
-      if (appointmentStatus === 'Missed') {
-        return (
-          <Tag
-            colorScheme="red"
-            rounded={'full'}
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-        )
-      } else if (appointmentStatus === 'Upcoming') {
-        return (
-          <Tag
-            colorScheme="blue"
-            rounded={'full'}
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-        )
-      } else if (appointmentStatus === 'Pending') {
-        return (
-          <Tag
-            colorScheme="orange"
-            rounded={'full'}
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-        )
-      } else if (appointmentStatus === 'Rescheduled') {
-        return (
-          <Tag
-            colorScheme="teal"
-            rounded={'full'}
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-        )
-      } else {
-        <Tag
-          rounded={'full'}
-        >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
-      }
-    }
   },
   {
     // accessorKey: 'action',

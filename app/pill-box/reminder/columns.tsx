@@ -2,12 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import { Tag, TagLeftIcon } from '@chakra-ui/react'
 import { type MomentInput } from 'moment'
 import Link from 'next/link'
-import { Check, X } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
-import { type ChangeEvent, useState } from 'react'
+import { useState } from 'react'
 import { useUpdatePillDailyUptakeMutation } from '@/api/treatmentplan/uptake.api'
 import Avatar from '@/app/_components/Avatar'
 // import { FaEdit } from 'react-icons/fa'
@@ -107,12 +105,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     header: 'Morning Status',
     cell: ({ row }) => (
       <div className="flex flex-col space-y-2">
-        <div
-        className='flex flex-row items-center space-x-2'
-        >
-          <p
-          className='font-bold text-slate-500'
-          >Time:</p>
+        <div className="flex flex-row items-center space-x-2">
+          <p className="font-bold text-slate-500">Time:</p>
           <p>{row.original.timeAndWork?.morningTime}</p>
         </div>
 
@@ -126,16 +120,10 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
           )}
           {row.original?.morningStatus
             ? (
-            <Tag colorScheme="teal" rounded={'full'}>
-              <TagLeftIcon as={Check} />
-              Completed
-            </Tag>
+            <p className="text-teal-600">Completed</p>
               )
             : (
-            <Tag color={'gray'}>
-              <TagLeftIcon as={X} />
-              Completed
-            </Tag>
+            <p className="text-slate-600">Completed</p>
               )}
         </div>
       </div>
@@ -150,16 +138,10 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         <div>
           {row.original?.eveningStatus
             ? (
-            <Tag>
-              <TagLeftIcon as={Check} />
-              Completed
-            </Tag>
+            <p className="text-teal-600">Completed</p>
               )
             : (
-            <Tag>
-              <TagLeftIcon as={X} />
-              Completed
-            </Tag>
+            <p className="text-slate-600">Completed</p>
               )}
         </div>
       </div>
