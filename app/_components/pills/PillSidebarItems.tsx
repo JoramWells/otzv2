@@ -1,7 +1,7 @@
 'use client'
 import '../../globals.css'
 
-import { useId } from 'react'
+// import { useId } from 'react'
 // import { SidebarButton } from './SidebarButton'
 // import { SidebarCollapseButton } from './SidebarCollapseButton'
 import {
@@ -16,19 +16,8 @@ const PillSidebarItems = () => {
     <>
       <SidebarCollapseButton
         label="Dashboard"
-        icon={<CalendarDays size={17} />}
-        itemList={[
-          {
-            id: useId(),
-            link: '/appointments/add-appointment',
-            label: 'New Appointment'
-          },
-          {
-            id: useId(),
-            link: '/notify/appointment',
-            label: 'View Appointments'
-          }
-        ]}
+        link="pill-box"
+       icon={<CalendarDays size={17} />}
       />
       <SidebarCollapseButton
         label="Patients"
@@ -47,8 +36,10 @@ const PillSidebarItems = () => {
         // ]}
       />
 
-      <SidebarCollapseButton label="Daily Uptake" icon={<BookCopy size={17} />}
-      link='pill-box/daily-uptake'
+      <SidebarCollapseButton
+        label="Daily Uptake"
+        icon={<BookCopy size={17} />}
+        link="pill-box/daily-uptake"
       />
       <SidebarCollapseButton label="Reports" icon={<BookCopy size={17} />} />
     </>

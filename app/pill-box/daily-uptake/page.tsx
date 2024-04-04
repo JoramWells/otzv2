@@ -8,8 +8,11 @@ import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 
 const AppointmentPage = () => {
   const { data } = useGetAllPillDailyUptakeQuery()
+  const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery({
+    patientsDueMorning: true
+  })
 
-  console.log(data, 'yu')
+  console.log(patientsDueMorning, 'yu')
 
   return (
     <div className="p-5 mt-12">

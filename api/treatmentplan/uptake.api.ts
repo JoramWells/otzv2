@@ -1,18 +1,22 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+interface AppointmentProps {
+  patientsDueMorning?: boolean
+}
+
 export const pillDailyUptakeApi = createApi({
   reducerPath: 'pillDailyUptakeApi',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/root-service/daily-uptake'
   }),
   endpoints: (builder) => ({
-    getAllPillDailyUptake: builder.query({
+    getAllPillDailyUptake: builder.query<any, AppointmentProps>({
       query: (params) => {
         if (params) {
-          const { medicationsDue } = params
+          const { patientsDueMorning } = params
           let queryString = ''
-          queryString += `medicationsDue=${medicationsDue}`
+          queryString += `patientsDueMorning=${patientsDueMorning}`
           return `/fetchAll?${queryString}`
         }
         return 'fetchAll'
@@ -26,12 +30,15 @@ export const pillDailyUptakeApi = createApi({
         body: response
       })
     }),
+    getPillDailyUptakeCount: builder.query({
+      query: () => 'dailyUptakeCount'
+    }),
     getPillDailyUptake: builder.query({
       query: (id) => `detail/${id}`
     }),
     updatePillDailyUptake: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `update${id}`,
+        url: `edit/${id}`,
         method: 'PUT',
         body: patch
       })
@@ -49,5 +56,6 @@ export const pillDailyUptakeApi = createApi({
 
 export const {
   useGetAllPillDailyUptakeQuery, useAddPillDailyUptakeMutation,
-  useGetPillDailyUptakeQuery
+  useGetPillDailyUptakeQuery, useUpdatePillDailyUptakeMutation,
+  useGetPillDailyUptakeCountQuery
 } = pillDailyUptakeApi

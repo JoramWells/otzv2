@@ -4,10 +4,29 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Avatar, Tag, TagLeftIcon } from '@chakra-ui/react'
 import { type MomentInput } from 'moment'
-
 import Link from 'next/link'
 import { Check, X } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
+import { type ChangeEvent, useState } from 'react'
+import { useUpdatePillDailyUptakeMutation } from '@/api/treatmentplan/uptake.api'
 // import { FaEdit } from 'react-icons/fa'
+
+// {
+//   header: 'Name',
+//   footer: props => props.column.id,
+//   columns: [
+//     {
+//       accessorKey: 'firstName',
+//       footer: props => props.column.id,
+//     },
+//     {
+//       accessorFn: row => row.lastName,
+//       id: 'lastName',
+//       header: () => <span>Last Name</span>,
+//       footer: props => props.column.id,
+//     },
+//   ],
+// },
 
 export interface FullNameProps {
   firstName?: string
@@ -40,6 +59,28 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
+interface EditableCellProps {
+  value: boolean | undefined
+  onChange: (value: boolean) => void
+}
+
+const EditableCell = ({ value, onChange, row }: EditableCellProps) => {
+  const [checked, setChecked] = useState(value)
+  const inputValues = {
+    id: row.original.id,
+    morningStatus: !checked
+  }
+  const [updatePillDailyUptake] = useUpdatePillDailyUptakeMutation()
+  const handleChange = () => {
+    setChecked(prev => !prev)
+    updatePillDailyUptake(inputValues)
+    // onChange(e)
+    console.log(row.original)
+  }
+
+  return <Switch checked={checked} onCheckedChange={() => { handleChange() }} />
+}
+
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'patient',
@@ -59,11 +100,18 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   },
   // <X />
   {
-    accessorKey: 'currentARTRegimen',
+    accessorKey: 'morningStatus',
     header: 'Morning Status',
     cell: ({ row }) => (
       <div>
         <p>{row.original.timeAndWork?.morningTime}</p>
+        <EditableCell
+          value={row.original?.morningStatus}
+          row={row}
+          onChange={(val: boolean) => {
+            console.log(row, 'f')
+          }}
+        />
         <div>
           {row.original?.morningStatus
             ? (
@@ -114,6 +162,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <Link href={`/notify/${row.original.id}`}>Edit </Link>
+    cell: ({ row }) => (
+      <Link href={`/pill-box/daily-uptake/${row.original.id}`}>Edit </Link>
+    )
   }
 ]

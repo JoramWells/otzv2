@@ -8,6 +8,7 @@ import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
 import { useGetAllTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
+import { useGetPillDailyUptakeCountQuery } from '@/api/treatmentplan/uptake.api'
 
 const dataList = [
   {
@@ -51,7 +52,9 @@ const NotifyPage = () => {
       medicationsDue: true
     }
   )
-  console.log(data, 'kl')
+
+  const { data: uptakeCount } = useGetPillDailyUptakeCountQuery()
+  console.log(uptakeCount, 'kl')
 
   return (
     <div className="w-full mt-12 p-5 flex-col flex space-y-6">
