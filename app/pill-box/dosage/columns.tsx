@@ -61,10 +61,9 @@ export interface PatientProps {
 
 interface EditableCellProps {
   value: boolean | undefined
-  onChange: (value: boolean) => void
 }
 
-const EditableCell = ({ value, onChange, row }: EditableCellProps) => {
+const EditableCell = ({ value, row }: EditableCellProps) => {
   const [checked, setChecked] = useState(value)
   const inputValues = {
     id: row.original.id,
@@ -78,7 +77,10 @@ const EditableCell = ({ value, onChange, row }: EditableCellProps) => {
     console.log(row.original)
   }
 
-  return <Switch checked={checked} onCheckedChange={() => { handleChange() }} />
+  return <Switch checked={checked}
+  onCheckedChange={() => { handleChange() }}
+  className='text-teal-600'
+  />
 }
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
@@ -103,25 +105,33 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'morningStatus',
     header: 'Morning Status',
     cell: ({ row }) => (
-      <div>
-        <p>{row.original.timeAndWork?.morningTime}</p>
-        <EditableCell
-          value={row.original?.morningStatus}
-          row={row}
-          onChange={(val: boolean) => {
-            console.log(row, 'f')
-          }}
-        />
-        <div>
+      <div className="flex flex-col space-y-2">
+        <div
+        className='flex flex-row items-center space-x-2'
+        >
+          <p
+          className='font-bold text-slate-500'
+          >Time:</p>
+          <p>{row.original.timeAndWork?.morningTime}</p>
+        </div>
+
+        <div
+          className="flex flex-row space-x-2
+        items-center
+        "
+        >
+          {!row.original?.morningStatus && (
+            <EditableCell value={row.original?.morningStatus} row={row} />
+          )}
           {row.original?.morningStatus
             ? (
-            <Tag>
+            <Tag colorScheme="teal" rounded={'full'}>
               <TagLeftIcon as={Check} />
               Completed
             </Tag>
               )
             : (
-            <Tag>
+            <Tag color={'gray'}>
               <TagLeftIcon as={X} />
               Completed
             </Tag>

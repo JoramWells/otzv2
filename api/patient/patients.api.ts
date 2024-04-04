@@ -7,6 +7,7 @@ interface Post {
   id: number
   name: string
 }
+
 type PostsResponse = Post[]
 
 export const patientsApi = createApi({

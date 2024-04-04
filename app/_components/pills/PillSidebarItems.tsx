@@ -7,7 +7,8 @@ import '../../globals.css'
 import {
   BookCopy,
   CalendarDays,
-  MessageSquareText
+  MessageSquareText,
+  Tablets
 } from 'lucide-react'
 import { SidebarCollapseButton } from '../dashboard/SidebarCollapseButton'
 
@@ -17,11 +18,11 @@ const PillSidebarItems = () => {
       <SidebarCollapseButton
         label="Dashboard"
         link="pill-box"
-       icon={<CalendarDays size={17} />}
+        icon={<CalendarDays size={17} />}
       />
       <SidebarCollapseButton
-        label="Patients"
-        link="pill-box/patient"
+        label="Prescription"
+        link="pill-box/prescription"
         icon={<MessageSquareText size={17} />}
         // itemList={[
         //   {
@@ -35,11 +36,10 @@ const PillSidebarItems = () => {
         //   }
         // ]}
       />
-
       <SidebarCollapseButton
-        label="Daily Uptake"
-        icon={<BookCopy size={17} />}
-        link="pill-box/daily-uptake"
+        label="Dosage"
+        icon={<Tablets size={17} />}
+        link="pill-box/dosage"
       />
       <SidebarCollapseButton label="Reports" icon={<BookCopy size={17} />} />
     </>
