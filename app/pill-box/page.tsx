@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
 import { useGetAllTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
 import { useGetPillDailyUptakeCountQuery } from '@/api/treatmentplan/uptake.api'
+import DoubleARTUptakeBarChart from '../_components/charts/DoubleARTUptakeBarChart'
 
 const dataList = [
   {
@@ -135,7 +136,12 @@ const NotifyPage = () => {
           </div>
         ))}
       </div> */}
-      <WeeklyAppointmentBarChart />
+      <DoubleARTUptakeBarChart
+        morningTrueCount={uptakeCount?.morningTrueCount}
+        morningFalseCount={uptakeCount?.morningFalseCount}
+        eveningTrueCount={uptakeCount?.eveningTrueCount}
+        eveningFalseCount={uptakeCount?.eveningFalseCount}
+      />
     </div>
   )
 }
