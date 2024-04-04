@@ -5,9 +5,11 @@ import '../../globals.css'
 // import { SidebarButton } from './SidebarButton'
 // import { SidebarCollapseButton } from './SidebarCollapseButton'
 import {
+  BellDot,
   BookCopy,
   CalendarDays,
   MessageSquareText,
+  Pill,
   Tablets
 } from 'lucide-react'
 import { SidebarCollapseButton } from '../dashboard/SidebarCollapseButton'
@@ -23,7 +25,7 @@ const PillSidebarItems = () => {
       <SidebarCollapseButton
         label="Prescription"
         link="pill-box/prescription"
-        icon={<MessageSquareText size={17} />}
+        icon={<Pill size={17} />}
         // itemList={[
         //   {
         //     id: useId(),
@@ -37,9 +39,9 @@ const PillSidebarItems = () => {
         // ]}
       />
       <SidebarCollapseButton
-        label="Dosage"
-        icon={<Tablets size={17} />}
-        link="pill-box/dosage"
+        label="Reminder"
+        icon={<BellDot size={17} />}
+        link="pill-box/reminder"
       />
       <SidebarCollapseButton label="Reports" icon={<BookCopy size={17} />} />
     </>
