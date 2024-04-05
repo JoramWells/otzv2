@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
@@ -60,6 +61,11 @@ export interface PatientProps {
 
 interface EditableCellProps {
   value: boolean | undefined
+  row: {
+    original: {
+      id: string
+    }
+  }
 }
 
 const EditableCell = ({ value, row }: EditableCellProps) => {

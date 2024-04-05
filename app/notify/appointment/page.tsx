@@ -16,7 +16,10 @@ import { CircleFadingPlus, PlusCircle } from 'lucide-react'
 const AppointmentPage = () => {
   const [appointments, setAppointments] = useState([])
   const [value, setValue] = useState<number>(1)
-  const { data } = useGetAllAppointmentsQuery()
+  const { data } = useGetAllAppointmentsQuery({
+    date: '',
+    mode: ''
+  })
 
   const showNotification = useNotification()
 
@@ -116,12 +119,12 @@ const AppointmentPage = () => {
 
       {value === 1 && <CustomTable columns={columns} data={data || []} />}
 
-      {value === 2 && (
+      {/* {value === 2 && (
         <AppointmentStatusTab
           columns={columns}
           data={pendingAppointment() || []}
         />
-      )}
+      )} */}
 
       {value === 3 && (
         <CustomTable columns={columns} data={rescheduledAppointment() || []} />
