@@ -14,8 +14,14 @@ import { BellDot, BookCopy, CalendarCheck, MessageCircleMore, MessageSquareText,
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
-    label: 'Appointments',
+    label: 'Dashboard',
     link: 'notify',
+    icon: <CalendarCheck size={17} />
+  },
+  {
+    id: '7',
+    label: 'Appointments',
+    link: 'notify/appointments',
     icon: <CalendarCheck size={17} />
   },
   {

@@ -16,10 +16,7 @@ import { CircleFadingPlus, PlusCircle } from 'lucide-react'
 const AppointmentPage = () => {
   const [appointments, setAppointments] = useState([])
   const [value, setValue] = useState<number>(1)
-  const { data } = useGetAllAppointmentsQuery({
-    date: '',
-    mode: ''
-  })
+  const { data } = useGetAllAppointmentsQuery()
 
   const showNotification = useNotification()
 
