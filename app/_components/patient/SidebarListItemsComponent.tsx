@@ -27,6 +27,7 @@ const SidebarListItemsComponent = ({ dataList }: SidebarProps) => {
     <>
       {dataList.map((item) => (
         <SidebarCollapseButton
+        link={item.link}
           key={item.id}
           label={item.label}
           icon={item.icon}

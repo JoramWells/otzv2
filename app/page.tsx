@@ -50,6 +50,18 @@ const itemList = [
     label: 'Home Visit',
     icon: <HomeIcon />,
     link: '/home-visits'
+  },
+  {
+    id: '9',
+    label: 'Lab',
+    icon: <HomeIcon />,
+    link: '/home-visits'
+  },
+  {
+    id: '10',
+    label: 'Pharmacy',
+    icon: <HomeIcon />,
+    link: '/home-visits'
   }
 ]
 

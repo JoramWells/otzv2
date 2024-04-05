@@ -1,142 +1,134 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/require-array-sort-compare */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { CustomTable } from '../_components/table/CustomTable'
-import { columns } from './columns'
-import { useCallback, useMemo, useState } from 'react'
-import { Tag } from '@chakra-ui/react'
-import { type MomentInput } from 'moment'
-import { calculateAge } from '@/utils/calculateAge'
-import { Button } from '@/components/ui/button'
-import { PlusCircle } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import CustomTab from '../_components/tab/CustomTab'
 
-interface ItemsProps {
-  dob: MomentInput
+import { Divider } from '@chakra-ui/react'
+import { Users } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
+import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
+import PieChart from '../_components/charts/PieChart'
+import { calculateAgeRange } from '@/utils/calculateAgeRange'
+import LineChartEnrollment from '../_components/charts/LineChartENrollment'
+import LineChart from '../_components/charts/LineChart'
+
+const dataList = [
+  {
+    id: '1',
+    label: 'Registered Patients',
+    count: 50,
+    link: '/patients/registered-patients'
+  },
+  {
+    id: '2',
+    label: 'Deceased',
+    count: 20,
+    link: ''
+  },
+  {
+    id: '3',
+    label: 'Scheduled Voice Calls',
+    count: 13,
+    link: ''
+  },
+  {
+    id: '4',
+    label: 'App Notification',
+    count: 7,
+    link: ''
+  }
+]
+
+interface DataPops {
+  id: number
+  year: number
+  userGain: number
+  userLost: number
 }
 
-const Patients = () => {
-  // const datax = await getPatients()
+const NotifyPage = () => {
   const { data } = useGetAllPatientsQuery()
-  const [value, setValue] = useState<number>(1)
-
-  const paedData = useCallback(() => {
-    const dtx = data?.filter((item: ItemsProps) => {
-      const age = calculateAge(item.dob)
-      return age >= 0 && age <= 9
-    })
-    return dtx
-  }, [data])
-
-  // otz
-  const otzData = useCallback(() => {
-    const dtx = data?.filter((item: ItemsProps) => {
-      const age = calculateAge(item.dob)
-      return age >= 9 && age <= 19
-    })
-    return dtx
-  }, [data])
-
-  // otz plus
-  const otzPlusData = useCallback(() => {
-    const dtx = data?.filter((item: ItemsProps) => {
-      const age = calculateAge(item.dob)
-      return age >= 19 && age <= 24
-    })
-    return dtx
-  }, [data])
-
-  // otz plus
-  const adultData = useCallback(() => {
-    const dtx = data?.filter((item: ItemsProps) => {
-      const age = calculateAge(item.dob)
-      return age >= 24
-    })
-    return dtx
-  }, [data])
-
-  console.log(paedData(), 'dtc')
-
-  const categoryList = useMemo(
-    () => [
-      {
-        id: 1,
-        label: 'All',
-        description: 'All patients',
-        count: data?.length
-      },
-      {
-        id: 2,
-        label: 'Paeds',
-        description: '0 yrs to 9 yrs',
-        count: paedData()?.length
-      },
-      {
-        id: 3,
-        label: 'OTZ',
-        description: '10 yrs to 19 yrs',
-        count: otzData()?.length
-      },
-      {
-        id: 4,
-        label: 'OTZ plus',
-        description: '20 yrs to 24 yrs',
-        count: otzPlusData()?.length
-      },
-      {
-        id: 5,
-        label: 'Adults',
-        description: 'Above 25 yrs',
-        count: adultData()?.length
-      }
-    ],
-    [data?.length, paedData, otzData, otzPlusData, adultData]
-  )
-
+  console.log(data, 'fr')
   const router = useRouter()
 
+  const ageRanges: Array<[number, number]> = [
+    [0, 9],
+    [10, 19],
+    [20, 24],
+    [25, Infinity]
+  ]
+
+  const pieChartData = {
+    labels: ['Paediatric', 'OTZ', 'OTZ Plus', 'Adult'],
+    datasets: [
+      {
+        data: calculateAgeRange(data || [], ageRanges),
+        backgroundColor: ['#d197a4', '#36A2EB', '#FFCE56', '#4BC0C0']
+      }
+    ]
+  }
+  const uniqueDates = Array.from(new Set(data?.map((entry: any) => entry.dateConfirmedPositive)))
+  uniqueDates.sort()
+
+  // Assuming uniqueDates is an array of unique dates
+  const uniqueYears = [...new Set(uniqueDates.map(date => new Date(date).getFullYear()))]
+
+  // Count the number of patients for each year
+  const patientsCountPerYear = uniqueYears.map(year => {
+    return data?.filter((item: any) => new Date(item.dateConfirmedPositive).getFullYear() === year).length
+  })
+
+  const barCartData = {
+    labels: uniqueYears,
+    datasets: [{ data: patientsCountPerYear }]
+  }
+
   return (
-    <div className="p-5 mt-12">
-      <div className="mb-4 flex flex-row justify-between items-center">
-        <p className="text-lg font-bold">Registered Patients</p>
-        <Button
-          className="bg-teal-600 hover:bg-teal-700
-        font-bold shadow-none
-        "
-          onClick={() => {
-            router.push('/patients/add-patients')
-          }}
-        >
-          <PlusCircle size={18} className="mr-2" />
-          New Patient
-        </Button>
+    <div className="w-full mt-12 p-5 flex-col flex space-y-6">
+      <div className="">
+        <h1 className="font-semibold text-2xl">Patient Management</h1>
+        <p className="text-slate-500">Manage registered patients.</p>
       </div>
+      <div className="flex w-full justify-between flex-wrap">
+        {dataList.map((item, idx) => (
+          <div
+            key={idx}
+            className="border border-slate-200 rounded-lg p-5
+             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
+      "
+            onClick={() => router.push('/notify/appointment')}
+          >
+            <div className="flex flex-row items-center justify-between">
+              <h1 className="font-bold text-lg">{item.label}</h1>
+              <Users size={20} />
+            </div>
+            <p className="text-2xl font-bold">{item.count}</p>
+            <p className="text-slate-500 text-sm">Since last month</p>
+          </div>
+        ))}
+      </div>
+      <Divider />
+      <div className="">
+        <h1
+          className="font-semibold text-2xl
+        capitalize
+        "
+        >
+          Dashboard Analytics
+        </h1>
 
-      <CustomTab
-        categoryList={categoryList}
-        value={value}
-        setValue={setValue}
-      />
-
-      {value === 1 && <CustomTable columns={columns} data={data || []} />}
-
-      {value === 2 && <CustomTable columns={columns} data={paedData() || []} />}
-
-      {value === 3 && <CustomTable columns={columns} data={otzData() || []} />}
-
-      {/* plus */}
-      {value === 4 && (
-        <CustomTable columns={columns} data={otzPlusData() || []} />
-      )}
-
-      {/* adult */}
-      {value === 5 && (
-        <CustomTable columns={columns} data={adultData() || []} />
-      )}
+        <p>Scheduled the following appointments</p>
+      </div>
+      <LineChart data={barCartData} />
+      <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
+        <WeeklyAppointmentBarChart />
+        <PieChart data={pieChartData} />
+      </div>
     </div>
   )
 }
 
-export default Patients
+export default NotifyPage
