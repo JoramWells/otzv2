@@ -13,6 +13,7 @@ export interface FullNameProps {
 }
 
 export interface ColumnProps {
+  art: any
   refillDate: MomentInput
   appointmentTime: MomentInput
   appointmentDate: any

@@ -20,7 +20,9 @@ interface ItemsProps {
 
 const TreatmentPlan = () => {
   // const datax = await getPatients()
-  const { data } = useGetAllTimeAndWorkQuery()
+  const { data } = useGetAllTimeAndWorkQuery({
+    medicationsDue: false
+  })
   const [value, setValue] = useState<number>(1)
 
   const paedData = useCallback(() => {

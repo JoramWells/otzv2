@@ -118,12 +118,12 @@ const AppointmentPage = () => {
 
       {value === 1 && <CustomTable columns={columns} data={data || []} />}
 
-      {value === 2 && (
+      {/* {value === 2 && (
         <AppointmentStatusTab
           columns={columns}
           data={pendingAppointment() || []}
         />
-      )}
+      )} */}
 
       {value === 3 && (
         <CustomTable columns={columns} data={rescheduledAppointment() || []} />

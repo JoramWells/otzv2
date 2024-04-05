@@ -6,12 +6,10 @@ import { useId } from 'react'
 import { SidebarCollapseButton } from './SidebarCollapseButton'
 import {
   LayoutDashboard,
-  HandCoins,
   CalendarDays,
   BookCheck,
   Warehouse,
   TestTubes,
-  Pill,
   Baby,
   Users,
   Syringe,

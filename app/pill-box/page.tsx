@@ -54,7 +54,9 @@ const NotifyPage = () => {
     }
   )
 
-  const { data: uptakeCount } = useGetPillDailyUptakeCountQuery()
+  const { data: uptakeCount } = useGetPillDailyUptakeCountQuery({
+    patientsDueMorning: true
+  })
   console.log(uptakeCount, 'kl')
 
   return (

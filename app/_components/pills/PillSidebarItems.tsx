@@ -8,9 +8,7 @@ import {
   BellDot,
   BookCopy,
   CalendarDays,
-  MessageSquareText,
-  Pill,
-  Tablets
+  Pill
 } from 'lucide-react'
 import { SidebarCollapseButton } from '../dashboard/SidebarCollapseButton'
 

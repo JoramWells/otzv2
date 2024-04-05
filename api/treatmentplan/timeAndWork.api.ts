@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+interface AppointmentProps {
+  medicationsDue?: boolean
+}
+
 export const timeAndWorkApi = createApi({
   reducerPath: 'timeAndWorkApi',
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/root-service/time-and-work'
   }),
   endpoints: (builder) => ({
-    getAllTimeAndWork: builder.query({
+    getAllTimeAndWork: builder.query<any, AppointmentProps>({
       query: (params) => {
         if (params) {
           const { medicationsDue } = params

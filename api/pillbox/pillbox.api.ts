@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const pillBoxApi = createApi({
@@ -6,7 +7,7 @@ export const pillBoxApi = createApi({
     baseUrl: '/api/root-service/pills'
   }),
   endpoints: (builder) => ({
-    getAllPills: builder.query({
+    getAllPills: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addPill: builder.mutation({

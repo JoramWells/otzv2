@@ -11,7 +11,7 @@ const AppointmentPage = () => {
     patientsDueMorning: false
   })
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery({
-    patientsDueMorning: true
+    patientsDueMorning: false
   })
 
   console.log(patientsDueMorning, 'yu')
