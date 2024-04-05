@@ -1,4 +1,4 @@
-import { Avatar } from '@chakra-ui/react'
+import Avatar from '@/app/_components/Avatar'
 import moment from 'moment'
 
 const NotificationPage = () => {
@@ -6,7 +6,6 @@ const NotificationPage = () => {
     <div className="pt-14 w-full flex flex-row items-center justify-center">
       <div className="p-2 flex space-x-6 border rounded-lg w-1/2">
         <Avatar name="Ruth Kiloni"
-        size={'sm'}
         />
         <div>
           <p
