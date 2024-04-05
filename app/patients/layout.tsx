@@ -33,7 +33,7 @@ const DL: SidebarListItemsProps[] = [
     itemList: [
       {
         id: '1',
-        link: '/home-visits',
+        link: '/patients/enrollment/otz',
         label: 'OTZ'
       },
       {

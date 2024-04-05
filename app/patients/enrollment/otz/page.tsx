@@ -11,7 +11,7 @@ const OTZ = () => {
   console.log(data, 'dtc')
 
   return (
-    <div className="ml-64 pt-12">
+    <div className="pt-12">
       <div className="p-5">
         <p className="mb-4 text-xl text-slate-700">
           OTZ Patients
