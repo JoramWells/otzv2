@@ -4,28 +4,101 @@ import { Sidebar } from '../_components/dashboard/Sidebar'
 import Navbar from '../_components/Navbar/Nav/Navbar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
-import { ChakraProvider } from '@chakra-ui/react'
 import { NotificationProvider } from '@/context/NotificationContext'
 import { SidebarProvider } from '@/context/SidebarContext'
-import AdministratorSidebarItems from '../_components/dashboard/AdministratorSidebarItems'
+import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
+import { LayoutDashboardIcon, Map, Pill, Users, Warehouse } from 'lucide-react'
+
+const DL: SidebarListItemsProps[] = [
+  {
+    id: '1',
+    label: 'Administrator',
+    link: 'administrator',
+    icon: <LayoutDashboardIcon size={17} />
+  },
+  {
+    id: '2',
+    label: 'Appointment',
+    link: 'pill-box/prescription',
+    icon: <Pill size={17} />,
+    itemList: [
+      {
+        id: '1',
+        label: 'Agenda',
+        link: '/'
+      },
+      {
+        id: '2',
+        label: 'Status',
+        link: '/'
+      }
+    ]
+  },
+  {
+    id: '3',
+    label: 'Drugs',
+    link: 'administrator/drugs',
+    icon: <Pill size={17} />
+  },
+  {
+    id: '4',
+    label: 'Facilities',
+    link: 'administrator/facilities',
+    icon: <Warehouse size={17} />
+  },
+  {
+    id: '5',
+    label: 'Ome Visit',
+    link: 'administrator/home-visit',
+    icon: <Warehouse size={17} />
+  },
+  {
+    id: '6',
+    label: 'Lab',
+    link: 'administrator/lab',
+    icon: <Warehouse size={17} />
+  },
+  {
+    id: '7',
+    label: 'Lab',
+    link: 'administrator/location',
+    icon: <Map size={17} />
+  },
+  {
+    id: '8',
+    label: 'Users',
+    link: 'administrator/users',
+    icon: <Users size={17} />
+  },
+  {
+    id: '9',
+    label: 'Occupation',
+    link: 'administrator/occupation',
+    icon: <Users size={17} />
+  },
+  {
+    id: '10',
+    label: 'Matrons',
+    link: 'administrator/matrons',
+    icon: <Users size={17} />
+  }
+]
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
       <SidebarProvider>
         <NotificationProvider>
-          <ChakraProvider>
-            <div className="flex flex-row">
-              <Sidebar>
-                <AdministratorSidebarItems />
-              </Sidebar>
-              <div className="flex flex-col flex-1 h-screen overflow-y-auto">
-                <Navbar />
+          <div className="flex flex-row">
+            <Sidebar>
+              <SidebarListItemsComponent dataList={DL} />
+            </Sidebar>
+            <div className="flex flex-col flex-1 h-screen overflow-y-auto">
+              <Navbar />
 
-                {children}
-              </div>
+              {children}
             </div>
-          </ChakraProvider>
+          </div>
         </NotificationProvider>
       </SidebarProvider>
     </Provider>

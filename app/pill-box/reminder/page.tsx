@@ -7,9 +7,7 @@ import { PlusCircle } from 'lucide-react'
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 
 const AppointmentPage = () => {
-  const { data } = useGetAllPillDailyUptakeQuery({
-    patientsDueMorning: false
-  })
+  const { data } = useGetAllPillDailyUptakeQuery()
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery({
     patientsDueMorning: false
   })

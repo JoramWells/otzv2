@@ -19,25 +19,25 @@ export interface BarChartProps {
   datasets: Array<ChartDataset<'bar', Array<number | [number, number] | null>>>
 }
 
-const chartOptions: ChartOptions<'bar'> = {
+const chartOptions = {
   scales: {
-    x: {
-      type: 'linear'
+    xAxes: {
+      // type: 'linear'
       // ticks: {
       //   beginAtZero: true
-      // }
-      // scaleLabel: {
-      //   display: true,
-      //   labelString: 'Day of the Week'
-      // }
+      // },
+      scaleLabel: {
+        display: true,
+        labelString: 'Day of the Week'
+      }
     },
-    y:
+    yAxes:
       {
-        type: 'linear'
-        // scaleLabel: {
-        //   display: true,
-        //   labelString: 'Number of Appointments'
-        // }
+        // type: 'linear'
+        scaleLabel: {
+          display: true,
+          labelString: 'Number of Appointments'
+        }
         // ticks: {
         //   beginAtZero: true
         // }
@@ -89,7 +89,17 @@ const WeeklyAppointmentBarChart = () => {
     <div className="h-[320px] w-[500px] border rounded-lg">
       <h1 className="font-bold text-lg">Enrollment</h1>
       <div className="pb-10 pl-5 pr-5 w-full h-full">
-        <Bar data={chartData} options={chartOptions} />
+        <Bar data={chartData} options={{
+          plugins: {
+            // title: {
+            //   display: true,
+            //   text: 'Patient Data'
+            // }
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }}
+     />
       </div>
     </div>
   )

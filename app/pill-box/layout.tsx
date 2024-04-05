@@ -8,25 +8,53 @@ import { Sidebar } from '../_components/dashboard/Sidebar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
-import PillSidebarItems from '../_components/pills/PillSidebarItems'
+import { BellDot, BookCopy, LayoutDashboardIcon, Pill } from 'lucide-react'
+import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 
-const PatientLayout = ({ children }: { children: React.ReactNode }) => {
+const DL: SidebarListItemsProps[] = [
+  {
+    id: '1',
+    label: 'Dashboard',
+    link: 'patients',
+    icon: <LayoutDashboardIcon size={17} />
+  },
+  {
+    id: '2',
+    label: 'Prescription',
+    link: 'pill-box/prescription',
+    icon: <Pill size={17} />
+  },
+  {
+    id: '3',
+    label: 'Reminder',
+    link: 'pill-box/reminder',
+    icon: <BellDot size={17} />
+  },
+  {
+    id: '4',
+    label: 'Reports',
+    link: 'viratrack/reports',
+    icon: <BookCopy size={17} />
+  }
+]
+
+const PillLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
-        <SidebarProvider>
-          <div className="flex flex-row">
-            <Sidebar>
-              <PillSidebarItems />
-            </Sidebar>
-            <div className="flex flex-col flex-1 h-screen overflow-y-auto">
-              <Navbar />
+      <SidebarProvider>
+        <div className="flex flex-row">
+          <Sidebar>
+            <SidebarListItemsComponent dataList={DL} />
+          </Sidebar>
+          <div className="flex flex-col flex-1 h-screen overflow-y-auto">
+            <Navbar />
 
-              {children}
-            </div>
+            {children}
           </div>
-        </SidebarProvider>
+        </div>
+      </SidebarProvider>
     </Provider>
   )
 }
 
-export default PatientLayout
+export default PillLayout
