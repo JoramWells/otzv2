@@ -2,7 +2,6 @@
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Dot } from 'lucide-react'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 
@@ -11,6 +10,7 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  dob: MomentInput
   viralLoads: any
   sex: string
   middleName: any
@@ -39,7 +39,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row gap-x-3">
+      <div className="flex flex-row gap-x-3 items-center">
         <div className="relative">
           <Avatar
             size={'sm'}
@@ -55,31 +55,23 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
               />
           )}
         </div>
-        <div className="flex flex-col space-y-1">
           <Link
             className="capitalize font-bold text-slate-700"
             href={`/patients/${row.original.id}`}
           >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
-
-          <div className="flex flex-row text-sm text-slate-500 items-center">
-            <p>{row.original?.sex}</p>
-            <Dot />
-            <p>{calculateAge(row.original.dob)} years</p>
-            {/* <p>{row.original.phoneNo}</p> */}
-          </div>
-        </div>
       </div>
     )
   },
   {
-    accessorKey: 'dateConfirmedPositive',
-    header: 'date'
+    accessorKey: 'sex',
+    header: 'Sex'
     // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
   },
   {
-    accessorKey: 'ageAtReporting',
-    header: 'date'
-    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
+    accessorKey: 'dob',
+    header: 'DOB',
+    cell: ({ row }) => <p>{calculateAge(row.original?.dob)}</p>,
+    enableSorting: true
   },
   {
     accessorKey: 'populationType',

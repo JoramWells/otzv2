@@ -27,7 +27,8 @@ import {
   type VisibilityState,
   getPaginationRowModel,
   type ColumnFiltersState,
-  getFilteredRowModel
+  getFilteredRowModel,
+  type SortingState
 } from '@tanstack/react-table'
 import { BookOpen, Download } from 'lucide-react'
 import { useState } from 'react'
@@ -44,7 +45,7 @@ export function CustomTable<TData, TValue> ({
   isSearch = true
 }: CustomTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({})
-
+  const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -52,6 +53,7 @@ export function CustomTable<TData, TValue> ({
   const table = useReactTable({
     data,
     columns,
+    onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -60,6 +62,7 @@ export function CustomTable<TData, TValue> ({
     onColumnVisibilityChange: setColumnVisibility,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
+      sorting,
       columnVisibility,
       rowSelection,
       columnFilters

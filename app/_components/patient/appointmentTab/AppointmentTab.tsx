@@ -2,79 +2,30 @@
 /* eslint-disable no-new */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useGetAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
-import { CustomTable } from '../../table/CustomTable'
-import { columns } from './columns'
 import { Calendar, CalendarDays, Clock2, Trash2 } from 'lucide-react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin, { Draggable } from '@fullcalendar/interaction'
+import interactionPlugin from '@fullcalendar/interaction'
 import multiMonthPlugin from '@fullcalendar/multimonth'
 
-import { useEffect, useState } from 'react'
-import { Button, Center, Divider, Tag } from '@chakra-ui/react'
+import { useState } from 'react'
+import { Button, Divider, Tag } from '@chakra-ui/react'
 import Link from 'next/link'
 import moment from 'moment'
+import EditAppointmentDialog from '../../appointment/EditAppointmentDialog'
 
 export interface AppointmentTabProps {
   patientID: string
 }
 
-interface Event {
-  title: string
-  start?: Date | string
-  allDay?: boolean
-  id: number
-}
-
 const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
-  const [events, setEvents] = useState([
-    {
-      id: '1',
-      title: 'Support Group'
-    },
-    {
-      id: '2',
-      title: 'Refill'
-    },
-    {
-      id: '3',
-      title: 'Home visit'
-    },
-    {
-      id: '4',
-      title: 'Viral Load'
-    }
-  ])
-
-  const [allEvents, setAllEvents] = useState<Event[]>([])
-  const [newEvent, setNewEvent] = useState<Event>({
-    id: 0,
-    title: '',
-    start: '',
-    allDay: false
-  })
-
-  useEffect(() => {
-    const draggableEl = document.getElementById('draggable-el')
-    if (draggableEl) {
-      new Draggable(draggableEl, {
-        itemSelector: '.fc-event',
-        eventData: function (eventEl) {
-          const title = eventEl.innerText
-          const id = eventEl.dataset.id
-          // const start = eventEl.getAttribute('start')
-          return { title, id }
-        }
-      })
-    }
-  }, [])
-
   const [isCalendarVisible, setIsCalendarVisible] = useState(false)
-  const { data } = useGetAppointmentDetailQuery(patientID)
+  const { data } = useGetAppointmentDetailQuery(patientID, {
+    type: 'patient'
+  })
   console.log(data, 'dtc')
 
   return (
@@ -94,8 +45,9 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
               isCalendarVisible && 'bg-teal-600 text-white'
             }`}
           />
+          <EditAppointmentDialog patientID={patientID} />
           <Button size={'sm'} colorScheme="green" variant={'outline'}>
-            <Link href={`/appointments/add-appointment/${patientID}`}>NEW</Link>
+            <Link href={`/notify/add-appointment/${patientID}`}>NEW</Link>
           </Button>
         </div>
       </div>
@@ -178,7 +130,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
                 left: 'multiMonthYear, dayGridMonth ,timeGridWeek',
                 right: 'prev,next,today'
               }}
-              events={events}
+              // events={events}
               nowIndicator={true}
               editable={true}
               droppable={true}

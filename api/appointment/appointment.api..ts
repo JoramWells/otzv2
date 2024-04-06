@@ -7,6 +7,11 @@ interface AppointmentProps {
   mode?: string
 }
 
+interface AppointmentDetailProps {
+  id: string
+  type: string
+}
+
 export const appointmentApi = createApi({
   reducerPath: 'appointmentApi',
   baseQuery: fetchBaseQuery({
@@ -36,7 +41,16 @@ export const appointmentApi = createApi({
       })
     }),
     getAppointment: builder.query({
-      query: (id) => `detail/${id}`
+      query: (id, params) => {
+        // const { id } = params
+        let queryString = ''
+
+        if (params) {
+          const { type } = params
+          queryString += `?type=${type}`
+        }
+        return `detail?/${id}${queryString}`
+      }
     }),
     getAppointmentDetail: builder.query({
       query: (id) => `appointmentDetail/${id}`
