@@ -107,10 +107,10 @@ const AddPatient = () => {
   const [addPatient, { isLoading }] = useAddPatientMutation()
 
   return (
-    <div className="flex flex-row justify-center p-2">
+    <div className="flex flex-row justify-center p-4 mt-12">
       <div
         style={{
-          width: '45%'
+          width: '50%'
         }}
       >
         <div

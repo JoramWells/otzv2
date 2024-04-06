@@ -7,11 +7,11 @@ import { useState } from 'react'
 
 const genderOptions = [
   {
-    id: '1',
+    id: 'MALE',
     label: 'MALE'
   },
   {
-    id: '2',
+    id: 'FEMALE',
     label: 'FEMALE'
   }
 ]
