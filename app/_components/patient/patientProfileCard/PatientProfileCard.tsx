@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { Avatar, Divider, Tag } from '@chakra-ui/react'
-import { Pencil } from 'lucide-react'
+import { Pencil, Settings } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
-import { CustomSMSSheet } from '../../sms/CustomSMSSheet'
+// import { CustomSMSSheet } from '../../sms/CustomSMSSheet'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 export interface PatientProfileCardProps {
   userData: UserDataProps
@@ -22,6 +25,7 @@ export interface UserDataProps {
 
 const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) => {
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
+  const router = useRouter()
 
   return (
     <div
@@ -106,8 +110,16 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
         </div>
 
         <div className="mt-4 w-full flex flex-col space-y-2">
+          <Button
+          onClick={() => router.push(`/patients/settings/${patientID}`)}
+          >
+            <Settings
+            className='mr-2'
+            size={18}
+            />
+            Settings</Button>
 
-          <CustomSMSSheet/>
+          {/* <CustomSMSSheet/> */}
         </div>
       </div>
     </div>
