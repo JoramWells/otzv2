@@ -2,8 +2,6 @@
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
-import { Button } from '@/components/ui/button'
-import { PlusCircle } from 'lucide-react'
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import CustomTab from '@/app/_components/tab/CustomTab'
 import { useState } from 'react'

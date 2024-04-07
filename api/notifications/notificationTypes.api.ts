@@ -11,10 +11,10 @@ export const notificationTypeApi = createApi({
       query: () => 'fetchAll'
     }),
     addNotificationType: builder.mutation({
-      query: (body) => ({
+      query: (newUser) => ({
         url: 'add',
         method: 'POST',
-        body
+        body: newUser
       })
     }),
     getNotificationType: builder.query({
