@@ -5,9 +5,27 @@ import { columns } from './columns'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
+import CustomTab from '@/app/_components/tab/CustomTab'
+import { useState } from 'react'
+
+const dataList = [
+  {
+    id: 1,
+    label: 'All'
+  },
+  {
+    id: 2,
+    label: 'Morning'
+  },
+  {
+    id: 3,
+    label: 'Evening'
+  }
+]
 
 const AppointmentPage = () => {
   const { data } = useGetAllPillDailyUptakeQuery()
+  const [value, setValue] = useState<number>(1)
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery({
     patientsDueMorning: false
   })
@@ -15,23 +33,15 @@ const AppointmentPage = () => {
   console.log(patientsDueMorning, 'yu')
 
   return (
-    <div className="p-5 mt-12">
+    <div className="p-5 mt-12 flex flex-col space-y-4">
+      <h1 className="text-xl font-semibold">Pill Box Reminder</h1>
 
-      <div className="flex flex-row mb-4 justify-between ">
-        <h1 className="text-lg font-semibold">Appointments</h1>
+      <div>
+        <p className="mb-2 font-semibold">Select Intake Time</p>
 
-        <Button
-          className="bg-teal-600 hover:bg-teal-700 shadow-none
-          font-bold
-          "
-        >
-          <PlusCircle size={18} className="mr-2" />
-          New Appointment
-        </Button>
+        <CustomTab categoryList={dataList} value={value} setValue={setValue} />
       </div>
-
-     <CustomTable columns={columns} data={data || []} />
-
+      <CustomTable columns={columns} data={data || []} />
     </div>
   )
 }

@@ -35,6 +35,7 @@ import { measuringUnitApi } from '@/api/art/measuringUnit.api'
 import { smsApi } from '@/api/sms/sms.api'
 import { pillBoxApi } from '@/api/pillbox/pillbox.api'
 import { pillDailyUptakeApi } from '@/api/treatmentplan/uptake.api'
+import { notificationTypeApi } from '@/api/notifications/notificationTypes.api'
 
 export const store = configureStore({
   reducer: {
@@ -72,7 +73,8 @@ export const store = configureStore({
     [measuringUnitApi.reducerPath]: measuringUnitApi.reducer,
     [smsApi.reducerPath]: smsApi.reducer,
     [pillBoxApi.reducerPath]: pillBoxApi.reducer,
-    [pillDailyUptakeApi.reducerPath]: pillDailyUptakeApi.reducer
+    [pillDailyUptakeApi.reducerPath]: pillDailyUptakeApi.reducer,
+    [notificationTypeApi.reducerPath]: notificationTypeApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -111,4 +113,5 @@ export const store = configureStore({
       .concat(smsApi.middleware)
       .concat(pillBoxApi.middleware)
       .concat(pillDailyUptakeApi.middleware)
+      .concat(notificationTypeApi.middleware)
 })
