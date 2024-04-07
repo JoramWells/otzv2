@@ -6,11 +6,10 @@ import { columns } from '../columns'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { Suspense } from 'react'
 
 const Patients = () => {
   // const datax = await getPatients()
-  const { data } = useGetAllPatientsQuery()
+  const { data, isLoading } = useGetAllPatientsQuery()
   console.log(data, 'c')
   // otz
 
@@ -18,7 +17,6 @@ const Patients = () => {
 
   return (
     <div className="p-5 mt-12">
-      <Suspense fallback={<p>Loadin...</p>}>
         <div className="mb-4 flex flex-row justify-between items-center">
           <p className="text-lg font-bold">Registered Patients</p>
           <Button
@@ -33,13 +31,12 @@ const Patients = () => {
             New Patient
           </Button>
         </div>
-      </Suspense>
 
-      <Suspense
-      fallback={<p>Loadin...</p>}
-      >
-        <CustomTable columns={columns} data={data || []} />
-      </Suspense>
+        <CustomTable
+          columns={columns}
+          data={data || []}
+          isLoading={isLoading}
+        />
     </div>
   )
 }

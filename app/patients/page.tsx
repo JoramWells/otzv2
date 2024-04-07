@@ -30,7 +30,7 @@ const dataList = [
   },
   {
     id: '3',
-    label: 'Scheduled Voice Calls',
+    label: 'Caregivers',
     count: 13,
     link: ''
   },

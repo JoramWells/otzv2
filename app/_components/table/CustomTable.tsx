@@ -38,11 +38,13 @@ interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
   isSearch?: boolean
+  isLoading?: boolean
 }
 export function CustomTable<TData, TValue> ({
   data,
   columns,
-  isSearch = true
+  isSearch = true,
+  isLoading = false
 }: CustomTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -171,7 +173,11 @@ export function CustomTable<TData, TValue> ({
               </TableRow>
             </TableHeader>
           ))}
-          <TableBody>
+
+          {/* {isLoading
+            ? <div>Loadin..</div>
+            :  */}
+            <TableBody>
             {table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
@@ -182,6 +188,7 @@ export function CustomTable<TData, TValue> ({
               </TableRow>
             ))}
           </TableBody>
+          {/* } */}
         </Table>
         <div className="flex gap-x-4 mt-4 justify-between">
           <div
