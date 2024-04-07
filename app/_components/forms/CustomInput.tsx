@@ -1,3 +1,5 @@
+import { Input } from '@/components/ui/input'
+
 export interface InputEventProps extends React.ChangeEvent<HTMLInputElement> {
   target: HTMLInputElement & {
     value: string
@@ -19,7 +21,7 @@ const CustomInput = ({ description, label, placeholder, value, type = 'text', on
     <div className="w-full">
       <p className="text-slate-800 font-bold">{label}</p>
       <p className="mb-1 text-slate-500 text-sm">{description}</p>
-      <input
+      <Input
         className="border border-gray-200
             p-2 w-full rounded-lg
             "

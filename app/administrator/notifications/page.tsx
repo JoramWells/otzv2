@@ -4,19 +4,31 @@
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { appointmentStatusColumns, columns } from './columns'
 import { useState } from 'react'
-import { Button, Tag } from '@chakra-ui/react'
+import { Tag } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
+import { Button } from '@/components/ui/button'
+import NotifyCategory from '@/app/_components/notify/NotifyCategory'
+import NotificationType from '@/app/_components/notify/NotifIcationType'
+import NotifySubCategory from '@/app/_components/notify/NotifySubCategory'
 
 const categoryList = [
   {
     id: 1,
-    text: 'Agenda'
+    text: 'Notification Type'
   },
   {
     id: 2,
-    text: 'Status'
+    text: 'Notification Category'
+  },
+  {
+    id: 3,
+    text: 'Sub-Category '
+  },
+  {
+    id: 4,
+    text: 'Notifications'
   }
 ]
 
@@ -37,67 +49,78 @@ const Appointment = () => {
   }
 
   return (
-      <div className="p-5 mt-12">
-        <div
-          className="rounded-md gap-x-4
+    <div className="p-5 mt-12">
+      <div
+        className="rounded-md gap-x-4
            flex flex-row mt-4 mb-4
           "
-        >
-          {categoryList.map((item) => (
-            <Button
-              key={item.id}
-              rounded={'full'}
-              size={'sm'}
-              bgColor={`${value === item.id && 'gray.700'}`}
-              color={`${value === item.id && 'white'}`}
-              // shadow={`${value === item.id && 'md'}`}
-              _hover={{
-                bgColor: `${value === item.id && 'black'}`,
-                color: `${value === item.id && 'white'}`
-              }}
-              onClick={() => {
-                setValue(item.id)
-              }}
-            >
-              {item.text}
-            </Button>
-          ))}
-        </div>
-        <div className="flex flex-row justify-between items-center p-1">
-          <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
-            <p className="text-lg text-slate-700">
-              {value === 1 ? 'Agenda' : 'Status'}
-            </p>
-            <Tag
-              m={0}
-              rounded={'full'}
-              fontWeight={'bold'}
-              colorScheme="orange"
-              size={'sm'}
-            >
-              {appointmentAgendaData?.length}
-            </Tag>
-          </div>
+      >
+        {categoryList.map((item) => (
           <Button
-            size={'sm'}
-            colorScheme="teal"
-            // variant={'outline'}
+            key={item.id}
+            // bgColor={`${value === item.id && 'gray.700'}`}
+            // color={`${value === item.id && 'white'}`}
+            // shadow={`${value === item.id && 'md'}`}
+            // _hover={{
+            //   bgColor: `${value === item.id && 'black'}`,
+            //   color: `${value === item.id && 'white'}`
+            // }}
             onClick={() => {
-              handleClick(value)
+              setValue(item.id)
             }}
-            // leftIcon={<FaPlus />}
           >
-            NEW
+            {item.text}
           </Button>
-        </div>
-        {value === 1 && (
-          <CustomTable columns={columns} data={appointmentAgendaData || []} />
-        )}
-
-        {value === 2 && (
-          <CustomTable columns={appointmentStatusColumns} data={appointmentStatusData || []} />
-        )}
+        ))}
       </div>
+      <div className="flex flex-row justify-between items-center p-1">
+        <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
+          <p className="text-lg text-slate-700">
+            {value === 1 ? 'Agenda' : 'Status'}
+          </p>
+          <Tag
+            m={0}
+            rounded={'full'}
+            fontWeight={'bold'}
+            colorScheme="orange"
+            size={'sm'}
+          >
+            {appointmentAgendaData?.length}
+          </Tag>
+        </div>
+        <Button
+          // size={'sm'}
+          // colorScheme="teal"
+          // variant={'outline'}
+          onClick={() => {
+            handleClick(value)
+          }}
+          // leftIcon={<FaPlus />}
+        >
+          NEW
+        </Button>
+      </div>
+      {value === 1 && (
+        <NotificationType
+          columns={columns}
+          data={appointmentAgendaData || []}
+        />
+      )}
+
+      {value === 2 && (
+        <NotifyCategory columns={columns} data={appointmentAgendaData || []} />
+      )}
+      {value === 3 && (
+        <NotifySubCategory columns={columns} data={appointmentAgendaData || []} />
+      )}
+
+      {value === 4 && (
+        <CustomTable
+          columns={appointmentStatusColumns}
+          data={appointmentStatusData || []}
+        />
+      )}
+    </div>
   )
 }
 

@@ -12,11 +12,7 @@ import { useAddAppointmentMutation } from '@/api/appointment/appointment.api.'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
 
-interface DataProps {
-  patientID: string
-}
-
-const EditAppointmentDialog = ({ patientID }: DataProps) => {
+const NotifyCategoryDialog = () => {
   const [userID, setUserID] = useState('')
   const [agenda, setAppointmentAgenda] = useState('')
   const [appointmentDate, setAppointmentDate] = useState('')
@@ -57,7 +53,6 @@ const EditAppointmentDialog = ({ patientID }: DataProps) => {
 
   const inputValues = {
     appointmentAgendaID: agenda,
-    patientID,
     userID,
     appointmentDate,
     appointmentTime: moment()
@@ -130,4 +125,4 @@ const EditAppointmentDialog = ({ patientID }: DataProps) => {
   )
 }
 
-export default EditAppointmentDialog
+export default NotifyCategoryDialog

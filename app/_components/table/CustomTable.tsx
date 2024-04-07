@@ -72,7 +72,9 @@ export function CustomTable<TData, TValue> ({
   })
 
   return (
-    <div>
+    <div
+    className='w-full'
+    >
       {isSearch && (
         <div
           className="flex flex-row justify-between items-center
