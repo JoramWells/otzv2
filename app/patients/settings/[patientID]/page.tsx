@@ -1,6 +1,12 @@
 'use client'
 
+import { useGetAllNotificationsQuery } from '@/api/notifications/notification.api'
+import { useGetAllNotificationCategoriesQuery } from '@/api/notifications/notificationCategory.api'
+import { useGetAllNotificationTypesQuery } from '@/api/notifications/notificationTypes.api'
+import { useGetUserNotificationQuery } from '@/api/notifications/userNotification.api'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
+import { type NotificationProps } from '@/app/_components/notify/NotificationComponent'
+import { type NotificationCategoryProps } from '@/app/_components/notify/NotifyCategory'
 import { Switch } from '@/components/ui/switch'
 import { Divider, Tag } from '@chakra-ui/react'
 import React, { useState } from 'react'
@@ -64,13 +70,18 @@ const Settings = ({ params }: any) => {
     }
   }
   const { data } = useGetPatientQuery(patientID)
-  console.log(data, 'dtx')
+  const { data: notificationCategoryData } = useGetAllNotificationsQuery()
+
+  const { data: userNotificationData } = useGetUserNotificationQuery(patientID)
+  const { data: notificationData } = useGetAllNotificationTypesQuery()
+  console.log(notificationData, 'dtx')
+
   return (
     <div className="mt-12 p-4 flex flex-col space-y-4">
       <p>Notifications</p>
       <div className="flex flex-row w-full space-x-4">
         <div className="flex flex-col space-y-4 w-1/2">
-          {dataList.map((item, idx) => (
+          {notificationCategoryData?.map((item: NotificationProps) => (
             <div
               key={item.id}
               className="border border-slate-200 p-2
@@ -80,7 +91,9 @@ const Settings = ({ params }: any) => {
                 handleClick(item.id)
               }}
             >
-              <p className="font-bold">{item.label}</p>
+              <p>{item.notificationSubCategory.notificationSubCategoryName} </p>
+              <p>{item.notificationSubCategory.notificationCategory.notificationDescription} </p>
+              <p className="font-bold">{item.notificationDescription}</p>
               {/* <div className="flex flex-row space-x-2">
                 {['SMS', 'WHATSAPP', 'VOICE', 'IN APP'].map((item, idx) => (
                   <Tag size={'sm'} key={idx}>

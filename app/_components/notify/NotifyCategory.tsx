@@ -10,7 +10,7 @@ import { Loader2, Trash2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import moment from 'moment'
 
-interface NotificationProps {
+export interface NotificationCategoryProps {
   id: string
   notificationDescription: string
   updatedAt: string
@@ -81,7 +81,7 @@ const NotifyCategory = () => {
             <Loader2 className="animate-spin" />
           )}
         </div>
-        {data?.map((item: NotificationProps, index: number) => (
+        {data?.map((item: NotificationCategoryProps, index: number) => (
           <div
             key={item.id}
             className="border-b border-slate-100 p-4

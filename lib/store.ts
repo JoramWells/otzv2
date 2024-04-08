@@ -38,6 +38,8 @@ import { pillDailyUptakeApi } from '@/api/treatmentplan/uptake.api'
 import { notificationTypeApi } from '@/api/notifications/notificationTypes.api'
 import { notificationCategoryApi } from '@/api/notifications/notificationCategory.api'
 import { notificationSubCategoryApi } from '@/api/notifications/notificationSubCategory.api'
+import { notificationApi } from '@/api/notifications/notification.api'
+import { userNotificationApi } from '@/api/notifications/userNotification.api'
 
 export const store = configureStore({
   reducer: {
@@ -80,6 +82,8 @@ export const store = configureStore({
     [notificationCategoryApi.reducerPath]: notificationCategoryApi.reducer,
     [notificationSubCategoryApi.reducerPath]:
       notificationSubCategoryApi.reducer,
+    [notificationApi.reducerPath]: notificationApi.reducer,
+    [userNotificationApi.reducerPath]: userNotificationApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -120,5 +124,7 @@ export const store = configureStore({
       .concat(pillDailyUptakeApi.middleware)
       .concat(notificationTypeApi.middleware)
       .concat(notificationCategoryApi.middleware)
-      .concat(notificationSubCategoryApi.middleware),
-});
+      .concat(notificationSubCategoryApi.middleware)
+      .concat(notificationApi.middleware)
+      .concat(userNotificationApi.middleware)
+})
