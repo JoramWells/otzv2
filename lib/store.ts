@@ -36,6 +36,8 @@ import { smsApi } from '@/api/sms/sms.api'
 import { pillBoxApi } from '@/api/pillbox/pillbox.api'
 import { pillDailyUptakeApi } from '@/api/treatmentplan/uptake.api'
 import { notificationTypeApi } from '@/api/notifications/notificationTypes.api'
+import { notificationCategoryApi } from '@/api/notifications/notificationCategory.api'
+import { notificationSubCategoryApi } from '@/api/notifications/notificationSubCategory.api'
 
 export const store = configureStore({
   reducer: {
@@ -74,7 +76,10 @@ export const store = configureStore({
     [smsApi.reducerPath]: smsApi.reducer,
     [pillBoxApi.reducerPath]: pillBoxApi.reducer,
     [pillDailyUptakeApi.reducerPath]: pillDailyUptakeApi.reducer,
-    [notificationTypeApi.reducerPath]: notificationTypeApi.reducer
+    [notificationTypeApi.reducerPath]: notificationTypeApi.reducer,
+    [notificationCategoryApi.reducerPath]: notificationCategoryApi.reducer,
+    [notificationSubCategoryApi.reducerPath]:
+      notificationSubCategoryApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -114,4 +119,6 @@ export const store = configureStore({
       .concat(pillBoxApi.middleware)
       .concat(pillDailyUptakeApi.middleware)
       .concat(notificationTypeApi.middleware)
-})
+      .concat(notificationCategoryApi.middleware)
+      .concat(notificationSubCategoryApi.middleware),
+});

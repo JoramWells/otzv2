@@ -20,11 +20,18 @@ export const notificationCategoryApi = createApi({
     getNotificationCategory: builder.query({
       query: (id) => `detail/${id}`
     }),
+    updateNotificationCategory: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: `edit/${id}`,
+        method: 'PUT',
+        body: patch
+      })
+    }),
 
     deleteNotificationCategory: builder.mutation({
       query (id) {
         return {
-          url: `delete${id}`,
+          url: `delete/${id}`,
           method: 'DELETE'
         }
       }
@@ -34,6 +41,6 @@ export const notificationCategoryApi = createApi({
 
 export const {
   useGetAllNotificationCategoriesQuery, useAddNotificationCategoryMutation,
-  useGetNotificationCategoryQuery,
+  useGetNotificationCategoryQuery, useUpdateNotificationCategoryMutation,
   useDeleteNotificationCategoryMutation
 } = notificationCategoryApi
