@@ -8,7 +8,6 @@ import { useGetAllNotificationsQuery } from '@/api/notifications/notification.ap
 import { useGetUserNotificationQuery } from '@/api/notifications/userNotification.api'
 import { type NotificationProps } from '@/app/_components/notify/NotificationComponent'
 import AddNotificationDialog from '@/app/_components/patient/settings/AddNotificationDialog'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 // notification type
@@ -80,18 +79,14 @@ const Settings = ({ params }: any) => {
     }
   }, [userNotificationData])
 
-  const router = useRouter()
-
   return (
     <div className="mt-12 p-4 flex flex-col space-y-4">
+      <p
+      className='font-extrabold'
+      >Time Settin</p>
     <ol>
-      <li
-      onClick={() => { router.push(`/patients/settings/notifications/${patientID}`) }}
-      >Notifications</li>
-      <li
-      onClick={() => { router.push(`/patients/settings/time/${patientID}`) }}
-
-      >Time</li>
+      <li>Notifications</li>
+      <li>Time</li>
       <li>Routine</li>
     </ol>
       <div className="w-full flex justify-between">
