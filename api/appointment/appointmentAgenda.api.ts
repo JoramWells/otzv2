@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const appointmentAgendaApi = createApi({
   reducerPath: 'appointmentAgendaApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/appointment-service/appointment-agenda'
+    baseUrl: '/api/appointment/appointment-agenda'
   }),
   endpoints: (builder) => ({
     getAllAppointmentAgenda: builder.query<any, void>({

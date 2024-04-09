@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const notificationApi = createApi({
   reducerPath: 'notificationApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/appointment-service/notifications'
+    baseUrl: '/api/appointment/notifications'
   }),
   endpoints: (builder) => ({
     getAllNotifications: builder.query<any, void>({
