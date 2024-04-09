@@ -23,16 +23,16 @@ const CustomInput = ({ description, label, placeholder, value, type = 'text', on
       <p className="mb-1 text-slate-500 text-sm">{description}</p>
       <Input
         className="border border-gray-200
-            p-2 w-full rounded-lg
+            p-2 w-full rounded-lg shadow-none
             "
         value={value}
         type={type}
         onChange={(e: InputEventProps) => {
-          onChange(e.target.value)
+          onChange(e.target.value);
         }}
       />
     </div>
-  )
+  );
 }
 
 export default CustomInput

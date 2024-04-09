@@ -9,7 +9,7 @@ export interface ARTCategoryProps {
 export const artRegimenCategoryApi = createApi({
   reducerPath: 'artRegimenCategoryApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root-service/art-regimen-category'
+    baseUrl: '/api/root/art-regimen-category'
   }),
   endpoints: (builder) => ({
     getAllArtRegimenCategories: builder.query<any, void>({

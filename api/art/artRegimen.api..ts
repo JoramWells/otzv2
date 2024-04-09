@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const artRegimenApi = createApi({
   reducerPath: 'artRegimenApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root-service/art-regimen'
+    baseUrl: '/api/root/art-regimen'
   }),
   endpoints: (builder) => ({
     getAllArtRegimen: builder.query<any, void>({

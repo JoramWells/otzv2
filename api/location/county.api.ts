@@ -9,7 +9,7 @@ export interface CountyProps {
 export const countyApi = createApi({
   reducerPath: 'countyApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root-service/counties'
+    baseUrl: '/api/root/counties'
   }),
   endpoints: (builder) => ({
     getAllCounties: builder.query<any, void>({

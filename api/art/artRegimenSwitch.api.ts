@@ -12,7 +12,7 @@ export interface ArtProps {
 export const artRegimenSwitchApi = createApi({
   reducerPath: 'artRegimenSwitchApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root-service/art-regimen-switch'
+    baseUrl: '/api/root/art-regimen-switch'
   }),
   endpoints: (builder) => ({
     getAllArtRegimenSwitch: builder.query<any, void>({

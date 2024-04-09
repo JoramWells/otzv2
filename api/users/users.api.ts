@@ -9,7 +9,7 @@ interface UserProps {
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root-service/users'
+    baseUrl: '/api/root/users'
   }),
   endpoints: (builder) => ({
     getAllUsers: builder.query<any, void>({

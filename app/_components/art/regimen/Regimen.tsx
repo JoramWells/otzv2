@@ -26,6 +26,7 @@ const Regimen = () => {
   const [artCategoryID, setArtCategoryID] = useState('')
   const [quantity, setQuantity] = useState('')
   const [measuringUnitID, setMeasuringUnit] = useState('')
+  const [expiryDate, setExpiryDate] = useState("");
 
   const { data: artData } = useGetAllArtRegimenQuery()
 
@@ -56,7 +57,8 @@ const Regimen = () => {
     artName,
     artCategoryID,
     measuringUnitID,
-    quantity
+    quantity,
+    expiryDate
   }
 
   return (
@@ -70,6 +72,12 @@ const Regimen = () => {
           onChange={setArtName}
         />
 
+<CustomInput 
+label='Expiry Date'
+type='date'
+value={expiryDate}
+onChange={setExpiryDate}
+/>
         <CustomSelect
           label="Select ART Category"
           data={categoryDataOption()}

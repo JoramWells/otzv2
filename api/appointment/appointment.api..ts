@@ -15,7 +15,7 @@ interface AppointmentDetailProps {
 export const appointmentApi = createApi({
   reducerPath: 'appointmentApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/appointment-service/appointments'
+    baseUrl: '/api/appointment/appointments'
   }),
   endpoints: (builder) => ({
     getAllAppointments: builder.query<any, AppointmentProps>({
