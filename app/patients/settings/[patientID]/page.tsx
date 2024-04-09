@@ -5,14 +5,10 @@
 'use client'
 
 import { useGetAllNotificationsQuery } from '@/api/notifications/notification.api'
-import { useGetAllNotificationTypesQuery } from '@/api/notifications/notificationTypes.api'
-import { useGetUserNotificationQuery, useUpdateUserNotificationMutation } from '@/api/notifications/userNotification.api'
-import { useGetPatientQuery } from '@/api/patient/patients.api'
+import { useGetUserNotificationQuery } from '@/api/notifications/userNotification.api'
 import { type NotificationProps } from '@/app/_components/notify/NotificationComponent'
-import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
-import { Switch } from '@/components/ui/switch'
-import { Divider } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import AddNotificationDialog from '@/app/_components/patient/settings/AddNotificationDialog'
+import { useEffect, useState } from 'react'
 
 // notification type
 // lab
@@ -51,81 +47,55 @@ import React, { useEffect, useState } from 'react'
 //   }
 // ]
 
-interface NotifyCardProps {
-  label: string
-  text: string
-  isChecked?: boolean
-  handleChecked?: () => void
+export interface UserNotificationData {
+  id: string
+  notificationID: string
+  patientID: string
+  notifications: NotificationProps
 }
 
-const NotifyCard = ({ label, text, isChecked = false, handleChecked }: NotifyCardProps) => {
-  return (
-    <>
-      <div className="flex flex-row justify-between">
-        <div>
-          <p className="font-bold">{label}</p>
-          <p className="text-sm text-slate-500">{text}</p>
-        </div>
-        <Switch checked={isChecked} onCheckedChange={handleChecked} />
-      </div>
-      <Divider />
-    </>
-  )
-}
+// export interface NotificationProps {
+//   voice: boolean
+//   sms: boolean
+// }
 
 const Settings = ({ params }: any) => {
   const patientID = params.patientID
-  const [value, setValue] = useState('')
-
-  const [notificationState, setNotificationState] = useState({
-    voice: false,
-    sms: false,
-    whatsapp: false,
-    push: false
-  })
+  const [notificationID, setNotificationID] = useState('')
 
   const { data: userNotificationData } = useGetUserNotificationQuery(patientID)
-  const [updateUserNotification] = useUpdateUserNotificationMutation()
+
+  const handleClick = (id: string) => {
+    setNotificationID(id)
+  }
+
+  const { data: notificationCategoryData } = useGetAllNotificationsQuery()
+
+  console.log(userNotificationData, 'dtx')
 
   useEffect(() => {
     if (userNotificationData) {
-      setNotificationState(userNotificationData?.notifications)
+      setNotificationID(userNotificationData[0]?.notificationID)
     }
   }, [userNotificationData])
 
-  const handleNotificationToggle = async (key: string) => {
-    const updatedNotification = { ...notificationState, [key]: !notificationState[key] }
-    setNotificationState(updatedNotification)
-    await updateUserNotification({
-      id: userNotificationData?.id,
-      patientID,
-      notificationID: value,
-      notifications: updatedNotification
-    })
-  }
-
-  const handleClick = (id: string) => {
-    setValue(id)
-  }
-
-  const { data } = useGetPatientQuery(patientID)
-  const { data: notificationCategoryData } = useGetAllNotificationsQuery()
-
-  const { data: notificationData } = useGetAllNotificationTypesQuery()
-  console.log(userNotificationData, 'dtx')
-
   return (
     <div className="mt-12 p-4 flex flex-col space-y-4">
-      <p>Notifications</p>
-      {value}
+      <div className="w-full flex justify-between">
+        <p>Notifications</p>
+        <p>Settings</p>
+      </div>
+
       <div className="flex flex-row w-full space-x-4">
         <div className="flex flex-col space-y-4 w-1/2">
           {notificationCategoryData?.map((item: NotificationProps) => (
             <div
               key={item.id}
-              className="border border-slate-200 p-2
-        rounded-lg flex flex-col space-y-2
-        "
+              className={`border border-slate-200 p-2
+        rounded-lg flex flex-col space-y-2 ${
+          item.id === notificationID && 'bg-slate-100'
+        }
+        `}
               onClick={() => {
                 handleClick(item.id)
               }}
@@ -142,27 +112,12 @@ const Settings = ({ params }: any) => {
           ))}
         </div>
 
-        <CaseManagerDialog label="new">
-          <NotifyCard
-            label={'SMS'}
-            text="SMS Desc"
-            isChecked={notificationState.sms}
-            handleChecked={() => handleNotificationToggle('sms')}
-          />
-
-          <NotifyCard
-            label={'WHATSAPP'}
-            text="WHATSAPP Desc"
-            isChecked={notificationState.whatsapp}
-            handleChecked={() => handleNotificationToggle('whatsapp')}
-          />
-          <NotifyCard
-            label={'PUSH NOTIFICATION'}
-            text="PUSH NOTIFICATION Desc"
-            isChecked={notificationState.push}
-            handleChecked={() => handleNotificationToggle('push')}
-          />
-        </CaseManagerDialog>
+        {/*  */}
+        <AddNotificationDialog
+          patientID={patientID}
+          notificationID={notificationID}
+          userNotificationData={userNotificationData}
+        />
       </div>
     </div>
   )

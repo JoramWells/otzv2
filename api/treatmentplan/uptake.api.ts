@@ -8,7 +8,7 @@ interface AppointmentProps {
 export const pillDailyUptakeApi = createApi({
   reducerPath: 'pillDailyUptakeApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root-service/daily-uptake'
+    baseUrl: '/api/root/daily-uptake'
   }),
   endpoints: (builder) => ({
     getAllPillDailyUptake: builder.query<any, AppointmentProps>({

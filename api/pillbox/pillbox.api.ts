@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const pillBoxApi = createApi({
   reducerPath: 'pillBoxApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root-service/pills'
+    baseUrl: '/api/root/pills'
   }),
   endpoints: (builder) => ({
     getAllPills: builder.query<any, void>({

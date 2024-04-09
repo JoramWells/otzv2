@@ -10,7 +10,7 @@ export interface SubCountyProps {
 export const subCountyApi = createApi({
   reducerPath: 'subCountyApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root-service/sub-counties'
+    baseUrl: '/api/root/sub-counties'
   }),
   endpoints: (builder) => ({
     getAllSubCounties: builder.query<any, void>({
