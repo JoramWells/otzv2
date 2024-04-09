@@ -26,7 +26,7 @@ const Regimen = () => {
   const [artCategoryID, setArtCategoryID] = useState('')
   const [quantity, setQuantity] = useState('')
   const [measuringUnitID, setMeasuringUnit] = useState('')
-  const [expiryDate, setExpiryDate] = useState("");
+  const [expiryDate, setExpiryDate] = useState('')
 
   const { data: artData } = useGetAllArtRegimenQuery()
 
@@ -72,7 +72,7 @@ const Regimen = () => {
           onChange={setArtName}
         />
 
-<CustomInput 
+<CustomInput
 label='Expiry Date'
 type='date'
 value={expiryDate}

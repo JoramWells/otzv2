@@ -86,7 +86,10 @@ export const store = configureStore({
     [userNotificationApi.reducerPath]: userNotificationApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false
+    })
       .concat(patientsApi.middleware)
       .concat(vitalSignsApi.middleware)
       .concat(artRegimenApi.middleware)
