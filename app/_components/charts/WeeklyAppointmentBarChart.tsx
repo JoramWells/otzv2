@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Chart, type ChartOptions, type ChartDataset, registerables } from 'chart.js'
+import { Chart, type ChartDataset, registerables } from 'chart.js'
 
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 // import { type MomentInput } from 'moment'
@@ -19,32 +19,6 @@ export interface BarChartProps {
   datasets: Array<ChartDataset<'bar', Array<number | [number, number] | null>>>
 }
 
-const chartOptions = {
-  scales: {
-    xAxes: {
-      // type: 'linear'
-      // ticks: {
-      //   beginAtZero: true
-      // },
-      scaleLabel: {
-        display: true,
-        labelString: 'Day of the Week'
-      }
-    },
-    yAxes:
-      {
-        // type: 'linear'
-        scaleLabel: {
-          display: true,
-          labelString: 'Number of Appointments'
-        }
-        // ticks: {
-        //   beginAtZero: true
-        // }
-      }
-
-  }
-}
 Chart.register(...registerables)
 
 const WeeklyAppointmentBarChart = () => {

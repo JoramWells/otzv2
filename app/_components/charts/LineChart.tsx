@@ -12,10 +12,6 @@ export interface LineChartProps {
   datasets: Array<ChartDataset<'line', Array<number | Point | null>>>
 }
 
-const cData = {
-  labels: ['']
-}
-
 const LineChart = ({ data }: Props) => {
   return (
     <div className="h-[400px] md:w-full border rounded-lg p-5">
