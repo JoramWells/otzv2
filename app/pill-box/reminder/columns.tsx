@@ -113,7 +113,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
       <div className="flex flex-col space-y-2">
         <div className="flex flex-row items-center space-x-2">
           <p className="font-bold text-slate-500">Time:</p>
-          <p>{row.original.timeAndWork?.morningTime}</p>
+          <p>{row.original.timeAndWork?.morningMedicineTime}</p>
         </div>
 
         <div
@@ -140,7 +140,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     header: 'Evening Status',
     cell: ({ row }) => (
       <div>
-        <p>{row.original.timeAndWork?.eveningTime}</p>
+        <p>{row.original.timeAndWork?.eveningMedicineTime}</p>
         <div>
           {row.original?.eveningStatus
             ? (

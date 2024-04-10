@@ -28,11 +28,11 @@ const CustomInput = ({ description, label, placeholder, value, type = 'text', on
         value={value}
         type={type}
         onChange={(e: InputEventProps) => {
-          onChange(e.target.value);
+          onChange(e.target.value)
         }}
       />
     </div>
-  );
+  )
 }
 
 export default CustomInput

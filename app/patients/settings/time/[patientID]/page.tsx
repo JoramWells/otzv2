@@ -6,6 +6,7 @@
 
 import { useGetAllNotificationsQuery } from '@/api/notifications/notification.api'
 import { useGetUserNotificationQuery } from '@/api/notifications/userNotification.api'
+import CustomInput from '@/app/_components/forms/CustomInput'
 import { type NotificationProps } from '@/app/_components/notify/NotificationComponent'
 import AddNotificationDialog from '@/app/_components/patient/settings/AddNotificationDialog'
 import { useEffect, useState } from 'react'
@@ -81,52 +82,9 @@ const Settings = ({ params }: any) => {
 
   return (
     <div className="mt-12 p-4 flex flex-col space-y-4">
-      <p
-      className='font-extrabold'
-      >Time Settin</p>
-    <ol>
-      <li>Notifications</li>
-      <li>Time</li>
-      <li>Routine</li>
-    </ol>
-      <div className="w-full flex justify-between">
-        <p>Notifications</p>
-        <p>Settings</p>
-      </div>
-
-      <div className="flex flex-row w-full space-x-4">
-        <div className="flex flex-col space-y-4 w-1/2">
-          {notificationCategoryData?.map((item: NotificationProps) => (
-            <div
-              key={item.id}
-              className={`border border-slate-200 p-2
-        rounded-lg flex flex-col space-y-2 ${
-          item.id === notificationID && 'bg-slate-100'
-        }
-        `}
-              onClick={() => {
-                handleClick(item.id)
-              }}
-            >
-              <p>{item.notificationSubCategory.notificationSubCategoryName} </p>
-              <p>
-                {
-                  item.notificationSubCategory.notificationCategory
-                    .notificationDescription
-                }{' '}
-              </p>
-              <p className="font-bold">{item.notificationDescription}</p>
-            </div>
-          ))}
-        </div>
-
-        {/*  */}
-        <AddNotificationDialog
-          patientID={patientID}
-          notificationID={notificationID}
-          userNotificationData={userNotificationData}
-        />
-      </div>
+<CustomInput
+label='Mornin Medicine Time'
+/>
     </div>
   )
 }
