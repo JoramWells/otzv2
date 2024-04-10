@@ -3,13 +3,17 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { useState } from 'react'
-import { CustomTable } from '../table/CustomTable'
 import { Button } from '@/components/ui/button'
 import CustomInput from '../forms/CustomInput'
 import { useAddNotificationTypeMutation, useGetAllNotificationTypesQuery } from '@/api/notifications/notificationTypes.api'
 import { Loader2 } from 'lucide-react'
 
-const NotificationType = ({ columns, data }) => {
+interface DataProps {
+  columns: string
+  data: string
+}
+
+const NotificationType = ({ columns, data }: DataProps) => {
   const [notificationTypeName, setNotificationTypeName] = useState('')
 
   const { data: notificationData } = useGetAllNotificationTypesQuery()
@@ -25,7 +29,7 @@ const NotificationType = ({ columns, data }) => {
 
   return (
     <div className="flex flex-row space-x-4 w-full">
-      <CustomTable columns={columns} data={data || []} isSearch={false} />
+      {/* <CustomTable columns={columns} data={data || []} isSearch={false} /> */}
 
       <div
         className="w-1/2 border border-slate-200 rounded-lg p-4

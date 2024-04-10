@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/promise-function-async */
 import { Button } from '@/components/ui/button'
 import CustomInput from '../forms/CustomInput'
 import CustomSelect2 from '../forms/CustomSelect2'
@@ -23,7 +25,7 @@ const NotificationComponent = () => {
   const { data } = useGetAllNotificationsQuery()
   const [addNotification, { isLoading: isNotificationLoading }] = useAddNotificationMutation()
   const subCatOptions = useCallback(() => {
-    return subCatData?.map((item) => ({
+    return subCatData?.map((item: any) => ({
       id: item.id,
       label: item.notificationSubCategoryName
     }))
@@ -100,7 +102,7 @@ const NotificationComponent = () => {
         <Button
           variant={'ghost'}
           className="w-full font-bold bg-slate-100"
-          onClick={async () => await addNotification(inputValues)}
+          onClick={() => addNotification(inputValues)}
         >
           {isNotificationLoading && (
             <Loader2 className="animate-spin mr-2" size={18} />

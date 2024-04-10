@@ -49,7 +49,7 @@ export const appointmentApi = createApi({
       })
     }),
     getAppointment: builder.query<GetAppointmentResult, GetAppointmentParams>({
-      query: ({ id, params }) => {
+      query: (id, params) => {
         // const { id } = params
         let queryString = ''
 

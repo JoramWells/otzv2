@@ -34,7 +34,7 @@ import { BookOpen, Download } from 'lucide-react'
 import { useState } from 'react'
 import { CSVLink } from 'react-csv'
 
-interface CustomTableProps<TData, TValue> {
+export interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
   isSearch?: boolean
