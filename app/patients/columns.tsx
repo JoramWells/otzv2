@@ -2,6 +2,7 @@
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
+import { type MomentInput } from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 

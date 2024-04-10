@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -82,9 +83,9 @@ const Settings = ({ params }: any) => {
 
   return (
     <div className="mt-12 p-4 flex flex-col space-y-4">
-<CustomInput
+{/* <CustomInput
 label='Mornin Medicine Time'
-/>
+/> */}
     </div>
   )
 }
