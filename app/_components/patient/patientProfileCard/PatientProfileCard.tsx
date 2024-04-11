@@ -17,13 +17,13 @@ export interface PatientProfileCardProps {
 }
 
 export interface UserDataProps {
-  id: string
+  id?: string
   firstName?: string
   middleName?: string
   dob?: string
   sex?: string
-  dateOfCurrentVL: MomentInput
-  dateOfNextVL: MomentInput
+  dateOfCurrentVL?: MomentInput
+  dateOfNextVL?: MomentInput
 }
 
 const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) => {
@@ -31,9 +31,13 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
   const router = useRouter()
 
   return (
-    <Suspense fallback={<Skeleton className="w-full md:w-full lg:w-[35%] flex-shrink-0 flex-grow-0" />}>
+    <Suspense
+      fallback={
+        <Skeleton className="w-full md:w-full lg:w-[30%] flex-shrink-0 flex-grow-0" />
+      }
+    >
       <div
-        className="flex flex-col justify-center w-full md:w-full lg:w-[35%] pr-2 border border-slate-200 rounded-lg p-2"
+        className="flex flex-col justify-center w-full md:w-full lg:w-[30%] pr-2  rounded-lg mt-12"
         // style={{
         //   height: '455px'
         // }}
@@ -68,8 +72,7 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
 
         {/* list items */}
         <div className="flex flex-col mt-2 w-full p-2">
-
-<EnrollmentStatus />
+          <EnrollmentStatus sex={userData?.sex} dob={userData?.dob} />
           <div
             className="mt-4 flex flex-col space-y-2 bg-slate-50
         p-3 border border-slate-200 rounded-lg

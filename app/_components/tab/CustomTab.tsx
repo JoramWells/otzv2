@@ -24,7 +24,7 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
   return (
     <div
       className="flex flex-row space-x-4
-      border-b mb-4 border-slate-200
+      border-b mb-4 border-slate-200 w-full
       "
     >
       {categoryList.map((item) => (

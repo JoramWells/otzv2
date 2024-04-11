@@ -24,16 +24,19 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
 
   return (
     <>
-      <Suspense fallback={<Skeleton className="w-full h-12" />}>
-        <PatientTab data={listData} value={value} setValue={setValue} />
-      </Suspense>
-
       {/*  */}
-      {/* profile card */}
-      <div className="flex flex-row space-x-4 items-start">
-        {/* body */}
-        <PatientProfileCard patientID={patientID} userData={userData} />
+      <PatientProfileCard patientID={patientID} userData={userData} />
 
+      {/* profile card */}
+      <div className="flex flex-col space-x-4 items-start w-full">
+        {/* body */}
+        <Suspense fallback={<Skeleton className="w-full h-12" />}>
+          <div
+          className='w-3/4'
+          >
+            <PatientTab data={listData} value={value} setValue={setValue} />
+          </div>
+        </Suspense>
         {/* tabs */}
         <div className="w-full">
           {/* appointments */}

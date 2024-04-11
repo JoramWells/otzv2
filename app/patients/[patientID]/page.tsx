@@ -4,6 +4,7 @@
 
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import PatientDetailsContent from '@/app/_components/patient/tab/PatientDetailsContent'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const categoryList = [
   {
@@ -37,15 +38,16 @@ const PatientDetails = ({ params }: any) => {
 
   const patientID = params.patientID
 
-  const { data: userData } = useGetPatientQuery(patientID)
+  const { data: userData, isLoading, isError } = useGetPatientQuery(patientID)
 
   return (
-    <div className="flex flex-col space-y-4 p-4 mt-14">
-      <PatientDetailsContent
-        patientID={patientID}
-        listData={categoryList}
-        userData={userData}
-      />
+    <div className="flex flex-row space-y-4 p-4 mt-14 items-start">
+
+        <PatientDetailsContent
+          patientID={patientID}
+          listData={categoryList}
+          userData={userData}
+        />
 
       {/* profile */}
     </div>
