@@ -24,7 +24,7 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
   return (
     <div
       className="flex flex-row space-x-4
-      border-b mb-4
+      border-b mb-4 border-slate-200
       "
     >
       {categoryList.map((item) => (
@@ -33,22 +33,6 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
           className={`shadow-none bg-white text-slate-500 ${isChecked(item.id) && 'text-teal-600 font-bold border-b-2 border-teal-600'}
           hover:bg-slate-100 rounded-none
           `}
-          // rounded={'0'}
-          // h={10}
-          // size={'sm'}
-          // w={'full'}
-          // borderBottom={`${value === item.id ? '2px' : '0'}`}
-          // fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
-          // bgColor={`${value === item.id ? 'teal.50' : 'transparent'}`}
-          // color={`${value === item.id ? 'teal' : 'gray.500'}`}
-          // bgColor={'white'}
-          // shadow={`${value === item.id && 'md'}`}
-          // _hover={
-          //   {
-          // bgColor: `${value === item.id && 'black'}`,
-          // color: `${value === item.id && 'white'}`
-          //   }
-          // }
           onClick={() => {
             setValue(item.id)
           }}

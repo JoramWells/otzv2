@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { Suspense, useState } from 'react'
 import PatientTab, { type CategoryListProps } from './PatientTab'
 import AppointmentTab from '../appointmentTab/AppointmentTab'
 import HomeVisitTab from '../../home-visit/HomevisitTab'
@@ -7,6 +7,7 @@ import LabTab from '../../lab/LabTab'
 import TreatmentPlanTab from '../../treatement-plan/treatementPlanTab/TreatmentPlanTab'
 import PatientProfileCard, { type UserDataProps } from '../patientProfileCard/PatientProfileCard'
 import CareGiverTab from '../appointmentTab/CareGiverTab'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface DataProps {
   patientID: string
@@ -23,7 +24,9 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
 
   return (
     <>
-      <PatientTab data={listData} value={value} setValue={setValue} />
+      <Suspense fallback={<Skeleton className="w-full h-12" />}>
+        <PatientTab data={listData} value={value} setValue={setValue} />
+      </Suspense>
 
       {/*  */}
       {/* profile card */}

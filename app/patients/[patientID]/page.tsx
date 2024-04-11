@@ -38,7 +38,6 @@ const PatientDetails = ({ params }: any) => {
   const patientID = params.patientID
 
   const { data: userData } = useGetPatientQuery(patientID)
-  console.log(userData, 'usd')
 
   return (
     <div className="flex flex-col space-y-4 p-4 mt-14">

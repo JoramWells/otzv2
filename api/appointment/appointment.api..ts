@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
@@ -7,18 +6,6 @@ interface AppointmentProps {
   date?: string
   mode?: string
 }
-
-interface AppointmentDetailProps {
-  id: string
-  type: string
-}
-
-interface GetAppointmentParams {
-  id: string
-  params?: AppointmentDetailProps
-}
-
-type GetAppointmentResult = string
 
 export const appointmentApi = createApi({
   reducerPath: 'appointmentApi',
@@ -48,16 +35,9 @@ export const appointmentApi = createApi({
         body: newUser
       })
     }),
-    getAppointment: builder.query<GetAppointmentResult, GetAppointmentParams>({
-      query: (id, params) => {
-        // const { id } = params
-        let queryString = ''
-
-        if (params) {
-          const { type } = params
-          queryString += `?type=${type}`
-        }
-        return `detail?/${id}${queryString}`
+    getAppointment: builder.query({
+      query: (id) => {
+        return `detail?/${id}`
       }
     }),
     getAppointmentDetail: builder.query({
