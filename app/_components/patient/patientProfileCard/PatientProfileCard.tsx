@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import EnrollmentStatus from './EnrollmentStatus'
 
 export interface PatientProfileCardProps {
   userData: UserDataProps
@@ -30,7 +31,7 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
   const router = useRouter()
 
   return (
-    <Suspense fallback={<Skeleton className="w-full md:w-full lg:w-[35%]" />}>
+    <Suspense fallback={<Skeleton className="w-full md:w-full lg:w-[35%] flex-shrink-0 flex-grow-0" />}>
       <div
         className="flex flex-col justify-center w-full md:w-full lg:w-[35%] pr-2 border border-slate-200 rounded-lg p-2"
         // style={{
@@ -67,21 +68,8 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
 
         {/* list items */}
         <div className="flex flex-col mt-2 w-full p-2">
-          <h1 className="font-bold">CALHIV</h1>
-          <div className="flex flex-row space-x-2 mt-2">
-            {['OTZ', 'OVC', 'PMTCT', 'PAMA'].map((item, idx) => (
-              <Tag
-                key={idx}
-                rounded={'full'}
-                variant={'outline'}
-                size={'sm'}
-                colorScheme="green"
-              >
-                {item}
-              </Tag>
-            ))}
-          </div>
 
+<EnrollmentStatus />
           <div
             className="mt-4 flex flex-col space-y-2 bg-slate-50
         p-3 border border-slate-200 rounded-lg

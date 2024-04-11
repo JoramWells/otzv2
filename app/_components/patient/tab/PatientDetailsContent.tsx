@@ -30,7 +30,7 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
 
       {/*  */}
       {/* profile card */}
-      <div className="flex flex-row space-x-4">
+      <div className="flex flex-row space-x-4 items-start">
         {/* body */}
         <PatientProfileCard patientID={patientID} userData={userData} />
 
