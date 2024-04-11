@@ -52,11 +52,10 @@ const OTZEnrollment = ({ params }: any) => {
   }
 
   return (
-    <div className="w-full flex flex-row justify-center p-3">
+    <div className="w-full flex flex-row justify-center p-4">
       <div
-        className="border border-gray-200
-        w-1/3 flex flex-col items-center
-      justify-center rounded-lg p-5 gap-y-4 mt-12"
+        className="w-1/3 flex flex-col items-center
+      justify-center rounded-lg  gap-y-4 mt-12"
         style={{
           width: '40%'
         }}
