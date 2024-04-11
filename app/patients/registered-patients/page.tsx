@@ -6,11 +6,12 @@ import { columns } from '../columns'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { Suspense } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const Patients = () => {
   // const datax = await getPatients()
   const { data, isLoading } = useGetAllPatientsQuery()
-  console.log(data, 'c')
   // otz
 
   const router = useRouter()
@@ -32,11 +33,17 @@ const Patients = () => {
           </Button>
         </div>
 
-        <CustomTable
+        <Suspense
+        fallback={<Skeleton className='w-full' />}
+        >
+
+              <CustomTable
           columns={columns}
           data={data || []}
           isLoading={isLoading}
         />
+          </Suspense>
+
     </div>
   )
 }

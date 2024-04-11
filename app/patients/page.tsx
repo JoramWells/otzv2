@@ -12,7 +12,6 @@ import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBa
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import PieChart from '../_components/charts/PieChart'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
-import LineChartEnrollment from '../_components/charts/LineChartENrollment'
 import LineChart from '../_components/charts/LineChart'
 
 const dataList = [
@@ -89,7 +88,7 @@ const NotifyPage = () => {
   return (
     <div className="w-full mt-12 p-5 flex-col flex space-y-6">
       <div className="">
-        <h1 className="font-semibold text-2xl">Patient Management</h1>
+        <h1 className="font-bold text-2xl">Patient Management</h1>
         <p className="text-slate-500">Manage registered patients.</p>
       </div>
       <div className="flex w-full justify-between flex-wrap">
