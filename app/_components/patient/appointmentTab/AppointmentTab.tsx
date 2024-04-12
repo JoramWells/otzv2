@@ -41,7 +41,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
                 setIsCalendarVisible(!isCalendarVisible)
               }}
               className={`hover:cursor-pointer bg-gray-100 h-8 w-8 p-2 rounded-md ${
-                isCalendarVisible && 'bg-teal-600 text-white'
+                isCalendarVisible && 'bg-teal-600 text-white border border-slate-200'
               }`}
             />
             <EditAppointmentDialog patientID={patientID} />
@@ -128,7 +128,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
             )}
           </div>
         ) : (
-          <div className="flex flex-row gap-x-4 w-full justify-center">
+          <div className="flex flex-row gap-x-4 w-full">
             {/*  */}
             <div
               className="overflow-y-auto rounded-lg border-t-8 pt-4 border-t-slate-300"

@@ -6,7 +6,7 @@ import { type UserDataProps } from './PatientProfileCard'
 import { Badge } from '@/components/ui/badge'
 import { calculateAge } from '@/utils/calculateAge'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Info } from 'lucide-react'
 
 // 0-9 PAMA
 // 0-9 PAED
@@ -16,35 +16,38 @@ import { useRouter } from 'next/navigation'
 // age, gender, location
 
 const EnrollmentStatus = ({ id, sex, dob }: UserDataProps) => {
-  const router = useRouter()
-
   const { data } = useGetOTZPatientEnrollmentQuery(id)
   return (
-    <div>
-      <h1 className="font-bold">CALHIV</h1>
-      <Link
-        href={`/patients/enrollment/enroll-otz/${id}`}
-        className={`${data && 'text-green-600 bg-green-100 p-2'} 
-            rounded-full text-sm font-bold
-            `}
-      >
-        OTZ
-      </Link>
-      <Link href={`/patients/enrollment/enroll-pama/${id}`}>PAMA</Link>
+    <div className="">
+      <h1 className="font-bold text-lg">CALHIV</h1>
+
       {sex === 'F' && calculateAge(dob) > 14 && (
-        <div>
-          <Badge
-            variant={'secondary'}
-            className="shadow-none rounded-full hover:cursor-pointer"
-            onClick={() => {
-              router.push(`/patients/enrollment/enroll-otz/${id} `)
-            }}
-          >
-            <Link href={`/patients/enrollment/enroll-otz/${id}`}>OTZ</Link>
-          </Badge>
-          <Badge variant={'secondary'} className="shadow-none rounded-full">
-            PMTCT
-          </Badge>
+        <div className="mt-2">
+          {!data && (
+            <div
+            className='flex flex-row space-x-2'
+            >
+              <Info
+              className='text-slate-500'
+              size={18}
+              />
+              <p className="text-slate-500 text-sm">
+                Patient Ellible for te followin Enrollment
+              </p>
+            </div>
+          )}
+
+          <div className="flex flex-row space-x-2 items-center mt-1">
+            <Link
+              href={`/patients/enrollment/enroll-otz/${id}`}
+              className={`${data && 'text-green-600 bg-green-100'} 
+            rounded-full text-sm font-bold bg-slate-100  p-1 pl-2 pr-2
+            `}
+            >
+              OTZ
+            </Link>
+            <Link href={`/patients/enrollment/enroll-pama/${id}`}>PAMA</Link>
+          </div>
         </div>
       )}
 

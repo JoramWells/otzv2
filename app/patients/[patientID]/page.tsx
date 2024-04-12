@@ -41,7 +41,7 @@ const PatientDetails = ({ params }: any) => {
   const { data: userData, isLoading, isError } = useGetPatientQuery(patientID)
 
   return (
-    <div className="flex flex-row space-y-4 p-4 mt-14 items-start">
+    <div className="flex flex-row space-x-4 p-4 mt-14 items-start">
 
         <PatientDetailsContent
           patientID={patientID}

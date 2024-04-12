@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { Avatar, Divider } from '@chakra-ui/react'
+import { Avatar } from '@chakra-ui/react'
 import { Pencil, Settings } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
 // import { CustomSMSSheet } from '../../sms/CustomSMSSheet'
@@ -32,11 +32,14 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
   return (
     <Suspense
       fallback={
-        <Skeleton className="w-full md:w-full lg:w-[30%] flex-shrink-0 flex-grow-0" />
+        <Skeleton className="w-full md:w-full lg:w-[35%]
+        flex-shrink-0 flex-grow-0" />
       }
     >
       <div
-        className="flex flex-col justify-center w-full md:w-full lg:w-[30%] rounded-lg mt-12"
+        className="flex flex-col justify-center w-full
+        space-y-6 border border-slate-200 p-4
+        md:w-full lg:w-[35%] rounded-lg mt-8"
         // style={{
         //   height: '455px'
         // }}
@@ -46,12 +49,10 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
         items-center
         "
         >
-          <div className="bg-white p-[3px] rounded-full border-2 border-red-500">
             <Avatar
-              // size={'sm'}
+              // size={'l'}
               name={`${userData?.firstName} ${userData?.middleName}`}
             />
-          </div>
           <p
             className="capitalize font-bold
         text-lg
@@ -67,10 +68,9 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
           </div>
         </div>
 
-        <Divider className="mt-4" />
+        <div className="border-b border-slate-200" />
 
         {/* list items */}
-        <div className="flex flex-col mt-2 w-full p-2">
           <EnrollmentStatus
             sex={userData?.sex}
             dob={userData?.dob}
@@ -78,7 +78,12 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
           />
           {/* VL status */}
 
+          <div className="border-b border-slate-200" />
+
           <ViralLoadStatus patientID={patientID} />
+
+          <div className="border-b border-slate-200" />
+
           <div className="mt-4 w-full flex flex-col space-y-2">
             <Button
               onClick={() => router.push(`/patients/settings/${patientID}`)}
@@ -90,7 +95,6 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
             {/* <CustomSMSSheet/> */}
           </div>
         </div>
-      </div>
     </Suspense>
   )
 }

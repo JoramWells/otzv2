@@ -2,9 +2,11 @@
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tag } from '@chakra-ui/react'
+import { AlertTriangle } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 import { Suspense } from 'react'
+// import {} from 'lucide-react'
 
 interface DataProps {
   patientID: string
@@ -49,11 +51,17 @@ export const ViralLoadStatus = ({ patientID }: DataProps) => {
   return (
     <Suspense fallback={<Skeleton className="h-[200px]" />}>
       <div
-        className="mt-4 flex flex-col space-y-2 bg-slate-50
-        p-3 border border-slate-200 rounded-lg
-        "
+        className="mt-4 flex flex-col space-y-2"
       >
-        <h1 className="font-extrabold text-lg">VL Status</h1>
+        <div
+        className='flex justify-between items-center'
+        >
+          <h1 className="font-extrabold text-lg">VL Status</h1>
+          <AlertTriangle
+          className='text-red-500 hover:cursor-pointer'
+          size={18}
+          />
+        </div>
         {isLoading
           ? (
           <div>Loading</div>
@@ -74,9 +82,11 @@ export const ViralLoadStatus = ({ patientID }: DataProps) => {
                 )
               : (
               <Link
-              href={`/patients/viralload/${patientID}`}
-              className='text-blue-500  underline'
-              >Update data</Link>
+                href={`/patients/viralload/${patientID}`}
+                className="text-blue-500  underline italic text-sm"
+              >
+                Update Patients VL Status
+              </Link>
                 )}
           </>
               )}
