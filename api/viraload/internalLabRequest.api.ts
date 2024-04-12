@@ -8,7 +8,7 @@ interface LabRequestProps {
 export const internalLabRequestApi = createApi({
   reducerPath: 'internalLabRequestApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/internal-lab-request'
+    baseUrl: '/api/lab/internal-lab-request'
   }),
   endpoints: (builder) => ({
     getAllInternalLabRequests: builder.query<any, void>({

@@ -57,7 +57,7 @@ const itemList = [
     id: '9',
     label: 'Lab',
     icon: <HomeIcon />,
-    link: '/home-visits'
+    link: '/lab'
   },
   {
     id: '10',
