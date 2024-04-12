@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import Urine from './urine/Urine'
 import Blood from './blood/Blood'
@@ -5,6 +6,7 @@ import Stool from './stool/Stool'
 import { type PatientIDProps } from './constants/patient'
 import CustomTab from '../tab/CustomTab'
 import { Button } from '@/components/ui/button'
+import HIVMonitoring from './blood/panel/HIVMonitoring'
 
 const categoryList = [
   {
@@ -33,34 +35,50 @@ const categoryList = [
   }
 ]
 
+interface TabListProps {
+  id: number
+  label: string
+}
+
+const tabList = [
+  {
+    id: 1,
+    label: 'Results'
+  },
+  {
+    id: 2,
+    label: 'Requests'
+  }
+]
+
 const LabTab = ({ patientID }: PatientIDProps) => {
   const [value, setValue] = useState<number>(1)
   return (
-    <div className="w-full">
+    <div className="w-full  flex-col space-y-4">
       {/*  */}
-      <div
-      className='flex space-x-4'
-      >
-        {['Tests', 'Requests', 'Results'].map((item, idx) => (
-          <Button key={idx}
-          className='shadow-none bg-slate-50 text-slate-500
+      <div className="flex space-x-4">
+        {tabList.map((item: TabListProps) => (
+          <Button
+            key={item.id}
+            className="shadow-none bg-slate-50 text-slate-500
           font-bold rounded-full border border-slate-200 hover:bg-slate-100
-          '
-          >{item}</Button>
+          "
+          onClick={() => { setValue(item.id) }}
+          >
+            {item.label}
+          </Button>
         ))}
       </div>
 
-      <p className="text-xl font-bold mb-4">Lab Tests</p>
+      {/* <CustomTab
+        categoryList={categoryList}
+        setValue={setValue}
+        value={value}
+      /> */}
+<HIVMonitoring patientID={patientID} />
+      {value === 1 && <div>Results</div>}
+      {value === 2 && <div>Requests</div>}
 
-     <CustomTab
-     categoryList={categoryList}
-     setValue={setValue}
-     value={value}
-     />
-
-      {value === 1 && <Blood patientID={patientID} />}
-      {value === 2 && <Stool />}
-      {value === 6 && <Urine />}
     </div>
   )
 }

@@ -28,9 +28,9 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
       <PatientProfileCard patientID={patientID} userData={userData} />
 
       {/* profile card */}
-      <div className="flex flex-col space-x-4 items-start w-full">
+      <div className="flex flex-col space-y-4 items-start w-full">
         {/* body */}
-        <Suspense fallback={<Skeleton className="w-full h-12" />}>
+        <Suspense fallback={<Skeleton className="w-full h-14" />}>
           <div
           className='w-3/4'
           >
@@ -38,7 +38,6 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
           </div>
         </Suspense>
         {/* tabs */}
-        <div className="w-full">
           {/* appointments */}
           {value === 1 && <AppointmentTab patientID={patientID} />}
 
@@ -63,7 +62,6 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
           {value === 5 && <LabTab patientID={patientID} />}
 
           {value === 6 && <TreatmentPlanTab patientID={patientID} />}
-        </div>
       </div>
     </>
   )
