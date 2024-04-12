@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
-import { Avatar, Divider, Tag } from '@chakra-ui/react'
+import { Avatar, Divider } from '@chakra-ui/react'
 import { Pencil, Settings } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
 // import { CustomSMSSheet } from '../../sms/CustomSMSSheet'
@@ -10,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import EnrollmentStatus from './EnrollmentStatus'
+import { ViralLoadStatus } from './ViralLoadStatus'
 
 export interface PatientProfileCardProps {
   userData: UserDataProps
@@ -27,7 +27,6 @@ export interface UserDataProps {
 }
 
 const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) => {
-  const { data: vlData } = useGetViralLoadTestQuery(patientID)
   const router = useRouter()
 
   return (
@@ -37,7 +36,7 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
       }
     >
       <div
-        className="flex flex-col justify-center w-full md:w-full lg:w-[30%] pr-2  rounded-lg mt-12"
+        className="flex flex-col justify-center w-full md:w-full lg:w-[30%] rounded-lg mt-12"
         // style={{
         //   height: '455px'
         // }}
@@ -72,37 +71,14 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
 
         {/* list items */}
         <div className="flex flex-col mt-2 w-full p-2">
-          <EnrollmentStatus sex={userData?.sex} dob={userData?.dob} id={patientID} />
-          <div
-            className="mt-4 flex flex-col space-y-2 bg-slate-50
-        p-3 border border-slate-200 rounded-lg
-        "
-          >
-            <h1 className="font-bold ">VL Status</h1>
-            <div className="flex flex-row items-center justify-between">
-              <p className="text-sm font-bold text-slate-500">Results</p>{' '}
-              <Tag variant={'outline'} rounded={'full'} size={'sm'}>
-                {vlData?.vlResults}
-              </Tag>
-            </div>
+          <EnrollmentStatus
+            sex={userData?.sex}
+            dob={userData?.dob}
+            id={patientID}
+          />
+          {/* VL status */}
 
-            {/*  */}
-            <div className="flex flex-row items-center justify-between">
-              <p className="text-sm font-bold text-slate-500">Date Taken</p>{' '}
-              <p className="text-sm">
-                {moment(vlData?.dateOfCurrentVL).format('ll')}
-              </p>
-            </div>
-
-            {/*  */}
-            <div className="flex flex-row items-center justify-between">
-              <p className="text-sm font-bold text-slate-500">Next VL Test</p>{' '}
-              <p className="text-sm">
-                {moment(vlData?.dateOfNextVL).format('ll')}
-              </p>
-            </div>
-          </div>
-
+          <ViralLoadStatus patientID={patientID} />
           <div className="mt-4 w-full flex flex-col space-y-2">
             <Button
               onClick={() => router.push(`/patients/settings/${patientID}`)}
