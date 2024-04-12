@@ -1,9 +1,10 @@
-import { Button } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import Urine from './urine/Urine'
 import Blood from './blood/Blood'
 import Stool from './stool/Stool'
 import { type PatientIDProps } from './constants/patient'
+import CustomTab from '../tab/CustomTab'
+import { Button } from '@/components/ui/button'
 
 const categoryList = [
   {
@@ -36,42 +37,28 @@ const LabTab = ({ patientID }: PatientIDProps) => {
   const [value, setValue] = useState<number>(1)
   return (
     <div className="w-full">
-      <p className="text-xl font-bold mb-4">Lab Tests</p>
+      {/*  */}
       <div
-        className="flex flex-row space-x-4
-      border-b mb-4
-      "
+      className='flex space-x-4'
       >
-        {categoryList.map((item) => (
-          <Button
-            key={item.id}
-            rounded={'0'}
-            h={10}
-            size={'sm'}
-            // w={'full'}
-            borderBottom={`${value === item.id ? '2px' : '0'}`}
-            fontWeight={`${value === item.id ? 'bold' : 'normal'}`}
-            bgColor={`${value === item.id ? 'teal.50' : 'transparent'}`}
-            color={`${value === item.id ? 'teal' : 'gray.500'}`}
-            // bgColor={'white'}
-            // shadow={`${value === item.id && 'md'}`}
-            _hover={
-              {
-                // bgColor: `${value === item.id && 'black'}`,
-                // color: `${value === item.id && 'white'}`
-              }
-            }
-            onClick={() => {
-              setValue(item.id)
-            }}
-          >
-            {item.label}
-          </Button>
+        {['Tests', 'Requests', 'Results'].map((item, idx) => (
+          <Button key={idx}
+          className='shadow-none bg-slate-50 text-slate-500
+          font-bold rounded-full border border-slate-200 hover:bg-slate-100
+          '
+          >{item}</Button>
         ))}
       </div>
-      {value === 1 && <Blood
-      patientID={patientID}
-      />}
+
+      <p className="text-xl font-bold mb-4">Lab Tests</p>
+
+     <CustomTab
+     categoryList={categoryList}
+     setValue={setValue}
+     value={value}
+     />
+
+      {value === 1 && <Blood patientID={patientID} />}
       {value === 2 && <Stool />}
       {value === 6 && <Urine />}
     </div>

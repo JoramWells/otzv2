@@ -74,7 +74,7 @@ export const ViralLoadStatus = ({ patientID }: DataProps) => {
                 )
               : (
               <Link
-              href={'/'}
+              href={`/patients/viralload/${patientID}`}
               className='text-blue-500  underline'
               >Update data</Link>
                 )}

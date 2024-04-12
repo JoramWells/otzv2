@@ -9,66 +9,66 @@ import Anaemia from './panel/Anaemia'
 import BloodCount from './panel/BloodCount'
 
 const categoryList = [
-  {
-    id: 1,
-    label: 'Anaemia'
-  },
-  {
-    id: 2,
-    label: 'Blood Count'
-  },
-  {
-    id: 3,
-    label: 'Diabetes'
-  },
-  {
-    id: 4,
-    label: 'Gas (Arterial Blood)'
-  },
-  {
-    id: 5,
-    label: 'Grouping and Crossmatch'
-  },
-  {
-    id: 6,
-    label: 'Hepatitis B Serological'
-  },
+  // {
+  //   id: 1,
+  //   label: 'Anaemia'
+  // },
+  // {
+  //   id: 2,
+  //   label: 'Blood Count'
+  // },
+  // {
+  //   id: 3,
+  //   label: 'Diabetes'
+  // },
+  // {
+  //   id: 4,
+  //   label: 'Gas (Arterial Blood)'
+  // },
+  // {
+  //   id: 5,
+  //   label: 'Grouping and Crossmatch'
+  // },
+  // {
+  //   id: 6,
+  //   label: 'Hepatitis B Serological'
+  // },
   {
     id: 7,
     label: 'HIV Monitoring'
-  },
-  {
-    id: 8,
-    label: 'Lipid'
-  },
-  {
-    id: 9,
-    label: 'Liver Function'
-  },
-  {
-    id: 10,
-    label: 'Malaria Parasites'
-  },
-  {
-    id: 11,
-    label: 'Routine Blood'
-  },
-  {
-    id: 12,
-    label: 'Serum Chemistry Panel'
-  },
-  {
-    id: 13,
-    label: 'Serum Torch Panel'
-  },
-  {
-    id: 14,
-    label: 'Sickling Tests'
-  },
-  {
-    id: 15,
-    label: 'Syphilis Serological'
   }
+  // {
+  //   id: 8,
+  //   label: 'Lipid'
+  // },
+  // {
+  //   id: 9,
+  //   label: 'Liver Function'
+  // },
+  // {
+  //   id: 10,
+  //   label: 'Malaria Parasites'
+  // },
+  // {
+  //   id: 11,
+  //   label: 'Routine Blood'
+  // },
+  // {
+  //   id: 12,
+  //   label: 'Serum Chemistry Panel'
+  // },
+  // {
+  //   id: 13,
+  //   label: 'Serum Torch Panel'
+  // },
+  // {
+  //   id: 14,
+  //   label: 'Sickling Tests'
+  // },
+  // {
+  //   id: 15,
+  //   label: 'Syphilis Serological'
+  // }
 ]
 
 interface PatientIDProps {
@@ -76,7 +76,7 @@ interface PatientIDProps {
 }
 
 const Blood = ({ patientID }: PatientIDProps) => {
-  const [value, setValue] = useState<number>(1)
+  const [value, setValue] = useState<number>(7)
   return (
     <div className="flex space-x-4">
       <div className="flex flex-col w-[200px] border-r">
