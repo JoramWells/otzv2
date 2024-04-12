@@ -31,7 +31,7 @@ const CustomSelect = ({
         }}
         value={value}
       >
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full shadow-none">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

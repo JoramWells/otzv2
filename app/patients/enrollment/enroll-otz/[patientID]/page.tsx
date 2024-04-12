@@ -4,11 +4,12 @@
 import { useCallback, useState } from 'react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../../_components/forms/CustomInput'
-import { Button } from '@chakra-ui/react'
 import { useAddOTZEnrollmentMutation } from '@/api/enrollment/otzEnrollment.api'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
 import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
+import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 // import { useRouter } from 'next/router'
 
 const OTZEnrollment = ({ params }: any) => {
@@ -55,13 +56,14 @@ const OTZEnrollment = ({ params }: any) => {
     <div className="w-full flex flex-row justify-center p-4">
       <div
         className="w-1/3 flex flex-col items-center
-      justify-center rounded-lg  gap-y-4 mt-12"
+      justify-center rounded-lg  space-y-8 mt-14"
         style={{
           width: '40%'
         }}
       >
         <div className="w-full">
-          <p className="text-xl ">Enrollment Status</p>
+          <p className="text-xl font-bold">Enrollment Status</p>
+          <div className='border-b border-slate-200 mt-4' />
         </div>
         <CustomInput
           label="Date of Enrollment"
@@ -78,7 +80,7 @@ const OTZEnrollment = ({ params }: any) => {
           label="Date Done"
           value={dateOfVL}
           onChange={setDateOfVL}
-          type='date'
+          type="date"
         />
 
         <CustomInput
@@ -88,10 +90,10 @@ const OTZEnrollment = ({ params }: any) => {
         />
 
         <CustomSelect
-        label='Most Current ART Regimen'
-        value={currentARTRegimen}
-        onChange={setCurrentARTRegimen}
-        data={artOptions()}
+          label="Most Current ART Regimen"
+          value={currentARTRegimen}
+          onChange={setCurrentARTRegimen}
+          data={artOptions()}
         />
         {/* <CustomInput
           label="Most Current ART Regimen"
@@ -102,7 +104,7 @@ const OTZEnrollment = ({ params }: any) => {
           label="Date Started on Current Regimen"
           value={currentARTStartDate}
           onChange={setCurrentARTStartDate}
-          type='date'
+          type="date"
         />
 
         <CustomSelect
@@ -116,14 +118,20 @@ const OTZEnrollment = ({ params }: any) => {
       value={gender}
       onChange={setGender}
       /> */}
-        <Button
-          w="full"
-          colorScheme="teal"
-          isLoading={isLoading}
-          onClick={() => addOTZEnrollment(inputValues)}
+        <div
+        className='w-full flex justify-end'
         >
-          Enroll
-        </Button>
+          <Button
+            // w="full"
+            // colorScheme="teal"
+            // isLoading={isLoading}
+            disabled={isLoading}
+            onClick={() => addOTZEnrollment(inputValues)}
+          >
+            {isLoading && <Loader2 className='animate-spin mr-2' size={18} />}
+            Enroll
+          </Button>
+        </div>
       </div>
     </div>
   )

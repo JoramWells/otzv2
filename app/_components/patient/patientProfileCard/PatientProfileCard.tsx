@@ -72,7 +72,7 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
 
         {/* list items */}
         <div className="flex flex-col mt-2 w-full p-2">
-          <EnrollmentStatus sex={userData?.sex} dob={userData?.dob} id={userData?.id} />
+          <EnrollmentStatus sex={userData?.sex} dob={userData?.dob} id={patientID} />
           <div
             className="mt-4 flex flex-col space-y-2 bg-slate-50
         p-3 border border-slate-200 rounded-lg
