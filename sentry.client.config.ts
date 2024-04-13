@@ -5,7 +5,7 @@
 import * as Sentry from '@sentry/nextjs'
 
 Sentry.init({
-  dsn: process.env.SENTRY_AUTH_TOKEN,
+  dsn: 'https://c9e0117dcc92962a3d8e01276f6dd155@o4506930509316096.ingest.us.sentry.io/4506930511872000',
 
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 1,
@@ -14,6 +14,7 @@ Sentry.init({
   debug: false,
 
   replaysOnErrorSampleRate: 1.0,
+  profilesSampleRate: 1.0,
 
   // This sets the sample rate to be 10%. You may want this to be 100% while
   // in development and sample at a lower rate in production
@@ -21,6 +22,7 @@ Sentry.init({
 
   // You can remove this option if you're not planning to use the Sentry Session Replay feature:
   integrations: [
+    new Sentry.BrowserProfilingIntegration(),
     Sentry.replayIntegration({
       // Additional Replay configuration goes in here, for example:
       maskAllText: true,

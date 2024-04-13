@@ -24,6 +24,9 @@ export const internalLabRequestApi = createApi({
     getInternalLabRequest: builder.query({
       query: (id) => `detail/${id}`
     }),
+    getInternalLabRequestByID: builder.query({
+      query: (id) => `labDetail/${id}`
+    }),
     updateInternalLabRequest: builder.mutation<LabRequestProps, any>({
       query: ({ id, ...patch }) => ({
         url: `update/${id}`,
@@ -44,5 +47,5 @@ export const internalLabRequestApi = createApi({
 
 export const {
   useGetAllInternalLabRequestsQuery, useUpdateInternalLabRequestMutation,
-  useAddInternalLabRequestMutation, useGetInternalLabRequestQuery
+  useAddInternalLabRequestMutation, useGetInternalLabRequestQuery, useGetInternalLabRequestByIDQuery
 } = internalLabRequestApi

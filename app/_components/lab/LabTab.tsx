@@ -7,6 +7,7 @@ import { type PatientIDProps } from './constants/patient'
 import CustomTab from '../tab/CustomTab'
 import { Button } from '@/components/ui/button'
 import HIVMonitoring from './blood/panel/HIVMonitoring'
+import { useGetInternalLabRequestByIDQuery, useGetInternalLabRequestQuery } from '@/api/viraload/internalLabRequest.api'
 
 const categoryList = [
   {
@@ -53,6 +54,8 @@ const tabList = [
 
 const LabTab = ({ patientID }: PatientIDProps) => {
   const [value, setValue] = useState<number>(1)
+  const { data } = useGetInternalLabRequestByIDQuery(patientID)
+  console.log(data)
   return (
     <div className="w-full  flex-col space-y-4">
       {/*  */}
