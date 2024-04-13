@@ -2,10 +2,7 @@
 import '../../globals.css'
 // import Link from 'next/link'
 import { ChevronRight, ChevronDown } from 'lucide-react'
-import { SidebarSubButton } from './SidebarSubButton'
-import { type ReactNode, useMemo, useState } from 'react'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
+import { type ReactNode, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 // import { Button } from '@/components/ui/button'
 
@@ -31,29 +28,22 @@ export const CustomCollapseButton = ({
   children
 }: CustomCollapseButtonProps) => {
   // const { isOpen, onToggle } = useDisclosure()
-  const [visible, setVisible] = useState(true)
-  const pathname = usePathname()
-  const isActive = useMemo(() => {
-    return pathname.includes(label.toLowerCase())
-  }, [pathname, label])
+  const [visible, setVisible] = useState(false)
 
   const onToggle = () => {
     setVisible((prev) => !prev)
   }
 
   return (
-    <div>
+    <div className="flex-1">
       <div
         onClick={onToggle}
-        className={`flex items-center justify-between text-slate-600 text-sm
-        hover:cursor-pointer  hover:bg-sky-50 hover:text-sky-600 p-2 ${
-          isActive &&
-          'bg-sky-50 text-sky-500 border-l-4 border-sky-600 border-b'
-        }
+        className={`flex items-center justify-between text-slate-600 text-sm w-full
+        hover:cursor-pointer  hover:bg-slate-50 hover:text-slate-500 p-2 rounded-lg
         `}
       >
         <div className="flex flex-row space-x-2">
-          <p className={'font-semibold text-black text-lg'}>{label}</p>
+          <p className={'font-semibold text-black text-base'}>{label}</p>
           <Badge
             className="shadow-none rounded-full
           bg-slate-50 text-slate-600 border-slate-200
@@ -68,8 +58,14 @@ hover:bg-slate-100
       </div>
 
       {visible && (
-        <div className={'duration-100 p-2 w-full border-t border-slate-200'}>
-          {children}
+        <div className="pl-2">
+          <div
+            className={
+              'duration-100 p-2 w-full border border-slate-200 rounded-lg'
+            }
+          >
+            {children}
+          </div>
         </div>
       )}
     </div>

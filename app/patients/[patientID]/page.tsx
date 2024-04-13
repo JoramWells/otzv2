@@ -4,7 +4,6 @@
 
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import PatientDetailsContent from '@/app/_components/patient/tab/PatientDetailsContent'
-import { Skeleton } from '@/components/ui/skeleton'
 
 const categoryList = [
   {
@@ -29,7 +28,23 @@ const categoryList = [
   },
   {
     id: 6,
+    label: 'Pharmacy'
+  },
+  {
+    id: 7,
     label: 'Treatment Plan'
+  },
+  {
+    id: 8,
+    label: 'Medical File'
+  },
+  {
+    id: 9,
+    label: 'Insights'
+  },
+  {
+    id: 10,
+    label: 'Settings'
   }
 ]
 

@@ -28,7 +28,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
 
   return (
     <Suspense fallback={<Skeleton className="w-full h-[500px] " />}>
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col items-center">
         {/* header */}
         <div className="flex flex-row justify-between mb-4 items-center w-full lg:w-3/4">
           <p className="text-lg font-bold">Recent Appointments</p>
@@ -41,7 +41,8 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
                 setIsCalendarVisible(!isCalendarVisible)
               }}
               className={`hover:cursor-pointer bg-gray-100 h-8 w-8 p-2 rounded-md ${
-                isCalendarVisible && 'bg-teal-600 text-white border border-slate-200'
+                isCalendarVisible &&
+                'bg-teal-600 text-white border border-slate-200'
               }`}
             />
             <EditAppointmentDialog patientID={patientID} />
@@ -49,7 +50,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
         </div>
 
         {!isCalendarVisible ? (
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 w-full items-center">
             {isLoadingAppointment ? (
               <>
                 {[1, 2, 3].map((_, idx) => (
@@ -78,10 +79,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
                         <p className="font-bold text-lg">
                           {item.appointmentAgenda?.agendaDescription}
                         </p>
-                        <Badge
-                        variant={'outline'}
-                        className='rounded-full'
-                        >
+                        <Badge variant={'outline'} className="rounded-full">
                           {item.appointmentStatus?.statusDescription}
                         </Badge>
                       </div>
@@ -128,12 +126,12 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
             )}
           </div>
         ) : (
-          <div className="flex flex-row gap-x-4 w-full">
+          <div className="flex flex-col gap-x-4 w-full items-center">
             {/*  */}
             <div
               className="overflow-y-auto rounded-lg border-t-8 pt-4 border-t-slate-300"
               style={{
-                minHeight: '400px',
+                // height: '500px',
                 minWidth: '75%'
               }}
             >
