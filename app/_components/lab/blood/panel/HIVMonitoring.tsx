@@ -62,7 +62,7 @@ const HIVMonitoring = ({ patientID }: PatientIDProps) => {
     reason
   }
   return (
-    <div className="flex flex-col gap-y-6 w-3/4 border p-5 rounded-lg">
+    <div className="flex flex-col gap-y-6 ">
       <p className="text-lg font-bold">HIV Monitoring Tests</p>
 
       <CustomSelect

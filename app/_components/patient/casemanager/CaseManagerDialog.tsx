@@ -18,7 +18,8 @@ export function CaseManagerDialog ({ children, description, label }: DataProps) 
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline"
-        size={'sm'}
+        // size={'sm'}
+        className='shadow-none border-slate-300'
         >{label}</Button>
       </DialogTrigger>
       <DialogContent className="w-3/4">

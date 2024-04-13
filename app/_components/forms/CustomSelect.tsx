@@ -15,7 +15,7 @@ export interface SelectProps {
 }
 
 const CustomSelect = ({
-  label = 'Label',
+  label = '',
   placeholder = '',
   data = [],
   onChange,

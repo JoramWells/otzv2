@@ -12,6 +12,8 @@ import HIVMonitoring from './blood/panel/HIVMonitoring'
 import { useDeleteInternalLabRequestMutation, useGetInternalLabRequestByIDQuery, useGetInternalLabRequestQuery } from '@/api/viraload/internalLabRequest.api'
 import { CustomCollapseButton } from '../dashboard/CustomCollapseButton'
 import { Trash2 } from 'lucide-react'
+import { CaseManagerDialog } from '../patient/casemanager/CaseManagerDialog'
+import CustomSelect from '../forms/CustomSelect'
 
 const categoryList = [
   {
@@ -64,23 +66,33 @@ const LabTab = ({ patientID }: PatientIDProps) => {
   return (
     <div className="w-full  flex-col space-y-4">
       {/*  */}
-      <div className="flex space-x-4">
-        {tabList.map((item: TabListProps) => (
-          <Button
-            key={item.id}
-            className="shadow-none bg-slate-50 text-slate-500
-          font-bold rounded-full border border-slate-200 hover:bg-slate-100
-          "
-            onClick={() => {
-              setValue(item.id)
-            }}
-          >
-            {item.label}
-          </Button>
-        ))}
+      <div className="w-3/4 justify-between flex">
+        <p className="font-extrabold text-lg">Laboratory Section</p>
+        <CaseManagerDialog label="Add Lab Request">
+          <HIVMonitoring patientID={patientID} />
+        </CaseManagerDialog>
       </div>
 
-      {/* <HIVMonitoring patientID={patientID} /> */}
+      {tabList.map((item: TabListProps) => (
+        <Button
+          key={item.id}
+          className={`shadow-none bg-slate-50 text-slate-500
+          font-bold hover:bg-slate-100
+          ${item.id === value && 'text-teal-600'}
+          `}
+          // size={'sm'}
+          onClick={() => {
+            setValue(item.id)
+          }}
+        >
+          {item.label}
+        </Button>
+      ))}
+      <div className="flex space-x-4 flex-row border w-[270px] p-1 rounded-lg items-center">
+        <CustomSelect placeholder="All Reqs." />
+        <CustomSelect placeholder="Specimen Type" />
+      </div>
+
       {value === 1 && (
         <div className="flex flex-col space-y-4">
           {data?.map((item: any) => (
@@ -95,13 +107,9 @@ const LabTab = ({ patientID }: PatientIDProps) => {
                   <p className="text-slate-500">{item.specimenType}</p>
                 </div>
 
-                <div
-                className='flex justify-between'
-                >
+                <div className="flex justify-between">
                   <p>Reason:</p>
-                  <p
-                  className='text-slate-500'
-                  >{item.reason}</p>
+                  <p className="text-slate-500">{item.reason}</p>
                 </div>
                 <div
                   className="flex w-full justify-end
