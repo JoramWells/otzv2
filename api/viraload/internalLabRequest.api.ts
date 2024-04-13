@@ -37,7 +37,7 @@ export const internalLabRequestApi = createApi({
     deleteInternalLabRequest: builder.mutation({
       query (id) {
         return {
-          url: `delete${id}`,
+          url: `delete/${id}`,
           method: 'DELETE'
         }
       }
@@ -46,6 +46,6 @@ export const internalLabRequestApi = createApi({
 })
 
 export const {
-  useGetAllInternalLabRequestsQuery, useUpdateInternalLabRequestMutation,
+  useGetAllInternalLabRequestsQuery, useUpdateInternalLabRequestMutation, useDeleteInternalLabRequestMutation,
   useAddInternalLabRequestMutation, useGetInternalLabRequestQuery, useGetInternalLabRequestByIDQuery
 } = internalLabRequestApi

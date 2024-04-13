@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import Urine from './urine/Urine'
@@ -7,7 +9,9 @@ import { type PatientIDProps } from './constants/patient'
 import CustomTab from '../tab/CustomTab'
 import { Button } from '@/components/ui/button'
 import HIVMonitoring from './blood/panel/HIVMonitoring'
-import { useGetInternalLabRequestByIDQuery, useGetInternalLabRequestQuery } from '@/api/viraload/internalLabRequest.api'
+import { useDeleteInternalLabRequestMutation, useGetInternalLabRequestByIDQuery, useGetInternalLabRequestQuery } from '@/api/viraload/internalLabRequest.api'
+import { CustomCollapseButton } from '../dashboard/CustomCollapseButton'
+import { Trash2 } from 'lucide-react'
 
 const categoryList = [
   {
@@ -55,6 +59,7 @@ const tabList = [
 const LabTab = ({ patientID }: PatientIDProps) => {
   const [value, setValue] = useState<number>(1)
   const { data } = useGetInternalLabRequestByIDQuery(patientID)
+  const [deleteInternalLabRequest] = useDeleteInternalLabRequestMutation(patientID)
   console.log(data)
   return (
     <div className="w-full  flex-col space-y-4">
@@ -66,22 +71,56 @@ const LabTab = ({ patientID }: PatientIDProps) => {
             className="shadow-none bg-slate-50 text-slate-500
           font-bold rounded-full border border-slate-200 hover:bg-slate-100
           "
-          onClick={() => { setValue(item.id) }}
+            onClick={() => {
+              setValue(item.id)
+            }}
           >
             {item.label}
           </Button>
         ))}
       </div>
 
-      {/* <CustomTab
-        categoryList={categoryList}
-        setValue={setValue}
-        value={value}
-      /> */}
-<HIVMonitoring patientID={patientID} />
-      {value === 1 && <div>Results</div>}
-      {value === 2 && <div>Requests</div>}
+      {/* <HIVMonitoring patientID={patientID} /> */}
+      {value === 1 && (
+        <div className="flex flex-col space-y-4">
+          {data?.map((item: any) => (
+            <div key={item.id} className=" w-3/4 ">
+              <CustomCollapseButton label={item.testName}>
+                <div
+                  className="flex flex-row justify-between items-center
+                pt-2 pb-2
+                "
+                >
+                  <p className="text-slate-500">Specimen Type:</p>
+                  <p className="text-slate-500">{item.specimenType}</p>
+                </div>
 
+                <div
+                className='flex justify-between'
+                >
+                  <p>Reason:</p>
+                  <p
+                  className='text-slate-500'
+                  >{item.reason}</p>
+                </div>
+                <div
+                  className="flex w-full justify-end
+                p-2
+                "
+                >
+                  <Trash2
+                    className="bg-slate-100 rounded-lg
+                    hover:cursor-pointer p-1 h-8 w-8 text-slate-500
+                    "
+                    onClick={() => deleteInternalLabRequest(item.id)}
+                  />
+                </div>
+              </CustomCollapseButton>
+            </div>
+          ))}
+        </div>
+      )}
+      {value === 2 && <div>Requests</div>}
     </div>
   )
 }

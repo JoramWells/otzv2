@@ -10,38 +10,38 @@ import CustomSelect from '@/app/_components/forms/CustomSelect'
 
 const options = [
   {
-    id: '1',
+    id: 'Adherence Drug Resistance',
     label: 'Adherence Drug Resistance'
   },
   {
-    id: '2',
+    id: 'CD4 Percentage',
     label: 'CD4 Percentage'
   },
   {
-    id: '3',
+    id: 'CD4 Count',
     label: 'CD4 Count'
   },
   {
-    id: '4',
+    id: 'HIV DNA Polymerase Chain Reaction, Qualitative',
     label: 'HIV DNA Polymerase Chain Reaction, Qualitative'
   },
   {
-    id: '5',
+    id: 'Viral Load',
     label: 'Viral Load'
   },
   {
-    id: '6',
+    id: 'Rapid Test for HIV',
     label: 'Rapid Test for HIV'
   },
   {
-    id: '7',
+    id: 'Serum Cryptococcal Antigen (CRAG)',
     label: 'Serum Cryptococcal Antigen (CRAG)'
   }
 ]
 
 const reasonOption = [
   {
-    id: '1',
+    id: 'Suspected Treatment Failure',
     label: 'Suspected Treatment Failure'
   }
 ]
@@ -65,43 +65,46 @@ const HIVMonitoring = ({ patientID }: PatientIDProps) => {
     <div className="flex flex-col gap-y-6 w-3/4 border p-5 rounded-lg">
       <p className="text-lg font-bold">HIV Monitoring Tests</p>
 
-        <CustomSelect
-        label='Select Test'
+      <CustomSelect
+        label="Select Test"
         data={options}
         onChange={setTestName}
         value={testName}
-        />
-
-        <CustomSelect
-        label='Select Urgency'
-        value={urgency}
-        onChange={setUrgency}
-          data={[
-            { id: '1', label: 'Urgent' },
-            { id: '2', label: 'Routine' }
-          ]}
-        />
-
-      <CustomSelect
-      label='Select Reason'
-      value={reason}
-      onChange={setReason}
-      data={reasonOption}
       />
 
-        <CustomSelect
-        label='Reason (Other)'
+      <CustomSelect
+        label="Select Urgency"
+        value={urgency}
+        onChange={setUrgency}
+        data={[
+          { id: 'Urgent', label: 'Urgent' },
+          { id: 'Routine', label: 'Routine' }
+        ]}
+      />
+
+      <CustomSelect
+        label="Select Reason"
         value={reason}
         onChange={setReason}
-        data={reasonOption} />
+        data={reasonOption}
+      />
+
+      <CustomSelect
+        label="Reason (Other)"
+        value={reason}
+        onChange={setReason}
+        data={reasonOption}
+      />
 
       {/* 2 */}
 
       <div className="flex flex-row justify-end gap-x-4">
         <Button size={'sm'}>Clear</Button>
-        <Button size={'sm'} colorScheme="teal"
-        isLoading={isLoading}
-        onClick={() => addInternalLabRequest(inputValues)}
+        <Button
+          size={'sm'}
+          colorScheme="teal"
+          isLoading={isLoading}
+          onClick={() => addInternalLabRequest(inputValues)}
         >
           Confirm
         </Button>
