@@ -15,7 +15,7 @@ const handler = NextAuth({
       },
       async authorize (credentials, req) {
         console.log(credentials)
-        const response = await axios.post('http://root-service:5000/users/login', {
+        const response = await axios.post('http://root:5000/users/login', {
           email: credentials?.email,
           password: credentials?.password
         })

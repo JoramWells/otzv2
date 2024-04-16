@@ -1,8 +1,14 @@
-import React from 'react'
+import { CaseManagerDialog } from '../patient/casemanager/CaseManagerDialog'
 
 const PharmacyTab = () => {
   return (
-    <div>PharmacyTab</div>
+    <div>
+      <CaseManagerDialog
+      label='Add New Order'
+      >
+        ello
+      </CaseManagerDialog>
+    </div>
   )
 }
 

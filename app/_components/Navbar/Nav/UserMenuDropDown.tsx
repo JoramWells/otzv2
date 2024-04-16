@@ -45,9 +45,7 @@ export function UserMenuDropDown () {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>
-          <div
-          className='flex items-center gap-x-4'
-          >
+          <div className="flex items-center gap-x-4">
             <Avatar
               name={session?.user?.email ?? 'user'}
               size={'xs'}
@@ -55,6 +53,7 @@ export function UserMenuDropDown () {
               // name="jay"
             />
             {session?.user?.email}
+            {session?.user?.id}
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

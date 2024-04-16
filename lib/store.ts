@@ -40,6 +40,7 @@ import { notificationCategoryApi } from '@/api/notifications/notificationCategor
 import { notificationSubCategoryApi } from '@/api/notifications/notificationSubCategory.api'
 import { notificationApi } from '@/api/notifications/notification.api'
 import { userNotificationApi } from '@/api/notifications/userNotification.api'
+import { chatApi } from '@/api/notifications/chat.api'
 
 export const store = configureStore({
   reducer: {
@@ -83,7 +84,8 @@ export const store = configureStore({
     [notificationSubCategoryApi.reducerPath]:
       notificationSubCategoryApi.reducer,
     [notificationApi.reducerPath]: notificationApi.reducer,
-    [userNotificationApi.reducerPath]: userNotificationApi.reducer
+    [userNotificationApi.reducerPath]: userNotificationApi.reducer,
+    [chatApi.reducerPath]: chatApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -129,5 +131,6 @@ export const store = configureStore({
       .concat(notificationCategoryApi.middleware)
       .concat(notificationSubCategoryApi.middleware)
       .concat(notificationApi.middleware)
+      .concat(chatApi.middleware)
       .concat(userNotificationApi.middleware)
 })
