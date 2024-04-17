@@ -22,7 +22,6 @@ const dataList = [
 ]
 
 const AppointmentPage = () => {
-  const { data } = useGetAllPillDailyUptakeQuery()
   const [value, setValue] = useState<number>(1)
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery({
     patientsDueMorning: false
@@ -39,7 +38,7 @@ const AppointmentPage = () => {
 
         <CustomTab categoryList={dataList} value={value} setValue={setValue} />
       </div>
-      <CustomTable columns={columns} data={data || []} />
+      <CustomTable columns={columns} data={patientsDueMorning || []} />
     </div>
   )
 }

@@ -9,7 +9,7 @@ interface Props {
 }
 
 export interface LineChartProps {
-  labels: string[]
+  labels: number[]
   datasets: Array<ChartDataset<'line', Array<number | Point | null>>>
 }
 

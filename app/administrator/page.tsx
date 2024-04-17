@@ -84,7 +84,7 @@ const Dashboard = () => {
 
   //
   const lineChartData = {
-    labels: chartData.map((item: DataPops) => item.year.toString()),
+    labels: chartData.map((item: DataPops) => item.year),
     datasets: [
       {
         label: 'Users Gained',

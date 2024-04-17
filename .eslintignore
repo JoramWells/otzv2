@@ -8,3 +8,4 @@ app/api/sentry-example-api/route.js
 app/api/auth/register/route.ts
 app/api/auth/
 app/_components/patient/settings
+app/patients/page.tsx

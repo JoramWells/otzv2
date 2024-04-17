@@ -1,8 +1,14 @@
-import { createContext, useState } from 'react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { type ReactNode, createContext, useState } from 'react'
 
-export const ChatContext = createContext()
+interface InputProps {
+  children: ReactNode
+  user: string
+}
 
-export const ChatContextProvider = ({ children, user }) => {
+export const ChatContext = createContext({})
+
+export const ChatContextProvider = ({ children, user }: InputProps) => {
   const [userChats, setUserChats] = useState(null)
   const [isUserChatsLoading, setIsUserChatsLoading] = useState(false)
   const [userChatsError, setUserChatsError] = useState(null)

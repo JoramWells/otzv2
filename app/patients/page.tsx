@@ -72,8 +72,15 @@ const NotifyPage = () => {
   const uniqueDates = Array.from(new Set(data?.map((entry: any) => entry.dateConfirmedPositive)))
   uniqueDates.sort()
 
-  // Assuming uniqueDates is an array of unique dates
-  const uniqueYears = [...new Set(uniqueDates.map(date => new Date(date).getFullYear()))]
+const uniqueYears: number[] = [];
+for (const date of uniqueDates) {
+  if (typeof date === "string" || typeof date === "number") {
+    const year = new Date(date).getFullYear();
+    if (!isNaN(year)) {
+      uniqueYears.push(year);
+    }
+  }
+}
 
   // Count the number of patients for each year
   const patientsCountPerYear = uniqueYears.map(year => {
