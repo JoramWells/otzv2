@@ -8,27 +8,22 @@ import { useGetChatMessageQuery } from '@/api/notifications/chatMessage.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+// import { type Session } from 'next-auth'
 import { useSession } from 'next-auth/react'
-import React, { useCallback, useEffect } from 'react'
-
-interface UserSessionProps {
-  user: {
-    id: string
-  }
-}
+import { useCallback, useEffect } from 'react'
 
 export default function Page () {
   const [addChats, { isLoading }] = useAddChatsMutation()
   // const {} = useGetChatQuery()
   const { data: session } = useSession()
 
-  const userID: UserSessionProps = session?.user?.id
+  const userID = session?.user?.id
 
   const { data: usersData } = useGetAllUsersQuery()
 
   const { data: usersChat } = useGetChatQuery(session?.user?.id)
 
-  const { data: messageData } = useGetChatMessageQuery(session?.user.id)
+  const { data: messageData } = useGetChatMessageQuery(userID)
 
   const pChats = useCallback(() => {
     return usersData?.filter((user: any) => {

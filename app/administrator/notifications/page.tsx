@@ -70,25 +70,23 @@ const Appointment = () => {
       </div>
       {value === 1 && (
         <NotificationType
-          columns={columns}
-          data={appointmentAgendaData || []}
+          // columns={columns}
+          // data={appointmentAgendaData || []}
         />
       )}
 
       {value === 2 && (
-        <NotifyCategory columns={columns} data={appointmentAgendaData || []} />
+        <NotifyCategory/>
       )}
       {value === 3 && (
         <NotifySubCategory
-          columns={columns}
-          data={appointmentAgendaData || []}
+
         />
       )}
 
       {value === 4 && (
         <NotificationComponent
-          columns={appointmentStatusColumns}
-          data={appointmentStatusData || []}
+
         />
       )}
     </div>

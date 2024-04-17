@@ -8,12 +8,12 @@ import CustomInput from '../forms/CustomInput'
 import { useAddNotificationTypeMutation, useGetAllNotificationTypesQuery } from '@/api/notifications/notificationTypes.api'
 import { Loader2 } from 'lucide-react'
 
-interface DataProps {
-  columns: string
-  data: string
-}
+// interface DataProps {
+//   columns: string
+//   data: string
+// }
 
-const NotificationType = ({ columns, data }: DataProps) => {
+const NotificationType = () => {
   const [notificationTypeName, setNotificationTypeName] = useState('')
 
   const { data: notificationData } = useGetAllNotificationTypesQuery()

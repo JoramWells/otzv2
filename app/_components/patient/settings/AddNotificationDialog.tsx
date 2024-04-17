@@ -6,7 +6,12 @@ import { Switch } from '@/components/ui/switch'
 import { Divider } from '@chakra-ui/react'
 import { useAddUserNotificationMutation, useUpdateUserNotificationMutation } from '@/api/notifications/userNotification.api'
 import { type UserNotificationData } from '@/app/patients/settings/[patientID]/page'
-
+interface NotificationProps {
+  voice?: boolean
+  sms?: boolean
+  whatsapp?: boolean
+  push?: boolean
+}
 interface NotifyCardProps {
   label: string
   text: string
@@ -31,7 +36,7 @@ const NotifyCard = ({ label, text, isChecked = false, handleChecked }: NotifyCar
 interface AddNotificationDialogProps {
   patientID: string
   notificationID: string
-  userNotificationData: UserNotificationData
+  userNotificationData: UserNotificationData[]
 //   notificationID: string;
 }
 
@@ -40,7 +45,7 @@ const AddNotificationDialog = ({
   userNotificationData
 
 }: AddNotificationDialogProps) => {
-  const [notificationState, setNotificationState] = useState({
+  const [notificationState, setNotificationState] = useState<NotificationProps>({
     voice: false,
     sms: false,
     whatsapp: false,
@@ -58,8 +63,8 @@ const AddNotificationDialog = ({
     })
 
     const updatedNotification = {
-      ...notificationState,
-      [key]: !notificationState[key]
+      ...notificationState
+      // [key]: !notificationState[key]
     }
     if (notificationType2.length === 0) {
       await addUserNotification({
@@ -94,9 +99,9 @@ const AddNotificationDialog = ({
       return item.notificationID === notificationID
     })
 
-    if (notificationType?.length > 0) {
-      setNotificationState(notificationType[0].notifications)
-    }
+    // if (notificationType?.length > 0) {
+    //   setNotificationState(notificationType[0].notifications)
+    // }
     if (notificationType?.length === 0) {
       setNotificationState({
         voice: false,
