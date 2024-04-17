@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Button } from '@/components/ui/button'
 import CustomInput from '../forms/CustomInput'
-import CustomSelect2 from '../forms/CustomSelect2'
 import { useCallback, useState } from 'react'
 import { useGetAllNotificationCategoriesQuery } from '@/api/notifications/notificationCategory.api'
 import { useAddNotificationSubCategoryMutation, useGetAllNotificationSubCategoriesQuery } from '@/api/notifications/notificationSubCategory.api'
 import { Loader2, Trash2 } from 'lucide-react'
 import moment from 'moment'
+import CustomSelect from '../forms/CustomSelect'
 
 export interface NotifySubCategoryProps {
   id: string
@@ -94,7 +94,7 @@ const NotifySubCategory = () => {
           onChange={setNotificationSubCategoryName}
           value={notificationSubCategoryName}
         />
-        <CustomSelect2
+        <CustomSelect
           label="Select Category"
           placeholder="Category"
           data={categoryOptions()}
