@@ -23,9 +23,7 @@ const dataList = [
 
 const AppointmentPage = () => {
   const [value, setValue] = useState<number>(1)
-  const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery({
-    patientsDueMorning: false
-  })
+  const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery()
 
   console.log(patientsDueMorning, 'yu')
 
