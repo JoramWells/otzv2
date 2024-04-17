@@ -6,7 +6,7 @@ interface DataItem {
 }
 
 export interface SelectProps {
-  label: string
+  label?: string
   value: string
   placeholder?: string
   defaultValue?: string

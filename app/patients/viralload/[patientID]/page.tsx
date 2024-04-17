@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 // import { useGetPatientQuery } from '@/api/patient/patients.api'
@@ -35,12 +37,12 @@ const ViralLoadPage = ({ params }: any) => {
             <p>This is a new Patient According to registration Details</p>
             <p>This is the first VL Update</p>
           </div>
-
+{/*
           <CustomInput label="Date of VL" type="date" />
 
           <CustomInput label="VL Results(Copies/ml)" />
 
-          <CustomSelect label="VL Justification" />
+          <CustomSelect label="VL Justification" /> */}
           <div
 className='flex justify-end'
           >

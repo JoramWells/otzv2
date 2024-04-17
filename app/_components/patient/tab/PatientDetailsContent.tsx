@@ -5,7 +5,7 @@ import HomeVisitTab from '../../home-visit/HomevisitTab'
 import { Button } from '@/components/ui/button'
 import LabTab from '../../lab/LabTab'
 import TreatmentPlanTab from '../../treatement-plan/treatementPlanTab/TreatmentPlanTab'
-import PatientProfileCard, { type UserDataProps } from '../patientProfileCard/PatientProfileCard'
+import { type UserDataProps } from '../patientProfileCard/PatientProfileCard'
 import CareGiverTab from '../appointmentTab/CareGiverTab'
 import { Skeleton } from '@/components/ui/skeleton'
 import PharmacyTab from '../../pharmacy/PharmacyTab'
@@ -75,7 +75,7 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
 
         {value === 5 && <LabTab patientID={patientID} />}
 
-        {value === 6 && <PharmacyTab patientID={patientID} />}
+        {value === 6 && <PharmacyTab />}
         {value === 7 && <TreatmentPlanTab patientID={patientID} />}
       </div>
     </>

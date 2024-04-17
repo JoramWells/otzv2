@@ -53,7 +53,6 @@ export function UserMenuDropDown () {
               // name="jay"
             />
             {session?.user?.email}
-            {session?.user?.id}
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

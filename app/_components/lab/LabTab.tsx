@@ -90,8 +90,16 @@ const LabTab = ({ patientID }: PatientIDProps) => {
       </div>
       <div className="flex space-x-4 flex-row border w-3/4 p-1 rounded-sm items-center">
         <div className="flex space-x-2">
-          <CustomSelect placeholder="All Reqs." />
-          <CustomSelect placeholder="Specimen Type" />
+          <CustomSelect placeholder="All Reqs."
+          data={[]}
+          value=''
+          onChange={() => {}}
+          />
+          <CustomSelect placeholder="Specimen Type"
+          data={[]}
+          value=''
+          onChange={() => {}}
+          />
         </div>
       </div>
 

@@ -10,7 +10,7 @@ interface DataProps {
 }
 
 const LabCollapseButton = ({ data, patientID }: DataProps) => {
-  const [deleteInternalLabRequest, { isLoading }] = useDeleteInternalLabRequestMutation(patientID)
+  const [deleteInternalLabRequest, { isLoading }] = useDeleteInternalLabRequestMutation()
 
   return (
     <div className="flex flex-col space-y-4 w-3/4">
