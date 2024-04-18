@@ -43,9 +43,9 @@ const itemList = [
   },
   {
     id: '7',
-    label: 'Treatment Plan',
+    label: 'Pharmacy',
     icon: <NotebookPen />,
-    link: '/treatment-plan'
+    link: '/pharmacy'
   },
   {
     id: '8',
@@ -61,9 +61,9 @@ const itemList = [
   },
   {
     id: '10',
-    label: 'Pharmacy',
+    label: 'Reports',
     icon: <HomeIcon />,
-    link: '/home-visits'
+    link: '/reports'
   }
 ]
 
