@@ -8,7 +8,7 @@ export interface InputEventProps extends React.ChangeEvent<HTMLInputElement> {
 }
 
 interface CustomInputProps {
-  label: string
+  label?: string
   placeholder?: string
   value?: string
   type?: string

@@ -53,8 +53,8 @@ const CareGiverTab = ({ patientID }: DataProps) => {
     await navigator.clipboard.writeText(text)
   }
   return (
-    <div className="w-full flex flex-col">
-      <div className="flex flex-row justify-between mb-4 items-center w-3/4">
+    <div className="w-full flex flex-col justify-center align-center items-center">
+      <div className="flex flex-row justify-between mb-4 items-center w-1/2">
         <p className="font-bold text-lg">Cares Givers</p>
 
         <Button
@@ -62,7 +62,7 @@ const CareGiverTab = ({ patientID }: DataProps) => {
       shadow-none transform font-bold hover:scale-105
       "
           // size={'sm'}
-          onClick={() => router.push(`/caregiver/add-care-giver/${patientID}`)}
+          onClick={() => router.push(`/patients/add-care-giver/${patientID}`)}
         >
           New
         </Button>
@@ -73,14 +73,14 @@ const CareGiverTab = ({ patientID }: DataProps) => {
         ? (
         <div
           className="border border-slate-200
-        rounded-lg p-4 w-3/4 bg-slate-50
+        rounded-lg p-4 w-1/2 bg-slate-50
         "
         >
           <p className="text-lg font-semibold ">
             This Patient has No Caregiver
           </p>
           <p
-          className='text-slate-500'
+          className='text-slate-500 text-sm'
           >
             Environment variables allow you to change site behavior across
             different deploy contexts and scopes. For example, use variables to
@@ -90,7 +90,7 @@ const CareGiverTab = ({ patientID }: DataProps) => {
         </div>
           )
         : (
-        <div className="w-3/4 mb-2 flex flex-row items-center justify-between">
+        <div className="w-1/2 mb-2 flex flex-row items-center justify-between">
           <div className="w-1/2">
             <Input placeholder="Search..." />
           </div>
@@ -104,7 +104,7 @@ const CareGiverTab = ({ patientID }: DataProps) => {
         <div
           key={item.id}
           className="border border-slate-200 p-4
-                rounded-lg w-3/4"
+                rounded-lg w-1/2"
         >
           <div className="flex flex-row space-x-4">
             <Avatar name={item?.firstName} size={'sm'} />
