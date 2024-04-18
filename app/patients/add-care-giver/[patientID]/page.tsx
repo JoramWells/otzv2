@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/naming-convention */
 'use client'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import CustomSelect from '../../../_components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import CustomInput from '@/app/_components/forms/CustomInput'
@@ -62,10 +62,9 @@ const CaseManager = ({ params }: any) => {
   }, [occupationData])
 
   return (
-    <div className="p-3 mt-14 flex flex-row justify-center">
+    <div className="mt-14 flex flex-row justify-center">
       <div
-        className="border border-gray-200
-        w-1/3 flex flex-col rounded-lg p-5 gap-y-4"
+        className="w-1/3 flex flex-col rounded-lg p-5 gap-y-4"
         style={{
           width: '55%'
         }}

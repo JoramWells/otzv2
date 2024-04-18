@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import PharmacyTab from '../../pharmacy/PharmacyTab'
 import { Avatar } from '@chakra-ui/react'
 import Insights from '../insights/Insights'
+import CaseManagerTab from '../appointmentTab/CaseManagerTab'
 
 interface DataProps {
   patientID: string
@@ -23,7 +24,7 @@ interface DataProps {
 //   id: string
 // }
 
-const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => {
+const PatientDetailsContent = ({ listData, patientID }: DataProps) => {
   const [value, setValue] = useState<number>(1)
 
   return (
@@ -58,7 +59,7 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
         {value === 2 && <CareGiverTab patientID={patientID} />}
 
         {/* home visit */}
-        {value === 3 && <HomeVisitTab patientID={patientID} />}
+        {value === 3 && <CaseManagerTab patientID={patientID} />}
 
         {value === 4 && (
           <div>
