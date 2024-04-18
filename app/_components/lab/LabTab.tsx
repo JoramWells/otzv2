@@ -56,11 +56,10 @@ const tabList = [
 const LabTab = ({ patientID }: PatientIDProps) => {
   const [value, setValue] = useState<number>(1)
   const { data } = useGetInternalLabRequestByIDQuery(patientID)
-  console.log(data)
   return (
     <div className="w-full flex  flex-col space-y-4 items-center justify-center">
       {/*  */}
-      <div className="w-3/4 justify-between flex">
+      <div className="w-1/2 justify-between flex">
         <p className="font-extrabold text-lg">Laboratory Sections</p>
         <CaseManagerDialog label="Add Lab Request">
           <HIVMonitoring patientID={patientID} />
@@ -68,9 +67,9 @@ const LabTab = ({ patientID }: PatientIDProps) => {
       </div>
 
       <div
-      className='flex flex-row space-x-2
-      w-3/4
-      '
+        className="flex flex-row space-x-2
+      w-1/2
+      "
       >
         {tabList.map((item: TabListProps) => (
           <Button
@@ -88,22 +87,29 @@ const LabTab = ({ patientID }: PatientIDProps) => {
           </Button>
         ))}
       </div>
-      <div className="flex space-x-4 flex-row border w-3/4 p-1 rounded-sm items-center">
+      <div className="flex space-x-4 flex-row border w-1/2 p-1 rounded-sm items-center">
         <div className="flex space-x-2">
-          <CustomSelect placeholder="All Reqs."
-          data={[]}
-          value=''
-          onChange={() => {}}
+          <CustomSelect
+            placeholder="All Reqs."
+            data={[]}
+            value=""
+            onChange={() => {}}
           />
-          <CustomSelect placeholder="Specimen Type"
-          data={[]}
-          value=''
-          onChange={() => {}}
+          <CustomSelect
+            placeholder="Specimen Type"
+            data={[]}
+            value=""
+            onChange={() => {}}
           />
         </div>
       </div>
 
-      {value === 1 && <LabCollapseButton data={data} patientID={patientID} />}
+      <div
+      className='w-1/2'
+      >
+        {value === 1 && <LabCollapseButton data={data} patientID={patientID} />}
+      </div>
+
       {value === 2 && <div>Requests</div>}
     </div>
   )

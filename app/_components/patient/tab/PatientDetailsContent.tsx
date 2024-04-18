@@ -61,18 +61,7 @@ const PatientDetailsContent = ({ listData, patientID }: DataProps) => {
         {/* home visit */}
         {value === 3 && <CaseManagerTab patientID={patientID} />}
 
-        {value === 4 && (
-          <div>
-            Requests
-            <ol>
-              <li>Lab</li>
-              <li>Pharmacy</li>
-              <li>Viral Load</li>
-              <li>Vital Signs</li>
-            </ol>
-            <Button>Add prescription</Button>
-          </div>
-        )}
+        {value === 4 && <HomeVisitTab patientID={patientID} />}
 
         {value === 5 && <LabTab patientID={patientID} />}
 

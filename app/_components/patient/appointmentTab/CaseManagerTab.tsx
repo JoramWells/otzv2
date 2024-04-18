@@ -13,10 +13,11 @@ import moment from 'moment'
 import { useCallback, useState } from 'react'
 import CustomInput from '../../forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
-import { useAddCaseManagerMutation, useGetCaseManagerQuery } from '@/api/caregiver/casemanager.api'
+import { useAddCaseManagerMutation, useGetAllCaseManagersQuery } from '@/api/caregiver/casemanager.api'
 import { CaseManagerDialog } from '../casemanager/CaseManagerDialog'
 import CustomCheckbox from '../../forms/CustomCheckbox'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface AppointmentHeaderProps {
   query: string
@@ -53,13 +54,16 @@ const AppointmentHeader = ({
 }
 
 interface CaseManagerCardProps {
+  id: string
   item: {
-    id: string
-    firstName: string
-    middleName: string
-    gender: string
-    dob: string
-    phoneNo: string
+    user: {
+      id: string
+      firstName: string
+      middleName: string
+      gender: string
+      dob: string
+      phoneNo: string
+    }
   }
 }
 
@@ -72,19 +76,21 @@ const CaseManagerCard = ({ item }: CaseManagerCardProps) => {
     }, 1500)
     await navigator.clipboard.writeText(text)
   }
+
+  const { firstName, middleName, gender, dob, phoneNo } = item.user
+
   return (
     <div
-      key={item.id}
       className="border border-slate-200 p-4
                 rounded-lg w-full"
     >
       <div className="flex flex-row space-x-4">
-        <Avatar name={item?.firstName} size={'sm'} />
+        <Avatar name={firstName} size={'sm'} />
         <div className="flex flex-col">
           <div className="flex flex-row items-center space-x-4">
             <p className="text-lg font-bold">
               {' '}
-              {item?.firstName} {item?.middleName}{' '}
+              {firstName} {middleName}{' '}
             </p>
             <Tag
               variant={'outline'}
@@ -97,22 +103,22 @@ const CaseManagerCard = ({ item }: CaseManagerCardProps) => {
           </div>
 
           <p className="text-sm text-slate-500">
-            {item?.gender === '2' ? 'FEMALE' : 'MALE'}
+            {gender === '2' ? 'FEMALE' : 'MALE'}
           </p>
           <div
             className="flex flex-row space-x-2
               text-slate-500 text-sm
               "
           >
-            {moment(item?.dob).format('ll')} <Dot /> {calculateAge(item?.dob)}{' '}
+            {moment(dob).format('ll')} <Dot /> {calculateAge(dob)}{' '}
             yrs{' '}
           </div>
 
           <div
-            onClick={async () => await handleCheck(item?.phoneNo)}
+            onClick={async () => await handleCheck(phoneNo)}
             className="flex flex-row space-x-2"
           >
-            <p className="text-slate-500 text-sm font-bold">{item?.phoneNo}</p>
+            <p className="text-slate-500 text-sm font-bold">{phoneNo}</p>
 
             {!delay
               ? (
@@ -188,16 +194,16 @@ const CaseManager = ({ patientID }: DataProps) => {
 const CaseManagerTab = ({ patientID }: DataProps) => {
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState('')
-  const { data } = useGetCaseManagerQuery(patientID)
-
+  const { data, isLoading, isError } = useGetAllCaseManagersQuery()
+  console.log(data, 'ret')
   return (
     <div className="w-full flex flex-col justify-center align-center items-center">
       <div className="flex flex-row justify-between mb-4 items-center w-1/2">
         <p className="font-bold text-lg">Cares Givers</p>
 
-<CaseManagerDialog label='NEW' >
-  <CaseManager patientID={patientID} />
-</CaseManagerDialog>
+        <CaseManagerDialog label="NEW">
+          <CaseManager patientID={patientID} />
+        </CaseManagerDialog>
       </div>
 
       {/* ceck if ter is cariver */}
@@ -230,9 +236,29 @@ const CaseManagerTab = ({ patientID }: DataProps) => {
 
       {/* iterate over te creivers */}
       <div className="w-1/2 space-y-4 flex flex-col">
-        {data?.map((item: any) => (
-          <CaseManagerCard key={item.id} item={item} />
-        ))}
+        {isLoading
+          ? (
+          <>
+            {[1, 2, 3].map((_, idx) => (
+              <Skeleton
+                key={idx}
+                className="border border-slate-200 p-4
+                rounded-lg h-[130px] "
+              />
+            ))}
+          </>
+            )
+          : isError
+            ? (
+          <>Error</>
+              )
+            : (
+          <>
+            {data?.map((item: any) => (
+              <CaseManagerCard id={item.id} key={item.id} item={item} />
+            ))}
+          </>
+              )}
       </div>
     </div>
   )

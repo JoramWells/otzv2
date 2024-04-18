@@ -13,7 +13,7 @@ const LabCollapseButton = ({ data, patientID }: DataProps) => {
   const [deleteInternalLabRequest, { isLoading }] = useDeleteInternalLabRequestMutation()
 
   return (
-    <div className="flex flex-col space-y-4 w-3/4">
+    <div className="flex flex-col space-y-4">
       {data?.map((item: any, idx) => (
         <div key={item.id} className=" w-full flex items-center border-l-4 border-slate-500 rounded-sm">
 

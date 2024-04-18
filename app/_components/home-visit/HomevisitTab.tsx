@@ -18,19 +18,23 @@ const HomeVisitTab = ({ patientID }: HomeVisitProps) => {
   console.log(data, 'dtc')
 
   return (
-    <div className="w-3/4">
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-row items-center space-x-2">
-          <p className="text-lg font-semibold text-slate-700">
-            Recent Home Visits
-          </p>
+    <div
+    className='w-full justify-center items-center flex flex-col'
+    >
+      <div className="w-1/2">
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-row items-center space-x-2">
+            <p className="text-lg font-semibold text-slate-700">
+              Recent Home Visits
+            </p>
+          </div>
+          <Button size={'sm'} colorScheme="green" variant={'outline'}>
+            <Link href={`/home-visits/add-home-visit/${patientID}`}>NEW</Link>
+          </Button>
         </div>
-        <Button size={'sm'} colorScheme="green" variant={'outline'}>
-          <Link href={`/home-visits/add-home-visit/${patientID}`}>NEW</Link>
-        </Button>
-      </div>
-      <div className="mt-4 w-full">
-        <CustomTable columns={columns} data={data || []} />
+        <div className="mt-4 w-full">
+          <CustomTable columns={columns} data={data || []} />
+        </div>
       </div>
     </div>
   )

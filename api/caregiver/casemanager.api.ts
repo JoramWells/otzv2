@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const caseManagerApi = createApi({
@@ -6,7 +7,7 @@ export const caseManagerApi = createApi({
     baseUrl: '/api/patient/casemanager'
   }),
   endpoints: (builder) => ({
-    getAllCaseManagers: builder.query({
+    getAllCaseManagers: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addCaseManager: builder.mutation({
