@@ -12,7 +12,10 @@ export interface CategoryListProps {
 }
 
 const PatientTab = ({ data, value, setValue }: DataProps) => {
-  return <CustomTab categoryList={data} setValue={setValue} value={value} />
+  return (
+
+      <CustomTab categoryList={data} setValue={setValue} value={value} />
+  )
 }
 
 export default PatientTab

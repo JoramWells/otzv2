@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Suspense, useState } from 'react'
 import PatientTab, { type CategoryListProps } from './PatientTab'
 import AppointmentTab from '../appointmentTab/AppointmentTab'
@@ -10,6 +11,7 @@ import CareGiverTab from '../appointmentTab/CareGiverTab'
 import { Skeleton } from '@/components/ui/skeleton'
 import PharmacyTab from '../../pharmacy/PharmacyTab'
 import { Avatar } from '@chakra-ui/react'
+import Insights from '../insights/Insights'
 
 interface DataProps {
   patientID: string
@@ -32,25 +34,23 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
       {/* profile card */}
       <div className="flex flex-col space-y-4 items-start w-full">
         {/* body */}
-        <Suspense fallback={<Skeleton className="w-full h-14" />}>
+        {/* <Suspense fallback={<Skeleton className="w-full h-14" />}>
           <div className="w-full flex space-x-4">
             <div
-            className='items-center flex flex-grow-0 flex-shrink-0 space-x-2
-            '
+              className="items-center flex flex-grow-0 flex-shrink-0 space-x-2
+            "
             >
               <Avatar
                 name={`${userData?.firstName} ${userData?.middleName}`}
-                size={'sm'}
+                size={"sm"}
               />
-              <p
-              className='font-bold'
-              >
-                {userData?.firstName}
-              </p>
+              <p className="font-bold">{userData?.firstName}</p>
             </div>
             <PatientTab data={listData} value={value} setValue={setValue} />
           </div>
-        </Suspense>
+        </Suspense> */}
+        <PatientTab data={listData} value={value} setValue={setValue} />
+
         {/* tabs */}
         {/* appointments */}
         {value === 1 && <AppointmentTab patientID={patientID} />}
@@ -77,6 +77,7 @@ const PatientDetailsContent = ({ listData, patientID, userData }: DataProps) => 
 
         {value === 6 && <PharmacyTab />}
         {value === 7 && <TreatmentPlanTab patientID={patientID} />}
+        {value === 9 && <Insights />}
       </div>
     </>
   )
