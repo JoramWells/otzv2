@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -7,13 +8,15 @@ import { Button } from '@/components/ui/button'
 
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar, Tag } from '@chakra-ui/react'
-import { Check, Copy, Dot } from 'lucide-react'
+import { Check, Copy, Dot, Loader2 } from 'lucide-react'
 import moment from 'moment'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import CustomInput from '../../forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
-import { useGetCaseManagerQuery } from '@/api/caregiver/casemanager.api'
+import { useAddCaseManagerMutation, useGetCaseManagerQuery } from '@/api/caregiver/casemanager.api'
+import { CaseManagerDialog } from '../casemanager/CaseManagerDialog'
+import CustomCheckbox from '../../forms/CustomCheckbox'
+import { useGetAllUsersQuery } from '@/api/users/users.api'
 
 interface AppointmentHeaderProps {
   query: string
@@ -132,10 +135,59 @@ interface DataProps {
   patientID: string
 }
 
+const CaseManager = ({ patientID }: DataProps) => {
+  const [userID, setUser] = useState('')
+  const [isNotifications, setNotifications] = useState<boolean>(false)
+
+  const [addCaseManager, { isLoading }] = useAddCaseManagerMutation()
+
+  const inputValues = {
+    userID,
+    patientID,
+    isNotifications
+
+  }
+
+  const { data } = useGetAllUsersQuery()
+  const userOptions = useCallback(() => {
+    return data?.map((item: any) => ({
+      id: item.id, label: `${item.firstName} ${item.middleName} `
+    }))
+  }, [data])
+
+  return (
+    <div
+      className="flex flex-col space-y-4
+      "
+    >
+      <CustomSelect
+        label="Select Case Manager"
+        data={userOptions()}
+        value={userID}
+        onChange={setUser}
+      />
+      <CustomCheckbox
+        label="Allow Notifications"
+        description="Notify case manager wit every action"
+        value={isNotifications}
+        onChange={setNotifications}
+      />
+
+      <Button
+        size={'lg'}
+        className="shadow-none bg-teal-600 hover:bg-teal-700"
+        onClick={() => addCaseManager(inputValues)}
+      >
+        {isLoading && <Loader2 className='mr-2 animate-spin' size={18} />}
+        Add Case Manager
+      </Button>
+    </div>
+  )
+}
+
 const CaseManagerTab = ({ patientID }: DataProps) => {
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState('')
-  const router = useRouter()
   const { data } = useGetCaseManagerQuery(patientID)
 
   return (
@@ -143,15 +195,9 @@ const CaseManagerTab = ({ patientID }: DataProps) => {
       <div className="flex flex-row justify-between mb-4 items-center w-1/2">
         <p className="font-bold text-lg">Cares Givers</p>
 
-        <Button
-          className="transition ease-in-out bg-teal-600 hover:bg-teal-700
-      shadow-none transform font-bold hover:scale-105
-      "
-          // size={'sm'}
-          onClick={() => router.push(`/patients/add-care-giver/${patientID}`)}
-        >
-          New
-        </Button>
+<CaseManagerDialog label='NEW' >
+  <CaseManager patientID={patientID} />
+</CaseManagerDialog>
       </div>
 
       {/* ceck if ter is cariver */}

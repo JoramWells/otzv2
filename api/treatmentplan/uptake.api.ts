@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-interface AppointmentProps {
-  patientsDueMorning?: boolean
-}
+// interface AppointmentProps {
+//   patientsDueMorning?: boolean
+// }
 
 export const pillDailyUptakeApi = createApi({
   reducerPath: 'pillDailyUptakeApi',
@@ -11,14 +12,14 @@ export const pillDailyUptakeApi = createApi({
     baseUrl: '/api/appointment/daily-uptake'
   }),
   endpoints: (builder) => ({
-    getAllPillDailyUptake: builder.query<any, AppointmentProps>({
+    getAllPillDailyUptake: builder.query<any, void>({
       query: (params) => {
-        if (params) {
-          const { patientsDueMorning } = params
-          let queryString = ''
-          queryString += `patientsDueMorning=${patientsDueMorning}`
-          return `/fetchAll?${queryString}`
-        }
+        // if (params) {
+        //   const { patientsDueMorning } = params
+        //   let queryString = ''
+        //   queryString += `patientsDueMorning=${patientsDueMorning}`
+        //   return `/fetchAll?${queryString}`
+        // }
         return 'fetchAll'
       }
     }),
