@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
-import CustomCheckbox from '../../_components/forms/CustomCheckbox'
-import CustomSelect from '../../_components/forms/CustomSelect'
+import CustomCheckbox from '../../../_components/forms/CustomCheckbox'
+import CustomSelect from '../../../_components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 
 const CaseManager = () => {

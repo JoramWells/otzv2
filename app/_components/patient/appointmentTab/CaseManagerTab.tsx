@@ -1,101 +1,193 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable no-new */
-/* eslint-disable multiline-ternary */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
-import { useGetAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
-import { Calendar, CalendarDays, Clock2, Trash2 } from 'lucide-react'
 
-import { useState } from 'react'
-import { Button, Divider, Tag } from '@chakra-ui/react'
-import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+
+import { calculateAge } from '@/utils/calculateAge'
+import { Avatar, Tag } from '@chakra-ui/react'
+import { Check, Copy, Dot } from 'lucide-react'
 import moment from 'moment'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import CustomInput from '../../forms/CustomInput'
+import CustomSelect from '../../forms/CustomSelect'
+import { useGetCaseManagerQuery } from '@/api/caregiver/casemanager.api'
 
-export interface AppointmentTabProps {
+interface AppointmentHeaderProps {
+  query: string
+  setQuery: (val: string) => void
+  status: string
+  setStatus: (val: string) => void
+}
+
+const AppointmentHeader = ({
+  query,
+  setQuery,
+  status,
+  setStatus
+}: AppointmentHeaderProps) => {
+  return (
+    <div className="flex flex-row items-center w-1/2 mb-4 space-x-4 justify-between">
+      <div className="w-1/4">
+        <CustomInput placeholder="Search" value={query} onChange={setQuery} />
+      </div>
+      <div className="flex flex-row items-center space-x-2">
+        <CustomSelect
+          placeholder="Completed"
+          value={status}
+          onChange={setStatus}
+          data={[
+            { id: 'Completed', label: 'Completed' },
+            { id: 'Pending', label: 'Pending' },
+            { id: 'Upcoming', label: 'Upcoming' }
+          ]}
+        />
+      </div>
+    </div>
+  )
+}
+
+interface CaseManagerCardProps {
+  item: {
+    id: string
+    firstName: string
+    middleName: string
+    gender: string
+    dob: string
+    phoneNo: string
+  }
+}
+
+const CaseManagerCard = ({ item }: CaseManagerCardProps) => {
+  const [delay, setDelay] = useState<boolean>(false)
+  const handleCheck = async (text: string) => {
+    setDelay(true)
+    setTimeout(() => {
+      setDelay(false)
+    }, 1500)
+    await navigator.clipboard.writeText(text)
+  }
+  return (
+    <div
+      key={item.id}
+      className="border border-slate-200 p-4
+                rounded-lg w-full"
+    >
+      <div className="flex flex-row space-x-4">
+        <Avatar name={item?.firstName} size={'sm'} />
+        <div className="flex flex-col">
+          <div className="flex flex-row items-center space-x-4">
+            <p className="text-lg font-bold">
+              {' '}
+              {item?.firstName} {item?.middleName}{' '}
+            </p>
+            <Tag
+              variant={'outline'}
+              rounded={'full'}
+              size={'sm'}
+              colorScheme="green"
+            >
+              ACTIVE
+            </Tag>
+          </div>
+
+          <p className="text-sm text-slate-500">
+            {item?.gender === '2' ? 'FEMALE' : 'MALE'}
+          </p>
+          <div
+            className="flex flex-row space-x-2
+              text-slate-500 text-sm
+              "
+          >
+            {moment(item?.dob).format('ll')} <Dot /> {calculateAge(item?.dob)}{' '}
+            yrs{' '}
+          </div>
+
+          <div
+            onClick={async () => await handleCheck(item?.phoneNo)}
+            className="flex flex-row space-x-2"
+          >
+            <p className="text-slate-500 text-sm font-bold">{item?.phoneNo}</p>
+
+            {!delay
+              ? (
+              <Copy size={18} className="text-slate-500 hover:cursor-pointer" />
+                )
+              : (
+              <Check size={18} className="text-teal-600" />
+                )}
+          </div>
+        </div>
+      </div>
+      {/* <div>
+            <MapPin size={20} />
+          </div> */}
+    </div>
+  )
+}
+
+interface DataProps {
   patientID: string
 }
 
-const CaseManagerTab = ({ patientID }: AppointmentTabProps) => {
-  const [isCalendarVisible, setIsCalendarVisible] = useState(false)
-  const { data } = useGetAppointmentDetailQuery(patientID)
-  console.log(data, 'dtc')
+const CaseManagerTab = ({ patientID }: DataProps) => {
+  const [query, setQuery] = useState('')
+  const [status, setStatus] = useState('')
+  const router = useRouter()
+  const { data } = useGetCaseManagerQuery(patientID)
 
   return (
-    <div className="w-full flex flex-col">
-      {/* header */}
-      <div className="flex flex-row justify-between mb-4 items-center w-3/4">
-        <p className="text-lg font-bold">Recent Appointments</p>
+    <div className="w-full flex flex-col justify-center align-center items-center">
+      <div className="flex flex-row justify-between mb-4 items-center w-1/2">
+        <p className="font-bold text-lg">Cares Givers</p>
 
-        {/* right navbar */}
-        <div className="flex flex-row items-center justify-between gap-x-4">
-          <CalendarDays
-            size={25}
-            onClick={() => {
-              setIsCalendarVisible(!isCalendarVisible)
-            }}
-            className={`hover:cursor-pointer bg-gray-100 h-8 w-8 p-2 rounded-md ${
-              isCalendarVisible && 'bg-teal-600 text-white'
-            }`}
-          />
-          <Button size={'sm'} colorScheme="green" variant={'outline'}>
-            <Link href={`/appointments/add-appointment/${patientID}`}>NEW</Link>
-          </Button>
-        </div>
+        <Button
+          className="transition ease-in-out bg-teal-600 hover:bg-teal-700
+      shadow-none transform font-bold hover:scale-105
+      "
+          // size={'sm'}
+          onClick={() => router.push(`/patients/add-care-giver/${patientID}`)}
+        >
+          New
+        </Button>
       </div>
 
-        <>
-          {data?.map((item: any) => (
-            <div
-              key={item.id}
-              className="border border-slate-200 p-4
-                rounded-lg w-3/4"
-            >
-              <div
-                className="flex flex-row space-x-4
-              items-center justify-between"
-              >
-                <div className="flex space-x-4">
-                  <p className="font-bold text-lg">
-                    {item.appointmentAgenda?.agendaDescription}
-                  </p>
-                  <Tag variant={'outline'} rounded={'full'} size={'sm'}>
-                    {item.appointmentStatus?.statusDescription}
-                  </Tag>
-                </div>
-                <Trash2 size={25} className="bg-slate-200 p-1 rounded-lg" />
-              </div>
-              <div className="mb-2 mt-2">
-                <p className="text-slate-500 text-sm">
-                  Requested By: {item.user?.firstName} {item.user?.middleName}
-                </p>
-              </div>
-              <Divider />
-              <div
-                className="mt-4
-              flex flex-row items-center space-x-4
-              "
-              >
-                <div className="flex flex-row items-center space-x-2">
-                  <Calendar size={20} className="text-slate-500" />
-                  <p className="font-bold text-slate-500 text-sm">
-                    {' '}
-                    {moment(item.appointmentDate).format('ll')}{' '}
-                  </p>
-                </div>
-                <Divider orientation="vertical" h={'20px'} />
+      {/* ceck if ter is cariver */}
+      {data?.length === 0
+        ? (
+        <div
+          className="border border-slate-200
+        rounded-lg p-4 w-1/2 bg-slate-50
+        "
+        >
+          <p className="text-lg font-semibold ">
+            This Patient has No Case Manager
+          </p>
+          <p className="text-slate-500 text-sm">
+            Environment variables allow you to change site behavior across
+            different deploy contexts and scopes. For example, use variables to
+            set different configuration options for builds or to store secret
+            API keys for use in your functions.
+          </p>
+        </div>
+          )
+        : (
+        <AppointmentHeader
+          query={query}
+          setQuery={setQuery}
+          status={status}
+          setStatus={setStatus}
+        />
+          )}
 
-                {/* clock */}
-                <div className="flex flex-row items-center space-x-2">
-                  <Clock2 size={20} className="text-slate-500" />
-                  <p className="font-bold text-slate-500 text-sm">
-                    {' '}
-                    {moment(item.appointmentTime, 'HH:mm').format('HH:mm a')}{' '}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </>
+      {/* iterate over te creivers */}
+      <div className="w-1/2 space-y-4 flex flex-col">
+        {data?.map((item: any) => (
+          <CaseManagerCard key={item.id} item={item} />
+        ))}
+      </div>
     </div>
   )
 }
