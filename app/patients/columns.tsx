@@ -37,11 +37,11 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: 'patient',
+    accessorKey: 'firstName',
     header: 'Patient Name',
     cell: ({ row }) => (
       <div className="flex flex-row gap-x-3 items-center">
-        <div className="relative">
+        <div className="relative p-2">
           <Avatar
             size={'sm'}
             className="font-bold"

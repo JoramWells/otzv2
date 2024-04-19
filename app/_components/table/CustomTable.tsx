@@ -83,12 +83,12 @@ export function CustomTable<TData, TValue> ({
         >
           <input
             placeholder="Search patient name"
-            className="border h-10 rounded-md p-1"
+            className="border border-slate-200 h-10 rounded-md p-1"
             value={
-              (table.getColumn('patient')?.getFilterValue() as string) ?? ''
+              (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
             }
             onChange={(event) =>
-              table.getColumn('patient')?.setFilterValue(event.target.value)
+              table.getColumn('firstName')?.setFilterValue(event.target.value)
             }
           />
 

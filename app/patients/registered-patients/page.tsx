@@ -19,7 +19,7 @@ const Patients = () => {
   return (
     <div className="p-5 mt-12">
         <div className="mb-4 flex flex-row justify-between items-center">
-          <p className="text-lg font-bold">Registered Patients</p>
+          <p className="text-xl font-bold text-slate-700">Registered Patients</p>
           <Button
             className="bg-teal-600 hover:bg-teal-700
         font-bold shadow-none

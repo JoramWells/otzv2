@@ -22,7 +22,6 @@ interface SidebarCollapseButtonProps {
 }
 
 export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, icon = <div/> }: SidebarCollapseButtonProps) => {
-  // const { isOpen, onToggle } = useDisclosure()
   const [visible, setVisible] = useState(false)
   const pathname = usePathname()
   const isActive = useMemo(() => {
@@ -38,8 +37,8 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
       <div
         onClick={onToggle}
         className={`flex h-10 items-center pl-4 pr-4 justify-between text-slate-600 text-sm
-        hover:cursor-pointer overflow-y-auto hover:bg-sky-50 hover:text-sky-600 ${
-          isActive && 'bg-sky-50 text-sky-500 border-l-4 border-sky-600'
+        hover:cursor-pointer overflow-y-auto hover:bg-teal-50 hover:text-teal-600 ${
+          isActive && 'bg-sky-50 text-teal-500 border-l-4 border-teal-600'
         }
         `}
       >
@@ -49,13 +48,13 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
           {(link == null)
             ? (
             <p
-              className={`${isActive ? 'text-sky-600' : 'black'}`}
+              className={`text-capitalize ${isActive ? 'text-sky-600' : 'black'}`}
             >
               {label} {isActive}
             </p>
               )
             : (
-            <Link href={`/${link}`}>{label}</Link>
+            <Link href={`/${link}`} className='capitalize'>{label}</Link>
               )}
         </div>
 
