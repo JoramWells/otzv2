@@ -29,19 +29,7 @@ const DL: SidebarListItemsProps[] = [
     id: '3',
     label: 'Enrollment',
     link: 'patients/enrollment',
-    icon: <BookCheckIcon size={17} />,
-    itemList: [
-      {
-        id: '1',
-        link: '/patients/enrollment/otz',
-        label: 'OTZ'
-      },
-      {
-        id: '2',
-        link: '/add-home-visit',
-        label: 'OVC'
-      }
-    ]
+    icon: <BookCheckIcon size={17} />
   },
   {
     id: '4',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Bell, HomeIcon, LineChart, NotebookPen, PersonStanding, Pill, Shield, Users } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
@@ -8,7 +9,7 @@ const itemList = [
   {
     id: '1',
     label: 'Administrator',
-    icon: <Shield />,
+    icon: <Shield color="#f9be7c" />,
     link: '/administrator'
   },
   {
@@ -33,7 +34,9 @@ const itemList = [
     id: '5',
     label: 'Notify',
     icon: <Bell />,
-    link: '/notify'
+    link: '/notify',
+    description:
+      'Manage patient notifications. All settings for Whatsapp, SMS, Voice Call and App notifications.'
   },
   {
     id: '6',
@@ -49,9 +52,10 @@ const itemList = [
   },
   {
     id: '8',
-    label: 'Home Visit',
+    label: 'Articles',
     icon: <HomeIcon />,
-    link: '/home-visits'
+    link: '/home-visits',
+    description: 'Upload, manage and add patient learning materials for E-learning'
   },
   {
     id: '9',
@@ -69,9 +73,9 @@ const itemList = [
 
 export default function Home () {
   return (
-    <main className="flex screen flex-col justify-between">
+    <main className="flex flex-col  items-start w-full h-screen relative">
       <Suspense fallback={<Skeleton className="p-4 w-full" />}>
-        <nav className="flex justify-between border-b border-slate-200 p-4">
+        <nav className="flex justify-between border-b border-slate-200 p-4 w-full">
           <div>Care +</div>
           <div>Login</div>
         </nav>
@@ -104,7 +108,7 @@ export default function Home () {
             >
               <div className="w-full flex justify-end">
                 <div
-                  className="bg-slate-100 hover:cursor-pointer
+                  className="bg-slate-#f9be7c/50 hover:cursor-pointer
               rounded-lg p-1 hover:bg-slate-100 text-slate-500
               "
                 >
@@ -118,12 +122,24 @@ export default function Home () {
                 {item.label}
               </Link>
               <p className="text-slate-500 text-sm">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
+                {item.description
+                  ? item.description
+                  : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
               </p>
             </div>
           </Suspense>
         ))}
       </section>
+      <div
+      className='absolute bottom-0 p-4 w-full text-center'
+      >
+        <p
+        className='text-slate-700'
+        >Powered by Synergy Data Group</p>
+        <p
+        className='text-sm text-slate-500'
+        >Copyright @2024 . Terms and Conditions Applied</p>
+      </div>
     </main>
   )
 }

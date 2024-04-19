@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/require-array-sort-compare */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { Divider } from '@chakra-ui/react'
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
@@ -50,7 +48,6 @@ interface DataPops {
 
 const NotifyPage = () => {
   const { data } = useGetAllPatientsQuery()
-  console.log(data, 'fr')
   const router = useRouter()
 
   const ageRanges: Array<[number, number]> = [
@@ -95,28 +92,27 @@ for (const date of uniqueDates) {
   return (
     <div className="w-full mt-12 p-5 flex-col flex space-y-6">
       <div className="">
-        <h1 className="font-bold text-2xl">Patient Management</h1>
-        <p className="text-slate-500">Manage registered patients.</p>
+        <h1 className="font-bold text-2xl text-slate-700">Patient Management Dashboard</h1>
       </div>
       <div className="flex w-full justify-between flex-wrap">
         {dataList.map((item, idx) => (
           <div
             key={idx}
-            className="border border-slate-200 rounded-lg p-5
+            className="border border-slate-200 rounded-xl p-5
              h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
       "
-            onClick={() => router.push('/notify/appointment')}
+            onClick={() => router.push("/notify/appointment")}
           >
             <div className="flex flex-row items-center justify-between">
-              <h1 className="font-bold text-lg">{item.label}</h1>
+              <h1 className="font-bold">{item.label}</h1>
               <Users size={20} />
             </div>
-            <p className="text-2xl font-bold">{item.count}</p>
+            <p className="text-2xl font-bold text-slate-600">{item.count}</p>
             <p className="text-slate-500 text-sm">Since last month</p>
           </div>
         ))}
       </div>
-      <Divider />
+      <div className="border-b border-slate-200 w-full" />
       <div className="">
         <h1
           className="font-semibold text-2xl
@@ -134,7 +130,7 @@ for (const date of uniqueDates) {
         <PieChart data={pieChartData} />
       </div>
     </div>
-  )
+  );
 }
 
 export default NotifyPage

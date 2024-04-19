@@ -1,4 +1,5 @@
 'use client'
+import { Button } from '@/components/ui/button'
 import '../../globals.css'
 import { useSidebar } from '@/context/SidebarContext'
 export const Sidebar = ({ children }: { children: React.ReactNode }) => {
@@ -25,6 +26,18 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
           <p className="text-blue-500 text-underline">Powered by Synergy</p>
         </div>
       </div> */}
+      <div className="absolute p-4 bottom-0  w-full text-center">
+        <div>
+          <Button
+            className="w-full mb-4 shadow-none bg-slate-200
+          text-slate-700 font-bold hover:bg-slate-100
+          "
+          >
+            Login
+          </Button>
+          <p className="text-sm underline">Terms and Conditions</p>
+        </div>
+      </div>
     </div>
   )
 }
