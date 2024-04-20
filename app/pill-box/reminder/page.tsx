@@ -1,10 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import CustomTab from '@/app/_components/tab/CustomTab'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import { eveningColumn } from './eveningColumn'
+import { morningColumn } from './morningColumn'
+import CustomSelect from '@/app/_components/forms/CustomSelect'
+import { Search, SlidersHorizontal } from 'lucide-react'
+import CustomInput from '@/app/_components/forms/CustomInput'
 
 const dataList = [
   {
@@ -25,18 +31,64 @@ const AppointmentPage = () => {
   const [value, setValue] = useState<number>(1)
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery()
 
-  console.log(patientsDueMorning, 'yu')
+  const morningData = useCallback(() => {
+    return patientsDueMorning?.filter((item: any) => {
+      return item.timeAndWork?.morningMedicineTime
+    })
+  }, [patientsDueMorning])
+
+  console.log(morningData(), 'yut')
 
   return (
     <div className="p-5 mt-12 flex flex-col space-y-4">
       <h1 className="text-xl font-semibold">Pill Box Reminder</h1>
 
       <div>
-        <p className="mb-2 font-semibold">Select Intake Time</p>
-
         <CustomTab categoryList={dataList} value={value} setValue={setValue} />
       </div>
-      <CustomTable columns={columns} data={patientsDueMorning || []} />
+      {value === 1 && (
+        <div>
+          <div className="mb-2 flex flex-row justify-between">
+            <div className="w-1/4 flex flex-row items-center justify-center space-x-2">
+              <CustomInput />
+              <Search className="bg-slate-200 h-9 w-9 p-2 rounded-lg" />
+            </div>
+            <div className="flex flex-row justify-end w-1/4 items-center rounded-lg space-x-4 p-2">
+              <div className='w-1/4'>
+                <CustomSelect
+                  placeholder="Status"
+                  data={[
+                    {
+                      id: 'Completed',
+                      label: 'Completed'
+                    },
+                    {
+                      id: 'Not Completed',
+                      label: 'Not Completed'
+                    }
+                  ]}
+                />
+              </div>
+              <SlidersHorizontal className="bg-slate-200 h-9 w-9 p-2 rounded-lg" />
+            </div>
+          </div>
+          <CustomTable
+            columns={columns}
+            data={patientsDueMorning || []}
+            isSearch={false}
+          />
+        </div>
+      )}
+
+      {/*  */}
+      {value === 2 && (
+        <CustomTable columns={morningColumn} data={patientsDueMorning || []} />
+      )}
+
+      {/*  */}
+      {value === 3 && (
+        <CustomTable columns={eveningColumn} data={patientsDueMorning || []} />
+      )}
     </div>
   )
 }
