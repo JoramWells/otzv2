@@ -1,16 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Suspense, useState } from 'react'
+import { useState } from 'react'
 import PatientTab, { type CategoryListProps } from './PatientTab'
 import AppointmentTab from '../appointmentTab/AppointmentTab'
 import HomeVisitTab from '../../home-visit/HomevisitTab'
-import { Button } from '@/components/ui/button'
 import LabTab from '../../lab/LabTab'
 import TreatmentPlanTab from '../../treatement-plan/treatementPlanTab/TreatmentPlanTab'
 import { type UserDataProps } from '../patientProfileCard/PatientProfileCard'
 import CareGiverTab from '../appointmentTab/CareGiverTab'
-import { Skeleton } from '@/components/ui/skeleton'
 import PharmacyTab from '../../pharmacy/PharmacyTab'
-import { Avatar } from '@chakra-ui/react'
 import Insights from '../insights/Insights'
 import CaseManagerTab from '../appointmentTab/CaseManagerTab'
 

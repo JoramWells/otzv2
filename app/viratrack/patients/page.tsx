@@ -8,7 +8,7 @@ import { useMemo, useState } from 'react'
 // import { type MomentInput } from 'moment'
 // import { calculateAge } from '@/utils/calculateAge'
 import { Button } from '@/components/ui/button'
-import { ListFilter, PlusCircle } from 'lucide-react'
+import { PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import CustomTab from '../../_components/tab/CustomTab'
 import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
@@ -61,15 +61,10 @@ const TrackPage = () => {
   const router = useRouter()
 
   return (
-    <div className="p-5 mt-14">
+    <div className="p-4 mt-14">
       <div className="mb-4 flex flex-row justify-between items-center">
-        <div>
-          <p className="text-lg font-bold">Welcome to ViraTrack</p>
-          <p className="text-sm text-slate-500">
-            We track realtime VL updates, CD4 Count, Patient Vitals and TB
-            treatment
-          </p>
-        </div>
+          <p className="text-2xl font-bold">Welcome to ViraTrack</p>
+
         <Button
           className="bg-teal-600 hover:bg-teal-700
         font-bold shadow-none
@@ -81,18 +76,6 @@ const TrackPage = () => {
           <PlusCircle size={18} className="mr-2" />
           New Patient
         </Button>
-      </div>
-
-      <div className='flex flex-row justify-between mt-4 mb-4'>
-        <div className="flex flex-row space-x-2 ">
-          {['All', 'Due', 'Upcoming'].map((item, idx) => (
-            <Button key={idx} size={'sm'} className="shadow-none">
-              {item}
-            </Button>
-          ))}
-        </div>
-
-        <ListFilter />
       </div>
 
       <CustomTab

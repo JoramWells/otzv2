@@ -7,8 +7,8 @@ import { Divider } from '@chakra-ui/react'
 import { PlusCircle, Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
-import { useGetAllVlCategoriesQuery } from '@/api/enrollment/viralLoadTests.api'
 import VLPieChart from '../_components/charts/VLPieChart'
+import VLBarChart from '../_components/charts/VLBarChart'
 
 const dataList = [
   {
@@ -51,11 +51,8 @@ const NotifyPage = () => {
     <div className="w-full mt-12 p-5 flex-col flex space-y-6">
       <div className="mb-4 flex flex-row justify-between items-center">
         <div>
-          <p className="text-lg font-bold">Welcome to ViraTrack</p>
-          <p className="text-sm text-slate-500">
-            We track realtime VL updates, CD4 Count, Patient Vitals and TB
-            treatment
-          </p>
+          <p className="text-xl font-bold">Welcome to ViraTrack</p>
+
         </div>
         <Button
           className="bg-teal-600 hover:bg-teal-700
@@ -143,7 +140,7 @@ const NotifyPage = () => {
       <div
       className='flex flex-row space-x-4'
       >
-        <WeeklyAppointmentBarChart />
+        <VLBarChart />
         <VLPieChart />
       </div>
     </div>
