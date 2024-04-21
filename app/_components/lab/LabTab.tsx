@@ -56,6 +56,7 @@ const tabList = [
 const LabTab = ({ patientID }: PatientIDProps) => {
   const [value, setValue] = useState<number>(1)
   const { data } = useGetInternalLabRequestByIDQuery(patientID)
+  console.log(data, 'dtx')
   return (
     <div className="w-full flex  flex-col space-y-4 items-center justify-center">
       {/*  */}

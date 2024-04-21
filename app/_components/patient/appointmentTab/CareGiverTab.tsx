@@ -10,10 +10,11 @@ import { calculateAge } from '@/utils/calculateAge'
 import { Avatar, Tag } from '@chakra-ui/react'
 import { Check, Copy, Dot } from 'lucide-react'
 import moment from 'moment'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useState } from 'react'
 import CustomInput from '../../forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface AppointmentHeaderProps {
   query: string
@@ -72,68 +73,75 @@ const CareGiverCard = ({ item }: CareGiverCardProps) => {
     }, 1500)
     await navigator.clipboard.writeText(text)
   }
-  return (
-        <div
-          key={item.id}
-          className="border border-slate-200 p-4
-                rounded-lg w-full"
-        >
-          <div className="flex flex-row space-x-4">
-            <Avatar name={item?.firstName} size={'sm'} />
-            <div className="flex flex-col">
-              <div className="flex flex-row items-center space-x-4">
-                <p className="text-lg font-bold">
-                  {' '}
-                  {item?.firstName} {item?.middleName}{' '}
-                </p>
-                <Tag
-                  variant={'outline'}
-                  rounded={'full'}
-                  size={'sm'}
-                  colorScheme="green"
-                >
-                  ACTIVE
-                </Tag>
-              </div>
 
-              <p className="text-sm text-slate-500">
-                {item?.gender === '2' ? 'FEMALE' : 'MALE'}
+  const searchParams = useSearchParams()
+  const params = new URLSearchParams(searchParams).get('tab')
+
+  return (
+    <Suspense fallback={<Skeleton className="w-full h-[500px]" />}
+    key={params}
+    >
+      <div
+        key={item.id}
+        className="border border-slate-200 p-4
+                rounded-lg w-full"
+      >
+        <div className="flex flex-row space-x-4">
+          <Avatar name={item?.firstName} size={'sm'} />
+          <div className="flex flex-col">
+            <div className="flex flex-row items-center space-x-4">
+              <p className="text-lg font-bold">
+                {' '}
+                {item?.firstName} {item?.middleName}{' '}
               </p>
-              <div
-                className="flex flex-row space-x-2
+              <Tag
+                variant={'outline'}
+                rounded={'full'}
+                size={'sm'}
+                colorScheme="green"
+              >
+                ACTIVE
+              </Tag>
+            </div>
+
+            <p className="text-sm text-slate-500">
+              {item?.gender === '2' ? 'FEMALE' : 'MALE'}
+            </p>
+            <div
+              className="flex flex-row space-x-2
               text-slate-500 text-sm
               "
-              >
-                {moment(item?.dob).format('ll')} <Dot />{' '}
-                {calculateAge(item?.dob)} yrs{' '}
-              </div>
+            >
+              {moment(item?.dob).format('ll')} <Dot /> {calculateAge(item?.dob)}{' '}
+              yrs{' '}
+            </div>
 
-              <div
-                onClick={async () => await handleCheck(item?.phoneNo)}
-                className="flex flex-row space-x-2"
-              >
-                <p className="text-slate-500 text-sm font-bold">
-                  {item?.phoneNo}
-                </p>
+            <div
+              onClick={async () => await handleCheck(item?.phoneNo)}
+              className="flex flex-row space-x-2"
+            >
+              <p className="text-slate-500 text-sm font-bold">
+                {item?.phoneNo}
+              </p>
 
-                {!delay
-                  ? (
-                  <Copy
-                    size={18}
-                    className="text-slate-500 hover:cursor-pointer"
-                  />
-                    )
-                  : (
-                  <Check size={18} className="text-teal-600" />
-                    )}
-              </div>
+              {!delay
+                ? (
+                <Copy
+                  size={18}
+                  className="text-slate-500 hover:cursor-pointer"
+                />
+                  )
+                : (
+                <Check size={18} className="text-teal-600" />
+                  )}
             </div>
           </div>
-          {/* <div>
+        </div>
+        {/* <div>
             <MapPin size={20} />
           </div> */}
-        </div>
-
+      </div>
+    </Suspense>
   )
 }
 

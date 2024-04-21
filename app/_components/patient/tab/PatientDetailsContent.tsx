@@ -9,6 +9,7 @@ import CareGiverTab from '../appointmentTab/CareGiverTab'
 import PharmacyTab from '../../pharmacy/PharmacyTab'
 import Insights from '../insights/Insights'
 import CaseManagerTab from '../appointmentTab/CaseManagerTab'
+import { useSearchParams } from 'next/navigation'
 
 interface DataProps {
   patientID: string
@@ -16,12 +17,18 @@ interface DataProps {
   userData: UserDataProps
 }
 
-// interface UserDataProps {
-//   id: string
-// }
+export interface InputTabProps {
+  id: number
+  params?: string
+}
 
 const PatientDetailsContent = ({ listData, patientID }: DataProps) => {
-  const [value, setValue] = useState<number>(1)
+  const searchParams = useSearchParams()
+  const tab = searchParams.get('tab')
+  const [value, setValue] = useState<InputTabProps>({
+    id: 0,
+    params: tab
+  })
 
   return (
     <>
@@ -50,20 +57,22 @@ const PatientDetailsContent = ({ listData, patientID }: DataProps) => {
 
         {/* tabs */}
         {/* appointments */}
-        {value === 1 && <AppointmentTab patientID={patientID} />}
+        {tab === 'appointments' && <AppointmentTab patientID={patientID} />}
 
-        {value === 2 && <CareGiverTab patientID={patientID} />}
+        {tab === 'care giver' && <CareGiverTab patientID={patientID} />}
 
         {/* home visit */}
-        {value === 3 && <CaseManagerTab patientID={patientID} />}
+        {tab === 'case manager' && <CaseManagerTab patientID={patientID} />}
 
-        {value === 4 && <HomeVisitTab patientID={patientID} />}
+        {tab === 'Home Visit'.toLowerCase() && (
+          <HomeVisitTab patientID={patientID} />
+        )}
 
-        {value === 5 && <LabTab patientID={patientID} />}
+        {tab === 'lab' && <LabTab patientID={patientID} />}
 
-        {value === 6 && <PharmacyTab />}
-        {value === 7 && <TreatmentPlanTab patientID={patientID} />}
-        {value === 9 && <Insights />}
+        {tab === 'pharmacy' && <PharmacyTab />}
+        {tab === 'treatment plan' && <TreatmentPlanTab patientID={patientID} />}
+        {tab === 'insights' && <Insights />}
       </div>
     </>
   )

@@ -1,9 +1,13 @@
 import CustomTab from '../../tab/CustomTab'
+import { type InputTabProps } from './PatientDetailsContent'
 
 interface DataProps {
   data: CategoryListProps[]
-  value: number
-  setValue: (val: number) => void
+  value: {
+    id: number
+    params?: string
+  }
+  setValue: (val: InputTabProps) => void
 }
 
 export interface CategoryListProps {

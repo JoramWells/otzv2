@@ -10,7 +10,7 @@ import { calculateAge } from '@/utils/calculateAge'
 import { Avatar, Tag } from '@chakra-ui/react'
 import { Check, Copy, Dot, Loader2 } from 'lucide-react'
 import moment from 'moment'
-import { useCallback, useState } from 'react'
+import { Suspense, useCallback, useState } from 'react'
 import CustomInput from '../../forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
 import { useAddCaseManagerMutation, useGetAllCaseManagersQuery } from '@/api/caregiver/casemanager.api'
@@ -18,6 +18,7 @@ import { CaseManagerDialog } from '../casemanager/CaseManagerDialog'
 import CustomCheckbox from '../../forms/CustomCheckbox'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useSearchParams } from 'next/navigation'
 
 interface AppointmentHeaderProps {
   query: string
@@ -56,7 +57,7 @@ const AppointmentHeader = ({
 interface CaseManagerCardProps {
   id: string
   item: {
-    user: {
+    User: {
       id: string
       firstName: string
       middleName: string
@@ -77,7 +78,7 @@ const CaseManagerCard = ({ item }: CaseManagerCardProps) => {
     await navigator.clipboard.writeText(text)
   }
 
-  const { firstName, middleName, gender, dob, phoneNo } = item.user
+  const { firstName, middleName, gender, dob, phoneNo } = item.User
 
   return (
     <div
@@ -195,72 +196,75 @@ const CaseManagerTab = ({ patientID }: DataProps) => {
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState('')
   const { data, isLoading, isError } = useGetAllCaseManagersQuery()
-  console.log(data, 'ret')
+  const searchParams = useSearchParams()
+  const params = new URLSearchParams(searchParams).get('tab')
   return (
-    <div className="w-full flex flex-col justify-center align-center items-center">
-      <div className="flex flex-row justify-between mb-4 items-center w-1/2">
-        <p className="font-bold text-lg">Cares Givers</p>
+    <Suspense fallback={<Skeleton className="w-full h-[500px]" />} key={params}>
+      <div className="w-full flex flex-col justify-center align-center items-center">
+        <div className="flex flex-row justify-between mb-4 items-center w-1/2">
+          <p className="font-bold text-lg">Cares Givers</p>
 
-        <CaseManagerDialog label="NEW">
-          <CaseManager patientID={patientID} />
-        </CaseManagerDialog>
-      </div>
+          <CaseManagerDialog label="NEW">
+            <CaseManager patientID={patientID} />
+          </CaseManagerDialog>
+        </div>
 
-      {/* ceck if ter is cariver */}
-      {data?.length === 0
-        ? (
-        <div
-          className="border border-slate-200
+        {/* ceck if ter is cariver */}
+        {data?.length === 0
+          ? (
+          <div
+            className="border border-slate-200
         rounded-lg p-4 w-1/2 bg-slate-50
         "
-        >
-          <p className="text-lg font-semibold ">
-            This Patient has No Case Manager
-          </p>
-          <p className="text-slate-500 text-sm">
-            Environment variables allow you to change site behavior across
-            different deploy contexts and scopes. For example, use variables to
-            set different configuration options for builds or to store secret
-            API keys for use in your functions.
-          </p>
-        </div>
-          )
-        : (
-        <AppointmentHeader
-          query={query}
-          setQuery={setQuery}
-          status={status}
-          setStatus={setStatus}
-        />
-          )}
-
-      {/* iterate over te creivers */}
-      <div className="w-1/2 space-y-4 flex flex-col">
-        {isLoading
-          ? (
-          <>
-            {[1, 2, 3].map((_, idx) => (
-              <Skeleton
-                key={idx}
-                className="border border-slate-200 p-4
-                rounded-lg h-[130px] "
-              />
-            ))}
-          </>
+          >
+            <p className="text-lg font-semibold ">
+              This Patient has No Case Manager
+            </p>
+            <p className="text-slate-500 text-sm">
+              Environment variables allow you to change site behavior across
+              different deploy contexts and scopes. For example, use variables
+              to set different configuration options for builds or to store
+              secret API keys for use in your functions.
+            </p>
+          </div>
             )
-          : isError
+          : (
+          <AppointmentHeader
+            query={query}
+            setQuery={setQuery}
+            status={status}
+            setStatus={setStatus}
+          />
+            )}
+
+        {/* iterate over te creivers */}
+        <div className="w-1/2 space-y-4 flex flex-col">
+          {isLoading
             ? (
-          <>Error</>
+            <>
+              {[1, 2, 3].map((_, idx) => (
+                <Skeleton
+                  key={idx}
+                  className="border border-slate-200 p-4
+                rounded-lg h-[130px] "
+                />
+              ))}
+            </>
               )
-            : (
-          <>
-            {data?.map((item: any) => (
-              <CaseManagerCard id={item.id} key={item.id} item={item} />
-            ))}
-          </>
-              )}
+            : isError
+              ? (
+            <>Error</>
+                )
+              : (
+            <>
+              {data?.map((item: any) => (
+                <CaseManagerCard id={item.id} key={item.id} item={item} />
+              ))}
+            </>
+                )}
+        </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
 

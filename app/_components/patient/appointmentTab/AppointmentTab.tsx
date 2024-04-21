@@ -19,6 +19,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import CustomSelect from '../../forms/CustomSelect'
 import CustomInput from '../../forms/CustomInput'
+import { useSearchParams } from 'next/navigation'
 
 interface AppointmentCardsProps {
   item: {
@@ -136,6 +137,10 @@ export interface AppointmentTabProps {
 }
 
 const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
+  // const dynamicKey = router.query.id
+  const searchParams = useSearchParams()
+  const params = new URLSearchParams(searchParams).get('tab')
+
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState('')
   const [reason, setReason] = useState('')
@@ -143,7 +148,10 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
   const { data, isLoading: isLoadingAppointment, isError: isErrorAppointment } = useGetAppointmentDetailQuery(patientID)
 
   return (
-    <Suspense fallback={<Skeleton className="w-full h-[500px] " />}>
+    <Suspense
+      fallback={<Skeleton className="w-full h-[500px]" />}
+      key={params}
+    >
       <div className="w-full flex flex-col items-center">
         {/* header */}
         <div className="flex flex-row justify-between mb-4 items-center w-full lg:w-1/2">
