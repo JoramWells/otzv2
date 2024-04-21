@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 
 interface CategoryListProps {
@@ -21,6 +22,16 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
     return false
   }, [value])
 
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+  const handleClick = (id: number, term: string) => {
+    setValue(id)
+    const params = new URLSearchParams(searchParams)
+    params.set('tab', term.toLowerCase())
+    router.replace(`${pathname}?${params.toString()}`)
+  }
+
   return (
     <div
       className="flex flex-row space-x-4
@@ -34,7 +45,7 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
           hover:bg-slate-100 rounded-none
           `}
           onClick={() => {
-            setValue(item.id)
+            handleClick(item.id, item.label)
           }}
         >
           {item.label}
