@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Switch } from '@/components/ui/switch'
 import { Divider } from '@chakra-ui/react'
 import { useAddUserNotificationMutation, useUpdateUserNotificationMutation } from '@/api/notifications/userNotification.api'
-import { type UserNotificationData } from '@/app/patients/settings/[patientID]/page'
+import { type UserNotificationData } from '@/app/patients/settings/[patientID]/Settins'
 interface NotificationProps {
   voice?: boolean
   sms?: boolean

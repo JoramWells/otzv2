@@ -32,7 +32,7 @@ const PatientProfileCard = ({ userData, patientID }: PatientProfileCardProps) =>
   return (
     <Suspense
       fallback={
-        <Skeleton className="w-full md:w-full lg:w-[35%]
+        <Skeleton className="w-full md:w-full lg:w-[25%]
         flex-shrink-0 flex-grow-0" />
       }
     >

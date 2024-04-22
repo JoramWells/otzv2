@@ -23,7 +23,7 @@ Chart.register(...registerables)
 const VLBarChart = () => {
   const { data: vlData } = useGetAllViralLoadTestsQuery()
   const [data, setData] = useState([])
-  const [value, setValue] = useState<any>(0)
+  const [value, setValue] = useState('')
 
   //
   useEffect(() => {
@@ -36,18 +36,11 @@ const VLBarChart = () => {
   const countFalse = data?.filter((item: any) => item.isVLValid === false).length
 
   const uniqueYears = useMemo(() => {
-    const years: number[] = []
-
-    for (let i = 0; i < vlData.length; i++) {
-      const year = new Date(vlData[i].dateOfVL).getFullYear()
-
-      // Check if the year is already in the years array
-      if (!years.includes(year)) {
-        years.push(year) // Add unique year to the array
-      }
-    }
-
-    return years
+    return [
+      ...new Set(
+        vlData?.map((item: any) => new Date(item.dateOfVL).getFullYear())
+      )
+    ]
   }, [vlData])
 
   uniqueYears.sort((a, b) => a - b)
@@ -55,7 +48,7 @@ const VLBarChart = () => {
   const yearsOption = useCallback(() => {
     return uniqueYears?.map(item => (
       {
-        id: String(item), label: String(item)
+        id: item, label: item
       }
     ))
   }, [uniqueYears])
@@ -75,7 +68,7 @@ const VLBarChart = () => {
 
   console.log(yearsOption(), 'years')
 
-  const handleChange = (val: number) => {
+  const handleChange = (val: string) => {
     setData(vlData)
     const filteredData = vlData?.filter((item: any) =>
       new Date(item.dateOfVL).getFullYear() === val

@@ -60,8 +60,11 @@ export interface UserNotificationData {
 //   sms: boolean
 // }
 
-const Settings = ({ params }: any) => {
-  const patientID = params.patientID
+interface InputProps {
+  patientID: string
+}
+
+const Settings = ({ patientID }: InputProps) => {
   const [notificationID, setNotificationID] = useState('')
 
   const { data: userNotificationData } = useGetUserNotificationQuery(patientID)
@@ -83,7 +86,9 @@ const Settings = ({ params }: any) => {
   const router = useRouter()
 
   return (
-    <div className="mt-12 p-4 flex flex-col space-y-4">
+    <div className="p-4 flex flex-col space-y-4
+    w-full
+    ">
     <ol>
       <li
       onClick={() => { router.push(`/patients/settings/notifications/${patientID}`) }}

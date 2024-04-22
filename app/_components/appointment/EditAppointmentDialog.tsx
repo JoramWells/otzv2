@@ -69,7 +69,7 @@ const EditAppointmentDialog = ({ patientID }: DataProps) => {
   }
   return (
     <Dialog>
-      <DialogTrigger>Open</DialogTrigger>
+      <DialogTrigger>NEW</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>

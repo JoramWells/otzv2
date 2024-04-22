@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { Badge } from '@/components/ui/badge'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
@@ -11,6 +13,7 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  phoneNo: string
   dob: MomentInput
   viralLoads: any
   sex: string
@@ -56,10 +59,10 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
               />
           )}
         </div>
-          <Link
-            className="capitalize font-bold text-slate-700"
-            href={`/patients/${row.original.id}`}
-          >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
+        <Link
+          className="capitalize font-bold text-slate-700"
+          href={`/patients/${row.original.id}`}
+        >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
       </div>
     )
   },
@@ -75,6 +78,20 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     enableSorting: true
   },
   {
+    accessorKey: 'phoneNo',
+    header: 'Phone No',
+    cell: ({ row }) => <div>{row.original.phoneNo
+      ? row.original.phoneNo
+      : <Badge
+      className='rounded-full shadow-none bg-slate-100 hover:bg-slate-200 hover:cursor-pointer
+      text-slate-500
+      '
+      >
+      Update
+    </Badge>
+    }</div>
+  },
+  {
     accessorKey: 'populationType',
     header: 'Population Type'
   },
@@ -82,7 +99,12 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     // accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => (
-      <Link href={`/patients/${row.original.id}`}>See Patient</Link>
+      <Link
+        href={`/patients/${row.original.id}?tab=appointments`}
+        className="text-blue-600  hover:underline"
+      >
+        See Patient
+      </Link>
     )
   }
 ]

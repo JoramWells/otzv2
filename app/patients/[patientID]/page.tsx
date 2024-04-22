@@ -8,6 +8,7 @@ import AppointmentTab from '@/app/_components/patient/appointmentTab/Appointment
 import CareGiverTab from '@/app/_components/patient/appointmentTab/CareGiverTab'
 import CaseManagerTab from '@/app/_components/patient/appointmentTab/CaseManagerTab'
 import Insights from '@/app/_components/patient/insights/Insights'
+import PatientProfile from '@/app/_components/patient/patientProfileCard/PatientProfile'
 import PatientTab from '@/app/_components/patient/tab/PatientTab'
 import PharmacyTab from '@/app/_components/pharmacy/PharmacyTab'
 import TreatmentPlanTab from '@/app/_components/treatement-plan/treatementPlanTab/TreatmentPlanTab'
@@ -93,6 +94,9 @@ const PatientDetails = ({ params }: any) => {
         {tab === 'pharmacy' && <PharmacyTab />}
         {tab === 'treatment plan' && <TreatmentPlanTab patientID={patientID} />}
         {tab === 'insights' && <Insights />}
+        {tab === 'settings' && <PatientProfile
+        patientID={patientID}
+        />}
       </div>
     </div>
   )
