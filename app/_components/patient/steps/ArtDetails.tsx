@@ -3,13 +3,15 @@ import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../forms/CustomInput'
 import CustomSelect from '../../forms/CustomSelect'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 
 export interface ARTProps {
   artName: string
   dateIssued: string
   currentRegimeLine: string
+  clinic: string
+  setClinic: (val: string) => void
   setArtName: (art: string) => void
   setDateIssued: (art: string) => void
   setCurrentRegimenLine: (art: string) => void
@@ -22,7 +24,8 @@ interface PhaseProps {
 
 const ArtDetails = ({
   artName, dateIssued, currentRegimeLine,
-  setArtName, setDateIssued, setCurrentRegimenLine
+  setArtName, setDateIssued, setCurrentRegimenLine,
+  clinic, setClinic
 }: ARTProps) => {
   const { data: phaseData } = useGetAllArtRegimenPhaseQuery()
   const { data: artData } = useGetAllArtRegimenQuery()
@@ -43,28 +46,26 @@ const ArtDetails = ({
 
   const clinicOptions = [
     {
-      id: '1',
+      id: 'Adolescent Clinic',
       label: 'Adolescent Clinic'
     },
     {
-      id: '2',
+      id: 'CCC',
       label: 'CCC'
     },
     {
-      id: '3',
+      id: 'Paeds Clinic',
       label: 'Paeds Clinic'
     },
     {
-      id: '4',
+      id: 'PMTCT',
       label: 'PMTCT'
     },
     {
-      id: '5',
+      id: 'TB-HIV',
       label: 'TB-HIV'
     }
   ]
-
-  const [clinic, setClinic] = useState('')
 
   return (
     <div

@@ -65,17 +65,19 @@ const AddPatient = () => {
   const [currentRegimeLine, setCurrentRegimenLine] = useState('')
   const [mflCode, setMFLCode] = useState('')
   const [cccNo, setCCCNo] = useState('')
+  const [clinic, setClinic] = useState('')
 
   const inputValues = {
     firstName,
     middleName,
     lastName,
-    patient_gender: gender,
+    sex: gender,
     dob: DOB,
     phoneNo,
     idNo: IDNo,
     residence,
     artStartDate: ARTStartDate,
+    entryPoint: clinic,
     originalART,
     currentRegimeLine,
     cccNo,
@@ -180,6 +182,8 @@ const AddPatient = () => {
             setArtName={setOriginalART}
             setDateIssued={setARTStartDate}
             setCurrentRegimenLine={setCurrentRegimenLine}
+            clinic={clinic}
+            setClinic={setClinic}
           />
         )}
 

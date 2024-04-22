@@ -53,7 +53,7 @@ const LocationDetails = ({
   // sub counties
   const subCountyOptions = useCallback(() => {
     const tempData = subCountyData?.filter((item: any) =>
-      item.county.id.includes(residence)
+      item.county.id.toString().includes(residence)
     )
     return tempData?.map((item: SubCountyProps) => ({
       id: item.id,
@@ -67,6 +67,8 @@ const LocationDetails = ({
       label: item.schoolName
     }))
   }, [schoolsData])
+
+  console.log(subCountyOptions(), 'jk')
 
   // ward options
   // const wardOptions = useCallback(() => {
@@ -111,27 +113,6 @@ const LocationDetails = ({
           value={phoneNo}
           onChange={setPhoneNo}
         />
-        <div
-          className="w-full flex justify-between
-        items-center
-        mt-2"
-        >
-          <Button
-            size={'sm'}
-            variant={'outline'}
-            className="border-teal-600 shadow-none
-          font-bold text-teal-600 uppercase
-          "
-            onClick={handleAddNumbers}
-          >
-            Add
-          </Button>
-          <div className="flex flex-row space-x-2">
-            {numbers.map((item, idx) => (
-              <Tag key={idx}> {item} </Tag>
-            ))}
-          </div>
-        </div>
       </div>
       {/* {occupation} */}
       <div

@@ -80,16 +80,28 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'phoneNo',
     header: 'Phone No',
-    cell: ({ row }) => <div>{row.original.phoneNo
-      ? row.original.phoneNo
-      : <Badge
-      className='rounded-full shadow-none bg-slate-100 hover:bg-slate-200 hover:cursor-pointer
+    cell: ({ row }) => (
+      <div>
+        {row.original.phoneNo
+          ? (
+              row.original.phoneNo
+            )
+          : (
+          <Badge
+            className="rounded-full shadow-none bg-slate-100 hover:bg-slate-200 hover:cursor-pointer
       text-slate-500
-      '
-      >
-      Update
-    </Badge>
-    }</div>
+      "
+          >
+            Update
+          </Badge>
+            )}
+      </div>
+    )
+  },
+  {
+    accessorKey: 'cccNo',
+    header: 'CCC No.'
+    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
   },
   {
     accessorKey: 'populationType',

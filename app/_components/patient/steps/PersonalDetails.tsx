@@ -146,7 +146,7 @@ const PersonalDetail = ({
         </div>
       </div>
 
-      <CustomInput label="NUPI" value={cccNo} onChange={setCCCNo} />
+      <CustomInput label="CCC No." value={cccNo} onChange={setCCCNo} />
     </div>
   )
 }
