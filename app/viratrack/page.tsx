@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Divider } from '@chakra-ui/react'
 import { PlusCircle, Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
 import VLPieChart from '../_components/charts/VLPieChart'
 import VLBarChart from '../_components/charts/VLBarChart'
 

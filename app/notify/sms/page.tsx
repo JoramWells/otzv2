@@ -13,10 +13,13 @@ import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { CircleFadingPlus, PlusCircle } from 'lucide-react'
 import { useGetAllSMSQuery } from '@/api/sms/sms.api'
+import { useSearchParams } from 'next/navigation'
 
 const SMSPage = () => {
   const [appointments, setAppointments] = useState([])
-  const [value, setValue] = useState<number>(1)
+  const searchParams = useSearchParams()
+  const tab = searchParams.get('tab')
+  const [value, setValue] = useState<string | null>(tab)
   const { data } = useGetAllSMSQuery()
 
   const showNotification = useNotification()
@@ -53,23 +56,18 @@ const SMSPage = () => {
     () => [
       {
         id: 1,
-        label: `All ${appointments?.length}`
+        label: 'All'
       },
       {
         id: 2,
-        label: `Rescheduled ${pendingAppointment()?.length}`
+        label: 'Rescheduled'
       },
       {
         id: 3,
-        label: `Sent ${rescheduledAppointment()?.length}`
+        label: 'Sent'
       }
     ],
-    [
-      appointments?.length,
-      pendingAppointment,
-      rescheduledAppointment
-
-    ]
+    []
   )
 
   console.log(data, 'lki')
@@ -113,24 +111,24 @@ const SMSPage = () => {
         value={value}
       />
 
-      {value === 1 && <CustomTable columns={columns} data={data || []} />}
+      {value === 'All' && <CustomTable columns={columns} data={data || []} />}
 
-      {value === 2 && (
+      {value === 'pending' && (
         <AppointmentStatusTab
           columns={columns}
           data={pendingAppointment() || []}
         />
       )}
 
-      {value === 3 && (
+      {value === 'rescheduled' && (
         <CustomTable columns={columns} data={rescheduledAppointment() || []} />
       )}
 
-      {value === 4 && (
+      {value === 'upcoming' && (
         <CustomTable columns={columns} data={upcomingAppointment() || []} />
       )}
 
-      {value === 5 && (
+      {value === 'missed' && (
         <CustomTable columns={columns} data={missedAppointment() || []} />
       )}
     </div>

@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
-import { type InputTabProps } from '../patient/tab/PatientDetailsContent'
 
 interface CategoryListProps {
   id: number
@@ -11,17 +10,14 @@ interface CategoryListProps {
 
 export interface CustomTabProps {
   categoryList: CategoryListProps[]
-  value: {
-    id: number
-    params?: string
-  }
-  setValue: (val: InputTabProps) => void
+  value: string | null
+  setValue: (val: string) => void
 }
 
 const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
   // check user
-  const isChecked = useCallback((val: number, params: string) => {
-    if (value.id === val || value.params?.toLowerCase() === params) {
+  const isChecked = useCallback((params: string) => {
+    if (value === params) {
       return true
     }
     return false
@@ -32,8 +28,8 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
   const pathname = usePathname()
   const params = new URLSearchParams(searchParams)
   const tab = params.get('tab')
-  const handleClick = (id: number, term: string) => {
-    setValue({ id, params: term })
+  const handleClick = (term: string) => {
+    setValue(term)
 
     params.set('tab', term.toLowerCase())
     router.replace(`${pathname}?${params.toString()}`)
@@ -48,11 +44,11 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
       {categoryList.map((item) => (
         <Button
           key={item.id}
-          className={`shadow-none bg-white text-slate-400 font-semibold ${isChecked(item.id, item.label.toLowerCase()) && 'text-teal-600 font-semibold border-b-2 border-teal-600'}
+          className={`shadow-none bg-white text-slate-400 font-semibold ${isChecked(item.label.toLowerCase()) && 'text-teal-600 font-semibold border-b-2 border-teal-600'}
           hover:bg-slate-100 rounded-none
           `}
           onClick={() => {
-            handleClick(item.id, item.label)
+            handleClick(item.label.toLowerCase())
           }}
         >
           {item.label}

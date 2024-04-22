@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { useGetAllAppointmentsQuery, useGetAllWeeklyAppointmentsQuery } from '@/api/appointment/appointment.api.'
+import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import AppointmentStatusTab from '../../_components/appointment/tabs/AppointmentStatusTab'
 import { Button } from '@/components/ui/button'
 import CustomTab from '../../_components/tab/CustomTab'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
-import { CircleFadingPlus, PlusCircle } from 'lucide-react'
+import { PlusCircle } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
 
 const AppointmentPage = () => {
-  const [appointments, setAppointments] = useState([])
-  const [value, setValue] = useState<number>(1)
+  const searchParams = useSearchParams()
+  const tab = searchParams.get('tab')
+  const [value, setValue] = useState<string | null>(tab)
   const { data } = useGetAllAppointmentsQuery({
     mode: 'weekly',
     date: new Date().toISOString()
@@ -43,38 +43,30 @@ const AppointmentPage = () => {
     )
   }, [data])
 
-  const pendingAppointment = useCallback(() => {
-    return data?.filter((item: any) =>
-      item.appointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Pending'.toLowerCase())
-    )
-  }, [data])
-
   const categoryList = useMemo(
     () => [
       {
         id: 1,
-        label: `All ${appointments?.length}`
+        label: 'All'
       },
       {
         id: 2,
-        label: `Pending ${pendingAppointment()?.length}`
+        label: 'Pending'
       },
       {
         id: 3,
-        label: `Rescheduled ${rescheduledAppointment()?.length}`
+        label: 'Rescheduled'
       },
       {
         id: 4,
-        label: `Upcoming ${upcomingAppointment()?.length}`
+        label: 'Upcoming '
       },
       {
         id: 5,
-        label: `Missed ${missedAppointment()?.length}`
+        label: 'Missed'
       }
     ],
-    [missedAppointment, appointments?.length, pendingAppointment, rescheduledAppointment, upcomingAppointment]
+    []
   )
 
   useEffect(() => {
@@ -96,7 +88,6 @@ const AppointmentPage = () => {
 
   return (
     <div className="p-5 mt-12">
-
       <div className="flex flex-row mb-4 justify-between ">
         <h1 className="text-lg font-semibold">Appointments</h1>
 
@@ -117,7 +108,7 @@ const AppointmentPage = () => {
         value={value}
       />
 
-      {value === 1 && <CustomTable columns={columns} data={data || []} />}
+      {value === 'all' && <CustomTable columns={columns} data={data || []} />}
 
       {/* {value === 2 && (
         <AppointmentStatusTab
@@ -126,15 +117,15 @@ const AppointmentPage = () => {
         />
       )} */}
 
-      {value === 3 && (
+      {value === 'rescheduled' && (
         <CustomTable columns={columns} data={rescheduledAppointment() || []} />
       )}
 
-      {value === 4 && (
+      {value === 'upcoming' && (
         <CustomTable columns={columns} data={upcomingAppointment() || []} />
       )}
 
-      {value === 5 && (
+      {value === 'missed' && (
         <CustomTable columns={columns} data={missedAppointment() || []} />
       )}
     </div>

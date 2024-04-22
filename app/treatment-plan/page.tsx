@@ -5,7 +5,6 @@ import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { CustomTable } from '../_components/table/CustomTable'
 import { columns } from './columns'
 import { useCallback, useMemo, useState } from 'react'
-import { Tag } from '@chakra-ui/react'
 import { type MomentInput } from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
 import { Button } from '@/components/ui/button'
@@ -117,27 +116,8 @@ const TreatmentPlan = () => {
         </Button>
       </div>
 
-      <CustomTab
-        categoryList={categoryList}
-        value={value}
-        setValue={setValue}
-      />
+      <CustomTable columns={columns} data={data || []} />
 
-      {value === 1 && <CustomTable columns={columns} data={data || []} />}
-
-      {value === 2 && <CustomTable columns={columns} data={paedData() || []} />}
-
-      {value === 3 && <CustomTable columns={columns} data={otzData() || []} />}
-
-      {/* plus */}
-      {value === 4 && (
-        <CustomTable columns={columns} data={otzPlusData() || []} />
-      )}
-
-      {/* adult */}
-      {value === 5 && (
-        <CustomTable columns={columns} data={adultData() || []} />
-      )}
     </div>
   )
 }

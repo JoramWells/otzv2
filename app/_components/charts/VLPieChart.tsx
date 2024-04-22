@@ -3,6 +3,7 @@ import { useGetAllVlCategoriesQuery } from '@/api/enrollment/viralLoadTests.api'
 // import { type Point, type ChartDataset, type BubbleDataPoint } from 'chart.js/auto'
 import { Pie } from 'react-chartjs-2'
 import CustomSelect from '../forms/CustomSelect'
+import { useState } from 'react'
 
 // export interface PieChartProps {
 //   labels: string[]
@@ -23,6 +24,8 @@ const VLPieChart = () => {
     ]
   }
 
+  const [value, setValue] = useState<any>(0)
+
   return (
     <div className="border rounded-lg h-[400px] w-[600px] ">
       <div
@@ -42,6 +45,8 @@ const VLPieChart = () => {
                 label: '2019'
               }
             ]}
+            value={value}
+            onChange={setValue}
           />
         </div>
       </div>

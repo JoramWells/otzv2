@@ -108,7 +108,7 @@ const LabTab = ({ patientID }: PatientIDProps) => {
       <div
       className='w-1/2'
       >
-        {value === 1 && <LabCollapseButton data={data} patientID={patientID} />}
+        {value === 1 && <LabCollapseButton data={data} />}
       </div>
 
       {value === 2 && <div>Requests</div>}

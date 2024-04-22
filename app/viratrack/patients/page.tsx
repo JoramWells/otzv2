@@ -9,7 +9,7 @@ import { useMemo, useState } from 'react'
 // import { calculateAge } from '@/utils/calculateAge'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import CustomTab from '../../_components/tab/CustomTab'
 import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
 
@@ -20,11 +20,10 @@ import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.ap
 const TrackPage = () => {
   // const datax = await getPatients()
   const { data } = useGetAllPatientsQuery()
-  const [value, setValue] = useState<number>(1)
-
+  const searchParams = useSearchParams()
+  const tab = searchParams.get('tab')
+  const [value, setValue] = useState<string | null>(tab)
   const { data: vlData } = useGetAllViralLoadTestsQuery()
-
-  console.log(vlData, 'kli')
 
   const categoryList = useMemo(
     () => [
@@ -84,17 +83,8 @@ const TrackPage = () => {
         value={value}
       />
 
-      {value === 1 && <CustomTable columns={columns} data={vlData || []} />}
+      <CustomTable columns={columns} data={vlData || []} />
 
-      {value === 2 && <CustomTable columns={columns} data={vlData || []} />}
-
-      {value === 3 && <CustomTable columns={columns} data={vlData || []} />}
-
-      {/* plus */}
-      {value === 4 && <CustomTable columns={columns} data={vlData || []} />}
-
-      {/* adult */}
-      {value === 5 && <CustomTable columns={columns} data={vlData || []} />}
     </div>
   )
 }

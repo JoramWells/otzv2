@@ -12,10 +12,13 @@ import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { CircleFadingPlus, PlusCircle } from 'lucide-react'
 import { useGetAllPillsQuery } from '@/api/pillbox/pillbox.api'
+import { useSearchParams } from 'next/navigation'
 
 const AppointmentPage = () => {
   const [appointments, setAppointments] = useState([])
-  const [value, setValue] = useState<number>(1)
+  const searchParams = useSearchParams()
+  const tab = searchParams.get('tab')
+  const [value, setValue] = useState<string | null>(tab)
   const { data } = useGetAllPillsQuery()
 
   console.log(data, 'yu')
@@ -116,26 +119,8 @@ const AppointmentPage = () => {
         value={value}
       />
 
-      {value === 1 && <CustomTable columns={columns} data={data || []} />}
+     <CustomTable columns={columns} data={data || []} />
 
-      {/* {value === 2 && (
-        <AppointmentStatusTab
-          columns={columns}
-          data={pendingAppointment() || []}
-        />
-      )} */}
-
-      {value === 3 && (
-        <CustomTable columns={columns} data={rescheduledAppointment() || []} />
-      )}
-
-      {value === 4 && (
-        <CustomTable columns={columns} data={upcomingAppointment() || []} />
-      )}
-
-      {value === 5 && (
-        <CustomTable columns={columns} data={missedAppointment() || []} />
-      )}
     </div>
   )
 }

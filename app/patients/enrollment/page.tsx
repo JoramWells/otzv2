@@ -5,6 +5,7 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import CustomTab from '@/app/_components/tab/CustomTab'
 import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 const categoryList = [
   {
@@ -30,7 +31,9 @@ const categoryList = [
 ]
 
 const Page = () => {
-  const [value, setValue] = useState<number>(1)
+  const searchParams = useSearchParams()
+  const tab = searchParams.get('tab')
+  const [value, setValue] = useState<string | null>(tab)
   const { data, isLoading } = useGetAllPatientsQuery()
 
   return (

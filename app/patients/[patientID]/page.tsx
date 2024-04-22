@@ -2,8 +2,17 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
-import { useGetPatientQuery } from '@/api/patient/patients.api'
-import PatientDetailsContent from '@/app/_components/patient/tab/PatientDetailsContent'
+import HomeVisitTab from '@/app/_components/home-visit/HomevisitTab'
+import LabTab from '@/app/_components/lab/LabTab'
+import AppointmentTab from '@/app/_components/patient/appointmentTab/AppointmentTab'
+import CareGiverTab from '@/app/_components/patient/appointmentTab/CareGiverTab'
+import CaseManagerTab from '@/app/_components/patient/appointmentTab/CaseManagerTab'
+import Insights from '@/app/_components/patient/insights/Insights'
+import PatientTab from '@/app/_components/patient/tab/PatientTab'
+import PharmacyTab from '@/app/_components/pharmacy/PharmacyTab'
+import TreatmentPlanTab from '@/app/_components/treatement-plan/treatementPlanTab/TreatmentPlanTab'
+import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 
 const categoryList = [
   {
@@ -48,23 +57,43 @@ const categoryList = [
   }
 ]
 
+export interface InputTabProps {
+  id: number
+  params?: string
+}
+
 const PatientDetails = ({ params }: any) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
+  const searchParams = useSearchParams()
+  const tab = searchParams.get('tab')
+  const [value, setValue] = useState<string | null>(tab)
   const patientID = params.patientID
-
-  const { data: userData } = useGetPatientQuery(patientID)
 
   return (
     <div className="flex flex-row space-x-4 mt-16 pt-2 items-start">
+      <div className="flex flex-col space-y-4 items-start w-full">
+        {/* body */}
 
-        <PatientDetailsContent
-          patientID={patientID}
-          listData={categoryList}
-          userData={userData}
-        />
+        <PatientTab data={categoryList} value={value} setValue={setValue} />
 
-      {/* profile */}
+        {/* tabs */}
+        {/* appointments */}
+        {tab === 'appointments' && <AppointmentTab patientID={patientID} />}
+
+        {tab === 'care giver' && <CareGiverTab patientID={patientID} />}
+
+        {/* home visit */}
+        {tab === 'case manager' && <CaseManagerTab patientID={patientID} />}
+
+        {tab === 'Home Visit'.toLowerCase() && (
+          <HomeVisitTab patientID={patientID} />
+        )}
+
+        {tab === 'lab' && <LabTab patientID={patientID} />}
+
+        {tab === 'pharmacy' && <PharmacyTab />}
+        {tab === 'treatment plan' && <TreatmentPlanTab patientID={patientID} />}
+        {tab === 'insights' && <Insights />}
+      </div>
     </div>
   )
 }

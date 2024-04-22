@@ -11,6 +11,7 @@ import { morningColumn } from './morningColumn'
 import CustomSelect from '@/app/_components/forms/CustomSelect'
 import { Search, SlidersHorizontal } from 'lucide-react'
 import CustomInput from '@/app/_components/forms/CustomInput'
+import { useSearchParams } from 'next/navigation'
 
 const dataList = [
   {
@@ -28,7 +29,9 @@ const dataList = [
 ]
 
 const AppointmentPage = () => {
-  const [value, setValue] = useState<number>(1)
+  const searchParams = useSearchParams()
+  const tab = searchParams.get('tab')
+  const [value, setValue] = useState<string | null>(tab)
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery()
 
   const morningData = useCallback(() => {
@@ -46,15 +49,18 @@ const AppointmentPage = () => {
       <div>
         <CustomTab categoryList={dataList} value={value} setValue={setValue} />
       </div>
-      {value === 1 && (
+      {value === 'All' && (
         <div>
           <div className="mb-2 flex flex-row justify-between">
             <div className="w-1/4 flex flex-row items-center justify-center space-x-2">
-              <CustomInput />
+              <CustomInput
+              value=''
+              onChange={() => {}}
+              />
               <Search className="bg-slate-200 h-9 w-9 p-2 rounded-lg" />
             </div>
             <div className="flex flex-row justify-end w-1/4 items-center rounded-lg space-x-4 p-2">
-              <div className='w-1/4'>
+              <div className="w-1/4">
                 <CustomSelect
                   placeholder="Status"
                   data={[
@@ -67,6 +73,8 @@ const AppointmentPage = () => {
                       label: 'Not Completed'
                     }
                   ]}
+                  value=''
+                  onChange={() => {}}
                 />
               </div>
               <SlidersHorizontal className="bg-slate-200 h-9 w-9 p-2 rounded-lg" />
@@ -81,12 +89,12 @@ const AppointmentPage = () => {
       )}
 
       {/*  */}
-      {value === 2 && (
+      {value === 'Morning' && (
         <CustomTable columns={morningColumn} data={patientsDueMorning || []} />
       )}
 
       {/*  */}
-      {value === 3 && (
+      {value === 'Evening' && (
         <CustomTable columns={eveningColumn} data={patientsDueMorning || []} />
       )}
     </div>

@@ -107,32 +107,9 @@ const SMSPage = () => {
       </div>
 
       {/* tab navigation */}
-      <CustomTab
-        categoryList={categoryList}
-        setValue={setValue}
-        value={value}
-      />
 
-      {value === 1 && <CustomTable columns={columns} data={data || []} />}
+      <CustomTable columns={columns} data={data || []} />
 
-      {value === 2 && (
-        <AppointmentStatusTab
-          columns={columns}
-          data={pendingAppointment() || []}
-        />
-      )}
-
-      {value === 3 && (
-        <CustomTable columns={columns} data={rescheduledAppointment() || []} />
-      )}
-
-      {value === 4 && (
-        <CustomTable columns={columns} data={upcomingAppointment() || []} />
-      )}
-
-      {value === 5 && (
-        <CustomTable columns={columns} data={missedAppointment() || []} />
-      )}
     </div>
   )
 }
