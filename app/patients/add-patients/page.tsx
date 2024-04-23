@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -21,6 +21,7 @@ import PersonalDetail from '@/app/_components/patient/steps/PersonalDetails'
 import LocationDetails from '@/app/_components/patient/steps/LocationDetails'
 import ArtDetails from '@/app/_components/patient/steps/ArtDetails'
 import { useAddPatientMutation } from '@/api/patient/patients.api'
+import { redirect } from 'next/navigation'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
@@ -106,7 +107,16 @@ const AddPatient = () => {
     setActiveStep((prevStep) => prevStep - 1)
   }
 
-  const [addPatient, { isLoading }] = useAddPatientMutation()
+  const [addPatient, { isLoading, data }] = useAddPatientMutation()
+
+  useEffect(()=>{
+    if(data){
+      redirect(
+        `/patients/${data.id}?tab=appointments`
+      );
+    }
+  },[data])
+  console.log(data)
 
   return (
     <div className="flex flex-row justify-center p-4 mt-12">

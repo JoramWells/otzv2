@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { Button, Tag } from '@chakra-ui/react'
+import {  Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { artColumns, artSwitchReasonColumns, columns, type UserProps } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
@@ -13,6 +13,7 @@ import { useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
 import ArtCategory from '@/app/_components/art/ArtCategory'
 import MeasuringUnit from '@/app/_components/art/measuringUnit/MeasuringUnit'
 import Regimen from '@/app/_components/art/regimen/Regimen'
+import { Button } from '@/components/ui/button'
 
 const categoryList = [
   {
@@ -61,7 +62,7 @@ const Art = () => {
   }
 
   return (
-    <div className="p-5">
+    <div className="p-5 mt-14">
       <div className="flex flex-row gap-x-2">
         <div
           className="rounded-md gap-x-4
@@ -71,15 +72,19 @@ const Art = () => {
           {categoryList.map((item) => (
             <Button
               key={item.id}
-              rounded={'full'}
-              size={'sm'}
-              bgColor={`${value === item.id && 'gray.700'}`}
-              color={`${value === item.id ? 'white' : 'gray.500'}`}
+              className={`rounded-full shadow-none hover:bg-slate-400
+              bg-slate-100 text-slate-500 font-bold
+              ${value === item.id && 'bg-slate-600 text-white'}
+              `}
+              // rounded={'full'}
+              // size={'sm'}
+              // bgColor={`${value === item.id && 'gray.700'}`}
+              // color={`${value === item.id ? 'white' : 'gray.500'}`}
               // shadow={`${value === item.id && 'md'}`}
-              _hover={{
-                bgColor: `${value === item.id && 'black'}`,
-                color: `${value === item.id && 'white'}`
-              }}
+              // _hover={{
+              //   bgColor: `${value === item.id && 'black'}`,
+              //   color: `${value === item.id && 'white'}`
+              // }}
               onClick={() => {
                 setValue(item.id)
               }}
@@ -115,10 +120,11 @@ const Art = () => {
           </Tag>
         </div>
         <Button
-          size={'sm'}
-          colorScheme="teal"
-          variant={'outline'}
+          // size={'sm'}
+          // colorScheme="teal"
+          // variant={'outline'}
           onClick={handleClick}
+          className='bg-teal-600 hover:bg-teal-700 shadow-none'
         >
           New
         </Button>

@@ -147,98 +147,119 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
   const [isCalendarVisible, setIsCalendarVisible] = useState(false)
   const { data, isLoading: isLoadingAppointment, isError: isErrorAppointment } = useGetAppointmentDetailQuery(patientID)
 
+  console.log(data)
+
   return (
-    <Suspense
-      fallback={<Skeleton className="w-full h-[500px]" />}
-      key={params}
-    >
+    <Suspense fallback={<Skeleton className="w-full h-[500px]" />} key={params}>
       <div className="w-full flex flex-col items-center">
         {/* header */}
-        <div className="flex flex-row justify-between mb-4 items-center w-full lg:w-1/2">
-          <p className="text-lg font-bold">Recent Appointments</p>
 
-          {/* right navbar */}
-          <div className="flex flex-row items-center justify-between gap-x-4">
-            <CalendarDays
-              size={25}
-              onClick={() => {
-                setIsCalendarVisible(!isCalendarVisible)
-              }}
-              className={`hover:cursor-pointer bg-gray-100 h-8 w-8 p-2 rounded-md ${
-                isCalendarVisible &&
-                'bg-teal-600 text-white border border-slate-200'
-              }`}
-            />
-            <EditAppointmentDialog patientID={patientID} />
-          </div>
-        </div>
+        {data?.length > 0 ? (
+          <>
+            <div className="flex flex-row justify-between mb-4 items-center w-full lg:w-1/2">
+              <p className="text-lg font-bold">Recent Appointments</p>
 
-        <AppointmentHeader
-          query={query}
-          setQuery={setQuery}
-          status={status}
-          setStatus={setStatus}
-          reason={reason}
-          setReason={setReason}
-        />
-
-        {!isCalendarVisible ? (
-          <div className="flex flex-col space-y-4 w-full items-center">
-            {isLoadingAppointment ? (
-              <>
-                {[1, 2, 3].map((_, idx) => (
-                  <Skeleton
-                    key={idx}
-                    className="border border-slate-200 p-4
-                rounded-lg w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2 h-[130px] "
-                  />
-                ))}
-              </>
-            ) : isErrorAppointment ? (
-              <div>Error</div>
-            ) : (
-              <>
-                {data?.map((item: any) => (
-                  <AppointmentCard key={item.id} item={item} />
-                ))}
-              </>
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-col gap-x-4 w-full items-center">
-            {/*  */}
-            <div
-              className="overflow-y-auto rounded-lg border-t-8 pt-4 border-t-slate-300"
-              style={{
-                // height: '500px',
-                minWidth: '75%'
-              }}
-            >
-              <FullCalendar
-                plugins={[
-                  dayGridPlugin,
-                  interactionPlugin,
-                  timeGridPlugin,
-                  multiMonthPlugin
-                ]}
-                headerToolbar={{
-                  // center: 'title',
-                  left: 'multiMonthYear, dayGridMonth ,timeGridWeek',
-                  right: 'prev,next,today'
-                }}
-                // events={events}
-                nowIndicator={true}
-                editable={true}
-                droppable={true}
-                selectable={true}
-                selectMirror={true}
-              />
+              {/* right navbar */}
+              <div className="flex flex-row items-center justify-between gap-x-4">
+                <CalendarDays
+                  size={25}
+                  onClick={() => {
+                    setIsCalendarVisible(!isCalendarVisible);
+                  }}
+                  className={`hover:cursor-pointer bg-gray-100 h-8 w-8 p-2 rounded-md ${
+                    isCalendarVisible &&
+                    "bg-teal-600 text-white border border-slate-200"
+                  }`}
+                />
+                <EditAppointmentDialog patientID={patientID} />
+              </div>
             </div>
+
+            <AppointmentHeader
+              query={query}
+              setQuery={setQuery}
+              status={status}
+              setStatus={setStatus}
+              reason={reason}
+              setReason={setReason}
+            />
+
+            {!isCalendarVisible ? (
+              <div className="flex flex-col space-y-4 w-full items-center">
+                {isLoadingAppointment ? (
+                  <>
+                    {[1, 2, 3].map((_, idx) => (
+                      <Skeleton
+                        key={idx}
+                        className="border border-slate-200 p-4
+                rounded-lg w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2 h-[130px] "
+                      />
+                    ))}
+                  </>
+                ) : isErrorAppointment ? (
+                  <div>Error</div>
+                ) : (
+                  <>
+                    {data?.map((item: any) => (
+                      <AppointmentCard key={item.id} item={item} />
+                    ))}
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-x-4 w-full items-center">
+                {/*  */}
+                <div
+                  className="overflow-y-auto rounded-lg border-t-8 pt-4 border-t-slate-300"
+                  style={{
+                    // height: '500px',
+                    minWidth: "75%",
+                  }}
+                >
+                  <FullCalendar
+                    plugins={[
+                      dayGridPlugin,
+                      interactionPlugin,
+                      timeGridPlugin,
+                      multiMonthPlugin,
+                    ]}
+                    headerToolbar={{
+                      // center: 'title',
+                      left: "multiMonthYear, dayGridMonth ,timeGridWeek",
+                      right: "prev,next,today",
+                    }}
+                    // events={events}
+                    nowIndicator={true}
+                    editable={true}
+                    droppable={true}
+                    selectable={true}
+                    selectMirror={true}
+                  />
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <div
+            className="w-1/2 border border-teal-200
+          bg-teal-50 
+          rounded-lg p-4"
+          >
+            <h1
+            className='text-xl text-teal-500 font-bold mb-2'
+            >
+              Create New Patient Appointment.
+            </h1>
+            <p className=" text-slate-500 mb-2">
+              This patient has no appointments. Learn More about appointments by
+              adding a new appointment.
+            </p>
+            <EditAppointmentDialog patientID={patientID} />
           </div>
         )}
       </div>
     </Suspense>
-  )
+  );
 }
 
 export default AppointmentTab

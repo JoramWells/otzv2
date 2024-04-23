@@ -12,6 +12,7 @@ import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentSt
 import { useAddAppointmentMutation } from '@/api/appointment/appointment.api.'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
+import { Loader2 } from 'lucide-react'
 
 interface DataProps {
   patientID: string
@@ -122,8 +123,9 @@ const EditAppointmentDialog = ({ patientID }: DataProps) => {
           // colorScheme="teal"
           // width={'full'}
           onClick={() => addAppointment(inputValues)}
-          // isLoading={isLoading}
+          disabled={isLoading}
         >
+          {isLoading && <Loader2 className='animate-spin mr2' size={18} />}
           Create Appointment
         </Button>
       </DialogContent>

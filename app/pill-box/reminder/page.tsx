@@ -49,14 +49,11 @@ const AppointmentPage = () => {
       <div>
         <CustomTab categoryList={dataList} value={value} setValue={setValue} />
       </div>
-      {value === 'All' && (
+      {value === "All" && (
         <div>
           <div className="mb-2 flex flex-row justify-between">
             <div className="w-1/4 flex flex-row items-center justify-center space-x-2">
-              <CustomInput
-              value=''
-              onChange={() => {}}
-              />
+              <CustomInput value="" onChange={() => {}} />
               <Search className="bg-slate-200 h-9 w-9 p-2 rounded-lg" />
             </div>
             <div className="flex flex-row justify-end w-1/4 items-center rounded-lg space-x-4 p-2">
@@ -65,15 +62,15 @@ const AppointmentPage = () => {
                   placeholder="Status"
                   data={[
                     {
-                      id: 'Completed',
-                      label: 'Completed'
+                      id: "Completed",
+                      label: "Completed",
                     },
                     {
-                      id: 'Not Completed',
-                      label: 'Not Completed'
-                    }
+                      id: "Not Completed",
+                      label: "Not Completed",
+                    },
                   ]}
-                  value=''
+                  value=""
                   onChange={() => {}}
                 />
               </div>
@@ -87,18 +84,22 @@ const AppointmentPage = () => {
           />
         </div>
       )}
-
       {/*  */}
-      {value === 'Morning' && (
+      {value === "all" && (
         <CustomTable columns={morningColumn} data={patientsDueMorning || []} />
       )}
 
       {/*  */}
-      {value === 'Evening' && (
+      {value === "morning" && (
+        <CustomTable columns={morningColumn} data={patientsDueMorning || []} />
+      )}
+
+      {/*  */}
+      {value === "evening" && (
         <CustomTable columns={eveningColumn} data={patientsDueMorning || []} />
       )}
     </div>
-  )
+  );
 }
 
 export default AppointmentPage
