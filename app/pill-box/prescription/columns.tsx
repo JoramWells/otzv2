@@ -42,7 +42,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-start gap-x-2">
+      <div className="flex flex-row items-start gap-x-2 pt-2 pb-2">
         <Avatar
           // size={'sm'}
           // className="font-bold"
@@ -50,12 +50,6 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         />
         <div>
           <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
-          <p className="capitalize text-slate-500">
-            {row.original.patient?.sex}{' '}
-          </p>
-          <p className="capitalize text-slate-500">
-            {calculateAge(row.original.patient?.dob)} yrs
-          </p>
         </div>
       </div>
     )

@@ -1,83 +1,25 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import AppointmentStatusTab from '../../_components/appointment/tabs/AppointmentStatusTab'
 import { Button } from '@/components/ui/button'
-import CustomTab from '../../_components/tab/CustomTab'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
-import { CircleFadingPlus, PlusCircle } from 'lucide-react'
-import { useGetAllPillsQuery } from '@/api/pillbox/pillbox.api'
 import { useSearchParams } from 'next/navigation'
+import { PlusCircle } from 'lucide-react'
+import { useGetAllPrescriptionsQuery } from '@/api/pillbox/artPrescription.api'
 
-const AppointmentPage = () => {
-  const [appointments, setAppointments] = useState([])
-  const searchParams = useSearchParams()
-  const tab = searchParams.get('tab')
-  const [value, setValue] = useState<string | null>(tab)
-  const { data } = useGetAllPillsQuery()
+const PrescriptionPage = () => {
+  const { data } = useGetAllPrescriptionsQuery()
+
 
   console.log(data, 'yu')
 
   const showNotification = useNotification()
 
-  const missedAppointment = useCallback(() => {
-    return data?.filter((item: any) => item.appointmentStatus?.statusDescription.toLowerCase().includes('Missed'.toLowerCase()))
-  }, [data])
 
-  const upcomingAppointment = useCallback(() => {
-    return data?.filter((item: any) =>
-      item.appointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Upcoming'.toLowerCase())
-    )
-  }, [data])
-
-  const rescheduledAppointment = useCallback(() => {
-    return data?.filter((item: any) =>
-      item.appointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Rescheduled'.toLowerCase())
-    )
-  }, [data])
-
-  const pendingAppointment = useCallback(() => {
-    return data?.filter((item: any) =>
-      item.appointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Pending'.toLowerCase())
-    )
-  }, [data])
-
-  const categoryList = useMemo(
-    () => [
-      {
-        id: 1,
-        label: `All ${appointments?.length}`
-      },
-      {
-        id: 2,
-        label: `Pending ${pendingAppointment()?.length}`
-      },
-      {
-        id: 3,
-        label: `Rescheduled ${rescheduledAppointment()?.length}`
-      },
-      {
-        id: 4,
-        label: `Upcoming ${upcomingAppointment()?.length}`
-      },
-      {
-        id: 5,
-        label: `Missed ${missedAppointment()?.length}`
-      }
-    ],
-    [missedAppointment, appointments?.length, pendingAppointment, rescheduledAppointment, upcomingAppointment]
-  )
 
   useEffect(() => {
     // if (data) {
@@ -98,31 +40,13 @@ const AppointmentPage = () => {
 
   return (
     <div className="p-5 mt-12">
-
       <div className="flex flex-row mb-4 justify-between ">
-        <h1 className="text-lg font-semibold">Appointments</h1>
-
-        <Button
-          className="bg-teal-600 hover:bg-teal-700 shadow-none
-          font-bold
-          "
-        >
-          <PlusCircle size={18} className="mr-2" />
-          New Appointment
-        </Button>
+        <h1 className="text-xl text-slate-700 font-semibold">Prescriptions</h1>
       </div>
 
-      {/* tab navigation */}
-      <CustomTab
-        categoryList={categoryList}
-        setValue={setValue}
-        value={value}
-      />
-
-     <CustomTable columns={columns} data={data || []} />
-
+      <CustomTable columns={columns} data={data || []}  />
     </div>
-  )
+  );
 }
 
-export default AppointmentPage
+export default PrescriptionPage

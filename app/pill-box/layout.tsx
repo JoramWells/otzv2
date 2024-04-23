@@ -14,8 +14,8 @@ import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_compo
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
-    label: 'Dashboard',
-    link: 'patients',
+    label: 'Pill Box',
+    link: 'pill-box',
     icon: <LayoutDashboardIcon size={17} />
   },
   {

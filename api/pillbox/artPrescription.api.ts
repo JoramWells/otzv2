@@ -1,33 +1,33 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const pillBoxApi = createApi({
-  reducerPath: 'pillBoxApi',
+export const prescriptionApi = createApi({
+  reducerPath: 'prescriptionApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root/pills'
+    baseUrl: '/api/root/prescription'
   }),
   endpoints: (builder) => ({
-    getAllPills: builder.query<any, void>({
+    getAllPrescriptions: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
-    addPill: builder.mutation({
+    addPrescription: builder.mutation({
       query: (newUser) => ({
         url: 'add',
         method: 'POST',
         body: newUser
       })
     }),
-    getPill: builder.query({
+    getPrescription: builder.query({
       query: (id) => `detail/${id}`
     }),
-    updatePill: builder.mutation({
+    updatePrescription: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
         method: 'PUT',
         body: patch
       })
     }),
-    deletePill: builder.mutation({
+    deletePrescription: builder.mutation({
       query (id) {
         return {
           url: `delete/${id}`,
@@ -39,6 +39,6 @@ export const pillBoxApi = createApi({
 })
 
 export const {
-  useGetAllPillsQuery, useUpdatePillMutation,
-  useDeletePillMutation, useAddPillMutation, useGetPillQuery
-} = pillBoxApi
+  useGetAllPrescriptionsQuery, useUpdatePrescriptionMutation,
+  useDeletePrescriptionMutation, useAddPrescriptionMutation, useGetPrescriptionQuery
+} = prescriptionApi

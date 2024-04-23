@@ -43,6 +43,7 @@ import { userNotificationApi } from '@/api/notifications/userNotification.api'
 import { chatApi } from '@/api/notifications/chat.api'
 import { chatMessageApi } from '@/api/notifications/chatMessage.api'
 import { caseManagerApi } from '@/api/caregiver/casemanager.api'
+import { prescriptionApi } from '@/api/pillbox/artPrescription.api'
 
 export const store = configureStore({
   reducer: {
@@ -89,12 +90,13 @@ export const store = configureStore({
     [userNotificationApi.reducerPath]: userNotificationApi.reducer,
     [chatApi.reducerPath]: chatApi.reducer,
     [chatMessageApi.reducerPath]: chatMessageApi.reducer,
-    [caseManagerApi.reducerPath]: caseManagerApi.reducer
+    [caseManagerApi.reducerPath]: caseManagerApi.reducer,
+    [prescriptionApi.reducerPath]: prescriptionApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,
-      serializableCheck: false
+      serializableCheck: false,
     })
       .concat(patientsApi.middleware)
       .concat(vitalSignsApi.middleware)
@@ -139,4 +141,5 @@ export const store = configureStore({
       .concat(userNotificationApi.middleware)
       .concat(chatMessageApi.middleware)
       .concat(caseManagerApi.middleware)
-})
+      .concat(prescriptionApi.middleware),
+});
