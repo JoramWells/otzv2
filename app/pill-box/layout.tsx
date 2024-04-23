@@ -27,7 +27,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '3',
     label: 'Reminder',
-    link: 'pill-box/reminder',
+    link: 'pill-box/reminder?tab=all',
     icon: <BellDot size={17} />
   },
   {

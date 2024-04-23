@@ -3,12 +3,10 @@
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { useSearchParams } from 'next/navigation'
-import { PlusCircle } from 'lucide-react'
 import { useGetAllPrescriptionsQuery } from '@/api/pillbox/artPrescription.api'
 
 const PrescriptionPage = () => {
