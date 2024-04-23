@@ -48,30 +48,34 @@ const AppointmentPage = () => {
   console.log(morningData(), 'yut')
 
   const [currentTime, setCurrentTime] = useState(moment())
-  useEffect(()=>{
+  // useEffect(() => {
+  //   patientsDueMorning?.forEach((item: any) => {
+  //     // const patientID = item
+  //     const time = moment(
+  //       item.timeAndWork?.eveningMedicineTime,
+  //       "HH:mm:ss"
+  //     )
+  //     const currentTime = moment();
+  //     const timeDifference = time.diff(currentTime);
+  //     if (timeDifference > 0) {
+  //       const notificationTimeOut = setTimeout(() => {
+  //         addPatientNotification({
+  //           patientID: item.timeAndWork.patient.id,
+  //           message: "Remember",
+  //         });
+  //         console.log("mess");
+  //       }, timeDifference);
+  //       return () => clearTimeout(notificationTimeOut);
+  //     }
+  //   });
 
-    patientsDueMorning?.forEach((item:any)=>{
-      const patientID = item
-      const time = moment(item.timeAndWork?.eveningMedicineTime)
-      const currentTime = moment()
-      const timeDifference = time.diff(currentTime)
-      if (timeDifference > 0){
-        const notificationTimeOut = setTimeout(()=>{
-            addPatientNotification({
-              patientID: item.timeAndWork.patient.id,
-              message: 'Remember'
-            })
-        },timeDifference)
-        return () =>clearTimeout(notificationTimeOut)
-      } 
-    })
+  //   // const intervalID = setInterval(()=>{
+  //   //   setCurrentTime(moment())
+  //   // },1000)
 
-    // const intervalID = setInterval(()=>{
-    //   setCurrentTime(moment())
-    // },1000)
+  //   // return ()=>clearInterval(intervalID)
+  // }, [patientsDueMorning]);
 
-    // return ()=>clearInterval(intervalID)
-  },[])
 
   return (
     <div className="p-5 mt-12 flex flex-col space-y-4">

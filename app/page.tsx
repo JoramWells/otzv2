@@ -54,7 +54,7 @@ const itemList = [
     id: '8',
     label: 'Articles',
     icon: <HomeIcon />,
-    link: '/home-visits',
+    link: '/articles',
     description: 'Upload, manage and add patient learning materials for E-learning'
   },
   {
