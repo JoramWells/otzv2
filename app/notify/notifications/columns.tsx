@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import { type MomentInput } from 'moment'
+import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 import Avatar from '@/app/_components/Avatar'
 import { Badge } from '@/components/ui/badge'
@@ -31,6 +31,8 @@ export interface FullNameProps {
 }
 
 export interface ColumnProps {
+  createdAt: MomentInput
+  medicineTime: MomentInput
   notifications: any
   timeAndWork: any
   refillDate: MomentInput
@@ -58,15 +60,13 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-start gap-x-2">
+      <div className="flex flex-row items-center gap-x-2 pt-2 pb-2">
         <Avatar
           // size={'sm'}
           // className="font-bold"
           name={`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}
         />
-        <div>
           <p className="capitalize font-semibold">{`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}</p>
-        </div>
       </div>
     )
   },
@@ -107,3 +107,55 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     )
   }
 ]
+
+export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
+  {
+    accessorKey: "patient",
+    header: "Patient Name",
+    cell: ({ row }) => (
+      <div className="flex flex-row items-center gap-x-2 pt-2 pb-2">
+        <Avatar
+          // size={'sm'}
+          // className="font-bold"
+          name={`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}
+        />
+        <p className="capitalize font-semibold">{`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}</p>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "medicineTime",
+    header: "Medicine Time",
+    cell:({row})=>(
+      <p>{moment(row.original.medicineTime, 'HH:mm:ss').format('HH:mm a')} </p>
+    )
+  },
+  {
+    accessorKey: "message",
+    header: "Messages",
+  },
+  {
+    accessorKey:'status',
+    header:'Status',
+    cell:({row})=>{
+      const sentTime = moment(row.original.createdAt, 'HH:mm:ss')
+            const medicineTime = moment(row.original.medicineTime, 'HH:mm:ss')
+            const isSame = ()=>{
+        if(sentTime.isSame(medicineTime)){
+          return true
+        }
+          return false
+      }
+
+      return(
+      <div>
+        {sentTime.format('HH:mm a')}
+        {isSame()?<Badge
+        className='rounded-full shadow-none bg-teal-50 text-teal-600 hover:bg-teal-100'
+        >OK</Badge>:<Badge
+        className='rounded-full bg-red-50 text-red-500 shadow-none hover:bg-red-100'
+        >NOT OK</Badge> }
+      </div>
+    )}
+  }
+];

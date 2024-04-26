@@ -8,6 +8,7 @@ import AppointmentTab from '@/app/_components/patient/appointmentTab/Appointment
 import CareGiverTab from '@/app/_components/patient/appointmentTab/CareGiverTab'
 import CaseManagerTab from '@/app/_components/patient/appointmentTab/CaseManagerTab'
 import Insights from '@/app/_components/patient/insights/Insights'
+import Messages from '@/app/_components/patient/messages/Messages'
 import PatientProfile from '@/app/_components/patient/patientProfileCard/PatientProfile'
 import PatientTab from '@/app/_components/patient/tab/PatientTab'
 import PharmacyTab from '@/app/_components/pharmacy/PharmacyTab'
@@ -18,45 +19,49 @@ import { useState } from 'react'
 const categoryList = [
   {
     id: 1,
-    label: 'Appointments'
+    label: "Appointments",
   },
   {
     id: 2,
-    label: 'Care Giver'
+    label: "Care Giver",
   },
   {
     id: 3,
-    label: 'Case Manager'
+    label: "Case Manager",
   },
   {
     id: 4,
-    label: 'Home Visit'
+    label: "Home Visit",
   },
   {
     id: 5,
-    label: 'Lab'
+    label: "Lab",
   },
   {
     id: 6,
-    label: 'Pharmacy'
+    label: "Pharmacy",
   },
   {
     id: 7,
-    label: 'Treatment Plan'
+    label: "Treatment Plan",
   },
   {
     id: 8,
-    label: 'Medical File'
+    label: "Medical File",
   },
   {
     id: 9,
-    label: 'Insights'
+    label: "Messages",
   },
   {
     id: 10,
-    label: 'Settings'
-  }
-]
+    label: "Insights",
+  },
+  {
+    id: 11,
+    label: "Settings",
+  },
+];
 
 export interface InputTabProps {
   id: number
@@ -97,6 +102,10 @@ const PatientDetails = ({ params }: any) => {
         {tab === 'settings' && <PatientProfile
         patientID={patientID}
         />}
+
+        {tab === 'messages' && <Messages
+        patientID={patientID}
+        /> }
       </div>
     </div>
   )
