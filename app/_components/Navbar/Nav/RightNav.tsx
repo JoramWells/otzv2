@@ -14,19 +14,19 @@ const RightNav = () => {
 
   const showNotification = useNotification()
 
-  useEffect(() => {
-    const socket: Socket = socketIOClient('http://localhost:5000')
+  // useEffect(() => {
+  //   const socket: Socket = socketIOClient('http://localhost:5000')
 
-    socket.on('lab-updated', (socketData: NotificationProps) => {
-      showNotification()
-      addNotification(socketData)
-      console.log(notifications)
-    })
+  //   socket.on('lab-updated', (socketData: NotificationProps) => {
+  //     showNotification()
+  //     addNotification(socketData)
+  //     console.log(notifications)
+  //   })
 
-    return () => {
-      socket.disconnect()
-    }
-  }, [showNotification, notifications, addNotification])
+  //   return () => {
+  //     socket.disconnect()
+  //   }
+  // }, [showNotification, notifications, addNotification])
 
   return (
           <div

@@ -11,41 +11,41 @@ interface Post {
 type PostsResponse = Post[]
 
 export const patientsApi = createApi({
-  reducerPath: 'patientsApi',
+  reducerPath: "patientsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/users/patients'
+    baseUrl: `${process.env.SERVER_URL}/api/users/patients`,
   }),
   endpoints: (builder) => ({
     getAllPatients: builder.query<any, void>({
-      query: () => 'fetchAll'
+      query: () => "fetchAll",
     }),
     addPatient: builder.mutation({
       query: (newUser) => ({
-        url: 'add',
-        method: 'POST',
-        body: newUser
-      })
+        url: "add",
+        method: "POST",
+        body: newUser,
+      }),
     }),
     getPatient: builder.query({
-      query: (id) => `detail/${id}`
+      query: (id) => `detail/${id}`,
     }),
     updatePatient: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
-        method: 'PUT',
-        body: patch
-      })
+        method: "PUT",
+        body: patch,
+      }),
     }),
     deletePatient: builder.mutation({
-      query (id) {
+      query(id) {
         return {
           url: `delete/${id}`,
-          method: 'DELETE'
-        }
-      }
-    })
-  })
-})
+          method: "DELETE",
+        };
+      },
+    }),
+  }),
+});
 
 export const {
   useGetAllPatientsQuery, useUpdatePatientMutation,
