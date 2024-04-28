@@ -1,17 +1,30 @@
 'use client'
 
-import React from 'react'
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import React, { useEffect, useRef, useState } from 'react'
+import {Editor, EditorState} from 'draft-js'
 
 const ArticlesPage = () => {
-      const editor = useEditor({
-        extensions: [StarterKit],
-        content: "<p>Hello World! 🌎️</p>",
-      });
+  const [editorState, setEditorState] = useState(EditorState.createEmpty())
+  const editor = useRef('')
+ 
+
+      const focusEditor = ()=>{
+        editor.current.focus()
+      }
+
+      useEffect(()=>{
+        focusEditor()
+      },[])
+
   return (
     <div>
-      <EditorContent editor={editor} />
+      {/* <EditorContent editor={editor} /> */}
+
+      <Editor 
+      ref={editor}
+      editorState={editorState}
+      onChange={editorState=> setEditorState(editorState)}
+      />
     </div>
   );
 }

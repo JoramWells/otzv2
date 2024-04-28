@@ -25,37 +25,37 @@ const dataList = [
 
 
 const NotificationPage = () => {
-  const [value, setValue] = useState(1)
+  const [value, setValue] = useState(1);
   const showNotification = useNotification();
 
-  const { data } = useGetAllUserNotificationsQuery()
+  const { data } = useGetAllUserNotificationsQuery();
 
-  const {data: patientNotificationData} = useGetAllPatientNotificationsQuery()
-  const socket: Socket = socketIOClient("/api/appointment");
-
+  const { data: patientNotificationData } =
+    useGetAllPatientNotificationsQuery();
+  // const socket: Socket = socketIOClient("/api/appointment");
 
   // const filterData = data?.map(item => item.notifications?.filter(notification => Object.values(notification.notifications).some(value => value === true)))
   const dtx = data?.filter((item: any) => {
-    const notificationValue = Object.values(item.notifications)
-    return notificationValue.includes(true)
-  })
+    const notificationValue = Object.values(item.notifications);
+    return notificationValue.includes(true);
+  });
 
-  useEffect(() => {
-    // if (data) {
-    // setAppointments(data)
-    // }
-    // const socket: Socket = socketIOClient("http://localhost:5000");
+  // useEffect(() => {
+  // if (data) {
+  // setAppointments(data)
+  // }
+  const socket: Socket = socketIOClient("http://localhost:5005/");
 
-    socket.on("notificationCreated", (socketData: NotificationProps) => {
-      showNotification();
-      // setAppointments(socketData)
-      console.log(socketData);
-    });
+  //   socket.on("notificationCreated", (socketData: NotificationProps) => {
+  //     showNotification();
+  //     // setAppointments(socketData)
+  //     console.log(socketData);
+  //   });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, [ showNotification]);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [ showNotification]);
   console.log(patientNotificationData);
   return (
     <div className="mt-14 p-4 w-full flex flex-col items-center justify-center">
@@ -76,7 +76,10 @@ const NotificationPage = () => {
       {value === 1 ? (
         <CustomTable columns={columns} data={dtx || []} />
       ) : (
-        <CustomTable columns={sentMessagesColumns} data={patientNotificationData || []} />
+        <CustomTable
+          columns={sentMessagesColumns}
+          data={patientNotificationData || []}
+        />
       )}
     </div>
   );

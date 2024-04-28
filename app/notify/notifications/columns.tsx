@@ -119,43 +119,51 @@ export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
           // className="font-bold"
           name={`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}</p>
+        <Link
+          className="capitalize font-semibold text-blue-500"
+          href={`/patients/${row.original?.patient.id}?tab=messages`}
+        >{`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}</Link>
       </div>
     ),
   },
   {
     accessorKey: "medicineTime",
     header: "Medicine Time",
-    cell:({row})=>(
-      <p>{moment(row.original.medicineTime, 'HH:mm:ss').format('HH:mm a')} </p>
-    )
+    cell: ({ row }) => (
+      <p>{moment(row.original.medicineTime, "HH:mm:ss").format("HH:mm a")} </p>
+    ),
   },
   {
     accessorKey: "message",
     header: "Messages",
   },
   {
-    accessorKey:'status',
-    header:'Status',
-    cell:({row})=>{
-      const sentTime = moment(row.original.createdAt, 'HH:mm:ss')
-            const medicineTime = moment(row.original.medicineTime, 'HH:mm:ss')
-            const isSame = ()=>{
-        if(sentTime.isSame(medicineTime)){
-          return true
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const sentTime = moment(row.original.createdAt, "HH:mm:ss");
+      const medicineTime = moment(row.original.medicineTime, "HH:mm:ss");
+      const isSame = () => {
+        if (sentTime.isSame(medicineTime)) {
+          return true;
         }
-          return false
-      }
+        return false;
+      };
 
-      return(
-      <div>
-        {sentTime.format('HH:mm a')}
-        {isSame()?<Badge
-        className='rounded-full shadow-none bg-teal-50 text-teal-600 hover:bg-teal-100'
-        >OK</Badge>:<Badge
-        className='rounded-full bg-red-50 text-red-500 shadow-none hover:bg-red-100'
-        >NOT OK</Badge> }
-      </div>
-    )}
-  }
+      return (
+        <div>
+          {sentTime.format("HH:mm a")}
+          {isSame() ? (
+            <Badge className="rounded-full shadow-none bg-teal-50 text-teal-600 hover:bg-teal-100">
+              OK
+            </Badge>
+          ) : (
+            <Badge className="rounded-full bg-red-50 text-red-500 shadow-none hover:bg-red-100">
+              NOT OK
+            </Badge>
+          )}
+        </div>
+      );
+    },
+  },
 ];

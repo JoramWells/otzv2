@@ -6,7 +6,9 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 
-RUN yarn install --ignore-scripts
+RUN yarn add pnpm
+
+RUN pnpm install
 
 COPY . .
 
