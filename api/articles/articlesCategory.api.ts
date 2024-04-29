@@ -1,39 +1,39 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const appointmentAgendaApi = createApi({
-  reducerPath: 'appointmentAgendaApi',
+export const articlesCategoryApi = createApi({
+  reducerPath: "articlesCategoryApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/appointment/appointment-agenda'
+    baseUrl: "http://localhost:8080/api/appointment/articles-category",
   }),
   endpoints: (builder) => ({
-    getAllAppointmentAgenda: builder.query<any, void>({
-      query: () => 'fetchAll'
+    getAllArticlesCategory: builder.query<any, void>({
+      query: () => "fetchAll",
     }),
-    addAppointmentAgenda: builder.mutation({
+    addArticlesCategory: builder.mutation({
       query: (newUser) => ({
-        url: 'add',
-        method: 'POST',
-        body: newUser
-      })
+        url: "add",
+        method: "POST",
+        body: newUser,
+      }),
     }),
-    getAppointmentAgenda: builder.query({
-      query: (id) => `detail/${id}`
+    getArticlesCategory: builder.query({
+      query: (id) => `detail/${id}`,
     }),
 
-    deleteAppointmentAgenda: builder.mutation({
-      query (id) {
+    deleteArticlesCategory: builder.mutation({
+      query(id) {
         return {
           url: `delete${id}`,
-          method: 'DELETE'
-        }
-      }
-    })
-  })
-})
+          method: "DELETE",
+        };
+      },
+    }),
+  }),
+});
 
 export const {
-  useGetAllAppointmentAgendaQuery, useAddAppointmentAgendaMutation,
-  useGetAppointmentAgendaQuery,
-  useDeleteAppointmentAgendaMutation
-} = appointmentAgendaApi
+  useGetAllArticlesCategoryQuery, useAddArticlesCategoryMutation,
+  useGetArticlesCategoryQuery,
+  useDeleteArticlesCategoryMutation
+} = articlesCategoryApi

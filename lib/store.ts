@@ -46,6 +46,8 @@ import { caseManagerApi } from '@/api/caregiver/casemanager.api'
 import { prescriptionApi } from '@/api/pillbox/artPrescription.api'
 import { patientNotificationApi } from '@/api/notifications/patientNotification.api'
 import { messageTextReplyApi } from '@/api/notifications/messageTextReplies.api'
+import { articlesCategoryApi } from '@/api/articles/articlesCategory.api'
+import { articlesApi } from '@/api/articles/articles.api'
 
 export const store = configureStore({
   reducer: {
@@ -96,6 +98,8 @@ export const store = configureStore({
     [prescriptionApi.reducerPath]: prescriptionApi.reducer,
     [patientNotificationApi.reducerPath]: patientNotificationApi.reducer,
     [messageTextReplyApi.reducerPath]: messageTextReplyApi.reducer,
+    [articlesCategoryApi.reducerPath]: articlesCategoryApi.reducer,
+    [articlesApi.reducerPath]: articlesApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -147,5 +151,7 @@ export const store = configureStore({
       .concat(caseManagerApi.middleware)
       .concat(prescriptionApi.middleware)
       .concat(messageTextReplyApi.middleware)
-      .concat(patientNotificationApi.middleware),
+      .concat(patientNotificationApi.middleware)
+      .concat(articlesApi.middleware)
+      .concat(articlesCategoryApi.middleware),
 });

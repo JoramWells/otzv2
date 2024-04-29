@@ -1,27 +1,27 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const appointmentAgendaApi = createApi({
-  reducerPath: 'appointmentAgendaApi',
+export const articlesApi = createApi({
+  reducerPath: 'articlesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/appointment/appointment-agenda'
+    baseUrl: 'http://localhost:8080/api/appointment/articles'
   }),
   endpoints: (builder) => ({
-    getAllAppointmentAgenda: builder.query<any, void>({
+    getAllArticles: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
-    addAppointmentAgenda: builder.mutation({
+    addArticles: builder.mutation({
       query: (newUser) => ({
         url: 'add',
         method: 'POST',
         body: newUser
       })
     }),
-    getAppointmentAgenda: builder.query({
+    getArticles: builder.query({
       query: (id) => `detail/${id}`
     }),
 
-    deleteAppointmentAgenda: builder.mutation({
+    deleteArticles: builder.mutation({
       query (id) {
         return {
           url: `delete${id}`,
@@ -33,7 +33,7 @@ export const appointmentAgendaApi = createApi({
 })
 
 export const {
-  useGetAllAppointmentAgendaQuery, useAddAppointmentAgendaMutation,
-  useGetAppointmentAgendaQuery,
-  useDeleteAppointmentAgendaMutation
-} = appointmentAgendaApi
+  useGetAllArticlesQuery, useAddArticlesMutation,
+  useGetArticlesQuery,
+  useDeleteArticlesMutation
+} = articlesApi
