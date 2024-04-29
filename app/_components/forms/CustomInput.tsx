@@ -19,7 +19,7 @@ interface CustomInputProps {
 
 const CustomInput = ({ description, label, placeholder, value, type = 'text', onChange }: CustomInputProps) => {
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col space-y-2">
       {label && <p className="text-slate-800 font-bold">{label}</p>}
       {description && (
         <p className="mb-1 text-slate-500 text-sm">{description}</p>
