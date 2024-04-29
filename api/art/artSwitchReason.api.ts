@@ -6,34 +6,34 @@ export interface ArtProps {
 }
 
 export const artSwitchReasonApi = createApi({
-  reducerPath: 'artSwitchReasonApi',
+  reducerPath: "artSwitchReasonApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root/art-switch-reason'
+    baseUrl: "http://localhost:8080/api/root/art-switch-reason",
   }),
   endpoints: (builder) => ({
     getAllArtSwitchReasons: builder.query<any, void>({
-      query: () => 'fetchAll'
+      query: () => "fetchAll",
     }),
     addArtSwitchReason: builder.mutation<string, ArtProps>({
       query: (newUser: ArtProps) => ({
-        url: 'add',
-        method: 'POST',
-        body: newUser
-      })
+        url: "add",
+        method: "POST",
+        body: newUser,
+      }),
     }),
     getArtSwitchReason: builder.query({
-      query: (id) => `detail/${id}`
+      query: (id) => `detail/${id}`,
     }),
     deleteArtSwitchReason: builder.mutation({
-      query (id) {
+      query(id) {
         return {
           url: `delete${id}`,
-          method: 'DELETE'
-        }
-      }
-    })
-  })
-})
+          method: "DELETE",
+        };
+      },
+    }),
+  }),
+});
 
 export const {
   useGetAllArtSwitchReasonsQuery, useAddArtSwitchReasonMutation,

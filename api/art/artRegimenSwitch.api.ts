@@ -10,34 +10,34 @@ export interface ArtProps {
 }
 
 export const artRegimenSwitchApi = createApi({
-  reducerPath: 'artRegimenSwitchApi',
+  reducerPath: "artRegimenSwitchApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root/art-regimen-switch'
+    baseUrl: "http://localhost:8080/api/root/art-regimen-switch",
   }),
   endpoints: (builder) => ({
     getAllArtRegimenSwitch: builder.query<any, void>({
-      query: () => 'fetchAll'
+      query: () => "fetchAll",
     }),
     addArtRegimenSwitch: builder.mutation<string, ArtProps>({
       query: (newUser: ArtProps) => ({
-        url: 'add',
-        method: 'POST',
-        body: newUser
-      })
+        url: "add",
+        method: "POST",
+        body: newUser,
+      }),
     }),
     getArtRegimenSwitch: builder.query({
-      query: (id) => `detail/${id}`
+      query: (id) => `detail/${id}`,
     }),
     deleteArtRegimenSwitch: builder.mutation({
-      query (id) {
+      query(id) {
         return {
           url: `delete${id}`,
-          method: 'DELETE'
-        }
-      }
-    })
-  })
-})
+          method: "DELETE",
+        };
+      },
+    }),
+  }),
+});
 
 export const {
   useGetAllArtRegimenSwitchQuery, useAddArtRegimenSwitchMutation,

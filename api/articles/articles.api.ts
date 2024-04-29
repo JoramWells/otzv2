@@ -11,11 +11,17 @@ export const articlesApi = createApi({
       query: () => 'fetchAll'
     }),
     addArticles: builder.mutation({
-      query: (newUser) => ({
-        url: 'add',
-        method: 'POST',
-        body: newUser
-      })
+      query: ({file, body}) => {
+        const formData = new FormData()
+        formData.append("articleCategoryID", body.articleCategoryID);
+        formData.append("description", body.description);
+        formData.append("file", file);
+        return {
+          url: "add",
+          method: "POST",
+          body: formData,
+        };
+      }
     }),
     getArticles: builder.query({
       query: (id) => `detail/${id}`

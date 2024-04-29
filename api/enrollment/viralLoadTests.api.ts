@@ -2,47 +2,47 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const viralLoadApi = createApi({
-  reducerPath: 'viralLoadApi',
+  reducerPath: "viralLoadApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/lab/viral-load-tests'
+    baseUrl: "http://localhost:8080/api/lab/viral-load-tests",
   }),
   endpoints: (builder) => ({
     getAllViralLoadTests: builder.query<any, void>({
-      query: () => 'fetchAll'
+      query: () => "fetchAll",
     }),
     getAllVlCategories: builder.query<any, void>({
-      query: () => 'fetchAllVLCategory'
+      query: () => "fetchAllVLCategory",
     }),
     addViralLoadTest: builder.mutation({
       query: (newUser) => ({
-        url: 'add',
-        method: 'POST',
-        body: newUser
-      })
+        url: "add",
+        method: "POST",
+        body: newUser,
+      }),
     }),
     getViralLoadTest: builder.query({
-      query: (id) => `detail/${id}`
+      query: (id) => `detail/${id}`,
     }),
     getOTZPatientEnrollment: builder.query({
-      query: (id) => `patient/${id}`
+      query: (id) => `patient/${id}`,
     }),
     updateViralLoadTest: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
-        method: 'PUT',
-        body: patch
-      })
+        method: "PUT",
+        body: patch,
+      }),
     }),
     deleteViralLoadTest: builder.mutation({
-      query (id) {
+      query(id) {
         return {
           url: `delete/${id}`,
-          method: 'DELETE'
-        }
-      }
-    })
-  })
-})
+          method: "DELETE",
+        };
+      },
+    }),
+  }),
+});
 
 export const {
   useGetAllViralLoadTestsQuery, useUpdateViralLoadTestMutation,

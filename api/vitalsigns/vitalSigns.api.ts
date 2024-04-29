@@ -1,41 +1,41 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const vitalSignsApi = createApi({
-  reducerPath: 'vitalSignsApi',
+  reducerPath: "vitalSignsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/lab/vital-sign'
+    baseUrl: "http://localhost:8080/api/lab/vital-sign",
   }),
   endpoints: (builder) => ({
     getAllVitalSigns: builder.query({
-      query: () => 'fetchAll'
+      query: () => "fetchAll",
     }),
     addVitalSign: builder.mutation({
       query: (newUser) => ({
-        url: 'add',
-        method: 'POST',
-        body: newUser
-      })
+        url: "add",
+        method: "POST",
+        body: newUser,
+      }),
     }),
     getVitalSign: builder.query({
-      query: (id) => `detail/${id}`
+      query: (id) => `detail/${id}`,
     }),
     updateVitalSign: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
-        method: 'PUT',
-        body: patch
-      })
+        method: "PUT",
+        body: patch,
+      }),
     }),
     deleteVitalSign: builder.mutation({
-      query (id) {
+      query(id) {
         return {
           url: `delete${id}`,
-          method: 'DELETE'
-        }
-      }
-    })
-  })
-})
+          method: "DELETE",
+        };
+      },
+    }),
+  }),
+});
 
 export const {
   useGetAllVitalSignsQuery, useAddVitalSignMutation, useGetVitalSignQuery,

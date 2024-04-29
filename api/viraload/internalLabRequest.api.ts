@@ -6,44 +6,44 @@ interface LabRequestProps {
 }
 
 export const internalLabRequestApi = createApi({
-  reducerPath: 'internalLabRequestApi',
+  reducerPath: "internalLabRequestApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/lab/internal-lab-request'
+    baseUrl: "http://localhost:8080/api/lab/internal-lab-request",
   }),
   endpoints: (builder) => ({
     getAllInternalLabRequests: builder.query<any, void>({
-      query: () => 'fetchAll'
+      query: () => "fetchAll",
     }),
     addInternalLabRequest: builder.mutation({
       query: (newUser) => ({
-        url: 'add',
-        method: 'POST',
-        body: newUser
-      })
+        url: "add",
+        method: "POST",
+        body: newUser,
+      }),
     }),
     getInternalLabRequest: builder.query({
-      query: (id) => `detail/${id}`
+      query: (id) => `detail/${id}`,
     }),
     getInternalLabRequestByID: builder.query({
-      query: (id) => `labDetail/${id}`
+      query: (id) => `labDetail/${id}`,
     }),
     updateInternalLabRequest: builder.mutation<LabRequestProps, any>({
       query: ({ id, ...patch }) => ({
         url: `update/${id}`,
-        method: 'PUT',
-        body: patch
-      })
+        method: "PUT",
+        body: patch,
+      }),
     }),
     deleteInternalLabRequest: builder.mutation({
-      query (id) {
+      query(id) {
         return {
           url: `delete/${id}`,
-          method: 'DELETE'
-        }
-      }
-    })
-  })
-})
+          method: "DELETE",
+        };
+      },
+    }),
+  }),
+});
 
 export const {
   useGetAllInternalLabRequestsQuery, useUpdateInternalLabRequestMutation, useDeleteInternalLabRequestMutation,
