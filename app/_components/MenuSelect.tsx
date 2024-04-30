@@ -23,7 +23,7 @@ export function MenuSelect ({ dataList }: DataListProps) {
       <DropdownMenuTrigger asChild>
         <MoreVertical className="text-slate-500" size={20} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 border-none shadow-slate-200">
+      <DropdownMenuContent className="w-56 border-none shadow-slate-200" >
         {dataList.map((item) => (
           <DropdownMenuItem key={item.id}>
             <Link

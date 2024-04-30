@@ -10,35 +10,41 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BookCheckIcon, BookCopy, HeartHandshake, LayoutDashboardIcon, Users } from 'lucide-react'
+import { BookCheckIcon, BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
 
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: '/patients/dashboard',
+    link: '/users/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
     id: '2',
     label: 'Caregivers',
-    link: '/patients/caregiver',
+    link: '/users/caregiver',
     icon: <HeartHandshake size={17} />
   },
   {
     id: '3',
-    label: 'Patients',
-    link: '/patients/patients',
-    icon: <Users size={17} />
+    label: 'Case Managers',
+    link: '/users/casemanager',
+    icon: <InspectionPanel size={17} />
   },
   {
     id: '4',
-    label: 'Enrollment',
-    link: 'patients/enrollment',
-    icon: <BookCheckIcon size={17} />
+    label: 'Patients',
+    link: '/users/patients',
+    icon: <Users size={17} />
   },
   {
     id: '5',
+    label: 'Enrollments',
+    link: 'users/enrollment',
+    icon: <BookCheckIcon size={17} />
+  },
+  {
+    id: '6',
     label: 'Reports',
     link: 'viratrack/reports',
     icon: <BookCopy size={17} />

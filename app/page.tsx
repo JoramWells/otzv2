@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Bell, HomeIcon, LineChart, NotebookPen, Pill, Shield, Users } from 'lucide-react'
+import { Bell, HomeIcon, LineChart, NotebookPen, Pill, Search, Shield, Users } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
 import { type ReactNode, Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MenuSelect } from './_components/MenuSelect'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 interface ListItemProps {
   id: string
@@ -36,15 +38,15 @@ const itemList: ItemListProps[] = [
       {
         id: '2',
         label: 'Patients',
-        link: '/administrator/patients'
+        link: '/administrator/users'
       },
       {
         id: '3',
         label: 'Caregiver',
-        link: '/patients/caregiver'
+        link: '/users/caregiver'
       },
       {
-        id: '4',
+        id: '5',
         label: 'Enrollment',
         link: '/administrator/enrollment'
       }
@@ -70,19 +72,24 @@ const itemList: ItemListProps[] = [
     link: '/users/dashboard',
     listItem: [
       {
-        id: '1',
-        label: 'Dashboard',
-        link: '/patients/dashboard'
-      },
-      {
         id: '2',
         label: 'Patients',
-        link: '/patients/patients'
+        link: '/users/patients'
       },
       {
         id: '3',
+        label: 'Case manager',
+        link: '/users/casemanager'
+      },
+      {
+        id: '4',
+        label: 'Caregiver',
+        link: '/users/caregiver'
+      },
+      {
+        id: '5',
         label: 'Enrollment',
-        link: '/patients/enrollment'
+        link: '/users/enrollment'
       }
     ]
   },
@@ -182,54 +189,71 @@ export default function Home () {
 
       {/* main */}
       <main className="flex flex-col  items-start w-full">
-        <Suspense fallback={<Skeleton className="w-full p-4" />}>
-          <div className="flex w-full p-4">
-            <h1 className="text-center text-3xl font-extrabold text-teal-600">
-              Welcome to CarePlus
-            </h1>
-          </div>
-        </Suspense>
+        <div className="flex flex-col justify-center items-center w-full">
+          <Suspense fallback={<Skeleton className="w-3/4 p-4" />}>
+            <div className="flex w-3/4 p-4 justify-between items-center">
+              <h1 className="text-center text-3xl font-extrabold text-teal-600">
+                Welcome to CarePlus
+              </h1>
 
-        <section
-          className="p-4 flex w-full
-      flex-row justify-start flex-wrap gap-4
+              <div className="w-[410px] flex flex-row items-center
+              justify-between space-x-4">
+                <Input
+                  className="shadow-none rounded-full p-4 h-10"
+                  placeholder="Search.."
+                />
+                <Button
+                className='bg-slate-50 hover:bg-slate-50 shadow-none'
+                >
+                <Search
+                className='text-slate-500'
+                />
+
+                </Button>
+              </div>
+            </div>
+          </Suspense>
+          <div
+            className="p-4 flex w-3/4 items-center
+      flex-row justify-between flex-wrap gap-8
       "
-        >
-          {itemList.map((item) => (
-            <Suspense
-              key={item.id}
-              fallback={<Skeleton className="w-[410px] h-[150px]" />}
-            >
-              <div
+          >
+            {itemList.map((item) => (
+              <Suspense
                 key={item.id}
-                tabIndex={0}
-                className="border border-slate-200 p-4 transition ease-in-out delay-150
-          rounded-lg w-[410px] h-[150px] hover:cursor-pointer"
+                fallback={<Skeleton className="w-[410px] h-[150px]" />}
               >
-                <div className="w-full flex justify-end">
-                  <div
-                    className="bg-slate-#f9be7c/50 hover:cursor-pointer transition ease-in-out delay-150
+                <div
+                  key={item.id}
+                  tabIndex={0}
+                  className="border border-slate-200 p-4 transition ease-in-out delay-150
+          rounded-lg w-[410px] h-[150px] hover:cursor-pointer"
+                >
+                  <div className="w-full flex justify-end">
+                    <div
+                      className="bg-slate-#f9be7c/50 hover:cursor-pointer transition ease-in-out delay-150
               rounded-lg p-1 hover:bg-slate-100 text-slate-500
               "
-                  >
-                    <MenuSelect dataList={item.listItem} />
+                    >
+                      <MenuSelect dataList={item.listItem} />
+                    </div>
                   </div>
+                  <Link
+                    className="text-xl font-bold hover:underline"
+                    href={item.link}
+                  >
+                    {item.label}
+                  </Link>
+                  <p className="text-slate-500 text-sm mt-2">
+                    {item.description
+                      ? item.description
+                      : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
+                  </p>
                 </div>
-                <Link
-                  className="text-xl font-bold hover:underline"
-                  href={item.link}
-                >
-                  {item.label}
-                </Link>
-                <p className="text-slate-500 text-sm mt-2">
-                  {item.description
-                    ? item.description
-                    : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
-                </p>
-              </div>
-            </Suspense>
-          ))}
-        </section>
+              </Suspense>
+            ))}
+          </div>
+        </div>
       </main>
       <footer className="absolute bottom-0 p-4 w-full text-center">
         <p className="text-slate-700">Powered by Synergy Data Group</p>

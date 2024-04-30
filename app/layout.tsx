@@ -10,7 +10,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'ψnergy Data Group',
-  description: 'Mother ANgela'
+  description: 'Mother Angela'
 }
 
 export default async function RootLayout ({
@@ -21,7 +21,7 @@ export default async function RootLayout ({
   // const session = await getServerSession()
   return (
       <html lang="en"
-      className=''
+      // className='dark'
       >
         <AuthProviders>
             <body className={inter.className}>{children}</body>
