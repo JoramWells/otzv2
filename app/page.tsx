@@ -40,6 +40,11 @@ const itemList: ItemListProps[] = [
       },
       {
         id: '3',
+        label: 'Caregiver',
+        link: '/patients/caregiver'
+      },
+      {
+        id: '4',
         label: 'Enrollment',
         link: '/administrator/enrollment'
       }
@@ -113,7 +118,7 @@ const itemList: ItemListProps[] = [
     id: '6',
     label: 'ViraTrack',
     icon: <LineChart />,
-    link: '/viratrack',
+    link: '/viratrack/dashboard',
     listItem: [
       {
         id: '6',
@@ -206,7 +211,7 @@ export default function Home () {
           {itemList.map((item) => (
             <Suspense
               key={item.id}
-              fallback={<Skeleton className="w-[430px] h-[250px]" />}
+              fallback={<Skeleton className="w-[420px] h-[170px]" />}
             >
               <div
                 key={item.id}

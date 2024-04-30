@@ -3,11 +3,10 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Divider } from '@chakra-ui/react'
 import { PlusCircle, Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import VLPieChart from '../_components/charts/VLPieChart'
-import VLBarChart from '../_components/charts/VLBarChart'
+import VLPieChart from '../../_components/charts/VLPieChart'
+import VLBarChart from '../../_components/charts/VLBarChart'
 
 const dataList = [
   {
@@ -83,7 +82,7 @@ const NotifyPage = () => {
           </div>
         ))}
       </div>
-      <Divider />
+      <div className='border-b border-slate-200 w-full' />
       <div className="">
         <h1
           className="font-semibold text-2xl

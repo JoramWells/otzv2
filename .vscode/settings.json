@@ -4,5 +4,11 @@
         "editor.formatOnSave": "explicit"
     },
     "eslint.validate": ["javascript"],
-    "prettier.disableLanguages": ["javascript"]
+    "prettier.disableLanguages": [
+        "javascript"
+    ],
+    "cSpell.words": [
+        "lucide",
+        "viratrack"
+    ]
 }
