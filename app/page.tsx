@@ -22,7 +22,7 @@ const itemList = [
     id: '3',
     label: 'Patient',
     icon: <PersonStanding />,
-    link: '/patients'
+    link: '/patients/dashboard'
   },
   {
     id: '4',
@@ -55,7 +55,8 @@ const itemList = [
     label: 'Articles',
     icon: <HomeIcon />,
     link: '/articles',
-    description: 'Upload, manage and add patient learning materials for E-learning'
+    description:
+      'Upload, manage and add patient learning materials for E-learning'
   },
   {
     id: '9',

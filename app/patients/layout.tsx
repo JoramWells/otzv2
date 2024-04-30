@@ -21,8 +21,8 @@ const DL: SidebarListItemsProps[] = [
   },
   {
     id: '2',
-    label: 'Registered-Patients',
-    link: 'patients/registered-patients',
+    label: 'Patients',
+    link: 'patients/patients',
     icon: <Users size={17} />
   },
   {

@@ -6,11 +6,12 @@
 
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
+import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmentBarChart'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import PieChart from '../_components/charts/PieChart'
+import PieChart from '../../_components/charts/PieChart'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
-import LineChart from '../_components/charts/LineChart'
+import LineChart from '../../_components/charts/LineChart'
+import { useMemo } from 'react'
 
 const dataList = [
   {
@@ -39,13 +40,6 @@ const dataList = [
   }
 ]
 
-interface DataPops {
-  id: number
-  year: number
-  userGain: number
-  userLost: number
-}
-
 const NotifyPage = () => {
   const { data } = useGetAllPatientsQuery()
   const router = useRouter()
@@ -68,21 +62,21 @@ const NotifyPage = () => {
       }
     ]
   }
-  const uniqueDates = Array.from(new Set(data?.map((entry: any) => entry.dateConfirmedPositive)))
-  uniqueDates.sort()
 
-const uniqueYears: number[] = [];
-for (const date of uniqueDates) {
-  if (typeof date === "string" || typeof date === "number") {
-    const year = new Date(date).getFullYear();
-    if (!isNaN(year)) {
-      uniqueYears.push(year);
-    }
-  }
-}
+  const uniqueYears: number[] | any = useMemo(() => {
+    return [
+      ...new Set(
+        data?.map((item: any) =>
+          new Date(item.dateConfirmedPositive).getFullYear()
+        )
+      )
+    ]
+  }, [data])
+
+  uniqueYears.sort((a: number, b: number) => a - b)
 
   // Count the number of patients for each year
-  const patientsCountPerYear = uniqueYears.map(year => {
+  const patientsCountPerYear = uniqueYears.map((year: any) => {
     return data?.filter((item: any) => new Date(item.dateConfirmedPositive).getFullYear() === year).length
   })
 
@@ -103,7 +97,7 @@ for (const date of uniqueDates) {
             className="border border-slate-200 rounded-xl p-5
              h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
       "
-            onClick={() => router.push("/notify/appointment")}
+            onClick={() => router.push('/notify/appointment')}
           >
             <div className="flex flex-row items-center justify-between">
               <h1 className="font-bold">{item.label}</h1>
@@ -132,7 +126,7 @@ for (const date of uniqueDates) {
         <PieChart data={pieChartData} />
       </div>
     </div>
-  );
+  )
 }
 
 export default NotifyPage
