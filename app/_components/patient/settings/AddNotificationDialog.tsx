@@ -3,9 +3,13 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useEffect, useState } from 'react'
 import { Switch } from '@/components/ui/switch'
-import { Divider } from '@chakra-ui/react'
 import { useAddUserNotificationMutation, useUpdateUserNotificationMutation } from '@/api/notifications/userNotification.api'
-import { type UserNotificationData } from '@/app/patients/settings/[patientID]/Settins'
+// import { type UserNotificationData } from '@/app/patients/settings/[patientID]/Settins'
+interface UserNotificationData{
+  id:string
+  notificationID: string
+}
+
 interface NotificationProps {
   voice?: boolean
   sms?: boolean
@@ -119,35 +123,36 @@ const AddNotificationDialog = ({
     "
     >
       <NotifyCard
-        label={'SMS'}
+        label={"SMS"}
         text="SMS Desc"
         isChecked={notificationState?.sms}
         handleChecked={async () => {
-          await handleNotificationToggle('sms')
+          await handleNotificationToggle("sms");
         }}
       />
-      <Divider />
+
+      <div className="border-b border-slate-200 w-full" />
 
       <NotifyCard
-        label={'WHATSAPP'}
+        label={"WHATSAPP"}
         text="WHATSAPP Desc"
         isChecked={notificationState?.whatsapp}
         handleChecked={async () => {
-          await handleNotificationToggle('whatsapp')
+          await handleNotificationToggle("whatsapp");
         }}
       />
-      <Divider />
+      <div className="border-b border-slate-200 w-full" />
 
       <NotifyCard
-        label={'PUSH NOTIFICATION'}
+        label={"PUSH NOTIFICATION"}
         text="PUSH NOTIFICATION Desc"
         isChecked={notificationState?.push}
         handleChecked={async () => {
-          await handleNotificationToggle('push')
+          await handleNotificationToggle("push");
         }}
       />
     </div>
-  )
+  );
 }
 
 export default AddNotificationDialog

@@ -12,7 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "target": "ES6",
+    "downlevelIteration": true,
+    "target": "ES2020",
     "plugins": [
       {
         "name": "next"

@@ -18,12 +18,16 @@ export interface BarChartProps {
   datasets: Array<ChartDataset<'bar', Array<number | [number, number] | null>>>
 }
 
+interface vlDataProps {
+  dateOfVL: Date | number | string
+}
+
 Chart.register(...registerables)
 
 const VLBarChart = () => {
   const { data: vlData } = useGetAllViralLoadTestsQuery()
   const [data, setData] = useState([])
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState<number>(0)
 
   //
   useEffect(() => {
@@ -35,18 +39,18 @@ const VLBarChart = () => {
   const countTrue = data?.filter((item: any) => item.isVLValid === true).length
   const countFalse = data?.filter((item: any) => item.isVLValid === false).length
 
-  const uniqueYears = useMemo(() => {
+  const uniqueYears: number[] | any = useMemo(() => {
     return [
       ...new Set(
-        vlData?.map((item: any) => new Date(item.dateOfVL).getFullYear())
+        vlData?.map((item: vlDataProps) => new Date(item.dateOfVL).getFullYear())
       )
     ]
   }, [vlData])
 
-  uniqueYears.sort((a, b) => a - b)
+  uniqueYears.sort((a: number, b: number) => a - b)
 
   const yearsOption = useCallback(() => {
-    return uniqueYears?.map(item => (
+    return uniqueYears?.map((item: any) => (
       {
         id: item, label: item
       }
@@ -68,7 +72,7 @@ const VLBarChart = () => {
 
   console.log(yearsOption(), 'years')
 
-  const handleChange = (val: string) => {
+  const handleChange = (val: number) => {
     setData(vlData)
     const filteredData = vlData?.filter((item: any) =>
       new Date(item.dateOfVL).getFullYear() === val
@@ -85,7 +89,7 @@ const VLBarChart = () => {
           <CustomSelect
             placeholder="Years"
             data={yearsOption() || []}
-            value={value}
+            value={value as unknown as string}
             onChange={val => { handleChange(val) }}
           />
         </div>

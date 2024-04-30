@@ -33,7 +33,7 @@ const Messages = ({ patientID }: { patientID: string }) => {
             : 'not same'}
           <div>
             <p>Date: {moment(item.updatedAt).format('ll')} </p>
-            <p>Medicine Time: {item.medicineTime}</p>
+            <p>Medicine Time: </p>
             <p>Sent Time: {moment(item.updatedAt, 'HH:mm:ss').format('HH:mm a')}</p>
           </div>
         </div>
