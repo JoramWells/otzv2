@@ -2,22 +2,18 @@
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect } from 'react'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
-import { useSearchParams } from 'next/navigation'
 import { useGetAllPrescriptionsQuery } from '@/api/pillbox/artPrescription.api'
 
 const PrescriptionPage = () => {
   const { data } = useGetAllPrescriptionsQuery()
 
-
   console.log(data, 'yu')
 
   const showNotification = useNotification()
-
-
 
   useEffect(() => {
     // if (data) {
@@ -42,9 +38,9 @@ const PrescriptionPage = () => {
         <h1 className="text-xl text-slate-700 font-semibold">Prescriptions</h1>
       </div>
 
-      <CustomTable columns={columns} data={data || []}  />
+      <CustomTable columns={columns} data={data || []} />
     </div>
-  );
+  )
 }
 
 export default PrescriptionPage

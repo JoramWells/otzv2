@@ -99,12 +99,12 @@ export const store = configureStore({
     [patientNotificationApi.reducerPath]: patientNotificationApi.reducer,
     [messageTextReplyApi.reducerPath]: messageTextReplyApi.reducer,
     [articlesCategoryApi.reducerPath]: articlesCategoryApi.reducer,
-    [articlesApi.reducerPath]: articlesApi.reducer,
+    [articlesApi.reducerPath]: articlesApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,
-      serializableCheck: false,
+      serializableCheck: false
     })
       .concat(patientsApi.middleware)
       .concat(vitalSignsApi.middleware)
@@ -153,5 +153,5 @@ export const store = configureStore({
       .concat(messageTextReplyApi.middleware)
       .concat(patientNotificationApi.middleware)
       .concat(articlesApi.middleware)
-      .concat(articlesCategoryApi.middleware),
-});
+      .concat(articlesCategoryApi.middleware)
+})

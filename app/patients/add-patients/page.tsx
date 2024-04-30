@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
@@ -109,13 +110,13 @@ const AddPatient = () => {
 
   const [addPatient, { isLoading, data }] = useAddPatientMutation()
 
-  useEffect(()=>{
-    if(data){
+  useEffect(() => {
+    if (data) {
       redirect(
         `/patients/${data.id}?tab=appointments`
-      );
+      )
     }
-  },[data])
+  }, [data])
   console.log(data)
 
   return (

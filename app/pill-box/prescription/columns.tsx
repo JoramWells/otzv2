@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
 import moment, { type MomentInput } from 'moment'
-import { calculateAge } from '@/utils/calculateAge'
 
 import Link from 'next/link'
 import Avatar from '@/app/_components/Avatar'

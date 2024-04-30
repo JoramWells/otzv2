@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
@@ -35,9 +37,9 @@ const AppointmentPage = () => {
   const [value, setValue] = useState<string | null>(tab)
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery()
 
-  const [addPatientNotification] = useAddPatientNotificationMutation();
+  const [addPatientNotification] = useAddPatientNotificationMutation()
 
-// const isTime = checkTime(patientsDueMorning)?.some(time=>time)
+  // const isTime = checkTime(patientsDueMorning)?.some(time=>time)
 
   const morningData = useCallback(() => {
     return patientsDueMorning?.filter((item: any) => {
@@ -76,7 +78,6 @@ const AppointmentPage = () => {
   //   // return ()=>clearInterval(intervalID)
   // }, [patientsDueMorning]);
 
-
   return (
     <div className="p-5 mt-12 flex flex-col space-y-4">
       <h1 className="text-xl font-semibold">Pill Box Reminder</h1>
@@ -84,7 +85,7 @@ const AppointmentPage = () => {
       <div>
         <CustomTab categoryList={dataList} value={value} setValue={setValue} />
       </div>
-      {value === "All" && (
+      {value === 'All' && (
         <div>
           <div className="mb-2 flex flex-row justify-between">
             <div className="w-1/4 flex flex-row items-center justify-center space-x-2">
@@ -97,13 +98,13 @@ const AppointmentPage = () => {
                   placeholder="Status"
                   data={[
                     {
-                      id: "Completed",
-                      label: "Completed",
+                      id: 'Completed',
+                      label: 'Completed'
                     },
                     {
-                      id: "Not Completed",
-                      label: "Not Completed",
-                    },
+                      id: 'Not Completed',
+                      label: 'Not Completed'
+                    }
                   ]}
                   value=""
                   onChange={() => {}}
@@ -120,19 +121,19 @@ const AppointmentPage = () => {
         </div>
       )}
       {/*  */}
-      {value === "all" && (
+      {value === 'all' && (
         <CustomTable columns={morningColumn} data={patientsDueMorning || []} />
       )}
       {/*  */}
-      {value === "morning" && (
+      {value === 'morning' && (
         <CustomTable columns={morningColumn} data={patientsDueMorning || []} />
       )}
       {/*  */}
-      {value === "evening" && (
+      {value === 'evening' && (
         <CustomTable columns={eveningColumn} data={patientsDueMorning || []} />
       )}
     </div>
-  );
+  )
 }
 
 export default AppointmentPage

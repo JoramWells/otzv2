@@ -19,49 +19,49 @@ import { useState } from 'react'
 const categoryList = [
   {
     id: 1,
-    label: "Appointments",
+    label: 'Appointments'
   },
   {
     id: 2,
-    label: "Care Giver",
+    label: 'Care Giver'
   },
   {
     id: 3,
-    label: "Case Manager",
+    label: 'Case Manager'
   },
   {
     id: 4,
-    label: "Home Visit",
+    label: 'Home Visit'
   },
   {
     id: 5,
-    label: "Lab",
+    label: 'Lab'
   },
   {
     id: 6,
-    label: "Pharmacy",
+    label: 'Pharmacy'
   },
   {
     id: 7,
-    label: "Treatment Plan",
+    label: 'Treatment Plan'
   },
   {
     id: 8,
-    label: "Medical File",
+    label: 'Medical File'
   },
   {
     id: 9,
-    label: "Messages",
+    label: 'Messages'
   },
   {
     id: 10,
-    label: "Insights",
+    label: 'Insights'
   },
   {
     id: 11,
-    label: "Settings",
-  },
-];
+    label: 'Settings'
+  }
+]
 
 export interface InputTabProps {
   id: number
