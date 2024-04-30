@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import '../../globals.css'
 // import Link from 'next/link'
@@ -25,8 +26,11 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
   const [visible, setVisible] = useState(false)
   const pathname = usePathname()
   const isActive = useMemo(() => {
+    if (link !== null) {
+      return pathname === link?.toLowerCase()
+    }
     return pathname.includes(label.toLowerCase())
-  }, [pathname, label])
+  }, [pathname, link, label])
 
   const onToggle = () => {
     setVisible(prev => !prev)
