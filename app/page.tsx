@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Bell, HomeIcon, LineChart, NotebookPen, PersonStanding, Pill, Shield, Users } from 'lucide-react'
+import { Bell, HomeIcon, LineChart, NotebookPen, Pill, Shield, Users } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
 import { type ReactNode, Suspense } from 'react'
@@ -65,9 +65,9 @@ const itemList: ItemListProps[] = [
   },
   {
     id: '3',
-    label: 'Patients',
-    icon: <PersonStanding />,
-    link: '/patients/dashboard',
+    label: 'Users',
+    icon: <Users />,
+    link: '/users/dashboard',
     listItem: [
       {
         id: '1',
@@ -83,19 +83,6 @@ const itemList: ItemListProps[] = [
         id: '3',
         label: 'Enrollment',
         link: '/patients/enrollment'
-      }
-    ]
-  },
-  {
-    id: '4',
-    label: 'Users',
-    icon: <Users />,
-    link: '/users',
-    listItem: [
-      {
-        id: '4',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
       }
     ]
   },
@@ -211,13 +198,13 @@ export default function Home () {
           {itemList.map((item) => (
             <Suspense
               key={item.id}
-              fallback={<Skeleton className="w-[420px] h-[170px]" />}
+              fallback={<Skeleton className="w-[410px] h-[150px]" />}
             >
               <div
                 key={item.id}
                 tabIndex={0}
                 className="border border-slate-200 p-4 transition ease-in-out delay-150
-          rounded-lg w-[420px] h-[170px] hover:cursor-pointer"
+          rounded-lg w-[410px] h-[150px] hover:cursor-pointer"
               >
                 <div className="w-full flex justify-end">
                   <div

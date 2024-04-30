@@ -60,7 +60,7 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
             </p>
               )
             : (
-            <Link href={`/${link}`} className="capitalize">
+            <Link href={`${link}`} className="capitalize">
               {label}
             </Link>
               )}
