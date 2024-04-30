@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button'
 import { Divider } from '@chakra-ui/react'
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
+import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmentBarChart'
 import { useGetAllTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
 import { useGetPillDailyUptakeCountQuery } from '@/api/treatmentplan/uptake.api'
-import DoubleARTUptakeBarChart from '../_components/charts/DoubleARTUptakeBarChart'
+import DoubleARTUptakeBarChart from '../../_components/charts/DoubleARTUptakeBarChart'
 
 const dataList = [
   {

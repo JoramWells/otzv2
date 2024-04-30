@@ -14,14 +14,14 @@ import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_compo
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
-    label: 'Pill Box',
-    link: 'pill-box',
+    label: 'Dashboard',
+    link: '/pill-box/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
     id: '2',
-    label: 'Prescription',
-    link: 'pill-box/prescription',
+    label: 'Pill Box',
+    link: '/pill-box/prescription',
     icon: <Pill size={17} />
   },
   {

@@ -16,7 +16,7 @@ const itemList = [
     id: '2',
     label: 'Pill Box',
     icon: <Pill />,
-    link: '/pill-box'
+    link: '/pill-box/dashboard'
   },
   {
     id: '3',
