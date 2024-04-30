@@ -1,51 +1,50 @@
 'use client'
 
-import { useAddArticlesMutation } from '@/api/articles/articles.api';
-import { useAddArticlesCategoryMutation, useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api';
-import CustomInput from '@/app/_components/forms/CustomInput';
-import CustomSelect from '@/app/_components/forms/CustomSelect';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Loader2 } from 'lucide-react';
-import dynamic from 'next/dynamic';
+import { useAddArticlesMutation } from '@/api/articles/articles.api'
+import { useAddArticlesCategoryMutation, useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
+import CustomInput from '@/app/_components/forms/CustomInput'
+import CustomSelect from '@/app/_components/forms/CustomSelect'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Loader2 } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 // import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import 'react-quill/dist/quill.snow.css'
 
 const ArticlesPage = () => {
-  const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }),[]);
-  
-  const [addArticlesCategory,{isLoading}] = useAddArticlesCategoryMutation();
-  const { data, isLoading: isLoadingData } = useGetAllArticlesCategoryQuery();
+  const ReactQuill = useMemo(() => dynamic(async () => await import('react-quill'), { ssr: false }), [])
 
-  // 
-  const [addArticles, { isLoading: isLoadingArticles }] = useAddArticlesMutation();
-  const categoryOptions = useCallback(()=>{
-    return data?.map((item: any)=>({
-      id:item.id, label:item.description
+  const [addArticlesCategory, { isLoading }] = useAddArticlesCategoryMutation()
+  const { data, isLoading: isLoadingData } = useGetAllArticlesCategoryQuery()
+
+  //
+  const [addArticles, { isLoading: isLoadingArticles }] = useAddArticlesMutation()
+  const categoryOptions = useCallback(() => {
+    return data?.map((item: any) => ({
+      id: item.id, label: item.description
     }))
-  },[data])
+  }, [data])
 
   const [value, setValue] = useState('')
-  const [category, setCategory] = useState("");
-  const [articleCategoryID, setArticleCategoryID] = useState("");
-const [file, setFile] = useState("");
+  const [category, setCategory] = useState('')
+  const [articleCategoryID, setArticleCategoryID] = useState('')
+  const [file, setFile] = useState('')
 
   const inputValues = {
-    description:category
+    description: category
   }
-    const handleSubmit = (e) => {
-      e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault()
 
-      const formData = {
-        articleCategoryID: articleCategoryID,
-        content: value,
-      };
+    const formData = {
+      articleCategoryID,
+      content: value
+    }
 
-      // Call the addArticles mutation with the form data and file
-      addArticles({ formData, file });
-    };
-
+    // Call the addArticles mutation with the form data and file
+    addArticles({ formData, file })
+  }
 
   // const formData = {
   //   articleCategoryID,
@@ -66,19 +65,19 @@ const [file, setFile] = useState("");
         />
         <Button
           className="shadow-none bg-teal-600 hover:bg-teal-700"
-          onClick={() => addArticlesCategory(inputValues)}
+          onClick={async () => await addArticlesCategory(inputValues)}
         >
           {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />}
           ADD
         </Button>
       </div>
       <div
-        className="w-1/2 border border-slate-200 rounded-lg 
+        className="w-1/2 border border-slate-200 rounded-lg
       p-4 flex flex-col space-y-4 "
       >
         <p className="font-bold text-xl text-slate-700">New Article</p>
 
-        <form className='flex flex-col space-y-4' 
+        <form className='flex flex-col space-y-4'
         onSubmit={handleSubmit}
         >
           <CustomSelect
@@ -99,7 +98,7 @@ const [file, setFile] = useState("");
           <Input
             className=""
             type="file"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e) => { setFile(e.target.files[0]) }}
           />
 
           {/*  */}
@@ -115,7 +114,7 @@ const [file, setFile] = useState("");
         </form>
       </div>
     </div>
-  );
+  )
 }
 
 export default ArticlesPage
