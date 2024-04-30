@@ -110,8 +110,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
 
 export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
   {
-    accessorKey: "patient",
-    header: "Patient Name",
+    accessorKey: 'patient',
+    header: 'Patient Name',
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2 pt-2 pb-2">
         <Avatar
@@ -124,46 +124,48 @@ export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
           href={`/patients/${row.original?.patient.id}?tab=messages`}
         >{`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}</Link>
       </div>
-    ),
+    )
   },
   {
-    accessorKey: "medicineTime",
-    header: "Medicine Time",
+    accessorKey: 'medicineTime',
+    header: 'Medicine Time',
     cell: ({ row }) => (
-      <p>{moment(row.original.medicineTime, "HH:mm:ss").format("HH:mm a")} </p>
-    ),
+      <p>{moment(row.original.medicineTime, 'HH:mm:ss').format('HH:mm a')} </p>
+    )
   },
   {
-    accessorKey: "message",
-    header: "Messages",
+    accessorKey: 'message',
+    header: 'Messages'
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: 'status',
+    header: 'Status',
     cell: ({ row }) => {
-      const sentTime = moment(row.original.createdAt, "HH:mm:ss");
-      const medicineTime = moment(row.original.medicineTime, "HH:mm:ss");
+      const sentTime = moment(row.original.createdAt, 'HH:mm:ss')
+      const medicineTime = moment(row.original.medicineTime, 'HH:mm:ss')
       const isSame = () => {
         if (sentTime.isSame(medicineTime)) {
-          return true;
+          return true
         }
-        return false;
-      };
+        return false
+      }
 
       return (
         <div>
-          {sentTime.format("HH:mm a")}
-          {isSame() ? (
+          {sentTime.format('HH:mm a')}
+          {isSame()
+            ? (
             <Badge className="rounded-full shadow-none bg-teal-50 text-teal-600 hover:bg-teal-100">
               OK
             </Badge>
-          ) : (
+              )
+            : (
             <Badge className="rounded-full bg-red-50 text-red-500 shadow-none hover:bg-red-100">
               NOT OK
             </Badge>
-          )}
+              )}
         </div>
-      );
-    },
-  },
-];
+      )
+    }
+  }
+]

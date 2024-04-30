@@ -2,17 +2,17 @@
 
 import { Bell, MessageSquareText } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import React, { useContext, useEffect } from 'react'
-import useNotification from '@/hooks/useNotification'
-import socketIOClient, { type Socket } from 'socket.io-client'
-import { NotificationContext, type NotificationProps } from '@/context/NotificationContext'
+// import React, { useContext, useEffect } from 'react'
+// import useNotification from '@/hooks/useNotification'
+// import socketIOClient, { type Socket } from 'socket.io-client'
+// import { NotificationContext, type NotificationProps } from '@/context/NotificationContext'
 import { UserMenuDropDown } from './UserMenuDropDown'
 
 const RightNav = () => {
   const router = useRouter()
-  const { notifications, addNotification } = useContext(NotificationContext)
+  // const { notifications, addNotification } = useContext(NotificationContext)
 
-  const showNotification = useNotification()
+  // const showNotification = useNotification()
 
   // useEffect(() => {
   //   const socket: Socket = socketIOClient('http://localhost:5000')

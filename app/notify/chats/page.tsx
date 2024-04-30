@@ -10,19 +10,24 @@ import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 // import { type Session } from 'next-auth'
 import { useSession } from 'next-auth/react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
-const getMessages = async ()=>{
-  try {
-    const response = await fetch("http://localhost:5005/chat-messages");
-    console.log(response)
-  } catch (error) {
-    console.log(error)
-  }
-};
+// const getMessages = async () => {
+//   try {
+//     const response = await fetch('http://localhost:5005/chat-messages')
+//     console.log(response)
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+interface ItemProps {
+  id: string
+  firstName: string
+}
 
 export default function Page () {
-  const [currentChat, setCurrentChat] = useState(null);
+  const [currentChat, setCurrentChat] = useState('')
   const [addChats, { isLoading }] = useAddChatsMutation()
   // const {} = useGetChatQuery()
   const { data: session } = useSession()
@@ -52,20 +57,20 @@ export default function Page () {
   // const createChats = useCallback((id1, id2) => {
   //   const respo
   // }, [])
-  
-  const updateCurrentChat = useCallback((id: any) => {
-    const {data} =useGetChatMessageQuery(id)
-    setCurrentChat(data);
-    console.log(currentChat, 'io')
-  }, []);
 
-  useEffect(() => {
-    getMessages();
-    pChats()
-    // filterUsers()
-  }, [pChats])
+  // const updateCurrentChat = useCallback((id: any) => {
+  //   const { data } = useGetChatMessageQuery(id)
+  //   setCurrentChat(data)
+  //   console.log(currentChat, 'io')
+  // }, [])
 
-  console.log(usersChat, "chats");
+  // useEffect(async () => {
+  //   await getMessages()
+  //   pChats()
+  //   // filterUsers()
+  // }, [pChats])
+
+  console.log(usersChat, 'chats')
   return (
     <div className="p-4 mt-14">
       <div className="flex flex-row space-x-2">
@@ -76,7 +81,7 @@ export default function Page () {
               onClick={() =>
                 addChats({
                   id1: userID,
-                  id2: item.id,
+                  id2: item.id
                 })
               }
             >
@@ -95,14 +100,14 @@ export default function Page () {
         className='font-bold text-xl'
         >User Chats</p>
 
-        {pChats()?.map((item: any) => (
+        {pChats()?.map((item: ItemProps) => (
           <div key={item.id}
-          onClick={()=>setCurrentChat(item.id)}
+          onClick={() => { setCurrentChat(item.id) }}
           >{item.firstName}</div>
         ))}
       </div>
-      <div>{messageData ? "Available" : "No Text"}</div>
+      <div>{messageData ? 'Available' : 'No Text'}</div>
       <div>{currentChat}</div>
     </div>
-  );
+  )
 }

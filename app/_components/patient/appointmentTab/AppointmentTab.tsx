@@ -164,11 +164,11 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
                 <CalendarDays
                   size={25}
                   onClick={() => {
-                    setIsCalendarVisible(!isCalendarVisible);
+                    setIsCalendarVisible(!isCalendarVisible)
                   }}
                   className={`hover:cursor-pointer bg-gray-100 h-8 w-8 p-2 rounded-md ${
                     isCalendarVisible &&
-                    "bg-teal-600 text-white border border-slate-200"
+                    'bg-teal-600 text-white border border-slate-200'
                   }`}
                 />
                 <EditAppointmentDialog patientID={patientID} />
@@ -213,7 +213,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
                   className="overflow-y-auto rounded-lg border-t-8 pt-4 border-t-slate-300"
                   style={{
                     // height: '500px',
-                    minWidth: "75%",
+                    minWidth: '75%'
                   }}
                 >
                   <FullCalendar
@@ -221,12 +221,12 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
                       dayGridPlugin,
                       interactionPlugin,
                       timeGridPlugin,
-                      multiMonthPlugin,
+                      multiMonthPlugin
                     ]}
                     headerToolbar={{
                       // center: 'title',
-                      left: "multiMonthYear, dayGridMonth ,timeGridWeek",
-                      right: "prev,next,today",
+                      left: 'multiMonthYear, dayGridMonth ,timeGridWeek',
+                      right: 'prev,next,today'
                     }}
                     // events={events}
                     nowIndicator={true}
@@ -242,7 +242,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
         ) : (
           <div
             className="w-1/2 border border-teal-200
-          bg-teal-50 
+          bg-teal-50
           rounded-lg p-4"
           >
             <h1
@@ -259,7 +259,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
         )}
       </div>
     </Suspense>
-  );
+  )
 }
 
 export default AppointmentTab

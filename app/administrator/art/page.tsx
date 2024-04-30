@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import {  Tag } from '@chakra-ui/react'
+import { Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { artColumns, artSwitchReasonColumns, columns, type UserProps } from './columns'
 import { usePathname, useRouter } from 'next/navigation'

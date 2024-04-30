@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { useAddArticlesMutation } from '@/api/articles/articles.api'
@@ -8,9 +10,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Loader2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { type FormEvent, useCallback, useMemo, useState, type Dispatch, type SetStateAction } from 'react'
 // import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
+
+type FileType = File | null
+
+type SetFileType = Dispatch<SetStateAction<FileType>>
 
 const ArticlesPage = () => {
   const ReactQuill = useMemo(() => dynamic(async () => await import('react-quill'), { ssr: false }), [])
@@ -29,12 +35,12 @@ const ArticlesPage = () => {
   const [value, setValue] = useState('')
   const [category, setCategory] = useState('')
   const [articleCategoryID, setArticleCategoryID] = useState('')
-  const [file, setFile] = useState('')
+  const [file, setFile] = useState<File>()
 
   const inputValues = {
     description: category
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const formData = {
@@ -43,7 +49,7 @@ const ArticlesPage = () => {
     }
 
     // Call the addArticles mutation with the form data and file
-    addArticles({ formData, file })
+    await addArticles({ formData, file })
   }
 
   // const formData = {
@@ -98,7 +104,7 @@ const ArticlesPage = () => {
           <Input
             className=""
             type="file"
-            onChange={(e) => { setFile(e.target.files[0]) }}
+            onChange={(e) => { setFile(e.target.files?.[0]) }}
           />
 
           {/*  */}
