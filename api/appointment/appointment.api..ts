@@ -8,58 +8,58 @@ interface AppointmentProps {
 }
 
 export const appointmentApi = createApi({
-  reducerPath: "appointmentApi",
+  reducerPath: 'appointmentApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/appointment/appointments",
+    baseUrl: '{process.env.NEXT_PUBLIC_API_URL}/api/appointment/appointments'
   }),
   endpoints: (builder) => ({
     getAllAppointments: builder.query<any, AppointmentProps>({
       query: (params) => {
         if (params) {
-          const { date, mode } = params;
-          let queryString = "";
-          queryString += `date=${date}`;
-          queryString += `&mode=${mode}`;
-          return `/fetchAll?${queryString}`;
+          const { date, mode } = params
+          let queryString = ''
+          queryString += `date=${date}`
+          queryString += `&mode=${mode}`
+          return `/fetchAll?${queryString}`
         }
-        return "/fetchAll";
-      },
+        return '/fetchAll'
+      }
     }),
     getAllWeeklyAppointments: builder.query<any, void>({
-      query: () => "fetchAllWeekly",
+      query: () => 'fetchAllWeekly'
     }),
     addAppointment: builder.mutation({
       query: (newUser) => ({
-        url: "add",
-        method: "POST",
-        body: newUser,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: newUser
+      })
     }),
     getAppointment: builder.query({
       query: (id) => {
-        return `detail?/${id}`;
-      },
+        return `detail?/${id}`
+      }
     }),
     getAppointmentDetail: builder.query({
-      query: (id) => `appointmentDetail/${id}`,
+      query: (id) => `appointmentDetail/${id}`
     }),
     updateAppointment: builder.mutation<void, any>({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
-        method: "PUT",
-        body: patch,
-      }),
+        method: 'PUT',
+        body: patch
+      })
     }),
     deleteAppointment: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete/${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const {
   useGetAllAppointmentsQuery, useAddAppointmentMutation,
