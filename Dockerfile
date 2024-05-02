@@ -1,8 +1,5 @@
 FROM node:20-alpine
 
-ARG NODE_ENV
-
-ENV NODE_ENV ${NODE_ENV}
 
 RUN mkdir -p /usr/src/app
 
