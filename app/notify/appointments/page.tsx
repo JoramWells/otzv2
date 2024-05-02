@@ -86,6 +86,8 @@ const AppointmentPage = () => {
     }
   }, [data, showNotification])
 
+  console.log(data, 'ty')
+
   return (
     <div className="p-5 mt-12">
       <div className="flex flex-row mb-4 justify-between ">
