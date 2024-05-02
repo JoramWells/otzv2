@@ -6,9 +6,7 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 
-RUN yarn add pnpm
-
-RUN pnpm install
+RUN yarn install
 
 COPY . .
 

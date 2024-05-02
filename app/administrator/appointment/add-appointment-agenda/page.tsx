@@ -6,8 +6,6 @@ import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
 import { useState } from 'react'
-import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
-import { useAddAppointmentAgendaMutation } from '@/api/appointment/appointmentAgenda.api'
 
 interface PhaseProps {
   id: string
@@ -23,10 +21,8 @@ interface CategoryProps {
 const AddAppointmentAgenda = () => {
   const [agendaDescription, setAgendaDescription] = useState('')
   const [artPhaseID, setArtPhaseID] = useState('')
-  const [addAppointmentAgenda, { isLoading }] =
-    useAddAppointmentAgendaMutation()
-
-  const { data: phaseData } = useGetAllArtRegimenPhaseQuery()
+  // const [addAppointmentAgenda, { isLoading }] =
+  //   useAddAppointmentAgendaMutation()
 
   const inputValues = {
     agendaDescription
@@ -51,8 +47,8 @@ const AddAppointmentAgenda = () => {
         <Button
           colorScheme="teal"
           width={'full'}
-          onClick={() => addAppointmentAgenda(inputValues)}
-          isLoading={isLoading}
+          // onClick={() => addAppointmentAgenda(inputValues)}
+          // isLoading={isLoading}
         >
           Add Agenda
         </Button>

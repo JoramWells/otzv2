@@ -3,7 +3,7 @@ services:
 
   client:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile.production
       args:
         - NODE_ENV=production

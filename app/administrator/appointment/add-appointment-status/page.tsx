@@ -6,7 +6,6 @@ import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
 import { useCallback, useState } from 'react'
-import { useAddAppointmentStatusMutation } from '@/api/appointment/appointmentStatus.api'
 
 interface PhaseProps {
   id: string
@@ -22,8 +21,8 @@ interface CategoryProps {
 const AddAppointmentStatus = () => {
   const [statusDescription, setStatusDescription] = useState('')
 
-  const [addAppointmentStatus, { isLoading }] =
-    useAddAppointmentStatusMutation()
+  // const [addAppointmentStatus, { isLoading }] =
+  //   useAddAppointmentStatusMutation()
 
   const inputValues = {
     statusDescription
@@ -48,8 +47,8 @@ const AddAppointmentStatus = () => {
         <Button
           colorScheme="teal"
           width={'full'}
-          onClick={() => addAppointmentStatus(inputValues)}
-          isLoading={isLoading}
+          // onClick={() => addAppointmentStatus(inputValues)}
+          // isLoading={isLoading}
         >
           Appointment Status
         </Button>
