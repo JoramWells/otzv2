@@ -4,7 +4,7 @@ services:
   client:
     build:
       context: .
-      dockerfile: Dockerfile.production
+      dockerfile: Dockerfile
       args:
         - NODE_ENV=production
     image: otz-client
