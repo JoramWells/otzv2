@@ -6,34 +6,34 @@ export interface ArtProps {
 }
 
 export const artRegimenPhaseApi = createApi({
-  reducerPath: "artRegimenPhaseApi",
+  reducerPath: 'artRegimenPhaseApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/root/art-regimen-phase",
+    baseUrl: 'http://localhost:8080/api/root/art-regimen-phase'
   }),
   endpoints: (builder) => ({
     getAllArtRegimenPhase: builder.query<any, void>({
-      query: () => "fetchAll",
+      query: () => 'fetchAll'
     }),
     addArtRegimenPhase: builder.mutation<string, ArtProps>({
       query: (newUser: ArtProps) => ({
-        url: "add",
-        method: "POST",
-        body: newUser,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: newUser
+      })
     }),
     getArtRegimenPhase: builder.query({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
     deleteArtRegimenPhase: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const {
   useGetAllArtRegimenPhaseQuery, useAddArtRegimenPhaseMutation,

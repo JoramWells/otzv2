@@ -5,9 +5,8 @@
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../_components/forms/CustomInput'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
-import { useAddArtRegimenCategoryMutation } from '@/api/art/artRegimenCategory.api'
 import { useAddAppointmentAgendaMutation } from '@/api/appointment/appointmentAgenda.api'
 
 interface PhaseProps {
