@@ -2,16 +2,16 @@
 'use client'
 import { type OccupationProps, useGetAllOccupationQuery } from '@/api/occupation.api'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../forms/CustomInput'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { useCallback, useId, useState } from 'react'
-import CustomSelect from '../../forms/CustomSelect'
+import CustomSelect from '../../../../components/forms/CustomSelect'
 import { type CountyProps, useGetAllCountiesQuery } from '@/api/location/county.api'
 import { type SubCountyProps, useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 import { type WardProps, useGetAllWardsQuery } from '@/api/location/ward.api'
 import { useGetAllSchoolsQuery } from '@/api/school/school.api'
 import { Button } from '@/components/ui/button'
 import { Tag } from '@chakra-ui/react'
-import CustomCheckbox from '../../forms/CustomCheckbox'
+import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
 
 export interface LocationDetailsProps {
   phoneNo: string

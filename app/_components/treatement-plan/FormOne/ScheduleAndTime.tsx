@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { Divider } from '@chakra-ui/react'
-import CustomInput from '../../forms/CustomInput'
-import CustomTimeInput from '../../forms/CustomTimeInput'
+import CustomInput from '../../../../components/forms/CustomInput'
+import CustomTimeInput from '../../../../components/forms/CustomTimeInput'
 
 export interface ScheduleAndTimeProps {
   morningPlace: string

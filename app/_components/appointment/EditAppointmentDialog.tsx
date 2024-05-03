@@ -3,9 +3,9 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import React, { useCallback, useState } from 'react'
-import CustomInput from '../forms/CustomInput'
-import CustomTimeInput from '../forms/CustomTimeInput'
-import CustomSelect from '../forms/CustomSelect'
+import CustomInput from '../../../components/forms/CustomInput'
+import CustomTimeInput from '../../../components/forms/CustomTimeInput'
+import CustomSelect from '../../../components/forms/CustomSelect'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'

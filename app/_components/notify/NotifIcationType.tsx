@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import CustomInput from '../forms/CustomInput'
+import CustomInput from '../../../components/forms/CustomInput'
 import { useAddNotificationTypeMutation, useGetAllNotificationTypesQuery } from '@/api/notifications/notificationTypes.api'
 import { Loader2 } from 'lucide-react'
 

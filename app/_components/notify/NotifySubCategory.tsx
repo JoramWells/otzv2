@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Button } from '@/components/ui/button'
-import CustomInput from '../forms/CustomInput'
+import CustomInput from '../../../components/forms/CustomInput'
 import { useCallback, useState } from 'react'
 import { useGetAllNotificationCategoriesQuery } from '@/api/notifications/notificationCategory.api'
 import { useAddNotificationSubCategoryMutation, useGetAllNotificationSubCategoriesQuery } from '@/api/notifications/notificationSubCategory.api'
 import { Loader2, Trash2 } from 'lucide-react'
 import moment from 'moment'
-import CustomSelect from '../forms/CustomSelect'
+import CustomSelect from '../../../components/forms/CustomSelect'
 
 export interface NotifySubCategoryProps {
   id: string

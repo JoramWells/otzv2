@@ -1,8 +1,8 @@
 'use client'
 import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../forms/CustomInput'
-import CustomSelect from '../../forms/CustomSelect'
+import CustomInput from '../../../../components/forms/CustomInput'
+import CustomSelect from '../../../../components/forms/CustomSelect'
 import { useCallback } from 'react'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 

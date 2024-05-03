@@ -5,7 +5,7 @@ import { useAddMeasuringUnitMutation, useGetAllMeasuringQuery } from '@/api/art/
 import { CustomTable } from '../../table/CustomTable'
 import { artMeasuringUnit } from '@/app/administrator/art/columns'
 import { CaseManagerDialog } from '../../patient/casemanager/CaseManagerDialog'
-import CustomInput from '../../forms/CustomInput'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import { useEffect, useState } from 'react'
 import { Loader2 } from 'lucide-react'

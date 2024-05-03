@@ -8,15 +8,15 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
-import CustomInput from '../forms/CustomInput'
-import CustomSelect from '../forms/CustomSelect'
+import CustomInput from '../../../components/forms/CustomInput'
+import CustomSelect from '../../../components/forms/CustomSelect'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useCallback, useEffect, useState } from 'react'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { useDeleteAppointmentMutation, useUpdateAppointmentMutation } from '@/api/appointment/appointment.api.'
 import { Loader2 } from 'lucide-react'
-import CustomCheckbox from '../forms/CustomCheckbox'
+import CustomCheckbox from '../../../components/forms/CustomCheckbox'
 
 interface DataProps {
   data: {

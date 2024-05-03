@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
-import CustomTimeInput from '../../forms/CustomTimeInput'
+import CustomTimeInput from '../../../../components/forms/CustomTimeInput'
 
 export interface TimeAndWorkProps {
   wakeUpTimeHours: string

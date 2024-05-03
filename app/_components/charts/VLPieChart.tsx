@@ -2,7 +2,7 @@
 import { useGetAllVlCategoriesQuery } from '@/api/enrollment/viralLoadTests.api'
 // import { type Point, type ChartDataset, type BubbleDataPoint } from 'chart.js/auto'
 import { Pie } from 'react-chartjs-2'
-import CustomSelect from '../forms/CustomSelect'
+import CustomSelect from '../../../components/forms/CustomSelect'
 import { useState } from 'react'
 
 // export interface PieChartProps {

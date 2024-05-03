@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
-import CustomCheckbox from '../../forms/CustomCheckbox'
-import CustomInput from '../../forms/CustomInput'
+import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
+import CustomInput from '../../../../components/forms/CustomInput'
 
 export interface TaskOneProps {
   isCorrectAge: boolean

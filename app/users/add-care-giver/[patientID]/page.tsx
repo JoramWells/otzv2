@@ -3,9 +3,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 'use client'
 import { useCallback, useState } from 'react'
-import CustomSelect from '../../../_components/forms/CustomSelect'
+import CustomSelect from '../../../../components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
-import CustomInput from '@/app/_components/forms/CustomInput'
+import CustomInput from '@/components/forms/CustomInput'
 import { Loader2 } from 'lucide-react'
 import { useGetAllCountiesQuery } from '@/api/location/county.api'
 import { useAddCaregiverMutation } from '@/api/caregiver/caregiver.api'

@@ -7,7 +7,7 @@
 
 import { useGetAllNotificationsQuery } from '@/api/notifications/notification.api'
 import { useGetUserNotificationQuery } from '@/api/notifications/userNotification.api'
-import CustomInput from '@/app/_components/forms/CustomInput'
+import CustomInput from '@/components/forms/CustomInput'
 import { type NotificationProps } from '@/app/_components/notify/NotificationComponent'
 import AddNotificationDialog from '@/app/_components/patient/settings/AddNotificationDialog'
 import { useEffect, useState } from 'react'

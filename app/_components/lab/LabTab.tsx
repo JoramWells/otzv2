@@ -6,7 +6,7 @@ import { type PatientIDProps } from './constants/patient'
 import { Button } from '@/components/ui/button'
 import HIVMonitoring from './blood/panel/HIVMonitoring'
 import { CaseManagerDialog } from '../patient/casemanager/CaseManagerDialog'
-import CustomSelect from '../forms/CustomSelect'
+import CustomSelect from '../../../components/forms/CustomSelect'
 import LabCollapseButton from './LabCollapseButton'
 import { useGetInternalLabRequestByIDQuery } from '@/api/viraload/internalLabRequest.api'
 

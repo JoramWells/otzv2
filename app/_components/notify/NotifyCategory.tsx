@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { useAddNotificationCategoryMutation, useDeleteNotificationCategoryMutation, useGetAllNotificationCategoriesQuery, useUpdateNotificationCategoryMutation } from '@/api/notifications/notificationCategory.api'
-import CustomInput from '../forms/CustomInput'
+import CustomInput from '../../../components/forms/CustomInput'
 import { Loader2, Trash2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import moment from 'moment'
