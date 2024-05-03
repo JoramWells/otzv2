@@ -194,7 +194,7 @@ const itemList: ItemListProps[] = [
 
 export default function Home () {
   return (
-    <div className=" h-screen relative">
+    <div className="min-h-screen relative">
       <Suspense fallback={<Skeleton className="p-4 w-full" />}>
         <nav className="flex justify-between border-b border-slate-200 p-4 w-full">
           <div>Care +</div>
@@ -229,7 +229,7 @@ export default function Home () {
             </div>
           </Suspense>
           <div
-            className="p-4 flex w-3/4 items-center
+            className="p-4 flex w-3/4 lg:w-full items-center
       flex-row justify-start flex-wrap gap-4
       "
           >
