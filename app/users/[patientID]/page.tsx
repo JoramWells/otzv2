@@ -15,6 +15,7 @@ import PharmacyTab from '@/app/_components/pharmacy/PharmacyTab'
 import TreatmentPlanTab from '@/app/_components/treatement-plan/treatementPlanTab/TreatmentPlanTab'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import MedicalFileTab from '../patients/_components/MedicalFileTab'
 
 const categoryList = [
   {
@@ -75,7 +76,8 @@ const PatientDetails = ({ params }: any) => {
   const patientID = params.patientID
 
   return (
-    <div className="flex flex-row space-x-4 mt-16 pt-2 items-start">
+    <div className="flex flex-col pt-2 items-start">
+      <div>Avatar</div>
       <div className="flex flex-col space-y-4 items-start w-full">
         {/* body */}
 
@@ -102,6 +104,7 @@ const PatientDetails = ({ params }: any) => {
         {tab === 'settings' && <PatientProfile
         patientID={patientID}
         />}
+        {tab === 'medical file' && <MedicalFileTab />}
 
         {tab === 'messages' && <Messages
         patientID={patientID}

@@ -17,7 +17,7 @@ const Patients = () => {
   const router = useRouter()
 
   return (
-    <div className="p-5 mt-12">
+    <div className="p-5">
         <div className="mb-4 flex flex-row justify-between items-center">
           <p className="text-xl font-bold text-slate-700">Registered Patients</p>
           <Button
@@ -41,6 +41,7 @@ const Patients = () => {
           columns={columns}
           data={data || []}
           isLoading={isLoading}
+          // isSearch
         />
           </Suspense>
 

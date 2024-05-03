@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const caseManagerApi = createApi({
   reducerPath: 'caseManagerApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/patient/casemanager`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/casemanager`
   }),
   endpoints: (builder) => ({
     getAllCaseManagers: builder.query<any, void>({

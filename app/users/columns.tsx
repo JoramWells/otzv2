@@ -76,7 +76,7 @@ export const columns: Array<ColumnDef<PatientProps>> = [
         href={`/users/${row.original.id}?tab=appointments`}
         className="text-blue-600  hover:underline"
       >
-        See Patient
+        Check In
       </Link>
     )
   }
