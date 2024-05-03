@@ -1,41 +1,41 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const caregiverApi = createApi({
-  reducerPath: "caregiverApi",
+  reducerPath: 'caregiverApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/patient/caregiver",
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/patient/caregiver`
   }),
   endpoints: (builder) => ({
     getAllCaregivers: builder.query({
-      query: () => "fetchAll",
+      query: () => 'fetchAll'
     }),
     addCaregiver: builder.mutation({
       query: (newUser) => ({
-        url: "add",
-        method: "POST",
-        body: newUser,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: newUser
+      })
     }),
     getCaregiver: builder.query({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
     updateCaregiver: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
-        method: "PUT",
-        body: patch,
-      }),
+        method: 'PUT',
+        body: patch
+      })
     }),
     deleteCaregiver: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete/${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const {
   useGetAllCaregiversQuery, useUpdateCaregiverMutation,

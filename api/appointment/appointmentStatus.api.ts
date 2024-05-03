@@ -2,35 +2,35 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const appointmentStatusApi = createApi({
-  reducerPath: "appointmentStatusApi",
+  reducerPath: 'appointmentStatusApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/appointment/appointment-status",
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/appointment-status`
   }),
   endpoints: (builder) => ({
     getAllAppointmentStatus: builder.query<any, void>({
-      query: () => "fetchAll",
+      query: () => 'fetchAll'
     }),
     addAppointmentStatus: builder.mutation({
       query: (newUser) => ({
-        url: "add",
-        method: "POST",
-        body: newUser,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: newUser
+      })
     }),
     getAppointmentStatus: builder.query({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
 
     deleteAppointmentStatus: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const {
   useGetAllAppointmentStatusQuery, useAddAppointmentStatusMutation,
