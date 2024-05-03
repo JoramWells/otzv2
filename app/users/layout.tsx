@@ -22,13 +22,13 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '2',
     label: 'Caregivers',
-    link: '/users/caregiver',
+    link: '/users/caregivers',
     icon: <HeartHandshake size={17} />
   },
   {
     id: '3',
     label: 'Case Managers',
-    link: '/users/casemanager',
+    link: '/users/casemanagers',
     icon: <InspectionPanel size={17} />
   },
   {
