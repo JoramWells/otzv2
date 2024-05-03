@@ -15,7 +15,7 @@ import PharmacyTab from '@/app/_components/pharmacy/PharmacyTab'
 import TreatmentPlanTab from '@/app/_components/treatement-plan/treatementPlanTab/TreatmentPlanTab'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import MedicalFileTab from '../patients/_components/MedicalFileTab'
+import MedicalFileTab from '../_components/MedicalFileTab'
 
 const categoryList = [
   {
