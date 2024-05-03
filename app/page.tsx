@@ -211,19 +211,16 @@ export default function Home () {
                 Welcome to CarePlus
               </h1>
 
-              <div className="w-[410px] flex flex-row items-center
-              justify-between space-x-4">
+              <div
+                className="w-[410px] flex flex-row items-center
+              justify-between space-x-4"
+              >
                 <Input
                   className="shadow-none rounded-full p-4 h-10"
                   placeholder="Search.."
                 />
-                <Button
-                className='bg-slate-50 hover:bg-slate-50 shadow-none'
-                >
-                <Search
-                className='text-slate-500'
-                />
-
+                <Button className="bg-slate-50 hover:bg-slate-50 shadow-none">
+                  <Search className="text-slate-500" />
                 </Button>
               </div>
             </div>
@@ -236,34 +233,42 @@ export default function Home () {
             {itemList.map((item) => (
               <Suspense
                 key={item.id}
-                fallback={<Skeleton className="w-[400px] h-[150px]" />}
+                fallback={<Skeleton className="w-[380px] h-[150px]" />}
               >
                 <div
                   key={item.id}
                   tabIndex={0}
                   className="border border-slate-200 p-4 transition ease-in-out delay-150
-          rounded-lg w-[400px] h-[150px] hover:cursor-pointer"
+          rounded-lg w-[380px] h-[150px] hover:cursor-pointer"
                 >
                   <div className="w-full flex justify-end">
-                    <div
-                      className="bg-slate-#f9be7c/50 hover:cursor-pointer transition ease-in-out delay-150
-              rounded-lg p-1 hover:bg-slate-100 text-slate-500
+
+                      <MenuSelect dataList={item.listItem} />
+                  </div>
+                  <div
+                  className='w-full flex flex-row space-x-4 justify-start items-start'
+                  >
+                                  <div
+                      className="bg-slate-100 hover:cursor-pointer transition ease-in-out delay-150
+                    p-1 hover:bg-slate-100 text-slate-500 rounded-full
               "
                     >
-                      <MenuSelect dataList={item.listItem} />
+
+                      {item.icon}</div>
+                    <div>
+                      <Link
+                        className="text-xl font-bold hover:underline"
+                        href={item.link}
+                      >
+                        {item.label}
+                      </Link>
+                      <p className="text-slate-500 text-sm mt-2">
+                        {item.description
+                          ? item.description
+                          : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
+                      </p>
                     </div>
                   </div>
-                  <Link
-                    className="text-xl font-bold hover:underline"
-                    href={item.link}
-                  >
-                    {item.label}
-                  </Link>
-                  <p className="text-slate-500 text-sm mt-2">
-                    {item.description
-                      ? item.description
-                      : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
-                  </p>
                 </div>
               </Suspense>
             ))}

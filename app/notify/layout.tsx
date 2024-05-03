@@ -4,7 +4,7 @@ import '../globals.css'
 
 // import { Providers } from '../providers'
 import Navbar from '../_components/Navbar/Nav/Navbar'
-import { Sidebar } from '../_components/dashboard/Sidebar'
+import { Sidebar } from '../../components/sidebar/Sidebar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'

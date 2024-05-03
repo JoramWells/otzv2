@@ -1,7 +1,8 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import '../../globals.css'
 import { useSidebar } from '@/context/SidebarContext'
+import Image from 'next/image'
+import { Input } from '@/components/ui/input'
 export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const { isSidebarOpen } = useSidebar()
   return (
@@ -11,7 +12,6 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
         h-screen
         w-64
         border-r
-        pt-16
         border-slate-200
         overflow-y-auto
         ${isSidebarOpen ? 'inline' : 'hidden'}
@@ -19,6 +19,25 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
     `}
     >
+      <div
+        className="p-4 flex flex-row items-center border-b border-slate-200
+      justify-center"
+      >
+        <Image
+          src={'/img/logo1.svg'}
+          alt="img"
+          width={160}
+          height={80}
+          quality={100}
+        />
+      </div>
+
+      <div className="p-2 ">
+        <Input placeholder="Search..." className="rounded-full shadow-none
+        bg-slate-100 border-none
+        " />
+      </div>
+
       {children}
       {/* <div className="absolute w-full bottom-0 flex flex-col items-center p-2">
         <p className="text-sm text-slate-500">Terms & Conditions Applied</p>
