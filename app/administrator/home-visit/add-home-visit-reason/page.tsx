@@ -3,7 +3,7 @@
 'use client'
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { useState } from 'react'
 import { useAddHomeVisitReasonMutation } from '@/api/homevisit/homeVisitReason.api'
 

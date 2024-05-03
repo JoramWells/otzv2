@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import CustomCheckbox from '@/app/_components/forms/CustomCheckbox'
+import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import { Button, Divider } from '@chakra-ui/react'
 
 const UrethralFluidExamination = () => {

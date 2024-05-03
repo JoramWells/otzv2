@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
-import CustomCheckbox from '../../forms/CustomCheckbox'
+import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
 
 export interface MMASFourProps {
   isForget: boolean

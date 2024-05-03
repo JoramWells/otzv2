@@ -1,21 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Input } from '@/components/ui/input'
-
-export interface InputEventProps extends React.ChangeEvent<HTMLInputElement> {
-  target: HTMLInputElement & {
-    value: string
-    name?: string
-  }
-}
-
-interface CustomInputProps {
-  label?: string
-  placeholder?: string
-  value?: string
-  type?: string
-  description?: string
-  onChange: (value: any) => void
-}
+import { type InputEventProps, type CustomInputProps } from '@/types'
 
 const CustomInput = ({ description, label, placeholder, value, type = 'text', onChange }: CustomInputProps) => {
   return (

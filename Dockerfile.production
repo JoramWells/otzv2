@@ -1,17 +1,32 @@
-FROM node:20-alpine
+FROM node:20-alpine AS  builder
+
+# ARG NODE_ENV
+
+# ENV NODE_ENV ${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json ./
 
-RUN yarn install --omit=dev
+RUN npm install 
 
 COPY . .
 
+
 RUN yarn run build
+
+FROM node:20-alpine
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+
+# Copy the built application from the builder stage
+COPY --from=builder /usr/src/app .
+
 
 EXPOSE 3000
 
-# ENV CHOKIDAR_USEPOLLING=true
+ENV CHOKIDAR_USEPOLLING=true
 
-CMD ["yarn","start"]
+CMD ["npm","start"]

@@ -7,43 +7,43 @@ interface UserProps {
 }
 
 export const userApi = createApi({
-  reducerPath: "userApi",
+  reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/root/users",
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/users`
   }),
   endpoints: (builder) => ({
     getAllUsers: builder.query<any, void>({
-      query: () => "fetchAll",
+      query: () => 'fetchAll'
     }),
     addUser: builder.mutation({
       query: (newUser) => ({
-        url: "add",
-        method: "POST",
-        body: newUser,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: newUser
+      })
     }),
     login: builder.mutation({
-      query: (email) => `login/${email}`,
+      query: (email) => `login/${email}`
     }),
     getUser: builder.query({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
     updateUser: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
-        method: "PUT",
-        body: patch,
-      }),
+        method: 'PUT',
+        body: patch
+      })
     }),
     deleteUser: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const { useGetAllUsersQuery, useAddUserMutation, useGetUserQuery, useLoginMutation } = userApi

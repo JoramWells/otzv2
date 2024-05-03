@@ -18,7 +18,7 @@ const AppointmentPage = () => {
   const [value, setValue] = useState<string | null>(tab)
   const { data } = useGetAllAppointmentsQuery({
     mode: 'weekly',
-    date: new Date().toISOString()
+    date: '2022-01-01'
   })
 
   const showNotification = useNotification()
@@ -85,6 +85,8 @@ const AppointmentPage = () => {
       socket.disconnect()
     }
   }, [data, showNotification])
+
+  console.log(data, 'ty')
 
   return (
     <div className="p-5 mt-12">

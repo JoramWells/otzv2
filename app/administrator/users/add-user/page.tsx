@@ -4,9 +4,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { useCallback, useId, useState } from 'react'
-import CustomSelect from '@/app/_components/forms/CustomSelect'
+import CustomSelect from '@/components/forms/CustomSelect'
 import { useGetAllCountiesQuery } from '@/api/location/county.api'
 import { useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 import { useAddUserMutation } from '@/api/users/users.api'

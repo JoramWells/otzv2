@@ -6,7 +6,7 @@ import { Button } from '@chakra-ui/react'
 import { useState } from 'react'
 import Select from 'react-select'
 import { type PatientIDProps } from '../../constants/patient'
-import CustomSelect from '@/app/_components/forms/CustomSelect'
+import CustomSelect from '@/components/forms/CustomSelect'
 
 const options = [
   {

@@ -1,9 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
-import CustomCheckbox from '../../forms/CustomCheckbox'
-import CustomInput from '../../forms/CustomInput'
-import CustomSelect from '../../forms/CustomSelect'
+import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
+import CustomInput from '../../../../components/forms/CustomInput'
+import CustomSelect from '../../../../components/forms/CustomSelect'
 import { useCallback } from 'react'
 
 export interface TaskTwoProps {

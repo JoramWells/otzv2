@@ -1,6 +1,6 @@
 'use client'
 
-import CustomInput from '@/app/_components/forms/CustomInput'
+import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 // import CustomInput from '@/app/_components/forms/CustomInput'

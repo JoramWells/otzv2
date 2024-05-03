@@ -215,7 +215,7 @@ export default function Home () {
           </Suspense>
           <div
             className="p-4 flex w-3/4 items-center
-      flex-row justify-between flex-wrap gap-8
+      flex-row justify-start flex-wrap gap-4
       "
           >
             {itemList.map((item) => (

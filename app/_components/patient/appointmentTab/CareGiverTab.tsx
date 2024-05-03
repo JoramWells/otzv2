@@ -12,8 +12,8 @@ import { Check, Copy, Dot } from 'lucide-react'
 import moment from 'moment'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useState } from 'react'
-import CustomInput from '../../forms/CustomInput'
-import CustomSelect from '../../forms/CustomSelect'
+import CustomInput from '../../../../components/forms/CustomInput'
+import CustomSelect from '../../../../components/forms/CustomSelect'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface AppointmentHeaderProps {

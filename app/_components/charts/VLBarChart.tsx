@@ -7,7 +7,7 @@ import { Chart, type ChartDataset, registerables } from 'chart.js'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
-import CustomSelect from '../forms/CustomSelect'
+import CustomSelect from '../../../components/forms/CustomSelect'
 
 // interface Props {
 //   data: BarChartProps

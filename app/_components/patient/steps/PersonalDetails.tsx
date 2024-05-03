@@ -1,8 +1,8 @@
 'use client'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
-import CustomSelect from '../../forms/CustomSelect'
-import CustomCheckbox from '../../forms/CustomCheckbox'
+import CustomInput from '../../../../components/forms/CustomInput'
+import CustomSelect from '../../../../components/forms/CustomSelect'
+import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
 import { useState } from 'react'
 
 const genderOptions = [

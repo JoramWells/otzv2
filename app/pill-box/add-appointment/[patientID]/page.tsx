@@ -3,15 +3,15 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { useCallback, useState } from 'react'
-import CustomSelect from '@/app/_components/forms/CustomSelect'
+import CustomSelect from '@/components/forms/CustomSelect'
 import { useAddAppointmentMutation } from '@/api/appointment/appointment.api.'
 import moment from 'moment'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
-import CustomTimeInput from '@/app/_components/forms/CustomTimeInput'
+import CustomTimeInput from '@/components/forms/CustomTimeInput'
 import { Button } from '@/components/ui/button'
 
 const AddArtCategory = ({ params }: any) => {

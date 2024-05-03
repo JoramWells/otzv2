@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { Button } from '@/components/ui/button'
-import CustomInput from '../../forms/CustomInput'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { CaseManagerDialog } from '../../patient/casemanager/CaseManagerDialog'
 import { useState } from 'react'
 import { Edit2, Loader2, Trash2 } from 'lucide-react'

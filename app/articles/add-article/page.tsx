@@ -4,8 +4,8 @@
 
 import { useAddArticlesMutation } from '@/api/articles/articles.api'
 import { useAddArticlesCategoryMutation, useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
-import CustomInput from '@/app/_components/forms/CustomInput'
-import CustomSelect from '@/app/_components/forms/CustomSelect'
+import CustomInput from '@/components/forms/CustomInput'
+import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Loader2 } from 'lucide-react'

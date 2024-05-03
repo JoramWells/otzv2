@@ -4,10 +4,10 @@
 'use client'
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { useCallback, useState } from 'react'
 import { useAddArtRegimenPhaseMutation, useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
-import CustomSelect from '@/app/_components/forms/CustomSelect'
+import CustomSelect from '@/components/forms/CustomSelect'
 import { useAddArtRegimenCategoryMutation } from '@/api/art/artRegimenCategory.api'
 
 interface PhaseProps {

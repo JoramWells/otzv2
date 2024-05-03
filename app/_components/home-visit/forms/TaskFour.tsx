@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import CustomCheckbox from '../../forms/CustomCheckbox'
+import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
 
 export interface TaskFourProps {
   isCountedPills: boolean

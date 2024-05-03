@@ -17,8 +17,8 @@ import moment from 'moment'
 import EditAppointmentDialog from '../../appointment/EditAppointmentDialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
-import CustomSelect from '../../forms/CustomSelect'
-import CustomInput from '../../forms/CustomInput'
+import CustomSelect from '../../../../components/forms/CustomSelect'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { useSearchParams } from 'next/navigation'
 
 interface AppointmentCardsProps {

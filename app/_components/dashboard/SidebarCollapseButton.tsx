@@ -7,22 +7,10 @@ import { SidebarSubButton } from './SidebarSubButton'
 import { useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { type SideBarCollapseButtonProps } from '@/types'
 // import { Button } from '@/components/ui/button'
 
-interface ItemListProps {
-  id?: string
-  link: string
-  label: string
-}
-
-interface SidebarCollapseButtonProps {
-  icon?: React.ReactNode
-  label: string
-  link?: string
-  itemList?: ItemListProps[]
-}
-
-export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, icon = <div/> }: SidebarCollapseButtonProps) => {
+export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, icon = <div/> }: SideBarCollapseButtonProps) => {
   const [visible, setVisible] = useState(false)
   const pathname = usePathname()
   const isActive = useMemo(() => {

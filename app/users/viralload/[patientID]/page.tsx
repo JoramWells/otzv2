@@ -3,8 +3,8 @@
 'use client'
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 // import { useGetPatientQuery } from '@/api/patient/patients.api'
-import CustomInput from '@/app/_components/forms/CustomInput'
-import CustomSelect from '@/app/_components/forms/CustomSelect'
+import CustomInput from '@/components/forms/CustomInput'
+import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 

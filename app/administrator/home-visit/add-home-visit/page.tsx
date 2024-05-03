@@ -2,9 +2,9 @@
 'use client'
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../_components/forms/CustomInput'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { useId, useState } from 'react'
-import CustomSelect from '@/app/_components/forms/CustomSelect'
+import CustomSelect from '@/components/forms/CustomSelect'
 
 const AddHomeVisit = () => {
   const [firstName, setFirstName] = useState('')

@@ -1,7 +1,7 @@
 import React, { type Dispatch, type SetStateAction, useState } from 'react'
-import CustomInput from '../../forms/CustomInput'
-import CustomCheckbox from '../../forms/CustomCheckbox'
-import CustomSelect from '../../forms/CustomSelect'
+import CustomInput from '../../../../components/forms/CustomInput'
+import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
+import CustomSelect from '../../../../components/forms/CustomSelect'
 
 const FollowUpChecklist = () => {
   const [bmi, setBMI] = useState('')
