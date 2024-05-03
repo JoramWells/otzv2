@@ -102,9 +102,24 @@ const itemList: ItemListProps[] = [
       'Manage patient notifications. All settings for Whatsapp, SMS, Voice Call and App notifications.',
     listItem: [
       {
-        id: '5',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        id: '1',
+        label: 'Appointments',
+        link: '/notify/appointments'
+      },
+      {
+        id: '2',
+        label: 'Chats',
+        link: '/notify/chats'
+      },
+      {
+        id: '3',
+        label: 'Messaging',
+        link: '/notify/messaging'
+      },
+      {
+        id: '4',
+        label: 'Notifications',
+        link: '/notify/notifications'
       }
     ]
   },
@@ -221,13 +236,13 @@ export default function Home () {
             {itemList.map((item) => (
               <Suspense
                 key={item.id}
-                fallback={<Skeleton className="w-[410px] h-[150px]" />}
+                fallback={<Skeleton className="w-[400px] h-[150px]" />}
               >
                 <div
                   key={item.id}
                   tabIndex={0}
                   className="border border-slate-200 p-4 transition ease-in-out delay-150
-          rounded-lg w-[410px] h-[150px] hover:cursor-pointer"
+          rounded-lg w-[400px] h-[150px] hover:cursor-pointer"
                 >
                   <div className="w-full flex justify-end">
                     <div
