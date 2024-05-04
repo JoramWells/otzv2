@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
-import { type PatientProps } from '@/types/patient'
+import { type PatientProps } from '@/types'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
