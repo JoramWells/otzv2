@@ -212,7 +212,7 @@ export default function Home () {
       <main className="flex flex-col  items-start w-full">
         <div className="flex flex-col justify-center items-center w-full">
           <Suspense fallback={<Skeleton className="w-3/4 p-2" />}>
-            <div className="flex w-3/4 p-4 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
+            <div className="flex w-full p-4 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
               <h1 className="text-center text-3xl font-extrabold text-teal-600">
                 Welcome to CarePlus
               </h1>
@@ -231,7 +231,7 @@ export default function Home () {
               </div>
             </div>
           </Suspense>
-          <div className="grid w-3/4 grid-cols-4 gap-4 xl:gap-4">
+          <div className="grid w-full grid-cols-4 gap-4 xl:gap-4">
             {itemList.map((item) => (
               <Suspense
                 key={item.id}
