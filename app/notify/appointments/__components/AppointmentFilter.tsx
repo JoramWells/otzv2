@@ -1,6 +1,5 @@
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import CustomInput from '@/components/forms/CustomInput'
-import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
