@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const caregiverApi = createApi({
@@ -6,7 +7,7 @@ export const caregiverApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/caregiver`
   }),
   endpoints: (builder) => ({
-    getAllCaregivers: builder.query({
+    getAllCaregivers: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
     addCaregiver: builder.mutation({

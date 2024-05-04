@@ -86,7 +86,7 @@ const NotifyPage = () => {
   }
 
   return (
-    <div className="w-full mt-12 p-5 flex-col flex space-y-6">
+    <div className="w-full p-4 flex-col flex space-y-4">
       <div className="">
         <h1 className="font-bold text-2xl text-slate-700">Patient Management Dashboard</h1>
       </div>

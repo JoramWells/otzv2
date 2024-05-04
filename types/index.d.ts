@@ -1,5 +1,9 @@
 import { type ReactNode } from 'react'
 
+declare interface AvatarProps {
+  name: string
+}
+
 declare interface CustomInputProps {
   label?: string
   placeholder?: string
@@ -25,4 +29,18 @@ declare interface SideBarCollapseButtonProps {
     link: string
     label: string
   }>
+}
+
+// patient column
+declare interface PatientProps {
+  User: any
+  Patient: any
+  id: string
+  firstName: string
+  middleName: string
+  sex: string
+  cccNo: string
+  populationType: string
+  phoneNo: string
+  dob: string
 }

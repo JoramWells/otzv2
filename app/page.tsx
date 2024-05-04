@@ -102,9 +102,24 @@ const itemList: ItemListProps[] = [
       'Manage patient notifications. All settings for Whatsapp, SMS, Voice Call and App notifications.',
     listItem: [
       {
-        id: '5',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        id: '1',
+        label: 'Appointments',
+        link: '/notify/appointments'
+      },
+      {
+        id: '2',
+        label: 'Chats',
+        link: '/notify/chats'
+      },
+      {
+        id: '3',
+        label: 'Messaging',
+        link: '/notify/messaging'
+      },
+      {
+        id: '4',
+        label: 'Notifications',
+        link: '/notify/notifications'
       }
     ]
   },
@@ -179,84 +194,86 @@ const itemList: ItemListProps[] = [
 
 export default function Home () {
   return (
-    <div className=" h-screen relative">
+    <div className="min-h-screen relative bg-slate-50">
       <Suspense fallback={<Skeleton className="p-4 w-full" />}>
-        <nav className="flex justify-between border-b border-slate-200 p-4 w-full">
+        <nav className="flex justify-between
+        bg-white
+        border-slate-200 p-4 w-full">
           <div>Care +</div>
-          <div>Login</div>
+          <Button
+          className='bg-teal-600 shadow-none hover:bg-teal-700'
+          >Login</Button>
         </nav>
       </Suspense>
 
       {/* main */}
       <main className="flex flex-col  items-start w-full">
         <div className="flex flex-col justify-center items-center w-full">
-          <Suspense fallback={<Skeleton className="w-3/4 p-4" />}>
-            <div className="flex w-3/4 p-4 justify-between items-center">
+          <Suspense fallback={<Skeleton className="w-3/4 p-2" />}>
+            <div className="flex w-3/4 p-4 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
               <h1 className="text-center text-3xl font-extrabold text-teal-600">
                 Welcome to CarePlus
               </h1>
 
-              <div className="w-[410px] flex flex-row items-center
-              justify-between space-x-4">
+              <div
+                className="w-[410px] flex flex-row items-center
+              justify-between space-x-4 "
+              >
                 <Input
                   className="shadow-none rounded-full p-4 h-10"
                   placeholder="Search.."
                 />
-                <Button
-                className='bg-slate-50 hover:bg-slate-50 shadow-none'
-                >
-                <Search
-                className='text-slate-500'
-                />
-
+                <Button className="bg-slate-50 hover:bg-slate-50 shadow-none">
+                  <Search className="text-slate-500" />
                 </Button>
               </div>
             </div>
           </Suspense>
-          <div
-            className="p-4 flex w-3/4 items-center
-      flex-row justify-start flex-wrap gap-4
-      "
-          >
+          <div className="grid w-3/4 grid-cols-4 gap-4">
             {itemList.map((item) => (
               <Suspense
                 key={item.id}
-                fallback={<Skeleton className="w-[410px] h-[150px]" />}
+                fallback={<Skeleton className="w-[335px] h-[150px]" />}
               >
                 <div
                   key={item.id}
                   tabIndex={0}
-                  className="border border-slate-200 p-4 transition ease-in-out delay-150
-          rounded-lg w-[410px] h-[150px] hover:cursor-pointer"
+                  className="border-slate-200 p-4 transition ease-in-out delay-150
+          rounded-lg w-[335px] h-[150px] hover:cursor-pointer bg-white shadow-slate-100 shadow-lg"
                 >
                   <div className="w-full flex justify-end">
+                    <MenuSelect dataList={item.listItem} />
+                  </div>
+                  <div className="w-full flex flex-row space-x-4 justify-start items-start">
                     <div
-                      className="bg-slate-#f9be7c/50 hover:cursor-pointer transition ease-in-out delay-150
-              rounded-lg p-1 hover:bg-slate-100 text-slate-500
+                      className="bg-slate-100 hover:cursor-pointer transition ease-in-out delay-150
+                    p-1 hover:bg-slate-100 text-slate-500 rounded-full
               "
                     >
-                      <MenuSelect dataList={item.listItem} />
+                      {item.icon}
+                    </div>
+                    <div>
+                      <Link
+                        className="text-xl font-bold hover:underline"
+                        href={item.link}
+                      >
+                        {item.label}
+                      </Link>
+                      <p className="text-slate-500 text-sm mt-2">
+                        {item.description
+                          ? item.description
+                          : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
+                      </p>
                     </div>
                   </div>
-                  <Link
-                    className="text-xl font-bold hover:underline"
-                    href={item.link}
-                  >
-                    {item.label}
-                  </Link>
-                  <p className="text-slate-500 text-sm mt-2">
-                    {item.description
-                      ? item.description
-                      : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
-                  </p>
                 </div>
               </Suspense>
             ))}
           </div>
         </div>
       </main>
-      <footer className="absolute bottom-0 p-4 w-full text-center">
-        <p className="text-slate-700">Powered by Synergy Data Group</p>
+      <footer className="absolute bottom-0 p-4 w-full text-center bg-white">
+        <p className="text-slate-700 font-bold">Powered by Synergy Data Group</p>
         <p className="text-sm text-slate-500">
           Copyright @2024 . Terms and Conditions Applied
         </p>

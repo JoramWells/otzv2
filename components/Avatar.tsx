@@ -1,9 +1,6 @@
+import { type AvatarProps } from '@/types'
 import { generateRandomColors } from '@/utils/generateRandomColors'
 import { useMemo } from 'react'
-
-interface AvatarProps {
-  name: string
-}
 
 const Avatar = ({ name }: AvatarProps) => {
   const fullName = name.split(' ')

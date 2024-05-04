@@ -4,7 +4,7 @@ import '../globals.css'
 
 // import { Providers } from '../providers'
 // import Navbar from '../_components/Navbar/Nav/Navbar'
-import { Sidebar } from '../_components/dashboard/Sidebar'
+import { Sidebar } from '../../components/sidebar/Sidebar'
 import { ChakraProvider } from '@chakra-ui/react'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
@@ -22,13 +22,13 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '2',
     label: 'Caregivers',
-    link: '/users/caregiver',
+    link: '/users/caregivers',
     icon: <HeartHandshake size={17} />
   },
   {
     id: '3',
     label: 'Case Managers',
-    link: '/users/casemanager',
+    link: '/users/casemanagers',
     icon: <InspectionPanel size={17} />
   },
   {
