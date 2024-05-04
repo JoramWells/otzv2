@@ -2,11 +2,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Clock } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Avatar, Tag } from '@chakra-ui/react'
 import moment, { type MomentInput } from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
 
 import Link from 'next/link'
+import Avatar from '@/app/_components/Avatar'
+import { Badge } from '@/components/ui/badge'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -43,8 +44,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     cell: ({ row }) => (
       <div className="flex flex-row items-start gap-x-2">
         <Avatar
-          size={'sm'}
-          className="font-bold"
+          // size={'sm'}
+          // className="font-bold"
           name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
         />
         <div>
@@ -98,36 +99,36 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         row.original.appointmentStatus?.statusDescription
       if (appointmentStatus === 'Missed') {
         return (
-          <Tag
-            colorScheme="red"
-            rounded={'full'}
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
+          <Badge
+            // colorScheme="red"
+            // rounded={'full'}
+          >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
         )
       } else if (appointmentStatus === 'Upcoming') {
         return (
-          <Tag
-            colorScheme="blue"
-            rounded={'full'}
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
+          <Badge
+            // colorScheme="blue"
+            // rounded={'full'}
+          >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
         )
       } else if (appointmentStatus === 'Pending') {
         return (
-          <Tag
-            colorScheme="orange"
-            rounded={'full'}
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
+          <Badge
+            // colorScheme="orange"
+            // rounded={'full'}
+          >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
         )
       } else if (appointmentStatus === 'Rescheduled') {
         return (
-          <Tag
-            colorScheme="teal"
-            rounded={'full'}
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
+          <Badge
+            // colorScheme="teal"
+            // rounded={'full'}
+          >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
         )
       } else {
-        <Tag
-          rounded={'full'}
-        >{`${row.original.appointmentStatus?.statusDescription}`}</Tag>
+        <Badge
+          // rounded={'full'}
+        >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
       }
     }
   },

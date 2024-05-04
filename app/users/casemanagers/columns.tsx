@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
 import { type PatientProps } from '@/types/patient'
-import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
@@ -20,34 +19,23 @@ export const columns: Array<ColumnDef<PatientProps>> = [
         <Avatar
           size={'sm'}
           className="font-bold"
-          name={`${row.original?.User.firstName} ${row.original?.User.middleName}`}
+          name={`${row.original?.User?.firstName} ${row.original?.User?.middleName}`}
         />
         <Link
           className="capitalize font-bold text-slate-700"
           href={`/patients/${row.original.id}`}
-        >{`${row.original?.User.firstName} ${row.original?.User.middleName}`}</Link>
+        >{`${row.original?.User?.firstName} ${row.original?.User?.middleName}`}</Link>
       </div>
     )
-  },
-  {
-    accessorKey: 'sex',
-    header: 'Sex'
-    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
-  },
-  {
-    accessorKey: 'dob',
-    header: 'DOB',
-    cell: ({ row }) => <p>{calculateAge(row.original?.dob)}</p>,
-    enableSorting: true
   },
   {
     accessorKey: 'phoneNo',
     header: 'Phone No',
     cell: ({ row }) => (
       <div>
-        {row.original?.User.phoneNo
+        {row.original?.User?.phoneNo
           ? (
-              row.original?.User.phoneNo
+              row.original?.User?.phoneNo
             )
           : (
           <Badge
@@ -60,11 +48,6 @@ export const columns: Array<ColumnDef<PatientProps>> = [
             )}
       </div>
     )
-  },
-  {
-    accessorKey: 'maritalStatus',
-    header: 'Marital Status'
-    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
   },
   {
     accessorKey: 'patient',

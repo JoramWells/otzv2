@@ -89,7 +89,7 @@ const AppointmentPage = () => {
   console.log(data, 'ty')
 
   return (
-    <div className="p-5 mt-12">
+    <div className="p-4">
       <div className="flex flex-row mb-4 justify-between ">
         <h1 className="text-lg font-semibold">Appointments</h1>
 

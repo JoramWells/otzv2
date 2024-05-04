@@ -26,3 +26,17 @@ declare interface SideBarCollapseButtonProps {
     label: string
   }>
 }
+
+// patient column
+declare interface PatientProps {
+  User: any
+  Patient: any
+  id: string
+  firstName: string
+  middleName: string
+  sex: string
+  cccNo: string
+  populationType: string
+  phoneNo: string
+  dob: string
+}

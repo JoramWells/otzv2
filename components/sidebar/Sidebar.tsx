@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { useSidebar } from '@/context/SidebarContext'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
+import { BellIcon } from 'lucide-react'
 export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const { isSidebarOpen } = useSidebar()
   return (
@@ -30,6 +31,12 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
           height={80}
           quality={100}
         />
+      </div>
+
+      <div
+      className='flex justify-end p-2'
+      >
+        <BellIcon />
       </div>
 
       <div className="p-2 ">
