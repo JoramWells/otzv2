@@ -1,5 +1,4 @@
-import { Checkbox } from '@chakra-ui/react'
-import React, { type ChangeEvent } from 'react'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export interface CheckboxProps {
   onChange: (checked: boolean) => void
@@ -12,14 +11,18 @@ const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) 
   return (
     <div className="flex flex-row items-start space-x-3">
       <Checkbox
-        isChecked={value}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          onChange(e.target.checked)
+        id="checkedBox"
+        checked={value}
+        onCheckedChange={(checked: boolean) => {
+          onChange(checked)
         }}
-        pt={1}
+        className='mt-1'
+        // pt={1}
       />
-      <div className='m-0 p-0'>
-        <p className="font-bold text-slate-700 m-0">{label}</p>
+      <div className="m-0 p-0">
+        <label htmlFor="checkedBox" className="font-bold text-slate-700 m-0">
+          {label}
+        </label>
         <span
           className="text-slate-500 text-sm
         font-normal
