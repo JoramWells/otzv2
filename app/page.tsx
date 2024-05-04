@@ -196,13 +196,15 @@ export default function Home () {
   return (
     <div className="min-h-screen relative bg-slate-50">
       <Suspense fallback={<Skeleton className="p-4 w-full" />}>
-        <nav className="flex justify-between
+        <nav
+          className="flex justify-between
         bg-white
-        border-slate-200 p-4 w-full">
+        border-slate-200 p-4 w-full"
+        >
           <div>Care +</div>
-          <Button
-          className='bg-teal-600 shadow-none hover:bg-teal-700'
-          >Login</Button>
+          <Button className="bg-teal-600 shadow-none hover:bg-teal-700">
+            Login
+          </Button>
         </nav>
       </Suspense>
 
@@ -229,11 +231,11 @@ export default function Home () {
               </div>
             </div>
           </Suspense>
-          <div className="grid w-3/4 grid-cols-4 gap-4">
+          <div className="grid w-3/4 grid-cols-4 gap-4 xl:gap-4">
             {itemList.map((item) => (
               <Suspense
                 key={item.id}
-                fallback={<Skeleton className="w-[335px] h-[150px]" />}
+                fallback={<Skeleton className="w-[335px] xl:w-[300px] h-[150px]" />}
               >
                 <div
                   key={item.id}
@@ -273,7 +275,9 @@ export default function Home () {
         </div>
       </main>
       <footer className="absolute bottom-0 p-4 w-full text-center bg-white">
-        <p className="text-slate-700 font-bold">Powered by Synergy Data Group</p>
+        <p className="text-slate-700 font-bold">
+          Powered by Synergy Data Group
+        </p>
         <p className="text-sm text-slate-500">
           Copyright @2024 . Terms and Conditions Applied
         </p>
