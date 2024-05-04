@@ -14,13 +14,13 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: 'notify',
+    link: '/notify/dashboard',
     icon: <CalendarCheck size={17} />
   },
   {
     id: '7',
     label: 'Appointments',
-    link: 'notify/appointments',
+    link: 'appointments?tab=all',
     icon: <CalendarCheck size={17} />
   },
   {

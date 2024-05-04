@@ -104,7 +104,7 @@ const itemList: ItemListProps[] = [
       {
         id: '1',
         label: 'Appointments',
-        link: '/notify/appointments'
+        link: '/notify/appointments?tab=all'
       },
       {
         id: '2',

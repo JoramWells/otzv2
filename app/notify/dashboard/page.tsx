@@ -5,7 +5,7 @@
 import { Divider } from '@chakra-ui/react'
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import WeeklyAppointmentBarChart from '../_components/charts/WeeklyAppointmentBarChart'
+import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmentBarChart'
 
 const dataList = [
   {

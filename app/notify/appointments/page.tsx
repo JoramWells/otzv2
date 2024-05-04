@@ -10,7 +10,7 @@ import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { PlusCircle } from 'lucide-react'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 const AppointmentPage = () => {
   const searchParams = useSearchParams()
@@ -69,6 +69,8 @@ const AppointmentPage = () => {
     []
   )
 
+  const pathname = usePathname()
+
   useEffect(() => {
     // if (data) {
     // setAppointments(data)
@@ -92,6 +94,7 @@ const AppointmentPage = () => {
     <div className="p-4">
       <div className="flex flex-row mb-4 justify-between ">
         <h1 className="text-lg font-semibold">Appointments</h1>
+        {pathname} pp
 
         <Button
           className="bg-teal-600 hover:bg-teal-700 shadow-none
