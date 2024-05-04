@@ -22,7 +22,7 @@ WORKDIR /usr/src/app
 
 
 # Copy the built application from the builder stage
-COPY --from=builder /usr/src/app .
+COPY --from=builder /usr/src/app/.next ./.next
 
 
 EXPOSE 3000
