@@ -1,0 +1,3 @@
+tasks:
+  - name: build client app
+    command: make up-prod

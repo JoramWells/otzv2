@@ -59,7 +59,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
         <SidebarProvider>
-          <div className="flex flex-row">
+          <div className="flex flex-row bg-slate-50">
             <Sidebar>
               <SidebarListItemsComponent
               dataList={DL}

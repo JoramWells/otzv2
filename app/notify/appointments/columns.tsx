@@ -61,15 +61,15 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'appointmentDate',
     header: 'Appointment Date',
     cell: ({ row }) => (
-      <div className="flex flex-col gap-y-2">
+      <div className="flex flex-col gap-y-2 pt-1.5 pb-1.5">
           <p>{moment(row.original.appointmentDate).format('ll')}</p>
-
+{/*
           <p className="text-sm text-slate-500">
             {moment
               .duration(moment(row.original.appointmentDate).diff(moment()))
               .days()}{' '}
             days remaining
-          </p>
+          </p> */}
       </div>
     )
   },

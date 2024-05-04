@@ -98,7 +98,7 @@ const AppointmentPage = () => {
   console.log(data, 'ty')
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-slate-50">
       <div className="flex flex-row mb-4 justify-between ">
         <h1 className="text-2xl font-semibold">Appointments</h1>
         <Button
@@ -112,15 +112,21 @@ const AppointmentPage = () => {
       </div>
 
       {/* tab navigation */}
-      <CustomTab
-        categoryList={categoryList}
-        setValue={setValue}
-        value={value}
-      />
+      <div
+      className='w-full bg-white rounded-lg'
+      >
+        <CustomTab
+          categoryList={categoryList}
+          setValue={setValue}
+          value={value}
+        />
+      </div>
 
       {value === 'all' && (
-        <div>
-          <AppointmentFilter/>
+        <div
+        className='bg-white p-2 rounded-lg'
+        >
+          <AppointmentFilter />
           <CustomTable columns={columns} data={data || []} />
         </div>
       )}
