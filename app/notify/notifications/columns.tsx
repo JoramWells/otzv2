@@ -5,7 +5,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
-import Avatar from '@/app/_components/Avatar'
+import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 // import { FaEdit } from 'react-icons/fa'
 

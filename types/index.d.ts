@@ -1,5 +1,9 @@
 import { type ReactNode } from 'react'
 
+declare interface AvatarProps {
+  name: string
+}
+
 declare interface CustomInputProps {
   label?: string
   placeholder?: string

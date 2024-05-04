@@ -7,7 +7,7 @@ import { type MomentInput } from 'moment'
 import { Switch } from '@/components/ui/switch'
 import { useState } from 'react'
 import { useUpdatePillDailyUptakeMutation } from '@/api/treatmentplan/uptake.api'
-import Avatar from '@/app/_components/Avatar'
+import Avatar from '@/components/Avatar'
 // import { FaEdit } from 'react-icons/fa'
 
 // {
