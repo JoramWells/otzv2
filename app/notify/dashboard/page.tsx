@@ -45,7 +45,7 @@ const NotifyPage = () => {
   const router = useRouter()
 
   return (
-    <div className="w-full mt-12 p-5 flex-col flex space-y-6">
+    <div className="w-full p-4 flex-col flex space-y-6">
       <div className="">
         <h1 className="font-semibold text-2xl">Welcome to notify!!</h1>
         <p className="text-slate-500">

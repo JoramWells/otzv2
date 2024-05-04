@@ -10,12 +10,15 @@ import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { PlusCircle } from 'lucide-react'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { AppointmentFilter } from './__components/AppointmentFilter'
 
 const AppointmentPage = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
+
+  const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
   const { data } = useGetAllAppointmentsQuery({
     mode: 'weekly',
     date: '2022-01-01'
@@ -69,8 +72,6 @@ const AppointmentPage = () => {
     []
   )
 
-  const pathname = usePathname()
-
   useEffect(() => {
     // if (data) {
     // setAppointments(data)
@@ -83,19 +84,23 @@ const AppointmentPage = () => {
       console.log(socketData)
     })
 
+    // ceck tab
+    if (tab === null) {
+      params.set('tab', 'all')
+      setValue('all')
+    }
+
     return () => {
       socket.disconnect()
     }
-  }, [data, showNotification])
+  }, [data, showNotification, params, tab])
 
   console.log(data, 'ty')
 
   return (
     <div className="p-4">
       <div className="flex flex-row mb-4 justify-between ">
-        <h1 className="text-lg font-semibold">Appointments</h1>
-        {pathname} pp
-
+        <h1 className="text-2xl font-semibold">Appointments</h1>
         <Button
           className="bg-teal-600 hover:bg-teal-700 shadow-none
           font-bold
@@ -113,7 +118,12 @@ const AppointmentPage = () => {
         value={value}
       />
 
-      {value === 'all' && <CustomTable columns={columns} data={data || []} />}
+      {value === 'all' && (
+        <div>
+          <AppointmentFilter/>
+          <CustomTable columns={columns} data={data || []} />
+        </div>
+      )}
 
       {/* {value === 2 && (
         <AppointmentStatusTab

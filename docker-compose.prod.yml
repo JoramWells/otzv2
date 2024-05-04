@@ -4,12 +4,13 @@ services:
   client:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.production
     image: otz-client
     # container_name: huruma-frontendv2
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
+      - /usr/src/app/.next
 
     # deploy:
     #   # mode: replicated
