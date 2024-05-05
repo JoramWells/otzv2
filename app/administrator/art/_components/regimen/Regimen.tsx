@@ -5,15 +5,15 @@
 'use client'
 import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../../components/forms/CustomInput'
 import { useCallback, useState } from 'react'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { useGetAllArtRegimenCategoriesQuery } from '@/api/art/artRegimenCategory.api'
 import { useAddArtRegimenMutation, useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
-import { CaseManagerDialog } from '../../patient/casemanager/CaseManagerDialog'
-import { CustomTable } from '../../table/CustomTable'
 import { artColumns } from '@/app/administrator/art/columns'
 import { useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
+import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
+import CustomInput from '@/components/forms/CustomInput'
+import { CustomTable } from '@/app/_components/table/CustomTable'
 
 interface PhaseProps {
   id: string

@@ -2,14 +2,14 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useAddMeasuringUnitMutation, useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
-import { CustomTable } from '../../table/CustomTable'
 import { artMeasuringUnit } from '@/app/administrator/art/columns'
-import { CaseManagerDialog } from '../../patient/casemanager/CaseManagerDialog'
-import CustomInput from '../../../../components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import { useEffect, useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
+import { CustomTable } from '@/app/_components/table/CustomTable'
+import CustomInput from '@/components/forms/CustomInput'
 
 function MeasuringUnit () {
   const [description, setDescription] = useState('')
