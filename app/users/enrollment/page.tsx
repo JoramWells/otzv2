@@ -3,9 +3,10 @@
 import { columns } from '../columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import CustomTab from '@/app/_components/tab/CustomTab'
+import CustomTab from '@/components/tab/CustomTab'
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 
 const categoryList = [
   {
@@ -14,19 +15,36 @@ const categoryList = [
   },
   {
     id: 2,
-    label: 'Pending'
+    label: 'OTZ'
   },
   {
     id: 3,
-    label: 'Rescheduled'
+    label: 'OTZ Plus'
   },
   {
     id: 4,
-    label: 'Upcoming'
+    label: 'OVC'
   },
   {
     id: 5,
-    label: 'Missed'
+    label: 'PAMA'
+  },
+  {
+    id: 6,
+    label: 'PMTCT'
+  }
+]
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: ''
+  },
+  {
+    id: '2',
+    label: 'dashboard',
+    link: 'dashboard'
   }
 ]
 
@@ -37,15 +55,14 @@ const Page = () => {
   const { data, isLoading } = useGetAllPatientsQuery()
 
   return (
-    <div className="p-5 mt-12">
+    <div className="p-4">
+      <BreadcrumbComponent dataList={dataList2} />
       <CustomTab
         categoryList={categoryList}
         setValue={setValue}
         value={value}
       />
-      {['OTZ', 'OVC', 'PAMA', 'PMTCT'].map((item, idx) => (
-        <div key={idx}>{item} </div>
-      ))}
+
       <CustomTable columns={columns} data={data || []} isLoading={isLoading} />
     </div>
   )

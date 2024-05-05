@@ -4,7 +4,7 @@
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
-import CustomTab from '@/app/_components/tab/CustomTab'
+import CustomTab from '@/components/tab/CustomTab'
 import { useCallback, useEffect, useState } from 'react'
 import { eveningColumn } from './eveningColumn'
 import { morningColumn } from './morningColumn'

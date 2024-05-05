@@ -1,4 +1,4 @@
-import CustomTab from '../../tab/CustomTab'
+import CustomTab from '../../../../components/tab/CustomTab'
 
 interface DataProps {
   data: CategoryListProps[]

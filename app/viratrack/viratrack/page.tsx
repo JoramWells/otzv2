@@ -10,7 +10,7 @@ import { useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import CustomTab from '../../_components/tab/CustomTab'
+import CustomTab from '../../../components/tab/CustomTab'
 import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
 
 // interface ItemsProps {
