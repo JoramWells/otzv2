@@ -40,7 +40,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '5',
     label: 'Enrollments',
-    link: 'users/enrollment',
+    link: '/users/enrollment',
     icon: <BookCheckIcon size={17} />
   },
   {

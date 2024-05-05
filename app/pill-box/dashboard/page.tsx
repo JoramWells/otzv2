@@ -2,14 +2,13 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Divider } from '@chakra-ui/react'
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmentBarChart'
 import { useGetAllTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
 import { useGetPillDailyUptakeCountQuery } from '@/api/treatmentplan/uptake.api'
 import DoubleARTUptakeBarChart from '../../_components/charts/DoubleARTUptakeBarChart'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 
 const dataList = [
   {
@@ -38,6 +37,19 @@ const dataList = [
   }
 ]
 
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: ''
+  },
+  {
+    id: '2',
+    label: 'dashboard',
+    link: 'dashboard'
+  }
+]
+
 interface DataPops {
   id: number
   year: number
@@ -61,6 +73,7 @@ const NotifyPage = () => {
 
   return (
     <div className="w-full p-4 flex-col flex space-y-6">
+      <BreadcrumbComponent dataList={dataList2} />
       <div className="">
         <h1 className="font-semibold text-2xl">Welcome to Pillbox!!</h1>
         <p className="text-slate-500">
@@ -85,7 +98,7 @@ const NotifyPage = () => {
           </div>
         ))}
       </div>
-      <Divider />
+      <div className='border-b border-slate-200 w-full'/>
       <div className="">
         <h1
           className="font-semibold text-2xl

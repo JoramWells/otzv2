@@ -30,9 +30,8 @@ import {
   getFilteredRowModel,
   type SortingState
 } from '@tanstack/react-table'
-import { BookOpen, Download } from 'lucide-react'
+import { BookOpen } from 'lucide-react'
 import { useState } from 'react'
-import { CSVLink } from 'react-csv'
 
 export interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
@@ -93,7 +92,7 @@ export function CustomTable<TData, TValue> ({
           />
 
           <div className="flex flex-row space-x-4 items-center">
-            <CSVLink data={data as object[]}>
+            {/* <CSVLink data={data as object[]}>
               <Button
                 // size={'sm'}
                 className="bg-slate-100 text-slate-600 hover:bg-slate-200
@@ -106,7 +105,7 @@ export function CustomTable<TData, TValue> ({
                 <Download size={18} className="mr-2" />
                 Download
               </Button>
-            </CSVLink>
+            </CSVLink> */}
             {/* <Button
               size={'sm'}
               // rounded={'full'}

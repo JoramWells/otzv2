@@ -12,14 +12,16 @@ export const columns: Array<ColumnDef<PatientProps>> = [
     accessorKey: 'firstName',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row gap-x-3 items-center
+      <div
+        className="flex flex-row gap-x-3 items-center
       pt-2 pb-2
-      ">
-          <Avatar
-            size={'sm'}
-            className="font-bold"
-            name={`${row.original?.firstName} ${row.original?.middleName}`}
-          />
+      "
+      >
+        <Avatar
+          size={'sm'}
+          className="font-bold"
+          name={`${row.original?.firstName} ${row.original?.middleName}`}
+        />
         <Link
           className="capitalize font-bold text-slate-700"
           href={`/patients/${row.original.id}`}
@@ -34,7 +36,7 @@ export const columns: Array<ColumnDef<PatientProps>> = [
   },
   {
     accessorKey: 'dob',
-    header: 'DOB',
+    header: 'Age',
     cell: ({ row }) => <p>{calculateAge(row.original?.dob)}</p>,
     enableSorting: true
   },

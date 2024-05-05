@@ -12,6 +12,7 @@ import PieChart from '../../_components/charts/PieChart'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
 import LineChart from '../../_components/charts/LineChart'
 import { useMemo } from 'react'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 
 const dataList = [
   {
@@ -40,6 +41,19 @@ const dataList = [
   }
 ]
 
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: ''
+  },
+  {
+    id: '2',
+    label: 'dashboard',
+    link: 'dashboard'
+  }
+]
+
 const NotifyPage = () => {
   const { data } = useGetAllPatientsQuery()
   const router = useRouter()
@@ -54,7 +68,7 @@ const NotifyPage = () => {
   ]
 
   const pieChartData = {
-    labels: ['Paediatric', 'OTZ', 'OTZ Plus', 'Adult'],
+    labels: ['Pediatric', 'OTZ', 'OTZ Plus', 'Adult'],
     datasets: [
       {
         data: calculateAgeRange(data || [], ageRanges),
@@ -87,6 +101,7 @@ const NotifyPage = () => {
 
   return (
     <div className="w-full p-4 flex-col flex space-y-4">
+      <BreadcrumbComponent dataList={dataList2} />
       <div className="">
         <h1 className="font-bold text-2xl text-slate-700">Patient Management Dashboard</h1>
       </div>
