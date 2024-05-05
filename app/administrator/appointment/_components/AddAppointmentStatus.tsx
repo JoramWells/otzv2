@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { Button } from '@chakra-ui/react'
+import { Button } from '@/components/ui/button'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../../components/forms/CustomInput'
 import { useCallback, useState } from 'react'
@@ -29,14 +29,10 @@ const AddAppointmentStatus = () => {
   }
 
   return (
-    <div className="flex flex-row justify-center">
       <div
-        className="border border-gray-200
-        w-1/3 flex flex-col items-center
-      justify-center rounded-lg p-5 gap-y-4 mt-14"
-        style={{
-          width: '40%'
-        }}
+        className="w-1/4 flex flex-col items-center bg-white
+      justify-center rounded-lg p-4 gap-y-4 "
+
       >
         <CustomInput
           label="Status Description"
@@ -45,15 +41,16 @@ const AddAppointmentStatus = () => {
         />
 
         <Button
-          colorScheme="teal"
-          width={'full'}
+          // colorScheme="teal"
+          // width={'full'}
           // onClick={() => addAppointmentStatus(inputValues)}
           // isLoading={isLoading}
+          className='w-full shadow-none text-emerald-600 border-teal-200'
+          variant={'outline'}
         >
-          Appointment Status
+          Add New
         </Button>
       </div>
-    </div>
   )
 }
 

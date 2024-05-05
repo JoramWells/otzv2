@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { Button } from '@chakra-ui/react'
+import CustomInput from '@/components/forms/CustomInput'
+import { Button } from '@/components/ui/button'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../../components/forms/CustomInput'
 import { useState } from 'react'
 
 interface PhaseProps {
@@ -29,14 +29,10 @@ const AddAppointmentAgenda = () => {
   }
 
   return (
-    <div className="flex flex-row justify-center">
       <div
-        className="border border-gray-200
-        w-1/3 flex flex-col items-center
-      justify-center rounded-lg p-5 gap-y-4 mt-14"
-        style={{
-          width: '40%'
-        }}
+        className="bg-white
+        w-1/4 flex flex-col items-center
+      justify-center rounded-lg p-5 gap-y-4"
       >
         <CustomInput
           label="Agenda Description"
@@ -45,15 +41,16 @@ const AddAppointmentAgenda = () => {
         />
 
         <Button
-          colorScheme="teal"
-          width={'full'}
+        //   colorScheme="teal"
+        //   width={'full'}
           // onClick={() => addAppointmentAgenda(inputValues)}
           // isLoading={isLoading}
+          className='w-full shadow-none  text-teal-600 border-teal-200'
+          variant={'outline'}
         >
           Add Agenda
         </Button>
       </div>
-    </div>
   )
 }
 

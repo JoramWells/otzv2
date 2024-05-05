@@ -4,10 +4,17 @@
 // import { CustomTable } from '@/app/_components/table/CustomTable'
 import { appointmentStatusColumns, columns } from './columns'
 import { useState } from 'react'
-import { Button, Tag } from '@chakra-ui/react'
+// import { Button, Tag } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 // import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { CustomTable } from '@/app/_components/table/CustomTable'
+import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
+import AddAppointmentAgenda from './_components/AddAppointmentAgenda'
+import AddAppointmentStatus from './_components/AddAppointmentStatus'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 
 const categoryList = [
   {
@@ -24,80 +31,90 @@ const Appointment = () => {
   const router = useRouter()
   const pathname = usePathname()
   const [value, setValue] = useState(1)
-  // const { data: appointmentAgendaData } = useGetAllAppointmentAgendaQuery()
+  const { data: appointmentAgendaData } = useGetAllAppointmentAgendaQuery()
   const { data: appointmentStatusData } = useGetAllAppointmentStatusQuery()
   console.log(appointmentStatusData, 'dtc')
 
-  const handleClick = (selectedValue: number) => {
-    if (selectedValue === 1) {
-      router.push(`${pathname}/add-appointment-agenda`)
-    } else {
-      router.push(`${pathname}/add-appointment-status`)
+  const breadCrumbList = [
+    {
+      id: '1',
+      label: 'home',
+      link: '/'
+    },
+    {
+      id: '2',
+      label: 'Appointment',
+      link: 'appointment'
     }
-  }
+  ]
 
   return (
-      <div className="p-5 mt-12">
-        <div
-          className="rounded-md gap-x-4
-           flex flex-row mt-4 mb-4
+    <div className="p-4">
+      <BreadcrumbComponent dataList={breadCrumbList} />
+      <div
+        className="gap-x-4 flex flex-row mt-4 mb-4 bg-white p-2 rounded-lg
           "
-        >
-          {categoryList.map((item) => (
-            <Button
-              key={item.id}
-              rounded={'full'}
-              size={'sm'}
-              bgColor={`${value === item.id && 'gray.700'}`}
-              color={`${value === item.id && 'white'}`}
-              // shadow={`${value === item.id && 'md'}`}
-              _hover={{
-                bgColor: `${value === item.id && 'black'}`,
-                color: `${value === item.id && 'white'}`
-              }}
-              onClick={() => {
-                setValue(item.id)
-              }}
-            >
-              {item.text}
-            </Button>
-          ))}
-        </div>
-        <div className="flex flex-row justify-between items-center p-1">
-          <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
-            <p className="text-lg text-slate-700">
-              {value === 1 ? 'Agenda' : 'Status'}
-            </p>
-            <Tag
-              m={0}
-              rounded={'full'}
-              fontWeight={'bold'}
-              colorScheme="orange"
-              size={'sm'}
-            >
-              {/* {appointmentAgendaData?.length} */}
-            </Tag>
-          </div>
+      >
+        {categoryList.map((item) => (
           <Button
-            size={'sm'}
-            colorScheme="teal"
-            // variant={'outline'}
+            key={item.id}
+            className={`shadow-none rounded-full bg-slate-100 text-slate-500 hover:bg-teal-100
+              ${value === item.id && 'bg-teal-50 text-teal-600'}
+              `}
+            // rounded={'full'}
+            // size={'sm'}
+            // bgColor={`${value === item.id && 'gray.700'}`}
+            // color={`${value === item.id && 'white'}`}
+            // shadow={`${value === item.id && 'md'}`}
+            // _hover={{
+            //   bgColor: `${value === item.id && 'black'}`,
+            //   color: `${value === item.id && 'white'}`
+            // }}
             onClick={() => {
-              handleClick(value)
+              setValue(item.id)
             }}
-            // leftIcon={<FaPlus />}
           >
-            NEW
+            {item.text}
           </Button>
-        </div>
-        {/* {value === 1 && (
-          <CustomTable columns={columns} data={appointmentAgendaData || []} />
-        )}
-
-        {value === 2 && (
-          <CustomTable columns={appointmentStatusColumns} data={appointmentStatusData || []} />
-        )} */}
+        ))}
       </div>
+      {value === 1 && (
+        <div className="w-full">
+          <p className="mb-2 text-lg font-bold text-slate-700">
+            Manage Appointment Agenda
+          </p>
+
+          <div className="w-full flex items-start space-x-4">
+            <div className="w-3/4 bg-white p-2 rounded-lg">
+              <CustomTable
+                columns={columns}
+                data={appointmentAgendaData || []}
+                isSearch={false}
+              />
+            </div>
+            <AddAppointmentAgenda />
+          </div>
+        </div>
+      )}
+
+      {value === 2 && (
+        <div className='w-full'>
+          <p className="mb-2 text-lg font-bold text-slate-700">
+            Manage Appointment Status
+          </p>
+          <div className="w-full flex items-start space-x-4">
+            <div className="w-3/4 bg-white p-2 rounded-lg">
+              <CustomTable
+                columns={appointmentStatusColumns}
+                data={appointmentStatusData || []}
+                isSearch={false}
+              />
+            </div>
+            <AddAppointmentStatus />
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
 
