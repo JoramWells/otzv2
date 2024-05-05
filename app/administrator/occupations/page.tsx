@@ -6,6 +6,20 @@ import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllOccupationQuery } from '@/api/occupation.api'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+
+const dataList = [
+  {
+    id: '1',
+    label: 'home',
+    link: ''
+  },
+  {
+    id: '2',
+    label: 'occupations',
+    link: 'occupations'
+  }
+]
 
 const Occupations = () => {
   const { data } = useGetAllOccupationQuery()
@@ -19,6 +33,7 @@ const Occupations = () => {
 
   return (
       <div className="p-5">
+        <BreadcrumbComponent dataList={dataList} />
         <div
         className='flex flex-row justify-between items-center p-1'
         >

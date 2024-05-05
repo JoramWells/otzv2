@@ -14,13 +14,13 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: 'notify',
+    link: '/notify/dashboard',
     icon: <CalendarCheck size={17} />
   },
   {
     id: '7',
     label: 'Appointments',
-    link: 'notify/appointments',
+    link: '/notify/appointments',
     icon: <CalendarCheck size={17} />
   },
   {
@@ -59,7 +59,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
         <SidebarProvider>
-          <div className="flex flex-row">
+          <div className="flex flex-row bg-slate-50">
             <Sidebar>
               <SidebarListItemsComponent
               dataList={DL}

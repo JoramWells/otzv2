@@ -3,44 +3,26 @@
 import '../globals.css'
 
 // import { Providers } from '../providers'
-import Navbar from '../_components/Navbar/Nav/Navbar'
+// import Navbar from '../_components/Navbar/Nav/Navbar'
 import { Sidebar } from '../../components/sidebar/Sidebar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BookCheckIcon, BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
+import { BookCopy, HeartHandshake, LayoutDashboardIcon } from 'lucide-react'
 
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: '/users/dashboard',
+    link: '/lab/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
     id: '2',
-    label: 'Caregivers',
-    link: '/users/caregiver',
+    label: 'Lab Visits',
+    link: '/lab/lab-visits',
     icon: <HeartHandshake size={17} />
-  },
-  {
-    id: '3',
-    label: 'Case Managers',
-    link: '/users/casemanager',
-    icon: <InspectionPanel size={17} />
-  },
-  {
-    id: '4',
-    label: 'Patients',
-    link: '/users/patients',
-    icon: <Users size={17} />
-  },
-  {
-    id: '5',
-    label: 'Enrollments',
-    link: 'users/enrollment',
-    icon: <BookCheckIcon size={17} />
   },
   {
     id: '6',
@@ -59,7 +41,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
               <SidebarListItemsComponent dataList={DL} />
             </Sidebar>
             <div className="flex flex-col flex-1 h-screen overflow-y-auto">
-              <Navbar />
+              {/* <Navbar /> */}
 
               {children}
             </div>

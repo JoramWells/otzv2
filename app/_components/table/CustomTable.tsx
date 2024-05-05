@@ -30,9 +30,8 @@ import {
   getFilteredRowModel,
   type SortingState
 } from '@tanstack/react-table'
-import { BookOpen, Download } from 'lucide-react'
+import { BookOpen, ChevronsLeft, ChevronsRight } from 'lucide-react'
 import { useState } from 'react'
-import { CSVLink } from 'react-csv'
 
 export interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
@@ -72,9 +71,7 @@ export function CustomTable<TData, TValue> ({
   })
 
   return (
-    <div
-    className='w-full'
-    >
+    <div className="w-full">
       {isSearch && (
         <div
           className="flex flex-row justify-between items-center
@@ -93,7 +90,7 @@ export function CustomTable<TData, TValue> ({
           />
 
           <div className="flex flex-row space-x-4 items-center">
-            <CSVLink data={data as object[]}>
+            {/* <CSVLink data={data as object[]}>
               <Button
                 // size={'sm'}
                 className="bg-slate-100 text-slate-600 hover:bg-slate-200
@@ -106,7 +103,7 @@ export function CustomTable<TData, TValue> ({
                 <Download size={18} className="mr-2" />
                 Download
               </Button>
-            </CSVLink>
+            </CSVLink> */}
             {/* <Button
               size={'sm'}
               // rounded={'full'}
@@ -179,7 +176,7 @@ export function CustomTable<TData, TValue> ({
           {/* {isLoading
             ? <div>Loadin..</div>
             :  */}
-            <TableBody>
+          <TableBody>
             {table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
@@ -204,24 +201,28 @@ export function CustomTable<TData, TValue> ({
               {table.getPageCount()}
             </p>
           </div>
-          <div className="flex flex-row items-center gap-x-2">
+          <div className="flex flex-row items-center space-x-4">
             <Button
               onClick={() => {
                 table.previousPage()
               }}
-              // isDisabled={!table.getCanPreviousPage()}
+              disabled={!table.getCanPreviousPage()}
               size={'sm'}
+              className='bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none'
             >
+              <ChevronsLeft size={18} />
               Prev
             </Button>
             <Button
+              className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
               onClick={() => {
                 table.nextPage()
               }}
-              // isDisabled={!table.getCanNextPage()}
+              disabled={!table.getCanNextPage()}
               size={'sm'}
             >
               Next
+              <ChevronsRight size={18} />
             </Button>
           </div>
         </div>

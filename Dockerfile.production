@@ -1,4 +1,4 @@
-FROM node:20-alpine AS  builder
+FROM node:20-alpine
 
 # ARG NODE_ENV
 
@@ -6,27 +6,13 @@ FROM node:20-alpine AS  builder
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package.json yarn.lock ./
 
-RUN npm install 
+RUN yarn install --frozen-lockfile
 
 COPY . .
 
 
 RUN yarn run build
-
-FROM node:20-alpine
-
-# Set the working directory
-WORKDIR /usr/src/app
-
-
-# Copy the built application from the builder stage
-COPY --from=builder /usr/src/app .
-
-
-EXPOSE 3000
-
-ENV CHOKIDAR_USEPOLLING=true
 
 CMD ["npm","start"]

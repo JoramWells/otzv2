@@ -5,17 +5,20 @@ import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import CustomTab from '../../_components/tab/CustomTab'
+import CustomTab from '../../../components/tab/CustomTab'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { PlusCircle } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
+import { AppointmentFilter } from './__components/AppointmentFilter'
 
 const AppointmentPage = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
+
+  const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
   const { data } = useGetAllAppointmentsQuery({
     mode: 'weekly',
     date: '2022-01-01'
@@ -81,18 +84,23 @@ const AppointmentPage = () => {
       console.log(socketData)
     })
 
+    // ceck tab
+    if (tab === null) {
+      params.set('tab', 'all')
+      setValue('all')
+    }
+
     return () => {
       socket.disconnect()
     }
-  }, [data, showNotification])
+  }, [data, showNotification, params, tab])
 
   console.log(data, 'ty')
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-slate-50">
       <div className="flex flex-row mb-4 justify-between ">
-        <h1 className="text-lg font-semibold">Appointments</h1>
-
+        <h1 className="text-2xl font-semibold">Appointments</h1>
         <Button
           className="bg-teal-600 hover:bg-teal-700 shadow-none
           font-bold
@@ -104,13 +112,24 @@ const AppointmentPage = () => {
       </div>
 
       {/* tab navigation */}
-      <CustomTab
-        categoryList={categoryList}
-        setValue={setValue}
-        value={value}
-      />
+      <div
+      className='w-full bg-white rounded-lg'
+      >
+        <CustomTab
+          categoryList={categoryList}
+          setValue={setValue}
+          value={value}
+        />
+      </div>
 
-      {value === 'all' && <CustomTable columns={columns} data={data || []} />}
+      {value === 'all' && (
+        <div
+        className='bg-white p-2 rounded-lg'
+        >
+          <AppointmentFilter />
+          <CustomTable columns={columns} data={data || []} />
+        </div>
+      )}
 
       {/* {value === 2 && (
         <AppointmentStatusTab

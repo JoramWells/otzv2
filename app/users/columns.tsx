@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
-import { type PatientProps } from '@/types/patient'
+import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
@@ -12,14 +12,16 @@ export const columns: Array<ColumnDef<PatientProps>> = [
     accessorKey: 'firstName',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row gap-x-3 items-center
-      pt-2 pb-2
-      ">
-          <Avatar
-            size={'sm'}
-            className="font-bold"
-            name={`${row.original?.firstName} ${row.original?.middleName}`}
-          />
+      <div
+        className="flex flex-row gap-x-3 items-center
+      pt-1.5 pb-1.5
+      "
+      >
+        <Avatar
+          size={'sm'}
+          className="font-bold"
+          name={`${row.original?.firstName} ${row.original?.middleName}`}
+        />
         <Link
           className="capitalize font-bold text-slate-700"
           href={`/patients/${row.original.id}`}
@@ -34,7 +36,7 @@ export const columns: Array<ColumnDef<PatientProps>> = [
   },
   {
     accessorKey: 'dob',
-    header: 'DOB',
+    header: 'Age',
     cell: ({ row }) => <p>{calculateAge(row.original?.dob)}</p>,
     enableSorting: true
   },

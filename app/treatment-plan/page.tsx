@@ -10,7 +10,7 @@ import { calculateAge } from '@/utils/calculateAge'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import CustomTab from '../_components/tab/CustomTab'
+import CustomTab from '../../components/tab/CustomTab'
 import { useGetAllTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
 
 interface ItemsProps {

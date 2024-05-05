@@ -28,13 +28,8 @@ const itemList: ItemListProps[] = [
     id: '1',
     label: 'Administrator',
     icon: <Shield color="#f9be7c" />,
-    link: '/administrator',
+    link: '/administrator/dashboard',
     listItem: [
-      {
-        id: '1',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
-      },
       {
         id: '2',
         label: 'Patients',
@@ -42,13 +37,38 @@ const itemList: ItemListProps[] = [
       },
       {
         id: '3',
-        label: 'Caregiver',
-        link: '/users/caregiver'
+        label: 'Drugs',
+        link: '/users/drugs'
       },
       {
         id: '5',
-        label: 'Enrollment',
-        link: '/administrator/enrollment'
+        label: 'Facilities',
+        link: '/administrator/facilities'
+      },
+      {
+        id: '6',
+        label: 'Home Visit',
+        link: '/administrator/home Visit'
+      },
+      {
+        id: '7',
+        label: 'Lab',
+        link: '/administrator/lab'
+      },
+      {
+        id: '8',
+        label: 'Location',
+        link: '/administrator/location'
+      },
+      {
+        id: '9',
+        label: 'Notifications',
+        link: '/administrator/notifications'
+      },
+      {
+        id: '10',
+        label: 'Users',
+        link: '/administrator/users'
       }
     ]
   },
@@ -59,9 +79,14 @@ const itemList: ItemListProps[] = [
     link: '/pill-box/dashboard',
     listItem: [
       {
+        id: '1',
+        label: 'Prescription',
+        link: '/pill-box/prescriptions'
+      },
+      {
         id: '2',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        label: 'Reminder',
+        link: '/pill-box/reminder'
       }
     ]
   },
@@ -97,14 +122,14 @@ const itemList: ItemListProps[] = [
     id: '5',
     label: 'Notify',
     icon: <Bell />,
-    link: '/notify',
+    link: '/notify/dashboard',
     description:
       'Manage patient notifications. All settings for Whatsapp, SMS, Voice Call and App notifications.',
     listItem: [
       {
         id: '1',
         label: 'Appointments',
-        link: '/notify/appointments'
+        link: '/notify/appointments?tab=all'
       },
       {
         id: '2',
@@ -140,7 +165,7 @@ const itemList: ItemListProps[] = [
     id: '7',
     label: 'Pharmacy',
     icon: <NotebookPen />,
-    link: '/pharmacy',
+    link: '/pharmacy/dashboard',
     listItem: [
       {
         id: '7',
@@ -153,14 +178,14 @@ const itemList: ItemListProps[] = [
     id: '8',
     label: 'Articles',
     icon: <HomeIcon />,
-    link: '/articles',
+    link: '/articles/dashboard',
     description:
       'Upload, manage and add patient learning materials for E-learning',
     listItem: [
       {
         id: '8',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        label: 'Articles',
+        link: '/articles/dashboard'
       }
     ]
   },
@@ -168,12 +193,12 @@ const itemList: ItemListProps[] = [
     id: '9',
     label: 'Lab',
     icon: <HomeIcon />,
-    link: '/lab',
+    link: '/lab/dashboard',
     listItem: [
       {
         id: '9',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        label: 'Lab Visits',
+        link: '/lab/lab-visits'
       }
     ]
   },
@@ -196,13 +221,15 @@ export default function Home () {
   return (
     <div className="min-h-screen relative bg-slate-50">
       <Suspense fallback={<Skeleton className="p-4 w-full" />}>
-        <nav className="flex justify-between
+        <nav
+          className="flex justify-between
         bg-white
-        border-slate-200 p-4 w-full">
+        border-slate-200 p-4 w-full"
+        >
           <div>Care +</div>
-          <Button
-          className='bg-teal-600 shadow-none hover:bg-teal-700'
-          >Login</Button>
+          <Button className="bg-teal-600 shadow-none hover:bg-teal-700">
+            Login
+          </Button>
         </nav>
       </Suspense>
 
@@ -210,7 +237,7 @@ export default function Home () {
       <main className="flex flex-col  items-start w-full">
         <div className="flex flex-col justify-center items-center w-full">
           <Suspense fallback={<Skeleton className="w-3/4 p-2" />}>
-            <div className="flex w-3/4 p-4 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
+            <div className="flex w-full p-4 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
               <h1 className="text-center text-3xl font-extrabold text-teal-600">
                 Welcome to CarePlus
               </h1>
@@ -229,11 +256,11 @@ export default function Home () {
               </div>
             </div>
           </Suspense>
-          <div className="grid w-3/4 grid-cols-4 gap-4">
+          <div className="grid w-full grid-cols-4 gap-4 xl:gap-4">
             {itemList.map((item) => (
               <Suspense
                 key={item.id}
-                fallback={<Skeleton className="w-[335px] h-[150px]" />}
+                fallback={<Skeleton className="w-[335px] xl:w-[300px] h-[150px]" />}
               >
                 <div
                   key={item.id}
@@ -273,7 +300,9 @@ export default function Home () {
         </div>
       </main>
       <footer className="absolute bottom-0 p-4 w-full text-center bg-white">
-        <p className="text-slate-700 font-bold">Powered by Synergy Data Group</p>
+        <p className="text-slate-700 font-bold">
+          Powered by Synergy Data Group
+        </p>
         <p className="text-sm text-slate-500">
           Copyright @2024 . Terms and Conditions Applied
         </p>

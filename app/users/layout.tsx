@@ -40,7 +40,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '5',
     label: 'Enrollments',
-    link: 'users/enrollment',
+    link: '/users/enrollment',
     icon: <BookCheckIcon size={17} />
   },
   {
@@ -62,7 +62,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
               dataList={DL}
               />
             </Sidebar>
-            <div className="flex flex-col flex-1 h-screen overflow-y-auto">
+            <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
               {/* <Navbar /> */}
 
               {children}

@@ -46,7 +46,7 @@ const NotifyPage = () => {
   const router = useRouter()
 
   return (
-    <div className="w-full mt-12 p-5 flex-col flex space-y-6">
+    <div className="w-full p-4 flex-col flex space-y-6">
       <div className="mb-4 flex flex-row justify-between items-center">
         <div>
           <p className="text-xl font-bold">Welcome to ViraTrack</p>

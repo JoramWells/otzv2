@@ -1,41 +1,54 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
 import { type PatientProps } from '@/types'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
+import moment from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 
-export const columns: Array<ColumnDef<PatientProps>> = [
+export const otzColumns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'firstName',
-    header: 'Caregiver Name',
+    header: 'Patient Name',
     cell: ({ row }) => (
       <div
         className="flex flex-row gap-x-3 items-center
-      pt-2 pb-2
+      pt-1.5 pb-1.5
       "
       >
         <Avatar
           size={'sm'}
           className="font-bold"
-          name={`${row.original?.User?.firstName} ${row.original?.User?.middleName}`}
+          name={`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}
         />
         <Link
           className="capitalize font-bold text-slate-700"
           href={`/patients/${row.original.id}`}
-        >{`${row.original?.User?.firstName} ${row.original?.User?.middleName}`}</Link>
+        >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
       </div>
     )
+  },
+  {
+    accessorKey: 'sex',
+    header: 'Sex'
+    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
+  },
+  {
+    accessorKey: 'dateOfEnrollmentToOTZ',
+    header: 'Age',
+    cell: ({ row }) => <p>{moment(row.original?.dateOfEnrollmentToOTZ).format('ll')}</p>,
+    enableSorting: true
   },
   {
     accessorKey: 'phoneNo',
     header: 'Phone No',
     cell: ({ row }) => (
       <div>
-        {row.original?.User?.phoneNo
+        {row.original.phoneNo
           ? (
-              row.original?.User?.phoneNo
+              row.original.phoneNo
             )
           : (
           <Badge
@@ -50,17 +63,13 @@ export const columns: Array<ColumnDef<PatientProps>> = [
     )
   },
   {
-    accessorKey: 'patient',
-    header: 'Patient Name',
-    cell: ({ row }) => (
-      <div>
-        {`${row.original.Patient?.firstName} ${row.original.Patient?.middleName} `}
-      </div>
-    )
+    accessorKey: 'cccNo',
+    header: 'CCC No.'
+    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
   },
   {
-    accessorKey: 'relationship',
-    header: 'Relationship'
+    accessorKey: 'populationType',
+    header: 'Population Type'
   },
   {
     // accessorKey: 'action',

@@ -1,7 +1,7 @@
 'use client'
 import '../globals.css'
 import { Sidebar } from '../../components/sidebar/Sidebar'
-import Navbar from '../_components/Navbar/Nav/Navbar'
+// import Navbar from '../_components/Navbar/Nav/Navbar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { NotificationProvider } from '@/context/NotificationContext'
@@ -12,68 +12,56 @@ import { BellPlus, Calendar, LayoutDashboardIcon, Map, Pill, Users, Warehouse } 
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
-    label: 'Administrator',
-    link: 'administrator',
+    label: 'Dashboard',
+    link: '/administrator/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
     id: '2',
     label: 'Appointment',
-    link: 'administrator/appointment',
+    link: '/administrator/appointment',
     icon: <Calendar size={17} />
   },
   {
     id: '3',
     label: 'Drugs',
-    link: 'administrator/art',
+    link: '/administrator/art',
     icon: <Pill size={17} />
   },
   {
-    id: '4',
-    label: 'Facilities',
-    link: 'administrator/facilities',
-    icon: <Warehouse size={17} />
-  },
-  {
     id: '5',
-    label: 'Ome Visit',
-    link: 'administrator/home-visit',
+    label: 'home Visit',
+    link: '/administrator/home-visit',
     icon: <Warehouse size={17} />
   },
   {
     id: '6',
     label: 'Lab',
-    link: 'administrator/lab',
+    link: '/administrator/lab',
     icon: <Warehouse size={17} />
   },
   {
     id: '7',
-    label: 'Lab',
-    link: 'administrator/location',
+    label: 'Location',
+    link: '/administrator/location',
     icon: <Map size={17} />
-  },
-  {
-    id: '8',
-    label: 'Matrons',
-    link: 'administrator/matrons',
-    icon: <Users size={17} />
   },
   {
     id: '9',
     label: 'Notifications',
-    link: 'administrator/notifications',
+    link: '/administrator/notifications',
     icon: <BellPlus size={17} />
   },
   {
     id: '10',
     label: 'Users',
-    link: 'administrator/users',
+    link: '/administrator/users',
     icon: <Users size={17} />
   },
   {
     id: '11',
     label: 'Occupation',
-    link: 'administrator/occupation',
+    link: '/administrator/occupations',
     icon: <Users size={17} />
   }
 ]
@@ -87,8 +75,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <Sidebar>
               <SidebarListItemsComponent dataList={DL} />
             </Sidebar>
-            <div className="flex flex-col flex-1 h-screen overflow-y-auto">
-              <Navbar />
+            <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
+              {/* <Navbar /> */}
 
               {children}
             </div>

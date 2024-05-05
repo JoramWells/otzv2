@@ -10,10 +10,11 @@ import { useState } from 'react'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { useGetAllArtSwitchReasonsQuery } from '@/api/art/artSwitchReason.api'
 import { useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
-import ArtCategory from '@/app/_components/art/ArtCategory'
-import MeasuringUnit from '@/app/_components/art/measuringUnit/MeasuringUnit'
-import Regimen from '@/app/_components/art/regimen/Regimen'
 import { Button } from '@/components/ui/button'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import Regimen from './_components/regimen/Regimen'
+import ArtCategory from './_components/ArtCategory'
+import MeasuringUnit from './_components/measuringUnit/MeasuringUnit'
 
 const categoryList = [
   {
@@ -61,12 +62,27 @@ const Art = () => {
     }
   }
 
+  const dataList = [
+    {
+      id: '1',
+      label: 'home',
+      link: ''
+    },
+    {
+      id: '2',
+      label: 'drugs',
+      link: 'art'
+    }
+  ]
+
+  console.log(data, 'ty')
+
   return (
-    <div className="p-5 mt-14">
-      <div className="flex flex-row gap-x-2">
+    <div className="p-4 flex flex-col space-y-2">
+      <BreadcrumbComponent dataList={dataList} />
         <div
-          className="rounded-md gap-x-4
-          justify-between flex flex-row mb-4
+          className="rounded-lg gap-x-4 bg-white p-2 w-full
+          justify-start flex flex-row mb-4
           "
         >
           {categoryList.map((item) => (
@@ -74,7 +90,7 @@ const Art = () => {
               key={item.id}
               className={`rounded-full shadow-none hover:bg-slate-400
               bg-slate-100 text-slate-500 font-bold
-              ${value === item.id && 'bg-slate-600 text-white'}
+              ${value === item.id && 'bg-teal-50 text-teal-600'}
               `}
               // rounded={'full'}
               // size={'sm'}
@@ -93,7 +109,6 @@ const Art = () => {
             </Button>
           ))}
         </div>
-      </div>
       <div className="flex flex-row justify-between items-center p-1">
         <div className="flex flex-row gap-x-2 items-center mb-4">
           <p

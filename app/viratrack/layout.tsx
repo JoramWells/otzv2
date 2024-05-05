@@ -3,7 +3,7 @@
 import '../globals.css'
 
 // import { Providers } from '../providers'
-import Navbar from '../_components/Navbar/Nav/Navbar'
+// import Navbar from '../_components/Navbar/Nav/Navbar'
 import { Sidebar } from '../../components/sidebar/Sidebar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
@@ -47,7 +47,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
             <SidebarListItemsComponent dataList={DL} />
           </Sidebar>
           <div className="flex flex-col flex-1 h-screen overflow-y-auto">
-            <Navbar />
+            {/* <Navbar /> */}
 
             {children}
           </div>

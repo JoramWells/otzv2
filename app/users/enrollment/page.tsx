@@ -1,32 +1,42 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { columns } from '../columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import CustomTab from '@/app/_components/tab/CustomTab'
-import { useState } from 'react'
+import CustomTab from '@/components/tab/CustomTab'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import { useGetAllOTZEnrollmentsQuery } from '../../../api/enrollment/otzEnrollment.api'
+import { otzColumns } from './column'
 
 const categoryList = [
   {
-    id: 1,
-    label: 'All'
-  },
-  {
     id: 2,
-    label: 'Pending'
-  },
-  {
-    id: 3,
-    label: 'Rescheduled'
+    label: 'OTZ'
   },
   {
     id: 4,
-    label: 'Upcoming'
+    label: 'OVC'
   },
   {
     id: 5,
-    label: 'Missed'
+    label: 'PAMA'
+  },
+  {
+    id: 6,
+    label: 'PMTCT'
+  }
+]
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: ''
+  },
+  {
+    id: '2',
+    label: 'enrollments',
+    link: 'enrollments'
   }
 ]
 
@@ -34,19 +44,34 @@ const Page = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
-  const { data, isLoading } = useGetAllPatientsQuery()
+  const { data, isLoading } = useGetAllOTZEnrollmentsQuery()
+
+  console.log(data, 'try')
+
+  useEffect(() => {
+    if (tab === null) {
+      setValue('otz')
+    }
+  }, [tab])
 
   return (
-    <div className="p-5 mt-12">
+    <div className="p-4 flex flex-col space-y-2">
+      <BreadcrumbComponent dataList={dataList2} />
       <CustomTab
         categoryList={categoryList}
         setValue={setValue}
         value={value}
       />
-      {['OTZ', 'OVC', 'PAMA', 'PMTCT'].map((item, idx) => (
-        <div key={idx}>{item} </div>
-      ))}
-      <CustomTable columns={columns} data={data || []} isLoading={isLoading} />
+
+      <div className="bg-white p-2 w-full rounded-lg">
+        {value === 'otz' && (
+          <CustomTable
+            columns={otzColumns}
+            data={data || []}
+            isLoading={isLoading}
+          />
+        )}
+      </div>
     </div>
   )
 }

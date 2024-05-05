@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { curriculumSubCategoryColumns, curriculumCategoryColumns, classesColumn, holidaysColumn } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
@@ -13,6 +12,8 @@ import { useGetAllSchoolClassesQuery } from '@/api/school/schoolClasses.api'
 import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
 import School from '@/app/_components/school/School'
 import Holidays from '@/app/_components/school/Holidays'
+import { Button } from '@/components/ui/button'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 const categoryList = [
   {
     id: 1,
@@ -33,6 +34,19 @@ const categoryList = [
   {
     id: 5,
     text: 'Schools'
+  }
+]
+
+const dataList = [
+  {
+    id: '1',
+    label: 'home',
+    link: ''
+  },
+  {
+    id: '2',
+    label: 'Lab',
+    link: 'lab'
   }
 ]
 
@@ -60,26 +74,29 @@ const SchoolPage = () => {
   }
 
   return (
-    <div className="p-5 mt-12">
+    <div className="p-4">
       <div className="flex flex-col gap-y-2 mb-4">
-        <p className="font-bold text-xl">Categories</p>
+        <BreadcrumbComponent dataList={dataList} />
         <div
-          className="rounded-md gap-x-4
+          className="rounded-md gap-x-4 bg-white p-2
            flex flex-row
           "
         >
           {categoryList.map((item) => (
             <Button
               key={item.id}
-              rounded={'full'}
-              size={'sm'}
-              bgColor={`${value === item.id && 'gray.700'}`}
-              color={`${value === item.id && 'white'}`}
+              className={`rounded-full bg-slate-50 text-slate-500 hover:bg-teal-50  shadow-none ${
+                value === item.id && 'bg-teal-50 text-teal-600'
+              } `}
+              // rounded={'full'}
+              // size={'sm'}
+              // bgColor={`${value === item.id && 'gray.700'}`}
+              // color={`${value === item.id && 'white'}`}
               // shadow={`${value === item.id && 'md'}`}
-              _hover={{
-                bgColor: `${value === item.id && 'black'}`,
-                color: `${value === item.id && 'white'}`
-              }}
+              // _hover={{
+              //   bgColor: `${value === item.id && 'black'}`,
+              //   color: `${value === item.id && 'white'}`
+              // }}
               onClick={() => {
                 setValue(item.id)
               }}
