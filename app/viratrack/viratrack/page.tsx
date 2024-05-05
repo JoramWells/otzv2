@@ -60,7 +60,7 @@ const TrackPage = () => {
   const router = useRouter()
 
   return (
-    <div className="p-4 mt-14">
+    <div className="p-4">
       <div className="mb-4 flex flex-row justify-between items-center">
           <p className="text-2xl font-bold">Welcome to ViraTrack</p>
 

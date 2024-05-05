@@ -3,14 +3,14 @@
 'use client'
 
 import { Chart, registerables } from 'chart.js'
-import PieChart from '../_components/charts/PieChart'
-import BarChart from '../_components/charts/BarChart'
-import LineChart from '../_components/charts/LineChart'
-import { CustomTable } from '../_components/table/CustomTable'
-import { columns } from './art/columns'
+import PieChart from '../../_components/charts/PieChart'
+import BarChart from '../../_components/charts/BarChart'
+import LineChart from '../../_components/charts/LineChart'
+import { CustomTable } from '../../_components/table/CustomTable'
+import { columns } from '../art/columns'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
-import HeaderCategories from '../_components/dashboard/HeaderCategories'
+import HeaderCategories from '../../_components/dashboard/HeaderCategories'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -94,7 +94,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="p-3 flex flex-col gap-y-4 mt-14">
+    <div className="p-3 flex flex-col gap-y-4">
       <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
         <HeaderCategories />
       </div>

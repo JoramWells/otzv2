@@ -2,10 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-// import { CustomTable } from '../_components/table/CustomTable'
+import { CustomTable } from '../../_components/table/CustomTable'
+import { columns, type PatientProps } from '../columns'
 import { useGetAllInternalLabRequestsQuery } from '@/api/viraload/internalLabRequest.api'
-import { CustomTable } from '../_components/table/CustomTable'
-import { columns } from './columns'
 
 const LabPage = () => {
   // const datax = await getPatients()

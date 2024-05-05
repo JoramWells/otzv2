@@ -1,7 +1,7 @@
 'use client'
 import '../globals.css'
 import { Sidebar } from '../../components/sidebar/Sidebar'
-import Navbar from '../_components/Navbar/Nav/Navbar'
+// import Navbar from '../_components/Navbar/Nav/Navbar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { NotificationProvider } from '@/context/NotificationContext'
@@ -12,14 +12,14 @@ import { BellPlus, Calendar, LayoutDashboardIcon, Map, Pill, Users, Warehouse } 
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
-    label: 'Administrator',
-    link: 'administrator',
+    label: 'Dashboard',
+    link: 'dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
     id: '2',
     label: 'Appointment',
-    link: 'administrator/appointment',
+    link: '/administrator/appointment',
     icon: <Calendar size={17} />
   },
   {
@@ -36,7 +36,7 @@ const DL: SidebarListItemsProps[] = [
   },
   {
     id: '5',
-    label: 'Ome Visit',
+    label: 'home Visit',
     link: 'administrator/home-visit',
     icon: <Warehouse size={17} />
   },
@@ -88,7 +88,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <SidebarListItemsComponent dataList={DL} />
             </Sidebar>
             <div className="flex flex-col flex-1 h-screen overflow-y-auto">
-              <Navbar />
+              {/* <Navbar /> */}
 
               {children}
             </div>

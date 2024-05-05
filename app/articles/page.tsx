@@ -11,7 +11,7 @@ const ArticlesPage = () => {
   const { data } = useGetAllArticlesQuery()
 
   return (
-    <div className="mt-12 p-4">
+    <div className="p-4">
       {/* <EditorContent editor={editor} /> */}
       <div className="w-full flex justify-between mt-4 mb-4">
         <p

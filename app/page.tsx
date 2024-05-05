@@ -28,13 +28,8 @@ const itemList: ItemListProps[] = [
     id: '1',
     label: 'Administrator',
     icon: <Shield color="#f9be7c" />,
-    link: '/administrator',
+    link: '/administrator/dashboard',
     listItem: [
-      {
-        id: '1',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
-      },
       {
         id: '2',
         label: 'Patients',
@@ -42,13 +37,38 @@ const itemList: ItemListProps[] = [
       },
       {
         id: '3',
-        label: 'Caregiver',
-        link: '/users/caregiver'
+        label: 'Drugs',
+        link: '/users/drugs'
       },
       {
         id: '5',
-        label: 'Enrollment',
-        link: '/administrator/enrollment'
+        label: 'Facilities',
+        link: '/administrator/facilities'
+      },
+      {
+        id: '6',
+        label: 'Home Visit',
+        link: '/administrator/home Visit'
+      },
+      {
+        id: '7',
+        label: 'Lab',
+        link: '/administrator/lab'
+      },
+      {
+        id: '8',
+        label: 'Location',
+        link: '/administrator/location'
+      },
+      {
+        id: '9',
+        label: 'Notifications',
+        link: '/administrator/notifications'
+      },
+      {
+        id: '10',
+        label: 'Users',
+        link: '/administrator/users'
       }
     ]
   },
@@ -59,9 +79,14 @@ const itemList: ItemListProps[] = [
     link: '/pill-box/dashboard',
     listItem: [
       {
+        id: '1',
+        label: 'Prescription',
+        link: '/pill-box/prescriptions'
+      },
+      {
         id: '2',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        label: 'Reminder',
+        link: '/pill-box/reminder'
       }
     ]
   },
@@ -97,7 +122,7 @@ const itemList: ItemListProps[] = [
     id: '5',
     label: 'Notify',
     icon: <Bell />,
-    link: '/notify',
+    link: '/notify/dashboard',
     description:
       'Manage patient notifications. All settings for Whatsapp, SMS, Voice Call and App notifications.',
     listItem: [
@@ -140,7 +165,7 @@ const itemList: ItemListProps[] = [
     id: '7',
     label: 'Pharmacy',
     icon: <NotebookPen />,
-    link: '/pharmacy',
+    link: '/pharmacy/dashboard',
     listItem: [
       {
         id: '7',
@@ -153,14 +178,14 @@ const itemList: ItemListProps[] = [
     id: '8',
     label: 'Articles',
     icon: <HomeIcon />,
-    link: '/articles',
+    link: '/articles/dashboard',
     description:
       'Upload, manage and add patient learning materials for E-learning',
     listItem: [
       {
         id: '8',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        label: 'Articles',
+        link: '/articles/dashboard'
       }
     ]
   },
@@ -168,12 +193,12 @@ const itemList: ItemListProps[] = [
     id: '9',
     label: 'Lab',
     icon: <HomeIcon />,
-    link: '/lab',
+    link: '/lab/dashboard',
     listItem: [
       {
         id: '9',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        label: 'Lab Visits',
+        link: '/lab/lab-visits'
       }
     ]
   },
