@@ -13,7 +13,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: 'dashboard',
+    link: '/administrator/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
@@ -25,43 +25,37 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '3',
     label: 'Drugs',
-    link: 'administrator/art',
+    link: '/administrator/art',
     icon: <Pill size={17} />
   },
   {
     id: '4',
     label: 'Facilities',
-    link: 'administrator/facilities',
+    link: '/administrator/facilities',
     icon: <Warehouse size={17} />
   },
   {
     id: '5',
     label: 'home Visit',
-    link: 'administrator/home-visit',
+    link: '/administrator/home-visit',
     icon: <Warehouse size={17} />
   },
   {
     id: '6',
     label: 'Lab',
-    link: 'administrator/lab',
+    link: '/administrator/lab',
     icon: <Warehouse size={17} />
   },
   {
     id: '7',
-    label: 'Lab',
-    link: 'administrator/location',
+    label: 'Location',
+    link: '/administrator/location',
     icon: <Map size={17} />
-  },
-  {
-    id: '8',
-    label: 'Matrons',
-    link: 'administrator/matrons',
-    icon: <Users size={17} />
   },
   {
     id: '9',
     label: 'Notifications',
-    link: 'administrator/notifications',
+    link: '/administrator/notifications',
     icon: <BellPlus size={17} />
   },
   {
