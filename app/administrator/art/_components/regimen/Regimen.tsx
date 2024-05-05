@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
 import { useCallback, useState } from 'react'
 import CustomSelect from '@/components/forms/CustomSelect'
@@ -11,9 +9,9 @@ import { useGetAllArtRegimenCategoriesQuery } from '@/api/art/artRegimenCategory
 import { useAddArtRegimenMutation, useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { artColumns } from '@/app/administrator/art/columns'
 import { useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
-import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
 import CustomInput from '@/components/forms/CustomInput'
 import { CustomTable } from '@/app/_components/table/CustomTable'
+import { Button } from '@/components/ui/button'
 
 interface PhaseProps {
   id: string
@@ -62,9 +60,21 @@ const Regimen = () => {
   }
 
   return (
-    <div>
-      <CaseManagerDialog label="NEW"
-      description='Add ART'
+    <div className="w-full flex flex-row space-x-4 items-start">
+      {/* table */}
+      <div
+      className='w-3/4'
+      >
+        <CustomTable columns={artColumns} data={artData || []}
+        isSearch={false}
+         />
+      </div>
+
+      {/* form */}
+      <div
+      //  label="NEW"
+      // description='Add ART'
+      className='w-1/4 bg-white rounded-lg p-4 flex flex-col space-y-4'
       >
         <CustomInput
           label="Description"
@@ -72,12 +82,12 @@ const Regimen = () => {
           onChange={setArtName}
         />
 
-<CustomInput
-label='Expiry Date'
-type='date'
-value={expiryDate}
-onChange={setExpiryDate}
-/>
+        <CustomInput
+          label="Expiry Date"
+          type="date"
+          value={expiryDate}
+          onChange={setExpiryDate}
+        />
         <CustomSelect
           label="Select ART Category"
           data={categoryDataOption()}
@@ -100,17 +110,16 @@ onChange={setExpiryDate}
         />
 
         <Button
-          colorScheme="teal"
-          width={'full'}
+          // colorScheme="teal"
+          // width={'full'}
           onClick={() => addArtRegimen(inputValues)}
-          isLoading={isLoading}
+          disabled={isLoading}
+          className='shadow-none text-teal-600 border-teal-200'
+          variant={'outline'}
         >
           Add Art
         </Button>
-      </CaseManagerDialog>
-
-      {/* table */}
-      <CustomTable columns={artColumns} data={artData || []} />
+      </div>
     </div>
   )
 }

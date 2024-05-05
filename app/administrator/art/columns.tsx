@@ -1,6 +1,6 @@
-import EditMeasuringUnit from '@/app/_components/art/measuringUnit/EditMeasuringUnit'
 import { type ColumnDef } from '@tanstack/react-table'
 import { View } from 'lucide-react'
+import EditMeasuringUnit from './_components/measuringUnit/EditMeasuringUnit'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {

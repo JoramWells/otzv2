@@ -7,35 +7,35 @@ export interface ARTCategoryProps {
 }
 
 export const artRegimenCategoryApi = createApi({
-  reducerPath: "artRegimenCategoryApi",
+  reducerPath: 'artRegimenCategoryApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/root/art-regimen-category",
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/art-regimen-category`
   }),
   endpoints: (builder) => ({
     getAllArtRegimenCategories: builder.query<any, void>({
-      query: () => "fetchAll",
+      query: () => 'fetchAll'
     }),
     addArtRegimenCategory: builder.mutation({
       query: (newUser) => ({
-        url: "add",
-        method: "POST",
-        body: newUser,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: newUser
+      })
     }),
     getArtRegimenCategory: builder.query({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
 
     deleteArtRegimenCategory: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const {
   useGetAllArtRegimenCategoriesQuery, useAddArtRegimenCategoryMutation,
