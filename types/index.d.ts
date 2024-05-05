@@ -33,6 +33,7 @@ declare interface SideBarCollapseButtonProps {
 
 // patient column
 declare interface PatientProps {
+  dateOfEnrollmentToOTZ: MomentInput
   User: any
   Patient: any
   id: string

@@ -1,25 +1,17 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { columns } from '../columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import CustomTab from '@/components/tab/CustomTab'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import { useGetAllOTZEnrollmentsQuery } from '../../../api/enrollment/otzEnrollment.api'
+import { otzColumns } from './column'
 
 const categoryList = [
   {
-    id: 1,
-    label: 'All'
-  },
-  {
     id: 2,
     label: 'OTZ'
-  },
-  {
-    id: 3,
-    label: 'OTZ Plus'
   },
   {
     id: 4,
@@ -52,7 +44,15 @@ const Page = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
-  const { data, isLoading } = useGetAllPatientsQuery()
+  const { data, isLoading } = useGetAllOTZEnrollmentsQuery()
+
+  console.log(data, 'try')
+
+  useEffect(() => {
+    if (tab === null) {
+      setValue('otz')
+    }
+  }, [tab])
 
   return (
     <div className="p-4 flex flex-col space-y-2">
@@ -63,14 +63,14 @@ const Page = () => {
         value={value}
       />
 
-      <div
-      className='bg-white p-2 w-full rounded-lg'
-      >
-        <CustomTable
-          columns={columns}
-          data={data || []}
-          isLoading={isLoading}
-        />
+      <div className="bg-white p-2 w-full rounded-lg">
+        {value === 'otz' && (
+          <CustomTable
+            columns={otzColumns}
+            data={data || []}
+            isLoading={isLoading}
+          />
+        )}
       </div>
     </div>
   )
