@@ -1,47 +1,47 @@
 import { Users } from 'lucide-react'
-import React from 'react'
+
+const listItems = [
+  {
+    id: '1',
+    title: 'Total Number of Patients',
+    icon: <Users size={18} />,
+    count: '45, 894',
+    description: 'Since last month'
+  },
+  {
+    id: '2',
+    title: 'Active Patients',
+    icon: <Users size={18} />,
+    count: '45, 894',
+    description: 'Since last month'
+  },
+  {
+    id: '3',
+    title: 'Available drugs',
+    icon: <Users size={18} />,
+    count: '45, 894',
+    description: 'Since last month'
+  }
+]
 
 const HeaderCategories = () => {
   return (
     <>
-      <div
-        className="border border-slate-200 rounded-lg p-5
-      h-[130px] flex flex-col
+      {listItems.map((item) => (
+        <div
+        key={item.id}
+          className="border border-slate-200 rounded-lg p-5
+      h-[120px] w-[350px] flex flex-col bg-white
       "
-      >
-        <div className="flex flex-row items-center justify-between">
-          <h1 className="font-bold text-lg">Total Number of Patients</h1>
-          <Users size={20} />
+        >
+          <div className="flex flex-row items-center justify-between">
+            <h1 className="font-bold text-lg">Total Number of Patients</h1>
+            <Users size={20} />
+          </div>
+          <p className="text-2xl font-bold">45, 894</p>
+          <p className="text-slate-500 text-sm">Since last month</p>
         </div>
-        <p className="text-2xl font-bold">45, 894</p>
-        <p className="text-slate-500 text-sm">Since last month</p>
-      </div>
-      <div
-        className="border border-slate-200 rounded-lg p-5
-      h-[130px] flex flex-col
-      "
-      >
-        <div className="flex flex-row items-center justify-between">
-          <h1 className="font-bold text-lg">Active Patients</h1>
-          <Users size={20} />
-        </div>
-        <p className="text-2xl font-bold">45, 894</p>
-        <p className="text-slate-500 text-sm">Since last month</p>
-      </div>
-
-      {/* drugs */}
-      <div
-        className="border border-slate-200 rounded-lg p-5
-      h-[130px] flex flex-col
-      "
-      >
-        <div className="flex flex-row items-center justify-between">
-          <h1 className="font-bold text-lg">Available Drugs</h1>
-          <Users size={20} />
-        </div>
-        <p className="text-2xl font-bold">45, 894</p>
-        <p className="text-slate-500 text-sm">Since last month</p>
-      </div>
+      ))}
     </>
   )
 }

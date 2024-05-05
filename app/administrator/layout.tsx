@@ -81,7 +81,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <Sidebar>
               <SidebarListItemsComponent dataList={DL} />
             </Sidebar>
-            <div className="flex flex-col flex-1 h-screen overflow-y-auto">
+            <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
               {/* <Navbar /> */}
 
               {children}
