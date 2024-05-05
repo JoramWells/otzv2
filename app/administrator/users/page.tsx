@@ -1,11 +1,25 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns, type UserProps } from './columns'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { usePathname, useRouter } from 'next/navigation'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import { Button } from '@/components/ui/button'
+
+const dataList = [
+  {
+    id: '1',
+    label: 'home',
+    link: ''
+  },
+  {
+    id: '2',
+    label: 'users',
+    link: 'users'
+  }
+]
 
 const Users = () => {
   const { data } = useGetAllUsersQuery()
@@ -18,7 +32,8 @@ const Users = () => {
   }
 
   return (
-      <div className="p-5 mt-12">
+      <div className="p-4">
+        <BreadcrumbComponent dataList={dataList} />
         <div
         className='flex flex-row justify-between items-center p-1'
         >
@@ -30,25 +45,19 @@ const Users = () => {
             >
               Patients
             </p>
-            <Tag
-              m={0}
-              rounded={'full'}
-              fontWeight={'bold'}
-              colorScheme="orange"
-              size={'sm'}
-            >
-              {data?.length}
-            </Tag>
+
           </div>
           <Button
-          size={'sm'}
-          colorScheme='teal'
+          // size={'sm'}
+          // colorScheme='teal'
           variant={'outline'}
           onClick={handleClick}
           >New</Button>
         </div>
 
-        <CustomTable columns={columns} data={data ?? []} />
+        <CustomTable columns={columns} data={data ?? []}
+        isSearch={false}
+        />
       </div>
   )
 }

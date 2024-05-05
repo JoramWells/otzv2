@@ -29,12 +29,6 @@ const DL: SidebarListItemsProps[] = [
     icon: <Pill size={17} />
   },
   {
-    id: '4',
-    label: 'Facilities',
-    link: '/administrator/facilities',
-    icon: <Warehouse size={17} />
-  },
-  {
     id: '5',
     label: 'home Visit',
     link: '/administrator/home-visit',
@@ -61,13 +55,13 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '10',
     label: 'Users',
-    link: 'administrator/users',
+    link: '/administrator/users',
     icon: <Users size={17} />
   },
   {
     id: '11',
     label: 'Occupation',
-    link: 'administrator/occupation',
+    link: '/administrator/occupations',
     icon: <Users size={17} />
   }
 ]

@@ -75,6 +75,8 @@ const Art = () => {
     }
   ]
 
+  console.log(data, 'ty')
+
   return (
     <div className="p-4 flex flex-col space-y-2">
       <BreadcrumbComponent dataList={dataList} />
@@ -88,7 +90,7 @@ const Art = () => {
               key={item.id}
               className={`rounded-full shadow-none hover:bg-slate-400
               bg-slate-100 text-slate-500 font-bold
-              ${value === item.id && 'bg-slate-600 text-white'}
+              ${value === item.id && 'bg-teal-50 text-teal-600'}
               `}
               // rounded={'full'}
               // size={'sm'}

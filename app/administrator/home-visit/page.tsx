@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { Button, Tag } from '@chakra-ui/react'
+import { Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns, reasonColumns, type UserProps } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFrequency.api'
 import { useState } from 'react'
 import { useGetHomeVisitReasonsQuery } from '@/api/homevisit/homeVisitReason.api'
+import { Button } from '@/components/ui/button'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 
 const categoryList = [
   {
@@ -36,25 +38,41 @@ const HomeVisitPage = () => {
     }
   }
 
+  const dataList = [
+    {
+      id: '1',
+      label: 'Home',
+      link: ''
+    },
+    {
+      id: '2',
+      label: 'Home Visit',
+      link: 'home-visit'
+    }
+  ]
+
   return (
       <div className="p-5">
+        <BreadcrumbComponent dataList={dataList} />
         <div
-          className="rounded-md gap-x-4
-           flex flex-row mb-4
+          className="gap-x-4 p-2 rounded-lg
+           flex flex-row mb-2 mt-2 bg-white
           "
         >
           {categoryList.map((item) => (
             <Button
               key={item.id}
-              rounded={'full'}
-              size={'sm'}
-              bgColor={`${value === item.id && 'gray.700'}`}
-              color={`${value === item.id && 'white'}`}
+              className={`rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 shadow-none
+              ${value === item.id && 'bg-teal-50 text-teal-600'} `}
+              // rounded={'full'}
+              // size={'sm'}
+              // bgColor={`${value === item.id && 'gray.700'}`}
+              // color={`${value === item.id && 'white'}`}
               // shadow={`${value === item.id && 'md'}`}
-              _hover={{
-                bgColor: `${value === item.id && 'black'}`,
-                color: `${value === item.id && 'white'}`
-              }}
+              // _hover={{
+              //   bgColor: `${value === item.id && 'black'}`,
+              //   color: `${value === item.id && 'white'}`
+              // }}
               onClick={() => {
                 setValue(item.id)
               }}
@@ -83,8 +101,8 @@ const HomeVisitPage = () => {
             </Tag>
           </div>
           <Button
-            size={'sm'}
-            colorScheme="teal"
+            // size={'sm'}
+            // colorScheme="teal"
             variant={'outline'}
             onClick={handleClick}
           >

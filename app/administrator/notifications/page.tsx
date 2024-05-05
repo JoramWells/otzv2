@@ -10,6 +10,7 @@ import NotifyCategory from '@/app/_components/notify/NotifyCategory'
 import NotificationType from '@/app/_components/notify/NotifIcationType'
 import NotifySubCategory from '@/app/_components/notify/NotifySubCategory'
 import NotificationComponent from '@/app/_components/notify/NotificationComponent'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 
 const categoryList = [
   {
@@ -30,6 +31,18 @@ const categoryList = [
   }
 ]
 
+const dataList = [
+  {
+    id: '1',
+    label: 'home',
+    link: ''
+  }, {
+    id: '2',
+    label: 'notifications',
+    link: 'notifications'
+  }
+]
+
 const Appointment = () => {
   const [value, setValue] = useState(1)
   const { data: appointmentAgendaData } = useGetAllAppointmentAgendaQuery()
@@ -37,12 +50,13 @@ const Appointment = () => {
   console.log(appointmentStatusData, 'dtc')
 
   return (
-    <div className="p-5 mt-12">
+    <div className="p-4">
+      <BreadcrumbComponent dataList={dataList} />
       <p
       className='font-bold text-xl'
       >Notifications Settings</p>
       <div
-        className="rounded-md gap-x-4
+        className="rounded-lg gap-x-4 bg-white p-2
            flex flex-row mt-4 mb-4
           "
       >
@@ -56,9 +70,8 @@ const Appointment = () => {
             //   bgColor: `${value === item.id && 'black'}`,
             //   color: `${value === item.id && 'white'}`
             // }}
-            className={`bg-white text-slate-500 rounded-full border
-            border-slate-200 shadow-none hover:bg-slate-100 
-            ${item.id === value && 'bg-slate-200 font-bold'}
+            className={` text-slate-500 rounded-full bg-slate-100 shadow-none hover:bg-slate-100 
+            ${item.id === value && 'bg-teal-50 text-teal-600 font-bold'}
             `}
             onClick={() => {
               setValue(item.id)
