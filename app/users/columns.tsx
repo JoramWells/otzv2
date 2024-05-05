@@ -14,7 +14,7 @@ export const columns: Array<ColumnDef<PatientProps>> = [
     cell: ({ row }) => (
       <div
         className="flex flex-row gap-x-3 items-center
-      pt-2 pb-2
+      pt-1.5 pb-1.5
       "
       >
         <Avatar

@@ -43,8 +43,8 @@ const dataList2 = [
   },
   {
     id: '2',
-    label: 'dashboard',
-    link: 'dashboard'
+    label: 'enrollments',
+    link: 'enrollments'
   }
 ]
 
@@ -55,7 +55,7 @@ const Page = () => {
   const { data, isLoading } = useGetAllPatientsQuery()
 
   return (
-    <div className="p-4">
+    <div className="p-4 flex flex-col space-y-2">
       <BreadcrumbComponent dataList={dataList2} />
       <CustomTab
         categoryList={categoryList}
@@ -63,7 +63,15 @@ const Page = () => {
         value={value}
       />
 
-      <CustomTable columns={columns} data={data || []} isLoading={isLoading} />
+      <div
+      className='bg-white p-2 w-full rounded-lg'
+      >
+        <CustomTable
+          columns={columns}
+          data={data || []}
+          isLoading={isLoading}
+        />
+      </div>
     </div>
   )
 }

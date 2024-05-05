@@ -58,8 +58,6 @@ const NotifyPage = () => {
   const { data } = useGetAllPatientsQuery()
   const router = useRouter()
 
-  console.log(data)
-
   const ageRanges: Array<[number, number]> = [
     [0, 9],
     [10, 19],

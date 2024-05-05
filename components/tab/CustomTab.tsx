@@ -36,16 +36,15 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
   }
 
   return (
-    <div
-      className="flex flex-row space-x-4
-      border-b mb-4 border-slate-200 w-full
+    <nav
+      className="flex flex-row space-x-4 mb-4 bg-white p-2 border-slate-200 w-full
       "
     >
       {categoryList.map((item) => (
         <Button
           key={item.id}
-          className={`shadow-none bg-white text-slate-400 font-semibold ${isChecked(item.label.toLowerCase()) && 'text-teal-600 font-semibold border-b-2 border-teal-600'}
-          hover:bg-slate-100 rounded-none
+          className={`shadow-none bg-slate-50 rounded-full text-slate-400 font-semibold 
+          ${isChecked(item.label.toLowerCase()) && 'text-teal-600 font-semibold bg-teal-50'} hover:bg-slate-100
           `}
           onClick={() => {
             handleClick(item.label.toLowerCase())
@@ -54,7 +53,7 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
           {item.label}
         </Button>
       ))}
-    </div>
+    </nav>
   )
 }
 
