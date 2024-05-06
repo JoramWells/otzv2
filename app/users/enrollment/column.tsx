@@ -26,7 +26,7 @@ export const otzColumns: Array<ColumnDef<PatientProps>> = [
         <Link
           className="capitalize font-bold text-slate-700"
           href={`/patients/${row.original.id}`}
-        >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
+        >{`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}</Link>
       </div>
     )
   },
