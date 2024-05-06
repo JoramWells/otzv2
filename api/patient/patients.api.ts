@@ -13,7 +13,7 @@ type PostsResponse = Post[]
 export const patientsApi = createApi({
   reducerPath: 'patientsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/patients`
+    baseUrl: 'http://102.217.158.17:8081/api/users/patients'
     // prepareHeaders (headers, { getState }) {
     //   // Add your custom headers here
     //   if (process.env.NEXT_PUBLIC_API_URL !== undefined) {
