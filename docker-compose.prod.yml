@@ -12,10 +12,6 @@ services:
       - /usr/src/app/node_modules
       - /usr/src/app/.next
 
-
-    networks:
-      - otz
-
     # deploy:
     #   # mode: replicated
     #   # replicas: 5
@@ -33,9 +29,4 @@ services:
 
     ports:
       - "3000:3000"
-
-networks:
-  otz:
-    external: true
-      
 
