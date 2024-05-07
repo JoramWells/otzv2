@@ -55,7 +55,7 @@ const dataList2 = [
   {
     id: '1',
     label: 'home',
-    link: ''
+    link: '/'
   },
   {
     id: '2',

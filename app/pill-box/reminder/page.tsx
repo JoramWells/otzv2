@@ -15,6 +15,34 @@ import { useSearchParams } from 'next/navigation'
 import moment from 'moment'
 import { checkTime } from '@/utils/isRightTimeForDrugs'
 import { useAddPatientNotificationMutation } from '@/api/notifications/patientNotification.api'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
+
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'dashboard',
+    link: 'dashboard'
+  },
+  {
+    id: '3',
+    label: 'Reminder',
+    link: 'reminder'
+  }
+]
 
 const dataList = [
   {
@@ -79,10 +107,13 @@ const AppointmentPage = () => {
   // }, [patientsDueMorning]);
 
   return (
-    <div className="p-5 mt-12 flex flex-col space-y-4">
-      <h1 className="text-xl font-semibold">Pill Box Reminder</h1>
+    <div className="">
+      <BreadcrumbComponent dataList={dataList2} />
+
       {/* {currentTime.format("HH:mm:ss")} */}
-      <div>
+      <div className="bg-white p-4 mt-2">
+        <h1 className="text-xl font-semibold">Pill Box Reminder</h1>
+        <p className="text-mute text-slate-500 text-sm">Select Medicine Time</p>
         <CustomTab categoryList={dataList} value={value} setValue={setValue} />
       </div>
       {value === 'All' && (
@@ -121,17 +152,30 @@ const AppointmentPage = () => {
         </div>
       )}
       {/*  */}
-      {value === 'all' && (
-        <CustomTable columns={morningColumn} data={patientsDueMorning || []} />
-      )}
-      {/*  */}
-      {value === 'morning' && (
-        <CustomTable columns={morningColumn} data={patientsDueMorning || []} />
-      )}
-      {/*  */}
-      {value === 'evening' && (
-        <CustomTable columns={eveningColumn} data={patientsDueMorning || []} />
-      )}
+      <div className='p-4'>
+        {value === 'all' && (
+          <div className='bg-white p-4 rounded-lg'>
+            <CustomTable
+              columns={morningColumn}
+              data={patientsDueMorning || []}
+            />
+          </div>
+        )}
+        {/*  */}
+        {value === 'morning' && (
+          <CustomTable
+            columns={morningColumn}
+            data={patientsDueMorning || []}
+          />
+        )}
+        {/*  */}
+        {value === 'evening' && (
+          <CustomTable
+            columns={eveningColumn}
+            data={patientsDueMorning || []}
+          />
+        )}
+      </div>
     </div>
   )
 }
