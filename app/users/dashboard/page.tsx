@@ -11,7 +11,16 @@ import PieChart from '../../_components/charts/PieChart'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
 import LineChart from '../../_components/charts/LineChart'
 import { useMemo } from 'react'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
+
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
 
 const dataList = [
   {

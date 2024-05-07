@@ -25,7 +25,7 @@ const HeaderTitle = ({ title, link, label = '' }: HeaderTitleProps) => {
   }, [patientData])
 
   return (
-    <div className="p-4 bg-white flex flex-row justify-between items-center">
+    <div className="p-2 pl-4 pr-2 bg-white flex flex-row justify-between items-center">
       <h1 className="text text-xl font-bold text-slate-700">{title} </h1>
       <CaseManagerDialog label={label}>
         <CustomSelect

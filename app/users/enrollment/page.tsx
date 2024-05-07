@@ -4,10 +4,21 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import CustomTab from '@/components/tab/CustomTab'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 import { useGetAllOTZEnrollmentsQuery } from '../../../api/enrollment/otzEnrollment.api'
 import { otzColumns } from './column'
-import HeaderTitle from '../_components/HeaderTitle'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+const HeaderTitle = dynamic(async () => await import('../_components/HeaderTitle'), {
+  ssr: false
+})
+
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
 
 const categoryList = [
   {

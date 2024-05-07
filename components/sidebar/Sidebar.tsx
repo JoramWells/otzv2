@@ -27,9 +27,11 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
         <Image
           src={'/img/logo1.svg'}
           alt="img"
-          width={140}
-          height={60}
-          quality={100}
+          width={0}
+          height={0}
+          style={{ width: '90px', height: 'auto' }}
+
+          // quality={100}
         />
       </div>
 
@@ -40,9 +42,12 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
       </div> */}
 
       <div className="p-2 ">
-        <Input placeholder="Search..." className="rounded-full shadow-none
+        <Input
+          placeholder="Search..."
+          className="rounded-full shadow-none
         bg-slate-100 border-none
-        " />
+        "
+        />
       </div>
 
       {children}
