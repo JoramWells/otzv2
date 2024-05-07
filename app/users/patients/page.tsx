@@ -31,9 +31,9 @@ const Patients = () => {
   const router = useRouter()
 
   return (
-    <div className="p-4">
+    <div className="flex flex-col space-y-2">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="mb-4 mt-4 flex flex-row justify-between items-center">
+      <div className="flex flex-row justify-between items-center bg-white p-4">
         <p className="text-xl font-bold text-slate-700">
           Manage Registered Patients
         </p>
@@ -52,14 +52,16 @@ const Patients = () => {
 
       <Suspense fallback={<Skeleton className="w-full" />}>
         <div
-        className='bg-white w-full p-4 rounded-lg'
+        className='p-4 w-full'
         >
-          <CustomTable
-            columns={columns}
-            data={data || []}
-            isLoading={isLoading}
-            // isSearch
-          />
+          <div className="bg-white w-full p-4 rounded-lg">
+            <CustomTable
+              columns={columns}
+              data={data || []}
+              isLoading={isLoading}
+              // isSearch
+            />
+          </div>
         </div>
       </Suspense>
     </div>

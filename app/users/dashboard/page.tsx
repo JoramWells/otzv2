@@ -36,7 +36,7 @@ const dataList = [
     id: '4',
     label: 'App Notification',
     count: 7,
-    link: ''
+    link: '/'
   }
 ]
 
@@ -44,7 +44,7 @@ const dataList2 = [
   {
     id: '1',
     label: 'home',
-    link: ''
+    link: '/'
   },
   {
     id: '2',
