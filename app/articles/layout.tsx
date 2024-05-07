@@ -15,13 +15,13 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: 'articles/dashboard',
+    link: '/articles/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
     id: '2',
     label: 'Articles',
-    link: 'articles/articles',
+    link: '/articles/articles',
     icon: <Pill size={17} />
   },
   {

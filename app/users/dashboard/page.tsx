@@ -7,9 +7,7 @@
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import PieChart from '../../_components/charts/PieChart'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
-import LineChart from '../../_components/charts/LineChart'
 import { useMemo } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
@@ -18,7 +16,24 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
+
+//
+const LineChart = dynamic(
+  async () => await import('../../_components/charts/LineChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[400px] md:w-3/4  m-0" />
+  }
+)
+
+const PieChart = dynamic(
+  async () => await import('../../_components/charts/PieChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[400px] md:w-1/4  m-0" />
   }
 )
 

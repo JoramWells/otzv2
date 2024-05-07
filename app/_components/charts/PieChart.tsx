@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { type Point, type ChartDataset, type BubbleDataPoint } from 'chart.js/auto'
+import { type Point, type ChartDataset, type BubbleDataPoint, registerables, Chart } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
 
 interface Props {
   data: PieChartProps
 }
+
+Chart.register(...registerables)
 
 export interface PieChartProps {
   labels: string[]

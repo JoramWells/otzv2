@@ -27,7 +27,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '3',
     label: 'Reminder',
-    link: 'pill-box/reminder?tab=all',
+    link: '/pill-box/reminder?tab=all',
     icon: <BellDot size={17} />
   },
   {
@@ -46,7 +46,7 @@ const PillLayout = ({ children }: { children: React.ReactNode }) => {
           <Sidebar>
             <SidebarListItemsComponent dataList={DL} />
           </Sidebar>
-          <div className="flex flex-col flex-1 h-screen overflow-y-auto">
+          <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
             {/* <Navbar /> */}
 
             {children}
