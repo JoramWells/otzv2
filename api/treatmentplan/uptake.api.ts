@@ -9,7 +9,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const pillDailyUptakeApi = createApi({
   reducerPath: 'pillDailyUptakeApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/appointment/daily-uptake'
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/daily-uptake`
   }),
   endpoints: (builder) => ({
     getAllPillDailyUptake: builder.query<any, void>({

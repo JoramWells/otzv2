@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
@@ -74,12 +75,14 @@ export const columns: Array<ColumnDef<PatientProps>> = [
     // accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => (
-      <Link
+<Button variant={'outline'}>
+        <Link
         href={`/users/patients/${row.original.id}?tab=appointments`}
-        className="text-blue-600  hover:underline"
+        className="text-slate-500  hover:underline"
       >
         Check In
       </Link>
+</Button>
     )
   }
 ]

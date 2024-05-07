@@ -37,7 +37,7 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
 
   return (
     <nav
-      className="flex flex-row space-x-4 mb-4 bg-white p-2 border-slate-200 w-full
+      className="flex flex-row space-x-4 bg-white p-2  w-full
       "
     >
       {categoryList.map((item) => (

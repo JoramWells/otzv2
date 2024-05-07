@@ -15,8 +15,8 @@ export interface LineChartProps {
 
 const LineChart = ({ data }: Props) => {
   return (
-    <Suspense fallback={<Skeleton className="h-[400px] md:w-full" />}>
-      <div className="h-[400px] md:w-full border rounded-lg p-5">
+    <Suspense fallback={<Skeleton className="h-[400px] md:w-3/4" />}>
+      <div className="h-[400px] md:w-3/4 w-3/4 p-4 bg-slate-50 rounded-lg">
         <Line
           data={data}
           options={{

@@ -6,7 +6,6 @@
 
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmentBarChart'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import PieChart from '../../_components/charts/PieChart'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
@@ -98,17 +97,19 @@ const NotifyPage = () => {
   }
 
   return (
-    <div className="w-full p-4 flex-col flex space-y-4">
+    <div className="w-full flex-col flex space-y-2">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="">
-        <h1 className="font-bold text-2xl text-slate-700">Patient Management Dashboard</h1>
+      <div className="bg-white p-4">
+        <h1 className="font-bold text-2xl text-slate-700">
+          Patient Management Dashboard
+        </h1>
       </div>
-      <div className="flex w-full justify-between flex-wrap">
+      <div className="flex w-full justify-between flex-wrap p-4">
         {dataList.map((item, idx) => (
           <div
             key={idx}
-            className="border border-slate-200 rounded-xl p-5
-             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
+            className="rounded-xl p-5 bg-white
+             h-[110px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
       "
             onClick={() => router.push('/notify/appointment')}
           >
@@ -117,26 +118,27 @@ const NotifyPage = () => {
               <Users size={20} />
             </div>
             <p className="text-2xl font-bold text-slate-600">{item.count}</p>
-            <p className="text-slate-500 text-sm">Since last month</p>
+            <small className="text-slate-500 text-sm">Since last month</small>
           </div>
         ))}
       </div>
-      <div className="border-b border-slate-200 w-full" />
-      <div className="">
+      <div className="bg-white p-4 flex flex-col space-y-2">
         <h1
-          className="font-semibold text-2xl
+          className="font-semibold text-xl
         capitalize
         "
         >
           Dashboard Analytics
         </h1>
 
-        <p>Scheduled the following appointments</p>
-      </div>
-      <LineChart data={barCartData} />
-      <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
-        <WeeklyAppointmentBarChart />
-        <PieChart data={pieChartData} />
+        {/*  */}
+
+        {/*  */}
+        <div className="flex justify-between space-x-4 pr-2">
+          <LineChart data={barCartData} />
+
+          <PieChart data={pieChartData} />
+        </div>
       </div>
     </div>
   )

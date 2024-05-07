@@ -8,6 +8,20 @@ import { PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'Patients',
+    link: ''
+  }
+]
 
 const Patients = () => {
   // const datax = await getPatients()
@@ -17,34 +31,37 @@ const Patients = () => {
   const router = useRouter()
 
   return (
-    <div className="p-5">
-        <div className="mb-4 flex flex-row justify-between items-center">
-          <p className="text-xl font-bold text-slate-700">Registered Patients</p>
-          <Button
-            className="bg-teal-600 hover:bg-teal-700
+    <div className="p-4">
+      <BreadcrumbComponent dataList={dataList2} />
+      <div className="mb-4 mt-4 flex flex-row justify-between items-center">
+        <p className="text-xl font-bold text-slate-700">
+          Manage Registered Patients
+        </p>
+        <Button
+          className="bg-teal-600 hover:bg-teal-700
         font-bold shadow-none
         "
-            onClick={() => {
-              router.push('/patients/add-patients')
-            }}
-          >
-            <PlusCircle size={18} className="mr-2" />
-            New Patient
-          </Button>
-        </div>
-
-        <Suspense
-        fallback={<Skeleton className='w-full' />}
+          onClick={() => {
+            router.push('/patients/add-patients')
+          }}
         >
+          <PlusCircle size={18} className="mr-2" />
+          New Patient
+        </Button>
+      </div>
 
-              <CustomTable
-          columns={columns}
-          data={data || []}
-          isLoading={isLoading}
-          // isSearch
-        />
-          </Suspense>
-
+      <Suspense fallback={<Skeleton className="w-full" />}>
+        <div
+        className='bg-white w-full p-4 rounded-lg'
+        >
+          <CustomTable
+            columns={columns}
+            data={data || []}
+            isLoading={isLoading}
+            // isSearch
+          />
+        </div>
+      </Suspense>
     </div>
   )
 }

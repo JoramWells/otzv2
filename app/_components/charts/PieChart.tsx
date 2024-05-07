@@ -32,7 +32,7 @@ const SelectYears = () => (
 
 const PieChart = ({ data }: Props) => {
   return (
-    <div className="border rounded-lg h-[320px]">
+    <div className="bg-slate-50 rounded-lg h-[400px] w-1/4">
       <div className="flex flex-row items-center justify-between
       pl-4 pr-4 pt-2
       ">
