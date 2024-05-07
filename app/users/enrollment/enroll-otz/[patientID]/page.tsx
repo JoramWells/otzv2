@@ -10,7 +10,26 @@ import CustomSelect from '@/components/forms/CustomSelect'
 import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 // import { useRouter } from 'next/router'
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'enrollments',
+    link: '/enrollments'
+  },
+  {
+    id: '3',
+    label: 'enrollment to OTZ',
+    link: ''
+  }
+]
 
 const OTZEnrollment = ({ params }: any) => {
   // const router = useRouter()
@@ -53,13 +72,16 @@ const OTZEnrollment = ({ params }: any) => {
   }
 
   return (
-    <div className="w-full flex flex-row justify-center p-4">
+    <div className="w-full flex flex-col justify-center items-center p-4">
       <div
-        className="w-1/3 flex flex-col items-center
-      justify-center rounded-lg  space-y-8 mt-14"
-        style={{
-          width: '40%'
-        }}
+      className='bg-white w-full'
+      >
+        <BreadcrumbComponent dataList={dataList2} />
+      </div>
+      <div
+        className="w-1/2 flex flex-col items-center bg-white p-4 mt-4
+      justify-center rounded-lg  space-y-8"
+
       >
         <div className="w-full">
           <p className="text-xl font-bold">Enrollment Status</p>
@@ -122,7 +144,7 @@ const OTZEnrollment = ({ params }: any) => {
         className='w-full flex justify-end'
         >
           <Button
-            // w="full"
+            className='w-full bg-teal-600 hover:bg-teal-700 shadow-none'
             // colorScheme="teal"
             // isLoading={isLoading}
             disabled={isLoading}

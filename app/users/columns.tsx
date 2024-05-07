@@ -75,7 +75,7 @@ export const columns: Array<ColumnDef<PatientProps>> = [
     header: 'Action',
     cell: ({ row }) => (
       <Link
-        href={`/users/${row.original.id}?tab=appointments`}
+        href={`/users/patients/${row.original.id}?tab=appointments`}
         className="text-blue-600  hover:underline"
       >
         Check In
