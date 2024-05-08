@@ -56,13 +56,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
     {
       id: '3',
       label: 'Case Managers',
-      link: '/users/patients/tab/casemanagers',
+      link: `/users/patients/tab/casemanagers/${patientID}`,
       icon: <InspectionPanel size={17} />
     },
     {
       id: '4',
       label: 'Home Visits',
-      link: '/users/patients/tab/homevisit',
+      link: `/users/patients/tab/homevisit/${patientID}`,
       icon: <Users size={17} />
     },
     {
