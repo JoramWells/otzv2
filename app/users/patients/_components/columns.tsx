@@ -42,11 +42,43 @@ export const columns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'appointmentStatus',
     header: 'Status',
-    cell: ({ row }) => (
-      <div>
-        <Badge>{row.original.AppointmentStatus?.statusDescription}</Badge>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const status = row.original.AppointmentStatus?.statusDescription
+      return (
+        <div>
+          {status === 'Pending' && (
+            <Badge className="shadow-none rounded-full bg-orange-50 text-orange-500 hover:bg-orange-50">
+              {status}
+            </Badge>
+          )}
+
+          {status === 'Upcoming' && (
+            <Badge className="shadow-none rounded-full bg-blue-50 text-blue-500 hover:bg-blue-50">
+              {status}
+            </Badge>
+          )}
+
+          {status === 'Completed' && (
+            <Badge className="shadow-none rounded-full bg-teal-50 text-teal-500 hover:bg-teal-50">
+              {status}
+            </Badge>
+          )}
+
+          {status === 'Cancelled' && (
+            <Badge className="shadow-none rounded-full bg-red-50 text-red-500 hover:bg-red-50">
+              {status}
+            </Badge>
+          )}
+
+          {status === 'Rescheduled' && (
+            <Badge className="shadow-none rounded-full bg-teal-50 text-teal-500 hover:bg-teal-50">
+              {status}
+            </Badge>
+          )}
+
+        </div>
+      )
+    },
     enableSorting: true
   },
 
@@ -56,6 +88,58 @@ export const columns: Array<ColumnDef<PatientProps>> = [
     cell: ({ row }) => (
       <p>{moment(row.original.appointmentDate).format('LL')}</p>
     )
+  },
+  {
+    // accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => (
+      <div>
+        <TrashIcon />
+      </div>
+    )
+  }
+]
+
+interface CaregiverColumnsProps {
+  id: string
+  firstName?: string
+  middleName?: string
+  phoneNo?: string
+  AppointmentStatus: {
+    statusDescription?: string
+  }
+  appointmentDate: MomentInput
+}
+
+export const caregiverColumns: Array<ColumnDef<CaregiverColumnsProps>> = [
+  {
+    accessorKey: 'firstName',
+    header: 'Name',
+    cell: ({ row }) => (
+      <Link
+        className="capitalize font-bold text-slate-700"
+        href={`/patients/${row.original.id}`}
+      >{`${row.original.firstName} ${row.original.middleName}`}</Link>
+    )
+  },
+  {
+    accessorKey: 'phoneNo',
+    header: 'Phone No',
+    cell: ({ row }) => <p>{row.original.phoneNo}</p>
+  },
+  {
+    accessorKey: 'maritalStatus',
+    header: 'Marital Status'
+    // cell: ({ row }) => (
+    //   <p>{moment(row.original.appointmentDate).format('LL')}</p>
+    // )
+  },
+  {
+    accessorKey: 'relationship',
+    header: 'Relationship'
+    // cell: ({ row }) => (
+    //   <p>{moment(row.original.appointmentDate).format('LL')}</p>
+    // )
   },
   {
     // accessorKey: 'action',
