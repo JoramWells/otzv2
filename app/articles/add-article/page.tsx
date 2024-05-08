@@ -8,6 +8,7 @@ import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import axios from 'axios'
 import { Loader2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { type FormEvent, useCallback, useMemo, useState, type Dispatch, type SetStateAction } from 'react'
@@ -17,6 +18,8 @@ import 'react-quill/dist/quill.snow.css'
 type FileType = File | null
 
 type SetFileType = Dispatch<SetStateAction<FileType>>
+
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/articles/add`
 
 const ArticlesPage = () => {
   const ReactQuill = useMemo(() => dynamic(async () => await import('react-quill'), { ssr: false }), [])
@@ -40,16 +43,30 @@ const ArticlesPage = () => {
   const inputValues = {
     description: category
   }
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const formData = new FormData()
 
-    const formData = {
-      articleCategoryID,
-      content: value
-    }
+    formData.append('articleCategoryID', articleCategoryID)
+    formData.append('description', value)
+    formData.append('file', file)
+
+    // const formData = {
+    //   articleCategoryID,
+    //   content: value,
+    //   image: file
+    // }
 
     // Call the addArticles mutation with the form data and file
-    await addArticles({ formData, file })
+    // await addArticles({ formData, file })
+    await axios.post(URL, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    console.log(formData.get('file'), 'dtx')
   }
 
   // const formData = {
@@ -83,9 +100,7 @@ const ArticlesPage = () => {
       >
         <p className="font-bold text-xl text-slate-700">New Article</p>
 
-        <form className='flex flex-col space-y-4'
-        onSubmit={handleSubmit}
-        >
+        <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
           <CustomSelect
             label="Select Category"
             value={articleCategoryID}
@@ -104,12 +119,17 @@ const ArticlesPage = () => {
           <Input
             className=""
             type="file"
-            onChange={(e) => { setFile(e.target.files?.[0]) }}
+            name='file'
+            // value={file}
+            onChange={(e) => {
+              setFile(e.target.files?.[0])
+            }}
           />
 
           {/*  */}
           <Button
             className="shadow-none bg-teal-600 hover:bg-teal-700"
+            type='submit'
             // onClick={() => addArticles({formData, file})}
           >
             {isLoadingArticles && (

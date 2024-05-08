@@ -4,6 +4,7 @@ import { useGetAllArticlesQuery } from '@/api/articles/articles.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import 'react-quill/dist/quill.snow.css'
 
@@ -26,23 +27,46 @@ const ArticlesPage = () => {
           <Link href={'/articles/add-article'}>Add Articles</Link>
         </Button>
       </div>
-      <div className="flex flex-row flex-wrap w-full justify-between  gap-y-8">
+      <div className="flex flex-row flex-wrap w-full justify-start space-x-2">
         {data?.map((item: any) => (
           <div
             key={item.id}
-            className="w-[500px] border border-slate-200 rounded-xl p-4"
+            className="w-[300px] border border-slate-200 rounded-xl"
           >
-            <p className="text-lg font-bold">Learn About Prep</p>
-
-            <div
-              dangerouslySetInnerHTML={{
-                __html: item.description?.substring(0, 350).concat('..')
+            <Image
+              // w={0}
+              alt="im"
+              placeholder="data:image/..."
+              width={300}
+              height={150}
+              // quality={100}
+              // fill
+              // objectFit='contain'
+              priority
+              className="rounded-t-lg"
+              src={`${process.env.NEXT_PUBLIC_API_URL}/api/appointment/${item.image}`}
+              style={{
+                width: '300px',
+                height: '150px',
+                objectFit: 'cover'
               }}
             />
-            <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
-              {/* {item.} */}
-              Prep
-            </Badge>
+
+            <div
+            className='p-4'
+            >
+              <p className="text-lg font-bold">Learn About Prep</p>
+
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: item.description?.substring(0, 350).concat('..')
+                }}
+              />
+              <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
+                {/* {item.} */}
+                Prep
+              </Badge>
+            </div>
           </div>
         ))}
       </div>
