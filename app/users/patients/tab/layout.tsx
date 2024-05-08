@@ -86,19 +86,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
     {
       id: '8',
       label: 'Messages',
-      link: '/users/patients/tab/Messages',
-      icon: <BookCopy size={17} />
-    },
-    {
-      id: '9',
-      label: 'Insights',
-      link: '/users/patients/tab/Insights',
+      link: `/users/patients/tab/messages/${patientID}`,
       icon: <BookCopy size={17} />
     },
     {
       id: '10',
       label: 'Settings',
-      link: '/users/patients/tab/settings',
+      link: `/users/patients/tab/settings/${patientID}`,
       icon: <BookCopy size={17} />
     }
   ]

@@ -12,8 +12,6 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
         bg-white
         h-screen
         w-64
-        border-r
-        border-slate-200
         overflow-y-auto
         ${isSidebarOpen ? 'inline' : 'hidden'}
         relative
