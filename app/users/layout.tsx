@@ -62,7 +62,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   if (
     pathname === `/users/patients/tab/${patientID}` ||
     pathname === `/users/patients/tab/appointments/${patientID}` ||
-    pathname === '/users/patients/tab/caregivers' ||
+    pathname === `/users/patients/tab/caregivers/${patientID}` ||
     pathname === '/users/patients/tab/casemanagers' ||
     pathname === '/users/patients/tab/homevisit' ||
     pathname === '/users/patients/tab/lab' ||

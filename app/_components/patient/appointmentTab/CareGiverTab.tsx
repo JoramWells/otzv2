@@ -154,6 +154,7 @@ const CareGiverTab = ({ patientID }: DataProps) => {
   const [status, setStatus] = useState('')
   const router = useRouter()
   const { data } = useGetCaregiverQuery(patientID)
+  console.log(data, 'drt')
 
   return (
     <div className="w-full flex flex-col justify-center align-center items-center">
@@ -165,7 +166,7 @@ const CareGiverTab = ({ patientID }: DataProps) => {
       shadow-none transform font-bold hover:scale-105
       "
           // size={'sm'}
-          onClick={() => router.push(`/patients/add-care-giver/${patientID}`)}
+          onClick={() => router.push(`/users/add-care-giver/${patientID}`)}
         >
           New
         </Button>
@@ -200,8 +201,8 @@ const CareGiverTab = ({ patientID }: DataProps) => {
         />
           )}
 
-      {/* iterate over te creivers */}
       <div className="w-1/2 space-y-4 flex flex-col">
+
         {data?.map((item: any) => (
           <CareGiverCard key={item.id} item={item} />
         ))}

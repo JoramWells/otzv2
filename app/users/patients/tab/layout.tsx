@@ -50,7 +50,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     {
       id: '2',
       label: 'Caregivers',
-      link: '/users/patients/tab/caregivers',
+      link: `/users/patients/tab/caregivers/${patientID}`,
       icon: <HeartHandshake size={17} />
     },
     {
