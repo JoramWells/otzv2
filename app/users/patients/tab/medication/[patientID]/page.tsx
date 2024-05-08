@@ -1,6 +1,6 @@
 'use client'
 
-import MedicalFileTab from '../../_components/MedicalFileTab'
+import MedicalFileTab from '../../../_components/MedicalFileTab'
 
 const Appointments = ({ params }: { params: any }) => {
   // const { patientID } = params

@@ -74,13 +74,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
     {
       id: '6',
       label: 'Pharmacy',
-      link: '/users/patients/tab/pharmacy',
+      link: `/users/patients/tab/pharmacy/${patientID}`,
       icon: <BookCopy size={17} />
     },
     {
       id: '7',
-      label: 'Medical File',
-      link: '/users/patients/tab/medication',
+      label: 'Medication',
+      link: `/users/patients/tab/medication/${patientID}`,
       icon: <BookCopy size={17} />
     },
     {

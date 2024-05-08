@@ -1,13 +1,13 @@
 'use client'
 
-import LabTab from '@/app/_components/lab/LabTab'
+import PharmacyTab from '@/app/_components/pharmacy/PharmacyTab'
 
 const Appointments = ({ params }: { params: any }) => {
-  const { patientID } = params
+  // const { patientID } = params
 
   return (
     <>
-      <LabTab patientID={patientID} />
+      <PharmacyTab />
     </>
   )
 }
