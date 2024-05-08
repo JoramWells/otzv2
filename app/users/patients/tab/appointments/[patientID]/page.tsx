@@ -1,6 +1,6 @@
 'use client'
 
-import AppointmentTab from '@/app/_components/patient/appointmentTab/AppointmentTab'
+import AppointmentTab from '@/app/users/patients/_components/AppointmentTab'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 
 const dataList2 = [
