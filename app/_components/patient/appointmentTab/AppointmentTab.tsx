@@ -24,13 +24,13 @@ import { useSearchParams } from 'next/navigation'
 interface AppointmentCardsProps {
   item: {
     id: string
-    appointmentStatus: {
+    AppointmentStatus: {
       statusDescription: string
     }
-    appointmentAgenda: {
+    AppointmentAgenda: {
       agendaDescription: string
     }
-    user: {
+    User: {
       firstName: string
       middleName: string
     }
@@ -43,7 +43,7 @@ const AppointmentCard = ({ item }: AppointmentCardsProps) => {
   return (
     <div
       key={item.id}
-      className="border border-slate-200 p-4
+      className="p-4 bg-white
                 rounded-lg w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2"
     >
       <div
@@ -52,10 +52,10 @@ const AppointmentCard = ({ item }: AppointmentCardsProps) => {
       >
         <div className="flex space-x-4">
           <p className="font-bold text-lg">
-            {item.appointmentAgenda?.agendaDescription}
+            {item.AppointmentAgenda?.agendaDescription}
           </p>
-          <Badge variant={'outline'} className={`rounded-full ${item.appointmentStatus?.statusDescription === 'Rescheduled' && 'bg-teal-50 text-emerald-600 border-teal-200'} `}>
-            {item.appointmentStatus?.statusDescription}
+          <Badge variant={'outline'} className={`rounded-full ${item.AppointmentStatus?.statusDescription === 'Rescheduled' && 'bg-teal-50 text-emerald-600 border-teal-200'} `}>
+            {item.AppointmentStatus?.statusDescription}
           </Badge>
         </div>
         <X
@@ -65,7 +65,7 @@ const AppointmentCard = ({ item }: AppointmentCardsProps) => {
       </div>
       <div className="mb-2 mt-2">
         <p className="text-slate-500 text-sm">
-          Requested By: {item.user?.firstName} {item.user?.middleName}
+          Requested By: {item.User?.firstName} {item.User?.middleName}
         </p>
       </div>
       <Divider />

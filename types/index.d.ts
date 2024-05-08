@@ -2,6 +2,8 @@ import { type ReactNode } from 'react'
 
 declare interface AvatarProps {
   name: string
+  h?: string | number
+  w?: string | number
 }
 
 declare interface CustomInputProps {
