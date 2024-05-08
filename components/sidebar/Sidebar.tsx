@@ -4,7 +4,7 @@ import { useSidebar } from '@/context/SidebarContext'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 // import { BellIcon } from 'lucide-react'
-export const Sidebar = ({ children }: { children: React.ReactNode }) => {
+export const Sidebar = ({ children, isSearchable = true }: { children: React.ReactNode, isSearchable?: boolean }) => {
   const { isSidebarOpen } = useSidebar()
   return (
     <div
@@ -20,35 +20,39 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
     `}
     >
-      <div
-        className="p-4 flex flex-row items-center border-b border-slate-200
+      {isSearchable && (
+        <>
+          <div
+            className="p-4 flex flex-row items-center border-b border-slate-200
       justify-center"
-      >
-        <Image
-          src={'/img/logo1.svg'}
-          alt="img"
-          width={0}
-          height={0}
-          style={{ width: '90px', height: 'auto' }}
+          >
+            <Image
+              src={'/img/logo1.svg'}
+              alt="img"
+              width={0}
+              height={0}
+              style={{ width: '90px', height: 'auto' }}
 
-          // quality={100}
-        />
-      </div>
+              // quality={100}
+            />
+          </div>
 
-      {/* <div
+          {/* <div
       className='flex justify-end p-2'
       >
         <BellIcon />
       </div> */}
 
-      <div className="p-2 ">
-        <Input
-          placeholder="Search..."
-          className="rounded-full shadow-none
+          <div className="p-2 ">
+            <Input
+              placeholder="Search..."
+              className="rounded-full shadow-none
         bg-slate-100 border-none
         "
-        />
-      </div>
+            />
+          </div>
+        </>
+      )}
 
       {children}
       {/* <div className="absolute w-full bottom-0 flex flex-col items-center p-2">
