@@ -10,6 +10,7 @@ import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { BookCheckIcon, BookCopy, LayoutDashboardIcon, MessageSquareText } from 'lucide-react'
+import { ChakraProvider } from '@chakra-ui/react'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -53,6 +54,7 @@ const DL: SidebarListItemsProps[] = [
 const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
+      <ChakraProvider>
         <SidebarProvider>
           <div className="flex flex-row">
             <Sidebar>
@@ -65,6 +67,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
         </SidebarProvider>
+      </ChakraProvider>
     </Provider>
   )
 }
