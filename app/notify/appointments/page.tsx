@@ -120,9 +120,9 @@ const AppointmentPage = () => {
   console.log(data, 'ty')
 
   return (
-    <div className="bg-slate-50 flex flex-col space-y-2">
+    <div className="bg-slate-50 ">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="flex flex-row justify-between p-4 bg-white">
+      <div className="flex flex-row justify-between p-4 bg-white mt-2">
         <h1 className="text-2xl font-semibold">Appointments</h1>
         <Button
           className="bg-teal-600 hover:bg-teal-700 shadow-none

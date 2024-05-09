@@ -35,7 +35,7 @@ export interface FullNameProps {
 export interface ColumnProps {
   eveningStatus: any
   morningStatus: any
-  timeAndWork: any
+  TimeAndWork: any
   refillDate: MomentInput
   appointmentTime: MomentInput
   appointmentDate: any
@@ -97,10 +97,10 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.timeAndWork?.patient?.firstName} ${row.original.timeAndWork?.patient?.middleName}`}
+          name={`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.timeAndWork?.patient?.firstName} ${row.original.timeAndWork?.patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}</p>
         </div>
       </div>
     )
@@ -113,7 +113,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
       <div className="flex flex-col space-y-2">
         <div className="flex flex-row items-center space-x-2">
           <p className="font-bold text-slate-500">Time:</p>
-          <p>{row.original.timeAndWork?.morningMedicineTime}</p>
+          <p>{row.original.TimeAndWork?.morningMedicineTime}</p>
         </div>
 
         <div
@@ -140,7 +140,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     header: 'Evening Status',
     cell: ({ row }) => (
       <div>
-        <p>{row.original.timeAndWork?.eveningMedicineTime}</p>
+        <p>{row.original.TimeAndWork?.eveningMedicineTime}</p>
         <div>
           {row.original?.eveningStatus
             ? (

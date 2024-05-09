@@ -34,14 +34,14 @@ export interface FullNameProps {
 export interface ColumnProps {
   eveningStatus: any
   morningStatus: any
-  timeAndWork: any
+  TimeAndWork: any
   refillDate: MomentInput
   appointmentTime: MomentInput
   appointmentDate: any
   appointmentAgenda: any
   appointmentStatus: any
   user: any
-  patient: any
+  Patient: any
   id: any
   header: string
   accessorKey?: keyof PatientProps
@@ -96,10 +96,10 @@ export const eveningColumn: Array<ColumnDef<ColumnProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.timeAndWork?.patient?.firstName} ${row.original.timeAndWork?.patient?.middleName}`}
+          name={`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.timeAndWork?.patient?.firstName} ${row.original.timeAndWork?.patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}</p>
         </div>
       </div>
     )
@@ -111,7 +111,7 @@ export const eveningColumn: Array<ColumnDef<ColumnProps>> = [
     header: 'Evening Time',
     cell: ({ row }) => (
       <div className='flex flex-col space-y-2'>
-        <p>Medicine Time: {row.original.timeAndWork?.eveningMedicineTime}</p>
+        <p>Medicine Time: {row.original.TimeAndWork?.eveningMedicineTime}</p>
         <div>
           {row.original?.eveningStatus
             ? (

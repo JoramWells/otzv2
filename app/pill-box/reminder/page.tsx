@@ -75,7 +75,7 @@ const AppointmentPage = () => {
     })
   }, [patientsDueMorning])
 
-  console.log(morningData(), 'yut')
+  console.log(patientsDueMorning, 'yut')
 
   const [currentTime, setCurrentTime] = useState(moment())
   // useEffect(() => {

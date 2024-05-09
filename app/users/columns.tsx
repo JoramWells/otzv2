@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
@@ -24,8 +23,8 @@ export const columns: Array<ColumnDef<PatientProps>> = [
           name={`${row.original?.firstName} ${row.original?.middleName}`}
         />
         <Link
-          className="capitalize font-bold text-slate-700"
-          href={`/patients/${row.original.id}`}
+          className="capitalize font-bold text-slate-700 underline"
+          href={`/users/patients/tab/${row.original.id}`}
         >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
       </div>
     )
@@ -70,19 +69,5 @@ export const columns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'populationType',
     header: 'Population Type'
-  },
-  {
-    // accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => (
-<Button variant={'outline'}>
-        <Link
-        href={`/users/patients/${row.original.id}?tab=appointments`}
-        className="text-slate-500  hover:underline"
-      >
-        Check In
-      </Link>
-</Button>
-    )
   }
 ]

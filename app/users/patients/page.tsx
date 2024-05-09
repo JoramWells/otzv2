@@ -38,9 +38,9 @@ const Patients = () => {
   const router = useRouter()
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="w-full">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4">
+      <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
         <p className="text-xl font-bold text-slate-700">
           Manage Registered Patients
         </p>
