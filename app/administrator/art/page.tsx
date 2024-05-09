@@ -11,10 +11,20 @@ import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { useGetAllArtSwitchReasonsQuery } from '@/api/art/artSwitchReason.api'
 import { useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
 import { Button } from '@/components/ui/button'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 import Regimen from './_components/regimen/Regimen'
 import ArtCategory from './_components/ArtCategory'
 import MeasuringUnit from './_components/measuringUnit/MeasuringUnit'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
 
 const categoryList = [
   {

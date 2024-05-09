@@ -13,7 +13,15 @@ import { calculateAgeRange } from '@/utils/calculateAgeRange'
 import HeaderCategories from '../../_components/dashboard/HeaderCategories'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import dynamic from 'next/dynamic'
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
 
 interface DataPops {
   id: number

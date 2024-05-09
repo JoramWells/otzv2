@@ -10,8 +10,17 @@ import CustomSelect from '@/components/forms/CustomSelect'
 import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
 // import { useRouter } from 'next/router'
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
 
 const dataList2 = [
   {

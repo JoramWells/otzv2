@@ -14,7 +14,15 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import AddAppointmentAgenda from './_components/AddAppointmentAgenda'
 import AddAppointmentStatus from './_components/AddAppointmentStatus'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
 
 const categoryList = [
   {

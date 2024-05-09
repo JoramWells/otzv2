@@ -9,7 +9,16 @@ import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFre
 import { useState } from 'react'
 import { useGetHomeVisitReasonsQuery } from '@/api/homevisit/homeVisitReason.api'
 import { Button } from '@/components/ui/button'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
 
 const categoryList = [
   {
