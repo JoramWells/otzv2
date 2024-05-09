@@ -38,7 +38,7 @@ const ArticlesPage = () => {
   const [value, setValue] = useState('')
   const [category, setCategory] = useState('')
   const [articleCategoryID, setArticleCategoryID] = useState('')
-  const [file, setFile] = useState<File>()
+  const [file, setFile] = useState<File | undefined>()
 
   const inputValues = {
     description: category
@@ -50,7 +50,10 @@ const ArticlesPage = () => {
 
     formData.append('articleCategoryID', articleCategoryID)
     formData.append('description', value)
-    formData.append('file', file)
+    if (file != null) {
+      formData.append('file', file)
+    }
+    formData.append('file', '')
 
     // const formData = {
     //   articleCategoryID,
