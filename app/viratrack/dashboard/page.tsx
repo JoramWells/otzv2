@@ -5,8 +5,45 @@
 import { Button } from '@/components/ui/button'
 import { PlusCircle, Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import VLPieChart from '../../_components/charts/VLPieChart'
-import VLBarChart from '../../_components/charts/VLBarChart'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
+  }
+)
+
+const VLBarChart = dynamic(
+  async () => await import('../../_components/charts/VLBarChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[400px] w-[600px] rounded-lg" />
+  }
+)
+
+const VLPieChart = dynamic(
+  async () => await import('../../_components/charts/VLPieChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[400px] w-[600px] rounded-lg" />
+  }
+)
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'Patients',
+    link: ''
+  }
+]
 
 const dataList = [
   {
@@ -46,11 +83,13 @@ const NotifyPage = () => {
   const router = useRouter()
 
   return (
-    <div className="w-full p-4 flex-col flex space-y-6">
-      <div className="mb-4 flex flex-row justify-between items-center">
+    <div className="p-4">
+      <BreadcrumbComponent dataList={dataList2} />
+
+      <div className="flex flex-row justify-between items-center bg-white p-4 mt-4">
         <div>
           <p className="text-xl font-bold">Welcome to ViraTrack</p>
-
+          <p>Scheduled the following appointments</p>
         </div>
         <Button
           className="bg-teal-600 hover:bg-teal-700
@@ -64,11 +103,11 @@ const NotifyPage = () => {
           New Patient
         </Button>
       </div>
-      <div className="flex w-full justify-between flex-wrap">
+      <div className="flex w-full justify-between flex-wrap p-4">
         {dataList.map((item, idx) => (
           <div
             key={idx}
-            className="border border-slate-200 rounded-lg p-5
+            className="border-slate-200 rounded-lg p-4 bg-white
              h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
       "
             onClick={() => router.push('/notify/appointment')}
@@ -82,64 +121,18 @@ const NotifyPage = () => {
           </div>
         ))}
       </div>
-      <div className='border-b border-slate-200 w-full' />
-      <div className="">
+      <div className=" p-4 bg-white">
         <h1
-          className="font-semibold text-2xl
+          className="font-semibold text-xl
         capitalize
         "
         >
-          group Appointments
+          Analytics Appointments
         </h1>
-
-        <p>Scheduled the following appointments</p>
-      </div>
-
-      {/* <div
-        className="flex flex-row w-full justify-between
-      space-x-4
-      "
-      >
-        {['high vl', 'lu'].map((item, idx) => (
-          <div
-            key={idx}
-            className="border border-slate-100 rounded-lg p-4
-        border-l-8 border-l-teal-600 flex-1
-        "
-          >
-            <h1
-              className="capitalize text-lg
-          font-semibold
-          "
-            >
-              Support group
-            </h1>
-            <h1
-              className="capitalize
-            text-slate-500
-          "
-            >
-              Book Appointments for patient with high vl
-            </h1>
-            <p className="mt-2 text-xl font-extrabold">35,567 Patients</p>
-
-            <div className="w-full flex justify-end">
-              <Button
-                className="bg-teal-600
-            shadow-none
-            "
-              >
-                Create Appointment
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div> */}
-      <div
-      className='flex flex-row space-x-4'
-      >
-        <VLBarChart />
-        <VLPieChart />
+        <div className="flex flex-row space-x-4 mt-2">
+          <VLBarChart />
+          <VLPieChart />
+        </div>
       </div>
     </div>
   )

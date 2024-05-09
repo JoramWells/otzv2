@@ -82,7 +82,7 @@ const VLBarChart = () => {
   }
 
   return (
-    <div className="h-[400px] w-[600px] border rounded-lg">
+    <div className="h-[400px] w-[600px] bg-slate-50 rounded-lg">
       <div className="p-4 flex flex-row justify-between items-center">
         <h1 className="font-bold text-lg">Viral Load Validity</h1>
         <div className="w-[100px]">
@@ -94,7 +94,7 @@ const VLBarChart = () => {
           />
         </div>
       </div>
-      <div className="pb-10 pl-5 pr-5 w-full h-full">
+      <div className="pb-16 pl-5 pr-5 w-full h-full">
         <Bar
           data={chartData}
           options={{

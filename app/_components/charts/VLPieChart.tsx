@@ -27,7 +27,7 @@ const VLPieChart = () => {
   const [value, setValue] = useState<any>(0)
 
   return (
-    <div className="border rounded-lg h-[400px] w-[600px] ">
+    <div className="rounded-lg h-[400px] w-[600px] bg-slate-50">
       <div
         className="flex flex-row items-center justify-between
       pl-4 pr-4 pt-2
