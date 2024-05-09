@@ -38,7 +38,7 @@ const Patients = () => {
   const router = useRouter()
 
   return (
-    <div className="w-full">
+    <div className="w-full p-4">
       <BreadcrumbComponent dataList={dataList2} />
       <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
         <p className="text-xl font-bold text-slate-700">

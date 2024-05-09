@@ -16,7 +16,7 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+    loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
   }
 )
 
@@ -121,10 +121,10 @@ const NotifyPage = () => {
   }
 
   return (
-    <div className="w-full flex-col flex space-y-2">
+    <div className="w-full p-4">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="bg-white p-4">
-        <h1 className="font-bold text-2xl text-slate-700">
+      <div className="bg-white p-4 mt-2">
+        <h1 className="font-bold text-xl text-slate-700">
           Patient Management Dashboard
         </h1>
       </div>
