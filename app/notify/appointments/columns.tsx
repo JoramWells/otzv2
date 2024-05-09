@@ -13,16 +13,19 @@ export interface FullNameProps {
 }
 
 export interface ColumnProps {
+  Patient: {
+    firstName?: string
+    middleName?: string
+  }
+  appointmentDate: MomentInput
   appointmentTime: MomentInput
-  appointmentDate: any
-  appointmentAgenda: any
-  appointmentStatus: any
-  user: any
-  patient: any
-  id: any
-  header: string
-  accessorKey?: keyof PatientProps
-  // render?: (props: any) => React.ReactNode
+  AppointmentAgenda: {
+    agendaDescription: string
+  }
+  AppointmentStatus: {
+    statusDescription: string
+  }
+  id: string
 }
 
 export interface PatientProps {
@@ -44,9 +47,9 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
+          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
+        <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
       </div>
     )
   },
@@ -86,7 +89,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'appointmentAgenda',
     header: 'Appointment agenda',
     cell: ({ row }) => (
-      <p>{`${row.original.appointmentAgenda?.agendaDescription}`}</p>
+      <p>{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
     )
   },
   {
@@ -94,14 +97,14 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     header: 'APPOINTMENT STATUS',
     cell: ({ row }) => {
       const appointmentStatus =
-        row.original.appointmentStatus?.statusDescription
+        row.original.AppointmentStatus?.statusDescription
       if (appointmentStatus === 'Missed') {
         return (
           <Badge
           // colorScheme="red"
           // rounded={'full'}
           className='rounded-full'
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
+          >{appointmentStatus}</Badge>
         )
       } else if (appointmentStatus === 'Upcoming') {
         return (
@@ -109,7 +112,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
           // colorScheme="blue"
           // rounded={'full'}
           className='rounded-full bg-blue-50 text-blue-500 hover:bg-blue-50 shadow-none'
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
+          >{appointmentStatus}</Badge>
         )
       } else if (appointmentStatus === 'Pending') {
         return (
@@ -117,7 +120,7 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
           // colorScheme="orange"
           // rounded={'full'}
           className='rounded-full shadow-none bg-orange-50 text-orange-500 hover:bg-orange-50'
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
+          >{appointmentStatus}</Badge>
         )
       } else if (appointmentStatus === 'Rescheduled') {
         return (
@@ -125,13 +128,13 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
           // colorScheme="teal"
           // rounded={'full'}
           className='rounded-full bg-teal-50 text-teal-600 shadow-none  hover:bg-teal-50'
-          >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
+          >{appointmentStatus}</Badge>
         )
       } else {
         <Badge
         // rounded={'full'}
         className='rounded-full'
-        >{`${row.original.appointmentStatus?.statusDescription}`}</Badge>
+        >{appointmentStatus}</Badge>
       }
     }
   },

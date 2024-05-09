@@ -151,3 +151,65 @@ export const caregiverColumns: Array<ColumnDef<CaregiverColumnsProps>> = [
     )
   }
 ]
+
+interface LabTabProps {
+  id: string
+  firstName?: string
+  middleName?: string
+  phoneNo?: string
+  AppointmentStatus: {
+    statusDescription?: string
+  }
+  dateRequested: MomentInput
+}
+
+export const labTabColumns: Array<ColumnDef<LabTabProps>> = [
+  {
+    accessorKey: 'testName',
+    header: 'Test Name'
+    // cell: ({ row }) => (
+    //   <Link
+    //     className="capitalize font-bold text-slate-700"
+    //     href={`/patients/${row.original.id}`}
+    //   >{`${row.original.firstName} ${row.original.middleName}`}</Link>
+    // )
+  },
+  {
+    accessorKey: 'specimenType',
+    header: 'Specimen Type'
+    // cell: ({ row }) => <p>{row.original.phoneNo}</p>
+  },
+  {
+    accessorKey: 'urgency',
+    header: 'Urgency'
+    // cell: ({ row }) => <p>{row.original.phoneNo}</p>
+  },
+  {
+    accessorKey: 'dateRequested',
+    header: 'Date Requested',
+    cell: ({ row }) => <p>{moment(row.original.dateRequested).format('LL')}</p>
+  },
+  {
+    accessorKey: 'results',
+    header: 'results'
+    // cell: ({ row }) => (
+    //   <p>{moment(row.original.appointmentDate).format('LL')}</p>
+    // )
+  },
+  {
+    accessorKey: 'reason',
+    header: 'reason'
+    // cell: ({ row }) => (
+    //   <p>{moment(row.original.appointmentDate).format('LL')}</p>
+    // )
+  },
+  {
+    // accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => (
+      <div>
+        <TrashIcon />
+      </div>
+    )
+  }
+]

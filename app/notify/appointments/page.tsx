@@ -12,7 +12,15 @@ import socketIOClient, { type Socket } from 'socket.io-client'
 import { PlusCircle } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { AppointmentFilter } from './__components/AppointmentFilter'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
 
 const dataList2 = [
   {
