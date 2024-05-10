@@ -24,7 +24,7 @@ export const columns: Array<ColumnDef<PatientProps>> = [
         />
         <Link
           className="capitalize font-bold text-slate-700 underline"
-          href={`/users/patients/tab/${row.original.id}`}
+          href={`/users/patients/tab/dashboard/${row.original.id}`}
         >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
       </div>
     )

@@ -15,13 +15,28 @@ interface ItemProps {
 const data = [
   {
     id: 1,
-    label: 'Patient history'
+    label: 'Allergies'
   },
   {
     id: 2,
-    label: 'Patient Examination'
+    label: 'Chronic Illness and Cormobidites'
+  },
+  {
+    id: 3,
+    label: 'Drug Reactions'
+  },
+  {
+    id: 4,
+    label: 'Reproductive health'
+  },
+  {
+    id: 5,
+    label: 'Drug Reactions'
+  },
+  {
+    id: 6,
+    label: 'Family history'
   }
-
 ]
 
 const categoryList = [

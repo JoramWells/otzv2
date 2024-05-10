@@ -95,7 +95,7 @@ const PatientDetails = ({ params }: any) => {
         </div>
         {/*  */}
         <div className="w-1/4 bg-white rounded-lg ">
-          <p className="text-lg font-bold p-4">Current Vital Sighs</p>
+          <p className="text-lg font-bold p-4">Current Vital Signs</p>
         </div>
       </div>
     </div>

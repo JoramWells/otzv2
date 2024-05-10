@@ -43,6 +43,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   const DL: SidebarListItemsProps[] = [
     {
+      id: '11',
+      label: 'Dashboard',
+      link: `/users/patients/tab/dashboard/${patientID}`,
+      icon: <LayoutDashboardIcon size={17} />
+    },
+    {
       id: '1',
       label: 'Appointments',
       link: `/users/patients/tab/appointments/${patientID}`,
