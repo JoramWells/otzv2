@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { useState } from 'react'
@@ -62,7 +63,7 @@ const LabTab = ({ patientID }: PatientIDProps) => {
         <div
         className='p-4 bg-white rounded-lg'
         >
-          <CustomTable data={data} columns={labTabColumns} />
+          <CustomTable data={data || []} columns={labTabColumns} />
         </div>
       </div>
 

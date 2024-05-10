@@ -8,6 +8,7 @@ import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_co
 import { Sidebar } from '@/components/sidebar/Sidebar'
 import { type AvatarProps } from '@/types'
 import { generateRandomColors } from '@/utils/generateRandomColors'
+import { ChakraProvider } from '@chakra-ui/react'
 import { BookCheckIcon, BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
 import { useParams, usePathname } from 'next/navigation'
 import { useMemo, type ReactNode } from 'react'
@@ -98,35 +99,37 @@ const Layout = ({ children }: { children: ReactNode }) => {
   ]
   return (
     <div className="flex flex-row">
-      <Sidebar isSearchable={false}>
-        <div className="flex flex-col items-center h-[180px] w-full p-2">
-          {data && (
-            <div className='flex flex-col items-center  w-full rounded-lg space-y-1' >
-              <Avatar name={`${data?.firstName} ${data?.middleName}`}
+      <ChakraProvider>
+        <Sidebar isSearchable={false}>
+          <div className="flex flex-col items-center h-[180px] w-full p-2">
+            {data && (
+              <div className="flex flex-col items-center  w-full rounded-lg space-y-1">
+                <Avatar name={`${data?.firstName} ${data?.middleName}`} />
+                <p className="font-bold">
+                  {data?.firstName} {data?.middleName}
+                </p>
+                {/*  */}
+                <p className="text-slate-500 font-bold text-sm">
+                  {data?.initialRegimen}
+                </p>
 
-              />
-              <p className='font-bold'>
-                {data?.firstName} {data?.middleName}{' '}
-              </p>
-              {/*  */}
-              <p className='text-slate-500 font-bold text-sm'>{data?.initialRegimen} </p>
-
-              <p className='text-sm text-slate-500'>{data?.cccNo} </p>
-              <div className='text-slate-500 text-sm'>
-                Phone No:
-                <p>{data?.phoneNo} </p>
+                <p className="text-sm text-slate-500">{data?.cccNo} </p>
+                <div className="text-slate-500 text-sm">
+                  Phone No:
+                  <p>{data?.phoneNo} </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
+          <SidebarListItemsComponent dataList={DL} />
+        </Sidebar>
+        <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
+          {/* <Navbar /> */}
+
+          {children}
         </div>
-
-        <SidebarListItemsComponent dataList={DL} />
-      </Sidebar>
-      <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
-        {/* <Navbar /> */}
-
-        {children}
-      </div>
+      </ChakraProvider>
     </div>
   )
 }
