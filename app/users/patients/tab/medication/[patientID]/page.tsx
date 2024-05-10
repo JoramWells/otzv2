@@ -1,7 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import MedicalFileTab from '../../../_components/MedicalFileTab'
+// import MedicalFileTab from '../../../_components/MedicalFileTab'
 import { Skeleton } from '@/components/ui/skeleton'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -35,7 +35,7 @@ const Appointments = ({ params }: { params: any }) => {
         <p className='font-bold'>Allergies</p>
       </div>
 
-      <MedicalFileTab />
+      {/* <MedicalFileTab /> */}
     </div>
   )
 }
