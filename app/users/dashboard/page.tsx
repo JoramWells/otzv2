@@ -16,7 +16,7 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
+    loading: () => <Skeleton className="w-full h-[48px] rounded-lg" />
   }
 )
 
@@ -121,34 +121,34 @@ const NotifyPage = () => {
   }
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full p-2">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="bg-white p-4 mt-2">
-        <h1 className="font-bold text-xl text-slate-700">
+      <div className="bg-white p-2 mt-2 rounded-lg">
+        <h1 className="font-semibold text-xl text-slate-700 rounded-lg">
           Patient Management Dashboard
         </h1>
       </div>
-      <div className="flex w-full justify-between flex-wrap p-4">
+      <div className="flex w-full justify-between flex-wrap mt-2 mb-2 space-x-2">
         {dataList.map((item, idx) => (
           <div
             key={idx}
-            className="rounded-xl p-5 bg-white
-             h-[110px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
+            className="rounded-xl p-4 bg-white
+             h-[110px] flex flex-col w-[310px] hover:cursor-pointer hover:shadow-sm
       "
             onClick={() => router.push('/notify/appointment')}
           >
             <div className="flex flex-row items-center justify-between">
               <h1 className="font-bold">{item.label}</h1>
-              <Users size={20} />
+              <Users size={18} />
             </div>
             <p className="text-2xl font-bold text-slate-600">{item.count}</p>
             <small className="text-slate-500 text-sm">Since last month</small>
           </div>
         ))}
       </div>
-      <div className="bg-white p-4 flex flex-col space-y-2">
+      <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
         <h1
-          className="font-semibold text-xl
+          className="font-semibold text-xl mb-2
         capitalize
         "
         >
