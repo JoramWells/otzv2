@@ -4,19 +4,26 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { Users } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
 import { useMemo } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
+import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
+
+const UserDashboardCard = dynamic(
+  async () => await import('@/app/_components/UserDasboard'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[110px] rounded-lg flex-1 p-4" />
+  }
+)
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[48px] rounded-lg" />
+    loading: () => <Skeleton className="w-full h-[36px] rounded-lg" />
   }
 )
 
@@ -37,7 +44,7 @@ const PieChart = dynamic(
   }
 )
 
-const dataList = [
+const dataList: UserDashboardCardDataListProps[] = [
   {
     id: '1',
     label: 'Registered Patients',
@@ -79,7 +86,6 @@ const dataList2 = [
 
 const NotifyPage = () => {
   const { data } = useGetAllPatientsQuery()
-  const router = useRouter()
 
   const ageRanges: Array<[number, number]> = [
     [0, 9],
@@ -89,7 +95,7 @@ const NotifyPage = () => {
   ]
 
   const pieChartData = {
-    labels: ['Pediatric', 'OTZ', 'OTZ Plus', 'Adult'],
+    labels: ['PAMA', 'OTZ', 'OTZ +', 'Adult'],
     datasets: [
       {
         data: calculateAgeRange(data || [], ageRanges),
@@ -128,22 +134,9 @@ const NotifyPage = () => {
           Patient Management Dashboard
         </h1>
       </div>
-      <div className="flex w-full justify-between flex-wrap mt-2 mb-2 space-x-2">
+      <div className="flex w-full justify-between flex-wrap mt-4 mb-4 space-x-4">
         {dataList.map((item, idx) => (
-          <div
-            key={idx}
-            className="rounded-xl p-4 bg-white
-             h-[110px] flex flex-col w-[310px] hover:cursor-pointer hover:shadow-sm
-      "
-            onClick={() => router.push('/notify/appointment')}
-          >
-            <div className="flex flex-row items-center justify-between">
-              <h1 className="font-bold">{item.label}</h1>
-              <Users size={18} />
-            </div>
-            <p className="text-2xl font-bold text-slate-600">{item.count}</p>
-            <small className="text-slate-500 text-sm">Since last month</small>
-          </div>
+          <UserDashboardCard key={idx} item={item} />
         ))}
       </div>
       <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
@@ -158,7 +151,7 @@ const NotifyPage = () => {
         {/*  */}
 
         {/*  */}
-        <div className="flex justify-between space-x-4 pr-2">
+        <div className="flex justify-between space-x-4 ">
           <LineChart data={barCartData} />
 
           <PieChart data={pieChartData} />

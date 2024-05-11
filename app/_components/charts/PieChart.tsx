@@ -17,7 +17,7 @@ export interface PieChartProps {
 const SelectYears = () => (
   <Select>
     <SelectTrigger className="w-[100px] shadow-none">
-      <SelectValue placeholder="Years" />
+      <SelectValue placeholder="Year" />
     </SelectTrigger>
     <SelectContent>
       <SelectGroup>
@@ -38,7 +38,7 @@ const PieChart = ({ data }: Props) => {
       <div className="flex flex-row items-center justify-between
       pl-4 pr-4 pt-2
       ">
-          <h1 className="font-semibold">Modules</h1>
+          <h1 className="font-bold">Modules</h1>
         <SelectYears />
       </div>
       <div
