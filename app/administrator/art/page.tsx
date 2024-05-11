@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { artSwitchReasonColumns, columns } from './columns'
+import { artSwitchReasonColumns } from './columns'
 import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import { useState } from 'react'
 import { useGetAllArtSwitchReasonsQuery } from '@/api/art/artSwitchReason.api'
@@ -29,10 +30,6 @@ const categoryList = [
   {
     id: 2,
     label: 'Category'
-  },
-  {
-    id: 3,
-    label: 'Phases'
   },
   {
     id: 4,
@@ -83,10 +80,6 @@ const Art = () => {
       {/* art category */}
       {value === 'category' && <ArtCategory />}
 
-      {/* art phases */}
-      {value === 'phases' && (
-        <CustomTable columns={columns} data={data ?? []} />
-      )}
       {value === 'ART Switch Reasons'.toLowerCase() && (
         <div>
           <p className="mb-3 text-slate-700">

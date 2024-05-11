@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { Button } from '@chakra-ui/react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../../components/forms/CustomInput'
 import { useCallback, useState } from 'react'
 import { useAddArtRegimenPhaseMutation, useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { useAddArtRegimenCategoryMutation } from '@/api/art/artRegimenCategory.api'
+import CustomInput from '@/components/forms/CustomInput'
+import { Button } from '@/components/ui/button'
 
 interface PhaseProps {
   id: string
@@ -55,17 +55,13 @@ const AddArtCategory = () => {
   }
 
   return (
-    <div className="flex flex-row justify-center">
       <div
-        className="border border-gray-200
-        w-1/3 flex flex-col items-center
-      justify-center rounded-lg p-5 gap-y-4 mt-14"
-        style={{
-          width: '40%'
-        }}
-      >
+        className="bg-white
+        flex flex-col items-center
+      justify-center rounded-lg p-4 gap-y-4"
+       >
         <CustomInput
-          label="Description"
+          label="ART Category Description"
           value={artCategoryDescription}
           onChange={setArtCategoryDescription}
         />
@@ -84,15 +80,15 @@ const AddArtCategory = () => {
         />
 
         <Button
-          colorScheme="teal"
-          width={'full'}
+        className='w-full shadow-none bg-slate-200 focus:bg-slate-100 text-black'
+          // colorScheme="teal"
+          // width={'full'}
           onClick={() => addArtRegimenCategory(inputValues)}
-          isLoading={isLoading}
+          disabled={isLoading}
         >
           Add Phase
         </Button>
       </div>
-    </div>
   )
 }
 

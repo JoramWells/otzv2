@@ -9,6 +9,7 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  updatedAt: MomentInput
   measuringUnit: any
   artRegimenPhase: any
   artCategory: any
@@ -56,15 +57,20 @@ export const artCategoryColumns: Array<ColumnDef<ColumnProps>> = [
     header: 'Category Description'
   },
   {
-    accessorKey: 'artCategory',
-    header: 'ART Phase',
+    accessorKey: 'ageLine',
+    header: 'age Category'
+  },
+  {
+    accessorKey: 'artRegimenPhase',
+    header: 'ageLine',
     cell: ({ row }) => (
-      <p>{row.original.artCategory?.artCategoryDescription}</p>
+      <div>{row.original.artRegimenPhase.artPhaseDescription}</div>
     )
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated'
+    header: 'Updated',
+    cell: ({ row }) => <div>{moment(row.original.updatedAt).format('ll')}</div>
   },
   {
     // accessorKey: 'action',
