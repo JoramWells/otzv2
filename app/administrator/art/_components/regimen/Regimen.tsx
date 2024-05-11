@@ -60,10 +60,10 @@ const Regimen = () => {
   }
 
   return (
-    <div className="w-full flex flex-row space-x-4 items-start">
+    <div className="w-full flex flex-row space-x-2 items-start mt-2">
       {/* table */}
       <div
-      className='w-3/4'
+      className='w-3/5 bg-white p-4 rounded-lg'
       >
         <CustomTable columns={artColumns} data={artData || []}
         isSearch={false}
@@ -74,10 +74,10 @@ const Regimen = () => {
       <div
       //  label="NEW"
       // description='Add ART'
-      className='w-1/4 bg-white rounded-lg p-4 flex flex-col space-y-4'
+      className='w-2/5 bg-white rounded-lg p-4 flex flex-col space-y-4'
       >
         <CustomInput
-          label="Description"
+          label="ART Name"
           value={artName}
           onChange={setArtName}
         />

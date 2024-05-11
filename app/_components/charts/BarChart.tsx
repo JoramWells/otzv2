@@ -15,7 +15,7 @@ export interface BarChartProps {
 const BarChart = ({ data }: Props) => {
   return (
     <div className="h-[300px] flex-1 rounded-lg bg-slate-50">
-      <h1 className="font-bold text-lg">Enrollment</h1>
+      <h1 className="font-bold p-4">Enrollment</h1>
       <div
       className='pb-10 pl-5 pr-5 w-full h-full'
       >

@@ -5,7 +5,6 @@
 import { Chart, registerables } from 'chart.js'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
-import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { Users } from 'lucide-react'
@@ -193,9 +192,7 @@ const Dashboard = () => {
         <p className='font-bold'>Dashboard Analytics</p>
 
         <div className="flex flex-row justify-between space-x-2 mt-2">
-          <Suspense fallback={<Skeleton className="h-[320px]" />}>
             <PieChart data={pieChartData} />
-          </Suspense>
 
           <BarChart data={barCharData} />
           <LineChart data={lineChartData} />

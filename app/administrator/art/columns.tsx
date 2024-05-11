@@ -1,6 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { View } from 'lucide-react'
 import EditMeasuringUnit from './_components/measuringUnit/EditMeasuringUnit'
+import moment, { type MomentInput } from 'moment'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -13,6 +14,7 @@ interface ColumnProps {
   artCategory: any
   header: string
   accessorKey?: keyof UserProps
+  expiryDate: MomentInput
   // render?: (props: any) => React.ReactNode
 }
 
@@ -98,8 +100,9 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
   },
 
   {
-    accessorKey: 'updatedAt',
-    header: 'Updated'
+    accessorKey: 'expiryDate',
+    header: 'Expiry Date',
+    cell: ({ row }) => (<div>{moment(row.original.expiryDate).format('ll')} </div>)
   },
   {
     // accessorKey: 'action',
