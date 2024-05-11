@@ -145,6 +145,7 @@ export const artSwitchReasonColumns: Array<ColumnDef<ColumnProps>> = [
 
 //
 interface MeasuringUnitProps {
+  updatedAt: MomentInput
   id: string
   description: string
   header: string
@@ -159,7 +160,10 @@ export const artMeasuringUnit: Array<ColumnDef<MeasuringUnitProps>> = [
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated'
+    header: 'Updated',
+    cell: ({ row }) => (<div>
+      {moment(row.original.updatedAt).format('ll')}
+    </div>)
   },
   {
     // accessorKey: 'action',

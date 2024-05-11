@@ -57,9 +57,7 @@ const Art = () => {
     <div className="p-2">
       <BreadcrumbComponent dataList={dataList} />
 
-      <div
-      className='mt-2'
-      >
+      <div className="mt-4">
         <CustomTab
           setValue={setValue}
           value={value}
@@ -73,9 +71,7 @@ const Art = () => {
       {/* art category */}
       {value === 'category' && <ArtCategory />}
 
-      {value === 'ART Switch Reasons'.toLowerCase() && (
-<ArtSwitchReason />
-      )}
+      {value === 'ART Switch Reasons'.toLowerCase() && <ArtSwitchReason />}
 
       {value === 'Measuring Unit'.toLowerCase() && <MeasuringUnit />}
     </div>
