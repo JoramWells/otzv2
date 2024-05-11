@@ -1,17 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { CustomTable } from '../../_components/table/CustomTable'
-import { artSwitchReasonColumns } from './columns'
-import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import { useState } from 'react'
-import { useGetAllArtSwitchReasonsQuery } from '@/api/art/artSwitchReason.api'
 import Regimen from './_components/regimen/Regimen'
 import ArtCategory from './_components/ArtCategory'
 import MeasuringUnit from './_components/measuringUnit/MeasuringUnit'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import CustomTab from '@/components/tab/CustomTab'
+import ArtSwitchReason from './_components/regimen/ArtSwitchReason'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -43,9 +39,6 @@ const categoryList = [
 
 const Art = () => {
   const [value, setValue] = useState('art')
-
-  const { data } = useGetAllArtRegimenPhaseQuery()
-  const { data: artSwitchReasonsData } = useGetAllArtSwitchReasonsQuery()
 
   const dataList = [
     {
@@ -81,15 +74,7 @@ const Art = () => {
       {value === 'category' && <ArtCategory />}
 
       {value === 'ART Switch Reasons'.toLowerCase() && (
-        <div>
-          <p className="mb-3 text-slate-700">
-            Reasons for SWITCH to 2nd line or Higher
-          </p>
-          <CustomTable
-            columns={artSwitchReasonColumns}
-            data={artSwitchReasonsData ?? []}
-          />
-        </div>
+<ArtSwitchReason />
       )}
 
       {value === 'Measuring Unit'.toLowerCase() && <MeasuringUnit />}
