@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
@@ -298,7 +299,7 @@ export const patientVisitColumns: Array<ColumnDef<PatientProps>> = [
           name={`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}
         />
         <Link
-          className="capitalize font-semibold text-slate-700 underline text-[12px] "
+          className="capitalize font-semibold text-slate-700 text-[12px] "
           href={`/users/patients/tab/dashboard/${row.original.id}`}
         >{`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}</Link>
       </div>
@@ -344,5 +345,17 @@ export const patientVisitColumns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'populationType',
     header: 'Population Type'
+  },
+  {
+    accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => (
+      <Button
+      className=''
+      variant={'outline'}
+      >
+        <Link href={`/patients/add-triage/${row.original.id} `}>See Patient</Link>
+      </Button>
+    )
   }
 ]
