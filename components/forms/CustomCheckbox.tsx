@@ -19,12 +19,12 @@ const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) 
         className='mt-1'
         // pt={1}
       />
-      <div className="m-0 p-0">
-        <label htmlFor="checkedBox" className="font-bold text-slate-700 m-0">
+      <div className="flex flex-col">
+        <label htmlFor="checkedBox" className="font-bold text-slate-700 m-0 text-[14px] ">
           {label}
         </label>
         <span
-          className="text-slate-500 text-sm
+          className="text-slate-500 text-[12px]
         font-normal
         "
         >

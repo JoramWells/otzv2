@@ -1,8 +1,7 @@
 'use client'
-// import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../../components/forms/CustomInput'
-import CustomSelect from '../../../../components/forms/CustomSelect'
-import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
+import CustomCheckbox from '@/components/forms/CustomCheckbox'
+import CustomInput from '@/components/forms/CustomInput'
+import CustomSelect from '@/components/forms/CustomSelect'
 import { useState } from 'react'
 
 const genderOptions = [
@@ -16,42 +15,43 @@ const genderOptions = [
   }
 ]
 
-interface PersonalDetailProps {
+interface NextOfKinProps {
   firstName: string
   middleName: string
   lastName: string
   dob: string
   gender: string
   idNo: string
-  cccNo: string
-  mflCode: string
+  relationship: string
+  nextOfKinPhoneNo: string
   setFirstName: (val: string) => void
   setMiddleName: (val: string) => void
   setLastName: (val: string) => void
   setDOB: (val: string) => void
   setGender: (val: string) => void
   setIDNo: (val: string) => void
-  setCCCNo: (val: string) => void
-  setMFLCode: (val: string) => void
+  setRelationship: (val: string) => void
+  setNextOfKinPhoneNo: (val: string) => void
 }
 
-const PersonalDetail = ({
+const NextOfKin = ({
   firstName,
   middleName,
   lastName,
   dob,
   gender,
   idNo,
-  cccNo,
-  mflCode,
+  nextOfKinPhoneNo,
   setFirstName,
   setMiddleName,
   setLastName,
-  setDOB, setGender,
+  setDOB,
+  setGender,
   setIDNo,
-  setMFLCode,
-  setCCCNo
-}: PersonalDetailProps) => {
+  relationship,
+  setRelationship,
+  setNextOfKinPhoneNo
+}: NextOfKinProps) => {
   const [isTeenager, setIsTeenager] = useState<boolean>(false)
   const [isAdult, setIsAdult] = useState<boolean>(false)
 
@@ -136,18 +136,62 @@ const PersonalDetail = ({
         />
         <div className="w-full pl-7 pt-2">
           {isAdult && (
-            <CustomInput
-              label="ID No."
-              value={idNo}
-              onChange={setIDNo}
-            />
+            <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
           )}
         </div>
       </div>
 
-      <CustomInput label="CCC No." value={cccNo} onChange={setCCCNo} />
+      <CustomInput
+        label="Phone No."
+        value={nextOfKinPhoneNo}
+        onChange={setNextOfKinPhoneNo}
+      />
+
+      <CustomSelect
+        label="Relationship"
+        value={relationship}
+        onChange={setRelationship}
+        data={[
+          {
+            id: 'Partner',
+            label: 'Partner'
+          },
+          {
+            id: 'Spouse',
+            label: 'Spouse'
+          },
+          {
+            id: 'Father',
+            label: 'Father'
+          },
+          {
+            id: 'Mother',
+            label: 'Mother'
+          },
+          {
+            id: 'Sibling',
+            label: 'Sibling'
+          },
+          {
+            id: 'child',
+            label: 'child'
+          },
+          {
+            id: 'Relative',
+            label: 'Relative'
+          },
+          {
+            id: 'Guardian',
+            label: 'Guardian'
+          },
+          {
+            id: 'Friend',
+            label: 'Friend'
+          }
+        ]}
+      />
     </div>
   )
 }
 
-export default PersonalDetail
+export default NextOfKin

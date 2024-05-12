@@ -2,16 +2,14 @@
 'use client'
 import { type OccupationProps, useGetAllOccupationQuery } from '@/api/occupation.api'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../../components/forms/CustomInput'
-import { useCallback, useId, useState } from 'react'
-import CustomSelect from '../../../../components/forms/CustomSelect'
+import { useCallback, useState } from 'react'
 import { type CountyProps, useGetAllCountiesQuery } from '@/api/location/county.api'
 import { type SubCountyProps, useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
-import { type WardProps, useGetAllWardsQuery } from '@/api/location/ward.api'
+import { useGetAllWardsQuery } from '@/api/location/ward.api'
 import { useGetAllSchoolsQuery } from '@/api/school/school.api'
-import { Button } from '@/components/ui/button'
-import { Tag } from '@chakra-ui/react'
-import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
+import CustomCheckbox from '@/components/forms/CustomCheckbox'
+import CustomInput from '@/components/forms/CustomInput'
+import CustomSelect from '@/components/forms/CustomSelect'
 
 export interface LocationDetailsProps {
   phoneNo: string
@@ -99,8 +97,7 @@ const LocationDetails = ({
 
   return (
     <div
-      className="border border-gray-200
-        w-1/3 flex flex-col items-center
+      className="bg-white w-1/3 flex flex-col items-center
       justify-center rounded-lg p-5 gap-y-6 mt-2"
       style={{
         width: '100%'

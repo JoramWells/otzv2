@@ -25,7 +25,7 @@ const CustomSelect = ({
 }: SelectProps) => {
   return (
     <div className="w-full">
-      {label && <p className="mb-1 font-bold text-slate-700">{label}</p>}
+      {label && <p className="mb-1 font-bold text-slate-700 text-[14px] ">{label}</p>}
       <Select
         onValueChange={(e) => {
           onChange(e)

@@ -20,15 +20,24 @@ import {
 } from '@chakra-ui/react'
 import PersonalDetail from '@/app/_components/patient/steps/PersonalDetails'
 import LocationDetails from '@/app/_components/patient/steps/LocationDetails'
-import ArtDetails from '@/app/_components/patient/steps/ArtDetails'
 import { useAddPatientMutation } from '@/api/patient/patients.api'
 import { redirect } from 'next/navigation'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
+import NextOfKin from '@/app/_components/patient/steps/NextOfKin'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
   { title: 'Contact/Location', description: 'Contact, Location, Occupation' },
-  { title: 'ART Status', description: 'Current Regimen' }
+  { title: 'Next of Kin', description: 'Next of Kin Details' }
 ]
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[36px] rounded-lg" />
+  }
+)
 
 const itemList = [
   {
@@ -49,6 +58,19 @@ const itemList = [
   }
 ]
 
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'Patients',
+    link: ''
+  }
+]
+
 const AddPatient = () => {
   const [selected, setSelected] = useState(0)
   const [activeStep, setActiveStep] = useState(1)
@@ -63,11 +85,12 @@ const AddPatient = () => {
   const [residence, setResidence] = useState('')
   const [subCountyName, setSubCountyName] = useState('')
   const [ARTStartDate, setARTStartDate] = useState('')
-  const [originalART, setOriginalART] = useState('')
+  const [nextOfKinPhoneNo, setNextOfKinPhoneNo] = useState('')
   const [currentRegimeLine, setCurrentRegimenLine] = useState('')
   const [mflCode, setMFLCode] = useState('')
   const [cccNo, setCCCNo] = useState('')
   const [clinic, setClinic] = useState('')
+  const [relationship, setRelationship] = useState('')
 
   const inputValues = {
     firstName,
@@ -80,7 +103,6 @@ const AddPatient = () => {
     residence,
     artStartDate: ARTStartDate,
     entryPoint: clinic,
-    originalART,
     currentRegimeLine,
     cccNo,
     mflCode
@@ -120,17 +142,21 @@ const AddPatient = () => {
   console.log(data)
 
   return (
-    <div className="flex flex-row justify-center p-4 mt-12">
+    <div className="p-2">
+      <div className="mb-2">
+        <BreadcrumbComponent dataList={dataList2} />
+      </div>
       <div
+        className="block m-auto"
         style={{
-          width: '50%'
+          width: '55%'
         }}
       >
         <div
           style={{
             width: '100%'
           }}
-          className="border border-slate-200 p-2 bg-slate-50 rounded-xl"
+          className=" p-2 bg-white rounded-xl"
         >
           <Stepper index={activeStep} colorScheme="teal">
             {steps.map((step, index) => (
@@ -145,7 +171,9 @@ const AddPatient = () => {
 
                 <Box flexShrink="0">
                   <StepTitle>{step.title}</StepTitle>
-                  <StepDescription>{step.description}</StepDescription>
+                  <StepDescription className="text-[12px] ">
+                    {step.description}
+                  </StepDescription>
                 </Box>
 
                 <StepSeparator />
@@ -186,20 +214,32 @@ const AddPatient = () => {
           />
         )}
         {activeStep === 3 && (
-          <ArtDetails
-            artName={originalART}
-            dateIssued={ARTStartDate}
-            currentRegimeLine={currentRegimeLine}
-            setArtName={setOriginalART}
-            setDateIssued={setARTStartDate}
-            setCurrentRegimenLine={setCurrentRegimenLine}
-            clinic={clinic}
-            setClinic={setClinic}
+          <NextOfKin
+            firstName={firstName}
+            middleName={middleName}
+            lastName={lastName}
+            dob={DOB}
+            gender={gender}
+            idNo={IDNo}
+            setFirstName={setFirstName}
+            setMiddleName={setMiddleName}
+            setLastName={setLastName}
+            setDOB={setDOB}
+            setGender={setGender}
+            setIDNo={setIDNo}
+            relationship={relationship}
+            nextOfKinPhoneNo={nextOfKinPhoneNo}
+            setRelationship={setRelationship}
+            setNextOfKinPhoneNo={setNextOfKinPhoneNo}
           />
         )}
 
         <div className="flex justify-end pt-2 gap-x-2">
-          <Button size={'sm'} onClick={handleBack} isDisabled={activeStep === 1}>
+          <Button
+            size={'sm'}
+            onClick={handleBack}
+            isDisabled={activeStep === 1}
+          >
             Back
           </Button>
           <Button
