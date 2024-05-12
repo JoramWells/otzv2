@@ -3,7 +3,7 @@
 'use client'
 import { useCallback, useState } from 'react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../../../components/forms/CustomInput'
+import CustomInput from '../../../../components/forms/CustomInput'
 import { useAddOTZEnrollmentMutation } from '@/api/enrollment/otzEnrollment.api'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import CustomSelect from '@/components/forms/CustomSelect'

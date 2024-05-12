@@ -4,11 +4,11 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import CustomTab from '@/components/tab/CustomTab'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { useGetAllOTZEnrollmentsQuery } from '../../../api/enrollment/otzEnrollment.api'
+import { useGetAllOTZEnrollmentsQuery } from '../../api/enrollment/otzEnrollment.api'
 import { otzColumns } from './column'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-const HeaderTitle = dynamic(async () => await import('../_components/HeaderTitle'), {
+const HeaderTitle = dynamic(async () => await import('../users/_components/HeaderTitle'), {
   ssr: false
 })
 

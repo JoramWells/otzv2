@@ -4,7 +4,7 @@
 'use client'
 import { useCallback, useId, useState } from 'react'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../../../../components/forms/CustomInput'
+import CustomInput from '../../../../../components/forms/CustomInput'
 import { Button } from '@chakra-ui/react'
 import { useAddViralLoadTestMutation } from '@/api/enrollment/viralLoadTests.api'
 import CustomSelect from '@/components/forms/CustomSelect'

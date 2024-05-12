@@ -2,6 +2,7 @@
 
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import CustomInput from '@/components/forms/CustomInput'
+import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
@@ -28,6 +29,113 @@ const dataList2 = [
   }
 ]
 
+interface FamilyPlanningProps {
+  condoms: boolean
+  emergencyContraceptive: boolean
+  oralContraceptives: boolean
+  injectable: boolean
+  implant: boolean
+  iud: boolean
+  lam: boolean
+  diaphragm: boolean
+  fertilityAwareness: boolean
+  tubalLitigation: boolean
+  vasectomy: boolean
+  other: boolean
+  setEmergencyContraceptive: (val: boolean) => void
+  setOralContraceptives: (val: boolean) => void
+  setInjectable: (val: boolean) => void
+  setIUD: (val: boolean) => void
+  setLAM: (val: boolean) => void
+  setDiaphragm: (val: boolean) => void
+  setFertilityAwareness: (val: boolean) => void
+  setTubalLitigation: (val: boolean) => void
+  setCondoms: (val: boolean) => void
+  setVasectomy: (val: boolean) => void
+  setOther: (val: boolean) => void
+  setImplant: (val: boolean) => void
+}
+
+const FamilyPanning = ({
+  emergencyContraceptive,
+  setEmergencyContraceptive,
+  condoms,
+  implant,
+  setImplant,
+  diaphragm,
+  fertilityAwareness,
+  injectable,
+  iud,
+  lam,
+  oralContraceptives,
+  other,
+  setCondoms,
+  setDiaphragm,
+  setFertilityAwareness,
+  setIUD,
+  setInjectable,
+  setLAM,
+  setOralContraceptives,
+  setOther,
+  setTubalLitigation,
+  setVasectomy,
+  tubalLitigation,
+  vasectomy
+}: FamilyPlanningProps) => {
+  return (
+    <div className="pl-4 flex flex-col space-y-2">
+      <CustomCheckbox
+        label="Emergency Contraceptive"
+        value={emergencyContraceptive}
+        onChange={setEmergencyContraceptive}
+      />
+      <CustomCheckbox
+        label="OralContraceptives"
+        value={oralContraceptives}
+        onChange={setOralContraceptives}
+      />
+      <CustomCheckbox
+        label="Injectable"
+        value={injectable}
+        onChange={setInjectable}
+      />
+      <CustomCheckbox label="Implant" value={implant} onChange={setImplant} />
+      <CustomCheckbox
+        label="Intrauterine Device"
+        value={iud}
+        onChange={setIUD}
+      />
+      <CustomCheckbox
+        label="Lactational Amenorrhea Methods"
+        value={lam}
+        onChange={setLAM}
+      />
+      <CustomCheckbox
+        label="Diaphragm/Cervical Cap"
+        value={diaphragm}
+        onChange={setDiaphragm}
+      />
+      <CustomCheckbox
+        label="Fertility Awareness"
+        value={fertilityAwareness}
+        onChange={setFertilityAwareness}
+      />
+      <CustomCheckbox
+        label="Tubal Litigation"
+        value={tubalLitigation}
+        onChange={setTubalLitigation}
+      />
+      <CustomCheckbox label="Condoms" value={condoms} onChange={setCondoms} />
+      <CustomCheckbox
+        label="Vasectomy(Partner)"
+        value={vasectomy}
+        onChange={setVasectomy}
+      />
+      <CustomCheckbox label="Other" value={other} onChange={setOther} />
+    </div>
+  )
+}
+
 const Page = () => {
   const [temperature, setTemperature] = useState('')
   const [pulseRate, setPulseRate] = useState('')
@@ -39,10 +147,23 @@ const Page = () => {
   const [weight, setWeight] = useState('')
   const [MUAC, setMUAC] = useState('')
   const [LMP, setLMP] = useState('')
+  const [reason, setReason] = useState('')
   const [isPregnant, setIsPregnant] = useState(false)
   const [onFamilyPlanning, setonFamilyPanning] = useState(false)
   const [notOnFamilyPlanning, setNotOnFamilyPlanning] = useState(false)
   const [considersFamilyPlanning, setConsidersFamilyPlanning] = useState(false)
+  const [emergencyContraceptive, setEmergencyContraceptive] = useState(false)
+  const [condoms, setCondoms] = useState(false)
+  const [implant, setImplant] = useState(false)
+  const [diaphragm, setDiaphragm] = useState(false)
+  const [injectable, setInjectable] = useState(false)
+  const [iud, setIUD] = useState(false)
+  const [lam, setLAM] = useState(false)
+  const [other, setOther] = useState(false)
+  const [tubalLitigation, setTubalLitigation] = useState(false)
+  const [vasectomy, setVasectomy] = useState(false)
+  const [fertilityAwareness, setFertilityAwareness] = useState(false)
+  const [oralContraceptives, setOralContraceptives] = useState(false)
   return (
     <div className="p-2 ">
       <BreadcrumbComponent dataList={dataList2} />
@@ -116,17 +237,99 @@ const Page = () => {
             onChange={setonFamilyPanning}
           />
 
-          <CustomCheckbox
-            label="Not Using Family Planning"
-            value={notOnFamilyPlanning}
-            onChange={setNotOnFamilyPlanning}
-          />
+          {onFamilyPlanning && (
+            <FamilyPanning
+              condoms={condoms}
+              diaphragm={diaphragm}
+              emergencyContraceptive={emergencyContraceptive}
+              fertilityAwareness={fertilityAwareness}
+              implant={implant}
+              injectable={injectable}
+              iud={iud}
+              lam={lam}
+              oralContraceptives={oralContraceptives}
+              other={other}
+              setCondoms={setCondoms}
+              setDiaphragm={setDiaphragm}
+              setEmergencyContraceptive={setEmergencyContraceptive}
+              setFertilityAwareness={setFertilityAwareness}
+              setIUD={setIUD}
+              setImplant={setImplant}
+              setInjectable={setInjectable}
+              setLAM={setLAM}
+              setOralContraceptives={setOralContraceptives}
+              setOther={setOther}
+              setTubalLitigation={setTubalLitigation}
+              setVasectomy={setVasectomy}
+              tubalLitigation={tubalLitigation}
+              vasectomy={vasectomy}
+            />
+          )}
 
           <CustomCheckbox
             label="Considers Family Planning"
             value={considersFamilyPlanning}
             onChange={setConsidersFamilyPlanning}
           />
+
+          {considersFamilyPlanning && (
+            <FamilyPanning
+              condoms={condoms}
+              diaphragm={diaphragm}
+              emergencyContraceptive={emergencyContraceptive}
+              fertilityAwareness={fertilityAwareness}
+              implant={implant}
+              injectable={injectable}
+              iud={iud}
+              lam={lam}
+              oralContraceptives={oralContraceptives}
+              other={other}
+              setCondoms={setCondoms}
+              setDiaphragm={setDiaphragm}
+              setEmergencyContraceptive={setEmergencyContraceptive}
+              setFertilityAwareness={setFertilityAwareness}
+              setIUD={setIUD}
+              setImplant={setImplant}
+              setInjectable={setInjectable}
+              setLAM={setLAM}
+              setOralContraceptives={setOralContraceptives}
+              setOther={setOther}
+              setTubalLitigation={setTubalLitigation}
+              setVasectomy={setVasectomy}
+              tubalLitigation={tubalLitigation}
+              vasectomy={vasectomy}
+            />
+          )}
+
+          <CustomCheckbox
+            label="Not Using Family Planning"
+            value={notOnFamilyPlanning}
+            onChange={setNotOnFamilyPlanning}
+          />
+
+          {notOnFamilyPlanning && (
+            <div className="pl-4">
+              <CustomSelect
+              value={reason}
+              onChange={setReason}
+                data={[
+                  {
+                    id: 'Wants To get Pregnant',
+                    label: 'Wants To get Pregnant'
+                  },
+                  {
+                    id: 'Thinks cant Pregnant',
+                    label: 'Wants To get Pregnant'
+                  },
+                  {
+                    id: 'Not Sexually Active',
+                    label: 'Not Sexually Active'
+                  }
+                ]}
+              />
+            </div>
+          )}
+
           <Button className="bg bg-slate-200 text-slate-700 shadow-none">
             Save
           </Button>
