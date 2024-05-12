@@ -16,15 +16,17 @@ export interface LocationDetailsProps {
   occupation: string
   residence: string
   subCountyName: string
+  schoolName: string
   setSubCountyName: (subCounty: string) => void
   setPhoneNo: (phone: string) => void
   setOccupation: (occupation: string) => void
   setResidence: (residence: string) => void
+  setSchoolName: (residence: string) => void
 }
 
 const LocationDetails = ({
-  phoneNo, occupation, residence, subCountyName,
-  setPhoneNo, setOccupation, setResidence, setSubCountyName
+  phoneNo, occupation, residence, subCountyName, schoolName,
+  setPhoneNo, setOccupation, setResidence, setSubCountyName, setSchoolName
 }: LocationDetailsProps) => {
   const { data } = useGetAllOccupationQuery()
   const { data: countyData } = useGetAllCountiesQuery()
@@ -65,8 +67,6 @@ const LocationDetails = ({
       label: item.schoolName
     }))
   }, [schoolsData])
-
-  console.log(subCountyOptions(), 'jk')
 
   // ward options
   // const wardOptions = useCallback(() => {
@@ -143,7 +143,7 @@ const LocationDetails = ({
       >
         <CustomCheckbox
           label="Student"
-          description="Recommended for patients that are studyin"
+          description="Recommended for patients that are studying"
           value={iSStudent}
           onChange={setIsStudent}
         />
@@ -154,28 +154,11 @@ const LocationDetails = ({
               label="School Name"
               value={occupation}
               onChange={setOccupation}
-              data={occupationOptions()}
-            />
-            <CustomSelect
-              label="Level"
-              value={occupation}
-              onChange={setOccupation}
-              data={occupationOptions()}
+              data={schoolOptions()}
             />
           </div>
         )}
       </div>
-
-      {occupation === '8b326c14-2ee6-491d-a8b5-c1c2c55a5a07' && (
-        <div className="w-full bg-gray-50 rounded-md border p-2">
-          <CustomSelect
-            label="School Name"
-            value={occupation}
-            onChange={setOccupation}
-            data={schoolOptions()}
-          />
-        </div>
-      )}
 
       <CustomSelect
         label="Select County"

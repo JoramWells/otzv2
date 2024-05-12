@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -15,8 +14,7 @@ import {
   StepSeparator,
   StepStatus,
   StepTitle,
-  Stepper,
-  useSteps
+  Stepper
 } from '@chakra-ui/react'
 import PersonalDetail from '@/app/_components/patient/steps/PersonalDetails'
 import LocationDetails from '@/app/_components/patient/steps/LocationDetails'
@@ -39,25 +37,6 @@ const BreadcrumbComponent = dynamic(
   }
 )
 
-const itemList = [
-  {
-    id: 1,
-    label: 'Forms'
-  },
-  {
-    id: 2,
-    label: 'Morisky Medication Adherence Scale'
-  },
-  {
-    id: 3,
-    label: 'Disclosure Checklist'
-  },
-  {
-    id: 4,
-    label: 'Follow Up Checklist'
-  }
-]
-
 const dataList2 = [
   {
     id: '1',
@@ -72,7 +51,6 @@ const dataList2 = [
 ]
 
 const AddPatient = () => {
-  const [selected, setSelected] = useState(0)
   const [activeStep, setActiveStep] = useState(1)
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
@@ -84,13 +62,20 @@ const AddPatient = () => {
   const [IDNo, setIDNo] = useState('')
   const [residence, setResidence] = useState('')
   const [subCountyName, setSubCountyName] = useState('')
-  const [ARTStartDate, setARTStartDate] = useState('')
   const [nextOfKinPhoneNo, setNextOfKinPhoneNo] = useState('')
-  const [currentRegimeLine, setCurrentRegimenLine] = useState('')
   const [mflCode, setMFLCode] = useState('')
   const [cccNo, setCCCNo] = useState('')
-  const [clinic, setClinic] = useState('')
   const [relationship, setRelationship] = useState('')
+
+  //
+  const [schoolName, setSchoolName] = useState('')
+
+  // nofkin
+  const [kinFirstName, setKinFirstName] = useState('')
+  const [kinLastName, setKinLastName] = useState('')
+  const [kinGender, setKinGender] = useState('')
+  const [kinDOB, setKinDOB] = useState('')
+  const [kinIDNo, setKinIDNo] = useState('')
 
   const inputValues = {
     firstName,
@@ -101,9 +86,6 @@ const AddPatient = () => {
     phoneNo,
     idNo: IDNo,
     residence,
-    artStartDate: ARTStartDate,
-    entryPoint: clinic,
-    currentRegimeLine,
     cccNo,
     mflCode
   }
@@ -211,25 +193,24 @@ const AddPatient = () => {
             setOccupation={setOccupation}
             setResidence={setResidence}
             setSubCountyName={setSubCountyName}
-          />
+            schoolName={schoolName}
+            setSchoolName={setSchoolName} />
         )}
         {activeStep === 3 && (
           <NextOfKin
-            firstName={firstName}
-            middleName={middleName}
-            lastName={lastName}
-            dob={DOB}
-            gender={gender}
-            idNo={IDNo}
-            setFirstName={setFirstName}
-            setMiddleName={setMiddleName}
-            setLastName={setLastName}
-            setDOB={setDOB}
-            setGender={setGender}
-            setIDNo={setIDNo}
+            kinFirstName={kinFirstName}
+            kinLastName={kinLastName}
+            kinDOB={kinDOB}
+            kinGender={kinGender}
+            kinIDNo={kinIDNo}
+            setKinFirstName={setKinFirstName}
+            setKinLastName={setKinLastName}
+            setKinDOB={setKinDOB}
+            setKinGender={setKinGender}
+            setKinIDNo={setKinIDNo}
             relationship={relationship}
             nextOfKinPhoneNo={nextOfKinPhoneNo}
-            setRelationship={setRelationship}
+            setKinRelationship={setRelationship}
             setNextOfKinPhoneNo={setNextOfKinPhoneNo}
           />
         )}
