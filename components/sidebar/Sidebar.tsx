@@ -2,14 +2,13 @@
 import { Button } from '@/components/ui/button'
 import { useSidebar } from '@/context/SidebarContext'
 import Image from 'next/image'
-import { Input } from '@/components/ui/input'
 // import { BellIcon } from 'lucide-react'
 export const Sidebar = ({ children, isSearchable = true }: { children: React.ReactNode, isSearchable?: boolean }) => {
   const { isSidebarOpen } = useSidebar()
   return (
     <div
       className={`
-        bg-white
+        bg-[#003153]
         h-screen
         w-64
         overflow-y-auto
@@ -18,39 +17,20 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
 
     `}
     >
-      {isSearchable && (
-        <>
-          <div
-            className="p-4 flex flex-row items-center border-b border-slate-200
+      <div
+        className="p-4 flex flex-row items-center border-b border-slate-200
       justify-center"
-          >
-            <Image
-              src={'/img/logo1.svg'}
-              alt="img"
-              width={0}
-              height={0}
-              style={{ width: '90px', height: 'auto' }}
-
-              // quality={100}
-            />
-          </div>
-
-          {/* <div
-      className='flex justify-end p-2'
       >
-        <BellIcon />
-      </div> */}
+        <Image
+          src={'/img/logo1.svg'}
+          alt="img"
+          width={0}
+          height={0}
+          style={{ width: '90px', height: 'auto' }}
 
-          <div className="p-2 ">
-            <Input
-              placeholder="Search..."
-              className="rounded-full shadow-none
-        bg-slate-100 border-none
-        "
-            />
-          </div>
-        </>
-      )}
+          // quality={100}
+        />
+      </div>
 
       {children}
       {/* <div className="absolute w-full bottom-0 flex flex-col items-center p-2">
@@ -62,13 +42,15 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
       <div className="absolute p-4 bottom-0  w-full text-center">
         <div>
           <Button
-            className="w-full mb-4 shadow-none bg-slate-200
+            className="w-full mb-4 shadow-none bg-[#003153]/5
           text-slate-700 font-bold hover:bg-slate-100
           "
           >
             Login
           </Button>
-          <p className="text-sm underline">Terms and Conditions</p>
+          <p className="text-xs underline text-[#F3FAFF]">
+            Terms and Conditions
+          </p>
         </div>
       </div>
     </div>
