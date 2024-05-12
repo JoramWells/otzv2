@@ -73,6 +73,49 @@ const itemList: ItemListProps[] = [
     ]
   },
   {
+    id: '8',
+    label: 'Articles',
+    icon: <HomeIcon />,
+    link: '/articles/dashboard',
+    description:
+      'Upload, manage and add patient learning materials for E-learning',
+    listItem: [
+      {
+        id: '8',
+        label: 'Articles',
+        link: '/articles/dashboard'
+      }
+    ]
+  },
+  {
+    id: '11',
+    label: 'Enrollments',
+    icon: <LineChart />,
+    link: '/enrollment/dashboard',
+    listItem: [
+      {
+        id: '1',
+        label: 'OTZ',
+        link: '/administrator/dashboard'
+      },
+      {
+        id: '2',
+        label: 'OVC',
+        link: '/administrator/dashboard'
+      },
+      {
+        id: '3',
+        label: 'PAMA',
+        link: '/administrator/dashboard'
+      },
+      {
+        id: '3',
+        label: 'PMTCT',
+        link: '/administrator/dashboard'
+      }
+    ]
+  },
+  {
     id: '2',
     label: 'Pill Box',
     icon: <Pill />,
@@ -149,15 +192,17 @@ const itemList: ItemListProps[] = [
     ]
   },
   {
-    id: '6',
-    label: 'ViraTrack',
-    icon: <LineChart />,
-    link: '/viratrack/dashboard',
+    id: '11',
+    label: 'Patients',
+    icon: <HomeIcon />,
+    link: '/patients',
+    description:
+      'Upload, manage and add patient learning materials for E-learning',
     listItem: [
       {
-        id: '6',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        id: '8',
+        label: 'Triage',
+        link: '/patients/dashboard'
       }
     ]
   },
@@ -174,21 +219,7 @@ const itemList: ItemListProps[] = [
       }
     ]
   },
-  {
-    id: '8',
-    label: 'Articles',
-    icon: <HomeIcon />,
-    link: '/articles/dashboard',
-    description:
-      'Upload, manage and add patient learning materials for E-learning',
-    listItem: [
-      {
-        id: '8',
-        label: 'Articles',
-        link: '/articles/dashboard'
-      }
-    ]
-  },
+
   {
     id: '9',
     label: 'Lab',
@@ -210,6 +241,19 @@ const itemList: ItemListProps[] = [
     listItem: [
       {
         id: '10',
+        label: 'Dashboard',
+        link: '/administrator/dashboard'
+      }
+    ]
+  },
+  {
+    id: '6',
+    label: 'ViraTrack',
+    icon: <LineChart />,
+    link: '/viratrack/dashboard',
+    listItem: [
+      {
+        id: '6',
         label: 'Dashboard',
         link: '/administrator/dashboard'
       }

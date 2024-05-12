@@ -11,7 +11,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import multiMonthPlugin from '@fullcalendar/multimonth'
 
 import { Suspense } from 'react'
-import EditAppointmentDialog from '../../../_components/appointment/EditAppointmentDialog'
+import EditAppointmentDialog from '../../_components/appointment/EditAppointmentDialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSearchParams } from 'next/navigation'
 import { CustomTable } from '@/app/_components/table/CustomTable'

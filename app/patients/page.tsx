@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { CustomTable } from '../../_components/table/CustomTable'
-import { columns } from '../columns'
+import { CustomTable } from '../_components/table/CustomTable'
+import { columns } from '../users/columns'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'

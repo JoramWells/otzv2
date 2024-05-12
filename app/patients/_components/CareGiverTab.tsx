@@ -9,8 +9,8 @@ import { Button } from '@/components/ui/button'
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import CustomInput from '../../../../components/forms/CustomInput'
-import CustomSelect from '../../../../components/forms/CustomSelect'
+import CustomInput from '../../../components/forms/CustomInput'
+import CustomSelect from '../../../components/forms/CustomSelect'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { caregiverColumns } from './columns'
 

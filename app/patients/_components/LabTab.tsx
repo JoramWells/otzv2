@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { useState } from 'react'
-import { type PatientIDProps } from '../../../_components/lab/constants/patient'
-import HIVMonitoring from '../../../_components/lab/blood/panel/HIVMonitoring'
-import { CaseManagerDialog } from '../../../_components/patient/casemanager/CaseManagerDialog'
+import { type PatientIDProps } from '../../_components/lab/constants/patient'
+import HIVMonitoring from '../../_components/lab/blood/panel/HIVMonitoring'
+import { CaseManagerDialog } from '../../_components/patient/casemanager/CaseManagerDialog'
 import { useGetInternalLabRequestByIDQuery } from '@/api/viraload/internalLabRequest.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { labTabColumns } from './columns'
