@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
+import { useGetAllPatientVisitsQuery } from '@/api/patient/patientVisits.api'
+import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PlusCircle } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
+import { patientVisitColumns } from '../_components/columns'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -27,6 +31,8 @@ const dataList2 = [
 
 const PatientQueue = () => {
   const router = useRouter()
+  const { data } = useGetAllPatientVisitsQuery()
+  console.log(data)
   return (
     <div className='p-2' >
       <BreadcrumbComponent dataList={dataList2} />
@@ -46,6 +52,15 @@ const PatientQueue = () => {
           <PlusCircle size={18} className="mr-2" />
           New Appointment
         </Button>
+      </div>
+
+      <div
+      className='p-4 bg-white rounded-lg'
+      >
+        <CustomTable
+        data={data || []}
+        columns={patientVisitColumns}
+        />
       </div>
     </div>
   )

@@ -48,10 +48,14 @@ import { patientNotificationApi } from '@/api/notifications/patientNotification.
 import { messageTextReplyApi } from '@/api/notifications/messageTextReplies.api'
 import { articlesCategoryApi } from '@/api/articles/articlesCategory.api'
 import { articlesApi } from '@/api/articles/articles.api'
+import { nextOfKinApi } from '@/api/patient/nextOfKin.api'
+import { patientVisitsApi } from '@/api/patient/patientVisits.api'
 
 export const store = configureStore({
   reducer: {
     [patientsApi.reducerPath]: patientsApi.reducer,
+    [nextOfKinApi.reducerPath]: nextOfKinApi.reducer,
+    [patientVisitsApi.reducerPath]: patientVisitsApi.reducer,
     [vitalSignsApi.reducerPath]: vitalSignsApi.reducer,
     [artRegimenApi.reducerPath]: artRegimenApi.reducer,
     [artRegimenPhaseApi.reducerPath]: artRegimenPhaseApi.reducer,
@@ -107,6 +111,8 @@ export const store = configureStore({
       serializableCheck: false
     })
       .concat(patientsApi.middleware)
+      .concat(nextOfKinApi.middleware)
+      .concat(patientVisitsApi.middleware)
       .concat(vitalSignsApi.middleware)
       .concat(artRegimenApi.middleware)
       .concat(artRegimenPhaseApi.middleware)

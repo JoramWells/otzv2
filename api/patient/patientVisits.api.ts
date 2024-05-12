@@ -1,0 +1,60 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
+
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+interface Post {
+  id: number
+  name: string
+}
+
+type PostsResponse = Post[]
+
+export const patientVisitsApi = createApi({
+  reducerPath: 'patientVisitsApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/patient-visits`
+    // prepareHeaders (headers, { getState }) {
+    //   // Add your custom headers here
+    //   if (process.env.NEXT_PUBLIC_API_URL !== undefined) {
+    //     headers.set('Access-Control-Allow-Origin', process.env.NEXT_PUBLIC_API_URL)
+    //     return headers
+    //   }
+    // }
+  }),
+  endpoints: (builder) => ({
+    getAllPatientVisits: builder.query<any, void>({
+      query: () => 'fetchAll'
+    }),
+    addPatientVisit: builder.mutation({
+      query: (newUser) => ({
+        url: 'add',
+        method: 'POST',
+        body: newUser
+      })
+    }),
+    getPatientVisit: builder.query({
+      query: (id) => `detail/${id}`
+    }),
+    updatePatientVisit: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: `edit/${id}`,
+        method: 'PUT',
+        body: patch
+      })
+    }),
+    deletePatientVisit: builder.mutation({
+      query (id) {
+        return {
+          url: `delete/${id}`,
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
+
+export const {
+  useGetAllPatientVisitsQuery, useUpdatePatientVisitMutation,
+  useDeletePatientVisitMutation, useAddPatientVisitMutation, useGetPatientVisitQuery
+} = patientVisitsApi

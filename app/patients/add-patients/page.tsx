@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
@@ -19,10 +20,10 @@ import {
 import PersonalDetail from '@/app/_components/patient/steps/PersonalDetails'
 import LocationDetails from '@/app/_components/patient/steps/LocationDetails'
 import { useAddPatientMutation } from '@/api/patient/patients.api'
-import { redirect } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import NextOfKin from '@/app/_components/patient/steps/NextOfKin'
+import { useToast } from '@/components/ui/use-toast'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
@@ -51,6 +52,8 @@ const dataList2 = [
 ]
 
 const AddPatient = () => {
+//
+  const { toast } = useToast()
   const [activeStep, setActiveStep] = useState(1)
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
@@ -81,13 +84,23 @@ const AddPatient = () => {
     firstName,
     middleName,
     lastName,
-    sex: gender,
-    dob: DOB,
+    gender,
+    DOB,
     phoneNo,
     idNo: IDNo,
     residence,
     cccNo,
-    mflCode
+    mflCode,
+    schoolName,
+    subCountyName,
+
+    kinFirstName,
+    kinLastName,
+    kinGender,
+    kinDOB,
+    kinIDNo,
+    relationship,
+    nextOfKinPhoneNo
   }
 
   // const { activeStep } = useSteps({
@@ -116,12 +129,9 @@ const AddPatient = () => {
 
   useEffect(() => {
     if (data) {
-      redirect(
-        `/patients/${data.id}?tab=appointments`
-      )
+      console.log(data, 'data')
     }
   }, [data])
-  console.log(data)
 
   return (
     <div className="p-2">
