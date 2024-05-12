@@ -195,14 +195,19 @@ const itemList: ItemListProps[] = [
     id: '11',
     label: 'Patients',
     icon: <HomeIcon />,
-    link: '/patients',
+    link: '/patients/dashboard',
     description:
       'Upload, manage and add patient learning materials for E-learning',
     listItem: [
       {
-        id: '8',
+        id: '1',
         label: 'Triage',
-        link: '/patients/dashboard'
+        link: '/patients/triage'
+      },
+      {
+        id: '2',
+        label: 'Queue',
+        link: '/patients/patient-queue'
       }
     ]
   },

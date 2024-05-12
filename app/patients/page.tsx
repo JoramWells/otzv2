@@ -2,18 +2,18 @@
 'use client'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { CustomTable } from '../_components/table/CustomTable'
-import { columns } from '../users/columns'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
+import { patientColumns } from './_components/columns'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+    loading: () => <Skeleton className="w-full h-[36px] rounded-none" />
   }
 )
 
@@ -38,10 +38,10 @@ const Patients = () => {
   const router = useRouter()
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full p-2">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
-        <p className="text-xl font-bold text-slate-700">
+      {/* <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
+        <p className="text-[14px] font-bold text-slate-700">
           Manage Registered Patients
         </p>
         <Button
@@ -55,21 +55,18 @@ const Patients = () => {
           <PlusCircle size={18} className="mr-2" />
           New Patient
         </Button>
-      </div>
+      </div> */}
 
       <Suspense fallback={<Skeleton className="w-full" />}>
-        <div
-        className='p-4 w-full'
-        >
-          <div className="bg-white w-full p-4 rounded-lg">
+
+          <div className="bg-white w-full p-4 rounded-lg mt-4">
             <CustomTable
-              columns={columns}
+              columns={patientColumns}
               data={data || []}
               isLoading={isLoading}
               // isSearch
             />
           </div>
-        </div>
       </Suspense>
     </div>
   )

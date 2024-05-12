@@ -11,45 +11,27 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BookCheckIcon, BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
+import { LayoutDashboardIcon, Thermometer, WatchIcon } from 'lucide-react'
 import { useParams, usePathname } from 'next/navigation'
 
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: '/users/dashboard',
+    link: '/patients/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
     id: '2',
-    label: 'Caregivers',
-    link: '/users/caregivers',
-    icon: <HeartHandshake size={17} />
-  },
-  {
-    id: '3',
-    label: 'Case Managers',
-    link: '/users/casemanagers',
-    icon: <InspectionPanel size={17} />
+    label: 'Patient Queue',
+    link: '/patients/patient-queue',
+    icon: <WatchIcon size={17} />
   },
   {
     id: '4',
-    label: 'Patients',
-    link: '/users/patients',
-    icon: <Users size={17} />
-  },
-  {
-    id: '5',
-    label: 'Enrollments',
-    link: '/users/enrollment',
-    icon: <BookCheckIcon size={17} />
-  },
-  {
-    id: '6',
-    label: 'Reports',
-    link: 'viratrack/reports',
-    icon: <BookCopy size={17} />
+    label: 'Triage',
+    link: '/patients/triage',
+    icon: <Thermometer size={17} />
   }
 ]
 
@@ -60,17 +42,17 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
 
   const pathname = usePathname()
   if (
-    pathname === `/users/patients/tab/dashboard/${patientID}` ||
-    pathname === `/users/patients/tab/appointments/${patientID}` ||
-    pathname === `/users/patients/tab/caregivers/${patientID}` ||
-    pathname === `/users/patients/tab/casemanagers/${patientID}` ||
-    pathname === `/users/patients/tab/homevisit/${patientID}` ||
-    pathname === `/users/patients/tab/lab/${patientID}` ||
-    pathname === `/users/patients/tab/pharmacy/${patientID}` ||
-    pathname === `/users/patients/tab/medication/${patientID}` ||
-    pathname === `/users/patients/tab/messages/${patientID}` ||
-    pathname === `/users/patients/tab/settings/${patientID}` ||
-    pathname === `/users/patients/tab/steps/${patientID}`
+    pathname === `/patients/tab/dashboard/${patientID}` ||
+    pathname === `/patients/tab/appointments/${patientID}` ||
+    pathname === `/patients/tab/caregivers/${patientID}` ||
+    pathname === `/patients/tab/casemanagers/${patientID}` ||
+    pathname === `/patients/tab/homevisit/${patientID}` ||
+    pathname === `/patients/tab/lab/${patientID}` ||
+    pathname === `/patients/tab/pharmacy/${patientID}` ||
+    pathname === `/patients/tab/medication/${patientID}` ||
+    pathname === `/patients/tab/messages/${patientID}` ||
+    pathname === `/patients/tab/settings/${patientID}` ||
+    pathname === `/patients/tab/steps/${patientID}`
   ) {
     return (
       <Provider store={store}>
