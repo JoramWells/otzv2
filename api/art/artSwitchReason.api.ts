@@ -8,7 +8,7 @@ export interface ArtProps {
 export const artSwitchReasonApi = createApi({
   reducerPath: 'artSwitchReasonApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/art-switch-reason`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/art-switch-reason`
   }),
   endpoints: (builder) => ({
     getAllArtSwitchReasons: builder.query<any, void>({

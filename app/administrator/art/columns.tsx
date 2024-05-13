@@ -62,10 +62,10 @@ export const artCategoryColumns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'artRegimenPhase',
-    header: 'ageLine',
-    cell: ({ row }) => (
-      <div>{row.original.artRegimenPhase.artPhaseDescription}</div>
-    )
+    header: 'ageLine'
+    // cell: ({ row }) => (
+    //   <div>{row.original?.artRegimenPhase?.artPhaseDescription}</div>
+    // )
   },
   {
     accessorKey: 'updatedAt',
@@ -90,10 +90,10 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'artRegimenPhase',
-    header: 'ART Phase',
-    cell: ({ row }) => (
-      <p>{row.original.artCategory.artRegimenPhase?.artPhaseDescription}</p>
-    )
+    header: 'ART Phase'
+    // cell: ({ row }) => (
+    //   <p>{row.original?.artCategory.artRegimenPhase?.artPhaseDescription}</p>
+    // )
   },
   {
     accessorKey: 'measuringUnit',

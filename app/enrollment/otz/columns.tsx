@@ -2,12 +2,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import moment from 'moment/moment'
 import { Avatar, Tag } from '@chakra-ui/react'
-import { MoreHorizontal, MoreHorizontalIcon } from 'lucide-react'
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -46,10 +41,10 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         <Avatar
           size={'sm'}
           className="font-bold"
-          name={`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}
+          name={`${props.row.original.Patient?.firstName} ${props.row.original.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${props.row.original.patient?.firstName} ${props.row.original.patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${props.row.original.Patient?.firstName} ${props.row.original.Patient?.middleName}`}</p>
           <p className="uppercase text-slate-500 font-sm mt-1">
             {`${props.row.original.patient?.sex === 'M' ? 'Male' : 'Female'}`} .{' '}
             {moment().diff(
@@ -108,42 +103,6 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         className='text-xs'
         >{moment(new Date(row.original.currentARTStartDate)).format('ll')}</p> */}
       </div>
-    )
-  },
-  {
-    // accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <MoreHorizontal
-            size={20}
-            className="hover:cursor-pointer text-slate-500 hover: hover:text-slate-600"
-          />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuGroup>
-            <DropdownMenuItem>Enrollment Details</DropdownMenuItem>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>
-              <Dialog>
-                <DialogTrigger asChild>
-                  {/* <Button variant="outline">Edit Profile</Button> */}
-                  <MoreHorizontalIcon />
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogTitle>Edit profile</DialogTitle>
-                    <DialogDescription>
-                      Make changes to your profile here. Click save when you
-                      done.
-                    </DialogDescription>
-
-                </DialogContent>
-              </Dialog>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
     )
   }
 ]

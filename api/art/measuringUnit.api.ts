@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const measuringUnitApi = createApi({
   reducerPath: 'measuringUnitApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/measuring-unit`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/measuring-unit`
   }),
   endpoints: (builder) => ({
     getAllMeasuring: builder.query<any, void>({
