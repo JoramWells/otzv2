@@ -53,13 +53,8 @@ const PrimaryCareGiver = ({ params }: any) => {
 
   return (
     <div
-      className="border border-gray-200
-        w-1/3 flex flex-col items-center mt-2
-      justify-center rounded-lg p-5 gap-y-6"
-      style={{
-        width: '100%'
-      }}
-    >
+      className="bg-white w-full flex flex-col items-center mt-2
+      justify-center rounded-lg p-5 gap-y-6">
 
       <div
       className='w-full'

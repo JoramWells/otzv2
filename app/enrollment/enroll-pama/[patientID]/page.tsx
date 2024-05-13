@@ -19,6 +19,29 @@ import {
 import { useAddPatientMutation } from '@/api/patient/patients.api'
 import StatusAtEnrollmentToPAMA from '@/app/_components/pama/StatusAtEnrollmentToPama'
 import PrimaryCareGiver from '@/app/_components/pama/PrimaryCaregiver'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[38px] rounded-none" />
+  }
+)
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'enrollments',
+    link: 'enrollments'
+  }
+]
 
 const steps = [
   { title: 'Status', description: 'Status at Enrollment' },
@@ -101,57 +124,60 @@ const AddPatient = () => {
   const [addPatient, { isLoading }] = useAddPatientMutation()
 
   return (
-    <div className="pt-14 ml-64 flex flex-row justify-center">
-      <div
-        style={{
-          width: '45%'
-        }}
-      >
+    <div className="p-2">
+      <BreadcrumbComponent dataList={dataList2} />
+
+      <div className='flex justify-center mt-2'>
         <div
           style={{
-            width: '100%'
+            width: '50%'
           }}
-          className="border border-slate-200 p-2 bg-slate-50 rounded-xl"
         >
-          <Stepper index={activeStep} colorScheme="teal">
-            {steps.map((step, index) => (
-              <Step key={index}>
-                <StepIndicator>
-                  <StepStatus
-                    complete={<StepIcon />}
-                    incomplete={<StepNumber />}
-                    active={<StepNumber />}
-                  />
-                </StepIndicator>
+          <div
+            style={{
+              width: '100%'
+            }}
+            className="bg-white p-2  rounded-lg"
+          >
+            <Stepper index={activeStep} colorScheme="teal">
+              {steps.map((step, index) => (
+                <Step key={index}>
+                  <StepIndicator>
+                    <StepStatus
+                      complete={<StepIcon />}
+                      incomplete={<StepNumber />}
+                      active={<StepNumber />}
+                    />
+                  </StepIndicator>
 
-                <Box flexShrink="0">
-                  <StepTitle>{step.title}</StepTitle>
-                  <StepDescription>{step.description}</StepDescription>
-                </Box>
+                  <Box flexShrink="0">
+                    <StepTitle>{step.title}</StepTitle>
+                    <StepDescription>{step.description}</StepDescription>
+                  </Box>
 
-                <StepSeparator />
-              </Step>
-            ))}
-          </Stepper>
-        </div>
-        {activeStep === 1 && (
-          <StatusAtEnrollmentToPAMA
-          //   firstName={firstName}
-          //   middleName={middleName}
-          //   lastName={lastName}
-          //   dob={DOB}
-          //   gender={gender}
-          //   idNo={IDNo}
-          //   setFirstName={setFirstName}
-          //   setMiddleName={setMiddleName}
-          //   setLastName={setLastName}
-          //   setDOB={setDOB}
-          //   setGender={setGender}
-          //   setIDNo={setIDNo}
-          />
-        )}
-        {activeStep === 2 && (
-          <PrimaryCareGiver
+                  <StepSeparator />
+                </Step>
+              ))}
+            </Stepper>
+          </div>
+          {activeStep === 1 && (
+            <StatusAtEnrollmentToPAMA
+            //   firstName={firstName}
+            //   middleName={middleName}
+            //   lastName={lastName}
+            //   dob={DOB}
+            //   gender={gender}
+            //   idNo={IDNo}
+            //   setFirstName={setFirstName}
+            //   setMiddleName={setMiddleName}
+            //   setLastName={setLastName}
+            //   setDOB={setDOB}
+            //   setGender={setGender}
+            //   setIDNo={setIDNo}
+            />
+          )}
+          {activeStep === 2 && (
+            <PrimaryCareGiver
             // phoneNo={phoneNo}
             // occupation={occupation}
             // residence={residence}
@@ -160,27 +186,28 @@ const AddPatient = () => {
             // setOccupation={setOccupation}
             // setResidence={setResidence}
             // setSubCountyName={setSubCountyName}
-          />
-        )}
+            />
+          )}
 
-        <div className="flex justify-end pt-2 gap-x-2">
-          <Button
-            size={'sm'}
-            onClick={handleBack}
-            isDisabled={activeStep === 1}
-          >
-            Back
-          </Button>
-          <Button
-            colorScheme="teal"
-            size={'sm'}
-            onClick={() => {
-              handleNext()
-            }}
-            isLoading={isLoading}
-          >
-            {activeStep === 2 ? 'Complete' : 'Next'}
-          </Button>
+          <div className="flex justify-end pt-2 gap-x-2">
+            <Button
+              size={'sm'}
+              onClick={handleBack}
+              isDisabled={activeStep === 1}
+            >
+              Back
+            </Button>
+            <Button
+              colorScheme="teal"
+              size={'sm'}
+              onClick={() => {
+                handleNext()
+              }}
+              isLoading={isLoading}
+            >
+              {activeStep === 2 ? 'Complete' : 'Next'}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
