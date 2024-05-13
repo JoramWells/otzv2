@@ -19,7 +19,7 @@ const ageLineOptions = [
   }
 ]
 
-const artPhase = [
+const artPhaseOptions = [
   {
     id: 'first line',
     label: 'First Line'
@@ -36,14 +36,14 @@ const artPhase = [
 
 const AddArtCategory = () => {
   const [artCategoryDescription, setArtCategoryDescription] = useState('')
-  const [artPhaseID, setArtPhaseID] = useState('')
   const [ageLine, setAgeLine] = useState('')
+  const [artPhase, setArtPhase] = useState('')
   const [addArtRegimenCategory, { isLoading }] =
     useAddArtRegimenCategoryMutation()
 
   const inputValues = {
     artCategoryDescription,
-    artPhaseID,
+    artPhase,
     ageLine
   }
 
@@ -67,9 +67,9 @@ const AddArtCategory = () => {
 
         <CustomSelect
           label="Select ART Phase"
-          data={artPhase}
-          value={artPhaseID}
-          onChange={setArtPhaseID}
+          data={artPhaseOptions}
+          value={artPhase}
+          onChange={setArtPhase}
         />
 
         <Button

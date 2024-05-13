@@ -14,7 +14,7 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[36px] rounded-lg" />
+    loading: () => <Skeleton className="w-full h-[38px] rounded-lg" />
   }
 )
 
@@ -44,7 +44,7 @@ const Art = () => {
     {
       id: '1',
       label: 'home',
-      link: ''
+      link: '/'
     },
     {
       id: '2',

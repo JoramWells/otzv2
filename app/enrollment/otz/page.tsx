@@ -11,7 +11,7 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+    loading: () => <Skeleton className="w-full h-[38px] rounded-none" />
   }
 )
 
@@ -33,11 +33,11 @@ const OTZ = () => {
   console.log(data, 'dtc')
 
   return (
-    <div className="pt-2">
+    <div className="p-2">
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="p-5">
-        <p className="mb-4 text-xl text-slate-700">OTZ Patients</p>
+      <div className="p-4 bg-white rounded-lg mt-4">
+        <p className="mb-2 text-lg text-slate-700 font-bold">OTZ Patients</p>
         <CustomTable columns={columns} data={data || []} />
       </div>
     </div>

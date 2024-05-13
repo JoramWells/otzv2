@@ -61,7 +61,7 @@ export const artCategoryColumns: Array<ColumnDef<ColumnProps>> = [
     header: 'age Category'
   },
   {
-    accessorKey: 'artRegimenPhase',
+    accessorKey: 'artPhase',
     header: 'ageLine'
     // cell: ({ row }) => (
     //   <div>{row.original?.artRegimenPhase?.artPhaseDescription}</div>
@@ -130,7 +130,8 @@ export const artSwitchReasonColumns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated'
+    header: 'Updated',
+    cell: ({ row }) => (<div>{moment(row.original.updatedAt).format('ll')} </div>)
   },
   {
     // accessorKey: 'action',

@@ -45,14 +45,6 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         />
         <div>
           <p className="capitalize font-semibold">{`${props.row.original.Patient?.firstName} ${props.row.original.Patient?.middleName}`}</p>
-          <p className="uppercase text-slate-500 font-sm mt-1">
-            {`${props.row.original.patient?.sex === 'M' ? 'Male' : 'Female'}`} .{' '}
-            {moment().diff(
-              moment(new Date(props.row.original.patient?.dob)).format('ll'),
-              'years'
-            )}{' '}
-            yrs
-          </p>
         </div>
       </div>
     )
