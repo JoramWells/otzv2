@@ -35,6 +35,8 @@ const Patients = () => {
   const { data, isLoading } = useGetAllPatientsQuery()
   // otz
 
+  // console.log(data, 'dtx')
+
   const router = useRouter()
 
   return (

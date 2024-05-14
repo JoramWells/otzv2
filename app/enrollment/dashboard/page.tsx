@@ -15,13 +15,13 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[36px] rounded-lg" />
+    loading: () => <Skeleton className="w-full h-[38px] rounded-lg" />
   }
 )
 
 //
-const HeaderCategories = dynamic(
-  async () => await import('@/app/_components/dashboard/HeaderCategories'),
+const EnrollmentHeader = dynamic(
+  async () => await import('../_components/EnrollmentHeader'),
   {
     ssr: false,
     loading: () => <Skeleton className="flex-1 h-[110px] rounded-lg" />
@@ -150,21 +150,28 @@ const Dashboard = () => {
   const listItems: HeaderCategoriesProps[] = [
     {
       id: '1',
-      title: 'Total Number of Patients',
+      title: 'OTZ',
       icon: <Users size={18} />,
       count: '45, 894',
       description: 'Since last month'
     },
     {
       id: '2',
-      title: 'Active Patients',
+      title: 'OVC',
       icon: <Users size={18} />,
       count: '45, 894',
       description: 'Since last month'
     },
     {
       id: '3',
-      title: 'Available drugs',
+      title: 'PAMA',
+      icon: <Users size={18} />,
+      count: '45, 894',
+      description: 'Since last month'
+    },
+    {
+      id: '4',
+      title: 'PMTCT',
       icon: <Users size={18} />,
       count: '45, 894',
       description: 'Since last month'
@@ -177,7 +184,7 @@ const Dashboard = () => {
       <BreadcrumbComponent dataList={dataList} />
       <div className="mt-2 mb-2 flex justify-between space-x-2">
         {listItems.map((item: HeaderCategoriesProps) => (
-          <HeaderCategories
+          <EnrollmentHeader
             key={item.id}
             id={item.id}
             count={item.count}
