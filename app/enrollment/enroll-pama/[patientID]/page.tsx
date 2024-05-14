@@ -67,7 +67,8 @@ const itemList = [
   }
 ]
 
-const AddPatient = () => {
+const AddPatient = ({ params }: any) => {
+  const { patientID } = params
   const [selected, setSelected] = useState(0)
   const [activeStep, setActiveStep] = useState(1)
   const [firstName, setFirstName] = useState('')
@@ -162,6 +163,7 @@ const AddPatient = () => {
           </div>
           {activeStep === 1 && (
             <StatusAtEnrollmentToPAMA
+            patientID={patientID}
             //   firstName={firstName}
             //   middleName={middleName}
             //   lastName={lastName}
@@ -178,6 +180,7 @@ const AddPatient = () => {
           )}
           {activeStep === 2 && (
             <PrimaryCareGiver
+            patientID={patientID}
             // phoneNo={phoneNo}
             // occupation={occupation}
             // residence={residence}

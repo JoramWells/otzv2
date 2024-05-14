@@ -71,7 +71,7 @@ const PersonalDetail = ({
         width: '100%'
       }}
     >
-      <div className="flex flex-row justify-between space-x-4">
+      <div className="flex flex-row w-full justify-between space-x-4">
         <CustomInput
           label="First Name"
           value={firstName}
