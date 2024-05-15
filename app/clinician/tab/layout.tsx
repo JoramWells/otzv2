@@ -61,18 +61,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
       icon: <HeartHandshake size={17} />
     },
     {
-      id: '3',
-      label: 'Case Managers',
-      link: `/users/patients/tab/casemanagers/${patientID}`,
-      icon: <InspectionPanel size={17} />
-    },
-    {
-      id: '4',
-      label: 'Home Visits',
-      link: `/users/patients/tab/homevisit/${patientID}`,
-      icon: <Users size={17} />
-    },
-    {
       id: '5',
       label: 'Lab',
       link: `/users/patients/tab/lab/${patientID}`,
@@ -94,12 +82,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
       id: '8',
       label: 'Messages',
       link: `/users/patients/tab/messages/${patientID}`,
-      icon: <BookCopy size={17} />
-    },
-    {
-      id: '10',
-      label: 'Settings',
-      link: `/users/patients/tab/settings/${patientID}`,
       icon: <BookCopy size={17} />
     }
   ]

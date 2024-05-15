@@ -18,19 +18,19 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: '/patients/dashboard',
+    link: '/clinician/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
     id: '2',
     label: 'Patient Queue',
-    link: '/patients/patient-queue',
+    link: '/clinician/patient-queue',
     icon: <WatchIcon size={17} />
   },
   {
     id: '4',
     label: 'Triage',
-    link: '/patients/triage',
+    link: '/clinician/triage',
     icon: <Thermometer size={17} />
   }
 ]
@@ -42,17 +42,17 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
 
   const pathname = usePathname()
   if (
-    pathname === `/patients/tab/dashboard/${patientID}` ||
-    pathname === `/patients/tab/appointments/${patientID}` ||
-    pathname === `/patients/tab/caregivers/${patientID}` ||
-    pathname === `/patients/tab/casemanagers/${patientID}` ||
-    pathname === `/patients/tab/homevisit/${patientID}` ||
-    pathname === `/patients/tab/lab/${patientID}` ||
-    pathname === `/patients/tab/pharmacy/${patientID}` ||
-    pathname === `/patients/tab/medication/${patientID}` ||
-    pathname === `/patients/tab/messages/${patientID}` ||
-    pathname === `/patients/tab/settings/${patientID}` ||
-    pathname === `/patients/tab/steps/${patientID}`
+    pathname === `/clinician/tab/dashboard/${patientID}` ||
+    pathname === `/clinician/tab/appointments/${patientID}` ||
+    pathname === `/clinician/tab/caregivers/${patientID}` ||
+    pathname === `/clinician/tab/casemanagers/${patientID}` ||
+    pathname === `/clinician/tab/homevisit/${patientID}` ||
+    pathname === `/clinician/tab/lab/${patientID}` ||
+    pathname === `/clinician/tab/pharmacy/${patientID}` ||
+    pathname === `/clinician/tab/medication/${patientID}` ||
+    pathname === `/clinician/tab/messages/${patientID}` ||
+    pathname === `/clinician/tab/settings/${patientID}` ||
+    pathname === `/clinician/tab/steps/${patientID}`
   ) {
     return (
       <Provider store={store}>

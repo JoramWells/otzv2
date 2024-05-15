@@ -300,7 +300,7 @@ export const patientVisitColumns: Array<ColumnDef<PatientProps>> = [
         />
         <Link
           className="capitalize font-semibold text-slate-700 text-[12px] "
-          href={`/users/patients/tab/dashboard/${row.original.id}`}
+          href={`/users/clinician/tab/dashboard/${row.original.id}`}
         >{`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}</Link>
       </div>
     )
@@ -354,7 +354,7 @@ export const patientVisitColumns: Array<ColumnDef<PatientProps>> = [
       className=''
       variant={'outline'}
       >
-        <Link href={`/patients/add-triage/${row.original?.Patient?.id}?appointmentID=${row.original?.id} `}>See Patient</Link>
+        <Link href={`/clinician/tab/steps/${row.original?.Patient?.id}?appointmentID=${row.original?.id} `}>See Patient</Link>
       </Button>
     )
   }
