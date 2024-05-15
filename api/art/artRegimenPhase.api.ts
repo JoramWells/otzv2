@@ -8,7 +8,7 @@ export interface ArtProps {
 export const artRegimenPhaseApi = createApi({
   reducerPath: 'artRegimenPhaseApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/art-regimen-phase`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/art-regimen-phase`
   }),
   endpoints: (builder) => ({
     getAllArtRegimenPhase: builder.query<any, void>({

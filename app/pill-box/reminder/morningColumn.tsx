@@ -35,14 +35,14 @@ export interface FullNameProps {
 export interface ColumnProps {
   eveningStatus: any
   morningStatus: any
-  timeAndWork: any
+  TimeAndWork: any
   refillDate: MomentInput
   appointmentTime: MomentInput
   appointmentDate: any
   appointmentAgenda: any
   appointmentStatus: any
   user: any
-  patient: any
+  Patient: any
   id: any
   header: string
   accessorKey?: keyof PatientProps
@@ -97,10 +97,10 @@ export const morningColumn: Array<ColumnDef<ColumnProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.timeAndWork?.patient?.firstName} ${row.original.timeAndWork?.patient?.middleName}`}
+          name={`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.timeAndWork?.patient?.firstName} ${row.original.timeAndWork?.patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}</p>
         </div>
       </div>
     )
@@ -113,7 +113,7 @@ export const morningColumn: Array<ColumnDef<ColumnProps>> = [
       <div className="flex flex-col space-y-2">
         <div className="flex flex-row items-center space-x-2">
           <p className="font-bold text-slate-500">Time:</p>
-          <p>{row.original.timeAndWork?.morningMedicineTime}</p>
+          <p>{row.original.TimeAndWork?.morningMedicineTime}</p>
         </div>
 
         <div

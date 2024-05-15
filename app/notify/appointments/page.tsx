@@ -12,6 +12,28 @@ import socketIOClient, { type Socket } from 'socket.io-client'
 import { PlusCircle } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { AppointmentFilter } from './__components/AppointmentFilter'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'Dashboard',
+    link: ''
+  }
+]
 
 const AppointmentPage = () => {
   const searchParams = useSearchParams()
@@ -98,8 +120,9 @@ const AppointmentPage = () => {
   console.log(data, 'ty')
 
   return (
-    <div className="p-4 bg-slate-50">
-      <div className="flex flex-row mb-4 justify-between ">
+    <div className="bg-slate-50 ">
+      <BreadcrumbComponent dataList={dataList2} />
+      <div className="flex flex-row justify-between p-4 bg-white mt-2">
         <h1 className="text-2xl font-semibold">Appointments</h1>
         <Button
           className="bg-teal-600 hover:bg-teal-700 shadow-none
@@ -112,24 +135,20 @@ const AppointmentPage = () => {
       </div>
 
       {/* tab navigation */}
-      <div
-      className='w-full bg-white rounded-lg'
-      >
+      <div className="w-full p-4 flex flex-col space-y-2">
         <CustomTab
           categoryList={categoryList}
           setValue={setValue}
           value={value}
         />
-      </div>
 
-      {value === 'all' && (
-        <div
-        className='bg-white p-2 rounded-lg'
-        >
-          <AppointmentFilter />
-          <CustomTable columns={columns} data={data || []} />
-        </div>
-      )}
+        {value === 'all' && (
+          <div className="bg-white rounded-lg p-4">
+            <AppointmentFilter />
+            <CustomTable columns={columns} data={data || []} />
+          </div>
+        )}
+      </div>
 
       {/* {value === 2 && (
         <AppointmentStatusTab

@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const viralLoadApi = createApi({
   reducerPath: 'viralLoadApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8080/api/lab/viral-load-tests'
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/lab/viral-load-tests`
   }),
   endpoints: (builder) => ({
     getAllViralLoadTests: builder.query<any, void>({

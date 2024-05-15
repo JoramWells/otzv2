@@ -8,7 +8,7 @@ interface AppointmentProps {
 export const timeAndWorkApi = createApi({
   reducerPath: 'timeAndWorkApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/appointment/time-and-work'
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/time-and-work`
   }),
   endpoints: (builder) => ({
     getAllTimeAndWork: builder.query<any, AppointmentProps>({

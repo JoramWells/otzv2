@@ -1,72 +1,50 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { Tag } from '@chakra-ui/react'
-import { CustomTable } from '../../_components/table/CustomTable'
-import { artColumns, artSwitchReasonColumns, columns, type UserProps } from './columns'
-import { usePathname, useRouter } from 'next/navigation'
-import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import { useState } from 'react'
-import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
-import { useGetAllArtSwitchReasonsQuery } from '@/api/art/artSwitchReason.api'
-import { useGetAllMeasuringQuery } from '@/api/art/measuringUnit.api'
-import { Button } from '@/components/ui/button'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 import Regimen from './_components/regimen/Regimen'
 import ArtCategory from './_components/ArtCategory'
 import MeasuringUnit from './_components/measuringUnit/MeasuringUnit'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+import CustomTab from '@/components/tab/CustomTab'
+import ArtSwitchReason from './_components/regimen/ArtSwitchReason'
+
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[38px] rounded-lg" />
+  }
+)
 
 const categoryList = [
   {
     id: 1,
-    text: 'ART'
+    label: 'ART'
   },
   {
     id: 2,
-    text: 'Category'
-  },
-  {
-    id: 3,
-    text: 'Phases'
+    label: 'Category'
   },
   {
     id: 4,
-    text: 'ART Switch Reasons'
+    label: 'ART Switch Reasons'
   },
   {
     id: 5,
-    text: 'Measuring Unit'
+    label: 'Measuring Unit'
   }
 ]
 
 const Art = () => {
-  const [value, setValue] = useState(1)
-
-  const { data } = useGetAllArtRegimenPhaseQuery()
-  const { data: artSwitchReasonsData } = useGetAllArtSwitchReasonsQuery()
-  const { data: measuringUnitData } = useGetAllMeasuringQuery()
-
-  const router = useRouter()
-  const pathname = usePathname()
-
-  // handle onClick button for creating new entities on the NEW button
-  const handleClick = () => {
-    if (value === 1) {
-      router.push(`${pathname}/add-art`)
-    } else if (value === 2) {
-      router.push(`${pathname}/add-art-category`)
-    } else if (value === 3) {
-      router.push(`${pathname}/add-art-phase`)
-    } else {
-      router.push(`${pathname}/add-art-switch-reason`)
-    }
-  }
+  const [value, setValue] = useState('art')
 
   const dataList = [
     {
       id: '1',
       label: 'home',
-      link: ''
+      link: '/'
     },
     {
       id: '2',
@@ -75,97 +53,27 @@ const Art = () => {
     }
   ]
 
-  console.log(data, 'ty')
-
   return (
-    <div className="p-4 flex flex-col space-y-2">
+    <div className="p-2">
       <BreadcrumbComponent dataList={dataList} />
-        <div
-          className="rounded-lg gap-x-4 bg-white p-2 w-full
-          justify-start flex flex-row mb-4
-          "
-        >
-          {categoryList.map((item) => (
-            <Button
-              key={item.id}
-              className={`rounded-full shadow-none hover:bg-slate-400
-              bg-slate-100 text-slate-500 font-bold
-              ${value === item.id && 'bg-teal-50 text-teal-600'}
-              `}
-              // rounded={'full'}
-              // size={'sm'}
-              // bgColor={`${value === item.id && 'gray.700'}`}
-              // color={`${value === item.id ? 'white' : 'gray.500'}`}
-              // shadow={`${value === item.id && 'md'}`}
-              // _hover={{
-              //   bgColor: `${value === item.id && 'black'}`,
-              //   color: `${value === item.id && 'white'}`
-              // }}
-              onClick={() => {
-                setValue(item.id)
-              }}
-            >
-              {item.text}
-            </Button>
-          ))}
-        </div>
-      <div className="flex flex-row justify-between items-center p-1">
-        <div className="flex flex-row gap-x-2 items-center mb-4">
-          <p
-            className="text-lg text-slate-700
-          font-semibold
-          "
-          >
-            {value === 1
-              ? 'ART Details'
-              : value === 2
-                ? 'ART Categories'
-                : value === 3
-                  ? 'ART Phases'
-                  : 'Switch Reasons'}
-          </p>
-          <Tag
-            m={0}
-            rounded={'full'}
-            fontWeight={'bold'}
-            colorScheme="orange"
-            size={'sm'}
-          >
-            {data?.length}
-          </Tag>
-        </div>
-        <Button
-          // size={'sm'}
-          // colorScheme="teal"
-          // variant={'outline'}
-          onClick={handleClick}
-          className='bg-teal-600 hover:bg-teal-700 shadow-none'
-        >
-          New
-        </Button>
+
+      <div className="mt-4">
+        <CustomTab
+          setValue={setValue}
+          value={value}
+          categoryList={categoryList}
+        />
       </div>
 
       {/* art details */}
-      {value === 1 && <Regimen />}
+      {value === 'art' && <Regimen />}
 
       {/* art category */}
-      {value === 2 && <ArtCategory />}
+      {value === 'category' && <ArtCategory />}
 
-      {/* art phases */}
-      {value === 3 && <CustomTable columns={columns} data={data ?? []} />}
-      {value === 4 && (
-        <div>
-          <p className="mb-3 text-slate-700">
-            Reasons for SWITCH to 2nd line or Higher
-          </p>
-          <CustomTable
-            columns={artSwitchReasonColumns}
-            data={artSwitchReasonsData ?? []}
-          />
-        </div>
-      )}
+      {value === 'ART Switch Reasons'.toLowerCase() && <ArtSwitchReason />}
 
-      {value === 5 && (<MeasuringUnit />)}
+      {value === 'Measuring Unit'.toLowerCase() && <MeasuringUnit />}
     </div>
   )
 }

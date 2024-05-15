@@ -3,17 +3,57 @@
 'use client'
 
 import { Chart, registerables } from 'chart.js'
-import PieChart from '../../_components/charts/PieChart'
-import BarChart from '../../_components/charts/BarChart'
-import LineChart from '../../_components/charts/LineChart'
-import { CustomTable } from '../../_components/table/CustomTable'
-import { columns } from '../art/columns'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
-import HeaderCategories from '../../_components/dashboard/HeaderCategories'
-import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import dynamic from 'next/dynamic'
+import { Users } from 'lucide-react'
+import { type HeaderCategoriesProps } from '@/app/_components/dashboard/HeaderCategories'
+
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[36px] rounded-lg" />
+  }
+)
+
+//
+const HeaderCategories = dynamic(
+  async () => await import('@/app/_components/dashboard/HeaderCategories'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="flex-1 h-[110px] rounded-lg" />
+  }
+)
+
+//
+const PieChart = dynamic(
+  async () => await import('@/app/_components/charts/PieChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="flex-1 h-[300px] rounded-lg" />
+  }
+)
+
+//
+const BarChart = dynamic(
+  async () => await import('@/app/_components/charts/BarChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="flex-1 h-[300px] rounded-lg" />
+  }
+)
+
+//
+const LineChart = dynamic(
+  async () => await import('@/app/_components/charts/LineChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="flex-1 h-[300px] rounded-lg" />
+  }
+)
 
 interface DataPops {
   id: number
@@ -107,33 +147,56 @@ const Dashboard = () => {
     ]
   }
 
+  const listItems: HeaderCategoriesProps[] = [
+    {
+      id: '1',
+      title: 'Total Number of Patients',
+      icon: <Users size={18} />,
+      count: '45, 894',
+      description: 'Since last month'
+    },
+    {
+      id: '2',
+      title: 'Active Patients',
+      icon: <Users size={18} />,
+      count: '45, 894',
+      description: 'Since last month'
+    },
+    {
+      id: '3',
+      title: 'Available drugs',
+      icon: <Users size={18} />,
+      count: '45, 894',
+      description: 'Since last month'
+    }
+  ]
+
   return (
-    <div className="p-4 flex flex-col gap-y-4">
+    <div className="p-2">
       {/* breadcrumb */}
       <BreadcrumbComponent dataList={dataList} />
-
-      <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
-        <HeaderCategories />
+      <div className="mt-2 mb-2 flex justify-between space-x-2">
+        {listItems.map((item: HeaderCategoriesProps) => (
+          <HeaderCategories
+            key={item.id}
+            id={item.id}
+            count={item.count}
+            description={item.description}
+            title={item.title}
+            icon={item.icon}
+          />
+        ))}
       </div>
-      <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
-        <Suspense fallback={<Skeleton className="h-[320px]" />}>
-          <PieChart data={pieChartData} />
-        </Suspense>
 
-        <BarChart data={barCharData} />
-        <div
-          className="border
-        p-2
-        "
-        >
-          <p className="text-lg font-bold mb-4 rounded-lg">
-            Upcoming Appointments
-          </p>
-          <CustomTable isSearch={false} columns={columns} data={[]} />
+      <div className=" p-4 bg-white rounded-lg">
+        <p className='font-bold'>Dashboard Analytics</p>
+
+        <div className="flex flex-row justify-between space-x-2 mt-2">
+            <PieChart data={pieChartData} />
+
+          <BarChart data={barCharData} />
+          <LineChart data={lineChartData} />
         </div>
-      </div>
-      <div className="grid md:grid-cols-1">
-        <LineChart data={lineChartData} />
       </div>
     </div>
   )

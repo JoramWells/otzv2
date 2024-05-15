@@ -2,31 +2,31 @@
 'use client'
 import { type OccupationProps, useGetAllOccupationQuery } from '@/api/occupation.api'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../../components/forms/CustomInput'
-import { useCallback, useId, useState } from 'react'
-import CustomSelect from '../../../../components/forms/CustomSelect'
+import { useCallback, useState } from 'react'
 import { type CountyProps, useGetAllCountiesQuery } from '@/api/location/county.api'
 import { type SubCountyProps, useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
-import { type WardProps, useGetAllWardsQuery } from '@/api/location/ward.api'
+import { useGetAllWardsQuery } from '@/api/location/ward.api'
 import { useGetAllSchoolsQuery } from '@/api/school/school.api'
-import { Button } from '@/components/ui/button'
-import { Tag } from '@chakra-ui/react'
-import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
+import CustomCheckbox from '@/components/forms/CustomCheckbox'
+import CustomInput from '@/components/forms/CustomInput'
+import CustomSelect from '@/components/forms/CustomSelect'
 
 export interface LocationDetailsProps {
   phoneNo: string
   occupation: string
   residence: string
   subCountyName: string
+  schoolName: string
   setSubCountyName: (subCounty: string) => void
   setPhoneNo: (phone: string) => void
   setOccupation: (occupation: string) => void
   setResidence: (residence: string) => void
+  setSchoolName: (residence: string) => void
 }
 
 const LocationDetails = ({
-  phoneNo, occupation, residence, subCountyName,
-  setPhoneNo, setOccupation, setResidence, setSubCountyName
+  phoneNo, occupation, residence, subCountyName, schoolName,
+  setPhoneNo, setOccupation, setResidence, setSubCountyName, setSchoolName
 }: LocationDetailsProps) => {
   const { data } = useGetAllOccupationQuery()
   const { data: countyData } = useGetAllCountiesQuery()
@@ -68,8 +68,6 @@ const LocationDetails = ({
     }))
   }, [schoolsData])
 
-  console.log(subCountyOptions(), 'jk')
-
   // ward options
   // const wardOptions = useCallback(() => {
   //   const tempData = wardData?.filter((item: any) =>
@@ -99,8 +97,7 @@ const LocationDetails = ({
 
   return (
     <div
-      className="border border-gray-200
-        w-1/3 flex flex-col items-center
+      className="bg-white w-1/3 flex flex-col items-center
       justify-center rounded-lg p-5 gap-y-6 mt-2"
       style={{
         width: '100%'
@@ -146,7 +143,7 @@ const LocationDetails = ({
       >
         <CustomCheckbox
           label="Student"
-          description="Recommended for patients that are studyin"
+          description="Recommended for patients that are studying"
           value={iSStudent}
           onChange={setIsStudent}
         />
@@ -157,28 +154,11 @@ const LocationDetails = ({
               label="School Name"
               value={occupation}
               onChange={setOccupation}
-              data={occupationOptions()}
-            />
-            <CustomSelect
-              label="Level"
-              value={occupation}
-              onChange={setOccupation}
-              data={occupationOptions()}
+              data={schoolOptions()}
             />
           </div>
         )}
       </div>
-
-      {occupation === '8b326c14-2ee6-491d-a8b5-c1c2c55a5a07' && (
-        <div className="w-full bg-gray-50 rounded-md border p-2">
-          <CustomSelect
-            label="School Name"
-            value={occupation}
-            onChange={setOccupation}
-            data={schoolOptions()}
-          />
-        </div>
-      )}
 
       <CustomSelect
         label="Select County"

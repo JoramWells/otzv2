@@ -4,17 +4,47 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { Users } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmentBarChart'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import PieChart from '../../_components/charts/PieChart'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
-import LineChart from '../../_components/charts/LineChart'
 import { useMemo } from 'react'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
+import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
 
-const dataList = [
+const UserDashboardCard = dynamic(
+  async () => await import('@/app/_components/UserDasboard'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[110px] rounded-lg flex-1 p-4" />
+  }
+)
+
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[36px] rounded-lg" />
+  }
+)
+
+//
+const LineChart = dynamic(
+  async () => await import('../../_components/charts/LineChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[400px] md:w-3/4  m-0" />
+  }
+)
+
+const PieChart = dynamic(
+  async () => await import('../../_components/charts/PieChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[400px] md:w-1/4  m-0" />
+  }
+)
+
+const dataList: UserDashboardCardDataListProps[] = [
   {
     id: '1',
     label: 'Registered Patients',
@@ -37,7 +67,7 @@ const dataList = [
     id: '4',
     label: 'App Notification',
     count: 7,
-    link: ''
+    link: '/'
   }
 ]
 
@@ -45,7 +75,7 @@ const dataList2 = [
   {
     id: '1',
     label: 'home',
-    link: ''
+    link: '/'
   },
   {
     id: '2',
@@ -56,7 +86,6 @@ const dataList2 = [
 
 const NotifyPage = () => {
   const { data } = useGetAllPatientsQuery()
-  const router = useRouter()
 
   const ageRanges: Array<[number, number]> = [
     [0, 9],
@@ -66,7 +95,7 @@ const NotifyPage = () => {
   ]
 
   const pieChartData = {
-    labels: ['Pediatric', 'OTZ', 'OTZ Plus', 'Adult'],
+    labels: ['PAMA', 'OTZ', 'OTZ +', 'Adult'],
     datasets: [
       {
         data: calculateAgeRange(data || [], ageRanges),
@@ -98,45 +127,35 @@ const NotifyPage = () => {
   }
 
   return (
-    <div className="w-full p-4 flex-col flex space-y-4">
+    <div className="w-full p-2">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="">
-        <h1 className="font-bold text-2xl text-slate-700">Patient Management Dashboard</h1>
+      <div className="bg-white p-2 mt-2 rounded-lg">
+        <h1 className="font-semibold text-xl text-slate-700 rounded-lg">
+          Patient Management Dashboard
+        </h1>
       </div>
-      <div className="flex w-full justify-between flex-wrap">
+      <div className="flex w-full justify-between flex-wrap mt-4 mb-4 space-x-4">
         {dataList.map((item, idx) => (
-          <div
-            key={idx}
-            className="border border-slate-200 rounded-xl p-5
-             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
-      "
-            onClick={() => router.push('/notify/appointment')}
-          >
-            <div className="flex flex-row items-center justify-between">
-              <h1 className="font-bold">{item.label}</h1>
-              <Users size={20} />
-            </div>
-            <p className="text-2xl font-bold text-slate-600">{item.count}</p>
-            <p className="text-slate-500 text-sm">Since last month</p>
-          </div>
+          <UserDashboardCard key={idx} item={item} />
         ))}
       </div>
-      <div className="border-b border-slate-200 w-full" />
-      <div className="">
+      <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
         <h1
-          className="font-semibold text-2xl
+          className="font-semibold text-xl mb-2
         capitalize
         "
         >
           Dashboard Analytics
         </h1>
 
-        <p>Scheduled the following appointments</p>
-      </div>
-      <LineChart data={barCartData} />
-      <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
-        <WeeklyAppointmentBarChart />
-        <PieChart data={pieChartData} />
+        {/*  */}
+
+        {/*  */}
+        <div className="flex justify-between space-x-4 ">
+          <LineChart data={barCartData} />
+
+          <PieChart data={pieChartData} />
+        </div>
       </div>
     </div>
   )

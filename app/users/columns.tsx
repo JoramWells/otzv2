@@ -23,8 +23,8 @@ export const columns: Array<ColumnDef<PatientProps>> = [
           name={`${row.original?.firstName} ${row.original?.middleName}`}
         />
         <Link
-          className="capitalize font-bold text-slate-700"
-          href={`/patients/${row.original.id}`}
+          className="capitalize font-bold text-slate-700 underline"
+          href={`/users/patients/tab/dashboard/${row.original.id}`}
         >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
       </div>
     )
@@ -69,17 +69,5 @@ export const columns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'populationType',
     header: 'Population Type'
-  },
-  {
-    // accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => (
-      <Link
-        href={`/users/${row.original.id}?tab=appointments`}
-        className="text-blue-600  hover:underline"
-      >
-        Check In
-      </Link>
-    )
   }
 ]

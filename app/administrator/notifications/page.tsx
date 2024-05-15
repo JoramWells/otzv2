@@ -10,7 +10,16 @@ import NotifyCategory from '@/app/_components/notify/NotifyCategory'
 import NotificationType from '@/app/_components/notify/NotifIcationType'
 import NotifySubCategory from '@/app/_components/notify/NotifySubCategory'
 import NotificationComponent from '@/app/_components/notify/NotificationComponent'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
 
 const categoryList = [
   {

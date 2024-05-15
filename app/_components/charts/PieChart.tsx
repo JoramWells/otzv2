@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { type Point, type ChartDataset, type BubbleDataPoint } from 'chart.js/auto'
+import { type Point, type ChartDataset, type BubbleDataPoint, registerables, Chart } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
 
 interface Props {
   data: PieChartProps
 }
+
+Chart.register(...registerables)
 
 export interface PieChartProps {
   labels: string[]
@@ -14,7 +16,7 @@ export interface PieChartProps {
 
 const SelectYears = () => (
   <Select>
-    <SelectTrigger className="w-[100px]">
+    <SelectTrigger className="w-[100px] shadow-none">
       <SelectValue placeholder="Year" />
     </SelectTrigger>
     <SelectContent>
@@ -32,11 +34,11 @@ const SelectYears = () => (
 
 const PieChart = ({ data }: Props) => {
   return (
-    <div className="border rounded-lg h-[320px]">
+    <div className="bg-slate-50 rounded-lg h-[300px] flex-1">
       <div className="flex flex-row items-center justify-between
       pl-4 pr-4 pt-2
       ">
-          <h1 className="font-bold text-lg">Modules</h1>
+          <h1 className="font-bold">Modules</h1>
         <SelectYears />
       </div>
       <div

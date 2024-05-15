@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const prescriptionApi = createApi({
   reducerPath: 'prescriptionApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/root/prescription'
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription`
   }),
   endpoints: (builder) => ({
     getAllPrescriptions: builder.query<any, void>({

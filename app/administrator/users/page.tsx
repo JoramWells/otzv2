@@ -5,8 +5,17 @@ import { CustomTable } from '../../_components/table/CustomTable'
 import { columns, type UserProps } from './columns'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { usePathname, useRouter } from 'next/navigation'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
 import { Button } from '@/components/ui/button'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
 
 const dataList = [
   {

@@ -6,7 +6,16 @@ import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllOccupationQuery } from '@/api/occupation.api'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
 
 const dataList = [
   {

@@ -2,10 +2,18 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { Divider } from '@chakra-ui/react'
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmentBarChart'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
 
 const dataList = [
   {
@@ -41,23 +49,37 @@ interface DataPops {
   userLost: number
 }
 
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'Dashboard',
+    link: ''
+  }
+]
+
 const NotifyPage = () => {
   const router = useRouter()
 
   return (
-    <div className="w-full p-4 flex-col flex space-y-6">
-      <div className="">
+    <div className="w-full flex-col flex space-y-4">
+      <BreadcrumbComponent dataList={dataList2} />
+      <div className="p-4 bg-white">
         <h1 className="font-semibold text-2xl">Welcome to notify!!</h1>
         <p className="text-slate-500">
           Manage Sent Notifications to client with ease.
         </p>
       </div>
-      <div className="flex w-full justify-between flex-wrap">
+      <div className="flex w-full justify-between flex-wrap p-4">
         {dataList.map((item, idx) => (
           <div
             key={idx}
-            className="border border-slate-200 rounded-lg p-5
-             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
+            className="rounded-lg p-5 bg-white
+             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-none
       "
             onClick={() => router.push('/notify/appointment')}
           >
@@ -70,19 +92,20 @@ const NotifyPage = () => {
           </div>
         ))}
       </div>
-      <Divider />
-      <div className="">
-        <h1
-          className="font-semibold text-2xl
+      <div className="p-4 w-full">
+        <div className=" ">
+          <h1
+            className="font-semibold text-2xl
         capitalize
         "
-        >
-          group Appointments
-        </h1>
+          >
+            group Appointments
+          </h1>
 
-        <p>Scheduled the following appointments</p>
+          <p>Scheduled the following appointments</p>
+          <WeeklyAppointmentBarChart />
+        </div>
       </div>
-
       {/* <div
         className="flex flex-row w-full justify-between
       space-x-4
@@ -123,7 +146,6 @@ const NotifyPage = () => {
           </div>
         ))}
       </div> */}
-      <WeeklyAppointmentBarChart />
     </div>
   )
 }

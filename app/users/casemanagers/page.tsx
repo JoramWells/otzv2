@@ -4,13 +4,30 @@
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { columns } from './columns'
 import { useGetAllCaseManagersQuery } from '@/api/caregiver/casemanager.api'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
+
+const HeaderTitle = dynamic(
+  async () => await import('../_components/HeaderTitle'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
 
 const dataList2 = [
   {
     id: '1',
     label: 'home',
-    link: ''
+    link: '/'
   },
   {
     id: '2',
@@ -23,10 +40,20 @@ const Page = () => {
   const { data } = useGetAllCaseManagersQuery()
   console.log(data, 'MNK')
   return (
-    <div className="p-4">
+    <div className="flex flex-col space-y-2">
       <BreadcrumbComponent dataList={dataList2} />
-      <h1 className="text text-xl font-bold text-slate-700 mb-4">Case Managers</h1>
-      <CustomTable columns={columns} data={data || []} />
+
+        <HeaderTitle
+          label="Create Case Manager"
+          title="Case Managers"
+          link={'/users/add-case-manager/'}
+        />
+
+      <div className="p-4">
+        <div className="bg-white p-4 rounded-lg">
+          <CustomTable columns={columns} data={data || []} />
+        </div>
+      </div>
     </div>
   )
 }

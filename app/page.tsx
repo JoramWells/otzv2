@@ -73,6 +73,49 @@ const itemList: ItemListProps[] = [
     ]
   },
   {
+    id: '8',
+    label: 'Articles',
+    icon: <HomeIcon />,
+    link: '/articles/dashboard',
+    description:
+      'Upload, manage and add patient learning materials for E-learning',
+    listItem: [
+      {
+        id: '8',
+        label: 'Articles',
+        link: '/articles/dashboard'
+      }
+    ]
+  },
+  {
+    id: '11',
+    label: 'Enrollments',
+    icon: <LineChart />,
+    link: '/enrollment/dashboard',
+    listItem: [
+      {
+        id: '1',
+        label: 'OTZ',
+        link: '/administrator/dashboard'
+      },
+      {
+        id: '2',
+        label: 'OVC',
+        link: '/administrator/dashboard'
+      },
+      {
+        id: '3',
+        label: 'PAMA',
+        link: '/administrator/dashboard'
+      },
+      {
+        id: '3',
+        label: 'PMTCT',
+        link: '/administrator/dashboard'
+      }
+    ]
+  },
+  {
     id: '2',
     label: 'Pill Box',
     icon: <Pill />,
@@ -149,15 +192,22 @@ const itemList: ItemListProps[] = [
     ]
   },
   {
-    id: '6',
-    label: 'ViraTrack',
-    icon: <LineChart />,
-    link: '/viratrack/dashboard',
+    id: '11',
+    label: 'Patients',
+    icon: <HomeIcon />,
+    link: '/patients/dashboard',
+    description:
+      'Upload, manage and add patient learning materials for E-learning',
     listItem: [
       {
-        id: '6',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
+        id: '1',
+        label: 'Triage',
+        link: '/patients/triage'
+      },
+      {
+        id: '2',
+        label: 'Queue',
+        link: '/patients/patient-queue'
       }
     ]
   },
@@ -174,21 +224,7 @@ const itemList: ItemListProps[] = [
       }
     ]
   },
-  {
-    id: '8',
-    label: 'Articles',
-    icon: <HomeIcon />,
-    link: '/articles/dashboard',
-    description:
-      'Upload, manage and add patient learning materials for E-learning',
-    listItem: [
-      {
-        id: '8',
-        label: 'Articles',
-        link: '/articles/dashboard'
-      }
-    ]
-  },
+
   {
     id: '9',
     label: 'Lab',
@@ -210,6 +246,19 @@ const itemList: ItemListProps[] = [
     listItem: [
       {
         id: '10',
+        label: 'Dashboard',
+        link: '/administrator/dashboard'
+      }
+    ]
+  },
+  {
+    id: '6',
+    label: 'ViraTrack',
+    icon: <LineChart />,
+    link: '/viratrack/dashboard',
+    listItem: [
+      {
+        id: '6',
         label: 'Dashboard',
         link: '/administrator/dashboard'
       }
@@ -237,9 +286,9 @@ export default function Home () {
       <main className="flex flex-col  items-start w-full">
         <div className="flex flex-col justify-center items-center w-full">
           <Suspense fallback={<Skeleton className="w-3/4 p-2" />}>
-            <div className="flex w-full p-4 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
-              <h1 className="text-center text-3xl font-extrabold text-teal-600">
-                Welcome to CarePlus
+            <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
+              <h1 className="text-center text-2xl lg:text-2xl min-[1920px]:text-sm font-extrabold text-teal-600">
+                Welcome to CarePlus +
               </h1>
 
               <div
@@ -247,7 +296,7 @@ export default function Home () {
               justify-between space-x-4 "
               >
                 <Input
-                  className="shadow-none rounded-full p-4 h-10"
+                  className="shadow-none rounded-full p-4 h-10 bg-slate-50 border-none"
                   placeholder="Search.."
                 />
                 <Button className="bg-slate-50 hover:bg-slate-50 shadow-none">

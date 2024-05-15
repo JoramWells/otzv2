@@ -65,14 +65,13 @@ const PersonalDetail = ({
   // },[val])
   return (
     <div
-      className="border border-gray-200
-        w-1/3 flex flex-col items-center
+      className="bg-white  w-1/3 flex flex-col items-center
       justify-center rounded-lg p-5 gap-y-4 mt-2"
       style={{
         width: '100%'
       }}
     >
-      <div className="flex flex-row justify-between space-x-4">
+      <div className="flex flex-row w-full justify-between space-x-4">
         <CustomInput
           label="First Name"
           value={firstName}

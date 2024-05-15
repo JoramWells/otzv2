@@ -13,7 +13,16 @@ import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday
 import School from '@/app/_components/school/School'
 import Holidays from '@/app/_components/school/Holidays'
 import { Button } from '@/components/ui/button'
-import { BreadcrumbComponent } from '@/components/nav/BreadcrumbComponent'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
 const categoryList = [
   {
     id: 1,

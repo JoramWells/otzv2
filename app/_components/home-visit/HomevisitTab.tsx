@@ -14,7 +14,7 @@ export interface HomeVisitProps {
 }
 
 const HomeVisitTab = ({ patientID }: HomeVisitProps) => {
-  const { data } = useGetMmasQuery(patientID)
+  const { data } = useGetHomeVisitQuery(patientID)
   console.log(data, 'dtc')
 
   return (
@@ -29,11 +29,13 @@ const HomeVisitTab = ({ patientID }: HomeVisitProps) => {
             </p>
           </div>
           <Button size={'sm'} colorScheme="green" variant={'outline'}>
-            <Link href={`/home-visits/add-home-visit/${patientID}`}>NEW</Link>
+            <Link href={`/reports/add-home-visit/${patientID}`}>NEW</Link>
           </Button>
         </div>
         <div className="mt-4 w-full">
-          <CustomTable columns={columns} data={data || []} />
+          <CustomTable columns={columns} data={data || []}
+          isSearch={false}
+          />
         </div>
       </div>
     </div>

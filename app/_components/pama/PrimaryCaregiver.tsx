@@ -7,14 +7,16 @@ import { useCallback, useState } from 'react'
 import { useAddOTZEnrollmentMutation } from '@/api/enrollment/otzEnrollment.api'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import CustomSelect from '@/components/forms/CustomSelect'
-import { useGetAllArtRegimenPhaseQuery } from '@/api/art/artRegimenPhase.api'
 import CustomInput from '../../../components/forms/CustomInput'
 import Select from 'react-select'
+import { useGetCaregiverQuery } from '@/api/caregiver/caregiver.api'
 // import { useRouter } from 'next/router'
 
-const PrimaryCareGiver = ({ params }: any) => {
+const PrimaryCareGiver = ({ patientID }: { patientID: string }) => {
   // const router = useRouter()
   // const patientID = params.patientID
+
+  const { data: caregiverData } = useGetCaregiverQuery(patientID)
 
   const [dateOfEnrollmentToOTZ, setDateOfEnrollmentToOTZ] = useState('')
   const [vlCopies, setVLCopies] = useState('')
@@ -25,7 +27,7 @@ const PrimaryCareGiver = ({ params }: any) => {
   const [currentRegimenLine, setCurrentRegimenLine] = useState('')
 
   const { data: artData } = useGetAllArtRegimenQuery()
-  const { data: lineData } = useGetAllArtRegimenPhaseQuery()
+  // const { data: lineData } = useGetAllArtRegimenPhaseQuery()
 
   const artOptions = useCallback(() => {
     return artData?.map((item: any) => ({
@@ -33,12 +35,12 @@ const PrimaryCareGiver = ({ params }: any) => {
     }))
   }, [artData])
 
-  const lineOptions = useCallback(() => {
-    return lineData?.map((item: any) => ({
+  const caregiverOptions = useCallback(() => {
+    return caregiverData?.map((item: any) => ({
       id: item.id,
-      label: item.artPhaseDescription
+      label: `${item.firstName} ${item.middleName}`
     }))
-  }, [lineData])
+  }, [caregiverData])
 
   const inputValues = {
     // patientID,
@@ -53,13 +55,8 @@ const PrimaryCareGiver = ({ params }: any) => {
 
   return (
     <div
-      className="border border-gray-200
-        w-1/3 flex flex-col items-center mt-2
-      justify-center rounded-lg p-5 gap-y-6"
-      style={{
-        width: '100%'
-      }}
-    >
+      className="bg-white w-full flex flex-col items-center mt-2
+      justify-center rounded-lg p-5 gap-y-6">
 
       <div
       className='w-full'
@@ -71,12 +68,7 @@ const PrimaryCareGiver = ({ params }: any) => {
         className='mb-2 text-slate-500'
         >The patient need to be registered as in order to be a caregiver</p>
         <Select
-        options={[
-          {
-            value: 1,
-            label: 'Christine'
-          }
-        ]}
+        options={caregiverOptions()}
         />
       </div>
 
@@ -106,7 +98,7 @@ const PrimaryCareGiver = ({ params }: any) => {
         label="PAMA Status"
         value={currentRegimenLine}
         onChange={setCurrentRegimenLine}
-        data={lineOptions()}
+        data={[]}
       />
     </div>
   )

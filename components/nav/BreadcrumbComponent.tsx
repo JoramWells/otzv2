@@ -16,7 +16,7 @@ interface DataListProps {
 
 }
 
-export function BreadcrumbComponent ({ dataList }: DataListProps) {
+export default function BreadcrumbComponent ({ dataList }: DataListProps) {
   return (
     <Breadcrumb className="p-4 bg-white rounded-lg">
       <BreadcrumbList>

@@ -34,8 +34,8 @@ const DoubleARTUptakeBarChart = ({
 
   return (
     <div
-      className="h-[350px] md:1/2 border rounded-lg
-  w-1/2
+      className="h-[350px] md:w-[500px] bg-slate-50 rounded-lg
+  w-1/2 p-4
   "
     >
       <Bar
