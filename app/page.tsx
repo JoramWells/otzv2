@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Bell, HomeIcon, LineChart, NotebookPen, Pill, Search, Shield, Users } from 'lucide-react'
+import { Bell, BookIcon, HomeIcon, LineChart, NotebookPen, Pill, SaveAll, Search, Shield, StethoscopeIcon, Users } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
 import { type ReactNode, Suspense } from 'react'
@@ -75,7 +75,7 @@ const itemList: ItemListProps[] = [
   {
     id: '8',
     label: 'Articles',
-    icon: <HomeIcon />,
+    icon: <BookIcon />,
     link: '/articles/dashboard',
     description:
       'Upload, manage and add patient learning materials for E-learning',
@@ -88,9 +88,24 @@ const itemList: ItemListProps[] = [
     ]
   },
   {
-    id: '11',
+    id: '13',
+    label: 'Clinician',
+    icon: <StethoscopeIcon />,
+    link: '/clinician/dashboard',
+    description:
+      'Upload, manage and add patient learning materials for E-learning',
+    listItem: [
+      {
+        id: '8',
+        label: 'Articles',
+        link: '/articles/dashboard'
+      }
+    ]
+  },
+  {
+    id: '12',
     label: 'Enrollments',
-    icon: <LineChart />,
+    icon: <SaveAll />,
     link: '/enrollment/dashboard',
     listItem: [
       {

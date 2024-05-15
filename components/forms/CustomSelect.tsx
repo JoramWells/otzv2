@@ -24,7 +24,7 @@ const CustomSelect = ({
   defaultValue
 }: SelectProps) => {
   return (
-    <div className="w-full">
+    <div className="w-full flex space-y-2 flex-col">
       {label && <p className="font-semibold text-slate-700 text-[14px] ">{label}</p>}
       <Select
         onValueChange={(e) => {
