@@ -5,7 +5,7 @@
 import { useState } from 'react'
 
 import StatusAtEnrollmentToPAMA from '@/app/_components/pama/StatusAtEnrollmentToPama'
-import PrimaryCareGiver from '@/app/_components/pama/PrimaryCaregiver'
+import PrimaryCareGiver, { type PrescriptionProps, type VLDataProps } from '@/app/_components/pama/PrimaryCaregiver'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAddPAMAEnrollmentMutation } from '@/api/enrollment/pamaEnrollment.api'
@@ -35,21 +35,25 @@ const dataList2 = [
 
 const AddPatient = ({ params }: any) => {
   const { patientID } = params
-  const [artStatusID, setARTStatusID] = useState('')
-  const [vlStatusID, setVLStatusID] = useState('')
   const [dateOfEnrollmentToOTZ, setDateOfEnrollmentToOTZ] = useState('')
-  const [caregiverARTStatusID, setCaregiverARTStatusID] = useState('')
-  const [caregiverVLStatusID, setCaregiverVLStatusID] = useState('')
+  const [primaryCaregiverID, setPrimaryCaregiverID] = useState('')
+  const [childVLStatus, setChildVLStatus] = useState<VLDataProps | null>(null)
+  const [childPrescriptionStatus, setChildPrescriptionStatus] = useState<PrescriptionProps | null>(null)
+  const [primaryCaregiverVLStatus, setPrimaryCaregiverVLStatus] = useState<VLDataProps | null>(null)
+  const [primaryCaregiverPrescriptionStatus, setPrimaryCaregiverPrescriptionStatus] = useState<PrescriptionProps | null>(null)
 
   //
   const [addOTZEnrollment, { isLoading }] = useAddPAMAEnrollmentMutation()
 
   const inputValues = {
-    artStatusID,
-    vlStatusID,
+    childID: patientID,
+    childVLStatus,
+    childPrescriptionStatus,
+    primaryCaregiverVLStatus,
+    primaryCaregiverPrescriptionStatus,
+    primaryCaregiverID,
     dateOfEnrollmentToOTZ,
-    caregiverARTStatusID,
-    caregiverVLStatusID
+    isPaired: true
   }
 
   // const { activeStep } = useSteps({
@@ -71,15 +75,16 @@ const AddPatient = ({ params }: any) => {
             patientID={patientID}
             dateOfEnrollmentToOTZ={dateOfEnrollmentToOTZ}
             setDateOfEnrollmentToOTZ={setDateOfEnrollmentToOTZ}
-            setARTStatusID={setARTStatusID}
-            setVLStatusID={setVLStatusID}
+            setChildVLStatus={setChildVLStatus}
+            setChildPrescriptionStatus={setChildPrescriptionStatus}
           />
           <PrimaryCareGiver
-            setCaregiverARTStatusID={setCaregiverARTStatusID}
-            setCaregiverVLStatusID={setCaregiverVLStatusID}
+            setPrimaryCaregiverID={setPrimaryCaregiverID}
+            setPrimaryCaregiverPrescriptionStatus={setPrimaryCaregiverPrescriptionStatus}
+            setPrimaryCaregiverVLStatus={setPrimaryCaregiverVLStatus}
           />
           <Button onClick={async () => await addOTZEnrollment(inputValues)}
-          className='bg-slate-200 hover:bg-slate-100 shadow-none'
+          className='bg-slate-200 hover:bg-slate-100 shadow-none text-black'
           >
             {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
             Add

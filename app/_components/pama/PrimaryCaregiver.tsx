@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 // import { Button } from '@chakra-ui/react'
 import CustomSelect from '@/components/forms/CustomSelect'
 import Select from 'react-select'
@@ -17,14 +17,14 @@ interface InputProps {
   label: string
 }
 
-interface VLDataProps {
+export interface VLDataProps {
   id: string
   vlResults: string
   dateOfVL: MomentInput
   isVLValid: boolean
 }
 
-interface PrescriptionProps {
+export interface PrescriptionProps {
   id: string
   refillDate: MomentInput
   ART: {
@@ -39,13 +39,15 @@ const getArtPrescription = async (id: string): Promise<[PrescriptionProps, VLDat
 }
 
 export interface PrimaryCaregiverProps {
-  setCaregiverARTStatusID: (val: string) => void
-  setCaregiverVLStatusID: (val: string) => void
+  setPrimaryCaregiverID: (val: string) => void
+  setPrimaryCaregiverVLStatus: (val: VLDataProps) => void
+  setPrimaryCaregiverPrescriptionStatus: (val: PrescriptionProps) => void
 }
 
 const PrimaryCareGiver = ({
-  setCaregiverARTStatusID,
-  setCaregiverVLStatusID
+  setPrimaryCaregiverID,
+  setPrimaryCaregiverPrescriptionStatus,
+  setPrimaryCaregiverVLStatus
 }: PrimaryCaregiverProps) => {
   // const router = useRouter()
   // const patientID = params.patientID
@@ -55,15 +57,26 @@ const PrimaryCareGiver = ({
 
   const [currentRegimenLine, setCurrentRegimenLine] = useState('')
   const [caregiverID, setCaregiverID] = useState<InputProps | null>(null)
-  const [prescriptionData, setPrescriptionData] = useState<PrescriptionProps | null>(null)
+  const [prescriptionData, setPrescriptionData] =
+    useState<PrescriptionProps | null>(null)
   const [vlData, setVLData] = useState<VLDataProps | null>(null)
 
-  const handleChange = useCallback(async (val: InputProps) => {
-    setCaregiverID(val)
-    const [prescription, vl] = await getArtPrescription(val.id)
-    setPrescriptionData(prescription)
-    setVLData(vl)
-  }, [])
+  const handleChange = useCallback(
+    async (val: InputProps) => {
+      setCaregiverID(val)
+      setPrimaryCaregiverID(val.id)
+      const [prescription, vl] = await getArtPrescription(val.id)
+      setPrimaryCaregiverPrescriptionStatus(prescription)
+      setPrescriptionData(prescription)
+      setVLData(vl)
+      setPrimaryCaregiverVLStatus(vl)
+    },
+    [
+      setPrimaryCaregiverID,
+      setPrimaryCaregiverPrescriptionStatus,
+      setPrimaryCaregiverVLStatus
+    ]
+  )
 
   // const { data: lineData } = useGetAllArtRegimenPhaseQuery()
 
@@ -73,16 +86,6 @@ const PrimaryCareGiver = ({
       label: `${item.firstName} ${item.middleName}`
     }))
   }, [caregiverData])
-
-  useEffect(() => {
-    if (vlData) {
-      setCaregiverVLStatusID(vlData?.id)
-    }
-
-    if (prescriptionData) {
-      setCaregiverARTStatusID(prescriptionData.id)
-    }
-  }, [vlData, prescriptionData, setCaregiverVLStatusID, setCaregiverARTStatusID])
 
   return (
     <div

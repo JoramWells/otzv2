@@ -10,17 +10,18 @@ import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import moment from 'moment'
 import { Badge } from '@/components/ui/badge'
 import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
+import { type PrescriptionProps, type VLDataProps } from './PrimaryCaregiver'
 // import { useRouter } from 'next/router'
 
 export interface StatusAtEnrollmentToPAMAProps {
   patientID: string
   dateOfEnrollmentToOTZ: string
   setDateOfEnrollmentToOTZ: (val: string) => void
-  setARTStatusID: (val: string) => void
-  setVLStatusID: (val: string) => void
+  setChildVLStatus: (val: VLDataProps) => void
+  setChildPrescriptionStatus: (val: PrescriptionProps) => void
 }
 
-const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setDateOfEnrollmentToOTZ, setARTStatusID, setVLStatusID }: StatusAtEnrollmentToPAMAProps) => {
+const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setChildVLStatus, setChildPrescriptionStatus, setDateOfEnrollmentToOTZ }: StatusAtEnrollmentToPAMAProps) => {
   // const router = useRouter()
   // const patientID = params.patientID
 
@@ -29,13 +30,24 @@ const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setDateOfE
 
   useEffect(() => {
     if (vlData) {
-      setVLStatusID(vlData?.id)
+      setChildVLStatus({
+        id: vlData.id,
+        vlResults: vlData.vlResults,
+        dateOfVL: vlData.dateOfVL,
+        isVLValid: vlData.isVLValid
+      })
     }
 
     if (prescriptionData) {
-      setARTStatusID(prescriptionData.id)
+      setChildPrescriptionStatus({
+        id: prescriptionData.id,
+        refillDate: prescriptionData.refillDate,
+        ART: {
+          artName: prescriptionData.artName
+        }
+      })
     }
-  }, [vlData, prescriptionData, setVLStatusID, setARTStatusID])
+  }, [vlData, prescriptionData, setChildPrescriptionStatus, setChildVLStatus])
 
   console.log(prescriptionData, 'pData')
 
