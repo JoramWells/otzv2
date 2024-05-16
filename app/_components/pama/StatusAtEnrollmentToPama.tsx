@@ -1,83 +1,43 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 // import { Button } from '@chakra-ui/react'
-import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
-import CustomSelect from '@/components/forms/CustomSelect'
 import CustomInput from '../../../components/forms/CustomInput'
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
-import moment, { type MomentInput } from 'moment'
-import { useGetPrescriptionQuery } from '@/api/pillbox/artPrescription.api'
+import moment from 'moment'
 import { Badge } from '@/components/ui/badge'
+import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 // import { useRouter } from 'next/router'
 
 export interface StatusAtEnrollmentToPAMAProps {
   patientID: string
   dateOfEnrollmentToOTZ: string
-  setDateOfEnrollmentToOTZ: () => void
+  setDateOfEnrollmentToOTZ: (val: string) => void
+  setARTStatusID: (val: string) => void
+  setVLStatusID: (val: string) => void
 }
 
-interface VLDataProps {
-  dateOfVL: MomentInput
-}
-
-const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setDateOfEnrollmentToOTZ }: StatusAtEnrollmentToPAMAProps) => {
+const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setDateOfEnrollmentToOTZ, setARTStatusID, setVLStatusID }: StatusAtEnrollmentToPAMAProps) => {
   // const router = useRouter()
   // const patientID = params.patientID
 
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
   const { data: prescriptionData } = useGetPrescriptionQuery(patientID)
 
-  const [vlCopies, setVLCopies] = useState('')
-  const [dateOfVL, setDateOfVL] = useState(new Date())
-  const [isVLValid, setIsVLValid] = useState('')
-  const [currentARTStartDate, setCurrentARTStartDate] = useState('')
-  const [currentARTRegimen, setCurrentARTRegimen] = useState('')
-  const [currentRegimenLine, setCurrentRegimenLine] = useState('')
+  useEffect(() => {
+    if (vlData) {
+      setVLStatusID(vlData?.id)
+    }
 
-  const { data: artData } = useGetAllArtRegimenQuery()
-  // const { data: lineData } = useGetAllArtRegimenPhaseQuery()
+    if (prescriptionData) {
+      setARTStatusID(prescriptionData.id)
+    }
+  }, [vlData, prescriptionData, setVLStatusID, setARTStatusID])
 
-  // useEffect(() => {
-  //   if (vlData) {
-  //     setVLCopies(vlData?.vlResults)
-  //     setDateOfVL(moment(vlData.dateOfVL, 'YYYY-mm-dd').format('YYYY-mm-dd'))
-  //   }
-
-  //   if (prescriptionData) {
-  //     setCurrentARTRegimen(prescriptionData.ART.artName)
-  //   }
-  // }, [vlData, prescriptionData])
-
-  const artOptions = useCallback(() => {
-    return artData?.map((item: any) => ({
-      id: item.id, label: item.artName
-    }))
-  }, [artData])
-
-  // const lineOptions = useCallback(() => {
-  //   return lineData?.map((item: any) => ({
-  //     id: item.id,
-  //     label: item.artPhaseDescription
-  //   }))
-  // }, [lineData])
-
-  const inputValues = {
-    // patientID,
-    dateOfVL,
-    vlCopies,
-    dateOfEnrollmentToOTZ,
-    isVLValid,
-    currentARTStartDate,
-    currentARTRegimen,
-    currentRegimenLine
-  }
-
-  console.log(vlData, 'pData')
+  console.log(prescriptionData, 'pData')
 
   return (
     <div
