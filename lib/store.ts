@@ -51,6 +51,7 @@ import { articlesApi } from '@/api/articles/articles.api'
 import { nextOfKinApi } from '@/api/patient/nextOfKin.api'
 import { patientVisitsApi } from '@/api/patient/patientVisits.api'
 import { artPrescriptionApi } from '@/api/art/artPrescription.api'
+import { pamaEnrollmentApi } from '@/api/enrollment/pamaEnrollment.api'
 
 export const store = configureStore({
   reducer: {
@@ -105,6 +106,7 @@ export const store = configureStore({
     [messageTextReplyApi.reducerPath]: messageTextReplyApi.reducer,
     [articlesCategoryApi.reducerPath]: articlesCategoryApi.reducer,
     [articlesApi.reducerPath]: articlesApi.reducer,
+    [pamaEnrollmentApi.reducerPath]: pamaEnrollmentApi.reducer,
     [artPrescriptionApi.reducerPath]: artPrescriptionApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
@@ -163,4 +165,5 @@ export const store = configureStore({
       .concat(articlesApi.middleware)
       .concat(articlesCategoryApi.middleware)
       .concat(artPrescriptionApi.middleware)
+      .concat(pamaEnrollmentApi.middleware)
 })

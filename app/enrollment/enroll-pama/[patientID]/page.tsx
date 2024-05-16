@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
@@ -7,6 +8,9 @@ import StatusAtEnrollmentToPAMA from '@/app/_components/pama/StatusAtEnrollmentT
 import PrimaryCareGiver from '@/app/_components/pama/PrimaryCaregiver'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useAddPAMAEnrollmentMutation } from '@/api/enrollment/pamaEnrollment.api'
+import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -36,6 +40,9 @@ const AddPatient = ({ params }: any) => {
   const [dateOfEnrollmentToOTZ, setDateOfEnrollmentToOTZ] = useState('')
   const [caregiverARTStatusID, setCaregiverARTStatusID] = useState('')
   const [caregiverVLStatusID, setCaregiverVLStatusID] = useState('')
+
+  //
+  const [addOTZEnrollment, { isLoading }] = useAddPAMAEnrollmentMutation()
 
   const inputValues = {
     artStatusID,
@@ -68,10 +75,15 @@ const AddPatient = ({ params }: any) => {
             setVLStatusID={setVLStatusID}
           />
           <PrimaryCareGiver
-          setCaregiverARTStatusID={setCaregiverARTStatusID}
-          setCaregiverVLStatusID={setCaregiverVLStatusID}
-
+            setCaregiverARTStatusID={setCaregiverARTStatusID}
+            setCaregiverVLStatusID={setCaregiverVLStatusID}
           />
+          <Button onClick={async () => await addOTZEnrollment(inputValues)}
+          className='bg-slate-200 hover:bg-slate-100 shadow-none'
+          >
+            {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
+            Add
+          </Button>
         </div>
       </div>
     </div>
