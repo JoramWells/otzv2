@@ -10,13 +10,26 @@ import CustomSelect from '@/components/forms/CustomSelect'
 import CustomInput from '../../../components/forms/CustomInput'
 import Select from 'react-select'
 import { useGetCaregiverQuery } from '@/api/caregiver/caregiver.api'
+import { useGetAllPatientsQuery } from '../../../api/patient/patients.api'
+import { useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
+import axios from 'axios'
 // import { useRouter } from 'next/router'
+
+const getArtPrescription = async (id: string) => {
+  try {
+    const data = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/art-prescription/detail/${id}`)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const PrimaryCareGiver = ({ patientID }: { patientID: string }) => {
   // const router = useRouter()
   // const patientID = params.patientID
 
-  const { data: caregiverData } = useGetCaregiverQuery(patientID)
+  const { data: caregiverData } = useGetAllPatientsQuery()
+  // const { data: artPrescriptionData } = useGetArtPrescriptionQuery(patientID)
 
   const [dateOfEnrollmentToOTZ, setDateOfEnrollmentToOTZ] = useState('')
   const [vlCopies, setVLCopies] = useState('')
@@ -25,6 +38,14 @@ const PrimaryCareGiver = ({ patientID }: { patientID: string }) => {
   const [currentARTStartDate, setCurrentARTStartDate] = useState('')
   const [currentARTRegimen, setCurrentARTRegimen] = useState('')
   const [currentRegimenLine, setCurrentRegimenLine] = useState('')
+  const [caregiverID, setCaregiverID] = useState('')
+
+  const handleChange = async (val: any) => {
+    console.log(val, 'klo')
+    setCaregiverID(val)
+    const dtx = await getArtPrescription(val.id)
+    console.log(dtx, 'kli')
+  }
 
   const { data: artData } = useGetAllArtRegimenQuery()
   // const { data: lineData } = useGetAllArtRegimenPhaseQuery()
@@ -56,19 +77,23 @@ const PrimaryCareGiver = ({ patientID }: { patientID: string }) => {
   return (
     <div
       className="bg-white w-full flex flex-col items-center mt-2
-      justify-center rounded-lg p-5 gap-y-6">
-
-      <div
-      className='w-full'
-      >
-        <p className='text-xl
-        font-bold
-        '>Search Patient Name</p>
+      justify-center rounded-lg p-5 gap-y-6"
+    >
+      <div className="w-full">
         <p
-        className='mb-2 text-slate-500'
-        >The patient need to be registered as in order to be a caregiver</p>
+          className="text-xl
+        font-bold
+        "
+        >
+          Search Patient Name
+        </p>
+        <p className="mb-2 text-slate-500">
+          The patient need to be registered as in order to be a caregiver
+        </p>
         <Select
-        options={caregiverOptions()}
+          value={caregiverID}
+          onChange={val => handleChange(val)}
+          options={caregiverOptions()}
         />
       </div>
 
