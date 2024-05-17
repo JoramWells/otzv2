@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { CustomTable } from '../_components/table/CustomTable'
-import { Button } from '@/components/ui/button'
-import { PlusCircle } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { CustomTable } from '../../_components/table/CustomTable'
+// import { Button } from '@/components/ui/button'
+// import { PlusCircle } from 'lucide-react'
+// import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
@@ -37,7 +37,7 @@ const Patients = () => {
 
   // console.log(data, 'dtx')
 
-  const router = useRouter()
+  // const router = useRouter()
 
   return (
     <div className="w-full p-2">

@@ -1,6 +1,6 @@
 'use client'
 
-import CareGiverTab from '@/app/patients/_components/CareGiverTab'
+import CareGiverTab from '@/app/users/patients/_components/CareGiverTab'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 const BreadcrumbComponent = dynamic(

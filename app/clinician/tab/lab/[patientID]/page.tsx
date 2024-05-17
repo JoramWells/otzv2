@@ -1,6 +1,6 @@
 'use client'
 
-import LabTab from '@/app/patients/_components/LabTab'
+import LabTab from '@/app/users/patients/_components/LabTab'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 
 const dataList2 = [

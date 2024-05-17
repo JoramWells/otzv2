@@ -1,6 +1,6 @@
 'use client'
 
-import AppointmentTab from '@/app/patients/_components/AppointmentTab'
+import LabTab from '@/app/users/patients/_components/LabTab'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 
 const dataList2 = [
@@ -18,11 +18,12 @@ const dataList2 = [
 
 const Appointments = ({ params }: { params: any }) => {
   const { patientID } = params
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <AppointmentTab patientID={patientID} />
+      <LabTab patientID={patientID} />
     </>
   )
 }

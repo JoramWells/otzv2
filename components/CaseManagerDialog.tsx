@@ -6,9 +6,10 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
+import { type ReactNode } from 'react'
 
 interface DataProps {
-  label: string
+  label: string | ReactNode
   description?: string
   children: React.ReactNode
   width?: string
@@ -26,7 +27,7 @@ export function CaseManagerDialog ({ children, description, label, width }: Data
           {label}
         </Button>
       </DialogTrigger>
-      <DialogContent className={`${width != null && `max-w-${width}`}`}>
+      <DialogContent className={`${width != null && `max-w-[${width}]`}`}>
         <DialogHeader>
           <DialogTitle>{description}</DialogTitle>
         </DialogHeader>

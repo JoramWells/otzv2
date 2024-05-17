@@ -2,7 +2,7 @@ import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { Textarea } from '@/components/ui/textarea'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 const History = () => {
   const [isNormal, setIsNormal] = useState(false)
