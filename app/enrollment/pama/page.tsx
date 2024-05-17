@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { useGetAllOTZEnrollmentsQuery } from '@/api/enrollment/otzEnrollment.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -8,6 +7,7 @@ import { columns } from '../otz/columns'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import SelectPatientDialog from '../_components/SelectPatientDialog'
+import { useGetAllPAMAEnrollmentsQuery } from '@/api/enrollment/pamaEnrollment.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -31,7 +31,9 @@ const dataList2 = [
 ]
 const OTZ = () => {
   // const datax = await getPatients()
-  const { data } = useGetAllOTZEnrollmentsQuery()
+  const { data } = useGetAllPAMAEnrollmentsQuery()
+
+  console.log(data)
 
   const router = useRouter()
 

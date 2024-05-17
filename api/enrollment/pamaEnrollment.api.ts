@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const pamaEnrollmentApi = createApi({
   reducerPath: 'pamaEnrollmentApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/pama-enrollment`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/enrollments/pama-enrollment`
   }),
   endpoints: (builder) => ({
     getAllPAMAEnrollments: builder.query<any, void>({
