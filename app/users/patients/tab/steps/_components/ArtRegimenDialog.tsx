@@ -124,7 +124,7 @@ const ArtRegimenDialog = ({ patientID }: { patientID: string }) => {
   const { data: patientData } = useGetPatientQuery(patientID)
   const { data: prescriptionData } = useGetArtPrescriptionQuery(patientID)
 
-  const [startDate, setStartDate] = useState(new Date())
+  const [startDate, setStartDate] = useState('')
 
   const { data } = useGetAllArtRegimenQuery()
   const { data: vsData } = useGetVitalSignQuery(appointmentID)
