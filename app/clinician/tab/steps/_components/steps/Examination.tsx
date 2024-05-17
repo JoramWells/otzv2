@@ -4,7 +4,6 @@ import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import CustomSelect from '@/components/forms/CustomSelect'
 
 import { useState } from 'react'
-import ArtRegimenDialog from './ArtRegimenDialog'
 
 interface InputProps {
   patientID: string
@@ -55,9 +54,7 @@ const Examination = ({ patientID }: InputProps) => {
 
       <div>
 {/*  */}
-<ArtRegimenDialog
-patientID={patientID}
-/>
+
       </div>
     </div>
   )

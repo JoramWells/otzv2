@@ -7,9 +7,8 @@ import { useState } from 'react'
 import VisitDetails from '../_components/steps/VisitDetails'
 import History from '../_components/steps/History'
 import Examination from '../_components/steps/Examination'
-import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
-import CustomSelect from '@/components/forms/CustomSelect'
-import CustomInput from '@/components/forms/CustomInput'
+import AllergiesModal from '../_components/AllergiesModal'
+import ArtRegimenDialog from '../_components/steps/ArtRegimenDialog'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -41,8 +40,6 @@ const steps = [
 const StepsPage = ({ params }: any) => {
   const { patientID } = params
   const [activeStep, setActiveStep] = useState(1)
-
-  const [allergy, setAllergy] = useState('')
 
   const handleNext = () => {
     if (activeStep === 3) {
@@ -112,93 +109,11 @@ const StepsPage = ({ params }: any) => {
             </div>
           </div>
         </div>
-
         {/*  */}
-        <div className="w-1/4 p-2 flex flex-col space-y-4">
-          <div className="border rounded-lg bg-white p-4 w-full">
-            <p className="font-bold text-lg">Allergies</p>
-
-            <CaseManagerDialog label="Update">
-              <CustomSelect
-                label="Select Allergy"
-                value={allergy}
-                onChange={setAllergy}
-                data={[
-                  {
-                    id: 'caffeine',
-                    label: 'Caffeine'
-                  }
-                ]}
-              />
-
-              {/*  */}
-              <CustomSelect
-                label="Select Reaction"
-                value={allergy}
-                onChange={setAllergy}
-                data={[
-                  {
-                    id: 'anaemia',
-                    label: 'Anaemia'
-                  }
-                ]}
-              />
-
-              {/*  */}
-              <CustomSelect
-              label='Severity'
-                data={[
-                  {
-                    id: 'mild',
-                    label: 'Mild'
-                  },
-                  {
-                    id: 'moderate',
-                    label: 'Moderate'
-                  },
-                  {
-                    id: 'severe',
-                    label: 'Severe'
-                  },
-                  {
-                    id: 'fatal',
-                    label: 'Fatal'
-                  }
-                ]}
-              />
-
-              <CustomInput
-              label='Onset'
-              type='date'
-              />
-
-              <Button
-              className='bg-slate-200 text-black shadow-none hover:bg-slate-100'
-              >
-                Update
-              </Button>
-            </CaseManagerDialog>
-          </div>
-
-          {/*  */}
-          <div className="border rounded-lg bg-white p-4">
-            <p className="font-bold text-lg">
-              Chronic Illness and Cormobidities
-            </p>
-
-            <Button className="w-full bg-slate-200 text-black shadow-none hover:bg-slate-100">
-              Update
-            </Button>
-          </div>
-
-          {/*  */}
-          <div className="border rounded-lg bg-white p-4">
-            <p className="font-bold text-lg">Adverse Drug Reactions </p>
-
-            <Button className="w-full bg-slate-200 text-black shadow-none hover:bg-slate-100">
-              Update
-            </Button>
-          </div>
+        {/* all */}
+        <div>
+          <ArtRegimenDialog patientID={patientID} />
+          <AllergiesModal patientID={patientID} />
         </div>
       </div>
     </div>
