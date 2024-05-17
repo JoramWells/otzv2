@@ -6,9 +6,10 @@ import { useEffect } from 'react'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'
-import { useGetAllPrescriptionsQuery } from '@/api/pillbox/artPrescription.api'
+// import { useGetAllPrescriptionsQuery } from '@/api/pillbox/artPrescription.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
+import { useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {

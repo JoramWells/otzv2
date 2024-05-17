@@ -5,7 +5,6 @@ import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSe
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import History from '../_components/steps/History'
-import Examination from '../_components/steps/Examination'
 import AllergiesModal from '../_components/AllergiesModal'
 import ArtRegimenDialog from '../_components/ArtRegimenDialog'
 import ChronicIllnessDialog from '../_components/ChronicIllnessDialog'
@@ -13,6 +12,9 @@ import AdverseDrugReactionsDialog from '../_components/AdverseDrugReactionsDialo
 import VitalSigns from '../_components/steps/VitalSigns'
 // import FamilyPanning from '../_components/steps/FamilyPanning'
 import FamilyPanningModal from '../_components/FamilyPlanningModal'
+import MMASForm from '@/app/_components/treatement-plan/MMAS'
+import DisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist'
+import FormOne from '@/app/_components/treatement-plan/FormOne'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -36,9 +38,11 @@ const dataList2 = [
 ]
 
 const steps = [
-  { title: 'Visit Details', description: 'Personal Information' },
-  { title: 'Contact/Location', description: 'Contact, Location, Occupation' },
-  { title: 'ART Status', description: 'Current Regimen' }
+  { title: 'Vitals', description: '' },
+  { title: 'Staging', description: '' },
+  { title: 'Time', description: '' },
+  { title: 'MMAS', description: '' },
+  { title: 'Disclosure', description: '' }
 ]
 
 const StepsPage = ({ params }: any) => {
@@ -46,7 +50,7 @@ const StepsPage = ({ params }: any) => {
   const [activeStep, setActiveStep] = useState(1)
 
   const handleNext = () => {
-    if (activeStep === 3) {
+    if (activeStep === steps.length) {
       // await addPatient(inputValues)
       console.log('last')
     } else {
@@ -92,9 +96,10 @@ const StepsPage = ({ params }: any) => {
             {activeStep === 1 && <VitalSigns patientID={patientID} />}
             {activeStep === 2 && <History />}
 
-            {activeStep === 3 && <Examination patientID={patientID} />}
+            {activeStep === 3 && <FormOne />}
 
-            {activeStep === 4 && <div>Management</div>}
+            {activeStep === 4 && <MMASForm />}
+            {activeStep === 5 && <DisclosureChecklist />}
             <div className="flex justify-between">
               <Button
                 onClick={() => {
