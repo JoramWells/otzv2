@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-// import History from '../_components/steps/History'
+import History from '../_components/steps/History'
 import Examination from '../_components/steps/Examination'
 import AllergiesModal from '../_components/AllergiesModal'
 import ArtRegimenDialog from '../_components/ArtRegimenDialog'
@@ -90,7 +90,7 @@ const StepsPage = ({ params }: any) => {
           </div>
           <div className="w-full mt-4 bg-white rounded-lg p-4">
             {activeStep === 1 && <VitalSigns patientID={patientID} />}
-            {/* {activeStep === 2 && <FamilyPanning />} */}
+            {activeStep === 2 && <History />}
 
             {activeStep === 3 && <Examination patientID={patientID} />}
 
