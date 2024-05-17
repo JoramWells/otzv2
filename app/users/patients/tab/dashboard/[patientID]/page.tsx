@@ -45,7 +45,7 @@ const PatientDetails = ({ params }: any) => {
 
       <div className="p-2 w-full justify-end flex">
         <Button
-        onClick={() => { router.push(`/patients/tab/steps/${patientID}`) }}
+        onClick={() => { router.push(`/users/patients/tab/steps/${patientID}`) }}
         className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold">
           Start Visit
         </Button>
