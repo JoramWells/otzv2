@@ -8,7 +8,7 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
   return (
     <div
       className={`
-        bg-[#003153]
+        bg-[#364f6b]
         h-screen
         w-64
         overflow-y-auto

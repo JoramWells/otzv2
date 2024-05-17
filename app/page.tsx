@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Bell, BookIcon, HomeIcon, LineChart, NotebookPen, Pill, SaveAll, Search, Shield, StethoscopeIcon, Users } from 'lucide-react'
+import { Bell, BookIcon, LineChart, Pill, SaveAll, Search, Shield, Users } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
 import { type ReactNode, Suspense } from 'react'
@@ -77,21 +77,6 @@ const itemList: ItemListProps[] = [
     label: 'Articles',
     icon: <BookIcon />,
     link: '/articles/dashboard',
-    description:
-      'Upload, manage and add patient learning materials for E-learning',
-    listItem: [
-      {
-        id: '8',
-        label: 'Articles',
-        link: '/articles/dashboard'
-      }
-    ]
-  },
-  {
-    id: '13',
-    label: 'Clinician',
-    icon: <StethoscopeIcon />,
-    link: '/clinician/dashboard',
     description:
       'Upload, manage and add patient learning materials for E-learning',
     listItem: [
@@ -203,66 +188,6 @@ const itemList: ItemListProps[] = [
         id: '4',
         label: 'Notifications',
         link: '/notify/notifications'
-      }
-    ]
-  },
-  {
-    id: '11',
-    label: 'Patients',
-    icon: <HomeIcon />,
-    link: '/patients/dashboard',
-    description:
-      'Upload, manage and add patient learning materials for E-learning',
-    listItem: [
-      {
-        id: '1',
-        label: 'Triage',
-        link: '/patients/triage'
-      },
-      {
-        id: '2',
-        label: 'Queue',
-        link: '/patients/patient-queue'
-      }
-    ]
-  },
-  {
-    id: '7',
-    label: 'Pharmacy',
-    icon: <NotebookPen />,
-    link: '/pharmacy/dashboard',
-    listItem: [
-      {
-        id: '7',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
-      }
-    ]
-  },
-
-  {
-    id: '9',
-    label: 'Lab',
-    icon: <HomeIcon />,
-    link: '/lab/dashboard',
-    listItem: [
-      {
-        id: '9',
-        label: 'Lab Visits',
-        link: '/lab/lab-visits'
-      }
-    ]
-  },
-  {
-    id: '10',
-    label: 'Reports',
-    icon: <HomeIcon />,
-    link: '/reports',
-    listItem: [
-      {
-        id: '10',
-        label: 'Dashboard',
-        link: '/administrator/dashboard'
       }
     ]
   },
