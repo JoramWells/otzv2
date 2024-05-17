@@ -107,25 +107,31 @@ const Layout = ({ children }: { children: ReactNode }) => {
     <div className="flex flex-row">
       <ChakraProvider>
         <Sidebar isSearchable={false}>
-          <div className="flex flex-col items-center h-[180px] w-full p-2">
-            {data && (
-              <div className="flex flex-col items-center  w-full rounded-lg space-y-1">
-                <Avatar name={`${data?.firstName} ${data?.middleName}`} />
-                <p className="font-bold">
-                  {data?.firstName} {data?.middleName}
-                </p>
-                {/*  */}
-                <p className="text-slate-500 font-bold text-sm">
-                  {data?.initialRegimen}
-                </p>
+          <div className=" h-[180px] p-4">
+            <div
+              className="flex flex-col items-center
+          bg-slate-50 rounded-lg p-2
+          w-full "
+            >
+              {data && (
+                <div className="flex flex-col items-center  w-full rounded-lg space-y-1">
+                  <Avatar name={`${data?.firstName} ${data?.middleName}`} />
+                  <p className="font-bold">
+                    {data?.firstName} {data?.middleName}
+                  </p>
+                  {/*  */}
+                  <p className="text-slate-500 font-bold text-sm">
+                    {data?.initialRegimen}
+                  </p>
 
-                <p className="text-sm text-slate-500">{data?.cccNo} </p>
-                <div className="text-slate-500 text-sm">
-                  Phone No:
-                  <p>{data?.phoneNo} </p>
+                  <p className="text-sm text-slate-500">{data?.cccNo} </p>
+                  <div className="text-slate-500 text-sm">
+                    Phone No:
+                    <p>{data?.phoneNo} </p>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           <SidebarListItemsComponent dataList={DL} />
