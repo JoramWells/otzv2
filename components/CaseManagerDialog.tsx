@@ -11,25 +11,26 @@ interface DataProps {
   label: string
   description?: string
   children: React.ReactNode
+  width?: string
 }
 
-export function CaseManagerDialog ({ children, description, label }: DataProps) {
+export function CaseManagerDialog ({ children, description, label, width }: DataProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline"
-        // size={'sm'}
-        className='shadow-none border-slate-300'
-        >{label}</Button>
+        <Button
+          variant="outline"
+          // size={'sm'}
+          className="shadow-none border-slate-300"
+        >
+          {label}
+        </Button>
       </DialogTrigger>
-      <DialogContent className="w-3/4">
+      <DialogContent className={`${width != null && `max-w-${width}`}`}>
         <DialogHeader>
           <DialogTitle>{description}</DialogTitle>
         </DialogHeader>
         {children}
-        {/* <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   )

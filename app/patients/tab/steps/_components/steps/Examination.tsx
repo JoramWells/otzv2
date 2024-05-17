@@ -1,6 +1,6 @@
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
-import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
+import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'

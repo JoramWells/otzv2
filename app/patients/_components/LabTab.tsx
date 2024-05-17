@@ -4,7 +4,7 @@
 import { useState } from 'react'
 import { type PatientIDProps } from '../../_components/lab/constants/patient'
 import HIVMonitoring from '../../_components/lab/blood/panel/HIVMonitoring'
-import { CaseManagerDialog } from '../../_components/patient/casemanager/CaseManagerDialog'
+import { CaseManagerDialog } from '../../../components/CaseManagerDialog'
 import { useGetInternalLabRequestByIDQuery } from '@/api/viraload/internalLabRequest.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { labTabColumns } from './columns'

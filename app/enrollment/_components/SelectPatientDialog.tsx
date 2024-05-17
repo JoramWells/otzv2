@@ -1,5 +1,5 @@
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
+import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'

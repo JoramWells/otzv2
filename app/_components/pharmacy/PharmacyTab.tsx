@@ -1,4 +1,4 @@
-import { CaseManagerDialog } from '../patient/casemanager/CaseManagerDialog'
+import { CaseManagerDialog } from '../../../components/CaseManagerDialog'
 
 const PharmacyTab = () => {
   return (

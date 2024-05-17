@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Edit2, Loader2, Trash2 } from 'lucide-react'
 import { useUpdateMeasuringUnitMutation } from '@/api/art/measuringUnit.api'
 import CustomInput from '@/components/forms/CustomInput'
-import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
+import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 
 interface DataProps {
   id: string

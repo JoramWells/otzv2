@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
+import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomSelect from '@/components/forms/CustomSelect'
 import CustomInput from '@/components/forms/CustomInput'
 import { useAddPatientAllergyMutation } from '@/api/medicalfile/patientAllergy.api'
@@ -22,7 +22,7 @@ const AllergiesModal = ({ patientID }: { patientID: string }) => {
     onSetDate
   }
   return (
-    <div className="w-1/4 p-2 flex flex-col space-y-4">
+    <div className="w-full p-2 flex flex-col space-y-4">
       <div className="border rounded-lg bg-white p-4 w-full">
         <p className="font-bold text-lg">Allergies</p>
 

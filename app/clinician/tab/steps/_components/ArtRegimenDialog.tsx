@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { useAddArtPrescriptionMutation } from '@/api/art/artPrescription.api'
+import { useAddArtPrescriptionMutation, useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
-import { CaseManagerDialog } from '@/app/_components/patient/casemanager/CaseManagerDialog'
+import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import { Button } from '@/components/ui/button'
 import { calculateAge } from '@/utils/calculateAge'
 import { InfoIcon, Loader2 } from 'lucide-react'
@@ -19,6 +19,7 @@ const ArtRegimenDialog = ({ patientID }: { patientID: string }) => {
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('appointmentID')
   const { data: patientData } = useGetPatientQuery(patientID)
+  const { data: prescriptionData } = useGetArtPrescriptionQuery(patientID)
 
   const [startDate, setStartDate] = useState(new Date())
 
@@ -47,6 +48,8 @@ const ArtRegimenDialog = ({ patientID }: { patientID: string }) => {
     startDate,
     isStandard: isStandardRegimen
   }
+
+  console.log(prescriptionData, 'pData')
 
   return (
     <CaseManagerDialog label="NEW ART">

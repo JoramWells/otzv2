@@ -8,7 +8,7 @@ import VisitDetails from '../_components/steps/VisitDetails'
 import History from '../_components/steps/History'
 import Examination from '../_components/steps/Examination'
 import AllergiesModal from '../_components/AllergiesModal'
-import ArtRegimenDialog from '../_components/steps/ArtRegimenDialog'
+import ArtRegimenDialog from '../_components/ArtRegimenDialog'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -111,7 +111,7 @@ const StepsPage = ({ params }: any) => {
         </div>
         {/*  */}
         {/* all */}
-        <div>
+        <div className='w-1/4'>
           <ArtRegimenDialog patientID={patientID} />
           <AllergiesModal patientID={patientID} />
         </div>
