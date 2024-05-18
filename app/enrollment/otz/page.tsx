@@ -7,7 +7,7 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import CustomTab from '@/components/tab/CustomTab'
-import { Suspense, useState } from 'react'
+import { useState } from 'react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -53,10 +53,8 @@ const OTZ = () => {
   // const datax = await getPatients()
   const [tab, setTab] = useState('otz')
   const { data } = useGetAllOTZEnrollmentsQuery()
-  console.log(data, 'dtc')
 
   return (
-    <Suspense>
       <div className="p-2">
         <BreadcrumbComponent dataList={dataList2} />
 
@@ -69,7 +67,6 @@ const OTZ = () => {
           <CustomTable columns={columns} data={data || []} />
         </div>
       </div>
-    </Suspense>
   )
 }
 
