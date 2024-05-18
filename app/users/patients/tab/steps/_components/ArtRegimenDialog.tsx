@@ -9,7 +9,7 @@ import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import { Button } from '@/components/ui/button'
 import { calculateAge } from '@/utils/calculateAge'
-import { Edit, InfoIcon, Loader2, RefreshCcw, StopCircle, TabletsIcon } from 'lucide-react'
+import { Edit, InfoIcon, Loader2, Plus, RefreshCcw, StopCircle, TabletsIcon } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import CustomInput from '@/components/forms/CustomInput'
@@ -155,12 +155,16 @@ const ArtRegimenDialog = ({ patientID }: { patientID: string }) => {
   const [tab, setTab] = useState(1)
 
   return (
-    <div className="w-full">
+    <div className="w-full flex justify-between items-center bg-[#F4FAFF] p-2 rounded-lg">
+      <p className='font-bold'>Regimen</p>
       {prescriptionData ? (
-        <div className="bg-white p-4 rounded-lg flex flex-row justify-between items-center">
+        <div className="bg-[#F1F1E6] p-4 rounded-lg flex flex-row justify-between items-center">
           <p>{prescriptionData?.regimen}</p>
           <div>
-            <CaseManagerDialog label={<Edit className='' size={18} />} width="750px">
+            <CaseManagerDialog
+              label={<Edit className="" size={18} />}
+              width="750px"
+            >
               <p className="text-lg font-bold">Manage Patient Regimen</p>
               <div className="flex flex-row space-x-4">
                 {dataList.map((item) => (
@@ -190,7 +194,7 @@ const ArtRegimenDialog = ({ patientID }: { patientID: string }) => {
           </div>
         </div>
       ) : (
-        <CaseManagerDialog label="NEW ART">
+        <CaseManagerDialog label={<Plus className='text-slate-500' size={18}/>}>
           <div className="bg-slate-50 rounded-lg p-4">
             <div className="flex w-full justify-end">
               <InfoIcon size={18} />

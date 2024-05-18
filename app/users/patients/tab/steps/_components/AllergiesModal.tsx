@@ -6,6 +6,7 @@ import { useAddPatientAllergyMutation, useGetPatientAllergyQuery } from '@/api/m
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { tertiaryColor } from '@/constants/color'
 const AllergiesModal = ({ patientID }: { patientID: string }) => {
   const [addAllergy, { isLoading }] = useAddPatientAllergyMutation()
 
@@ -25,7 +26,7 @@ const AllergiesModal = ({ patientID }: { patientID: string }) => {
   }
   console.log(allergyData, 'elle')
   return (
-      <div className="border rounded-lg bg-white p-4 w-full">
+      <div className={`rounded-lg bg-[${tertiaryColor}] p-2 w-full flex justify-between`}>
         <p className="font-bold text-lg">Allergies</p>
 
         <CaseManagerDialog label="Update">

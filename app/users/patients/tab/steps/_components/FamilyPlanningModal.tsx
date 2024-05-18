@@ -1,6 +1,7 @@
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import CustomSelect from '@/components/forms/CustomSelect'
+import { tertiaryColor } from '@/constants/color'
 import { useState } from 'react'
 import Select from 'react-select'
 
@@ -61,28 +62,27 @@ const FamilyPlanningModal = () => {
   const [notOnFamilyPlanning, setNotOnFamilyPlanning] = useState(false)
   const [considersFamilyPlanning, setConsidersFamilyPlanning] = useState(false)
   return (
-    <CaseManagerDialog label="NEW ART">
-      <p>Family Planning</p>
+    <div className={`bg-[${tertiaryColor}] w-full flex justify-between items-center p-1`}>
+      <p className='font-bold'>Family Planning</p>
 
-      <CustomCheckbox
-        label="On Family Planning"
-        value={onFamilyPlanning}
-        onChange={setonFamilyPanning}
-      />
+      <CaseManagerDialog label="NEW ART">
+        <p>Family Planning</p>
 
-      {onFamilyPlanning && (
-        <Select
-          options={dataOptions}
+        <CustomCheckbox
+          label="On Family Planning"
+          value={onFamilyPlanning}
+          onChange={setonFamilyPanning}
         />
-      )}
 
-      <CustomCheckbox
-        label="Considers Family Planning"
-        value={considersFamilyPlanning}
-        onChange={setConsidersFamilyPlanning}
-      />
+        {onFamilyPlanning && <Select options={dataOptions} />}
 
-      {/* {considersFamilyPlanning && (
+        <CustomCheckbox
+          label="Considers Family Planning"
+          value={considersFamilyPlanning}
+          onChange={setConsidersFamilyPlanning}
+        />
+
+        {/* {considersFamilyPlanning && (
         <FamilyPanning
           condoms={condoms}
           diaphragm={diaphragm}
@@ -111,35 +111,36 @@ const FamilyPlanningModal = () => {
         />
       )} */}
 
-      <CustomCheckbox
-        label="Not Using Family Planning"
-        value={notOnFamilyPlanning}
-        onChange={setNotOnFamilyPlanning}
-      />
+        <CustomCheckbox
+          label="Not Using Family Planning"
+          value={notOnFamilyPlanning}
+          onChange={setNotOnFamilyPlanning}
+        />
 
-      {notOnFamilyPlanning && (
-        <div className="pl-4">
-          <CustomSelect
-            value={reason}
-            onChange={setReason}
-            data={[
-              {
-                id: 'Wants To get Pregnant',
-                label: 'Wants To get Pregnant'
-              },
-              {
-                id: 'Thinks cant Pregnant',
-                label: 'Wants To get Pregnant'
-              },
-              {
-                id: 'Not Sexually Active',
-                label: 'Not Sexually Active'
-              }
-            ]}
-          />
-        </div>
-      )}
-    </CaseManagerDialog>
+        {notOnFamilyPlanning && (
+          <div className="pl-4">
+            <CustomSelect
+              value={reason}
+              onChange={setReason}
+              data={[
+                {
+                  id: 'Wants To get Pregnant',
+                  label: 'Wants To get Pregnant'
+                },
+                {
+                  id: 'Thinks cant Pregnant',
+                  label: 'Wants To get Pregnant'
+                },
+                {
+                  id: 'Not Sexually Active',
+                  label: 'Not Sexually Active'
+                }
+              ]}
+            />
+          </div>
+        )}
+      </CaseManagerDialog>
+    </div>
   )
 }
 

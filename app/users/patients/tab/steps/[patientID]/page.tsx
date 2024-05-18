@@ -118,10 +118,11 @@ const StepsPage = ({ params }: any) => {
         </div>
         {/*  */}
         {/* all */}
-        <div className="w-1/4 flex flex-col space-y-2">
+        <div className="w-1/4 flex flex-col space-y-2 bg-white rounded-lg p-2">
+          <p className="text-lg font-bold">Available Actions</p>
+          <AllergiesModal patientID={patientID} />
           <ArtRegimenDialog patientID={patientID} />
           <ChronicIllnessDialog />
-          <AllergiesModal patientID={patientID} />
           <AdverseDrugReactionsDialog />
           <FamilyPanningModal />
           <StagingDialog />

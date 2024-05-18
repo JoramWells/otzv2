@@ -6,6 +6,7 @@
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_components/patient/SidebarListItemsComponent'
 import { Sidebar } from '@/components/sidebar/Sidebar'
+import { tertiaryColor } from '@/constants/color'
 import { type AvatarProps } from '@/types'
 import { generateRandomColors } from '@/utils/generateRandomColors'
 import { ChakraProvider } from '@chakra-ui/react'
@@ -136,7 +137,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
           <SidebarListItemsComponent dataList={DL} />
         </Sidebar>
-        <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
+        <div className={`flex flex-col flex-1 h-screen overflow-y-auto bg-[${tertiaryColor}]`}>
           {/* <Navbar /> */}
 
           {children}
