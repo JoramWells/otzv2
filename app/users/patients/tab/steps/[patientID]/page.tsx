@@ -67,7 +67,7 @@ const StepsPage = ({ params }: any) => {
   }
 
   return (
-    <div className="p-4">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="w-full flex flex-row space-x-4 justify-center  mt-4">
         <div className="flex flex-col items-center w-1/2">
@@ -128,7 +128,7 @@ const StepsPage = ({ params }: any) => {
           <StagingDialog />
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

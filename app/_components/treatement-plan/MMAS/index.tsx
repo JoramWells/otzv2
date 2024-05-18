@@ -1,49 +1,12 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
-import { type Dispatch, type SetStateAction, useCallback, useState } from 'react'
-import {
-  Box,
-  Button,
-  Step,
-  StepDescription,
-  StepIcon,
-  StepIndicator,
-  StepNumber,
-  StepSeparator,
-  StepStatus,
-  StepTitle,
-  Stepper
-} from '@chakra-ui/react'
-import { useAddPatientMutation } from '@/api/patient/patients.api'
+import { type Dispatch, type SetStateAction, useState } from 'react'
+
 import MmasFour from './MMASFour'
 import MmasEight from './MMASEight'
 import { useAddMmasMutation } from '@/api/treatmentplan/mmas.api'
-
-const steps = [
-  { title: 'MMAS-4', description: 'MMAS-4 Form' },
-  { title: 'MMAS-8', description: 'MMAS-8 Form' }
-]
-
-const itemList = [
-  {
-    id: 1,
-    label: 'Forms'
-  },
-  {
-    id: 2,
-    label: 'Morisky Medication Adherence Scale'
-  },
-  {
-    id: 3,
-    label: 'Disclosure Checklist'
-  },
-  {
-    id: 4,
-    label: 'Follow Up Checklist'
-  }
-]
 
 const MMASForm = () => {
   const [activeStep, setActiveStep] = useState(1)
@@ -98,34 +61,7 @@ const MMASForm = () => {
       width: '100%'
     }}
     >
-        <div
-          style={{
-            width: '100%'
-          }}
-          className="border border-slate-200 p-2 bg-slate-50 rounded-xl"
-        >
-          <Stepper index={activeStep} colorScheme="teal">
-            {steps.map((step, index) => (
-              <Step key={index}>
-                <StepIndicator>
-                  <StepStatus
-                    complete={<StepIcon />}
-                    incomplete={<StepNumber />}
-                    active={<StepNumber />}
-                  />
-                </StepIndicator>
 
-                <Box flexShrink="0">
-                  <StepTitle>{step.title}</StepTitle>
-                  <StepDescription>{step.description}</StepDescription>
-                </Box>
-
-                <StepSeparator />
-              </Step>
-            ))}
-          </Stepper>
-        </div>
-        {activeStep === 1 && (
           <MmasFour
             isForget={isForget}
             setIsForget={setIsForget}
@@ -136,8 +72,6 @@ const MMASForm = () => {
             isQuitBetter={isQuitBetter}
             setIsQuitBetter={setIsQuitBetter}
           />
-        )}
-        {activeStep === 2 && (
           <MmasEight
             isTookYesterday={isTookYesterday}
             setIsTookYesterday={setIsTookYesterday}
@@ -148,27 +82,7 @@ const MMASForm = () => {
             isDifficultyRemembering={isDifficultyRemembering}
             setIsDifficultyRemembering={setIsDifficultyRemembering}
           />
-        )}
 
-        <div className="flex justify-end pt-2 gap-x-2">
-          <Button
-            size={'sm'}
-            onClick={handleBack}
-            isDisabled={activeStep === 1}
-          >
-            Back
-          </Button>
-          <Button
-            colorScheme="teal"
-            size={'sm'}
-            onClick={() => {
-              handleNext()
-            }}
-            isLoading={isLoading}
-          >
-            {activeStep === 2 ? 'Complete' : 'Next'}
-          </Button>
-        </div>
     </div>
   )
 }

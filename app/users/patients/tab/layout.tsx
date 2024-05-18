@@ -7,12 +7,14 @@ import { useGetPatientQuery } from '@/api/patient/patients.api'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_components/patient/SidebarListItemsComponent'
 import { Sidebar } from '@/components/sidebar/Sidebar'
 import { tertiaryColor } from '@/constants/color'
+import { store } from '@/lib/store'
 import { type AvatarProps } from '@/types'
 import { generateRandomColors } from '@/utils/generateRandomColors'
 import { ChakraProvider } from '@chakra-ui/react'
 import { BookCheckIcon, BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
 import { useParams, usePathname } from 'next/navigation'
 import { useMemo, type ReactNode } from 'react'
+import { Provider } from 'react-redux'
 
 const Avatar = ({ name }: AvatarProps) => {
   const fullName = name.split(' ')
@@ -37,6 +39,8 @@ const Avatar = ({ name }: AvatarProps) => {
 const Layout = ({ children }: { children: ReactNode }) => {
   const params = useParams()
   const { patientID } = params
+
+  const pathname = usePathname()
 
   const { data } = useGetPatientQuery(patientID)
 
@@ -104,6 +108,21 @@ const Layout = ({ children }: { children: ReactNode }) => {
       icon: <BookCopy size={17} />
     }
   ]
+
+  if (
+    pathname === `/users/patients/tab/steps/${patientID}`
+  ) {
+    return (
+      <Provider store={store}>
+        <ChakraProvider>
+          <div
+          className={`bg-[${tertiaryColor}] min-h-screen`}
+          >{children}</div>
+        </ChakraProvider>
+      </Provider>
+    )
+  }
+
   return (
     <div className="flex flex-row">
       <ChakraProvider>

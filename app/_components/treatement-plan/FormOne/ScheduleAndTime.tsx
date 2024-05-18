@@ -68,7 +68,7 @@ const ScheduleAndTime = ({
   eveningMinutesWeekend,
   setEveningMinutesWeekend
 }: ScheduleAndTimeProps) => (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+  <div className="flex flex-col gap-y-6  mt-4">
     <div>
       <p>
         Based on your schedule, what is the best time and place to take
