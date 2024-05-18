@@ -10,6 +10,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
+import { v4 as uuidv4 } from 'uuid'
+
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -38,6 +40,7 @@ export interface InputTabProps {
 const PatientDetails = ({ params }: any) => {
   const router = useRouter()
   const { patientID } = params
+  const patientVisitID = uuidv4()
   const { data } = useGetViralLoadTestQuery(patientID)
   return (
     <div className="p-4">
@@ -45,7 +48,7 @@ const PatientDetails = ({ params }: any) => {
 
       <div className="p-2 w-full justify-end flex">
         <Button
-        onClick={() => { router.push(`/users/patients/tab/steps/${patientID}`) }}
+        onClick={() => { router.push(`/users/patients/tab/steps/${patientID}?appointmentID=${patientVisitID}`) }}
         className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold">
           Start Visit
         </Button>
