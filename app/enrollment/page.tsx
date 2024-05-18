@@ -2,7 +2,7 @@
 'use client'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import CustomTab from '@/components/tab/CustomTab'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useGetAllOTZEnrollmentsQuery } from '../../api/enrollment/otzEnrollment.api'
 import { otzColumns } from './column'
@@ -65,31 +65,33 @@ const Page = () => {
   }, [tab])
 
   return (
-    <div className="flex flex-col space-y-2">
-      <BreadcrumbComponent dataList={dataList2} />
-      <CustomTab
-        categoryList={categoryList}
-        setValue={setValue}
-        value={value}
-      />
+    <Suspense>
+      <div className="flex flex-col space-y-2">
+        <BreadcrumbComponent dataList={dataList2} />
+        <CustomTab
+          categoryList={categoryList}
+          setValue={setValue}
+          value={value}
+        />
 
-      {value === 'otz' && (
-        <div className="p-4 w-full">
-          <div className="w-full flex flex-col rounded-lg bg-white p-4">
-            <HeaderTitle
-              title="Enrollment"
-              label='Create New OTZ'
-              link={'/users/enrollment/enroll-otz'}
-            />
-            <CustomTable
-              columns={otzColumns}
-              data={data || []}
-              isLoading={isLoading}
-            />
+        {value === 'otz' && (
+          <div className="p-4 w-full">
+            <div className="w-full flex flex-col rounded-lg bg-white p-4">
+              <HeaderTitle
+                title="Enrollment"
+                label="Create New OTZ"
+                link={'/users/enrollment/enroll-otz'}
+              />
+              <CustomTable
+                columns={otzColumns}
+                data={data || []}
+                isLoading={isLoading}
+              />
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Suspense>
   )
 }
 

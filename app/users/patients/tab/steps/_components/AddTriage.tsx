@@ -41,6 +41,7 @@ const AddTriage = ({ patientID }: { patientID: string }) => {
 
   //
   const [addVitalSign, { isLoading }] = useAddVitalSignMutation()
+  // const [] =
   return (
     <div className="p-2 rounded-lg flex flex-col space-y-4">
       <CustomInput

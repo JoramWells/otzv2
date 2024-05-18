@@ -1,37 +1,16 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
-import { type Dispatch, type SetStateAction, useCallback, useState } from 'react'
-import {
-  Box,
-  Button,
-  Step,
-  StepDescription,
-  StepIcon,
-  StepIndicator,
-  StepNumber,
-  StepSeparator,
-  StepStatus,
-  StepTitle,
-  Stepper
-} from '@chakra-ui/react'
+import { type Dispatch, type SetStateAction, useState } from 'react'
+
 import { useAddPatientMutation } from '@/api/patient/patients.api'
 import TaskOne from './TaskOne'
 import TaskTwo from './TaskTwo'
 import TaskThree from './TaskThree'
 import TaskFour from './TaskFour'
 
-const steps = [
-  { title: 'Task One', description: 'Task One Form' },
-  { title: 'Task Two', description: 'Task Two Form' },
-  { title: 'Task Three', description: 'Task Three Form' },
-  { title: 'Task Four', description: 'Task Four Form' }
-]
-
 const DisclosureChecklist = () => {
-  const [activeStep, setActiveStep] = useState(1)
-
   const [isCorrectAge, setIsCorrectAge]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isWillingToDisclose, setIsWillingToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isKnowledgeable, setIsKnowledgeable]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
@@ -96,28 +75,6 @@ const DisclosureChecklist = () => {
     finalComments
   }
 
-  // const { activeStep } = useSteps({
-  //   index: 1,
-  //   count: steps.length
-  // })
-
-  const handleNext = async () => {
-    if (activeStep === 3) {
-      await addPatient(inputValues)
-    } else {
-      setActiveStep((prevStep) => prevStep + 1)
-    }
-    // navigate({
-    //   pathname: '/add-invoice',
-    //   search: `?id=${invoiceId}`,
-    // });
-    // setSearchParams(activeStep);
-  }
-
-  const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1)
-  }
-
   const [addPatient, { isLoading }] = useAddPatientMutation()
 
   return (
@@ -126,33 +83,6 @@ const DisclosureChecklist = () => {
         width: '100%'
       }}
     >
-      <div
-        style={{
-          width: '100%'
-        }}
-        className="border border-slate-200 p-2 bg-slate-50 rounded-xl"
-      >
-        <Stepper index={activeStep} colorScheme="teal">
-          {steps.map((step, index) => (
-            <Step key={index}>
-              <StepIndicator>
-                <StepStatus
-                  complete={<StepIcon />}
-                  incomplete={<StepNumber />}
-                  active={<StepNumber />}
-                />
-              </StepIndicator>
-
-              <Box flexShrink="0">
-                <StepTitle>{step.title}</StepTitle>
-              </Box>
-
-              <StepSeparator />
-            </Step>
-          ))}
-        </Stepper>
-      </div>
-      {activeStep === 1 && (
         <TaskOne
           isCorrectAge={isCorrectAge}
           setIsCorrectAge={setIsCorrectAge}
@@ -163,8 +93,6 @@ const DisclosureChecklist = () => {
           taskOneComments={taskOneComments}
           setTaskOneComments={setTaskOneComments}
         />
-      )}
-      {activeStep === 2 && (
         <TaskTwo
           isFreeFromSevereIllness={isFreeFromSevereIllness}
           setIsFreeFromSevereIllness={setIsFreeFromSevereIllness}
@@ -185,9 +113,7 @@ const DisclosureChecklist = () => {
           taskTwoComments={taskTwoComments}
           setTaskTwoComments={setTaskTwoComments}
         />
-      )}
 
-      {activeStep === 3 && (
         <TaskThree
           isReassuredCaregiver={isReassuredCaregiver}
           setIsReassuredCaregiver={setIsReassuredCaregiver}
@@ -216,9 +142,7 @@ const DisclosureChecklist = () => {
           taskThreeComments={taskThreeComments}
           setTaskThreeComments={setTaskThreeComments}
         />
-      )}
 
-      {activeStep === 4 && (
         <TaskFour
           isPeerRelationshipAssessed={isPeerRelationshipAssessed}
           setIsPeerRelationshipAssessed={setIsPeerRelationshipAssessed}
@@ -239,23 +163,7 @@ const DisclosureChecklist = () => {
           finalComments={finalComments}
           setFinalComments={setFinalComments}
         />
-      )}
 
-      <div className="flex justify-end pt-2 gap-x-2">
-        <Button size={'sm'} onClick={handleBack} isDisabled={activeStep === 1}>
-          Back
-        </Button>
-        <Button
-          colorScheme="teal"
-          size={'sm'}
-          onClick={() => {
-            handleNext()
-          }}
-          isLoading={isLoading}
-        >
-          {activeStep === 3 ? 'Complete' : 'Next'}
-        </Button>
-      </div>
     </div>
   )
 }

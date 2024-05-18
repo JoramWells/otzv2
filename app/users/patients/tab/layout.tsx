@@ -156,7 +156,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
           <SidebarListItemsComponent dataList={DL} />
         </Sidebar>
-        <div className={`flex flex-col flex-1 h-screen overflow-y-auto bg-[${tertiaryColor}]`}>
+        <div className={'flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50'}>
           {/* <Navbar /> */}
 
           {children}
