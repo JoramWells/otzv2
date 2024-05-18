@@ -4,7 +4,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import History from '../_components/steps/History'
 import AllergiesModal from '../_components/AllergiesModal'
 import ArtRegimenDialog from '../_components/ArtRegimenDialog'
 import ChronicIllnessDialog from '../_components/ChronicIllnessDialog'
@@ -15,6 +14,7 @@ import FamilyPanningModal from '../_components/FamilyPlanningModal'
 import MMASForm from '@/app/_components/treatement-plan/MMAS'
 import DisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist'
 import FormOne from '@/app/_components/treatement-plan/FormOne'
+import StagingDialog from '../_components/StagingDialog'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -39,7 +39,6 @@ const dataList2 = [
 
 const steps = [
   { title: 'Vitals', description: '' },
-  { title: 'Staging', description: '' },
   { title: 'Time', description: '' },
   { title: 'MMAS', description: '' },
   { title: 'Disclosure', description: '' }
@@ -94,12 +93,11 @@ const StepsPage = ({ params }: any) => {
           </div>
           <div className="w-full mt-4 bg-white rounded-lg p-4">
             {activeStep === 1 && <VitalSigns patientID={patientID} />}
-            {activeStep === 2 && <History />}
 
-            {activeStep === 3 && <FormOne />}
+            {activeStep === 2 && <FormOne />}
 
-            {activeStep === 4 && <MMASForm />}
-            {activeStep === 5 && <DisclosureChecklist />}
+            {activeStep === 3 && <MMASForm />}
+            {activeStep === 4 && <DisclosureChecklist />}
             <div className="flex justify-between">
               <Button
                 onClick={() => {
@@ -126,6 +124,7 @@ const StepsPage = ({ params }: any) => {
           <AllergiesModal patientID={patientID} />
           <AdverseDrugReactionsDialog />
           <FamilyPanningModal />
+          <StagingDialog />
         </div>
       </div>
     </div>

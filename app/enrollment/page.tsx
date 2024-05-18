@@ -58,8 +58,6 @@ const Page = () => {
   const [value, setValue] = useState<string | null>(tab)
   const { data, isLoading } = useGetAllOTZEnrollmentsQuery()
 
-  console.log(data, 'try')
-
   useEffect(() => {
     if (tab === null) {
       setValue('otz')

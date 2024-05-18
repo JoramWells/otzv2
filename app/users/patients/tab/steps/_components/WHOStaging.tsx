@@ -2,7 +2,7 @@ import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import { useState } from 'react'
 import Select from 'react-select'
 
-const History = () => {
+const WHOStaging = () => {
   const [isStage1, setIsStage1] = useState(false)
   const [isStage2, setIsStage2] = useState(false)
   const [isStage3, setIsStage3] = useState(false)
@@ -75,4 +75,4 @@ const History = () => {
   )
 }
 
-export default History
+export default WHOStaging
