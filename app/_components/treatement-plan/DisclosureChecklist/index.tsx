@@ -9,8 +9,16 @@ import TaskOne from './TaskOne'
 import TaskTwo from './TaskTwo'
 import TaskThree from './TaskThree'
 import TaskFour from './TaskFour'
+import { Button } from '@/components/ui/button'
 
-const DisclosureChecklist = () => {
+interface AddTriageProps {
+  handleNext: () => void
+  handleBack: () => void
+  patientID: string
+  activeStep: number
+};
+
+const DisclosureChecklist = ({ activeStep, handleBack, handleNext, patientID }: AddTriageProps) => {
   const [isCorrectAge, setIsCorrectAge]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isWillingToDisclose, setIsWillingToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isKnowledgeable, setIsKnowledgeable]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
@@ -83,87 +91,92 @@ const DisclosureChecklist = () => {
         width: '100%'
       }}
     >
-        <TaskOne
-          isCorrectAge={isCorrectAge}
-          setIsCorrectAge={setIsCorrectAge}
-          isWillingToDisclose={isWillingToDisclose}
-          setIsWillingToDisclose={setIsWillingToDisclose}
-          isKnowledgeable={isKnowledgeable}
-          setIsKnowledgeable={setIsKnowledgeable}
-          taskOneComments={taskOneComments}
-          setTaskOneComments={setTaskOneComments}
-        />
-        <TaskTwo
-          isFreeFromSevereIllness={isFreeFromSevereIllness}
-          setIsFreeFromSevereIllness={setIsFreeFromSevereIllness}
-          isFamilySupport={isFamilySupport}
-          setIsFamilySupport={setIsFamilySupport}
-          isEnvironmentInterest={isEnvironmentInterest}
-          setIsEnvironmentInterest={setIsEnvironmentInterest}
-          isAware={isAware}
-          setIsAware={setIsAware}
-          isSchoolFree={isSchoolFree}
-          setIsSchoolFree={setIsSchoolFree}
-          isDisclosureReady={isDisclosureReady}
-          setIsDisclosureReady={setIsDisclosureReady}
-          isChildCommunicated={isChildCommunicated}
-          setIsChildCommunicated={setIsChildCommunicated}
-          isSecuredPatientInfo={isSecuredPatientInfo}
-          setIsSecuredPatientInfo={setIsSecuredPatientInfo}
-          taskTwoComments={taskTwoComments}
-          setTaskTwoComments={setTaskTwoComments}
-        />
+      <TaskOne
+        isCorrectAge={isCorrectAge}
+        setIsCorrectAge={setIsCorrectAge}
+        isWillingToDisclose={isWillingToDisclose}
+        setIsWillingToDisclose={setIsWillingToDisclose}
+        isKnowledgeable={isKnowledgeable}
+        setIsKnowledgeable={setIsKnowledgeable}
+        taskOneComments={taskOneComments}
+        setTaskOneComments={setTaskOneComments}
+      />
+      <TaskTwo
+        isFreeFromSevereIllness={isFreeFromSevereIllness}
+        setIsFreeFromSevereIllness={setIsFreeFromSevereIllness}
+        isFamilySupport={isFamilySupport}
+        setIsFamilySupport={setIsFamilySupport}
+        isEnvironmentInterest={isEnvironmentInterest}
+        setIsEnvironmentInterest={setIsEnvironmentInterest}
+        isAware={isAware}
+        setIsAware={setIsAware}
+        isSchoolFree={isSchoolFree}
+        setIsSchoolFree={setIsSchoolFree}
+        isDisclosureReady={isDisclosureReady}
+        setIsDisclosureReady={setIsDisclosureReady}
+        isChildCommunicated={isChildCommunicated}
+        setIsChildCommunicated={setIsChildCommunicated}
+        isSecuredPatientInfo={isSecuredPatientInfo}
+        setIsSecuredPatientInfo={setIsSecuredPatientInfo}
+        taskTwoComments={taskTwoComments}
+        setTaskTwoComments={setTaskTwoComments}
+      />
 
-        <TaskThree
-          isReassuredCaregiver={isReassuredCaregiver}
-          setIsReassuredCaregiver={setIsReassuredCaregiver}
-          isAssessedChildCaregiverComfort={isAssessedChildCaregiverComfort}
-          setIsAssessedChildCaregiverComfort={
-            setIsAssessedChildCaregiverComfort
-          }
-          isAssessedChildSafety={isAssessedChildSafety}
-          setIsAssessedChildSafety={setIsAssessedChildSafety}
-          isSupportedCaregiverChildToDisclose={
-            isSupportedCaregiverChildToDisclose
-          }
-          setIsSupportedCaregiverChildToDisclose={
-            setIsSupportedCaregiverChildToDisclose
-          }
-          isObservedReactions={isObservedReactions}
-          setIsObserved={setIsObserved}
-          isInvitedChildQuestions={isInvitedChildQuestions}
-          setIsInvitedChildQuestions={setIsInvitedChildQuestions}
-          isReviewedBenefitsOfDisclosure={isReviewedBenefitsOfDisclosure}
-          setIsReviewedBenefitsOfDisclosure={setIsReviewedBenefitsOfDisclosure}
-          isExplainedCareOptions={isExplainedCareOptions}
-          setIsExplainedCareOptions={setIsExplainedCareOptions}
-          isConcludedSessionReassured={isConcludedSessionReassured}
-          setIsConcludedSessionReassured={setIsConcludedSessionReassured}
-          taskThreeComments={taskThreeComments}
-          setTaskThreeComments={setTaskThreeComments}
-        />
+      <TaskThree
+        isReassuredCaregiver={isReassuredCaregiver}
+        setIsReassuredCaregiver={setIsReassuredCaregiver}
+        isAssessedChildCaregiverComfort={isAssessedChildCaregiverComfort}
+        setIsAssessedChildCaregiverComfort={setIsAssessedChildCaregiverComfort}
+        isAssessedChildSafety={isAssessedChildSafety}
+        setIsAssessedChildSafety={setIsAssessedChildSafety}
+        isSupportedCaregiverChildToDisclose={
+          isSupportedCaregiverChildToDisclose
+        }
+        setIsSupportedCaregiverChildToDisclose={
+          setIsSupportedCaregiverChildToDisclose
+        }
+        isObservedReactions={isObservedReactions}
+        setIsObserved={setIsObserved}
+        isInvitedChildQuestions={isInvitedChildQuestions}
+        setIsInvitedChildQuestions={setIsInvitedChildQuestions}
+        isReviewedBenefitsOfDisclosure={isReviewedBenefitsOfDisclosure}
+        setIsReviewedBenefitsOfDisclosure={setIsReviewedBenefitsOfDisclosure}
+        isExplainedCareOptions={isExplainedCareOptions}
+        setIsExplainedCareOptions={setIsExplainedCareOptions}
+        isConcludedSessionReassured={isConcludedSessionReassured}
+        setIsConcludedSessionReassured={setIsConcludedSessionReassured}
+        taskThreeComments={taskThreeComments}
+        setTaskThreeComments={setTaskThreeComments}
+      />
 
-        <TaskFour
-          isPeerRelationshipAssessed={isPeerRelationshipAssessed}
-          setIsPeerRelationshipAssessed={setIsPeerRelationshipAssessed}
-          isChildActivityAssessed={isChildActivityAssessed}
-          setIsChildActivityAssessed={setIsChildActivityAssessed}
-          isChildQuestionsAllowed={isChildQuestionsAllowed}
-          setIsChildQuestionsAllowed={setIsChildQuestionsAllowed}
-          isAddressedNegativeImage={isAddressedNegativeImage}
-          setIsAddressedNegativeImage={setIsAddressedNegativeImage}
-          isAssessedMoodiness={isAssessedMoodiness}
-          setIsAssessedMoodiness={setIsAssessedMoodiness}
-          isReferredForPhysic={isReferredForPhysic}
-          setIsReferredForPhysic={setIsReferredForPhysic}
-          isGivenInfo={isGivenInfo}
-          setIsGivenInfo={setIsGivenInfo}
-          taskFourComments={taskFourComments}
-          setTaskFourComments={setTaskFourComments}
-          finalComments={finalComments}
-          setFinalComments={setFinalComments}
-        />
+      <TaskFour
+        isPeerRelationshipAssessed={isPeerRelationshipAssessed}
+        setIsPeerRelationshipAssessed={setIsPeerRelationshipAssessed}
+        isChildActivityAssessed={isChildActivityAssessed}
+        setIsChildActivityAssessed={setIsChildActivityAssessed}
+        isChildQuestionsAllowed={isChildQuestionsAllowed}
+        setIsChildQuestionsAllowed={setIsChildQuestionsAllowed}
+        isAddressedNegativeImage={isAddressedNegativeImage}
+        setIsAddressedNegativeImage={setIsAddressedNegativeImage}
+        isAssessedMoodiness={isAssessedMoodiness}
+        setIsAssessedMoodiness={setIsAssessedMoodiness}
+        isReferredForPhysic={isReferredForPhysic}
+        setIsReferredForPhysic={setIsReferredForPhysic}
+        isGivenInfo={isGivenInfo}
+        setIsGivenInfo={setIsGivenInfo}
+        taskFourComments={taskFourComments}
+        setTaskFourComments={setTaskFourComments}
+        finalComments={finalComments}
+        setFinalComments={setFinalComments}
+      />
 
+      <Button
+        onClick={() => {
+          handleNext()
+        }}
+      >
+        Next
+      </Button>
     </div>
   )
 }

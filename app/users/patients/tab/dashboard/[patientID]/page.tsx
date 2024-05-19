@@ -1,15 +1,19 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Loader2 } from 'lucide-react'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 const BreadcrumbComponent = dynamic(
@@ -38,18 +42,47 @@ export interface InputTabProps {
 }
 
 const PatientDetails = ({ params }: any) => {
-  const router = useRouter()
   const { patientID } = params
-  const patientVisitID = uuidv4()
+  const [patientVisitID, setPatientVisitID] = useState<string | null>(null)
   const { data } = useGetViralLoadTestQuery(patientID)
+
+  const [addPatientVisit, { isLoading, data: visitData }] = useAddPatientVisitMutation()
+
+  // const inputValues = {
+  //   patientID,
+  //   patientVisitID
+  // }
+
+  const handleStartVisit = async () => {
+    const newVisitID = uuidv4()
+    setPatientVisitID(newVisitID)
+    const inputValues = {
+      patientID,
+      patientVisitID: newVisitID
+    }
+    await addPatientVisit(inputValues)
+  }
+
+  useEffect(() => {
+    if (visitData) {
+      redirect(
+        `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
+      )
+    }
+    console.log(visitData, 'vsx')
+  }, [visitData, patientID, patientVisitID])
+
   return (
     <div className="p-4">
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="p-2 w-full justify-end flex">
         <Button
-        onClick={() => { router.push(`/users/patients/tab/steps/${patientID}?appointmentID=${patientVisitID}`) }}
-        className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold">
+          disabled={isLoading}
+          onClick={async () => { await handleStartVisit() }}
+          className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold"
+        >
+          {isLoading && <Loader2 className='mr-2' size={18} />}
           Start Visit
         </Button>
       </div>

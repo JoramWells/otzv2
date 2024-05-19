@@ -1,5 +1,4 @@
 'use client'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
@@ -8,13 +7,15 @@ import AllergiesModal from '../_components/AllergiesModal'
 import ArtRegimenDialog from '../_components/ArtRegimenDialog'
 import ChronicIllnessDialog from '../_components/ChronicIllnessDialog'
 import AdverseDrugReactionsDialog from '../_components/AdverseDrugReactionsDialog'
-import VitalSigns from '../_components/steps/VitalSigns'
 // import FamilyPanning from '../_components/steps/FamilyPanning'
 import FamilyPanningModal from '../_components/FamilyPlanningModal'
 import MMASForm from '@/app/_components/treatement-plan/MMAS'
 import DisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist'
 import FormOne from '@/app/_components/treatement-plan/FormOne'
 import StagingDialog from '../_components/StagingDialog'
+import AddTriage from '../_components/AddTriage'
+import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
+import { useSearchParams } from 'next/navigation'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -45,11 +46,16 @@ const steps = [
 ]
 
 const StepsPage = ({ params }: any) => {
+  const searchParams = useSearchParams()
+  const appointmentID = searchParams.get('appointmentID')
   const { patientID } = params
   const [activeStep, setActiveStep] = useState(1)
 
-  const handleNext = () => {
-    if (activeStep === steps.length) {
+  const { data } = useGetVitalSignQuery(appointmentID)
+  console.log(data, 'appointmentdtx')
+
+  const handleNext = (stepx: number) => {
+    if (stepx === steps.length) {
       // await addPatient(inputValues)
       console.log('last')
     } else {
@@ -92,28 +98,49 @@ const StepsPage = ({ params }: any) => {
             </Stepper>
           </div>
           <div className="w-full mt-4 bg-white rounded-lg p-4">
-            {activeStep === 1 && <VitalSigns patientID={patientID} />}
+            {activeStep === 1 && (
+              <AddTriage
+                patientID={patientID}
+                handleBack={handleBack}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                activeStep={activeStep}
+              />
+            )}
 
-            {activeStep === 2 && <FormOne />}
-
-            {activeStep === 3 && <MMASForm />}
-            {activeStep === 4 && <DisclosureChecklist />}
-            <div className="flex justify-between">
-              <Button
-                onClick={() => {
+            {activeStep === 2 && (
+              <FormOne
+              appointmentID={appointmentID}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                handleBack={() => {
                   handleBack()
                 }}
-              >
-                Prev
-              </Button>
-              <Button
-                onClick={() => {
-                  handleNext()
+              />
+            )}
+
+            {activeStep === 3 && (
+              <MMASForm
+                handleNext={() => {
+                  handleNext(activeStep)
                 }}
-              >
-                Next
-              </Button>
-            </div>
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
+            {activeStep === 4 && (
+              <DisclosureChecklist
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
           </div>
         </div>
         {/*  */}

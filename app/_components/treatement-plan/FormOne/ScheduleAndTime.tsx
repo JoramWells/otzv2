@@ -6,13 +6,13 @@ import CustomTimeInput from '../../../../components/forms/CustomTimeInput'
 
 export interface ScheduleAndTimeProps {
   morningPlace: string
+  morningWeekendPlace: string
   setMorningPlace: (val: string) => void
-  morningTime: string
-  setMorningTime: (val: string) => void
+  setMorningPlaceWeekend: (val: string) => void
   eveningPlace: string
+  eveningWeekendPlace: string
   setEveningPlace: (val: string) => void
-  eveningTime: string
-  setEveningTime: (val: string) => void
+  setEveningPlaceWeekend: (val: string) => void
   medicineStorage: string
   setMedicineStorage: (val: string) => void
   toolsAndCues: string
@@ -38,13 +38,13 @@ export interface ScheduleAndTimeProps {
 }
 const ScheduleAndTime = ({
   morningPlace,
+  morningWeekendPlace,
   setMorningPlace,
-  morningTime,
-  setMorningTime,
+  setMorningPlaceWeekend,
   eveningPlace,
+  eveningWeekendPlace,
   setEveningPlace,
-  eveningTime,
-  setEveningTime,
+  setEveningPlaceWeekend,
   medicineStorage,
   setMedicineStorage,
   toolsAndCues,
@@ -124,8 +124,8 @@ const ScheduleAndTime = ({
           />
           <CustomInput
             label="Enter Place"
-            value={morningPlace}
-            onChange={setMorningPlace}
+            value={morningWeekendPlace}
+            onChange={setMorningPlaceWeekend}
           />
         </div>
 
@@ -138,8 +138,8 @@ const ScheduleAndTime = ({
         />
         <CustomInput
           label="Enter Place"
-          value={eveningPlace}
-          onChange={setEveningPlace}
+          value={eveningWeekendPlace}
+          onChange={setEveningPlaceWeekend}
         />
       </div>
     </div>

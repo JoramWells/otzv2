@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
@@ -7,49 +9,67 @@ import { useState } from 'react'
 import { useAddPatientMutation } from '@/api/patient/patients.api'
 import TimeAndWork from './TimeAndWork'
 import ScheduleAndTime from './ScheduleAndTime'
+import { Button } from '@/components/ui/button'
+import { useAddTimeAndWorkMutation, useGetTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
+import { Loader2 } from 'lucide-react'
 
-const FormOne = () => {
-  const [activeStep, setActiveStep] = useState(1)
+interface AddTriageProps {
+  handleNext: () => void
+  handleBack: () => void
+  patientID: string
+  appointmentID: string
+  activeStep: number
+};
 
-  const [wakeUpTime, setWakeUpTime] = useState('')
-  const [departureHomeTime, setDepartureHomeTime] = useState('')
-  const [arrivalTime, setArrivalTime] = useState('')
-  const [departureTime, setDepartureTime] = useState('')
-  const [arrivalHomeTime, setArrivalHomeTime] = useState('')
+const FormOne = ({
+  patientID,
+  handleNext,
+  handleBack,
+  appointmentID
+  // activeStep,
+}: AddTriageProps) => {
   const [morningPlace, setMorningPlace] = useState('')
-  const [morningTime, setMorningTime] = useState('')
   const [eveningPlace, setEveningPlace] = useState('')
-  const [eveningTime, setEveningTime] = useState('')
   const [medicineStorage, setMedicineStorage] = useState('')
   const [toolAndCues, setToolAndCues] = useState('')
   const [goal, setGoal] = useState('')
 
   //
-  const [morningHours, setMorningHours] = useState('')
-  const [morningMinutes, setMorningMinutes] = useState('')
-  const [eveningHours, setEveningHours] = useState('')
-  const [eveningMinutes, setEveningMinutes] = useState('')
+  const [morningHours, setMorningHours] = useState('00')
+  const [morningMinutes, setMorningMinutes] = useState('00')
+  const [eveningHours, setEveningHours] = useState('00')
+  const [eveningMinutes, setEveningMinutes] = useState('00')
 
   //
-  const [morningHoursWeekend, setMorningHoursWeekend] = useState('')
-  const [morningMinutesWeekend, setMorningMinutesWeekend] = useState('')
-  const [eveningHoursWeekend, setEveningHoursWeekend] = useState('')
-  const [eveningMinutesWeekend, setEveningMinutesWeekend] = useState('')
+  const [morningHoursWeekend, setMorningHoursWeekend] = useState('00')
+  const [morningMinutesWeekend, setMorningMinutesWeekend] = useState('00')
+  const [eveningHoursWeekend, setEveningHoursWeekend] = useState('00')
+  const [eveningMinutesWeekend, setEveningMinutesWeekend] = useState('00')
 
   //
-  const [wakeUpTimeHours, setWakeUpTimeHours] = useState('')
-  const [wakeUpTimeMinutes, setWakeUpTimeMinutes] = useState('')
-  const [departureHomeTimeHours, setDepartureHomeTimeHours] = useState('')
-  const [departureHomeTimeMinutes, setDepartureHomeTimeMinutes] = useState('')
+  const [wakeUpTimeHours, setWakeUpTimeHours] = useState('00')
+  const [wakeUpTimeMinutes, setWakeUpTimeMinutes] = useState('00')
+  const [departureHomeTimeHours, setDepartureHomeTimeHours] = useState('00')
+  const [departureHomeTimeMinutes, setDepartureHomeTimeMinutes] = useState('00')
 
   //
-  const [arrivalTimeHours, setArrivalTimeHours] = useState('')
-  const [arrivalTimeMinutes, setArrivalTimeMinutes] = useState('')
+  const [arrivalTimeHours, setArrivalTimeHours] = useState('00')
+  const [arrivalTimeMinutes, setArrivalTimeMinutes] = useState('00')
   // const [departureTime, setDepartureTime] = useState("");
   // const [arrivalHomeTime, setArrivalHomeTime] = useState("");
 
-  const [departureTimeHours, setDepartureTimeHours] = useState('')
-  const [departureTimeMinutes, setDepartureTimeMinutes] = useState('')
+  const [departureTimeHours, setDepartureTimeHours] = useState('00')
+  const [departureTimeMinutes, setDepartureTimeMinutes] = useState('00')
+
+  const morningTime = `${morningHours}:${morningMinutes}`
+  const arrivalHomeTime = `${arrivalTimeHours}:${arrivalTimeMinutes}`
+  const eveningTime = `${eveningHours}:${eveningMinutes}`
+  const eveningTimeWeekend = `${eveningHoursWeekend}:${eveningMinutesWeekend}`
+  const wakeUpTime = `${wakeUpTimeHours}:${wakeUpTimeMinutes}`
+  const arrivalTime = `${arrivalTimeHours}:${arrivalTimeMinutes}`
+  const departureHomeTime = `${departureHomeTimeHours}:${departureHomeTimeMinutes}`
+  const departureTime = `${departureTimeHours}:${departureTimeMinutes}`
+  // console.log(morningTime, morningHours, 'uty')
 
   const inputValues = {
     wakeUpTime,
@@ -63,32 +83,20 @@ const FormOne = () => {
     eveningTime,
     medicineStorage,
     toolAndCues,
-    goal
+    eveningTimeWeekend,
+    goal,
+    patientVisitID: appointmentID
   }
+
+  const { data: timeData } = useGetTimeAndWorkQuery(appointmentID)
+  console.log(timeData, 'tData')
+
+  const [addTimeAndWork, { isLoading }] = useAddTimeAndWorkMutation()
 
   // const { activeStep } = useSteps({
   //   index: 1,
   //   count: steps.length
   // })
-
-  const handleNext = async () => {
-    if (activeStep === 3) {
-      await addPatient(inputValues)
-    } else {
-      setActiveStep((prevStep) => prevStep + 1)
-    }
-    // navigate({
-    //   pathname: '/add-invoice',
-    //   search: `?id=${invoiceId}`,
-    // });
-    // setSearchParams(activeStep);
-  }
-
-  const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1)
-  }
-
-  const [addPatient, { isLoading }] = useAddPatientMutation()
 
   return (
     <div
@@ -96,67 +104,95 @@ const FormOne = () => {
         width: '100%'
       }}
     >
-
-        <TimeAndWork
-          wakeUpTimeHours={wakeUpTimeHours}
-          setWakeUpTimeHours={setWakeUpTimeHours}
-          wakeUpTimeMinutes={wakeUpTimeMinutes}
-          setWakeUpTimeMinutes={setWakeUpTimeMinutes}
-          //
-          departureHomeTimeHours={departureHomeTimeHours}
-          setDepartureHomeTimeHours={setDepartureHomeTimeHours}
-          departureHomeTimeMinutes={departureHomeTimeMinutes}
-          setDepartureHomeTimeMinutes={setDepartureHomeTimeMinutes}
-          //
-          arrivalTimeHours={arrivalTimeHours}
-          setArrivalTimeHours={setArrivalTimeHours}
-          arrivalTimeMinutes={arrivalTimeMinutes}
-          setArrivalTimeMinutes={setArrivalTimeMinutes}
-          //
-          departureTimeHours={departureTimeHours}
-          setDepartureTimeHours={setDepartureTimeHours}
-          departureTimeMinutes={departureTimeMinutes}
-          setDepartureTimeMinutes={setDepartureTimeMinutes}
-          // arrivalHomeTime={arrivalHomeTime}
-          // setArrivalHomeTime={setArrivalHomeTime}
-        />
-        <ScheduleAndTime
-          morningPlace={morningPlace}
-          setMorningPlace={setMorningPlace}
-          morningTime={morningTime}
-          setMorningTime={setMorningTime}
-          eveningPlace={eveningPlace}
-          setEveningPlace={setEveningPlace}
-          eveningTime={eveningTime}
-          setEveningTime={setEveningTime}
-          medicineStorage={medicineStorage}
-          setMedicineStorage={setMedicineStorage}
-          toolsAndCues={toolAndCues}
-          setToolsAndCues={setToolAndCues}
-          goal={goal}
-          setGoal={setGoal}
-          // time
-          morningHours={morningHours}
-          setMorningHours={setMorningHours}
-          morningMinutes={morningMinutes}
-          setMorningMinutes={setMorningMinutes}
-          //
-          eveningHours={eveningHours}
-          setEveningHours={setEveningHours}
-          eveningMinutes={eveningMinutes}
-          setEveningMinutes={setEveningMinutes}
-          //
-          morningHoursWeekend={morningHoursWeekend}
-          setMorningMinutesWeekend={setMorningMinutesWeekend}
-          morningMinutesWeekend={morningMinutesWeekend}
-          setMorningHoursWeekend={setMorningHoursWeekend}
-          //
-          eveningHoursWeekend={eveningHoursWeekend}
-          setEveningHoursWeekend={setEveningHoursWeekend}
-          eveningMinutesWeekend={eveningMinutesWeekend}
-          setEveningMinutesWeekend={setEveningMinutesWeekend}
-        />
-
+      <TimeAndWork
+        wakeUpTimeHours={wakeUpTimeHours}
+        setWakeUpTimeHours={setWakeUpTimeHours}
+        wakeUpTimeMinutes={wakeUpTimeMinutes}
+        setWakeUpTimeMinutes={setWakeUpTimeMinutes}
+        //
+        departureHomeTimeHours={departureHomeTimeHours}
+        setDepartureHomeTimeHours={setDepartureHomeTimeHours}
+        departureHomeTimeMinutes={departureHomeTimeMinutes}
+        setDepartureHomeTimeMinutes={setDepartureHomeTimeMinutes}
+        //
+        arrivalTimeHours={arrivalTimeHours}
+        setArrivalTimeHours={setArrivalTimeHours}
+        arrivalTimeMinutes={arrivalTimeMinutes}
+        setArrivalTimeMinutes={setArrivalTimeMinutes}
+        //
+        departureTimeHours={departureTimeHours}
+        setDepartureTimeHours={setDepartureTimeHours}
+        departureTimeMinutes={departureTimeMinutes}
+        setDepartureTimeMinutes={setDepartureTimeMinutes}
+        // arrivalHomeTime={arrivalHomeTime}
+        // setArrivalHomeTime={setArrivalHomeTime}
+      />
+      <ScheduleAndTime
+        morningPlace={morningPlace}
+        setMorningPlace={setMorningPlace}
+        eveningPlace={eveningPlace}
+        setEveningPlace={setEveningPlace}
+        medicineStorage={medicineStorage}
+        setMedicineStorage={setMedicineStorage}
+        toolsAndCues={toolAndCues}
+        setToolsAndCues={setToolAndCues}
+        goal={goal}
+        setGoal={setGoal}
+        // time
+        morningHours={morningHours}
+        setMorningHours={setMorningHours}
+        morningMinutes={morningMinutes}
+        setMorningMinutes={setMorningMinutes}
+        //
+        eveningHours={eveningHours}
+        setEveningHours={setEveningHours}
+        eveningMinutes={eveningMinutes}
+        setEveningMinutes={setEveningMinutes}
+        //
+        morningHoursWeekend={morningHoursWeekend}
+        setMorningMinutesWeekend={setMorningMinutesWeekend}
+        morningMinutesWeekend={morningMinutesWeekend}
+        setMorningHoursWeekend={setMorningHoursWeekend}
+        //
+        eveningHoursWeekend={eveningHoursWeekend}
+        setEveningHoursWeekend={setEveningHoursWeekend}
+        eveningMinutesWeekend={eveningMinutesWeekend}
+        setEveningMinutesWeekend={setEveningMinutesWeekend}
+        //
+        eveningWeekendPlace=""
+        morningWeekendPlace=""
+        setEveningPlaceWeekend={() => {}}
+        setMorningPlaceWeekend={() => {}}
+      />
+      <div className="flex justify-between">
+        <Button
+          onClick={() => {
+            handleBack()
+          }}
+        >
+          Prev
+        </Button>
+        {timeData
+          ? (
+          <Button
+            onClick={() => {
+              handleNext()
+            }}
+          >
+            Next
+          </Button>
+            )
+          : (
+          <Button
+            className="bg-blue-500 shadow-none hover:bg-blue-600 "
+            onClick={async () => await addTimeAndWork(inputValues)}
+            disabled={isLoading}
+          >
+            {isLoading && <Loader2 className='animate-spin mr-2' size={18} />}
+            Save
+          </Button>
+            )}
+      </div>
     </div>
   )
 }
