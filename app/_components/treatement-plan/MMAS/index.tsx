@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
@@ -6,13 +7,15 @@ import { type Dispatch, type SetStateAction, useState } from 'react'
 
 import MmasFour from './MMASFour'
 import MmasEight from './MMASEight'
-import { useAddMmasMutation } from '@/api/treatmentplan/mmas.api'
+import { useAddMmasMutation, useGetMmasQuery } from '@/api/treatmentplan/mmas.api'
 import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 interface AddTriageProps {
   handleNext: () => void
   handleBack: () => void
   patientID: string
+  appointmentID: string | null
   activeStep: number
 };
 
@@ -20,7 +23,8 @@ const MMASForm = ({
   patientID,
   handleNext,
   handleBack,
-  activeStep
+  activeStep,
+  appointmentID
 }: AddTriageProps) => {
   const [isForget, setIsForget]: [boolean, Dispatch<SetStateAction<boolean>>] =
     useState(false)
@@ -48,7 +52,7 @@ const MMASForm = ({
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
-  const [isDifficultyRemembering, setIsDifficultyRemembering]: [
+  const [difficultyRemembering, setIsDifficultyRemembering]: [
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
@@ -61,10 +65,14 @@ const MMASForm = ({
     isTookYesterday,
     isQuitControl,
     isUnderPressure,
-    isDifficultyRemembering
+    difficultyRemembering,
+    patientID,
+    patientVisitID: appointmentID
   }
 
   const [addMmas, { isLoading }] = useAddMmasMutation()
+  const { data: mmasData } = useGetMmasQuery(appointmentID)
+  console.log(mmasData, 'kli')
 
   return (
     <div
@@ -89,25 +97,34 @@ const MMASForm = ({
         setIsQuitControl={setIsQuitControl}
         isUnderPressure={isUnderPressure}
         setIsUnderPressure={setIsUnderPressure}
-        isDifficultyRemembering={isDifficultyRemembering}
+        isDifficultyRemembering={difficultyRemembering}
         setIsDifficultyRemembering={setIsDifficultyRemembering}
       />
 
       <div>
         <Button
+          className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
           onClick={() => {
             handleBack()
           }}
         >
-          Next
+          Prev
         </Button>
-        <Button
-          onClick={() => {
-            handleNext()
-          }}
-        >
-          Next
-        </Button>
+        {mmasData
+          ? (
+          <Button onClick={() => { handleNext() }}>Next</Button>
+            )
+          : (
+          <Button
+            onClick={() => {
+              addMmas(inputValues)
+            }}
+            disabled={isLoading}
+          >
+            {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
+            Save
+          </Button>
+            )}
       </div>
     </div>
   )

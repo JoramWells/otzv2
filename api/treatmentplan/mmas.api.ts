@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const mmasApi = createApi({
   reducerPath: 'mmasApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/mmas'
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/mmas`
   }),
   endpoints: (builder) => ({
     getAllMmas: builder.query({

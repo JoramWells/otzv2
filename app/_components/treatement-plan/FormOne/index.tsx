@@ -17,7 +17,7 @@ interface AddTriageProps {
   handleNext: () => void
   handleBack: () => void
   patientID: string
-  appointmentID: string
+  appointmentID: string | null
   activeStep: number
 };
 

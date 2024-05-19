@@ -61,6 +61,8 @@ const DisclosureChecklist = ({ activeStep, handleBack, handleNext, patientID }: 
     isWillingToDisclose,
     isKnowledgeable,
     taskOneComments,
+    // taskone
+
     isFreeFromSevereIllness,
     isFamilySupport,
     isEnvironmentInterest,

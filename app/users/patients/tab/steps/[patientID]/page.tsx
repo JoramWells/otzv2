@@ -123,6 +123,8 @@ const StepsPage = ({ params }: any) => {
 
             {activeStep === 3 && (
               <MMASForm
+              appointmentID={appointmentID}
+              patientID={patientID}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}
