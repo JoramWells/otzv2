@@ -2,7 +2,7 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AllergiesModal from '../_components/AllergiesModal'
 import ArtRegimenDialog from '../_components/ArtRegimenDialog'
 import ChronicIllnessDialog from '../_components/ChronicIllnessDialog'
@@ -53,6 +53,24 @@ const StepsPage = ({ params }: any) => {
 
   const { data } = useGetVitalSignQuery(appointmentID)
   console.log(data, 'appointmentdtx')
+
+  const pending = true
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (pending) {
+        const info = 'You ave unsaved files'
+        e.returnValue = info
+        alert('SAVE!!')
+        // return info
+      }
+
+      // if (!pending) return
+      // e.preventDefault()
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => { window.removeEventListener('beforeunload', handleBeforeUnload) }
+  }, [pending])
 
   const handleNext = (stepx: number) => {
     if (stepx === steps.length) {

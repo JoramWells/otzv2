@@ -19,6 +19,9 @@ export const vitalSignsApi = createApi({
     getVitalSign: builder.query({
       query: (id) => `detail/${id}`
     }),
+    getVitalSignByPatientID: builder.query({
+      query: (id) => `patient-detail/${id}`
+    }),
     updateVitalSign: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
@@ -39,5 +42,5 @@ export const vitalSignsApi = createApi({
 
 export const {
   useGetAllVitalSignsQuery, useAddVitalSignMutation, useGetVitalSignQuery,
-  useUpdateVitalSignMutation, useDeleteVitalSignMutation
+  useUpdateVitalSignMutation, useDeleteVitalSignMutation, useGetVitalSignByPatientIDQuery
 } = vitalSignsApi
