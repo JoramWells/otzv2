@@ -34,11 +34,11 @@ const SelectYears = () => (
 
 const PieChart = ({ data }: Props) => {
   return (
-    <div className="bg-slate-50 rounded-lg h-[300px] flex-1">
+    <div className="bg-slate-50 rounded-lg h-[300px] w-1/4">
       <div className="flex flex-row items-center justify-between
       pl-4 pr-4 pt-2
       ">
-          <h1 className="font-bold">Modules</h1>
+          <h1 className="font-bold text-slate-700">CALHIV</h1>
         <SelectYears />
       </div>
       <div

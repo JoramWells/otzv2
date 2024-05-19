@@ -135,6 +135,8 @@ const StepsPage = ({ params }: any) => {
             )}
             {activeStep === 4 && (
               <DisclosureChecklist
+              appointmentID={appointmentID}
+              patientID={patientID}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}

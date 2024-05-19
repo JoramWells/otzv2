@@ -1,24 +1,27 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
-import { type Dispatch, type SetStateAction, useState } from 'react'
+import { type Dispatch, type SetStateAction, useState, useEffect } from 'react'
 
-import { useAddPatientMutation } from '@/api/patient/patients.api'
 import TaskOne from './TaskOne'
 import TaskTwo from './TaskTwo'
 import TaskThree from './TaskThree'
 import TaskFour from './TaskFour'
 import { Button } from '@/components/ui/button'
+import { useAddDisclosureChecklistMutation, useGetDisclosureChecklistQuery } from '@/api/treatmentplan/disclosureChecklist.api'
+import { Loader2 } from 'lucide-react'
 
 interface AddTriageProps {
   handleNext: () => void
   handleBack: () => void
   patientID: string
+  appointmentID: string
   activeStep: number
 };
 
-const DisclosureChecklist = ({ activeStep, handleBack, handleNext, patientID }: AddTriageProps) => {
+const DisclosureChecklist = ({ activeStep, handleBack, handleNext, patientID, appointmentID }: AddTriageProps) => {
   const [isCorrectAge, setIsCorrectAge]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isWillingToDisclose, setIsWillingToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isKnowledgeable, setIsKnowledgeable]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
@@ -82,10 +85,23 @@ const DisclosureChecklist = ({ activeStep, handleBack, handleNext, patientID }: 
     isReferredForPhysic,
     isGivenInfo,
     taskFourComments,
-    finalComments
+    finalComments,
+
+    //
+    patientVisitID: appointmentID,
+    patientID
   }
 
-  const [addPatient, { isLoading }] = useAddPatientMutation()
+  const [addDisclosureChecklist, { isLoading: isLoadingAddDisclosure, data: isSaveData }] = useAddDisclosureChecklistMutation()
+
+  const { data: disclosureData } = useGetDisclosureChecklistQuery(appointmentID)
+  console.log(disclosureData, 'dataDisclosure')
+
+  useEffect(() => {
+    if (isSaveData) {
+      console.log(isSaveData, 'dft')
+    }
+  }, [isSaveData])
 
   return (
     <div
@@ -172,13 +188,40 @@ const DisclosureChecklist = ({ activeStep, handleBack, handleNext, patientID }: 
         setFinalComments={setFinalComments}
       />
 
-      <Button
-        onClick={() => {
-          handleNext()
-        }}
+      <div
+      className='flex justify-end w-full space-x-4 items-center mt-4'
       >
-        Next
-      </Button>
+<Button
+className='shadow-none bg-slate-200 text-black hover'
+onClick={() => { handleBack() }}
+>
+  Prev
+</Button>
+
+        {disclosureData
+          ? (
+          <Button
+            onClick={() => {
+              handleNext()
+            }}
+          >
+            Next
+          </Button>
+            )
+          : (
+          <Button
+            onClick={() => {
+              addDisclosureChecklist(inputValues)
+            }}
+            disabled={isLoadingAddDisclosure}
+          >
+            {isLoadingAddDisclosure && (
+              <Loader2 className="animate-spin mr-2" size={18} />
+            )}
+            Save
+          </Button>
+            )}
+      </div>
     </div>
   )
 }

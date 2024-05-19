@@ -23,7 +23,7 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[36px] rounded-lg" />
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
   }
 )
 
@@ -32,7 +32,7 @@ const LineChart = dynamic(
   async () => await import('../../_components/charts/LineChart'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[400px] md:w-3/4  m-0" />
+    loading: () => <Skeleton className="w-full h-[300px] md:w-3/4" />
   }
 )
 
@@ -40,52 +40,54 @@ const PieChart = dynamic(
   async () => await import('../../_components/charts/PieChart'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[400px] md:w-1/4  m-0" />
+    loading: () => <Skeleton className="w-full h-[300px] md:w-1/4" />
   }
 )
 
-const dataList: UserDashboardCardDataListProps[] = [
-  {
-    id: '1',
-    label: 'Registered Patients',
-    count: 50,
-    link: '/patients/registered-patients'
-  },
-  {
-    id: '2',
-    label: 'Deceased',
-    count: 20,
-    link: ''
-  },
-  {
-    id: '3',
-    label: 'Caregivers',
-    count: 13,
-    link: ''
-  },
-  {
-    id: '4',
-    label: 'App Notification',
-    count: 7,
-    link: '/'
-  }
-]
-
-const dataList2 = [
-  {
-    id: '1',
-    label: 'home',
-    link: '/'
-  },
-  {
-    id: '2',
-    label: 'dashboard',
-    link: 'dashboard'
-  }
-]
-
 const NotifyPage = () => {
   const { data } = useGetAllPatientsQuery()
+
+  // const dataList: UserDashboardCardDataListProps[] =
+
+  const dataList2 = [
+    {
+      id: '1',
+      label: 'home',
+      link: '/'
+    },
+    {
+      id: '2',
+      label: 'dashboard',
+      link: 'dashboard'
+    }
+  ]
+
+  const dlMemoized: UserDashboardCardDataListProps[] = useMemo(() => [
+    {
+      id: '1',
+      label: 'Registered Patients',
+      count: data?.length,
+      link: '/patients/registered-patients'
+    },
+    {
+      id: '2',
+      label: 'Mortality',
+      count: 20,
+      link: ''
+    },
+    {
+      id: '3',
+      label: 'Caregivers',
+      count: 13,
+      link: ''
+    },
+    {
+      id: '4',
+      label: 'App Notification',
+      count: 7,
+      link: '/'
+    }
+  ], [data])
 
   const ageRanges: Array<[number, number]> = [
     [0, 9],
@@ -127,26 +129,23 @@ const NotifyPage = () => {
   }
 
   return (
-    <div className="w-full p-2">
+    <div className="w-full">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="bg-white p-2 mt-2 rounded-lg">
-        <h1 className="font-semibold text-xl text-slate-700 rounded-lg">
-          Patient Management Dashboard
-        </h1>
-      </div>
-      <div className="flex w-full justify-between flex-wrap mt-4 mb-4 space-x-4">
-        {dataList.map((item, idx) => (
+
+      <div className="flex w-full justify-between flex-wrap space-x-4 p-2">
+        {dlMemoized.map((item, idx) => (
           <UserDashboardCard key={idx} item={item} />
         ))}
       </div>
       <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
-        <h1
-          className="font-semibold text-xl mb-2
+        <h1 className=" text-lg ">Patient Management</h1>
+        <p
+          className="font-semibold mb-2
         capitalize
         "
         >
           Dashboard Analytics
-        </h1>
+        </p>
 
         {/*  */}
 

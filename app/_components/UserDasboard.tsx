@@ -1,6 +1,6 @@
 import { Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import CountUp from 'react-countup'
 
 export interface UserDashboardCardProps {
   item: UserDashboardCardDataListProps
@@ -26,7 +26,10 @@ const UserDashboardCard = ({ item }: UserDashboardCardProps) => {
         <h1 className="font-bold">{item.label}</h1>
         <Users size={18} />
       </div>
-      <p className="text-2xl font-bold text-slate-600">{item.count}</p>
+      <CountUp
+      end={item.count}
+      />
+      {/* <p className="text-2xl font-bold text-slate-600">{item.count}</p> */}
       <small className="text-slate-500 text-xs">Since last month</small>
     </div>
   )
