@@ -91,7 +91,7 @@ const FormOne = ({
   const { data: timeData } = useGetTimeAndWorkQuery(appointmentID)
   console.log(timeData, 'tData')
 
-  const [addTimeAndWork, { isLoading }] = useAddTimeAndWorkMutation()
+  const [addTimeAndWork, { isLoading, data: savedData }] = useAddTimeAndWorkMutation()
 
   // const { activeStep } = useSteps({
   //   index: 1,
@@ -99,11 +99,7 @@ const FormOne = ({
   // })
 
   return (
-    <div
-      style={{
-        width: '100%'
-      }}
-    >
+    <div className="w-full flex flex-col space-y-4">
       <TimeAndWork
         wakeUpTimeHours={wakeUpTimeHours}
         setWakeUpTimeHours={setWakeUpTimeHours}
@@ -164,17 +160,19 @@ const FormOne = ({
         setEveningPlaceWeekend={() => {}}
         setMorningPlaceWeekend={() => {}}
       />
-      <div className="flex justify-between">
+      <div className="flex justify-end mt-4 space-x-4">
         <Button
           onClick={() => {
             handleBack()
           }}
+          className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
         >
           Prev
         </Button>
-        {timeData
+        {timeData || savedData
           ? (
           <Button
+            className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
             onClick={() => {
               handleNext()
             }}
@@ -184,11 +182,11 @@ const FormOne = ({
             )
           : (
           <Button
-            className="bg-blue-500 shadow-none hover:bg-blue-600 "
+            className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
             onClick={async () => await addTimeAndWork(inputValues)}
             disabled={isLoading}
           >
-            {isLoading && <Loader2 className='animate-spin mr-2' size={18} />}
+            {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
             Save
           </Button>
             )}

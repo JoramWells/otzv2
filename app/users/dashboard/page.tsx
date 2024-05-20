@@ -140,8 +140,7 @@ const NotifyPage = () => {
       <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
         <h1 className=" text-lg ">Patient Management</h1>
         <p
-          className="font-semibold mb-2
-        capitalize
+          className="font-semibold capitalize
         "
         >
           Dashboard Analytics

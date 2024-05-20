@@ -53,9 +53,8 @@ const AddTriage = ({
   }
 
   //
-  const [addVitalSign, { isLoading }] = useAddVitalSignMutation()
+  const [addVitalSign, { isLoading, data: vsData }] = useAddVitalSignMutation()
   const { data: appointmentData } = useGetVitalSignQuery(appointmentID)
-  console.log(appointmentData, 'appointmentdtx')
   return (
     <div className="p-2 rounded-lg flex flex-col space-y-4">
       <CustomInput
@@ -135,7 +134,7 @@ const AddTriage = ({
         </Button>
           )} */}
       <div className="flex w-full justify-end">
-        {appointmentData
+        {vsData || appointmentData
           ? (
           <Button
             onClick={() => {

@@ -1,8 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { Divider } from '@chakra-ui/react'
-import CustomInput from '../../../../components/forms/CustomInput'
-import CustomTimeInput from '../../../../components/forms/CustomTimeInput'
+import CustomInput from '@/components/forms/CustomInput'
+import CustomTimeInput from '@/components/forms/CustomTimeInput'
 
 export interface ScheduleAndTimeProps {
   morningPlace: string
@@ -68,9 +67,9 @@ const ScheduleAndTime = ({
   eveningMinutesWeekend,
   setEveningMinutesWeekend
 }: ScheduleAndTimeProps) => (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+  <div className="flex flex-col space-y-6 border p-4 rounded-lg">
     <div>
-      <p>
+      <p className="mb-2 text-slate-500">
         Based on your schedule, what is the best time and place to take
         medicine?
       </p>
@@ -106,14 +105,12 @@ const ScheduleAndTime = ({
       />
     </div>
 
-    <Divider />
-
     <div>
-      <p>
+      <p className="mb-2 text-slate-500">
         If these routine changes during weekend (other days) how can this
         modified?
       </p>
-      <div className="flex flex-row gap-x-6">
+      <div className="flex flex-col space-y-4">
         <div className="flex flex-row gap-x-6">
           <CustomTimeInput
             label="Morning Time"
@@ -129,18 +126,20 @@ const ScheduleAndTime = ({
           />
         </div>
 
-        <CustomTimeInput
-          label="Evening Time"
-          hours={eveningHoursWeekend}
-          setHours={setEveningHoursWeekend}
-          minutes={eveningMinutesWeekend}
-          setMinutes={setEveningMinutesWeekend}
-        />
-        <CustomInput
-          label="Enter Place"
-          value={eveningWeekendPlace}
-          onChange={setEveningPlaceWeekend}
-        />
+        <div className="flex flex-row gap-x-6">
+          <CustomTimeInput
+            label="Evening Time"
+            hours={eveningHoursWeekend}
+            setHours={setEveningHoursWeekend}
+            minutes={eveningMinutesWeekend}
+            setMinutes={setEveningMinutesWeekend}
+          />
+          <CustomInput
+            label="Enter Place"
+            value={eveningWeekendPlace}
+            onChange={setEveningPlaceWeekend}
+          />
+        </div>
       </div>
     </div>
 
