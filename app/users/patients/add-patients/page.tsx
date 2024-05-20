@@ -18,7 +18,7 @@ import {
   Stepper
 } from '@chakra-ui/react'
 import PersonalDetail from '@/app/_components/patient/steps/PersonalDetails'
-import LocationDetails from '@/app/_components/patient/steps/LocationDetails'
+import LocationDetails, { type InputCountyProps } from '@/app/_components/patient/steps/LocationDetails'
 import { useAddPatientMutation } from '@/api/patient/patients.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
@@ -34,7 +34,7 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[36px] rounded-lg" />
+    loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
   }
 )
 
@@ -63,12 +63,13 @@ const AddPatient = () => {
   const [phoneNo, setPhoneNo] = useState('')
   const [occupation, setOccupation] = useState('')
   const [IDNo, setIDNo] = useState('')
-  const [residence, setResidence] = useState('')
-  const [subCountyName, setSubCountyName] = useState('')
   const [nextOfKinPhoneNo, setNextOfKinPhoneNo] = useState('')
   const [mflCode, setMFLCode] = useState('')
   const [cccNo, setCCCNo] = useState('')
   const [relationship, setRelationship] = useState('')
+  const [maritalStatus, setMaritalStatus] = useState('')
+
+  const [location, setLocation] = useState<InputCountyProps | null>(null)
 
   //
   const [schoolName, setSchoolName] = useState('')
@@ -80,19 +81,21 @@ const AddPatient = () => {
   const [kinDOB, setKinDOB] = useState('')
   const [kinIDNo, setKinIDNo] = useState('')
 
+  console.log(location)
+
   const inputValues = {
     firstName,
     middleName,
     lastName,
-    gender,
-    DOB,
+    sex: gender,
+    dob: DOB,
     phoneNo,
     idNo: IDNo,
-    residence,
     cccNo,
     mflCode,
     schoolName,
-    subCountyName,
+    location,
+    maritalStatus,
 
     kinFirstName,
     kinLastName,
@@ -181,10 +184,12 @@ const AddPatient = () => {
             dob={DOB}
             gender={gender}
             idNo={IDNo}
+            maritalStatus={maritalStatus}
             setFirstName={setFirstName}
             setMiddleName={setMiddleName}
             setLastName={setLastName}
             setDOB={setDOB}
+            setMaritalStatus={setMaritalStatus}
             setGender={setGender}
             setIDNo={setIDNo}
             cccNo={cccNo}
@@ -197,12 +202,9 @@ const AddPatient = () => {
           <LocationDetails
             phoneNo={phoneNo}
             occupation={occupation}
-            residence={residence}
-            subCountyName={subCountyName}
             setPhoneNo={setPhoneNo}
             setOccupation={setOccupation}
-            setResidence={setResidence}
-            setSubCountyName={setSubCountyName}
+            setLocation={setLocation}
             schoolName={schoolName}
             setSchoolName={setSchoolName} />
         )}

@@ -11,7 +11,7 @@ export interface WardProps {
 export const wardApi = createApi({
   reducerPath: 'wardApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root-service/wards`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/wards`
   }),
   endpoints: (builder) => ({
     getAllWards: builder.query<any, void>({

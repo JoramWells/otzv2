@@ -4,6 +4,7 @@ import CustomInput from '../../../../components/forms/CustomInput'
 import CustomSelect from '../../../../components/forms/CustomSelect'
 import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
 import { useState } from 'react'
+import { calculateAge } from '@/utils/calculateAge'
 
 const genderOptions = [
   {
@@ -22,6 +23,7 @@ interface PersonalDetailProps {
   lastName: string
   dob: string
   gender: string
+  maritalStatus: string
   idNo: string
   cccNo: string
   mflCode: string
@@ -29,6 +31,7 @@ interface PersonalDetailProps {
   setMiddleName: (val: string) => void
   setLastName: (val: string) => void
   setDOB: (val: string) => void
+  setMaritalStatus: (val: string) => void
   setGender: (val: string) => void
   setIDNo: (val: string) => void
   setCCCNo: (val: string) => void
@@ -50,7 +53,8 @@ const PersonalDetail = ({
   setDOB, setGender,
   setIDNo,
   setMFLCode,
-  setCCCNo
+  setCCCNo, maritalStatus,
+  setMaritalStatus
 }: PersonalDetailProps) => {
   const [isTeenager, setIsTeenager] = useState<boolean>(false)
   const [isAdult, setIsAdult] = useState<boolean>(false)
@@ -96,10 +100,35 @@ const PersonalDetail = ({
         value={gender}
         onChange={setGender}
       />
-      {/* <CustomInput label="Select Gender"
-      value={gender}
-      onChange={setGender}
-      /> */}
+      {calculateAge(dob) > 18 && (
+        <CustomSelect
+          label="Marital Status"
+          value={maritalStatus}
+          onChange={setMaritalStatus}
+          data={[
+            {
+              id: 'Divorced',
+              label: 'Divorced'
+            },
+            {
+              id: 'Married',
+              label: 'Married'
+            },
+            {
+              id: 'Not Married',
+              label: 'Not Married'
+            },
+            {
+              id: 'Separated',
+              label: 'Separated'
+            },
+            {
+              id: 'Widowed',
+              label: 'Widowed'
+            }
+          ]}
+        />
+      )}
       <div
         className={`border border-slate-200 rounded-lg w-full
       p-2 bg-slate-50 
@@ -136,11 +165,7 @@ const PersonalDetail = ({
         />
         <div className="w-full pl-7 pt-2">
           {isAdult && (
-            <CustomInput
-              label="ID No."
-              value={idNo}
-              onChange={setIDNo}
-            />
+            <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
           )}
         </div>
       </div>

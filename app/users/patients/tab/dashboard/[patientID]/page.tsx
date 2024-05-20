@@ -100,12 +100,14 @@ const PatientDetails = ({ params }: any) => {
         </Button>
       </div>
 
-      <div className="flex space-x-2 flex-row w-full items-start p-4">
-        <div className="rounded-lg p-4 w-1/4 bg-white">
-          {data && (
+      <div className="flex space-x-4 flex-row w-full items-start p-4">
+        <div className="rounded-lg p-4 flex-1 bg-white h-[145px] ">
+          <p className="font-bold">Current Viral Load</p>
+
+          {data
+            ? (
             <div className="flex flex-col space-y-2">
               <div className="w-full flex justify-between items-center">
-                <p className="font-bold">Current Viral Load</p>
                 {data.isVLValid
                   ? (
                   <Badge className="rounded-full shadow-none hover:bg-emerald-50  bg-emerald-50 text-emerald-500">
@@ -133,10 +135,20 @@ const PatientDetails = ({ params }: any) => {
                 {data.vlJustification}
               </div>
             </div>
-          )}
+              )
+            : (
+            <div>
+              <p className="text-slate-500 text-[14px] ">
+                No Recent Viral Load
+              </p>
+              <Link href={'update'} className="text-blue-500 text-sm underline">
+                Update
+              </Link>
+            </div>
+              )}
         </div>
         {/*  */}
-        <div className="w-1/4 bg-white rounded-lg p-2 h-[145px] ">
+        <div className="flex-1 bg-white rounded-lg p-2 h-[145px] ">
           <p className="font-bold">Recent Vital Signs</p>
           {vsData
             ? (
@@ -162,19 +174,7 @@ const PatientDetails = ({ params }: any) => {
         </div>
 
         {/*  */}
-        <div className="w-1/4 bg-white rounded-lg p-2 h-[145px] overflow-y-auto ">
-          <p className="text-lg font-bold">Allergies</p>
-          <div>
-            <p>height</p>
-            45cm
-          </div>
-          <div>weight 28k</div>
-          <div>bmi 28k</div>
-          <div>Caffeine</div>
-        </div>
-
-        {/*  */}
-        <div className="w-1/4 bg-white rounded-lg p-2 h-[145px] overflow-y-auto ">
+        <div className="flex-1 bg-white rounded-lg p-2 h-[145px] overflow-y-auto ">
           <p className="text-lg font-bold">Medication</p>
           <div className="flex justify-between">
             <p>On ART</p>

@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { type OccupationProps, useGetAllOccupationQuery } from '@/api/occupation.api'
-// import { Button } from '@chakra-ui/react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { type CountyProps, useGetAllCountiesQuery } from '@/api/location/county.api'
 import { type SubCountyProps, useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 import { useGetAllWardsQuery } from '@/api/location/ward.api'
@@ -10,23 +8,51 @@ import { useGetAllSchoolsQuery } from '@/api/school/school.api'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
+import Select, { type SingleValue } from 'react-select'
+export interface WardProps {
+  ward: SingleValue<SelectOption>
+}
+
+export interface InputProps {
+  county: {
+    name: string
+    subCounty: {
+      id: string
+      name: string
+      ward: SelectOption
+
+    }
+  }
+}
+
+interface SelectOption {
+  id: string
+  label: string
+}
+
+export interface InputSubCountyProps {
+  subCounty: SingleValue<WardProps>
+}
+
+export interface InputCountyProps {
+  county: SingleValue<SelectOption>
+  subCounty: SingleValue<SelectOption>
+  ward: SingleValue<SelectOption>
+}
 
 export interface LocationDetailsProps {
   phoneNo: string
   occupation: string
-  residence: string
-  subCountyName: string
   schoolName: string
-  setSubCountyName: (subCounty: string) => void
   setPhoneNo: (phone: string) => void
   setOccupation: (occupation: string) => void
-  setResidence: (residence: string) => void
   setSchoolName: (residence: string) => void
+  setLocation: (val: InputCountyProps) => void
 }
 
 const LocationDetails = ({
-  phoneNo, occupation, residence, subCountyName, schoolName,
-  setPhoneNo, setOccupation, setResidence, setSubCountyName, setSchoolName
+  phoneNo, occupation, schoolName, setLocation,
+  setPhoneNo, setOccupation, setSchoolName
 }: LocationDetailsProps) => {
   const { data } = useGetAllOccupationQuery()
   const { data: countyData } = useGetAllCountiesQuery()
@@ -34,7 +60,17 @@ const LocationDetails = ({
   const { data: wardData } = useGetAllWardsQuery()
   const { data: schoolsData } = useGetAllSchoolsQuery()
 
-  console.log(schoolsData, 'dtc')
+  const [county, setCounty] = useState<SingleValue<SelectOption>>(null)
+  const [subCounty, setSubCounty] = useState<SingleValue<SelectOption>>(null)
+  const [ward, setWard] = useState<SingleValue<SelectOption>>(null)
+
+  useEffect(() => {
+    setLocation({
+      county, subCounty, ward
+    })
+  }, [county, setLocation, subCounty, ward])
+
+  console.log(wardData, 'dtc')
   const occupationOptions = useCallback(() => {
     return data?.map((item: OccupationProps) => ({
       id: item.id,
@@ -53,13 +89,13 @@ const LocationDetails = ({
   // sub counties
   const subCountyOptions = useCallback(() => {
     const tempData = subCountyData?.filter((item: any) =>
-      item.county.id.toString().includes(residence)
+      item.county.id.toString().includes(county?.id)
     )
     return tempData?.map((item: SubCountyProps) => ({
       id: item.id,
       label: item.subCountyName
     }))
-  }, [subCountyData, residence])
+  }, [subCountyData, county])
 
   const schoolOptions = useCallback(() => {
     return schoolsData?.map((item: any) => ({
@@ -69,28 +105,27 @@ const LocationDetails = ({
   }, [schoolsData])
 
   // ward options
-  // const wardOptions = useCallback(() => {
-  //   const tempData = wardData?.filter((item: any) =>
-  //     item.subCountyName === subCountyName.label.toLowerCase()
-  //   )
-  //   console.log(subCountyName.label.toLowerCase(), 'trr')
-  //   return tempData?.map((item: WardProps) => ({
-  //     id: item.id,
-  //     label: item.ward
-  //   }))
-  // }, [wardData, subCountyName])
+  const wardOptions = useCallback(() => {
+    const tempData = wardData?.filter((item: any) =>
+      item.subCounty?.id.toString().includes(subCounty?.id)
+    )
+    return tempData?.map((item: any) => ({
+      id: item.id,
+      label: item.ward
+    }))
+  }, [subCounty?.id, wardData])
 
   // const nos = [{
   //   value
   // }]
 
-  const [numbers, setNumbers] = useState<string[]>([])
-  const handleAddNumbers = () => {
-    if (phoneNo.trim() !== '') {
-      setNumbers([...numbers, phoneNo])
-      setPhoneNo('')
-    }
-  }
+  // const [numbers, setNumbers] = useState<string[]>([])
+  // const handleAddNumbers = () => {
+  //   if (phoneNo.trim() !== '') {
+  //     setNumbers([...numbers, phoneNo])
+  //     setPhoneNo('')
+  //   }
+  // }
 
   const [isOccupation, setIsOccupation] = useState<boolean>(false)
   const [iSStudent, setIsStudent] = useState<boolean>(false)
@@ -160,28 +195,28 @@ const LocationDetails = ({
         )}
       </div>
 
-      <CustomSelect
-        label="Select County"
-        value={residence}
-        onChange={setResidence}
-        data={countyOptions()}
+      <Select
+      className='w-full'
+        value={county}
+        onChange={setCounty}
+        options={countyOptions()}
       />
 
       {/* sun county */}
-      <CustomSelect
-        label="Select Sub County"
-        value={subCountyName}
-        onChange={setSubCountyName}
-        data={subCountyOptions()}
+      <Select
+      className='w-full'
+        value={subCounty}
+        onChange={setSubCounty}
+        options={subCountyOptions()}
       />
 
       {/* select ward */}
-      {/* <CustomSelect
-        label="Select Ward"
-        value={subCountyName}
-        onChange={setSubCountyName}
-        data={wardOptions()}
-      /> */}
+      <Select
+      className='w-full'
+        value={ward}
+        onChange={setWard}
+        options={wardOptions()}
+      />
     </div>
   )
 }
