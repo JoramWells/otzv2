@@ -12,7 +12,7 @@ declare interface CustomInputProps {
   value?: string
   type?: string
   description?: string
-  onChange: (value: any) => void
+  onChange?: (value: any) => void
 }
 
 declare interface InputEventProps extends React.ChangeEvent<HTMLInputElement> {
