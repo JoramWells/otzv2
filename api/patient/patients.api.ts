@@ -26,6 +26,9 @@ export const patientsApi = createApi({
     getAllPatients: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
+    getAllPMTCTPatients: builder.query<any, void>({
+      query: () => 'fetchAllPMTCT'
+    }),
     addPatient: builder.mutation({
       query: (newUser) => ({
         url: 'add',
@@ -55,6 +58,6 @@ export const patientsApi = createApi({
 })
 
 export const {
-  useGetAllPatientsQuery, useUpdatePatientMutation,
+  useGetAllPatientsQuery, useUpdatePatientMutation, useGetAllPMTCTPatientsQuery,
   useDeletePatientMutation, useAddPatientMutation, useGetPatientQuery
 } = patientsApi
