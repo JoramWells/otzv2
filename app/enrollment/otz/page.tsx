@@ -7,7 +7,9 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import CustomTab from '@/components/tab/CustomTab'
-import { Suspense, useState } from 'react'
+import { Suspense, useCallback, useState } from 'react'
+import SelectPatientDialog from '../_components/SelectPatientDialog'
+import { useGetAllEligibleOTZPatientsQuery } from '@/api/patient/patients.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -49,15 +51,38 @@ const tabList = [
   }
 ]
 
+interface Patient {
+  id: string
+  firstName: string
+}
+
 const OTZ = () => {
   // const datax = await getPatients()
   const [tab, setTab] = useState('otz')
   const { data } = useGetAllOTZEnrollmentsQuery()
 
+  const { data: patientData } = useGetAllEligibleOTZPatientsQuery()
+
+  const patientDataOptions = useCallback(() => {
+    return (
+      patientData?.map((item: Patient) => ({
+        id: item.id,
+        label: item.firstName
+      })) || []
+    )
+  }, [patientData])
+
   return (
     <Suspense>
-      <div className="p-2">
+      <div className="">
         <BreadcrumbComponent dataList={dataList2} />
+        <div className="flex justify-end w-full">
+          <SelectPatientDialog
+            label="Create New OTZ"
+            link="/enrollment/enroll-otz"
+            data={patientDataOptions()}
+          />
+        </div>
 
         <div className="w-full mt-4">
           <CustomTab value={tab} setValue={setTab} categoryList={tabList} />

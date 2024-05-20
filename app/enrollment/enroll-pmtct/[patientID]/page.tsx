@@ -4,11 +4,11 @@
 
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useAddPAMAEnrollmentMutation } from '@/api/enrollment/pamaEnrollment.api'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 import CustomInput from '@/components/forms/CustomInput'
-import {useState} from 'react'
+import { useState } from 'react'
+import { useAddPMTCTProfileEnrollmentMutation } from '@/api/enrollment/pmtctProfileEnrollment.api'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -36,8 +36,15 @@ const EnrollPMTCT = ({ params }: any) => {
   const [anc, setANC] = useState('')
   const [pncNo, setPNCNo] = useState('')
 
+  const inputValues = {
+    patientID,
+    kmhflCode,
+    anc,
+    pncNo
+  }
+
   //
-  const [addOTZEnrollment, { isLoading }] = useAddPAMAEnrollmentMutation()
+  const [addPMTCTProfileEnrollment, { isLoading }] = useAddPMTCTProfileEnrollmentMutation()
 
   return (
     <div className="">
@@ -47,15 +54,15 @@ const EnrollPMTCT = ({ params }: any) => {
         <div className="bg-white p-4 flex flex-col space-y-4 w-1/2 rounded-lg">
           <p className="text-lg font-bold">Medical & Surgical History</p>
           <div className="flex flex-col space-y-4">
-            <CustomInput label="KMHFL Code." 
+            <CustomInput label="KMHFL Code."
             onChange={setKMHFLCode}
             value={kmhflCode}
             />
-            <CustomInput label="ANC" 
+            <CustomInput label="ANC"
             onChange={setANC}
             value={anc}
             />
-            <CustomInput label="PNC No." 
+            <CustomInput label="PNC No."
             onChange={setPNCNo}
             value={pncNo}
             />
@@ -63,7 +70,7 @@ const EnrollPMTCT = ({ params }: any) => {
           </div>
 
           <Button
-            onClick={async () => await addOTZEnrollment(inputValues)}
+            onClick={async () => await addPMTCTProfileEnrollment(inputValues)}
             className="bg-slate-200 hover:bg-slate-100 shadow-none text-black"
           >
             {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}

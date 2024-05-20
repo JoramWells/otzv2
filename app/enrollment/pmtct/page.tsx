@@ -3,17 +3,17 @@
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-import { columns } from '../otz/columns'
-import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
 import SelectPatientDialog from '../_components/SelectPatientDialog'
-import { useGetAllPAMAEnrollmentsQuery } from '@/api/enrollment/pamaEnrollment.api'
+import { useGetAllPMTCTProfileEnrollmentsQuery } from '@/api/enrollment/pmtctProfileEnrollment.api'
+import { columns } from './columns'
+import { useCallback } from 'react'
+import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[38px] rounded-none" />
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
   }
 )
 
@@ -29,32 +29,37 @@ const dataList2 = [
     link: 'enrollments'
   }
 ]
+interface Patient {
+  id: string
+  firstName: string
+}
+
 const PMTCT = () => {
   // const datax = await getPatients()
-  const { data } = useGetAllPAMAEnrollmentsQuery()
+  const { data } = useGetAllPMTCTProfileEnrollmentsQuery()
 
-  console.log(data)
+  const { data: patientData } = useGetAllPatientsQuery()
 
-  const router = useRouter()
+  const patientDataOptions = useCallback(() => {
+    return (
+      patientData?.map((item: Patient) => ({
+        id: item.id,
+        label: item.firstName
+      })) || []
+    )
+  }, [patientData])
 
   return (
-    <div className="p-2">
+    <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="flex justify-end w-full">
-        <Button
-          onClick={() => {
-            router.push('/enroll-pama')
-          }}
-        >
-          New PAMA
-        </Button>
+        <SelectPatientDialog
+          label="Create New PMTCT"
+          link="/enrollment/enroll-pmtct"
+          data={patientDataOptions()}
+        />
       </div>
-
-      <SelectPatientDialog
-      label='Create New PMTCT'
-      link='/enrollment/enroll-pmtct'
-      />
 
       <div className="p-4 bg-white rounded-lg mt-4">
         <p className="mb-2 text-lg text-slate-700 font-bold">OTZ Patients</p>
