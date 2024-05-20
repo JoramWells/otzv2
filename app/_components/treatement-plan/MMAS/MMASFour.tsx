@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
-import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
+import CustomCheckbox from '@/components/forms/CustomCheckbox'
 
 export interface MMASFourProps {
   isForget: boolean
@@ -25,7 +25,7 @@ const MmasFour = ({
   setIsQuitBetter
 }: MMASFourProps) => (
   <div
-  className='flex flex-col gap-y-6 border p-4 rounded-lg mt-4'
+  className='flex flex-col space-y-6 border p-4 rounded-lg'
   >
     <CustomCheckbox
       label="Do you ever forget to take medicine?"

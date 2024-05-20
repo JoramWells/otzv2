@@ -70,38 +70,41 @@ const MMASForm = ({
     patientVisitID: appointmentID
   }
 
-  const [addMmas, { isLoading }] = useAddMmasMutation()
+  const [addMmas, { isLoading, data: savedData }] = useAddMmasMutation()
   const { data: mmasData } = useGetMmasQuery(appointmentID)
   console.log(mmasData, 'kli')
 
   return (
-    <div
-      style={{
-        width: '100%'
-      }}
-    >
-      <MmasFour
-        isForget={isForget}
-        setIsForget={setIsForget}
-        isCareless={isCareless}
-        setIsCareless={setIsCareless}
-        isQuitWorse={isQuitWorse}
-        setIsQuitWorse={setIsQuitWorse}
-        isQuitBetter={isQuitBetter}
-        setIsQuitBetter={setIsQuitBetter}
-      />
-      <MmasEight
-        isTookYesterday={isTookYesterday}
-        setIsTookYesterday={setIsTookYesterday}
-        isQuitControl={isQuitControl}
-        setIsQuitControl={setIsQuitControl}
-        isUnderPressure={isUnderPressure}
-        setIsUnderPressure={setIsUnderPressure}
-        isDifficultyRemembering={difficultyRemembering}
-        setIsDifficultyRemembering={setIsDifficultyRemembering}
-      />
+    <div className="flex flex-col space-y-4 w-full">
+      <div className="w-full">
+        <p className="font-bold mb-2">MMAS 4 Form</p>
 
-      <div>
+        <MmasFour
+          isForget={isForget}
+          setIsForget={setIsForget}
+          isCareless={isCareless}
+          setIsCareless={setIsCareless}
+          isQuitWorse={isQuitWorse}
+          setIsQuitWorse={setIsQuitWorse}
+          isQuitBetter={isQuitBetter}
+          setIsQuitBetter={setIsQuitBetter}
+        />
+      </div>
+      <div className="w-full">
+        <p className="font-bold mb-2">MMAS 8 Form</p>
+        <MmasEight
+          isTookYesterday={isTookYesterday}
+          setIsTookYesterday={setIsTookYesterday}
+          isQuitControl={isQuitControl}
+          setIsQuitControl={setIsQuitControl}
+          isUnderPressure={isUnderPressure}
+          setIsUnderPressure={setIsUnderPressure}
+          isDifficultyRemembering={difficultyRemembering}
+          setIsDifficultyRemembering={setIsDifficultyRemembering}
+        />
+      </div>
+
+      <div className="w-full flex justify-end space-x-4">
         <Button
           className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
           onClick={() => {
@@ -110,12 +113,20 @@ const MMASForm = ({
         >
           Prev
         </Button>
-        {mmasData
+        {mmasData || savedData
           ? (
-          <Button onClick={() => { handleNext() }}>Next</Button>
+          <Button
+            className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+            onClick={() => {
+              handleNext()
+            }}
+          >
+            Next
+          </Button>
             )
           : (
           <Button
+            className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
               addMmas(inputValues)
             }}

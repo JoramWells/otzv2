@@ -22,7 +22,7 @@ const MmasEight = ({
   isDifficultyRemembering,
   setIsDifficultyRemembering
 }: MMASEightProps) => (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+  <div className="flex flex-col gap-y-6 border p-4 rounded-lg">
     <CustomCheckbox
       label="Did you take your medicine yesterday?"
       value={isTookYesterday}

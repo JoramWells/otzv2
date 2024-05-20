@@ -188,19 +188,20 @@ const DisclosureChecklist = ({ activeStep, handleBack, handleNext, patientID, ap
         setFinalComments={setFinalComments}
       />
 
-      <div
-      className='flex justify-end w-full space-x-4 items-center mt-4'
-      >
-<Button
-className='shadow-none bg-slate-200 text-black hover'
-onClick={() => { handleBack() }}
->
-  Prev
-</Button>
+      <div className="flex justify-end w-full space-x-4 items-center mt-4">
+        <Button
+          className="shadow-none bg-slate-200 text-black hover:bg-slate-100"
+          onClick={() => {
+            handleBack()
+          }}
+        >
+          Prev
+        </Button>
 
         {disclosureData
           ? (
           <Button
+            className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
               handleNext()
             }}
@@ -210,6 +211,7 @@ onClick={() => { handleBack() }}
             )
           : (
           <Button
+            className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
               addDisclosureChecklist(inputValues)
             }}
