@@ -43,6 +43,9 @@ export const appointmentApi = createApi({
     getAppointmentDetail: builder.query({
       query: (id) => `appointmentDetail/${id}`
     }),
+    getPriorityAppointmentDetail: builder.query({
+      query: (id) => `priorityAppointmentDetail/${id}`
+    }),
     updateAppointment: builder.mutation<void, any>({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
@@ -62,7 +65,7 @@ export const appointmentApi = createApi({
 })
 
 export const {
-  useGetAllAppointmentsQuery, useAddAppointmentMutation,
+  useGetAllAppointmentsQuery, useAddAppointmentMutation, useGetPriorityAppointmentDetailQuery,
   useGetAppointmentQuery, useGetAppointmentDetailQuery,
   useUpdateAppointmentMutation, useDeleteAppointmentMutation,
   useGetAllWeeklyAppointmentsQuery

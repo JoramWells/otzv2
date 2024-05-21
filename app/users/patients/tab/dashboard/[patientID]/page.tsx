@@ -4,6 +4,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
+import { useGetPriorityAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
+import { useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
 import { useGetVitalSignByPatientIDQuery } from '@/api/vitalsigns/vitalSigns.api'
@@ -15,7 +17,7 @@ import moment from 'moment'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 const BreadcrumbComponent = dynamic(
@@ -45,19 +47,23 @@ export interface InputTabProps {
 
 const PatientDetails = ({ params }: any) => {
   const { patientID } = params
-  const [patientVisitID, setPatientVisitID] = useState<string | null>(null)
   const { data } = useGetViralLoadTestQuery(patientID)
 
   const [addPatientVisit, { isLoading, data: visitData }] = useAddPatientVisitMutation()
+
+  const { data: priorityAppointment } = useGetPriorityAppointmentDetailQuery(patientID)
+
+  const { data: prescriptionData } = useGetArtPrescriptionQuery(patientID)
 
   // const inputValues = {
   //   patientID,
   //   patientVisitID
   // }
 
+  console.log(priorityAppointment, 'pAppointment')
+
   const handleStartVisit = async () => {
     const newVisitID = uuidv4()
-    setPatientVisitID(newVisitID)
     const inputValues = {
       patientID,
       patientVisitID: newVisitID
@@ -73,9 +79,7 @@ const PatientDetails = ({ params }: any) => {
         `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
       )
     }
-  }, [visitData, patientID, patientVisitID])
-
-  console.log(vsData, 'vsx')
+  }, [visitData, patientID])
 
   return (
     <div className="">
@@ -177,12 +181,34 @@ const PatientDetails = ({ params }: any) => {
         <div className="flex-1 bg-white rounded-lg p-2 h-[145px] overflow-y-auto ">
           <p className="text-lg font-bold">Medication</p>
           <div className="flex justify-between">
-            <p>On ART</p>
-            45cm
+            {prescriptionData
+              ? (
+              <div>ART Prescribed</div>
+                )
+              : (
+              <div>Prescribe ART</div>
+                )}
           </div>
           <div>TPT</div>
           <div>Anti TB</div>
           <div>Prep/pep</div>
+        </div>
+
+        {/*  */}
+        <div className="flex-1 bg-white rounded-lg p-2 h-[145px]">
+          <p className='font-bold'>Upcoming Appointments</p>
+          {priorityAppointment?.length > 0
+            ? (
+            <div>
+              Appointment data
+              {priorityAppointment.map((item: any) => (
+                <div key={item.id}>{item?.appointmentDate}</div>
+              ))}
+            </div>
+              )
+            : (
+            <div>No Priority Appointment</div>
+              )}
         </div>
       </div>
       <div>
