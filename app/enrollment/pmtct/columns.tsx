@@ -10,6 +10,9 @@ export interface FullNameProps {
 }
 
 interface ColumnProps {
+  Patient: {
+    dob: string
+  }
   currentRegimenLine: string
   currentARTRegimen: string
   isValid: string
@@ -29,6 +32,7 @@ export interface PatientProps {
   gender?: string
   mflCode?: string
   occupation?: string
+
   // action?: React.ReactNode
 }
 
@@ -52,8 +56,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'age',
     header: 'Age',
-    cell: (props) => (
-      <p>{`${props.row.original.Patient?.dob}`}</p>
+    cell: ({ row }) => (
+      <p>{`${row.original.Patient?.dob}`}</p>
     )
   },
   {
