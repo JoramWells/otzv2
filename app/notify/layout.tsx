@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BellDot, BookCopy, CalendarCheck, MessageCircleMore, MessageSquareText, Phone } from 'lucide-react'
+import { BellDot, BookCopy, CalendarCheck, MessageCircleMore, Phone } from 'lucide-react'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -26,25 +26,19 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '2',
     label: 'Chats',
-    link: 'notify/chats',
+    link: '/notify/chats',
     icon: <MessageCircleMore size={17} />
-  },
-  {
-    id: '3',
-    label: 'Messaging',
-    link: 'notify/messaging',
-    icon: <MessageSquareText size={17} />
   },
   {
     id: '4',
     label: 'Notifications',
-    link: 'notify/notifications',
+    link: '/notify/notifications',
     icon: <BellDot size={17} />
   },
   {
     id: '5',
     label: 'Voice Call',
-    link: 'notify/voice-call',
+    link: '/notify/voice-call',
     icon: <Phone size={17} />
   },
   {

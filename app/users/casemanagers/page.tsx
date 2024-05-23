@@ -5,14 +5,7 @@ import { columns } from './columns'
 import { useGetAllCaseManagersQuery } from '@/api/caregiver/casemanager.api'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-
-const CustomTable = dynamic(
-  async () => await import('@/app/_components/table/CustomTable'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="w-full h-[500px] rounded-lg" />
-  }
-)
+import { CustomTable } from '@/app/_components/table/CustomTable'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -45,7 +38,6 @@ const dataList2 = [
 
 const Page = () => {
   const { data } = useGetAllCaseManagersQuery()
-  console.log(data, 'MNK')
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
