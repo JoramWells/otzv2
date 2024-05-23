@@ -195,28 +195,41 @@ const LocationDetails = ({
         )}
       </div>
 
-      <Select
-      className='w-full'
-        value={county}
-        onChange={setCounty}
-        options={countyOptions()}
-      />
+      <div className="w-full">
+        <label htmlFor="" className="font-bold text-slate-700 text-[14px]">
+          Select County
+        </label>
+        <Select
+          className="w-full mt-2 rounded-lg border-slate-200"
+          value={county}
+          onChange={setCounty}
+          options={countyOptions()}
+        />
+      </div>
 
       {/* sun county */}
-      <Select
-      className='w-full'
-        value={subCounty}
-        onChange={setSubCounty}
-        options={subCountyOptions()}
-      />
+      <div className="w-full">
+        <label htmlFor="" className="font-bold text-[14px] text-slate-700 ">
+          Select Sub County{' '}
+        </label>
+        <Select
+          className="w-full mt-2"
+          value={subCounty}
+          onChange={setSubCounty}
+          options={subCountyOptions()}
+        />
+      </div>
 
       {/* select ward */}
-      <Select
-      className='w-full'
-        value={ward}
-        onChange={setWard}
-        options={wardOptions()}
-      />
+      <div className='w-full'>
+        <label htmlFor="" className='font-bold text-[14px] text-slate-700 '>Select Ward</label>
+        <Select
+          className="w-full mt-2"
+          value={ward}
+          onChange={setWard}
+          options={wardOptions()}
+        />
+      </div>
     </div>
   )
 }

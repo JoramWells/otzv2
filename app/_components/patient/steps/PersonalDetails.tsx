@@ -22,6 +22,7 @@ interface PersonalDetailProps {
   middleName: string
   lastName: string
   dob: string
+  entryPoint: string
   gender: string
   maritalStatus: string
   idNo: string
@@ -36,6 +37,7 @@ interface PersonalDetailProps {
   setIDNo: (val: string) => void
   setCCCNo: (val: string) => void
   setMFLCode: (val: string) => void
+  setEntryPoint: (val: string) => void
 }
 
 const PersonalDetail = ({
@@ -54,7 +56,9 @@ const PersonalDetail = ({
   setIDNo,
   setMFLCode,
   setCCCNo, maritalStatus,
-  setMaritalStatus
+  setMaritalStatus,
+  entryPoint,
+  setEntryPoint
 }: PersonalDetailProps) => {
   const [isTeenager, setIsTeenager] = useState<boolean>(false)
   const [isAdult, setIsAdult] = useState<boolean>(false)
@@ -115,8 +119,8 @@ const PersonalDetail = ({
               label: 'Married'
             },
             {
-              id: 'Not Married',
-              label: 'Not Married'
+              id: 'Single',
+              label: 'Single'
             },
             {
               id: 'Separated',
@@ -171,6 +175,42 @@ const PersonalDetail = ({
       </div>
 
       <CustomInput label="CCC No." value={cccNo} onChange={setCCCNo} />
+
+      {/*  */}
+      <CustomSelect
+      label='Entry Point'
+      value={entryPoint}
+      onChange={setEntryPoint}
+        data={[
+          {
+            id: 'GBV Care Units',
+            label: 'GBV Care Units'
+          },
+          {
+            id: 'Inpatient',
+            label: 'Inpatient'
+          },
+          {
+            id: 'MCH clinics',
+            label: 'MCH Clinics'
+          },
+          {
+            id: 'Outpatient',
+            label: 'Outpatient'
+          },
+          {
+            id: 'SRH/Family Planning clinics',
+            label: 'SRH/Family Planning Clinics'
+          }, {
+            id: 'TB Clinics',
+            label: 'TB Clinics'
+          },
+          {
+            id: 'Specialty Clinics',
+            label: 'Specialty Clinics'
+          }
+        ]}
+      />
     </div>
   )
 }

@@ -68,6 +68,7 @@ const AddPatient = () => {
   const [cccNo, setCCCNo] = useState('')
   const [relationship, setRelationship] = useState('')
   const [maritalStatus, setMaritalStatus] = useState('')
+  const [entryPoint, setEntryPoint] = useState('')
 
   const [location, setLocation] = useState<InputCountyProps | null>(null)
 
@@ -137,14 +138,14 @@ const AddPatient = () => {
   }, [data])
 
   return (
-    <div className="p-2">
+    <div>
       <div className="mb-2">
         <BreadcrumbComponent dataList={dataList2} />
       </div>
       <div
         className="block m-auto"
         style={{
-          width: '55%'
+          width: '50%'
         }}
       >
         <div
@@ -196,6 +197,8 @@ const AddPatient = () => {
             mflCode={mflCode}
             setCCCNo={setCCCNo}
             setMFLCode={setMFLCode}
+            entryPoint={entryPoint}
+            setEntryPoint={setEntryPoint}
           />
         )}
         {activeStep === 2 && (
@@ -227,7 +230,7 @@ const AddPatient = () => {
           />
         )}
 
-        <div className="flex justify-end pt-2 gap-x-2">
+        <div className="flex justify-end pt-2 gap-x-4">
           <Button
             size={'sm'}
             onClick={handleBack}
