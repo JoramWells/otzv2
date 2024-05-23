@@ -25,6 +25,7 @@ export interface ColumnProps {
   AppointmentStatus: {
     statusDescription: string
   }
+  createdAt: Date
   id: string
 }
 
@@ -65,8 +66,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     header: 'Appointment Date',
     cell: ({ row }) => (
       <div className="flex flex-col gap-y-2 pt-1.5 pb-1.5">
-          <p>{moment(row.original.appointmentDate).format('ll')}</p>
-{/*
+        <p>{moment(row.original.appointmentDate).format('ll')}</p>
+        {/*
           <p className="text-sm text-slate-500">
             {moment
               .duration(moment(row.original.appointmentDate).diff(moment()))
@@ -101,42 +102,57 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
       if (appointmentStatus === 'Missed') {
         return (
           <Badge
-          // colorScheme="red"
-          // rounded={'full'}
-          className='rounded-full'
-          >{appointmentStatus}</Badge>
+            // colorScheme="red"
+            // rounded={'full'}
+            className="rounded-full"
+          >
+            {appointmentStatus}
+          </Badge>
         )
       } else if (appointmentStatus === 'Upcoming') {
         return (
           <Badge
-          // colorScheme="blue"
-          // rounded={'full'}
-          className='rounded-full bg-blue-50 text-blue-500 hover:bg-blue-50 shadow-none'
-          >{appointmentStatus}</Badge>
+            // colorScheme="blue"
+            // rounded={'full'}
+            className="rounded-full bg-blue-50 text-blue-500 hover:bg-blue-50 shadow-none"
+          >
+            {appointmentStatus}
+          </Badge>
         )
       } else if (appointmentStatus === 'Pending') {
         return (
           <Badge
-          // colorScheme="orange"
-          // rounded={'full'}
-          className='rounded-full shadow-none bg-orange-50 text-orange-500 hover:bg-orange-50'
-          >{appointmentStatus}</Badge>
+            // colorScheme="orange"
+            // rounded={'full'}
+            className="rounded-full shadow-none bg-orange-50 text-orange-500 hover:bg-orange-50"
+          >
+            {appointmentStatus}
+          </Badge>
         )
       } else if (appointmentStatus === 'Rescheduled') {
         return (
           <Badge
-          // colorScheme="teal"
-          // rounded={'full'}
-          className='rounded-full bg-teal-50 text-teal-600 shadow-none  hover:bg-teal-50'
-          >{appointmentStatus}</Badge>
+            // colorScheme="teal"
+            // rounded={'full'}
+            className="rounded-full bg-teal-50 text-teal-600 shadow-none  hover:bg-teal-50"
+          >
+            {appointmentStatus}
+          </Badge>
         )
       } else {
         <Badge
-        // rounded={'full'}
-        className='rounded-full'
-        >{appointmentStatus}</Badge>
+          // rounded={'full'}
+          className="rounded-full"
+        >
+          {appointmentStatus}
+        </Badge>
       }
     }
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Action',
+    cell: ({ row }) => (<p>{moment(row.original.createdAt).format('ll')} </p>)
   },
   {
     // accessorKey: 'action',

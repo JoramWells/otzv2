@@ -7,8 +7,6 @@ import {
   useGetArtPrescriptionQuery
 } from '@/api/art/artPrescription.api'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
-import { useGetPatientQuery } from '@/api/patient/patients.api'
-import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { Button } from '@/components/ui/button'
 import {
   Loader2,
@@ -21,32 +19,10 @@ import { useSearchParams } from 'next/navigation'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import CustomSelect from '@/components/forms/CustomSelect'
-
-const PrescribeComponent = () => {
-  const [noOfPill, setNoOfPills] = useState('')
-  const [frequency, setFrequency] = useState('')
-  const [refillDate, setRefillDate] = useState('')
-  return (
-    <div className="flex flex-col space-y-4">
-      <CustomInput
-        label="Number of Pills"
-        onChange={setNoOfPills}
-        value={noOfPill}
-      />
-      <CustomInput
-        label="Frequency"
-        value={frequency}
-        onChange={setFrequency}
-      />
-      <CustomInput
-        label="Refill Date"
-        onChange={setRefillDate}
-        value={refillDate}
-        type="date"
-      />
-    </div>
-  )
-}
+import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
+import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
+import { useGetAllUsersQuery } from '@/api/users/users.api'
+import { useAddPrescriptionMutation } from '@/api/pillbox/prescription.api'
 
 const StopComponent = () => {
   const [stopReason, setStopReason] = useState('')
@@ -132,13 +108,39 @@ const AddART = ({ patientID, handleBack, handleNext }: InputProps) => {
 
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('appointmentID')
-  const { data: patientData } = useGetPatientQuery(patientID)
   const { data: prescriptionData } = useGetArtPrescriptionQuery(patientID)
+  const { data: agendaData } = useGetAllAppointmentAgendaQuery()
+  const { data: statusData } = useGetAllAppointmentStatusQuery()
+  const { data: userData } = useGetAllUsersQuery()
+
+  const [addPrescription, { isLoading: prescriptionSaveLoading }] = useAddPrescriptionMutation()
+
+  const agendaDataOptions = useCallback(() => {
+    return agendaData?.filter(
+      (item: any) => item.agendaDescription.toLowerCase() === 'refill'
+    ) || []
+  }, [agendaData])
+
+  const statusOptions = useCallback(() => {
+    return statusData?.filter(
+      (item: any) => item.statusDescription.toLowerCase() === 'upcoming'
+    ) || []
+  }, [statusData])
+
+  const prescriptionInputValues = {
+    patientID,
+    frequency,
+    noOfPill,
+    refillDate,
+    userID: userData?.[0].id,
+    patientVisitID: appointmentID,
+    appointmentAgendaID: agendaDataOptions?.()[0]?.id,
+    appointmentStatusID: statusOptions?.()[0]?.id
+  }
 
   const [startDate, setStartDate] = useState('')
 
   const { data } = useGetAllArtRegimenQuery()
-  const { data: vsData } = useGetVitalSignQuery(appointmentID)
   const [regimenLine, setRegimenLine] = useState('first line')
   const [isStandardRegimen, setIsStandardRegimen] = useState(false)
   const [isNonStandardRegimen, setIsNonStandardRegimen] = useState(false)
@@ -177,6 +179,10 @@ const AddART = ({ patientID, handleBack, handleNext }: InputProps) => {
           {/* <p>{prescriptionData?.regimen}</p> */}
           <div className="w-full flex flex-col space-y-2">
             <p className="text-lg font-bold">Manage Patient Regimen</p>
+            <div>
+              <p>{prescriptionData?.regimen}</p>
+              <p className="capitalize">{prescriptionData?.line}</p>
+            </div>
             <div className="flex flex-row space-x-4">
               {dataList.map((item) => (
                 <Button
@@ -184,7 +190,7 @@ const AddART = ({ patientID, handleBack, handleNext }: InputProps) => {
                     setTab(item.id)
                   }}
                   key={item.id}
-                  className={`bg-white shadow-none rounded-full text-slate-500 border border-slate-200 hover:bg-slate-100  ${
+                  className={`bg-white shadow-none  text-slate-500 border border-slate-200 hover:bg-slate-100  ${
                     item.id === tab && 'bg-slate-50 text-black'
                   }`}
                 >
@@ -212,6 +218,15 @@ const AddART = ({ patientID, handleBack, handleNext }: InputProps) => {
                   value={refillDate}
                   type="date"
                 />
+                <Button
+                  onClick={async () =>
+                    await addPrescription(prescriptionInputValues)
+                  }
+                  disabled={prescriptionSaveLoading}
+                >
+                  {prescriptionSaveLoading && <Loader2 className='mr-2' size={18} />}
+                  Save
+                </Button>
               </div>
             )}
             {tab === 2 && <StopComponent />}

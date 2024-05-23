@@ -2,7 +2,7 @@
 'use client'
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { columns } from './columns'
+import { type ColumnProps, columns } from './columns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import CustomTab from '../../../components/tab/CustomTab'
@@ -45,6 +45,12 @@ const AppointmentPage = () => {
     mode: 'weekly',
     date: '2022-01-01'
   })
+
+  const sortedAppointment: ColumnProps[] = data ? [...data] : []
+  sortedAppointment.sort(
+    (a, b) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  )
 
   const showNotification = useNotification()
 
@@ -117,7 +123,7 @@ const AppointmentPage = () => {
     }
   }, [data, showNotification, params, tab])
 
-  console.log(data, 'ty')
+  console.log(sortedAppointment, 'tyz')
 
   return (
     <div className="bg-slate-50 ">
@@ -145,7 +151,7 @@ const AppointmentPage = () => {
         {value === 'all' && (
           <div className="bg-white rounded-lg p-4">
             <AppointmentFilter />
-            <CustomTable columns={columns} data={data || []} />
+            <CustomTable columns={columns} data={sortedAppointment || []} />
           </div>
         )}
       </div>

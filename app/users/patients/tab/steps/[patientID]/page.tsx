@@ -4,7 +4,6 @@ import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSe
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import AllergiesModal from '../_components/AllergiesModal'
-import ArtRegimenDialog from '../_components/ArtRegimenDialog'
 import ChronicIllnessDialog from '../_components/ChronicIllnessDialog'
 import AdverseDrugReactionsDialog from '../_components/AdverseDrugReactionsDialog'
 // import FamilyPanning from '../_components/steps/FamilyPanning'
@@ -200,7 +199,6 @@ const StepsPage = ({ params }: any) => {
         <div className="w-1/4 flex flex-col space-y-2 bg-white rounded-lg p-2">
           <p className="text-lg font-bold">Available Actions</p>
           <AllergiesModal patientID={patientID} />
-          <ArtRegimenDialog patientID={patientID} />
           <ChronicIllnessDialog />
           <AdverseDrugReactionsDialog />
           <FamilyPanningModal />
