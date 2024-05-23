@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
@@ -5,13 +6,16 @@ import { CustomTable } from '../../_components/table/CustomTable'
 // import { Button } from '@/components/ui/button'
 // import { PlusCircle } from 'lucide-react'
 // import { useRouter } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { patientColumns } from './_components/columns'
 import { Button } from '@/components/ui/button'
-import { PlusCircle } from 'lucide-react'
+import { ListFilter, PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { CaseManagerDialog } from '@/components/CaseManagerDialog'
+import CustomCheckbox from '@/components/forms/CustomCheckbox'
+import { type PatientProps } from '@/types'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -33,10 +37,50 @@ const dataList2 = [
   }
 ]
 
+const FilterComponent = () => {
+  const [isMale, setIsMale] = useState(false)
+  return (
+    <CaseManagerDialog label={<ListFilter />}>
+      <p>Select Age Range</p>
+      <div>
+        <p>Select gender</p>
+        <CustomCheckbox label="All" value={isMale} onChange={setIsMale} />
+        <CustomCheckbox label="Male" value={isMale} onChange={setIsMale} />
+        <CustomCheckbox label="Female" value={isMale} onChange={setIsMale} />
+      </div>
+
+      <div>
+        <p>Population Type</p>
+        <CustomCheckbox
+          label="Fisher Folk"
+          value={isMale}
+          onChange={setIsMale}
+        />
+        <CustomCheckbox
+          label="General Population"
+          value={isMale}
+          onChange={setIsMale}
+        />
+        <CustomCheckbox label="PWID" value={isMale} onChange={setIsMale} />
+      </div>
+
+      <div>
+        <p>Entry Point</p>
+        <CustomCheckbox label="Inpatient" value={isMale} onChange={setIsMale} />
+      </div>
+      <p>Marital Status</p>
+    </CaseManagerDialog>
+  )
+}
+
 const Patients = () => {
   // const datax = await getPatients()
   const { data, isLoading } = useGetAllPatientsQuery()
-  // otz
+
+  const filteredArray: PatientProps[] = data ? [...data] : []
+  filteredArray.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  )
 
   // console.log(data, 'dtx')
 
@@ -47,11 +91,12 @@ const Patients = () => {
       <BreadcrumbComponent dataList={dataList2} />
       <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
         <div>
-          <p className="text-[14px] font-bold text-slate-700">Patients</p>
-          <p className="text-slate-500 text-[12px] ">
+          <p className="font-bold text-slate-700">Patients</p>
+          <p className="text-slate-500 text-[14px] ">
             Manage Registered Patients
           </p>
         </div>
+
         <Button
           className="bg-teal-600 hover:bg-teal-700
         font-bold shadow-none
@@ -69,8 +114,9 @@ const Patients = () => {
         <div className="bg-white w-full p-4 rounded-lg mt-4">
           <CustomTable
             columns={patientColumns}
-            data={data || []}
+            data={filteredArray || []}
             isLoading={isLoading}
+            filter={<FilterComponent />}
             // isSearch
           />
         </div>

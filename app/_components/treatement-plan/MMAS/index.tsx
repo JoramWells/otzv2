@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
-import { type Dispatch, type SetStateAction, useState } from 'react'
+import { type Dispatch, type SetStateAction, useState, useEffect } from 'react'
 
 import MmasFour from './MMASFour'
 import MmasEight from './MMASEight'
@@ -11,21 +11,30 @@ import { useAddMmasMutation, useGetMmasQuery } from '@/api/treatmentplan/mmas.ap
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 
-interface AddTriageProps {
+interface DataProps {
+  isForget: boolean
+  isCareless: boolean
+  isQuitWorse: boolean
+  isQuitBetter: boolean
+  isTookYesterday: boolean
+  isQuitControl: boolean
+  isUnderPressure: boolean
+}
+interface MMASProps {
   handleNext: () => void
   handleBack: () => void
   patientID: string
   appointmentID: string | null
-  activeStep: number
+  formData: DataProps
 };
 
 const MMASForm = ({
   patientID,
   handleNext,
   handleBack,
-  activeStep,
-  appointmentID
-}: AddTriageProps) => {
+  appointmentID,
+  formData
+}: MMASProps) => {
   const [isForget, setIsForget]: [boolean, Dispatch<SetStateAction<boolean>>] =
     useState(false)
   const [isCareless, setIsCareless]: [
@@ -71,8 +80,18 @@ const MMASForm = ({
   }
 
   const [addMmas, { isLoading, data: savedData }] = useAddMmasMutation()
-  const { data: mmasData } = useGetMmasQuery(appointmentID)
-  console.log(mmasData, 'kli')
+
+  useEffect(() => {
+    if (formData) {
+      setIsForget(formData.isForget)
+      setIsCareless(formData.isCareless)
+      setIsQuitWorse(formData.isQuitWorse)
+      setIsQuitBetter(formData.isQuitBetter)
+      setIsTookYesterday(formData.isTookYesterday)
+      setIsQuitControl(formData.isQuitControl)
+      setIsUnderPressure(formData.isUnderPressure)
+    }
+  }, [formData])
 
   return (
     <div className="flex flex-col space-y-4 w-full">
@@ -113,7 +132,7 @@ const MMASForm = ({
         >
           Prev
         </Button>
-        {mmasData || savedData
+        {formData || savedData
           ? (
           <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"

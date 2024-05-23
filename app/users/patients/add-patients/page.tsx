@@ -24,6 +24,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import NextOfKin from '@/app/_components/patient/steps/NextOfKin'
 import { useToast } from '@/components/ui/use-toast'
+import { redirect } from 'next/navigation'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
@@ -134,6 +135,7 @@ const AddPatient = () => {
   useEffect(() => {
     if (data) {
       console.log(data, 'data')
+      redirect('/users/patients')
     }
   }, [data])
 

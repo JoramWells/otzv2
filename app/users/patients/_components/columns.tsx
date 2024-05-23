@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -280,6 +281,15 @@ export const patientColumns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'populationType',
     header: 'Population Type'
+  },
+  {
+    accessorKey: 'entryPoint',
+    header: 'Entry Point'
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Date of Enrollment',
+    cell: ({ row }) => (<p>{moment(row.original.createdAt).format('ll')}</p>)
   }
 ]
 

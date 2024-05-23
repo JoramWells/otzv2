@@ -44,8 +44,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   const { data } = useGetPatientQuery(patientID)
 
-  console.log(data, 'dtx')
-
   const DL: SidebarListItemsProps[] = [
     {
       id: '11',
@@ -116,7 +114,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Provider store={store}>
         <ChakraProvider>
           <div
-          className={`bg-[${tertiaryColor}] min-h-screen`}
+          className={'bg-slate-50 min-h-screen'}
           >{children}</div>
         </ChakraProvider>
       </Provider>

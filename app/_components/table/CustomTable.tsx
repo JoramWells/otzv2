@@ -30,20 +30,23 @@ import {
   getFilteredRowModel,
   type SortingState
 } from '@tanstack/react-table'
-import { BookOpen, ChevronsLeft, ChevronsRight } from 'lucide-react'
-import { useState } from 'react'
+import { BookOpen, ChevronsLeft, ChevronsRight, FileDown } from 'lucide-react'
+import { type ReactNode, useState } from 'react'
+import { CSVLink } from 'react-csv'
 
 export interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
   isSearch?: boolean
   isLoading?: boolean
+  filter?: ReactNode
 }
 export function CustomTable<TData, TValue> ({
   data,
   columns,
   isSearch = true,
-  isLoading = false
+  isLoading = false,
+  filter
 }: CustomTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -79,8 +82,8 @@ export function CustomTable<TData, TValue> ({
         "
         >
           <input
-            placeholder="Search patient name"
-            className="border border-slate-200 h-10 rounded-md p-1"
+            placeholder="Search.."
+            className="border border-slate-200 h-10 rounded-full p-2 bg-slate-50 "
             value={
               (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
             }
@@ -90,7 +93,7 @@ export function CustomTable<TData, TValue> ({
           />
 
           <div className="flex flex-row space-x-4 items-center">
-            {/* <CSVLink data={data as object[]}>
+            <CSVLink data={data as object[]}>
               <Button
                 // size={'sm'}
                 className="bg-slate-100 text-slate-600 hover:bg-slate-200
@@ -100,18 +103,12 @@ export function CustomTable<TData, TValue> ({
                 // color={'gray.500'}
                 // leftIcon={<ArrowDownToLine size={20} />}
               >
-                <Download size={18} className="mr-2" />
-                Download
+                <FileDown size={18} className="mr-2" />
+                Export
               </Button>
-            </CSVLink> */}
-            {/* <Button
-              size={'sm'}
-              // rounded={'full'}
-              // color={'gray.500'}
-              // leftIcon={<Printer size={20} />}
-            >
-              Print
-            </Button> */}
+            </CSVLink>
+
+           {filter && filter}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

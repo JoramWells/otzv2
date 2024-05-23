@@ -2,25 +2,40 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
 
-import { useAddVitalSignMutation, useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
+import { useAddVitalSignMutation } from '@/api/vitalsigns/vitalSigns.api'
 import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+export interface VSProps {
+  temperature: string
+  pulseRate: string
+  diastolic: string
+  systolic: string
+  respiratoryRate: string
+  oxygenSAturation: string
+  height: string
+  weight: string
+  MUAC: string
+  LMP: string
+}
 
 interface AddTriageProps {
   handleNext: () => void
   handleBack: () => void
   patientID: string
   activeStep: number
+  vlData: VSProps
 };
 
 const AddTriage = ({
   patientID,
   handleNext,
   handleBack,
-  activeStep
+  activeStep,
+  vlData
 }: AddTriageProps) => {
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('appointmentID')
@@ -36,6 +51,22 @@ const AddTriage = ({
   const [weight, setWeight] = useState('')
   const [MUAC, setMUAC] = useState('')
   const [LMP, setLMP] = useState('')
+
+  useEffect(() => {
+    if (vlData) {
+      setTemperature(vlData.temperature)
+      setPulseRate(vlData.pulseRate)
+      setDiastolic(vlData.diastolic)
+      setSystolic(vlData.systolic)
+      setRespiratoryRate(vlData.respiratoryRate)
+      setOxygen(vlData.oxygenSAturation)
+      setheight(vlData.height)
+      setWeight(vlData.weight)
+      setMUAC(vlData.MUAC)
+      setLMP(vlData.LMP)
+    }
+  }, [vlData])
+
   // const [isPregnant, setIsPregnant] = useState(false)
 
   const inputValues = {
@@ -54,7 +85,7 @@ const AddTriage = ({
 
   //
   const [addVitalSign, { isLoading, data: vsData }] = useAddVitalSignMutation()
-  const { data: appointmentData } = useGetVitalSignQuery(appointmentID)
+
   return (
     <div className="p-2 rounded-lg flex flex-col space-y-4">
       <CustomInput
@@ -134,9 +165,10 @@ const AddTriage = ({
         </Button>
           )} */}
       <div className="flex w-full justify-end">
-        {vsData || appointmentData
+        {vsData || vlData
           ? (
           <Button
+          className='bg-slate-200 hover:bg-slate-100 shadow-none text-black'
             onClick={() => {
               handleNext()
             }}

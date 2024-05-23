@@ -8,7 +8,7 @@ import { useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { type SideBarCollapseButtonProps } from '@/types'
-// import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 
 export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, icon = <div/> }: SideBarCollapseButtonProps) => {
   const [visible, setVisible] = useState(false)
@@ -25,12 +25,13 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
   }
 
   return (
-    <div className="p-2">
-      <div
+    <div className="pt-2 pb-2">
+      <Button
         onClick={onToggle}
-        className={`flex h-10 items-center font-semibold pl-4 pr-4 justify-between text-[#F3FAFF]/[.8]  text-sm rounded-lg
-        hover:cursor-pointer overflow-y-auto hover:bg-[#F3FAFF]/[.1] transition delay-150 ease-in-out hover:text-[#F3FAFF] ${
-          isActive && 'bg-[#F3FAFF]/[.1] text-[#F3FAFF]'
+        className={`flex items-center font-semibold pl-4 pr-4 justify-between text-[#F3FAFF]/[.8]  text-sm rounded-none w-full bg-[#364f6b] shadow-none
+        overflow-y-auto hover:bg-[#F3FAFF]/[.1] transition delay-150 ease-in-out hover:text-[#F3FAFF] ${
+          isActive &&
+          'bg-gradient-to-r from-[#F1F1E6] text-[#364f6b]'
         }
         `}
       >
@@ -60,7 +61,7 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
             {visible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
           </>
         )}
-      </div>
+      </Button>
 
       {itemList != null && itemList?.length > 0 && (
         <div

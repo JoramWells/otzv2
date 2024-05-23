@@ -18,7 +18,7 @@ interface AddTriageProps {
   handleBack: () => void
   patientID: string
   appointmentID: string | null
-  activeStep: number
+  // formData: []
 };
 
 const FormOne = ({
@@ -26,6 +26,7 @@ const FormOne = ({
   handleNext,
   handleBack,
   appointmentID
+  // formData
   // activeStep,
 }: AddTriageProps) => {
   const [morningPlace, setMorningPlace] = useState('')

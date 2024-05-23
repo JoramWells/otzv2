@@ -18,6 +18,7 @@ import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { useSearchParams } from 'next/navigation'
 import UpdateVL from '../_components/UpdateVL'
 import AddArt from '../_components/AddArt'
+import { useGetMmasQuery } from '@/api/treatmentplan/mmas.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -41,7 +42,7 @@ const dataList2 = [
 ]
 
 const steps = [
-  { title: 'Vitals', description: '' },
+  { title: 'Vitals', description: 'Vital Signs' },
   { title: 'Time', description: '' },
   { title: 'MMAS', description: '' },
   { title: 'Disclosure', description: '' },
@@ -55,8 +56,8 @@ const StepsPage = ({ params }: any) => {
   const { patientID } = params
   const [activeStep, setActiveStep] = useState(1)
 
-  const { data } = useGetVitalSignQuery(appointmentID)
-  console.log(data, 'appointmentdtx')
+  const { data: vsData } = useGetVitalSignQuery(appointmentID)
+  const { data: mmasData } = useGetMmasQuery(appointmentID)
 
   const pending = true
 
@@ -65,7 +66,6 @@ const StepsPage = ({ params }: any) => {
       if (pending) {
         const info = 'You ave unsaved files'
         e.returnValue = info
-        alert('SAVE!!')
         // return info
       }
 
@@ -122,6 +122,7 @@ const StepsPage = ({ params }: any) => {
           <div className="w-full mt-4 bg-white rounded-lg p-4">
             {activeStep === 1 && (
               <AddTriage
+                vlData={vsData}
                 patientID={patientID}
                 handleBack={handleBack}
                 handleNext={() => {
@@ -133,6 +134,7 @@ const StepsPage = ({ params }: any) => {
 
             {activeStep === 2 && (
               <FormOne
+              patientID={patientID}
                 appointmentID={appointmentID}
                 handleNext={() => {
                   handleNext(activeStep)
@@ -145,6 +147,7 @@ const StepsPage = ({ params }: any) => {
 
             {activeStep === 3 && (
               <MMASForm
+              formData={mmasData}
                 appointmentID={appointmentID}
                 patientID={patientID}
                 handleNext={() => {
@@ -180,7 +183,7 @@ const StepsPage = ({ params }: any) => {
             )}
             {activeStep === 6 && (
               <UpdateVL
-              patientVisitID={appointmentID}
+                patientVisitID={appointmentID}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}

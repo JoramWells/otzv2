@@ -1,11 +1,18 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
-import { CustomTable } from '@/app/_components/table/CustomTable'
 import { columns } from './columns'
 import { useGetAllCaseManagersQuery } from '@/api/caregiver/casemanager.api'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+
+const CustomTable = dynamic(
+  async () => await import('@/app/_components/table/CustomTable'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[500px] rounded-lg" />
+  }
+)
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -40,7 +47,7 @@ const Page = () => {
   const { data } = useGetAllCaseManagersQuery()
   console.log(data, 'MNK')
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
         <HeaderTitle
