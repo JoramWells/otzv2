@@ -17,11 +17,10 @@ interface AddTriageProps {
   handleNext: () => void
   handleBack: () => void
   patientID: string
-  appointmentID: string
-  activeStep: number
+  appointmentID: string | null
 };
 
-const DisclosureChecklist = ({ activeStep, handleBack, handleNext, patientID, appointmentID }: AddTriageProps) => {
+const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID }: AddTriageProps) => {
   const [isCorrectAge, setIsCorrectAge]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isWillingToDisclose, setIsWillingToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isKnowledgeable, setIsKnowledgeable]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)

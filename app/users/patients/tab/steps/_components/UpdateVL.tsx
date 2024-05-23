@@ -23,7 +23,7 @@ interface InputProps {
   handleNext: () => void
   handleBack: () => void
   patientID: string
-  patientVisitID: string
+  patientVisitID: string | null
 }
 
 const UpdateVL = ({ handleBack, handleNext, patientID, patientVisitID }: InputProps) => {

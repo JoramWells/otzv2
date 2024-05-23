@@ -95,13 +95,13 @@ const dataList = [
   }
 ]
 
-interface InputProps {
+interface AddArtProps {
   handleNext: () => void
   handleBack: () => void
   patientID: string
 }
 
-const AddART = ({ patientID, handleBack, handleNext }: InputProps) => {
+const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const [noOfPill, setNoOfPills] = useState('')
   const [frequency, setFrequency] = useState('')
   const [refillDate, setRefillDate] = useState('')
