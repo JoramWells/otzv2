@@ -12,13 +12,16 @@ import { useGetVitalSignByPatientIDQuery } from '@/api/vitalsigns/vitalSigns.api
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Loader2 } from 'lucide-react'
+import { secondaryColor } from '@/constants/color'
+import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
+import { ArrowRight, InfoIcon, Loader2 } from 'lucide-react'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { StartVisitDropdown } from '../../../_components/StartVisitDropdown'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -92,24 +95,29 @@ const PatientDetails = ({ params }: any) => {
             Current Patient Profile Details
           </p>
         </div>
-        <Button
-          disabled={isLoading}
-          onClick={async () => {
-            await handleStartVisit()
-          }}
-          className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold"
-        >
-          {isLoading && <Loader2 className="mr-2" size={18} />}
-          Start Visit
-        </Button>
+        <div className='flex items-center bg-teal-600 rounded-lg'>
+          <Button
+            disabled={isLoading}
+            onClick={async () => {
+              await handleStartVisit()
+            }}
+            className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold"
+          >
+            {isLoading && <Loader2 className="mr-2" size={18} />}
+            Start Visit
+          </Button>
+          <StartVisitDropdown
+          appointmentList={priorityAppointment}
+          patientID={patientID}
+          />
+        </div>
       </div>
 
       <div className="flex space-x-4 flex-row w-full items-start p-4">
-        <div className="rounded-lg p-4 flex-1 bg-white h-[145px] ">
-          <p className="font-bold">Current Viral Load</p>
-
-          {data
-            ? (
+        {data
+          ? (
+          <div className="rounded-lg p-4 flex-1 bg-white h-[145px] ">
+            <p className="font-bold">Current Viral Load</p>
             <div className="flex flex-col space-y-2">
               <div className="w-full flex justify-between items-center">
                 {data.isVLValid
@@ -139,8 +147,13 @@ const PatientDetails = ({ params }: any) => {
                 {data.vlJustification}
               </div>
             </div>
-              )
-            : (
+          </div>
+            )
+          : (
+          <div
+            className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
+          >
+            <InfoIcon className="text-slate-500" size={18} />
             <div>
               <p className="text-slate-500 text-[14px] ">
                 No Recent Viral Load
@@ -149,8 +162,8 @@ const PatientDetails = ({ params }: any) => {
                 Update
               </Link>
             </div>
-              )}
-        </div>
+          </div>
+            )}
         {/*  */}
         <div className="flex-1 bg-white rounded-lg p-2 h-[145px] ">
           <p className="font-bold">Recent Vital Signs</p>
@@ -196,15 +209,30 @@ const PatientDetails = ({ params }: any) => {
 
         {/*  */}
         <div className="flex-1 bg-white rounded-lg p-2 h-[145px]">
-          <p className='font-bold'>Upcoming Appointments</p>
+          <div className="flex flex-row justify-between items-center">
+            <p className="font-bold">Appointments</p>
+            <Button
+              className="text-slate-500 shadow-none"
+              variant={'outline'}
+              size={'sm'}
+            >
+              View More
+              <ArrowRight size={18} className="ml-1" />
+            </Button>
+          </div>
           {priorityAppointment?.length > 0
             ? (
-            <div>
-              Appointment data
+            <>
               {priorityAppointment.map((item: any) => (
-                <div key={item.id}>{item?.appointmentDate}</div>
+                <div
+                  key={item.id}
+                  className="flex flex-row justify-between items-center p-1 text-slate-500 text-sm"
+                >
+                  <p>{item.AppointmentAgenda?.agendaDescription} </p>
+                  <p>{calculateTimeDuration(item?.appointmentDate)} </p>
+                </div>
               ))}
-            </div>
+            </>
               )
             : (
             <div>No Priority Appointment</div>

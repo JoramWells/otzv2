@@ -16,6 +16,8 @@ import StagingDialog from '../_components/StagingDialog'
 import AddTriage from '../_components/AddTriage'
 import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { useSearchParams } from 'next/navigation'
+import UpdateVL from '../_components/UpdateVL'
+import AddArt from '../_components/AddArt'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -42,7 +44,9 @@ const steps = [
   { title: 'Vitals', description: '' },
   { title: 'Time', description: '' },
   { title: 'MMAS', description: '' },
-  { title: 'Disclosure', description: '' }
+  { title: 'Disclosure', description: '' },
+  { title: 'Add ART', description: '' },
+  { title: 'Update VL', description: '' }
 ]
 
 const StepsPage = ({ params }: any) => {
@@ -129,7 +133,7 @@ const StepsPage = ({ params }: any) => {
 
             {activeStep === 2 && (
               <FormOne
-              appointmentID={appointmentID}
+                appointmentID={appointmentID}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}
@@ -141,8 +145,8 @@ const StepsPage = ({ params }: any) => {
 
             {activeStep === 3 && (
               <MMASForm
-              appointmentID={appointmentID}
-              patientID={patientID}
+                appointmentID={appointmentID}
+                patientID={patientID}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}
@@ -153,11 +157,34 @@ const StepsPage = ({ params }: any) => {
             )}
             {activeStep === 4 && (
               <DisclosureChecklist
-              appointmentID={appointmentID}
-              patientID={patientID}
+                appointmentID={appointmentID}
+                patientID={patientID}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
+            {activeStep === 5 && (
+              <AddArt
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                patientID={patientID}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
+            {activeStep === 6 && (
+              <UpdateVL
+              patientVisitID={appointmentID}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                patientID={patientID}
                 handleBack={() => {
                   handleBack()
                 }}
