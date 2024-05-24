@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const messageTextReplyApi = createApi({
   reducerPath: 'messageTextReplyApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/notification-types`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/notify/notification-types`
   }),
   endpoints: (builder) => ({
     getAllNotificationTypes: builder.query<any, void>({

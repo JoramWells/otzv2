@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Bell, BookIcon, LineChart, Pill, SaveAll, Search, Shield, Users } from 'lucide-react'
+import { Bell, BookIcon, CalendarCheck, LineChart, Pill, SaveAll, Search, Shield, Users } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
 import { type ReactNode, Suspense } from 'react'
@@ -69,6 +69,21 @@ const itemList: ItemListProps[] = [
         id: '10',
         label: 'Users',
         link: '/administrator/users'
+      }
+    ]
+  },
+  {
+    id: '9',
+    label: 'Appointments',
+    icon: <CalendarCheck />,
+    link: '/appointments/dashboard',
+    description:
+      'Manage Appointments',
+    listItem: [
+      {
+        id: '8',
+        label: 'Appointments',
+        link: '/appointments/dashboard'
       }
     ]
   },

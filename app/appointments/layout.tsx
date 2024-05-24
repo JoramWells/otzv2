@@ -14,31 +14,31 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: '/notify/dashboard',
+    link: '/appointments/dashboard',
     icon: <CalendarCheck size={17} />
   },
   {
     id: '2',
-    label: 'Chats',
-    link: '/notify/chats',
+    label: 'Appointments',
+    link: '/appointments',
     icon: <MessageCircleMore size={17} />
   },
   {
     id: '4',
-    label: 'Notifications',
-    link: '/notify/notifications',
+    label: 'Create Appointment',
+    link: '/appointments/add-appointment',
     icon: <BellDot size={17} />
   },
-  {
-    id: '5',
-    label: 'Voice Call',
-    link: '/notify/voice-call',
-    icon: <Phone size={17} />
-  },
+  // {
+  //   id: '5',
+  //   label: 'Voice Call',
+  //   link: '/notify/voice-call',
+  //   icon: <Phone size={17} />
+  // },
   {
     id: '6',
     label: 'Reports',
-    link: 'viratrack/reports',
+    link: '',
     icon: <BookCopy size={17} />
   }
 ]

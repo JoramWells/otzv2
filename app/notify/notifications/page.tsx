@@ -11,6 +11,15 @@ import { useEffect, useState } from 'react'
 import socketIOClient, { type Socket } from 'socket.io-client'
 import { NotificationProps } from '@/context/NotificationContext'
 import useNotification from '@/hooks/useNotification'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
+  }
+)
 
 const dataList = [
   {
@@ -22,6 +31,19 @@ const dataList = [
     label: 'Sent Messages'
   }
 
+]
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'dashboard',
+    link: 'dashboard'
+  }
 ]
 
 const NotificationPage = () => {
@@ -44,7 +66,7 @@ const NotificationPage = () => {
   // if (data) {
   // setAppointments(data)
   // }
-  const socket: Socket = socketIOClient('http://localhost:5005/')
+  // const socket: Socket = socketIOClient(`${process.env.NEXT_PUBLIC_API_URL}/api/appointment:`)
 
   //   socket.on("notificationCreated", (socketData: NotificationProps) => {
   //     showNotification();
@@ -56,33 +78,41 @@ const NotificationPage = () => {
   //     socket.disconnect();
   //   };
   // }, [ showNotification]);
-  console.log(patientNotificationData)
   return (
-    <div className="mt-14 p-4 w-full flex flex-col items-center justify-center">
-      <div className="w-full flex-row flex space-x-4 mb-4">
+    <div className="">
+      <BreadcrumbComponent dataList={dataList2} />
+
+      <div className="w-full flex-row flex space-x-4 mb-2 p-2 mt-2">
         {dataList.map((item) => (
           <Button
             key={item.id}
             className={`rounded-full shadow-none bg-slate-200 text-slate-500
           hover:bg-slate-100 ${item.id === value && 'bg-black text-white'}
           `}
-            onClick={() => { setValue(item.id) }}
+            onClick={() => {
+              setValue(item.id)
+            }}
           >
             {item.label}
           </Button>
         ))}
       </div>
 
-      {value === 1
-        ? (
-        <CustomTable columns={columns} data={dtx || []} />
-          )
-        : (
-        <CustomTable
-          columns={sentMessagesColumns}
-          data={patientNotificationData || []}
-        />
-          )}
+      <div className='p-2'>
+        <div className='bg-white rounded-lg w-full p-2'>
+          {value === 1
+            ? (
+            <CustomTable columns={columns} data={dtx || []} isSearch={false} />
+              )
+            : (
+            <CustomTable
+              columns={sentMessagesColumns}
+              data={patientNotificationData || []}
+              isSearch={false}
+            />
+              )}
+        </div>
+      </div>
     </div>
   )
 }

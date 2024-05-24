@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
-import { CustomTable } from '../../_components/table/CustomTable'
+import { CustomTable } from '../_components/table/CustomTable'
 import { type ColumnProps, columns } from './columns'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import CustomTab from '../../../components/tab/CustomTab'
+import CustomTab from '../../components/tab/CustomTab'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
 import socketIOClient, { type Socket } from 'socket.io-client'

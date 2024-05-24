@@ -38,7 +38,11 @@ export interface ColumnProps {
   refillDate: MomentInput
   appointmentTime: MomentInput
   user: any
-  patient: any
+  Patient: {
+    id: string
+    firstName: string
+    middleName: string
+  }
   id: any
   header: string
   accessorKey?: keyof PatientProps
@@ -60,13 +64,13 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2 pt-2 pb-2">
+      <div className="flex flex-row items-center gap-x-2 pt-1 pb-1">
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}
+          name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
         />
-          <p className="capitalize font-semibold">{`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</p>
       </div>
     )
   },
@@ -113,16 +117,16 @@ export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2 pt-2 pb-2">
+      <div className="flex flex-row items-center gap-x-2 pt-1 pb-1">
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}
+          name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
         />
         <Link
           className="capitalize font-semibold text-blue-500"
-          href={`/patients/${row.original?.patient.id}?tab=messages`}
-        >{`${row.original?.patient?.firstName} ${row.original?.patient?.middleName}`}</Link>
+          href={`/patients/${row.original?.Patient.id}?tab=messages`}
+        >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
       </div>
     )
   },

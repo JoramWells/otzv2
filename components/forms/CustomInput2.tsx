@@ -1,13 +1,24 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Input } from '@/components/ui/input'
-import { type CustomInputProps } from '@/types'
 import { useController, useFormContext } from 'react-hook-form'
 
-type CustomProps = CustomInputProps & {
+interface CustomInputProps {
   name: string
+  label?: string
+  placeholder?: string
+  value: string
+  type?: string
+  description?: string
+  onChange: (value: any) => void
 }
 
-const CustomInput2 = ({ description, label, placeholder, type = 'text', name }: CustomProps) => {
+const CustomInput2 = ({
+  description,
+  label,
+  placeholder,
+  type = 'text',
+  name
+}: CustomInputProps) => {
   const { control } = useFormContext()
   const {
     field: { onChange, onBlur, value, ref },
