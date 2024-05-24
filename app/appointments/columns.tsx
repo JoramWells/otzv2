@@ -12,7 +12,7 @@ export interface FullNameProps {
   firstName?: string
 }
 
-export interface ColumnProps {
+export interface AppointmentProps {
   Patient: {
     firstName?: string
     middleName?: string
@@ -39,7 +39,7 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<ColumnProps>> = [
+export const columns: Array<ColumnDef<AppointmentProps>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',

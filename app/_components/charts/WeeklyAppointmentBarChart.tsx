@@ -60,7 +60,7 @@ const WeeklyAppointmentBarChart = () => {
   const chartData = transformDataToCart()
 
   return (
-    <div className="h-[320px] w-[500px] rounded-lg bg-white p-4">
+    <div className="h-[350px] w-3/4 rounded-lg bg-white p-4">
       <h1 className="font-bold text-lg">Enrollment</h1>
       <div className="pb-10 pl-5 pr-5 w-full h-full">
         <Bar data={chartData} options={{

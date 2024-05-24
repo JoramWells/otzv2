@@ -2,16 +2,14 @@
 'use client'
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../_components/table/CustomTable'
-import { type ColumnProps, columns } from './columns'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { columns, type AppointmentProps } from './columns'
+import { useCallback, useMemo, useState } from 'react'
 import CustomTab from '../../components/tab/CustomTab'
-import useNotification from '@/hooks/useNotification'
-import { type NotificationProps } from '@/context/NotificationContext'
-import socketIOClient, { type Socket } from 'socket.io-client'
-import { PlusCircle } from 'lucide-react'
+// import useNotification from '@/hooks/useNotification'
+// import { type NotificationProps } from '@/context/NotificationContext'
+// import socketIOClient, { type Socket } from 'socket.io-client'
 import { useSearchParams } from 'next/navigation'
-import { AppointmentFilter } from './__components/AppointmentFilter'
+// import { AppointmentFilter } from './__components/AppointmentFilter'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 const BreadcrumbComponent = dynamic(
@@ -40,19 +38,19 @@ const AppointmentPage = () => {
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
 
-  const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
+  // const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
   const { data } = useGetAllAppointmentsQuery({
     mode: 'weekly',
     date: '2022-01-01'
   })
 
-  const sortedAppointment: ColumnProps[] = data ? [...data] : []
+  const sortedAppointment: AppointmentProps[] = data ? [...data] : []
   sortedAppointment.sort(
     (a, b) =>
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   )
 
-  const showNotification = useNotification()
+  // const showNotification = useNotification()
 
   const missedAppointment = useCallback(() => {
     return data?.filter((item: any) => item.appointmentStatus?.statusDescription.toLowerCase().includes('Missed'.toLowerCase()))
@@ -100,45 +98,34 @@ const AppointmentPage = () => {
     []
   )
 
-  useEffect(() => {
-    // if (data) {
-    // setAppointments(data)
-    // }
-    const socket: Socket = socketIOClient('http://localhost:5000')
+  // useEffect(() => {
+  //   // if (data) {
+  //   // setAppointments(data)
+  //   // }
+  //   const socket: Socket = socketIOClient(`${process.env.NEXT_PUBLIC_API_URL}/api/appointment`)
 
-    socket.on('appointment-updated', (socketData: NotificationProps) => {
-      showNotification()
-      // setAppointments(socketData)
-      console.log(socketData)
-    })
+  //   socket.on('appointment-updated', (socketData: NotificationProps) => {
+  //     showNotification()
+  //     // setAppointments(socketData)
+  //     console.log(socketData)
+  //   })
 
-    // ceck tab
-    if (tab === null) {
-      params.set('tab', 'all')
-      setValue('all')
-    }
+  //   // ceck tab
+  //   if (tab === null) {
+  //     params.set('tab', 'all')
+  //     setValue('all')
+  //   }
 
-    return () => {
-      socket.disconnect()
-    }
-  }, [data, showNotification, params, tab])
+  //   return () => {
+  //     socket.disconnect()
+  //   }
+  // }, [data, showNotification, params, tab])
 
   console.log(sortedAppointment, 'tyz')
 
   return (
     <div className="bg-slate-50 ">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="flex flex-row justify-between p-4 bg-white mt-2">
-        <h1 className="text-2xl font-semibold">Appointments</h1>
-        <Button
-          className="bg-teal-600 hover:bg-teal-700 shadow-none
-          font-bold
-          "
-        >
-          <PlusCircle size={18} className="mr-2" />
-          New Appointment
-        </Button>
-      </div>
 
       {/* tab navigation */}
       <div className="w-full p-4 flex flex-col space-y-2">
@@ -150,7 +137,7 @@ const AppointmentPage = () => {
 
         {value === 'all' && (
           <div className="bg-white rounded-lg p-4">
-            <AppointmentFilter />
+            {/* <AppointmentFilter /> */}
             <CustomTable columns={columns} data={sortedAppointment || []} />
           </div>
         )}
