@@ -1,4 +1,3 @@
-import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { type AppointmentProps } from '@/app/appointments/columns'
 import PieChart from './PieChart'
 
@@ -6,12 +5,11 @@ import PieChart from './PieChart'
 //   status: 'Pending' | 'Upcoming' | 'Completed'
 // }
 
-const AppointmentPieChart = () => {
-  const { data: weeklyData } = useGetAllAppointmentsQuery({
-    date: '2022-01-01',
-    mode: 'weekly'
-  })
+interface InputProps {
+  data: []
+}
 
+const AppointmentPieChart = ({ data }: InputProps) => {
   const statusCount = (appointment: AppointmentProps[]) => {
     return appointment?.reduce(
       (counts, appointment) => {
@@ -22,18 +20,18 @@ const AppointmentPieChart = () => {
     )
   }
 
-  const counts = statusCount(weeklyData as AppointmentProps[])
+  const counts = statusCount(data as AppointmentProps[])
 
-  const data = {
+  const pieData = {
     labels: ['Pending', 'Upcoming', 'Completed', 'Rescheduled', 'Cancelled'],
     datasets: [
       {
         data: [
-          counts.Pending,
-          counts.Upcoming,
-          counts.Completed,
-          counts.Rescheduled,
-          counts.Cancelled
+          counts?.Pending,
+          counts?.Upcoming,
+          counts?.Completed,
+          counts?.Rescheduled,
+          counts?.Cancelled
         ],
         backgroundColor: [
           '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'
@@ -46,7 +44,8 @@ const AppointmentPieChart = () => {
   }
 
   return (
-      <PieChart data={data} />
+
+      <PieChart data={pieData} />
   )
 }
 

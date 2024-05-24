@@ -8,6 +8,9 @@ import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmen
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
+import { useGetAllAppointmentsQuery, useGetAllPriorityAppointmentsQuery } from '@/api/appointment/appointment.api.'
+import { type AppointmentProps } from '../columns'
+import Avatar from '@/components/Avatar'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -64,6 +67,14 @@ const dataList2 = [
 ]
 
 const NotifyPage = () => {
+  const { data: weeklyData } = useGetAllAppointmentsQuery({
+    date: '2022-01-01',
+    mode: 'weekly'
+  })
+
+  const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
+  console.log(priorityAppointmentData, 'j')
+
   const router = useRouter()
 
   return (
@@ -99,11 +110,20 @@ const NotifyPage = () => {
           </h1>
 
           <p>Scheduled the following appointments</p>
-          <div
-          className='flex justify-between space-x-4'
-          >
+          <div className="flex justify-between space-x-4 bg-white p-4">
             <WeeklyAppointmentBarChart />
-            <AppointmentPieChart />
+            <AppointmentPieChart data={weeklyData} />
+            <div className="flex-1 bg-white rounded-lg flex flex-col p-4 border border-slate-200">
+              <p className='font-bold pl-2' >Upcoming Appointments</p>
+              {priorityAppointmentData?.map((item: AppointmentProps) => (
+                <div className="flex items-center space-x-4 w-full hover:cursor-pointer hover:bg-slate-50 p-1 rounded-lg mt-2" key={item.id}>
+                  <Avatar
+                    name={`${item.Patient?.firstName} ${item.Patient?.middleName}`}
+                  />
+                  <p className='text-[14px] text-slate-500 ' >{item.Patient?.firstName} {item.Patient?.middleName}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

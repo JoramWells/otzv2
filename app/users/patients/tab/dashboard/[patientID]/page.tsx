@@ -63,8 +63,6 @@ const PatientDetails = ({ params }: any) => {
   //   patientVisitID
   // }
 
-  console.log(priorityAppointment, 'pAppointment')
-
   const handleStartVisit = async () => {
     const newVisitID = uuidv4()
     const inputValues = {
