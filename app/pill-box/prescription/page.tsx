@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { columns } from './columns'
+import { type PrescriptionProps, columns } from './columns'
 import { useEffect } from 'react'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
@@ -39,7 +39,11 @@ const dataList2 = [
 const PrescriptionPage = () => {
   const { data } = useGetAllPrescriptionsQuery()
 
-  console.log(data, 'yu')
+  const sortedData: PrescriptionProps[] = data ? [...data] : []
+  sortedData.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  )
+  console.log(sortedData, 'yu')
 
   const showNotification = useNotification()
 
@@ -63,14 +67,12 @@ const PrescriptionPage = () => {
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="flex flex-row justify-between bg-white p-4 mt-2 ">
-        <h1 className="text-xl text-slate-700 font-semibold">Prescriptions</h1>
-      </div>
+
       <div className="p-4">
         <div
         className='p-4 bg-white rounded-lg'
         >
-          <CustomTable columns={columns} data={data || []} />
+          <CustomTable columns={columns} data={sortedData || []} />
         </div>
       </div>
     </div>

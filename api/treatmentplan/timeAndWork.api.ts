@@ -33,6 +33,9 @@ export const timeAndWorkApi = createApi({
     getTimeAndWork: builder.query({
       query: (id) => `detail/${id}`
     }),
+    getTimeAndWorkByPatientID: builder.query({
+      query: (id) => `patient-detail/${id}`
+    }),
     updateTimeAndWork: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
@@ -52,6 +55,6 @@ export const timeAndWorkApi = createApi({
 })
 
 export const {
-  useGetAllTimeAndWorkQuery, useAddTimeAndWorkMutation,
+  useGetAllTimeAndWorkQuery, useAddTimeAndWorkMutation, useGetTimeAndWorkByPatientIDQuery,
   useGetTimeAndWorkQuery
 } = timeAndWorkApi

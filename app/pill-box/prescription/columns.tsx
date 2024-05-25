@@ -3,7 +3,6 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import moment, { type MomentInput } from 'moment'
 
-import Link from 'next/link'
 import Avatar from '@/components/Avatar'
 // import { FaEdit } from 'react-icons/fa'
 
@@ -11,15 +10,18 @@ export interface FullNameProps {
   firstName?: string
 }
 
-export interface ColumnProps {
-  art: any
+export interface PrescriptionProps {
+  ART: {
+    artName: string
+  }
   refillDate: MomentInput
+  nextRefillDate: MomentInput
   appointmentTime: MomentInput
   appointmentDate: any
   appointmentAgenda: any
-  appointmentStatus: any
+  createdAt: Date
   user: any
-  patient: any
+  Patient: any
   id: any
   header: string
   accessorKey?: keyof PatientProps
@@ -36,7 +38,7 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<ColumnProps>> = [
+export const columns: Array<ColumnDef<PrescriptionProps>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
@@ -45,10 +47,10 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
+          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
         </div>
       </div>
     )
@@ -56,7 +58,11 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'currentARTRegimen',
     header: 'ART Regimen',
-    cell: ({ row }) => <p>{row.original.art?.artName}</p>
+    cell: ({ row }) => <p>{row.original.ART?.artName}</p>
+  },
+  {
+    accessorKey: 'frequency',
+    header: 'Times'
   },
   {
     accessorKey: 'noOfPills',
@@ -76,8 +82,13 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
     )
   },
   {
-    // accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => <Link href={`/notify/${row.original.id}`}>Edit </Link>
+    accessorKey: 'nextRefillDate',
+    header: 'Next Refill Date',
+    cell: ({ row }) => (
+      <div>
+        <p>{moment(row.original.nextRefillDate).format('ll')}</p>
+      </div>
+    )
   }
+
 ]

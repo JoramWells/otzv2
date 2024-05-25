@@ -111,11 +111,7 @@ const AppointmentPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
 
       {/* {currentTime.format("HH:mm:ss")} */}
-      <div className="bg-white p-4 mt-2">
-        <h1 className="text-xl font-semibold">Pill Box Reminder</h1>
-        <p className="text-mute text-slate-500 text-sm">Select Medicine Time</p>
         <CustomTab categoryList={dataList} value={value} setValue={setValue} />
-      </div>
       {value === 'All' && (
         <div>
           <div className="mb-2 flex flex-row justify-between">

@@ -22,6 +22,7 @@ import { redirect } from 'next/navigation'
 import { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { StartVisitDropdown } from '../../../_components/StartVisitDropdown'
+import { useGetTimeAndWorkByPatientIDQuery } from '@/api/treatmentplan/timeAndWork.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -52,6 +53,8 @@ const PatientDetails = ({ params }: any) => {
   const { patientID } = params
   const { data } = useGetViralLoadTestQuery(patientID)
 
+  const { data: timeData } = useGetTimeAndWorkByPatientIDQuery(patientID)
+
   const [addPatientVisit, { isLoading, data: visitData }] = useAddPatientVisitMutation()
 
   const { data: priorityAppointment } = useGetPriorityAppointmentDetailQuery(patientID)
@@ -62,6 +65,8 @@ const PatientDetails = ({ params }: any) => {
   //   patientID,
   //   patientVisitID
   // }
+
+  console.log(timeData, 'tdf')
 
   const handleStartVisit = async () => {
     const newVisitID = uuidv4()
