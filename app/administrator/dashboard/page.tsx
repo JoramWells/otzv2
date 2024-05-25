@@ -15,7 +15,7 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[36px] rounded-lg" />
+    loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
   }
 )
 
@@ -172,7 +172,7 @@ const Dashboard = () => {
   ]
 
   return (
-    <div className="p-2">
+    <div className="">
       {/* breadcrumb */}
       <BreadcrumbComponent dataList={dataList} />
       <div className="mt-2 mb-2 flex justify-between space-x-2">

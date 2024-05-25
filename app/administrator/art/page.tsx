@@ -54,7 +54,7 @@ const Art = () => {
   ]
 
   return (
-    <div className="p-2">
+    <div className="">
       <BreadcrumbComponent dataList={dataList} />
 
       <div className="mt-4">
@@ -66,14 +66,18 @@ const Art = () => {
       </div>
 
       {/* art details */}
-      {value === 'art' && <Regimen />}
+      <div
+      className='p-2 w-full'
+      >
+        {value === 'art' && <Regimen />}
 
-      {/* art category */}
-      {value === 'category' && <ArtCategory />}
+        {/* art category */}
+        {value === 'category' && <ArtCategory />}
 
-      {value === 'ART Switch Reasons'.toLowerCase() && <ArtSwitchReason />}
+        {value === 'ART Switch Reasons'.toLowerCase() && <ArtSwitchReason />}
 
-      {value === 'Measuring Unit'.toLowerCase() && <MeasuringUnit />}
+        {value === 'Measuring Unit'.toLowerCase() && <MeasuringUnit />}
+      </div>
     </div>
   )
 }

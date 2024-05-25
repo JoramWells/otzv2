@@ -57,7 +57,7 @@ const Appointment = () => {
   ]
 
   return (
-    <div className="p-4">
+    <>
       <BreadcrumbComponent dataList={breadCrumbList} />
       <div
         className="gap-x-4 flex flex-row mt-4 mb-4 bg-white p-2 rounded-lg
@@ -69,15 +69,6 @@ const Appointment = () => {
             className={`shadow-none rounded-full bg-slate-100 text-slate-500 hover:bg-teal-100
               ${value === item.id && 'bg-teal-50 text-teal-600'}
               `}
-            // rounded={'full'}
-            // size={'sm'}
-            // bgColor={`${value === item.id && 'gray.700'}`}
-            // color={`${value === item.id && 'white'}`}
-            // shadow={`${value === item.id && 'md'}`}
-            // _hover={{
-            //   bgColor: `${value === item.id && 'black'}`,
-            //   color: `${value === item.id && 'white'}`
-            // }}
             onClick={() => {
               setValue(item.id)
             }}
@@ -86,14 +77,13 @@ const Appointment = () => {
           </Button>
         ))}
       </div>
-      {value === 1 && (
-        <div className="w-full">
-          <p className="mb-2 text-lg font-bold text-slate-700">
-            Manage Appointment Agenda
-          </p>
-
+      <div className="w-full">
+        {value === 1 && (
           <div className="w-full flex items-start space-x-4">
             <div className="w-3/4 bg-white p-2 rounded-lg">
+              <p className="mb-2 text-lg font-bold text-slate-700">
+                Manage Appointment Agenda
+              </p>
               <CustomTable
                 columns={columns}
                 data={appointmentAgendaData || []}
@@ -102,16 +92,14 @@ const Appointment = () => {
             </div>
             <AddAppointmentAgenda />
           </div>
-        </div>
-      )}
+        )}
 
-      {value === 2 && (
-        <div className='w-full'>
-          <p className="mb-2 text-lg font-bold text-slate-700">
-            Manage Appointment Status
-          </p>
+        {value === 2 && (
           <div className="w-full flex items-start space-x-4">
             <div className="w-3/4 bg-white p-2 rounded-lg">
+              <p className="mb-2 text-lg font-bold text-slate-700">
+                Manage Appointment Status
+              </p>
               <CustomTable
                 columns={appointmentStatusColumns}
                 data={appointmentStatusData || []}
@@ -120,9 +108,9 @@ const Appointment = () => {
             </div>
             <AddAppointmentStatus />
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   )
 }
 
