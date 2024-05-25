@@ -46,7 +46,14 @@ type FileType = File | null
 
 type SetFileType = Dispatch<SetStateAction<FileType>>
 
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/articles/add`
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/articles/articles/add`
+const URL_CATEGORY = `${process.env.NEXT_PUBLIC_API_URL}/api/articles-category/articles/add`
+
+export interface ArticleProps {
+  articleCategoryID: string
+  file: File | undefined
+  content: string
+}
 
 const ArticlesPage = () => {
   const ReactQuill = useMemo(() => dynamic(async () => await import('react-quill'), { ssr: false }), [])
@@ -57,14 +64,41 @@ const ArticlesPage = () => {
   //
   const [addArticles, { isLoading: isLoadingArticles }] = useAddArticlesMutation()
 
-  const [value, setValue] = useState('')
+  const [content, setContent] = useState('')
   const [category, setCategory] = useState('')
+  const [title, setTitle] = useState('')
   const [categoryData, setCategoryData] = useState<CategoryInputProps[]>([])
   const [articleCategoryID, setArticleCategoryID] = useState('')
   const [file, setFile] = useState<File | undefined>()
+  const [thumbnail, setThumbnail] = useState<File | undefined>()
 
   const inputValues = {
     description: category
+  }
+
+  const handleCategorySubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData()
+
+    formData.append('category', category)
+    if (file != null) {
+      formData.append('thumbnail', file)
+    }
+    formData.append('thumbnail', '')
+
+    // const formData = {
+    //   articleCategoryID,
+    //   content: value,
+    //   image: file
+    // }
+
+    // Call the addArticles mutation with the form data and file
+    // await addArticles({ formData, file })
+    await axios.post(URL_CATEGORY, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -72,7 +106,8 @@ const ArticlesPage = () => {
     const formData = new FormData()
 
     formData.append('articleCategoryID', articleCategoryID)
-    formData.append('description', value)
+    formData.append('title', title)
+    formData.append('content', content)
     if (file != null) {
       formData.append('file', file)
     }
@@ -126,6 +161,13 @@ const ArticlesPage = () => {
           <p className="font-bold text-xl text-slate-700">New Article</p>
 
           <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+            <CustomInput
+              label="Article title"
+              value={title}
+              onChange={setTitle}
+              placeholder="Enter title"
+            />
+
             <CustomSelect
               label="Select Category"
               value={articleCategoryID}
@@ -135,8 +177,8 @@ const ArticlesPage = () => {
             <div className="h-[250px] ">
               <ReactQuill
                 theme="snow"
-                value={value}
-                onChange={setValue}
+                value={content}
+                onChange={setContent}
                 className="rounded-xl h-[200px] "
               />
             </div>
@@ -166,7 +208,9 @@ const ArticlesPage = () => {
         </div>
 
         {/*  */}
-        <div className="p-4 w-1/2 flex flex-col space-y-4 bg-white rounded-lg">
+        <form className="p-4 w-1/2 flex flex-col space-y-4 bg-white rounded-lg"
+        onClick={handleCategorySubmit}
+        >
           <p className="text-xl font-bold text-slate-700">New Category</p>
 
           <CustomInput
@@ -174,14 +218,36 @@ const ArticlesPage = () => {
             onChange={setCategory}
             label="Enter Category Description"
           />
+
+          {/* Thumbnail Image */}
+          <Input
+            className=""
+            type="file"
+            name="content"
+            // value={file}
+            onChange={(e) => {
+              setThumbnail(e.target.files?.[0])
+            }}
+          />
+
+          {/* <CustomInput
+            label="Thumbnail Image"
+            value={thumbnail}
+            type="file"
+            onChange={setThumbnail}
+          /> */}
+
           <Button
             className="shadow-none bg-teal-600 hover:bg-teal-700"
-            onClick={async () => { await handleAddArticlesCategory(inputValues) }}
+            // onClick={async () => {
+            //   await handleAddArticlesCategory(inputValues)
+            // }}
+            type='submit'
           >
-            {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />}
+            {/* {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />} */}
             ADD
           </Button>
-        </div>
+        </form>
       </div>
     </>
   )

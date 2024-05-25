@@ -60,7 +60,7 @@ const ArticlesPage = () => {
               // objectFit='contain'
               priority
               className="rounded-t-lg"
-              src={`${process.env.NEXT_PUBLIC_API_URL}/api/appointment/${item.image}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.image}`}
               style={{
                 width: '300px',
                 height: '150px',
