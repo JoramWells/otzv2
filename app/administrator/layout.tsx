@@ -36,8 +36,8 @@ const DL: SidebarListItemsProps[] = [
   },
   {
     id: '6',
-    label: 'Lab',
-    link: '/administrator/lab',
+    label: 'Schools',
+    link: '/administrator/schools',
     icon: <Warehouse size={17} />
   },
   {

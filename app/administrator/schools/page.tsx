@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { Button, Tag } from '@chakra-ui/react'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { curriculumSubCategoryColumns, curriculumCategoryColumns, classesColumn, holidaysColumn } from './columns'
 import { usePathname, useRouter } from 'next/navigation'
@@ -13,31 +12,58 @@ import { useGetAllSchoolClassesQuery } from '@/api/school/schoolClasses.api'
 import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
 import School from '@/app/_components/school/School'
 import Holidays from '@/app/_components/school/Holidays'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
+import CustomTab from '@/components/tab/CustomTab'
+
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
+
 const categoryList = [
   {
     id: 1,
-    text: 'Classes'
+    label: 'Classes'
   },
   {
     id: 2,
-    text: 'Curriculum Category'
+    label: 'Curriculum Category'
   },
   {
     id: 3,
-    text: 'Curriculum Sub-category'
+    label: 'Curriculum Sub-category'
   },
   {
     id: 4,
-    text: 'Holidays'
+    label: 'Holidays'
   },
   {
     id: 5,
-    text: 'Schools'
+    label: 'Schools'
+  }
+]
+
+const dataList = [
+  {
+    id: '1',
+    label: 'Home',
+    link: ''
+  },
+  {
+    id: '2',
+    label: 'Home Visit',
+    link: 'home-visit'
   }
 ]
 
 const SchoolPage = () => {
-  const [value, setValue] = useState(1)
+  const [value, setValue] = useState('classes')
+  const [mapValue, setMapValue] = useState(1)
   const { data } = useGetAllCurriculumCategoriesQuery()
   const { data: curriculumSubCategory } = useGetAllSchoolSubCurriculumsQuery()
   const { data: classesData } = useGetAllSchoolClassesQuery()
@@ -60,92 +86,46 @@ const SchoolPage = () => {
   }
 
   return (
-    <div className="p-5 mt-12">
-      <div className="flex flex-col gap-y-2 mb-4">
-        <p className="font-bold text-xl">Categories</p>
-        <div
-          className="rounded-md gap-x-4
-           flex flex-row
-          "
-        >
-          {categoryList.map((item) => (
-            <Button
-              key={item.id}
-              rounded={'full'}
-              size={'sm'}
-              bgColor={`${value === item.id && 'gray.700'}`}
-              color={`${value === item.id && 'white'}`}
-              // shadow={`${value === item.id && 'md'}`}
-              _hover={{
-                bgColor: `${value === item.id && 'black'}`,
-                color: `${value === item.id && 'white'}`
-              }}
-              onClick={() => {
-                setValue(item.id)
-              }}
-            >
-              {item.text}
-            </Button>
-          ))}
-        </div>
-      </div>
-      {/* <div className="flex flex-row justify-between items-center p-1">
-          <div className="flex flex-row gap-x-2 items-center mb-2 mt-4">
-            <p className="text-lg text-slate-700">
-              {value === 1 &&
-                'Classes'}
-                 {value === 2 &&
-                  'Category'}
-                  {value === 3 &&
-                    'Sub-category'}
-                    {value === 4 && 'Holidays'}
-            </p>
-            <Tag
-              m={0}
-              rounded={'full'}
-              fontWeight={'bold'}
-              colorScheme="orange"
-              size={'sm'}
-            >
-              {data?.length}
-            </Tag>
-          </div>
-          <Button
-            size={'sm'}
-            colorScheme="teal"
-            // variant={'outline'}
-            onClick={() => {
-              handleClick(value)
-            }}
-            // leftIcon={<FaPlus />}
-          >
-            NEW
-          </Button>
-        </div> */}
-      {value === 1 && (
-        <CustomTable columns={classesColumn} data={classesData ?? []} />
-      )}
-      {value === 2 && (
-        <CustomTable columns={curriculumCategoryColumns} data={data ?? []} />
-      )}
-      {value === 3 && (
-        <CustomTable
-          columns={curriculumSubCategoryColumns}
-          data={curriculumSubCategory ?? []}
-        />
-      )}
-      {value === 4 && (
-        <Holidays handleClick={() => handleClick(value)} value={value} />
-      )}
-      {value === 5 && (
-        <School
-          handleClick={() => handleClick(value)}
+    <>
+      <BreadcrumbComponent dataList={dataList} />
+
+      <div className="flex flex-col gap-y-2 mb-1 mt-1">
+        <CustomTab
+          categoryList={categoryList}
           value={value}
-          column={holidaysColumn}
-          data={holidaysData}
+          setValue={setValue}
         />
-      )}
-    </div>
+      </div>
+
+      <div className='p-2 w-full'>
+        {value === 'classes' && (
+          <CustomTable columns={classesColumn} data={classesData ?? []} />
+        )}
+        {value === 'Curriculum Category'.toLowerCase() && (
+          <CustomTable columns={curriculumCategoryColumns} data={data ?? []} />
+        )}
+        {value === 'Curriculum Sub-category'.toLowerCase() && (
+          <CustomTable
+            columns={curriculumSubCategoryColumns}
+            data={curriculumSubCategory ?? []}
+          />
+        )}
+        {value === 'Holidays'.toLowerCase() && (
+          <Holidays
+            handleClick={() => handleClick(mapValue)}
+            value={mapValue}
+          />
+        )}
+        {value === 'Schools'.toLowerCase() && (
+          <School
+            handleClick={() => handleClick(mapValue)}
+            value={mapValue}
+            column={holidaysColumn}
+            data={holidaysData}
+          />
+        )}
+      </div>
+    </>
   )
 }
 
