@@ -6,6 +6,7 @@
 
 import { useAddArticlesMutation } from '@/api/articles/articles.api'
 import { useAddArticlesCategoryMutation, useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
+import { useGetAllChaptersQuery } from '@/api/articles/chapters.api'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
@@ -68,13 +69,14 @@ const ArticlesPage = () => {
   const [title, setTitle] = useState('')
   const [categoryData, setCategoryData] = useState<CategoryInputProps[]>([])
   const [articleCategoryID, setArticleCategoryID] = useState('')
+  const [chapterID, setChapterID] = useState('')
   const [file, setFile] = useState<File | undefined>()
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData()
 
-    formData.append('articleCategoryID', articleCategoryID)
+    formData.append('chapterID', chapterID)
     formData.append('title', title)
     formData.append('content', content)
     if (file != null) {
@@ -104,6 +106,17 @@ const ArticlesPage = () => {
     }
   }, [data])
 
+  const { data: chapterData } = useGetAllChaptersQuery()
+
+  const chapterOptions = useCallback(() => {
+    const tempData = chapterData?.filter((item: any) => item.ArticleCategory?.id === articleCategoryID)
+    return tempData?.map((item: any) => ({
+      id: item.id, label: item.description
+    }))
+  }, [chapterData, articleCategoryID])
+
+  console.log(chapterOptions(), 'lko')
+
   const categoryOptions = useCallback(() => {
     return categoryData.map((item: any) => ({
       id: item.id,
@@ -130,7 +143,9 @@ const ArticlesPage = () => {
         </p>
         <Button className="bg-teal-600 font-bold shadow-none hover:bg-teal-700">
           <PlusCircle className="mr-2" size={18} />
-          <Link href={'/articles/add-article-category'}>Add Articles Category</Link>
+          <Link href={'/articles/add-article-category'}>
+            Add Articles Category
+          </Link>
         </Button>
       </div>
 
@@ -156,6 +171,13 @@ const ArticlesPage = () => {
               value={articleCategoryID}
               onChange={setArticleCategoryID}
               data={categoryOptions()}
+            />
+
+            <CustomSelect
+              label="Select Chapter"
+              value={chapterID}
+              onChange={setChapterID}
+              data={chapterOptions()}
             />
             <div className="h-[250px] ">
               <ReactQuill

@@ -1,7 +1,5 @@
 'use client'
 
-import { useGetAllArticlesQuery } from '@/api/articles/articles.api'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import Image from 'next/image'
@@ -10,6 +8,9 @@ import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 
 import 'react-quill/dist/quill.snow.css'
 import { useGetAllChaptersQuery } from '@/api/articles/chapters.api'
+import { useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
+import { useCallback, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const dataList2 = [
   {
@@ -25,9 +26,16 @@ const dataList2 = [
 ]
 
 const ArticlesPage = () => {
-  const { data } = useGetAllArticlesQuery()
+  const router = useRouter()
   const { data: chapterData } = useGetAllChaptersQuery()
-  console.log(chapterData)
+  const { data: articleCategoryData } = useGetAllArticlesCategoryQuery()
+  const [value, setValue] = useState('')
+
+  const iterData = useCallback(() => {
+    return chapterData?.filter(item => item.ArticleCategory?.id === value)
+  }, [chapterData, value])
+
+  console.log(iterData())
 
   return (
     <div className="">
@@ -46,11 +54,27 @@ const ArticlesPage = () => {
           <Link href={'/articles/add-article'}>Add Articles</Link>
         </Button>
       </div>
-      <div className="flex flex-row flex-wrap w-full justify-start space-x-6 p-4">
-        {data?.map((item: any) => (
-          <div
+
+      <div className="flex space-x-4 p-2 overflow-x-auto">
+        {articleCategoryData?.map((item) => (
+          <Button
             key={item.id}
-            className="w-[300px] rounded-xl bg-white"
+            className="shadow-none bg-slate-200 hover:bg-slate-100 text-black"
+            onClick={() => {
+              setValue(item.id)
+            }}
+          >
+            <div>
+              <p>{item.description !== null && item.description}</p>
+            </div>
+          </Button>
+        ))}
+      </div>
+
+      <div className='flex space-x-4 p-2'>
+        {iterData()?.map((item) => (
+          <div key={item.id}
+          onClick={() => { router.push(`/articles/${item?.bookID}`) }}
           >
             <Image
               // w={0}
@@ -63,30 +87,18 @@ const ArticlesPage = () => {
               // objectFit='contain'
               priority
               className="rounded-t-lg"
-              src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.image}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.thumbnail}`}
               style={{
                 width: '300px',
                 height: '150px',
                 objectFit: 'cover'
               }}
             />
-
-            <div className="p-4">
-              <p className="text-lg font-bold">{item.title}</p>
-
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: item.content?.substring(0, 130).concat('..')
-                }}
-              />
-              <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
-                {/* {item.} */}
-                Prep
-              </Badge>
-            </div>
+            {item.description}
           </div>
         ))}
       </div>
+
     </div>
   )
 }

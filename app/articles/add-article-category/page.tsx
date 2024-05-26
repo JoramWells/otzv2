@@ -40,8 +40,9 @@ const ArticleCategory = () => {
   const [categoryID, setCategoryID] = useState('')
   const [thumbnail, setThumbnail] = useState<File | undefined>()
   const [subThumbnail, setSubThumbnail] = useState<File | undefined>()
+  const [progress, setProgress] = useState(0)
 
-  const { data, isLoading: isLoadingData } = useGetAllArticlesCategoryQuery()
+  const { data } = useGetAllArticlesCategoryQuery()
 
   const categoryOptions = useCallback(() => {
     return data?.map((item: any) => ({
@@ -79,6 +80,11 @@ const ArticleCategory = () => {
     await axios.post(URL_SUB_CATEGORY, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: e => {
+        const { loaded, total } = e
+        const percentCompleted = Math.round((loaded * 100) / total)
+        setProgress(percentCompleted)
       }
     })
   }
@@ -143,6 +149,9 @@ const ArticleCategory = () => {
           action=""
           className="flex-1 bg-white rounded-lg p-4 flex flex-col space-y-4"
         >
+          {progress > 0 &&
+          <div>{progress}%</div>
+          }
           <CustomSelect
             label="Select Category"
             data={categoryOptions()}

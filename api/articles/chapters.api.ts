@@ -10,19 +10,19 @@ export const chaptersApi = createApi({
     getAllChapters: builder.query<any, void>({
       query: () => 'fetchAll'
     }),
-    addChapters: builder.mutation({
-      query: ({ file, body }: { file: File, body }) => {
-        const formData = new FormData()
-        formData.append('articleCategoryID', body.articleCategoryID)
-        formData.append('description', body.content)
-        formData.append('file', file)
-        return {
-          url: 'add',
-          method: 'POST',
-          body: formData
-        }
-      }
-    }),
+    // addChapters: builder.mutation({
+    //   query: ({ file, body }: { file: File, body }) => {
+    //     const formData = new FormData()
+    //     formData.append('articleCategoryID', body.articleCategoryID)
+    //     formData.append('description', body.content)
+    //     formData.append('file', file)
+    //     return {
+    //       url: 'add',
+    //       method: 'POST',
+    //       body: formData
+    //     }
+    //   }
+    // }),
     getChapters: builder.query({
       query: (id) => `detail/${id}`
     }),
@@ -39,7 +39,7 @@ export const chaptersApi = createApi({
 })
 
 export const {
-  useGetAllChaptersQuery, useAddChaptersMutation,
+  useGetAllChaptersQuery,
   useGetChaptersQuery,
   useDeleteChaptersMutation
 } = chaptersApi
