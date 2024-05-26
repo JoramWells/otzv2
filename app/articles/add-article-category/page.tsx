@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
 import { useCallback, useState, type FormEvent } from 'react'
@@ -83,8 +84,10 @@ const ArticleCategory = () => {
       },
       onUploadProgress: e => {
         const { loaded, total } = e
-        const percentCompleted = Math.round((loaded * 100) / total)
-        setProgress(percentCompleted)
+        if (total) {
+          const percentCompleted = Math.round((loaded * 100) / total)
+          setProgress(percentCompleted)
+        }
       }
     })
   }
