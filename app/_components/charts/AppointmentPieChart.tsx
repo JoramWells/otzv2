@@ -1,26 +1,36 @@
-import { type AppointmentProps } from '@/app/appointments/columns'
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+// import { type AppointmentProps } from '@/app/appointments/columns'
 import PieChart from './PieChart'
 
 // interface AppointmentStatuses {
 //   status: 'Pending' | 'Upcoming' | 'Completed'
 // }
 
+interface AppointmentProps {
+  AppointmentStatus: {
+    statusDescription: 'Pending' | 'Upcoming' | 'Completed' | 'Rescheduled' | 'Cancelled'
+  }
+}
+
 interface InputProps {
-  data: []
+  data: AppointmentProps[]
 }
 
 const AppointmentPieChart = ({ data }: InputProps) => {
   const statusCount = (appointment: AppointmentProps[]) => {
     return appointment?.reduce(
       (counts, appointment) => {
-        counts[appointment.AppointmentStatus?.statusDescription]++
+        const status = appointment.AppointmentStatus?.statusDescription
+        if (status) {
+          counts[status]++
+        }
         return counts
       },
       { Pending: 0, Upcoming: 0, Completed: 0, Rescheduled: 0, Cancelled: 0 }
     )
   }
 
-  const counts = statusCount(data as AppointmentProps[])
+  const counts = statusCount(data)
 
   const pieData = {
     labels: ['Pending', 'Upcoming', 'Completed', 'Rescheduled', 'Cancelled'],
