@@ -3,7 +3,7 @@
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { CustomTable } from '../_components/table/CustomTable'
 import { columns, type AppointmentProps } from './columns'
-import { useCallback, useMemo, useState } from 'react'
+import { Suspense, useCallback, useMemo, useState } from 'react'
 import CustomTab from '../../components/tab/CustomTab'
 // import useNotification from '@/hooks/useNotification'
 // import { type NotificationProps } from '@/context/NotificationContext'
@@ -121,47 +121,50 @@ const AppointmentPage = () => {
   //   }
   // }, [data, showNotification, params, tab])
 
-  console.log(sortedAppointment, 'tyz')
-
   return (
-    <div className="bg-slate-50 ">
-      <BreadcrumbComponent dataList={dataList2} />
+    <Suspense>
+      <div className="bg-slate-50 ">
+        <BreadcrumbComponent dataList={dataList2} />
 
-      {/* tab navigation */}
-      <div className="w-full p-4 flex flex-col space-y-2">
-        <CustomTab
-          categoryList={categoryList}
-          setValue={setValue}
-          value={value}
-        />
+        {/* tab navigation */}
+        <div className="w-full p-4 flex flex-col space-y-2">
+          <CustomTab
+            categoryList={categoryList}
+            setValue={setValue}
+            value={value}
+          />
 
-        {value === 'all' && (
-          <div className="bg-white rounded-lg p-4">
-            {/* <AppointmentFilter /> */}
-            <CustomTable columns={columns} data={sortedAppointment || []} />
-          </div>
-        )}
-      </div>
+          {value === 'all' && (
+            <div className="bg-white rounded-lg p-4">
+              {/* <AppointmentFilter /> */}
+              <CustomTable columns={columns} data={sortedAppointment || []} />
+            </div>
+          )}
+        </div>
 
-      {/* {value === 2 && (
+        {/* {value === 2 && (
         <AppointmentStatusTab
           columns={columns}
           data={pendingAppointment() || []}
         />
       )} */}
 
-      {value === 'rescheduled' && (
-        <CustomTable columns={columns} data={rescheduledAppointment() || []} />
-      )}
+        {value === 'rescheduled' && (
+          <CustomTable
+            columns={columns}
+            data={rescheduledAppointment() || []}
+          />
+        )}
 
-      {value === 'upcoming' && (
-        <CustomTable columns={columns} data={upcomingAppointment() || []} />
-      )}
+        {value === 'upcoming' && (
+          <CustomTable columns={columns} data={upcomingAppointment() || []} />
+        )}
 
-      {value === 'missed' && (
-        <CustomTable columns={columns} data={missedAppointment() || []} />
-      )}
-    </div>
+        {value === 'missed' && (
+          <CustomTable columns={columns} data={missedAppointment() || []} />
+        )}
+      </div>
+    </Suspense>
   )
 }
 
