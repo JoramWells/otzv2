@@ -73,7 +73,6 @@ const NotifyPage = () => {
   })
 
   const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
-  console.log(priorityAppointmentData, 'j')
 
   const router = useRouter()
 
