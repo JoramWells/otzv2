@@ -25,6 +25,16 @@ const dataList2 = [
   }
 ]
 
+interface ArticleCategoryProps {
+  id: string
+  description: string
+  bookID: string
+  thumbnail: string
+  ArticleCategory: {
+    id: string
+  }
+}
+
 const ArticlesPage = () => {
   const router = useRouter()
   const { data: chapterData } = useGetAllChaptersQuery()
@@ -32,10 +42,8 @@ const ArticlesPage = () => {
   const [value, setValue] = useState('')
 
   const iterData = useCallback(() => {
-    return chapterData?.filter(item => item.ArticleCategory?.id === value)
+    return chapterData?.filter((item: ArticleCategoryProps) => item.ArticleCategory?.id === value)
   }, [chapterData, value])
-
-  console.log(iterData())
 
   return (
     <div className="">
@@ -56,7 +64,7 @@ const ArticlesPage = () => {
       </div>
 
       <div className="flex space-x-4 p-2 overflow-x-auto">
-        {articleCategoryData?.map((item) => (
+        {articleCategoryData?.map((item: ArticleCategoryProps) => (
           <Button
             key={item.id}
             className="shadow-none bg-slate-200 hover:bg-slate-100 text-black"
@@ -71,10 +79,13 @@ const ArticlesPage = () => {
         ))}
       </div>
 
-      <div className='flex space-x-4 p-2'>
-        {iterData()?.map((item) => (
-          <div key={item.id}
-          onClick={() => { router.push(`/articles/${item?.bookID}`) }}
+      <div className="flex space-x-4 p-2">
+        {iterData()?.map((item: ArticleCategoryProps) => (
+          <div
+            key={item.id}
+            onClick={() => {
+              router.push(`/articles/${item?.bookID}`)
+            }}
           >
             <Image
               // w={0}
@@ -98,7 +109,6 @@ const ArticlesPage = () => {
           </div>
         ))}
       </div>
-
     </div>
   )
 }
