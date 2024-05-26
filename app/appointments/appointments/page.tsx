@@ -122,7 +122,7 @@ const AppointmentPage = () => {
   // }, [data, showNotification, params, tab])
 
   return (
-    <Suspense>
+    <Suspense loading={<div>loading...</div>}>
       <div className="bg-slate-50 ">
         <BreadcrumbComponent dataList={dataList2} />
 

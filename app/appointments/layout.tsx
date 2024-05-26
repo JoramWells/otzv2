@@ -20,7 +20,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '2',
     label: 'Appointments',
-    link: '/appointments?tab=all',
+    link: '/appointments/appointments?tab=all',
     icon: <MessageCircleMore size={17} />
   },
   {
