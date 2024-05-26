@@ -238,7 +238,7 @@ export default function Home () {
       </Suspense>
 
       {/* main */}
-      <main className="flex flex-col  items-start w-full">
+      <main className="flex flex-col  items-center w-full">
         <div className="flex flex-col justify-center items-center w-full">
           <Suspense fallback={<Skeleton className="w-3/4 p-2" />}>
             <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
@@ -260,17 +260,17 @@ export default function Home () {
               </div>
             </div>
           </Suspense>
-          <div className="grid w-full grid-cols-4 gap-4 xl:gap-4">
+          <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-4 md:grid-cols-2">
             {itemList.map((item) => (
               <Suspense
                 key={item.id}
-                fallback={<Skeleton className="w-[335px] xl:w-[300px] h-[150px]" />}
+                fallback={<Skeleton className="h-[150px]" />}
               >
                 <div
                   key={item.id}
                   tabIndex={0}
                   className="border-slate-200 p-4 transition ease-in-out delay-150
-          rounded-lg w-[335px] h-[150px] hover:cursor-pointer bg-white shadow-slate-100 shadow-lg"
+          rounded-lg h-[150px] hover:cursor-pointer bg-white shadow-slate-100 shadow-lg"
                 >
                   <div className="w-full flex justify-end">
                     <MenuSelect dataList={item.listItem} />

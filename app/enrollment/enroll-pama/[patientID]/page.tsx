@@ -16,7 +16,7 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[38px] rounded-none" />
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
   }
 )
 
@@ -62,15 +62,17 @@ const AddPatient = ({ params }: any) => {
   // })
 
   return (
-    <div className="p-2">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="flex justify-center mt-2">
-        <div
-          style={{
-            width: '50%'
-          }}
-        >
+        <div className="w-1/2 flex flex-col bg-white border border-slate-200 rounded-lg">
+          <div className="bg-slate-100 rounded-t-lg p-2">
+            <h1 className="font-bold">
+              New Patient Enrollment
+              <span className='font-normal text-[14px]'> (PAMA/OTZ)</span>
+            </h1>
+          </div>
           <StatusAtEnrollmentToPAMA
             patientID={patientID}
             dateOfEnrollmentToOTZ={dateOfEnrollmentToOTZ}
@@ -80,18 +82,21 @@ const AddPatient = ({ params }: any) => {
           />
           <PrimaryCareGiver
             setPrimaryCaregiverID={setPrimaryCaregiverID}
-            setPrimaryCaregiverPrescriptionStatus={setPrimaryCaregiverPrescriptionStatus}
+            setPrimaryCaregiverPrescriptionStatus={
+              setPrimaryCaregiverPrescriptionStatus
+            }
             setPrimaryCaregiverVLStatus={setPrimaryCaregiverVLStatus}
           />
-          <Button onClick={async () => await addOTZEnrollment(inputValues)}
-          className='bg-slate-200 hover:bg-slate-100 shadow-none text-black'
+          <Button
+            onClick={async () => await addOTZEnrollment(inputValues)}
+            className="bg-slate-200 hover:bg-slate-100 shadow-none text-black"
           >
             {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
             Add
           </Button>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
