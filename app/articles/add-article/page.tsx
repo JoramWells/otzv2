@@ -12,8 +12,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import axios from 'axios'
-import { Loader2 } from 'lucide-react'
+import { Loader2, PlusCircle } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import { type FormEvent, useCallback, useMemo, useState, type Dispatch, type SetStateAction, useEffect } from 'react'
 // import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
@@ -47,7 +48,6 @@ type FileType = File | null
 type SetFileType = Dispatch<SetStateAction<FileType>>
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/articles/articles/add`
-const URL_CATEGORY = `${process.env.NEXT_PUBLIC_API_URL}/api/articles-category/articles/add`
 
 export interface ArticleProps {
   articleCategoryID: string
@@ -65,41 +65,10 @@ const ArticlesPage = () => {
   const [addArticles, { isLoading: isLoadingArticles }] = useAddArticlesMutation()
 
   const [content, setContent] = useState('')
-  const [category, setCategory] = useState('')
   const [title, setTitle] = useState('')
   const [categoryData, setCategoryData] = useState<CategoryInputProps[]>([])
   const [articleCategoryID, setArticleCategoryID] = useState('')
   const [file, setFile] = useState<File | undefined>()
-  const [thumbnail, setThumbnail] = useState<File | undefined>()
-
-  const inputValues = {
-    description: category
-  }
-
-  const handleCategorySubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData()
-
-    formData.append('category', category)
-    if (file != null) {
-      formData.append('thumbnail', file)
-    }
-    formData.append('thumbnail', '')
-
-    // const formData = {
-    //   articleCategoryID,
-    //   content: value,
-    //   image: file
-    // }
-
-    // Call the addArticles mutation with the form data and file
-    // await addArticles({ formData, file })
-    await axios.post(URL_CATEGORY, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -151,7 +120,21 @@ const ArticlesPage = () => {
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="p-4 flex flex-row space-x-4 items-start">
+      <div className="w-full flex justify-between mt-2 mb-2 p-2 bg-white">
+        <p
+          className="font-bold text-slate-700
+        items-center
+        "
+        >
+          Articles Category
+        </p>
+        <Button className="bg-teal-600 font-bold shadow-none hover:bg-teal-700">
+          <PlusCircle className="mr-2" size={18} />
+          <Link href={'/articles/add-article-category'}>Add Articles Category</Link>
+        </Button>
+      </div>
+
+      <div className="p-4 flex flex-row space-x-4  w-full justify-center">
         {/* <EditorContent editor={editor} /> */}
 
         <div
@@ -208,46 +191,6 @@ const ArticlesPage = () => {
         </div>
 
         {/*  */}
-        <form className="p-4 w-1/2 flex flex-col space-y-4 bg-white rounded-lg"
-        onClick={handleCategorySubmit}
-        >
-          <p className="text-xl font-bold text-slate-700">New Category</p>
-
-          <CustomInput
-            value={category}
-            onChange={setCategory}
-            label="Enter Category Description"
-          />
-
-          {/* Thumbnail Image */}
-          <Input
-            className=""
-            type="file"
-            name="content"
-            // value={file}
-            onChange={(e) => {
-              setThumbnail(e.target.files?.[0])
-            }}
-          />
-
-          {/* <CustomInput
-            label="Thumbnail Image"
-            value={thumbnail}
-            type="file"
-            onChange={setThumbnail}
-          /> */}
-
-          <Button
-            className="shadow-none bg-teal-600 hover:bg-teal-700"
-            // onClick={async () => {
-            //   await handleAddArticlesCategory(inputValues)
-            // }}
-            type='submit'
-          >
-            {/* {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />} */}
-            ADD
-          </Button>
-        </form>
       </div>
     </>
   )

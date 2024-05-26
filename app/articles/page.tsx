@@ -9,6 +9,7 @@ import Link from 'next/link'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 
 import 'react-quill/dist/quill.snow.css'
+import { useGetAllChaptersQuery } from '@/api/articles/chapters.api'
 
 const dataList2 = [
   {
@@ -25,6 +26,8 @@ const dataList2 = [
 
 const ArticlesPage = () => {
   const { data } = useGetAllArticlesQuery()
+  const { data: chapterData } = useGetAllChaptersQuery()
+  console.log(chapterData)
 
   return (
     <div className="">
@@ -69,11 +72,11 @@ const ArticlesPage = () => {
             />
 
             <div className="p-4">
-              <p className="text-lg font-bold">Learn About Prep</p>
+              <p className="text-lg font-bold">{item.title}</p>
 
               <div
                 dangerouslySetInnerHTML={{
-                  __html: item.description?.substring(0, 250).concat('..')
+                  __html: item.content?.substring(0, 130).concat('..')
                 }}
               />
               <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
