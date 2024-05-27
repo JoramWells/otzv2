@@ -6,7 +6,7 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { type MomentInput } from 'moment'
 import { Switch } from '@/components/ui/switch'
 import { useState } from 'react'
-import { useUpdatePillDailyUptakeMutation } from '@/api/treatmentplan/uptake.api'
+import { useUpdatePillUptakeEveningStatusMutation } from '@/api/treatmentplan/uptake.api'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 // import { FaEdit } from 'react-icons/fa'
@@ -72,12 +72,12 @@ const EditableCell = ({ value, row }: EditableCellProps) => {
   const [checked, setChecked] = useState(value)
   const inputValues = {
     id: row.original.id,
-    morningStatus: !checked
+    eveningStatus: !checked
   }
-  const [updatePillDailyUptake] = useUpdatePillDailyUptakeMutation()
+  const [updatePillUptakeEveningStatus] = useUpdatePillUptakeEveningStatusMutation()
   const handleChange = () => {
     setChecked((prev) => !prev)
-    updatePillDailyUptake(inputValues)
+    updatePillUptakeEveningStatus(inputValues)
     // onChange(e)
     console.log(row.original)
   }

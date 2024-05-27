@@ -39,7 +39,14 @@ export const pillDailyUptakeApi = createApi({
     }),
     updatePillDailyUptake: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `edit/${id}`,
+        url: `edit/${id}?time=morning`,
+        method: 'PUT',
+        body: patch
+      })
+    }),
+    updatePillUptakeEveningStatus: builder.mutation<void, any>({
+      query: ({ id, ...patch }) => ({
+        url: `edit/${id}?time=evening`,
         method: 'PUT',
         body: patch
       })
@@ -56,7 +63,7 @@ export const pillDailyUptakeApi = createApi({
 })
 
 export const {
-  useGetAllPillDailyUptakeQuery, useAddPillDailyUptakeMutation,
+  useGetAllPillDailyUptakeQuery, useAddPillDailyUptakeMutation, useUpdatePillUptakeEveningStatusMutation,
   useGetPillDailyUptakeQuery, useUpdatePillDailyUptakeMutation,
   useGetPillDailyUptakeCountQuery
 } = pillDailyUptakeApi
