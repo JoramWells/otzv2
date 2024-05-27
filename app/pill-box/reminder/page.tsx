@@ -2,18 +2,15 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { columns } from './columns'
+// import { columns } from './columns'
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import CustomTab from '@/components/tab/CustomTab'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { eveningColumn } from './eveningColumn'
 import { morningColumn } from './morningColumn'
-import CustomSelect from '@/components/forms/CustomSelect'
-import { Search, SlidersHorizontal } from 'lucide-react'
-import CustomInput from '@/components/forms/CustomInput'
 import { useSearchParams } from 'next/navigation'
 import moment from 'moment'
-import { checkTime } from '@/utils/isRightTimeForDrugs'
+// import { checkTime } from '@/utils/isRightTimeForDrugs'
 import { useAddPatientNotificationMutation } from '@/api/notifications/patientNotification.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
@@ -111,66 +108,32 @@ const AppointmentPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
 
       {/* {currentTime.format("HH:mm:ss")} */}
-        <CustomTab categoryList={dataList} value={value} setValue={setValue} />
-      {value === 'All' && (
-        <div>
-          <div className="mb-2 flex flex-row justify-between">
-            <div className="w-1/4 flex flex-row items-center justify-center space-x-2">
-              <CustomInput value="" onChange={() => {}} />
-              <Search className="bg-slate-200 h-9 w-9 p-2 rounded-lg" />
-            </div>
-            <div className="flex flex-row justify-end w-1/4 items-center rounded-lg space-x-4 p-2">
-              <div className="w-1/4">
-                <CustomSelect
-                  placeholder="Status"
-                  data={[
-                    {
-                      id: 'Completed',
-                      label: 'Completed'
-                    },
-                    {
-                      id: 'Not Completed',
-                      label: 'Not Completed'
-                    }
-                  ]}
-                  value=""
-                  onChange={() => {}}
-                />
-              </div>
-              <SlidersHorizontal className="bg-slate-200 h-9 w-9 p-2 rounded-lg" />
-            </div>
-          </div>
-          <CustomTable
-            columns={columns}
-            data={patientsDueMorning || []}
-            isSearch={false}
-          />
-        </div>
-      )}
+      <CustomTab categoryList={dataList} value={value} setValue={setValue} />
+
       {/*  */}
-      <div className='p-4'>
-        {value === 'all' && (
-          <div className='bg-white p-4 rounded-lg'>
+      <div className="p-4">
+        <div className="bg-white p-4 rounded-lg">
+          {value === 'all' && (
             <CustomTable
               columns={morningColumn}
               data={patientsDueMorning || []}
             />
-          </div>
-        )}
-        {/*  */}
-        {value === 'morning' && (
-          <CustomTable
-            columns={morningColumn}
-            data={patientsDueMorning || []}
-          />
-        )}
-        {/*  */}
-        {value === 'evening' && (
-          <CustomTable
-            columns={eveningColumn}
-            data={patientsDueMorning || []}
-          />
-        )}
+          )}
+          {/*  */}
+          {value === 'morning' && (
+            <CustomTable
+              columns={morningColumn}
+              data={patientsDueMorning || []}
+            />
+          )}
+          {/*  */}
+          {value === 'evening' && (
+            <CustomTable
+              columns={eveningColumn}
+              data={patientsDueMorning || []}
+            />
+          )}
+        </div>
       </div>
     </div>
   )

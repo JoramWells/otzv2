@@ -93,7 +93,7 @@ export const morningColumn: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-start gap-x-2">
+      <div className="flex flex-row items-center gap-x-2 pt-1 pb-1">
         <Avatar
           // size={'sm'}
           // className="font-bold"
@@ -111,14 +111,14 @@ export const morningColumn: Array<ColumnDef<ColumnProps>> = [
     header: 'Morning Status',
     cell: ({ row }) => (
       <div className="flex flex-col space-y-2">
-        <div className="flex flex-row items-center space-x-2">
-          <p className="font-bold text-slate-500">Time:</p>
-          <p>{row.original.TimeAndWork?.morningMedicineTime}</p>
+        <div className="flex flex-row items-center">
+          <p className="font-bold text-slate-500 text-[14px] ">Time: {' '} </p>
+          <p className='text-[14px] ' >{row.original.TimeAndWork?.morningMedicineTime}</p>
         </div>
 
-        <div
+        {/* <div
           className="flex flex-row space-x-2
-        items-center
+        items-center text-[12px]
         "
         >
           {row.original?.morningStatus
@@ -128,7 +128,7 @@ export const morningColumn: Array<ColumnDef<ColumnProps>> = [
             : (
             <p className="text-slate-600">Completed</p>
               )}
-        </div>
+        </div> */}
       </div>
     )
   },
@@ -137,15 +137,14 @@ export const morningColumn: Array<ColumnDef<ColumnProps>> = [
     header: 'Status',
     cell: () => <Badge className='bg-slate-200 text-slate-700
     rounded-full hover:bg-slate-100 shadow-none
-    ' >On Time</Badge>
+    '
+    >On Time</Badge>
   },
   {
     accessorKey: 'RT',
     header: 'Action',
     cell: ({ row }) => (
-      <div>
         <EditableCell value={row.original?.morningStatus} row={row} />
-      </div>
     )
   }
 ]

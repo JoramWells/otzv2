@@ -43,7 +43,7 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-start gap-x-2 pt-2 pb-2">
+      <div className="flex flex-row items-center gap-x-2 pt-4 pb-4 lg:pt-2 lg:pb-2 xl:pt-0 xl:pb-0 xxl:pt-0 xxl:pb-0">
         <Avatar
           // size={'sm'}
           // className="font-bold"
@@ -90,5 +90,4 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
       </div>
     )
   }
-
 ]

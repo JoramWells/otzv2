@@ -8,6 +8,7 @@ import { Switch } from '@/components/ui/switch'
 import { useState } from 'react'
 import { useUpdatePillDailyUptakeMutation } from '@/api/treatmentplan/uptake.api'
 import Avatar from '@/components/Avatar'
+import { Badge } from '@/components/ui/badge'
 // import { FaEdit } from 'react-icons/fa'
 
 // {
@@ -75,16 +76,21 @@ const EditableCell = ({ value, row }: EditableCellProps) => {
   }
   const [updatePillDailyUptake] = useUpdatePillDailyUptakeMutation()
   const handleChange = () => {
-    setChecked(prev => !prev)
+    setChecked((prev) => !prev)
     updatePillDailyUptake(inputValues)
     // onChange(e)
     console.log(row.original)
   }
 
-  return <Switch checked={checked}
-  onCheckedChange={() => { handleChange() }}
-  className='text-teal-600'
-  />
+  return (
+    <Switch
+      checked={checked}
+      onCheckedChange={() => {
+        handleChange()
+      }}
+      className="text-teal-600"
+    />
+  )
 }
 
 export const eveningColumn: Array<ColumnDef<ColumnProps>> = [
@@ -92,7 +98,7 @@ export const eveningColumn: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-start gap-x-2">
+      <div className="flex flex-row items-center gap-x-2 pt-1 pb-1">
         <Avatar
           // size={'sm'}
           // className="font-bold"
@@ -105,40 +111,52 @@ export const eveningColumn: Array<ColumnDef<ColumnProps>> = [
     )
   },
   // <X />
-
   {
-    accessorKey: 'RT',
-    header: 'Evening Time',
+    accessorKey: 'eveningStatus',
+    header: 'Evening Status',
     cell: ({ row }) => (
-      <div className='flex flex-col space-y-2'>
-        <p>Medicine Time: {row.original.TimeAndWork?.eveningMedicineTime}</p>
-        <div>
-          {row.original?.eveningStatus
+      <div className="flex flex-col space-y-2">
+        <div className="flex flex-row items-center">
+          <p className="font-bold text-slate-500 text-[14px] ">Time: </p>
+          <p className="text-[14px] ">
+            {row.original.TimeAndWork?.eveningMedicineTime}
+          </p>
+        </div>
+
+        {/* <div
+          className="flex flex-row space-x-2
+        items-center text-[12px]
+        "
+        >
+          {row.original?.morningStatus
             ? (
-            <p className="text-teal-600">Time Completed</p>
+            <p className="text-teal-600">Completed</p>
               )
             : (
             <p className="text-slate-600">Completed</p>
               )}
-        </div>
+        </div> */}
       </div>
     )
   },
   {
-    accessorKey: 'eve',
+    accessorKey: 'nofOfPills',
+    header: 'Status',
+    cell: () => (
+      <Badge
+        className="bg-slate-200 text-slate-700
+    rounded-full hover:bg-slate-100 shadow-none
+    "
+      >
+        On Time
+      </Badge>
+    )
+  },
+  {
+    accessorKey: 'RT',
     header: 'Action',
     cell: ({ row }) => (
-      <div className="flex flex-col space-y-2">
-
-        <div
-          className="flex flex-row space-x-2
-        items-center
-        "
-        >
-            <EditableCell value={row.original?.morningStatus} row={row} />
-
-        </div>
-      </div>
+      <EditableCell value={row.original?.eveningStatus} row={row} />
     )
   }
 ]
