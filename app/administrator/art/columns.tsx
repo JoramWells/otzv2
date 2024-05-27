@@ -16,6 +16,13 @@ interface ColumnProps {
   header: string
   accessorKey?: keyof UserProps
   expiryDate: MomentInput
+  ArtCategory: {
+    artCategoryDescription: string
+    artPhase: string
+  }
+  MeasuringUnit: {
+    description: string
+  }
   // render?: (props: any) => React.ReactNode
 }
 
@@ -90,15 +97,24 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'artRegimenPhase',
-    header: 'ART Phase'
-    // cell: ({ row }) => (
-    //   <p>{row.original?.artCategory.artRegimenPhase?.artPhaseDescription}</p>
-    // )
+    header: 'ART Phase',
+    cell: ({ row }) => (
+      <p>{row.original?.ArtCategory?.artCategoryDescription}</p>
+    )
+  },
+  {
+    accessorKey: 'age',
+    header: 'Age',
+    cell: ({ row }) => (
+      <p className="capitalize">{row.original?.ArtCategory?.artPhase}</p>
+    )
   },
   {
     accessorKey: 'measuringUnit',
-    header: 'Art Name',
-    cell: ({ row }) => <p>{row.original.measuringUnit?.description}</p>
+    header: 'MU',
+    cell: ({ row }) => (
+      <p className="capitalize">{row.original?.MeasuringUnit?.description}</p>
+    )
   },
   {
     accessorKey: 'quantity',
@@ -108,7 +124,9 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'expiryDate',
     header: 'Expiry Date',
-    cell: ({ row }) => (<div>{moment(row.original.expiryDate).format('ll')} </div>)
+    cell: ({ row }) => (
+      <div>{moment(row.original.expiryDate).format('ll')} </div>
+    )
   },
   {
     // accessorKey: 'action',
