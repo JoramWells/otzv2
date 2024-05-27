@@ -13,15 +13,15 @@ const HeaderCategories = ({ id, count, description, title, icon }: HeaderCategor
   return (
     <div
       className="rounded-lg p-4
-      h-[110px] flex-1 flex flex-col bg-white
+      h-[130px] flex-1 flex flex-col bg-white
       "
     >
       <div className="flex flex-row items-center justify-between">
         <h1 className="font-bold">{title} </h1>
-        <Users size={20} />
+        <Users size={15} />
       </div>
-      <p className="text-2xl font-bold">45, 894</p>
-      <p className="text-slate-500 text-sm">Since last month</p>
+      <p className="text-xl font-bold">45, 894</p>
+      <p className="text-slate-500 text-[14px] ">Since last month</p>
     </div>
   )
 }

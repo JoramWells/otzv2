@@ -87,7 +87,7 @@ const NotifyPage = () => {
             className="rounded-lg p-5 bg-white
              h-[130px] flex flex-col  hover:cursor-pointer hover:shadow-none
       "
-            onClick={() => router.push('/notify/appointment')}
+            // onClick={() => router.push('/notify/appointment')}
           >
             <div className="flex flex-row items-center justify-between">
               <h1 className="font-bold ">{item.label}</h1>

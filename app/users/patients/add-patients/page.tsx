@@ -83,8 +83,6 @@ const AddPatient = () => {
   const [kinDOB, setKinDOB] = useState('')
   const [kinIDNo, setKinIDNo] = useState('')
 
-  console.log(location)
-
   const inputValues = {
     firstName,
     middleName,

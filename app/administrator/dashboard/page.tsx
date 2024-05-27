@@ -175,7 +175,7 @@ const Dashboard = () => {
     <div className="">
       {/* breadcrumb */}
       <BreadcrumbComponent dataList={dataList} />
-      <div className="mt-2 mb-2 flex justify-between space-x-2">
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-3 p-4 md:grid-cols-2">
         {listItems.map((item: HeaderCategoriesProps) => (
           <HeaderCategories
             key={item.id}
@@ -189,10 +189,10 @@ const Dashboard = () => {
       </div>
 
       <div className=" p-4 bg-white rounded-lg">
-        <p className='font-bold'>Dashboard Analytics</p>
+        <p className="font-bold">Dashboard Analytics</p>
 
         <div className="flex flex-row justify-between space-x-2 mt-2">
-            <PieChart data={pieChartData} />
+          <PieChart data={pieChartData} />
 
           <BarChart data={barCharData} />
           <LineChart data={lineChartData} />
