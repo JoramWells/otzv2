@@ -98,6 +98,7 @@ const AddPatient = () => {
     schoolName,
     location,
     maritalStatus,
+    entryPoint,
 
     kinFirstName,
     kinLastName,

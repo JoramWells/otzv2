@@ -80,46 +80,50 @@ const NotifyPage = () => {
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="flex w-full justify-between flex-wrap p-4">
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-4 md:grid-cols-2">
         {dataList.map((item, idx) => (
           <div
             key={idx}
             className="rounded-lg p-5 bg-white
-             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-none
+             h-[130px] flex flex-col  hover:cursor-pointer hover:shadow-none
       "
             onClick={() => router.push('/notify/appointment')}
           >
             <div className="flex flex-row items-center justify-between">
-              <h1 className="font-bold text-lg">{item.label}</h1>
-              <Users size={20} />
+              <h1 className="font-bold ">{item.label}</h1>
+              <Users size={15} />
             </div>
-            <p className="text-2xl font-bold">{item.count}</p>
-            <p className="text-slate-500 text-sm">Since last month</p>
+            <p className="text-xl font-bold">{item.count}</p>
+            <p className="text-slate-500 text-[12px]">Since last month</p>
           </div>
         ))}
       </div>
       <div className="p-4 w-full">
-        <div className=" ">
+        <div className=" bg-white p-4 ">
           <h1
-            className="font-semibold text-2xl
-        capitalize
+            className="font-semibold text-lg capitalize
         "
           >
-            group Appointments
+            Group Appointments
           </h1>
 
-          <p>Scheduled the following appointments</p>
+          <p className='text-[14px] text-slate-500 ' >Scheduled the following appointments</p>
           <div className="flex justify-between space-x-4 bg-white p-4">
             <WeeklyAppointmentBarChart />
             <AppointmentPieChart data={weeklyData} />
             <div className="flex-1 bg-white rounded-lg flex flex-col p-4 border border-slate-200">
-              <p className='font-bold pl-2' >Upcoming Appointments</p>
+              <p className="font-bold pl-2">Upcoming Appointments</p>
               {priorityAppointmentData?.map((item: AppointmentProps) => (
-                <div className="flex items-center space-x-4 w-full hover:cursor-pointer hover:bg-slate-50 p-1 rounded-lg mt-2" key={item.id}>
+                <div
+                  className="flex items-center space-x-4 w-full hover:cursor-pointer hover:bg-slate-50 p-1 rounded-lg mt-2"
+                  key={item.id}
+                >
                   <Avatar
                     name={`${item.Patient?.firstName} ${item.Patient?.middleName}`}
                   />
-                  <p className='text-[14px] text-slate-500 ' >{item.Patient?.firstName} {item.Patient?.middleName}</p>
+                  <p className="text-[14px] text-slate-500 ">
+                    {item.Patient?.firstName} {item.Patient?.middleName}
+                  </p>
                 </div>
               ))}
             </div>
