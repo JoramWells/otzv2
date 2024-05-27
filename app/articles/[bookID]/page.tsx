@@ -32,6 +32,7 @@ const ArticlePage = () => {
             // fill
             // objectFit='contain'
             // priority
+            layout='fill'
             className="rounded-t-lg"
             src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.image}`}
             style={{

@@ -2,10 +2,11 @@ import {withSentryConfig} from '@sentry/nextjs';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
+        // loader:{},
         remotePatterns: [
             {
-                protocol: 'http',
-                hostname: 'localhost',
+                protocol: `${process.env.NEXT_PUBLIC_PROTOCOL}`,
+                hostname: `${process.env.NEXT_PUBLIC_HOSTNAME}`,
                 pathname: '**'
             }
         ]
