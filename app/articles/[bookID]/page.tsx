@@ -21,13 +21,13 @@ const ArticlePage = () => {
           <Image
             // w={0}
             alt="im"
-            placeholder="data:image/..."
+            // placeholder="data:image/..."
             width={300}
             height={150}
             // quality={100}
             // fill
             // objectFit='contain'
-            priority
+            // priority
             className="rounded-t-lg"
             src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.image}`}
             style={{
