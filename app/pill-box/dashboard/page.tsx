@@ -27,25 +27,25 @@ const BreadcrumbComponent = dynamic(
 const dataList = [
   {
     id: '1',
-    label: 'Todays Appointment',
+    label: 'On ART',
     count: 50,
     link: '/notify/appointment'
   },
   {
     id: '2',
-    label: 'Scheduled SMS & Whatsapp',
+    label: 'On TB',
     count: 20,
     link: ''
   },
   {
     id: '3',
-    label: 'Scheduled Voice Calls',
+    label: 'On Anti-TB',
     count: 13,
     link: ''
   },
   {
     id: '4',
-    label: 'App Notification',
+    label: 'On Prep/Pep',
     count: 7,
     link: ''
   }
@@ -83,45 +83,42 @@ const NotifyPage = () => {
   const { data: uptakeCount } = useGetPillDailyUptakeCountQuery({
     patientsDueMorning: true
   })
-  console.log(uptakeCount, 'kl')
 
   return (
     <div className="w-full  bg-slate-50">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="bg-white p-4 mt-2">
-        <h1 className="font-semibold text-2xl">Welcome to Pillbox!!</h1>
-        <p className="text-slate-500">
-          Manage Patient Prescriptions and reminders.
-        </p>
-      </div>
-      <div className="flex w-full justify-between flex-wrap p-4">
+
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-4 md:grid-cols-2">
         {dataList.map((item, idx) => (
           <div
             key={idx}
             className="rounded-lg p-5 bg-white
-             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
+             h-[130px] flex flex-col hover:cursor-pointer hover:shadow-sm
       "
-            onClick={() => router.push('/notify/appointment')}
+            // onClick={() => router.push('/notify/appointment')}
           >
             <div className="flex flex-row items-center justify-between">
-              <h1 className="font-bold text-lg">{item.label}</h1>
-              <Users size={20} />
+              <h1 className="">{item.label}</h1>
+              <Users size={15} />
             </div>
-            <p className="text-2xl font-bold">{item.count}</p>
-            <p className="text-slate-500 text-sm">Since last month</p>
+            <p className="text-xl font-bold">{item.count}</p>
+            <p className="text-slate-500 text-[12px]">Since last month</p>
           </div>
         ))}
       </div>
       <div className="bg-white p-4">
-        <h1
-          className="font-semibold text-xl
-        capitalize
+        <div className='w-full mb-2' >
+          <h1
+            className="font-semibold text-lg
         "
-        >
-          group Appointments
-        </h1>
+          >
+            Patient Pillbox
+          </h1>
 
-        <p>Scheduled the following appointments</p>
+          <p className="text-[14px] text-slate-500 ">
+            Manage patient appointments
+          </p>
+        </div>
         <DoubleARTUptakeBarChart
           morningTrueCount={uptakeCount?.morningTrueCount}
           morningFalseCount={uptakeCount?.morningFalseCount}
