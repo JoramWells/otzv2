@@ -5,7 +5,11 @@ import { useDeleteArticlesMutation, useGetAllArticlesQuery } from '@/api/article
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { TrashIcon } from 'lucide-react'
-// import Image from 'next/image'
+import Image from 'next/image'
+
+const loaderProp = ({ src }: { src: string }) => {
+  return src
+}
 
 const ArticlePage = () => {
   const { data } = useGetAllArticlesQuery()
@@ -18,12 +22,12 @@ const ArticlePage = () => {
     <div className="flex flex-row flex-wrap w-full justify-center p-4 gap-4 ">
       {data?.map((item: any) => (
         <div key={item.id} className="w-[300px] rounded-xl bg-white relative">
-          <img
+          <Image
             // w={0}
             alt="im"
             // placeholder="data:image/..."
-            // width={300}
-            // height={150}
+            width={300}
+            height={150}
             // quality={100}
             // fill
             // objectFit='contain'
@@ -35,6 +39,7 @@ const ArticlePage = () => {
               height: '150px',
               objectFit: 'cover'
             }}
+            loader={loaderProp}
           />
 
           <div className="p-4">
