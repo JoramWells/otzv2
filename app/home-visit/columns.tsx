@@ -16,9 +16,10 @@ export interface PrescriptionProps {
   }
   refillDate: MomentInput
   nextRefillDate: MomentInput
-  appointmentTime: MomentInput
+  returnToClinic: MomentInput
   appointmentDate: any
   appointmentAgenda: any
+  updatedAt: MomentInput
   createdAt: Date
   user: any
   patient: {
@@ -71,7 +72,6 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
     accessorKey: 'actionTaken',
     header: 'Action Taken'
   },
-
   {
     accessorKey: 'updatedAt',
     header: 'Date',
