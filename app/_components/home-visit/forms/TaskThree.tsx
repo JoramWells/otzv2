@@ -32,13 +32,6 @@ const TaskThree = ({
   setReturnToClinic
 }: TaskThreeProps) => (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
-    {/* DOB */}
-    <CustomInput
-      label="Date Requested"
-      type='date'
-      value={dateHomeVisitRequested}
-      onChange={setDateHomeVisitRequested}
-    />
 
     {/* DOB */}
 
@@ -53,7 +46,16 @@ const TaskThree = ({
       label="Medicine Status"
       value={medicineStatus}
       onChange={setMedicineStatus}
-      data={[]}
+      data={[
+        {
+          id: 'Adequate',
+          label: 'Adequate'
+        },
+        {
+          id: 'Inadequate',
+          label: 'Inadequate'
+        }
+      ]}
     />
 
     {/*  */}
@@ -73,6 +75,7 @@ const TaskThree = ({
     {/*  */}
     <CustomInput
       label="Return to Clinic"
+      type='date'
       value={returnToClinic}
       onChange={setReturnToClinic}
     />

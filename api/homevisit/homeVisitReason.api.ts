@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const homeVisitReasonApi = createApi({
   reducerPath: 'homeVisitReasonApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/home-visit-reason'
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/home-visit-reason`
   }),
   endpoints: (builder) => ({
     getHomeVisitReasons: builder.query<any, void>({

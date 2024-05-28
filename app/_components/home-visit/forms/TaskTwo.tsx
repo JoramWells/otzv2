@@ -1,12 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
-import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
-import CustomInput from '../../../../components/forms/CustomInput'
-import CustomSelect from '../../../../components/forms/CustomSelect'
-import { useCallback } from 'react'
+import CustomCheckbox from '@/components/forms/CustomCheckbox'
+import CustomInput from '@/components/forms/CustomInput'
+import CustomSelect from '@/components/forms/CustomSelect'
 
 export interface TaskTwoProps {
+  patientID: string
+  complaints: string
   isARV: boolean
   setIsARV: (val: boolean) => void
   isTB: boolean
@@ -19,12 +19,14 @@ export interface TaskTwoProps {
   setIntensivePhaseEndDate: (val: string) => void
   currentRegimen: string
   setCurrentRegimen: (val: string) => void
+  setComplaints: (val: string) => void
   oralDrugs: string
   setOralDrugs: (val: string) => void
   treatmentEndDate: string
   setTreatmentEndDate: (val: string) => void
 }
 const TaskTwo = ({
+  patientID,
   isARV,
   setIsARV,
   isTB,
@@ -40,16 +42,10 @@ const TaskTwo = ({
   oralDrugs,
   setOralDrugs,
   treatmentEndDate,
-  setTreatmentEndDate
+  setTreatmentEndDate,
+  complaints,
+  setComplaints
 }: TaskTwoProps) => {
-  const { data: artData } = useGetAllArtRegimenQuery()
-
-  const artOption = useCallback(() => {
-    return artData?.map((item: any) => ({
-      id: item.id,
-      label: item.artName
-    }))
-  }, [artData])
   return (
     <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
       <div
@@ -67,11 +63,10 @@ const TaskTwo = ({
         {isARV && (
           <div className="w-full pr-7 pl-7 pb-2">
             <div className="flex flex-row w-full gap-x-4">
-              <CustomSelect
-                label="Regimen Name"
+              <CustomInput
+                label="Regimen"
                 value={currentRegimen}
                 onChange={setCurrentRegimen}
-                data={artOption()}
               />
 
               <CustomInput
@@ -147,6 +142,17 @@ const TaskTwo = ({
           )}
         </div>
       </div>
+      <CustomSelect
+        label="Patient Complaints"
+        value={complaints}
+        onChange={setComplaints}
+        data={[
+          {
+            id: 'Cough',
+            label: 'Cough'
+          }
+        ]}
+      />
     </div>
   )
 }

@@ -2,11 +2,12 @@
 /* eslint-disable no-unused-vars */
 
 import { useGetAllHomeVisitFrequenciesQuery } from '@/api/homevisit/homeVisitFrequency.api'
-import CustomInput from '../../../../components/forms/CustomInput'
-import CustomSelect from '../../../../components/forms/CustomSelect'
+
 import { useCallback } from 'react'
 import { useGetHomeVisitReasonsQuery } from '@/api/homevisit/homeVisitReason.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
+import CustomSelect from '@/components/forms/CustomSelect'
+import CustomInput from '@/components/forms/CustomInput'
 
 export interface TaskOneProps {
   homeVisitReason: string

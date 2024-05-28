@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { type Dispatch, type SetStateAction, useCallback, useState } from 'react'
+import { type Dispatch, type SetStateAction, useCallback, useState, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -20,6 +22,8 @@ import TaskTwo from '../../../_components/home-visit/forms/TaskTwo'
 import TaskThree from '../../../_components/home-visit/forms/TaskThree'
 import TaskFour from '../../../_components/home-visit/forms/TaskFour'
 import { useAddHomeVisitMutation } from '@/api/homevisit/homeVisit.api'
+import { useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
+import moment from 'moment'
 
 const steps = [
   { title: 'Task One', description: 'Task One Form' },
@@ -54,9 +58,10 @@ const DisclosureChecklist = ({ params }: any) => {
   const [actionTaken, setActionTaken] = useState('')
   const [evaluationOfAction, setEvaluationOfAction] = useState('')
   const [returnToClinic, setReturnToClinic] = useState('')
+  const [complaints, setComplaints] = useState('')
 
   // 4
-  const [isCountedPills, setIsCountedPills]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isCountedPills, setIsCountedPills]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(true)
   const [isClinicVisits, setIsClinicVisits]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isDisclosure, setIsDisclosure]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isGuardianSupport, setIsGuardianSupport]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
@@ -68,26 +73,27 @@ const DisclosureChecklist = ({ params }: any) => {
     userID: requestedBy,
     patientID,
     dateRequested,
+    artPrescription: {
+      currentRegimen,
+      currentRegimenBegan
+    },
+    tbPrescription: {
+      treatmentStartDate,
+      treatmentEndDate,
+      intensivePhaseEndDate
+    },
     homeVisitFrequencyID: frequency,
-    is_arv: isARV,
-    current_regimen_date: currentRegimenBegan,
-    artPrescriptionID: currentRegimen,
     ol_drugs: oralDrugs,
-    is_TB: isTB,
-    treatment_start_date: treatmentStartDate,
-    intensive_phase_date: intensivePhaseEndDate,
-    end_of_treatment_date: treatmentEndDate,
-    date_of_home_visit_requested: dateHomeVisitRequested,
-    medicine_counted: noOfMedicine,
-    medicine_status: medicineStatus,
-    action_taken: actionTaken,
-    return_to_clinic: returnToClinic,
-    is_pills_counted: isCountedPills,
-    is_clinic_visits: isClinicVisits,
-    is_disclosure: isDisclosure,
-    is_guardian_support: isGuardianSupport,
-    is_support_group_attendance: isSupportGroupAttendance,
-    is_household_tested: isHouseholdTested
+    noOfPills: noOfMedicine,
+    medicineStatus,
+    actionTaken,
+    returnToClinic,
+    isPillsCounted: isCountedPills,
+    isClinicVisits,
+    isDisclosure,
+    isGuardianSupport,
+    isSupportGroupAttendance,
+    isHouseholdTested
   }
 
   // const { activeStep } = useSteps({
@@ -96,16 +102,7 @@ const DisclosureChecklist = ({ params }: any) => {
   // })
 
   const handleNext = async () => {
-    if (activeStep === 4) {
-      await addHomeVisit(inputValues)
-    } else {
-      setActiveStep((prevStep) => prevStep + 1)
-    }
-    // navigate({
-    //   pathname: '/add-invoice',
-    //   search: `?id=${invoiceId}`,
-    // });
-    // setSearchParams(activeStep);
+    setActiveStep((prevStep) => prevStep + 1)
   }
 
   const handleBack = () => {
@@ -113,6 +110,19 @@ const DisclosureChecklist = ({ params }: any) => {
   }
 
   const [addHomeVisit, { isLoading }] = useAddHomeVisitMutation()
+  const { data: patientData } = useGetArtPrescriptionQuery(patientID)
+  useEffect(() => {
+    if (patientData) {
+      setIsARV(true)
+      setCurrentRegimen(patientData?.regimen)
+      setCurrentRegimenBegan(moment(patientData?.startDate, 'YYYY-MM-DD').format('YYYY-MM-DD'))
+    }
+    if (noOfMedicine.length === 0) {
+      setIsCountedPills(false)
+    }
+    // setIsCountedPills(false)
+  }, [patientData, noOfMedicine])
+  console.log(patientData, 'lop')
 
   return (
     <div className="mt-14 flex flex-col justify-center items-center p-3">
@@ -177,6 +187,9 @@ const DisclosureChecklist = ({ params }: any) => {
             setIntensivePhaseEndDate={setIntensivePhaseEndDate}
             oralDrugs={oralDrugs}
             setOralDrugs={setOralDrugs}
+            patientID={patientID}
+            complaints={complaints}
+            setComplaints={setComplaints}
           />
         )}
 
@@ -222,16 +235,31 @@ const DisclosureChecklist = ({ params }: any) => {
           >
             Back
           </Button>
-          <Button
-            colorScheme="teal"
-            size={'sm'}
-            onClick={() => {
-              handleNext()
-            }}
-            isLoading={isLoading}
-          >
-            {activeStep === 4 ? 'Complete' : 'Next'}
-          </Button>
+          {activeStep === 4
+            ? (
+            <Button
+              colorScheme="teal"
+              size={'sm'}
+              onClick={() => {
+                addHomeVisit(inputValues)
+              }}
+              isLoading={isLoading}
+            >
+              Complete
+            </Button>
+              )
+            : (
+            <Button
+              colorScheme="teal"
+              size={'sm'}
+              onClick={() => {
+                handleNext()
+              }}
+              isLoading={isLoading}
+            >
+              Next
+            </Button>
+              )}
         </div>
       </div>
     </div>

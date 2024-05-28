@@ -29,6 +29,7 @@ const itemList: ItemListProps[] = [
     label: 'Administrator',
     icon: <Shield color="#f9be7c" />,
     link: '/administrator/dashboard',
+    description: 'Manage user registration, medicine, schools...',
     listItem: [
       {
         id: '2',
@@ -77,8 +78,7 @@ const itemList: ItemListProps[] = [
     label: 'Appointments',
     icon: <CalendarCheck />,
     link: '/appointments/dashboard',
-    description:
-      'Manage Appointments',
+    description: 'Manage System, Patient and Users Appointments',
     listItem: [
       {
         id: '8',
@@ -107,6 +107,7 @@ const itemList: ItemListProps[] = [
     label: 'Enrollments',
     icon: <SaveAll />,
     link: '/enrollment/dashboard',
+    description: 'Manage patient enrollment (OTZ, OVC & PAMA) ',
     listItem: [
       {
         id: '1',
@@ -131,10 +132,30 @@ const itemList: ItemListProps[] = [
     ]
   },
   {
+    id: '11',
+    label: 'Home Visit',
+    icon: <Pill />,
+    link: '/home-visit',
+    listItem: [
+      {
+        id: '1',
+        label: 'Prescription',
+        link: '/pill-box/prescriptions'
+      },
+      {
+        id: '2',
+        label: 'Reminder',
+        link: '/pill-box/reminder'
+      }
+    ]
+  },
+  {
     id: '2',
     label: 'Pill Box',
     icon: <Pill />,
     link: '/pill-box/dashboard',
+    description:
+      'Patient Prescription, track drug uptake, reminders. Manage daily pill reminders.',
     listItem: [
       {
         id: '1',
@@ -153,6 +174,7 @@ const itemList: ItemListProps[] = [
     label: 'Users',
     icon: <Users />,
     link: '/users/dashboard',
+    description: 'Manage patient, caregiver and case managers registration',
     listItem: [
       {
         id: '2',
@@ -211,6 +233,7 @@ const itemList: ItemListProps[] = [
     label: 'ViraTrack',
     icon: <LineChart />,
     link: '/viratrack/dashboard',
+    description: 'Track patient Viral load',
     listItem: [
       {
         id: '6',
