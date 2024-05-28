@@ -5,7 +5,6 @@ import { useGetAllEligibleOTZPatientsQuery } from '@/api/patient/patients.api'
 // import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import SelectPatientDialog from '../enrollment/_components/SelectPatientDialog'
 import { CustomTable } from '../_components/table/CustomTable'
@@ -39,7 +38,6 @@ interface Patient {
 
 const HomeVisitPage = () => {
   const { data } = useGetAllHomeVisitsQuery()
-  const router = useRouter()
 
   const { data: patientData } = useGetAllEligibleOTZPatientsQuery()
 
@@ -51,10 +49,8 @@ const HomeVisitPage = () => {
     )
   }, [patientData])
 
-  console.log(data, 'lop')
-
   return (
-    <div>
+    <>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
         <div>
@@ -71,10 +67,12 @@ const HomeVisitPage = () => {
         />
       </div>
       {/*  */}
-      <div className="flex justify-end w-full">
-        <CustomTable columns={columns} data={data || []} />
+      <div className='w-full p-4'>
+        <div className="flex justify-end w-full p-4 bg-white rounded-lg">
+          <CustomTable columns={columns} data={data || []} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
