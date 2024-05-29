@@ -3,19 +3,20 @@
 'use client'
 // import { CustomTable } from '@/app/_components/table/CustomTable'
 import { appointmentStatusColumns, columns } from './columns'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { Button, Tag } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 // import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import AddAppointmentAgenda from './_components/AddAppointmentAgenda'
 import AddAppointmentStatus from './_components/AddAppointmentStatus'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+import socketIOClient, { type Socket } from 'socket.io-client'
+
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -55,6 +56,28 @@ const Appointment = () => {
       link: 'appointment'
     }
   ]
+
+  useEffect(() => {
+    // if (data) {
+    // setAppointments(data)
+    // }
+
+    const socket: Socket = socketIOClient(`${process.env.NEXT_PUBLIC_API_URL}/api/appointment`, {
+      path: '/api/appointment/socket.io',
+      transports: ['websocket']
+    }
+    )
+
+    socket.on('appointment-agenda-updated', (socketData: any) => {
+      // showNotification()
+      // setAppointments(socketData)
+      console.log(socketData)
+    })
+
+    return () => {
+      socket.disconnect()
+    }
+  }, [])
 
   return (
     <>

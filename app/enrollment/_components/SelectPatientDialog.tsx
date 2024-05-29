@@ -21,16 +21,35 @@ const SelectPatientDialog = ({ link = '', label = 'Create', data }: SelectPatien
   const [patientID, setPatientID] = useState<SingleValue<SelectOptions>>(null)
 
   return (
-    <CaseManagerDialog label={label}>
-      <Select
-      value={patientID}
-      onChange={setPatientID}
-      options={data}
-      />
+    <CaseManagerDialog label={label}
+    description='New Enrollment'
+    >
 
-      <Button className='shadow-none bg-slate-200 text-slate-700 font-bold hover:bg-slate-100'
-      onClick={() => { router.push(`${link}/${patientID?.id}`) }}
-      >Continue</Button>
+        <p
+        className='text-slate-500 text-[14px] text-capitalize '
+        >Select a Patient to create {label} </p>
+      <Select value={patientID} onChange={setPatientID} options={data} />
+
+      <div className="w-full flex flex-row space-x-2">
+        <Button
+          className="shadow-none  flex-1"
+          onClick={() => {
+            router.push(`${link}/${patientID?.id}`)
+          }}
+          variant={'outline'}
+        >
+          Cancel
+        </Button>
+        <Button
+          className={'shadow-none bg-slate-200  text-black font-bold hover:opacity-80   hover:bg-slate-100 flex-1'}
+          onClick={() => {
+            router.push(`${link}/${patientID?.id}`)
+          }}
+          disabled={!patientID}
+        >
+          Continue
+        </Button>
+      </div>
     </CaseManagerDialog>
   )
 }

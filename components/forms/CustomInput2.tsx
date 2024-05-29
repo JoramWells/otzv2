@@ -6,10 +6,10 @@ interface CustomInputProps {
   name: string
   label?: string
   placeholder?: string
-  value: string
+  value?: string
   type?: string
   description?: string
-  onChange: (value: any) => void
+  onChange?: (value: any) => void
 }
 
 const CustomInput2 = ({
@@ -38,9 +38,9 @@ const CustomInput2 = ({
         <p className="mb-1 text-slate-500 text-[12px]">{description}</p>
       )}
       <Input
-        className="border border-gray-200
-            p-2 w-full rounded-lg shadow-none
-            "
+        className={`border border-gray-200
+            p-2 w-full rounded-lg shadow-none ${error && 'outline outline-red-500'}
+            `}
         value={value}
         type={type}
         onChange={onChange}
@@ -48,7 +48,12 @@ const CustomInput2 = ({
         ref={ref}
         placeholder={placeholder}
       />
-      {error && <p>{error.message} </p>}
+      <span
+      className='text-red-500 text-[12px] '
+      >
+         {error?.message}
+      </span>
+
     </div>
   )
 }

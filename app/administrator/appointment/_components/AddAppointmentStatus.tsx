@@ -1,43 +1,44 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
 import { Button } from '@/components/ui/button'
 // import { Button } from '@chakra-ui/react'
-import CustomInput from '../../../../components/forms/CustomInput'
-import { useCallback, useState } from 'react'
-
-interface PhaseProps {
-  id: string
-  artPhaseDescription: string
+import { FormProvider, useForm } from 'react-hook-form'
+import CustomInput2 from '@/components/forms/CustomInput2'
+import { z, type ZodType } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+interface InputProps {
+  statusDescription: string
 }
 
-interface CategoryProps {
-  id: string
-  artCategoryDescription: string
-  artPhaseID: string
-}
+const Schema: ZodType<InputProps> = z.object({
+  statusDescription: z.string().email()
+})
 
 const AddAppointmentStatus = () => {
-  const [statusDescription, setStatusDescription] = useState('')
+  const methods = useForm<InputProps>({
+    resolver: zodResolver(Schema)
+  })
 
   // const [addAppointmentStatus, { isLoading }] =
   //   useAddAppointmentStatusMutation()
 
-  const inputValues = {
-    statusDescription
+  const submitForm = (data: any) => {
+    console.log(data)
   }
 
   return (
-      <div
+    <FormProvider {...methods} >
+      <form
         className="w-1/4 flex flex-col items-center bg-white
       justify-center rounded-lg p-4 gap-y-4 "
-
+      onSubmit={methods.handleSubmit(submitForm)}
       >
-        <CustomInput
+        <CustomInput2
           label="Status Description"
-          value={statusDescription}
-          onChange={setStatusDescription}
+          name='statusDescription'
+          // value={statusDescription}
+          // onChange={setStatusDescription}
         />
 
         <Button
@@ -45,12 +46,14 @@ const AddAppointmentStatus = () => {
           // width={'full'}
           // onClick={() => addAppointmentStatus(inputValues)}
           // isLoading={isLoading}
-          className='w-full shadow-none text-emerald-600 border-teal-200'
+          type='submit'
+          className="w-full shadow-none text-emerald-600 border-teal-200"
           variant={'outline'}
         >
           Add New
         </Button>
-      </div>
+      </form>
+    </FormProvider>
   )
 }
 
