@@ -13,7 +13,7 @@ const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[38px] rounded-none" />
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
   }
 )
 
@@ -51,10 +51,12 @@ const OTZ = () => {
   }, [patientData])
 
   return (
-    <div className="p-2">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="flex justify-end w-full">
+      <div className="flex justify-between items-center w-full p-2 bg-white mt-2">
+        <p className=" text-slate-700 font-bold">Patients Enrolled in PAMA</p>
+
         <SelectPatientDialog
           label="Create New OTZ"
           link="/enrollment/enroll-pama"
@@ -62,11 +64,12 @@ const OTZ = () => {
         />
       </div>
 
-      <div className="p-4 bg-white rounded-lg mt-4">
-        <p className="mb-2 text-lg text-slate-700 font-bold">OTZ Patients</p>
-        <CustomTable columns={columns} data={data || []} />
+      <div className='w-full p-2' >
+        <div className="p-4 bg-white rounded-lg">
+          <CustomTable columns={columns} data={data || []} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

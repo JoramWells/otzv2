@@ -97,7 +97,7 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'artRegimenPhase',
-    header: 'ART Phase',
+    header: 'Code',
     cell: ({ row }) => (
       <p>{row.original?.ArtCategory?.artCategoryDescription}</p>
     )
@@ -118,7 +118,7 @@ export const artColumns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'quantity',
-    header: 'Initial Quantity'
+    header: 'Initial Qty'
   },
 
   {

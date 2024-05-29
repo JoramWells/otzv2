@@ -25,6 +25,24 @@ const BreadcrumbComponent = dynamic(
   }
 )
 
+// cbc
+// const CBCCurriculum = [
+//   {
+//     level: 'Early Years Education',
+//     division: {
+//       name: ['PP1', 'PP2']
+//     }
+//   },
+//   {
+//     level: 'Middle School'
+//   },
+//   {
+//     level: 'Senior School'
+//   },
+//   {
+//     level: 'Tertiary Education'
+//   }
+// ]
 const categoryList = [
   {
     id: 1,
@@ -89,6 +107,10 @@ const SchoolPage = () => {
     <>
       <BreadcrumbComponent dataList={dataList} />
 
+      <div className="p-2 bg-white mt-2">
+        <h1 className="font-bold">Competency Based Curriculum (CBC) </h1>
+      </div>
+
       <div className="flex flex-col gap-y-2 mb-1 mt-1">
         <CustomTab
           categoryList={categoryList}
@@ -97,33 +119,40 @@ const SchoolPage = () => {
         />
       </div>
 
-      <div className='p-2 w-full'>
-        {value === 'classes' && (
-          <CustomTable columns={classesColumn} data={classesData ?? []} />
-        )}
-        {value === 'Curriculum Category'.toLowerCase() && (
-          <CustomTable columns={curriculumCategoryColumns} data={data ?? []} />
-        )}
-        {value === 'Curriculum Sub-category'.toLowerCase() && (
-          <CustomTable
-            columns={curriculumSubCategoryColumns}
-            data={curriculumSubCategory ?? []}
-          />
-        )}
-        {value === 'Holidays'.toLowerCase() && (
-          <Holidays
-            handleClick={() => handleClick(mapValue)}
-            value={mapValue}
-          />
-        )}
-        {value === 'Schools'.toLowerCase() && (
-          <School
-            handleClick={() => handleClick(mapValue)}
-            value={mapValue}
-            column={holidaysColumn}
-            data={holidaysData}
-          />
-        )}
+      <div className="p-2 w-full">
+        <div
+        className='p-4 bg-white rounded-lg'
+        >
+          {value === 'classes' && (
+            <CustomTable columns={classesColumn} data={classesData ?? []} />
+          )}
+          {value === 'Curriculum Category'.toLowerCase() && (
+            <CustomTable
+              columns={curriculumCategoryColumns}
+              data={data ?? []}
+            />
+          )}
+          {value === 'Curriculum Sub-category'.toLowerCase() && (
+            <CustomTable
+              columns={curriculumSubCategoryColumns}
+              data={curriculumSubCategory ?? []}
+            />
+          )}
+          {value === 'Holidays'.toLowerCase() && (
+            <Holidays
+              handleClick={() => handleClick(mapValue)}
+              value={mapValue}
+            />
+          )}
+          {value === 'Schools'.toLowerCase() && (
+            <School
+              handleClick={() => handleClick(mapValue)}
+              value={mapValue}
+              column={holidaysColumn}
+              data={holidaysData}
+            />
+          )}
+        </div>
       </div>
     </>
   )

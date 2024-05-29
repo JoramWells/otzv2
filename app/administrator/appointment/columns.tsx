@@ -1,5 +1,6 @@
 import { Trash2, Pencil } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
+import moment, { type MomentInput } from 'moment'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -9,6 +10,7 @@ export interface FullNameProps {
 interface ColumnProps {
   id: any
   header: string
+  updatedAt: MomentInput
   accessorKey?: keyof PatientProps
   // render?: (props: any) => React.ReactNode
 }
@@ -17,7 +19,6 @@ export interface PatientProps {
   id?: string
   patient_name?: FullNameProps
   age?: number
-  dob?: string
   gender?: string
   mflCode?: string
   occupation?: string
@@ -31,7 +32,8 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated At'
+    header: 'Updated At',
+    cell: ({ row }) => (<p>{moment(row.original.updatedAt).format('ll')} </p>)
   },
   {
     header: 'Action',

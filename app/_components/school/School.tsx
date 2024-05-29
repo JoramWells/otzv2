@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Map } from 'lucide-react'

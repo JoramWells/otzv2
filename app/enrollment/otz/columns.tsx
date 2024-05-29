@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { type ColumnDef } from '@tanstack/react-table'
 import moment from 'moment/moment'
 import { Avatar, Tag } from '@chakra-ui/react'
@@ -15,6 +14,10 @@ interface ColumnProps {
   isValid: string
   artRegimenPhase: any
   art: any
+  Patient: {
+    firstName: string
+    middleName: string
+  }
   id: any
   header: string
   accessorKey?: keyof PatientProps
@@ -36,18 +39,19 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'patient_name',
     header: 'Patient Name',
-    cell: (props: any) => (
-      <div className="flex flex-row items-center gap-x-2">
-        <Avatar
-          size={'sm'}
-          className="font-bold"
-          name={`${props.row.original.Patient?.firstName} ${props.row.original.Patient?.middleName}`}
-        />
-        <div>
-          <p className="capitalize font-semibold">{`${props.row.original.Patient?.firstName} ${props.row.original.Patient?.middleName}`}</p>
+    cell: ({ row }) => {
+      const { firstName, middleName } = row.original.Patient
+      return (
+        <div className="flex flex-row items-center gap-x-2">
+          <Avatar
+            size={'sm'}
+            className="font-bold"
+            name={`${firstName} ${middleName}`}
+          />
+          <p className="capitalize">{`${firstName} ${middleName}`}</p>
         </div>
-      </div>
-    )
+      )
+    }
   },
   {
     accessorKey: 'dateOfEnrollmentToOTZ',
