@@ -22,7 +22,7 @@ import CustomSelect from '@/components/forms/CustomSelect'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
-import { useAddPrescriptionMutation } from '@/api/pillbox/prescription.api'
+import { useAddPrescriptionMutation, useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 
 const StopComponent = () => {
   const [stopReason, setStopReason] = useState('')
@@ -162,7 +162,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
 
   const [addArtPrescription, { isLoading, data: addPrescriptionData }] = useAddArtPrescriptionMutation()
 
-  const { data: prescriptionDatam } = useGetArtPrescriptionQuery(appointmentID)
+  const { data: prescriptionDatam } = useGetPrescriptionQuery(appointmentID)
 
   const inputValues = {
     patientID,

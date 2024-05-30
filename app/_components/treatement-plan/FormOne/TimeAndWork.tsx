@@ -30,11 +30,13 @@ export interface TimeAndWorkProps {
   //
   departureTimeHours: string
   setDepartureTimeHours: (depTime: string) => void
+  appointmentID: string | null
   departureTimeMinutes: string
   setDepartureTimeMinutes: (arr: string) => void
 }
 
 const TimeAndWork = ({
+  appointmentID,
   wakeUpTimeHours,
   setWakeUpTimeHours,
   wakeUpTimeMinutes,
@@ -55,7 +57,8 @@ const TimeAndWork = ({
   setDepartureTimeHours,
   departureTimeMinutes,
   setDepartureTimeMinutes
-}: TimeAndWorkProps) => (
+}: TimeAndWorkProps) => {
+  return (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg">
     <CustomTimeInput
       label="What time do you wake up mostly?"
@@ -86,6 +89,7 @@ const TimeAndWork = ({
       setMinutes={setDepartureTimeMinutes}
     />
   </div>
-)
+  )
+}
 
 export default TimeAndWork
