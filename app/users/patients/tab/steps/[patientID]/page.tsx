@@ -139,7 +139,7 @@ const StepsPage = ({ params }: any) => {
               />
             )}
 
-            {activeStep === 5 && (
+            {activeStep === 4 && (
               <MMASForm
               formData={mmasData}
                 appointmentID={appointmentID}
@@ -152,7 +152,7 @@ const StepsPage = ({ params }: any) => {
                 }}
               />
             )}
-            {activeStep === 4 && (
+            {activeStep === 5 && (
               <DisclosureChecklist
                 appointmentID={appointmentID}
                 patientID={patientID}

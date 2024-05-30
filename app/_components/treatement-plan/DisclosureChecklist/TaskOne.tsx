@@ -26,8 +26,9 @@ const TaskOne = ({
   setTaskOneComments
 }: TaskOneProps) => (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg ">
+    <h1 className='capitalize text-slate-500'>Task 1: Assess Child for disclosure eligibility.</h1>
     <CustomCheckbox
-      label="Child has met age criteria (10 - 6 years)?"
+      label="Child has met age criteria (between 6 and 10 years)?"
       onChange={setIsCorrectAge}
       value={isCorrectAge}
     />

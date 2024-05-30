@@ -43,6 +43,7 @@ const TaskTwo = ({
   setTaskTwoComments
 }: TaskTwoProps) => (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+    <h1 className='capitalize text-slate-500'>Task 2: Assess child and caregiver for readiness.</h1>
     <CustomCheckbox
       label="Child/ caregiver free from severe
           physical illness, trauma, psychological illness or psychiatric illness?"

@@ -139,7 +139,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
         setTaskTwoComments={setTaskTwoComments}
       />
 
-      <TaskThree
+      {/* <TaskThree
         isReassuredCaregiver={isReassuredCaregiver}
         setIsReassuredCaregiver={setIsReassuredCaregiver}
         isAssessedChildCaregiverComfort={isAssessedChildCaregiverComfort}
@@ -185,7 +185,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
         setTaskFourComments={setTaskFourComments}
         finalComments={finalComments}
         setFinalComments={setFinalComments}
-      />
+      /> */}
 
       <div className="flex justify-end w-full space-x-4 items-center mt-4">
         <Button

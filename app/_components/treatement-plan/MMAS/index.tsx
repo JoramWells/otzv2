@@ -9,7 +9,8 @@ import MmasFour from './MMASFour'
 import MmasEight from './MMASEight'
 import { useAddMmasMutation, useGetMmasQuery } from '@/api/treatmentplan/mmas.api'
 import { Button } from '@/components/ui/button'
-import { Loader2 } from 'lucide-react'
+import { InfoIcon, Loader2 } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 
 interface DataProps {
   isForget: boolean
@@ -81,6 +82,8 @@ const MMASForm = ({
 
   const [addMmas, { isLoading, data: savedData }] = useAddMmasMutation()
 
+  const [mmassFourScore, setMMASFourScore] = useState(0)
+
   useEffect(() => {
     if (formData) {
       setIsForget(formData.isForget)
@@ -91,13 +94,41 @@ const MMASForm = ({
       setIsQuitControl(formData.isQuitControl)
       setIsUnderPressure(formData.isUnderPressure)
     }
-  }, [formData])
+
+    const booleanStates = [
+      isForget,
+      isCareless,
+      isQuitWorse,
+      isQuitBetter
+    ]
+    const newScore = booleanStates.reduce((total, state) => total + (state ? 1 : 0), 0)
+    setMMASFourScore(newScore)
+  }, [formData, isCareless, isForget, isQuitBetter, isQuitWorse])
 
   return (
     <div className="flex flex-col space-y-4 w-full">
       <div className="w-full">
-        <p className="font-bold mb-2">MMAS 4 Form</p>
+        <div className="w-full justify-between items-center flex">
+          <p className="font-bold mb-2">MMAS 4 Form</p>
 
+          <div className="flex space-x-4 justify-between  items-center">
+            <p
+            // className='text-red-500'
+            className='font-bold'
+            >
+             Score: {mmassFourScore}
+            </p>
+            {mmassFourScore === 0 && <div
+            className='text-teal-600 font-bold'
+            >Good</div> }
+            {mmassFourScore > 0 && mmassFourScore <= 2 && <p
+            className='text-orange-500 font-bold'
+            >INADEQUATE</p>}
+            {mmassFourScore > 2 && mmassFourScore <= 4 && <p
+            className='text-red-500 font-bold'
+            >POOR</p>}
+          </div>
+        </div>
         <MmasFour
           isForget={isForget}
           setIsForget={setIsForget}
@@ -109,19 +140,22 @@ const MMASForm = ({
           setIsQuitBetter={setIsQuitBetter}
         />
       </div>
-      <div className="w-full">
-        <p className="font-bold mb-2">MMAS 8 Form</p>
-        <MmasEight
-          isTookYesterday={isTookYesterday}
-          setIsTookYesterday={setIsTookYesterday}
-          isQuitControl={isQuitControl}
-          setIsQuitControl={setIsQuitControl}
-          isUnderPressure={isUnderPressure}
-          setIsUnderPressure={setIsUnderPressure}
-          isDifficultyRemembering={difficultyRemembering}
-          setIsDifficultyRemembering={setIsDifficultyRemembering}
-        />
-      </div>
+
+      {(isForget || isCareless || isQuitWorse || isQuitBetter) && (
+        <div className="w-full">
+          <p className="font-bold mb-2">MMAS 8 Form</p>
+          <MmasEight
+            isTookYesterday={isTookYesterday}
+            setIsTookYesterday={setIsTookYesterday}
+            isQuitControl={isQuitControl}
+            setIsQuitControl={setIsQuitControl}
+            isUnderPressure={isUnderPressure}
+            setIsUnderPressure={setIsUnderPressure}
+            isDifficultyRemembering={difficultyRemembering}
+            setIsDifficultyRemembering={setIsDifficultyRemembering}
+          />
+        </div>
+      )}
 
       <div className="w-full flex justify-end space-x-4">
         <Button
