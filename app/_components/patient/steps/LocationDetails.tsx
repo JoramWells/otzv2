@@ -1,14 +1,13 @@
 'use client'
 import { type OccupationProps, useGetAllOccupationQuery } from '@/api/occupation.api'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { type CountyProps, useGetAllCountiesQuery } from '@/api/location/county.api'
 import { type SubCountyProps, useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 import { useGetAllWardsQuery } from '@/api/location/ward.api'
 import { useGetAllSchoolsQuery } from '@/api/school/school.api'
-import CustomCheckbox from '@/components/forms/CustomCheckbox'
-import CustomInput from '@/components/forms/CustomInput'
-import CustomSelect from '@/components/forms/CustomSelect'
-import Select, { type SingleValue } from 'react-select'
+import { type SingleValue } from 'react-select'
+import CustomSelect2 from '@/components/forms/CustomSelect2'
+import CustomInput2 from '@/components/forms/CustomInput2'
 export interface WardProps {
   ward: SingleValue<SelectOption>
 }
@@ -50,27 +49,19 @@ export interface LocationDetailsProps {
   setLocation: (val: InputCountyProps) => void
 }
 
-const LocationDetails = ({
-  phoneNo, occupation, schoolName, setLocation,
-  setPhoneNo, setOccupation, setSchoolName
-}: LocationDetailsProps) => {
+const LocationDetails = ({ county, subCounty }: { county: string, subCounty: string }) => {
   const { data } = useGetAllOccupationQuery()
   const { data: countyData } = useGetAllCountiesQuery()
   const { data: subCountyData } = useGetAllSubCountiesQuery()
   const { data: wardData } = useGetAllWardsQuery()
   const { data: schoolsData } = useGetAllSchoolsQuery()
 
-  const [county, setCounty] = useState<SingleValue<SelectOption>>(null)
-  const [subCounty, setSubCounty] = useState<SingleValue<SelectOption>>(null)
-  const [ward, setWard] = useState<SingleValue<SelectOption>>(null)
+  // useEffect(() => {
+  //   setLocation({
+  //     county, subCounty, ward
+  //   })
+  // }, [county, setLocation, subCounty, ward])
 
-  useEffect(() => {
-    setLocation({
-      county, subCounty, ward
-    })
-  }, [county, setLocation, subCounty, ward])
-
-  console.log(wardData, 'dtc')
   const occupationOptions = useCallback(() => {
     return data?.map((item: OccupationProps) => ({
       id: item.id,
@@ -81,7 +72,7 @@ const LocationDetails = ({
   // county
   const countyOptions = useCallback(() => {
     return countyData?.map((item: CountyProps) => ({
-      id: item.id,
+      id: item.countyName,
       label: item.countyName
     }))
   }, [countyData])
@@ -89,10 +80,10 @@ const LocationDetails = ({
   // sub counties
   const subCountyOptions = useCallback(() => {
     const tempData = subCountyData?.filter((item: any) =>
-      item.county.id.toString().includes(county?.id)
+      item.county.countyName.toString()?.toLowerCase().includes(county?.toLowerCase())
     )
     return tempData?.map((item: SubCountyProps) => ({
-      id: item.id,
+      id: item.subCountyName,
       label: item.subCountyName
     }))
   }, [subCountyData, county])
@@ -107,13 +98,13 @@ const LocationDetails = ({
   // ward options
   const wardOptions = useCallback(() => {
     const tempData = wardData?.filter((item: any) =>
-      item.subCounty?.id.toString().includes(subCounty?.id)
+      item.subCounty?.subCountyName?.toLowerCase().toString().includes(subCounty?.toLowerCase())
     )
     return tempData?.map((item: any) => ({
-      id: item.id,
+      id: item.ward,
       label: item.ward
     }))
-  }, [subCounty?.id, wardData])
+  }, [subCounty, wardData])
 
   // const nos = [{
   //   value
@@ -127,110 +118,64 @@ const LocationDetails = ({
   //   }
   // }
 
-  const [isOccupation, setIsOccupation] = useState<boolean>(false)
-  const [iSStudent, setIsStudent] = useState<boolean>(false)
+  // const [isOccupation] = useState<boolean>(false)
+  // const [iSStudent] = useState<boolean>(false)
 
   return (
-    <div
-      className="bg-white w-1/3 flex flex-col items-center
-      justify-center rounded-lg p-5 gap-y-6 mt-2"
-      style={{
-        width: '100%'
-      }}
-    >
-      <div className="w-full">
-        <CustomInput
+    <>
+        <CustomInput2
           label="Phone No."
           description="You can enter more than one phone number."
-          value={phoneNo}
-          onChange={setPhoneNo}
+          name="phoneNo"
+          // onChange={setPhoneNo}
         />
-      </div>
       {/* {occupation} */}
-      <div
-        className={`w-full border border-slate-200 rounded-lg bg-slate-50 p-2 ${
-          isOccupation && 'bg-white'
-        }`}
-      >
-        <CustomCheckbox
-          label="Occupation"
-          description="Recommended for patients that are workin"
-          value={isOccupation}
-          onChange={setIsOccupation}
+
+          <CustomSelect2
+            label="Select Occupation."
+            name={'occupation'}
+            // onChange={setOccupation}
+            data={occupationOptions()}
+          />
+
+          <CustomSelect2
+            label="School Name"
+            name='schoolName'
+            // onChange={setOccupation}
+            data={schoolOptions()}
+          />
+
+        <CustomSelect2
+        label='Select County'
+          // className="w-full mt-2 rounded-lg border-slate-200"
+          // value={county}
+          // onChange={setCounty}
+          data={countyOptions()}
+          name='county'
         />
-
-        {isOccupation && (
-          <div className="w-full pl-7 pt-2">
-            <CustomSelect
-              label="Select Occupation."
-              value={occupation}
-              onChange={setOccupation}
-              data={occupationOptions()}
-            />
-          </div>
-        )}
-      </div>
-
-      <div
-        className={`w-full border border-slate-200  rounded-lg bg-slate-50 p-2 ${
-          iSStudent && 'bg-white'
-        }`}
-      >
-        <CustomCheckbox
-          label="Student"
-          description="Recommended for patients that are studying"
-          value={iSStudent}
-          onChange={setIsStudent}
-        />
-
-        {iSStudent && (
-          <div className="w-full pl-7 pt-2 pb-2 flex flex-col space-y-2">
-            <CustomSelect
-              label="School Name"
-              value={occupation}
-              onChange={setOccupation}
-              data={schoolOptions()}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="w-full">
-        <label htmlFor="" className="font-bold text-slate-700 text-[14px]">
-          Select County
-        </label>
-        <Select
-          className="w-full mt-2 rounded-lg border-slate-200"
-          value={county}
-          onChange={setCounty}
-          options={countyOptions()}
-        />
-      </div>
 
       {/* sun county */}
-      <div className="w-full">
-        <label htmlFor="" className="font-bold text-[14px] text-slate-700 ">
-          Select Sub County{' '}
-        </label>
-        <Select
-          className="w-full mt-2"
-          value={subCounty}
-          onChange={setSubCounty}
-          options={subCountyOptions()}
+
+        <CustomSelect2
+        label='Select Sub County'
+          // className="w-full mt-2"
+          // value={subCounty}
+          // onChange={setSubCounty}
+          data={subCountyOptions()}
+          name='subCounty'
         />
-      </div>
 
       {/* select ward */}
-      <div className='w-full'>
-        <label htmlFor="" className='font-bold text-[14px] text-slate-700 '>Select Ward</label>
-        <Select
-          className="w-full mt-2"
-          value={ward}
-          onChange={setWard}
-          options={wardOptions()}
+
+        <CustomSelect2
+        label='Select Ward'
+          // className="w-full mt-2"
+          // value={ward}
+          // onChange={setWard}
+          data={wardOptions()}
+          name='ward'
         />
-      </div>
-    </div>
+    </>
   )
 }
 

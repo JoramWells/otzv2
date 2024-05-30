@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable multiline-ternary */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
@@ -25,6 +27,9 @@ import dynamic from 'next/dynamic'
 import NextOfKin from '@/app/_components/patient/steps/NextOfKin'
 import { useToast } from '@/components/ui/use-toast'
 import { redirect } from 'next/navigation'
+import { FormProvider, useForm } from 'react-hook-form'
+import { type ZodType, z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
@@ -52,72 +57,104 @@ const dataList2 = [
   }
 ]
 
-const AddPatient = () => {
-//
-  const { toast } = useToast()
-  const [activeStep, setActiveStep] = useState(1)
-  const [firstName, setFirstName] = useState('')
-  const [middleName, setMiddleName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [gender, setGender] = useState('')
-  const [DOB, setDOB] = useState('')
-  const [phoneNo, setPhoneNo] = useState('')
-  const [occupation, setOccupation] = useState('')
-  const [IDNo, setIDNo] = useState('')
-  const [nextOfKinPhoneNo, setNextOfKinPhoneNo] = useState('')
-  const [mflCode, setMFLCode] = useState('')
-  const [cccNo, setCCCNo] = useState('')
-  const [relationship, setRelationship] = useState('')
-  const [maritalStatus, setMaritalStatus] = useState('')
-  const [entryPoint, setEntryPoint] = useState('')
-
-  const [location, setLocation] = useState<InputCountyProps | null>(null)
+interface InputProps {
+  firstName: string
+  middleName: string
+  lastName: string
+  sex: string
+  dob: string
+  phoneNo: string
+  idNo: string
+  cccNo: string
+  occupation: string
+  schoolName: string
+  // location: string
+  // maritalStatus: string
+  entryPoint: string
+  county: string
+  subCounty: string
+  ward: string
 
   //
-  const [schoolName, setSchoolName] = useState('')
+  kinFirstName: string
+  kinLastName: string
+  kinGender: string
+  kinDOB: string
+  kinIDNo: string
+  relationship: string
+  nextOfKinPhoneNo: string
+}
+
+const AddPatient = () => {
+  const Schema: ZodType<InputProps> = z.object({
+    firstName: z.string().nonempty({ message: 'Required' }),
+    middleName: z.string().nonempty({ message: 'Required' }),
+    lastName: z.string(),
+    sex: z.string(),
+    dob: z.string(),
+    phoneNo: z.string(),
+    idNo: z.string({
+      required_error: 'ID No required'
+    }).refine(data => data.trim() !== '', {
+      message: 'Cannot be empty'
+    }),
+    cccNo: z.string({
+      required_error: 'CCC No is required'
+    }).refine(data => data.trim() !== '', {
+      message: 'CCC No. is required'
+    }),
+    occupation: z.string(),
+    schoolName: z.string(),
+    // location: z.string(),
+    // maritalStatus: z.string(),
+    entryPoint: z.string(),
+    county: z.string(),
+    subCounty: z.string(),
+    ward: z.string(),
+
+    //
+    kinFirstName: z.string({
+      required_error: 'Required First name'
+    }).refine(data => data.trim() !== '', {
+      message: 'First Name is required'
+    }),
+    kinLastName: z.string({
+      required_error: 'Required Second Name'
+    }).refine(data => data.trim() !== '', {
+      message: 'Last Name is Required'
+    }),
+    kinGender: z.string(),
+    kinDOB: z.string(),
+    kinIDNo: z.string(),
+    relationship: z.string(),
+    nextOfKinPhoneNo: z.string()
+  })
+  //
+  const { toast } = useToast()
+  const [activeStep, setActiveStep] = useState(1)
+
+  // const [location, setLocation] = useState<InputCountyProps | null>(null)
+
+  //
 
   // nofkin
-  const [kinFirstName, setKinFirstName] = useState('')
-  const [kinLastName, setKinLastName] = useState('')
-  const [kinGender, setKinGender] = useState('')
-  const [kinDOB, setKinDOB] = useState('')
-  const [kinIDNo, setKinIDNo] = useState('')
-
-  const inputValues = {
-    firstName,
-    middleName,
-    lastName,
-    sex: gender,
-    dob: DOB,
-    phoneNo,
-    idNo: IDNo,
-    cccNo,
-    mflCode,
-    schoolName,
-    location,
-    maritalStatus,
-    entryPoint,
-
-    kinFirstName,
-    kinLastName,
-    kinGender,
-    kinDOB,
-    kinIDNo,
-    relationship,
-    nextOfKinPhoneNo
-  }
+  // const [kinFirstName, setKinFirstName] = useState('')
+  // const [kinLastName, setKinLastName] = useState('')
+  // const [kinGender, setKinGender] = useState('')
+  // const [kinDOB, setKinDOB] = useState('')
+  // const [kinIDNo, setKinIDNo] = useState('')
 
   // const { activeStep } = useSteps({
   //   index: 1,
   //   count: steps.length
   // })
 
-  const handleNext = async () => {
-    if (activeStep === 3) {
-      await addPatient(inputValues)
-    } else {
-      setActiveStep((prevStep) => prevStep + 1)
-    }
+  const handleNext = () => {
+    // if (activeStep === 3) {
+    //   await addPatient(inputValues)
+    // }
+
+    setActiveStep((prevStep) => prevStep + 1)
     // navigate({
     //   pathname: '/add-invoice',
     //   search: `?id=${invoiceId}`,
@@ -130,6 +167,21 @@ const AddPatient = () => {
   }
 
   const [addPatient, { isLoading, data }] = useAddPatientMutation()
+  const onSubmit = async (formData: any) => {
+    const { county, subCounty, ward, ...rest } = formData
+    const submissionData = {
+      ...rest,
+      location: {
+        county,
+        subCounty,
+        ward
+      }
+    }
+    // console.log(submissionData)
+    // if(activeStep === 3){
+    await addPatient(submissionData)
+    // }
+  }
 
   useEffect(() => {
     if (data) {
@@ -138,20 +190,24 @@ const AddPatient = () => {
     }
   }, [data])
 
+  const methods = useForm<InputProps>({
+    resolver: zodResolver(Schema)
+  })
+  const { watch, handleSubmit } = methods
+  const county = watch('county')
+
+  const subCounty = watch('subCounty')
+
   return (
-    <div>
+    <>
       <div className="mb-2">
         <BreadcrumbComponent dataList={dataList2} />
       </div>
-      <div
-        className="block m-auto"
-        style={{
-          width: '50%'
-        }}
-      >
+
+      <div className="w-full flex flex-col items-center">
         <div
           style={{
-            width: '100%'
+            width: '50%'
           }}
           className=" p-2 bg-white rounded-xl"
         >
@@ -178,80 +234,52 @@ const AddPatient = () => {
             ))}
           </Stepper>
         </div>
-        {activeStep === 1 && (
-          <PersonalDetail
-            firstName={firstName}
-            middleName={middleName}
-            lastName={lastName}
-            dob={DOB}
-            gender={gender}
-            idNo={IDNo}
-            maritalStatus={maritalStatus}
-            setFirstName={setFirstName}
-            setMiddleName={setMiddleName}
-            setLastName={setLastName}
-            setDOB={setDOB}
-            setMaritalStatus={setMaritalStatus}
-            setGender={setGender}
-            setIDNo={setIDNo}
-            cccNo={cccNo}
-            mflCode={mflCode}
-            setCCCNo={setCCCNo}
-            setMFLCode={setMFLCode}
-            entryPoint={entryPoint}
-            setEntryPoint={setEntryPoint}
-          />
-        )}
-        {activeStep === 2 && (
-          <LocationDetails
-            phoneNo={phoneNo}
-            occupation={occupation}
-            setPhoneNo={setPhoneNo}
-            setOccupation={setOccupation}
-            setLocation={setLocation}
-            schoolName={schoolName}
-            setSchoolName={setSchoolName} />
-        )}
-        {activeStep === 3 && (
-          <NextOfKin
-            kinFirstName={kinFirstName}
-            kinLastName={kinLastName}
-            kinDOB={kinDOB}
-            kinGender={kinGender}
-            kinIDNo={kinIDNo}
-            setKinFirstName={setKinFirstName}
-            setKinLastName={setKinLastName}
-            setKinDOB={setKinDOB}
-            setKinGender={setKinGender}
-            setKinIDNo={setKinIDNo}
-            relationship={relationship}
-            nextOfKinPhoneNo={nextOfKinPhoneNo}
-            setKinRelationship={setRelationship}
-            setNextOfKinPhoneNo={setNextOfKinPhoneNo}
-          />
-        )}
+        <FormProvider {...methods}>
+          <form
+            className="w-1/2 bg-white p-4 rounded-lg mt-4 flex flex-col space-y-4"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            {activeStep === 1 && <PersonalDetail />}
+            {activeStep === 2 && (
+              <LocationDetails county={county} subCounty={subCounty} />
+            )}
+            {activeStep === 3 && <NextOfKin />}
 
-        <div className="flex justify-end pt-2 gap-x-4">
-          <Button
-            size={'sm'}
-            onClick={handleBack}
-            isDisabled={activeStep === 1}
-          >
-            Back
-          </Button>
-          <Button
-            colorScheme="teal"
-            size={'sm'}
-            onClick={() => {
-              handleNext()
-            }}
-            isLoading={isLoading}
-          >
-            {activeStep === 3 ? 'Complete' : 'Next'}
-          </Button>
-        </div>
+            <div className="flex justify-end pt-2 gap-x-4">
+              <Button
+                size={'sm'}
+                onClick={handleBack}
+                isDisabled={activeStep === 1}
+                type="button"
+              >
+                Back
+              </Button>
+              {activeStep === 3 ? (
+                <Button
+                  colorScheme="teal"
+                  size={'sm'}
+                  type="submit"
+                  // onClick={ () => { handleSubmit(onSubmit) }}
+                  isLoading={isLoading}
+                >
+                  Submit
+                </Button>
+              ) : (
+                <Button
+                  colorScheme="teal"
+                  size={'sm'}
+                  type="button"
+                  onClick={handleNext}
+                  // isLoading={isLoading}
+                >
+                  Next
+                </Button>
+              )}
+            </div>
+          </form>
+        </FormProvider>
       </div>
-    </div>
+    </>
   )
 }
 

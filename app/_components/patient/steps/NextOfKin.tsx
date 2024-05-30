@@ -1,51 +1,19 @@
 'use client'
-import CustomInput from '@/components/forms/CustomInput'
-import CustomSelect from '@/components/forms/CustomSelect'
+import CustomInput2 from '@/components/forms/CustomInput2'
+import CustomSelect2 from '@/components/forms/CustomSelect2'
 
 const genderOptions = [
   {
-    id: 'MALE',
+    id: 'M',
     label: 'MALE'
   },
   {
-    id: 'FEMALE',
+    id: 'F',
     label: 'FEMALE'
   }
 ]
 
-interface NextOfKinProps {
-  kinFirstName: string
-  kinLastName: string
-  kinDOB: string
-  kinGender: string
-  kinIDNo: string
-  relationship: string
-  nextOfKinPhoneNo: string
-  setKinFirstName: (val: string) => void
-  setKinLastName: (val: string) => void
-  setKinDOB: (val: string) => void
-  setKinGender: (val: string) => void
-  setKinIDNo: (val: string) => void
-  setKinRelationship: (val: string) => void
-  setNextOfKinPhoneNo: (val: string) => void
-}
-
-const NextOfKin = ({
-  kinFirstName,
-  kinLastName,
-  kinDOB,
-  kinGender,
-  kinIDNo,
-  nextOfKinPhoneNo,
-  setKinFirstName,
-  setKinLastName,
-  setKinDOB,
-  setKinGender,
-  setKinIDNo,
-  relationship,
-  setKinRelationship,
-  setNextOfKinPhoneNo
-}: NextOfKinProps) => {
+const NextOfKin = () => {
   // useEffect(()=>{
   //   const val = calculateAge(dob)
   //   if(val < 18){
@@ -55,48 +23,51 @@ const NextOfKin = ({
   //   }
   // },[val])
   return (
-    <div
-      className="bg-white  w-1/3 flex flex-col items-center
-      justify-center rounded-lg p-5 gap-y-4 mt-2"
-      style={{
-        width: '100%'
-      }}
-    >
+    <>
       <div className="flex flex-row justify-between space-x-4 w-full">
-        <CustomInput
+        <CustomInput2
           label="First Name"
-          value={kinFirstName}
-          onChange={setKinFirstName}
+          name="kinFirstName"
+          // onChange={setKinFirstName}
         />
-        <CustomInput
+        <CustomInput2
           label="Last Name"
-          value={kinLastName}
-          onChange={setKinLastName}
+          name={'kinLastName'}
+          // onChange={setKinLastName}
         />
       </div>
-      <CustomInput label="DOB" value={kinDOB} onChange={setKinDOB} type="date" />
+      <CustomInput2
+        label="DOB"
+        name="kinDOB"
+        // onChange={setKinDOB}
+        type="date"
+      />
       {/* {calculateAge(dob)} */}
-      <CustomSelect
+      <CustomSelect2
         label="Select Gender"
         data={genderOptions}
-        value={kinGender}
-        onChange={setKinGender}
+        name="kinGender"
+        // onChange={setKinGender}
       />
 
       {/*  */}
 
-            <CustomInput label="ID No." value={kinIDNo} onChange={setKinIDNo} />
-
-      <CustomInput
-        label="Phone No."
-        value={nextOfKinPhoneNo}
-        onChange={setNextOfKinPhoneNo}
+      <CustomInput2
+        label="ID No."
+        name="kinIDNo"
+        // onChange={setKinIDNo}
       />
 
-      <CustomSelect
+      <CustomInput2
+        label="Phone No."
+        name='nextOfKinPhoneNo'
+        // onChange={setNextOfKinPhoneNo}
+      />
+
+      <CustomSelect2
         label="Relationship"
-        value={relationship}
-        onChange={setKinRelationship}
+        name='relationship'
+        // onChange={setKinRelationship}
         data={[
           {
             id: 'Partner',
@@ -136,7 +107,7 @@ const NextOfKin = ({
           }
         ]}
       />
-    </div>
+    </>
   )
 }
 
