@@ -3,15 +3,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
-import AllergiesModal from '../_components/AllergiesModal'
-import ChronicIllnessDialog from '../_components/ChronicIllnessDialog'
-import AdverseDrugReactionsDialog from '../_components/AdverseDrugReactionsDialog'
 // import FamilyPanning from '../_components/steps/FamilyPanning'
-import FamilyPanningModal from '../_components/FamilyPlanningModal'
 import MMASForm from '@/app/_components/treatement-plan/MMAS'
 import DisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist'
 import FormOne from '@/app/_components/treatement-plan/FormOne'
-import StagingDialog from '../_components/StagingDialog'
 import AddTriage from '../_components/AddTriage'
 import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { useSearchParams } from 'next/navigation'
@@ -42,11 +37,11 @@ const dataList2 = [
 
 const steps = [
   { title: 'Vitals', description: 'Vital Signs' },
+  { title: 'ART', description: '' },
   { title: 'Time', description: '' },
   { title: 'MMAS', description: '' },
   { title: 'Disclosure', description: '' },
-  { title: 'Add ART', description: '' },
-  { title: 'Update VL', description: '' }
+  { title: 'Viral Load', description: '' }
 ]
 
 const StepsPage = ({ params }: any) => {
@@ -131,7 +126,7 @@ const StepsPage = ({ params }: any) => {
               />
             )}
 
-            {activeStep === 2 && (
+            {activeStep === 3 && (
               <FormOne
               patientID={patientID}
                 appointmentID={appointmentID}
@@ -144,7 +139,7 @@ const StepsPage = ({ params }: any) => {
               />
             )}
 
-            {activeStep === 3 && (
+            {activeStep === 5 && (
               <MMASForm
               formData={mmasData}
                 appointmentID={appointmentID}
@@ -169,7 +164,7 @@ const StepsPage = ({ params }: any) => {
                 }}
               />
             )}
-            {activeStep === 5 && (
+            {activeStep === 2 && (
               <AddArt
                 handleNext={() => {
                   handleNext(activeStep)
@@ -196,14 +191,14 @@ const StepsPage = ({ params }: any) => {
         </div>
         {/*  */}
         {/* all */}
-        <div className="w-1/4 flex flex-col space-y-2 bg-white rounded-lg p-2">
+        {/* <div className="w-1/4 flex flex-col space-y-2 bg-white rounded-lg p-2">
           <p className="text-lg font-bold">Available Actions</p>
           <AllergiesModal patientID={patientID} />
           <ChronicIllnessDialog />
           <AdverseDrugReactionsDialog />
           <FamilyPanningModal />
           <StagingDialog />
-        </div>
+        </div> */}
       </div>
     </>
   )

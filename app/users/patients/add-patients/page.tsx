@@ -68,7 +68,7 @@ interface InputProps {
   cccNo: string
   occupation: string
   schoolName: string
-  // location: string
+  certificateNo: string
   // maritalStatus: string
   entryPoint: string
   county: string
@@ -127,7 +127,8 @@ const AddPatient = () => {
     kinDOB: z.string(),
     kinIDNo: z.string(),
     relationship: z.string(),
-    nextOfKinPhoneNo: z.string()
+    nextOfKinPhoneNo: z.string(),
+    certificateNo: z.string()
   })
   //
   const { toast } = useToast()

@@ -162,15 +162,20 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
 
   const [addArtPrescription, { isLoading, data: addPrescriptionData }] = useAddArtPrescriptionMutation()
 
+  const { data: prescriptionDatam } = useGetArtPrescriptionQuery(appointmentID)
+
   const inputValues = {
     patientID,
     regimen: artRegimen,
+    patientVisitID: appointmentID,
     line: regimenLine,
     startDate,
     isStandard: isStandardRegimen
   }
 
   const [tab, setTab] = useState(1)
+
+  console.log(prescriptionDatam, 'lop')
 
   return (
     <div className="w-full flex justify-between items-center">
@@ -207,10 +212,19 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                   onChange={setNoOfPills}
                   value={noOfPill}
                 />
-                <CustomInput
+                <CustomSelect
                   label="Frequency"
                   value={frequency}
                   onChange={setFrequency}
+                  data={[
+                    {
+                      id: '1',
+                      label: 'OD'
+                    }, {
+                      id: '2',
+                      label: 'BD'
+                    }
+                  ]}
                 />
                 <CustomInput
                   label="Refill Date"

@@ -39,7 +39,9 @@ const CustomInput2 = ({
       )}
       <Input
         className={`border border-gray-200
-            p-2 w-full rounded-lg shadow-none ${error && 'outline outline-red-500'}
+            p-2 w-full rounded-lg shadow-none ${
+              error && 'outline outline-red-500'
+            }
             `}
         value={value}
         type={type}
@@ -48,12 +50,14 @@ const CustomInput2 = ({
         ref={ref}
         placeholder={placeholder}
       />
-      <span
-      className='text-red-500 text-[12px] '
-      >
-         {error?.message}
-      </span>
+      <div className='h-2' >
 
+          <div className="text-red-500 text-[12px] ">
+            {' '}
+            {error?.message}{' '}
+          </div>
+
+      </div>
     </div>
   )
 }

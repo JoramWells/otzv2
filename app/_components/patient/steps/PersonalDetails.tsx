@@ -89,7 +89,7 @@ const PersonalDetail = () => {
 
       <CustomInput2
         label="Certificate No."
-        name="idNo"
+        name="certificateNo"
         // onChange={setIDNo}
       />
 
@@ -106,7 +106,7 @@ const PersonalDetail = () => {
       />
 
       {/*  */}
-      <CustomSelect2
+      {/* <CustomSelect2
         label="Entry Point"
         name='entryPoint'
         // onChange={setEntryPoint}
@@ -140,7 +140,7 @@ const PersonalDetail = () => {
             label: 'Specialty Clinics'
           }
         ]}
-      />
+      /> */}
     </>
   )
 }
