@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
@@ -42,7 +43,7 @@ interface InputProps {
   oxygenSAturation: number
   height: number
   weight: number
-  MUAC: number
+  MUAC: string
   LMP: string
 }
 
@@ -56,41 +57,47 @@ const AddTriage = ({
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('appointmentID')
   const Schema: ZodType<InputProps> = z.object({
-    temperature: z.preprocess((value: number) => parseFloat(value), z.number()
+    temperature: z.preprocess((value) => {
+      const parsedVal = parseFloat(String(value))
+      if (isNaN(parsedVal)) {
+        return 'Incorrect Value'
+      }
+      return parsedVal
+    }, z.number()
       .min(-10, { message: 'Abnormal body temperature' })
       .max(40, { message: 'Temperature is high' })
       .refine(val => Number.isFinite(val), { message: 'Invalid body temperature' })),
-    pulseRate: z.preprocess(value => parseFloat(value), z.number()
+    pulseRate: z.preprocess(value => parseFloat(String(value)), z.number()
       .min(40, { message: 'Pulse rate must be at least 40 bpm' })
       .max(180, { message: 'Pulse rate must be at least 180 bpm' })
       .refine(val => Number.isFinite(val), { message: 'Invalid body temperature' })),
 
-    diastolic: z.preprocess(value => parseFloat(value), z.number()
+    diastolic: z.preprocess(value => parseFloat(String(value)), z.number()
       .min(90, { message: 'Diastolic pressure must be at least 90 mmHg' })
       .max(200, { message: 'Diastolic pressure must be at most 200 mmHg' })
       .refine(val => Number.isFinite(val), { message: 'Invalid body temperature' })),
 
-    systolic: z.preprocess(value => parseFloat(value), z.number()
+    systolic: z.preprocess(value => parseFloat(String(value)), z.number()
       .min(60, { message: 'Systolic Pressure must be at least 60 mmHg' })
       .max(120, { message: 'Systolic pressure must be at most 120 mmHg' })
       .refine(val => Number.isFinite(val), { message: 'Invalid systolic value' })),
 
-    respiratoryRate: z.preprocess(value => parseFloat(value), z.number()
+    respiratoryRate: z.preprocess(value => parseFloat(String(value)), z.number()
       .min(12, { message: 'Respiratory rate must be at least 12 breaths per minute' })
       .max(25, { message: 'Respiratory rate must be at most 25 breaths per minute' })
       .refine(val => Number.isFinite(val), { message: 'Invalid respiratory rate value' })),
 
-    oxygenSAturation: z.preprocess(value => parseFloat(value), z.number()
+    oxygenSAturation: z.preprocess(value => parseFloat(String(value)), z.number()
       .min(85, { message: 'Oxygen saturation must be at least 85%' })
       .max(100, { message: 'Oxygen saturation must be at most 100%' })
       .refine(val => Number.isFinite(val), { message: 'Invalid oxygen value' })),
 
-    height: z.preprocess(value => parseFloat(value), z.number()
+    height: z.preprocess(value => parseFloat(String(value)), z.number()
       .min(50, { message: 'Height must be at least 50 cm' })
       .max(250, { message: 'Height must be at most 250 cm' })
       .refine(val => Number.isFinite(val), { message: 'Invalid height value' })),
 
-    weight: z.preprocess(value => parseFloat(value), z.number()
+    weight: z.preprocess(value => parseFloat(String(value)), z.number()
       .min(3, { message: 'Weight must be at least 3 kg' })
       .max(300, { message: 'Weight must be at most 300kg' })
       .refine(val => Number.isFinite(val), { message: 'Invalid weight value' })),
