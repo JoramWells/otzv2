@@ -52,11 +52,11 @@ const NextOfKin = () => {
 
       {/*  */}
 
-      <CustomInput2
+      {/* <CustomInput2
         label="ID No."
         name="kinIDNo"
         // onChange={setKinIDNo}
-      />
+      /> */}
 
       <CustomInput2
         label="Phone No."

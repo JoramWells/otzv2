@@ -80,7 +80,7 @@ interface InputProps {
   kinLastName: string
   kinGender: string
   kinDOB: string
-  kinIDNo: string
+  // kinIDNo: string
   relationship: string
   nextOfKinPhoneNo: string
 }
@@ -125,7 +125,7 @@ const AddPatient = () => {
     }),
     kinGender: z.string(),
     kinDOB: z.string(),
-    kinIDNo: z.string(),
+    // kinIDNo: z.string(),
     relationship: z.string(),
     nextOfKinPhoneNo: z.string(),
     certificateNo: z.string()
