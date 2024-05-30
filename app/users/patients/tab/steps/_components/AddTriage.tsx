@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { FormProvider, useForm } from 'react-hook-form'
-import { type ZodType, z } from 'zod'
+import { z } from 'zod'
 
 export interface VSProps {
   temperature: number
@@ -56,18 +56,24 @@ const AddTriage = ({
 }: AddTriageProps) => {
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('appointmentID')
-  const Schema: ZodType<InputProps> = z.object({
+  const Schema = z.object({
     temperature: z.preprocess((value) => {
       const parsedVal = parseFloat(String(value))
       if (isNaN(parsedVal)) {
-        return 'Incorrect Value'
+        return undefined
       }
       return parsedVal
     }, z.number()
       .min(-10, { message: 'Abnormal body temperature' })
       .max(40, { message: 'Temperature is high' })
       .refine(val => Number.isFinite(val), { message: 'Invalid body temperature' })),
-    pulseRate: z.preprocess(value => parseFloat(String(value)), z.number()
+    pulseRate: z.preprocess(value => {
+      const parsedVal = parseFloat(String(value))
+      if (isNaN(parsedVal)) {
+        return undefined
+      }
+      return parsedVal
+    }, z.number()
       .min(40, { message: 'Pulse rate must be at least 40 bpm' })
       .max(180, { message: 'Pulse rate must be at least 180 bpm' })
       .refine(val => Number.isFinite(val), { message: 'Invalid body temperature' })),
