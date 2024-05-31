@@ -1,16 +1,12 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
 
-import { useDeleteArticlesMutation } from '@/api/articles/articles.api'
-import { useGetAllChapterBooksQuery } from '@/api/articles/chapters.api'
+import { useGetAllArticleChaptersByIdQuery } from '@/api/articles/articles.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { TrashIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -18,10 +14,6 @@ const BreadcrumbComponent = dynamic(
     loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
   }
 )
-
-const loaderProp = ({ src }: { src: string }) => {
-  return src
-}
 
 const dataList = [
   {
@@ -36,25 +28,21 @@ const dataList = [
   }
 ]
 
-const ArticlePage = ({ params }: { params: any }) => {
-  const { bookID } = params
-  const { data } = useGetAllChapterBooksQuery(bookID)
+const Page = ({ params }: { params: any }) => {
+  const { chapterID } = params
+  const { data } = useGetAllArticleChaptersByIdQuery(chapterID)
+  console.log(data, 'dr')
 
-  const [deleteArticles, { isLoading }] = useDeleteArticlesMutation()
-
-  console.log(data, 'capters')
-
-  const router = useRouter()
-
+  const loaderProp = ({ src }: { src: string }) => {
+    return src
+  }
   return (
     <>
       <BreadcrumbComponent dataList={dataList} />
 
       <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-6 p-4 md:grid-cols-2">
         {data?.map((item: any) => (
-          <div key={item.id} className="rounded-xl bg-white relative"
-          onClick={() => { router.push(`/articles/articles/${item.id}`) }}
-          >
+          <div key={item.id} className="rounded-xl bg-white relative">
             <Image
               // w={0}
               alt="im"
@@ -67,7 +55,7 @@ const ArticlePage = ({ params }: { params: any }) => {
               // priority
               // layout='fill'
               className="rounded-t-lg"
-              src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.thumbnail}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.image}`}
               style={{
                 width: '300px',
                 height: '150px',
@@ -77,20 +65,27 @@ const ArticlePage = ({ params }: { params: any }) => {
             />
 
             <div className="p-2">
-              <p className="font-bold">
-                {item.description?.substring(0, 20).concat('...')}
+              <p className="text-lg font-bold">
+                {item.title?.substring(0, 20).concat('...')}
               </p>
 
+              <div
+                className="text-[14px] "
+                dangerouslySetInnerHTML={{
+                  __html: item.content?.substring(0, 50).concat('..')
+                }}
+              />
               <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
-                {/* {item.} */}
-                #tag
+                {/* {item.} */}#
               </Badge>
             </div>
             <Button
-              className="bg-white/[.2] text-white hover:bg-white/[.1] shadow-none absolute top-2 right-2"
+              className="bg-slate-200 text-slate-500 hover:bg-slate-100 shadow-none
+                absolute top-2 right-2
+                "
               size={'sm'}
-              onClick={async () => await deleteArticles(item.id)}
-              disabled={isLoading}
+            //   onClick={async () => await deleteArticles(item.id)}
+            //   disabled={isLoading}
             >
               <TrashIcon size={18} />
             </Button>
@@ -101,4 +96,4 @@ const ArticlePage = ({ params }: { params: any }) => {
   )
 }
 
-export default ArticlePage
+export default Page

@@ -28,6 +28,10 @@ export const articlesApi = createApi({
       query: (id) => `detail/${id}`
     }),
 
+    getAllArticleChaptersById: builder.query({
+      query: (id) => `fetchAllArticleChaptersById/${id}`
+    }),
+
     deleteArticles: builder.mutation({
       query (id) {
         return {
@@ -40,7 +44,7 @@ export const articlesApi = createApi({
 })
 
 export const {
-  useGetAllArticlesQuery, useAddArticlesMutation,
+  useGetAllArticlesQuery, useAddArticlesMutation, useGetAllArticleChaptersByIdQuery,
   useGetArticlesQuery,
   useDeleteArticlesMutation
 } = articlesApi
