@@ -43,9 +43,9 @@ const ArticlePage = () => {
     <>
       <BreadcrumbComponent dataList={dataList} />
 
-      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-5 p-4 md:grid-cols-2">
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-6 p-4 md:grid-cols-2">
         {data?.map((item: any) => (
-          <div key={item.id} className="rounded-xl bg-white">
+          <div key={item.id} className="rounded-xl bg-white relative">
             <Image
               // w={0}
               alt="im"
@@ -67,12 +67,13 @@ const ArticlePage = () => {
               loader={loaderProp}
             />
 
-            <div className="p-4">
-              <p className="text-lg font-bold">{item.title}</p>
+            <div className="p-2">
+              <p className="text-lg font-bold">{item.title?.substring(0, 20).concat('...')}</p>
 
               <div
+              className='text-[14px] '
                 dangerouslySetInnerHTML={{
-                  __html: item.content?.substring(0, 100).concat('..')
+                  __html: item.content?.substring(0, 50).concat('..')
                 }}
               />
               <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
@@ -80,16 +81,16 @@ const ArticlePage = () => {
                 #
               </Badge>
             </div>
-            <div className="p-2 w-full bottom-0 right-0">
               <Button
-                className="bg-slate-200 text-slate-500 hover:bg-slate-100 shadow-none"
+                className="bg-slate-200 text-slate-500 hover:bg-slate-100 shadow-none
+                absolute top-2 right-2
+                "
                 size={'sm'}
                 onClick={async () => await deleteArticles(item.id)}
                 disabled={isLoading}
               >
                 <TrashIcon size={18} />
               </Button>
-            </div>
           </div>
         ))}
       </div>

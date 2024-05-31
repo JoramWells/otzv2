@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { TrashIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 // import { useState } from 'react'
 //
 const BreadcrumbComponent = dynamic(
@@ -44,6 +45,8 @@ const dataList = [
 const BookPage = () => {
 //   const [value, setValue] = useState('')
 
+  const router = useRouter()
+
   const { data: articleCategoryData } = useGetAllArticlesCategoryQuery()
   const [deleteArticlesCategory, { isLoading: isLoadingDelete }] = useDeleteArticlesCategoryMutation()
 
@@ -55,9 +58,9 @@ const BookPage = () => {
         {articleCategoryData?.map((item: ArticleCategoryProps) => (
           <div
             key={item.id}
-            // onClick={() => {
-            //   router.push(`/articles/${item?.bookID}`);
-            // }}
+            onClick={() => {
+              router.push(`/articles/${item.id}`)
+            }}
             className="border border-slate-200 rounded-lg relative"
           >
             <Image
