@@ -7,6 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { TrashIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -36,13 +37,18 @@ const Page = ({ params }: { params: any }) => {
   const loaderProp = ({ src }: { src: string }) => {
     return src
   }
+
+  const router = useRouter()
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList} />
 
       <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-6 p-4 md:grid-cols-2">
         {data?.map((item: any) => (
-          <div key={item.id} className="rounded-xl bg-white relative">
+          <div key={item.id} className="rounded-xl bg-white relative"
+          onClick={() => { router.push(`/articles/article-detail/${item.id}`) }}
+          >
             <Image
               // w={0}
               alt="im"
