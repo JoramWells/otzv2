@@ -27,6 +27,10 @@ export const chaptersApi = createApi({
       query: (id) => `detail/${id}`
     }),
 
+    getAllChapterBooks: builder.query({
+      query: (id) => `fetchAllBooksDetail/${id}`
+    }),
+
     deleteChapters: builder.mutation({
       query (id) {
         return {
@@ -39,7 +43,7 @@ export const chaptersApi = createApi({
 })
 
 export const {
-  useGetAllChaptersQuery,
+  useGetAllChaptersQuery, useGetAllChapterBooksQuery,
   useGetChaptersQuery,
   useDeleteChaptersMutation
 } = chaptersApi

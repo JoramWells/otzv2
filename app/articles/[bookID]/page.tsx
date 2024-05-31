@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
 
-import { useDeleteArticlesMutation, useGetAllArticlesQuery } from '@/api/articles/articles.api'
+import { useDeleteArticlesMutation } from '@/api/articles/articles.api'
+import { useGetAllChapterBooksQuery } from '@/api/articles/chapters.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -34,10 +35,13 @@ const dataList = [
   }
 ]
 
-const ArticlePage = () => {
-  const { data } = useGetAllArticlesQuery()
+const ArticlePage = ({ params }: { params: any }) => {
+  const { bookID } = params
+  const { data } = useGetAllChapterBooksQuery(bookID)
 
   const [deleteArticles, { isLoading }] = useDeleteArticlesMutation()
+
+  console.log(data, 'capters')
 
   return (
     <>
@@ -58,7 +62,7 @@ const ArticlePage = () => {
               // priority
               // layout='fill'
               className="rounded-t-lg"
-              src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.image}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.thumbnail}`}
               style={{
                 width: '300px',
                 height: '150px',
@@ -68,17 +72,11 @@ const ArticlePage = () => {
             />
 
             <div className="p-2">
-              <p className="text-lg font-bold">{item.title?.substring(0, 20).concat('...')}</p>
+              <p className="text-lg font-bold">{item.description?.substring(0, 20).concat('...')}</p>
 
-              <div
-              className='text-[14px] '
-                dangerouslySetInnerHTML={{
-                  __html: item.content?.substring(0, 50).concat('..')
-                }}
-              />
               <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
                 {/* {item.} */}
-                #
+                #tag
               </Badge>
             </div>
               <Button
