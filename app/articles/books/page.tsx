@@ -82,16 +82,14 @@ const BookPage = () => {
               <h2 className="font-bold">{item.description}</h2>
               <p className="text-slate-500 text-[12px] "> Chapters (4)</p>
             </div>
-            <div className="p-2 w-full absolute bottom-0 right-0 flex justify-end">
               <Button
-                className="bg-slate-200 text-slate-500 hover:bg-slate-100 shadow-none"
+                className="bg-white/[.2] text-slate-500 hover:bg-white/[.1] shadow-none absolute top-2 right-2"
                 size={'sm'}
                 onClick={async () => await deleteArticlesCategory(item.id)}
                 disabled={isLoadingDelete}
               >
-                <TrashIcon size={15} />
+                <TrashIcon size={15} className='text-white' />
               </Button>
-            </div>
           </div>
         ))}
       </div>
