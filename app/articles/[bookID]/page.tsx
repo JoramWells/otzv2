@@ -38,7 +38,6 @@ const ArticlePage = () => {
   const { data } = useGetAllArticlesQuery()
 
   const [deleteArticles, { isLoading }] = useDeleteArticlesMutation()
-  console.log(data)
 
   return (
     <>
@@ -78,7 +77,7 @@ const ArticlePage = () => {
               />
               <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
                 {/* {item.} */}
-                Prep
+                #
               </Badge>
             </div>
             <div className="p-2 w-full bottom-0 right-0">
