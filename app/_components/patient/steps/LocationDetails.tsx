@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { type CountyProps, useGetAllCountiesQuery } from '@/api/location/county.api'
 import { type SubCountyProps, useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 import { useGetAllWardsQuery } from '@/api/location/ward.api'
-import { useGetAllSchoolsQuery } from '@/api/school/school.api'
+// import { useGetAllSchoolsQuery } from '@/api/school/school.api'
 import { type SingleValue } from 'react-select'
 import CustomSelect2 from '@/components/forms/CustomSelect2'
 import CustomInput2 from '@/components/forms/CustomInput2'
@@ -54,7 +54,7 @@ const LocationDetails = ({ county, subCounty }: { county: string, subCounty: str
   const { data: countyData } = useGetAllCountiesQuery()
   const { data: subCountyData } = useGetAllSubCountiesQuery()
   const { data: wardData } = useGetAllWardsQuery()
-  const { data: schoolsData } = useGetAllSchoolsQuery()
+  // const { data: schoolsData } = useGetAllSchoolsQuery()
 
   // useEffect(() => {
   //   setLocation({
@@ -64,7 +64,7 @@ const LocationDetails = ({ county, subCounty }: { county: string, subCounty: str
 
   const occupationOptions = useCallback(() => {
     return data?.map((item: OccupationProps) => ({
-      id: item.id,
+      id: item.occupationDescription,
       label: item.occupationDescription
     }))
   }, [data])
@@ -88,12 +88,12 @@ const LocationDetails = ({ county, subCounty }: { county: string, subCounty: str
     }))
   }, [subCountyData, county])
 
-  const schoolOptions = useCallback(() => {
-    return schoolsData?.map((item: any) => ({
-      id: item.id,
-      label: item.schoolName
-    }))
-  }, [schoolsData])
+  // const schoolOptions = useCallback(() => {
+  //   return schoolsData?.map((item: any) => ({
+  //     id: item.id,
+  //     label: item.schoolName
+  //   }))
+  // }, [schoolsData])
 
   // ward options
   const wardOptions = useCallback(() => {
@@ -123,58 +123,78 @@ const LocationDetails = ({ county, subCounty }: { county: string, subCounty: str
 
   return (
     <>
-        <CustomInput2
-          label="Phone No."
-          description="You can enter more than one phone number."
-          name="phoneNo"
-          // onChange={setPhoneNo}
-        />
+      <CustomInput2
+        label="Phone No."
+        description="You can enter more than one phone number."
+        name="phoneNo"
+        // onChange={setPhoneNo}
+      />
       {/* {occupation} */}
 
-          <CustomSelect2
-            label="Select Occupation."
-            name={'occupation'}
-            // onChange={setOccupation}
-            data={occupationOptions()}
-          />
+      <CustomSelect2
+        label="Select Occupation."
+        name={'occupation'}
+        // onChange={setOccupation}
+        data={occupationOptions()}
+      />
 
-          <CustomSelect2
+      <CustomSelect2
+        label="Select Occupation."
+        name={'educationLevel'}
+        // onChange={setOccupation}
+        data={[
+          {
+            id: 'Pre-Primary Education',
+            label: 'Pre-Primary Education'
+          },
+          {
+            id: 'Lower Primary Education',
+            label: 'Lower Primary Education'
+          },
+          {
+            id: 'Upper Primary',
+            label: 'Upper Primary'
+          }
+        ]}
+      />
+
+      {/* <CustomSelect2
             label="School Name"
             name='schoolName'
             // onChange={setOccupation}
             data={schoolOptions()}
-          />
+          /> */}
 
-        <CustomSelect2
-        label='Select County'
-          // className="w-full mt-2 rounded-lg border-slate-200"
-          // value={county}
-          // onChange={setCounty}
-          data={countyOptions()}
-          name='county'
-        />
+      <CustomSelect2
+        label="Select County"
+        // className="w-full mt-2 rounded-lg border-slate-200"
+        // value={county}
+        // onChange={setCounty}
+        data={countyOptions()}
+        name="county"
+      />
 
       {/* sun county */}
 
-        <CustomSelect2
-        label='Select Sub County'
-          // className="w-full mt-2"
-          // value={subCounty}
-          // onChange={setSubCounty}
-          data={subCountyOptions()}
-          name='subCounty'
-        />
+      <CustomSelect2
+        label="Select Sub County"
+        // className="w-full mt-2"
+        // value={subCounty}
+        // onChange={setSubCounty}
+        data={subCountyOptions()}
+        name="subCounty"
+      />
 
       {/* select ward */}
 
-        <CustomSelect2
-        label='Select Ward'
-          // className="w-full mt-2"
-          // value={ward}
-          // onChange={setWard}
-          data={wardOptions()}
-          name='ward'
-        />
+      <CustomSelect2
+        label="Select Ward"
+        // className="w-full mt-2"
+        // value={ward}
+        // onChange={setWard}
+        data={wardOptions()}
+        name="ward"
+      />
     </>
   )
 }

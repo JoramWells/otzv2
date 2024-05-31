@@ -282,10 +282,10 @@ export const patientColumns: Array<ColumnDef<PatientProps>> = [
     accessorKey: 'populationType',
     header: 'Population Type'
   },
-  {
-    accessorKey: 'entryPoint',
-    header: 'Entry Point'
-  },
+  // {
+  //   accessorKey: 'entryPoint',
+  //   header: 'Entry Point'
+  // },
   {
     accessorKey: 'createdAt',
     header: 'Date of Enrollment',

@@ -67,10 +67,10 @@ interface InputProps {
   idNo: string
   cccNo: string
   occupation: string
-  schoolName: string
-  certificateNo: string
-  // maritalStatus: string
-  entryPoint: string
+  educationLevel: string
+  // certificateNo: string
+  maritalStatus: string
+  // entryPoint: string
   county: string
   subCounty: string
   ward: string
@@ -93,37 +93,46 @@ const AddPatient = () => {
     sex: z.string(),
     dob: z.string(),
     phoneNo: z.string(),
-    idNo: z.string({
-      required_error: 'ID No required'
-    }).refine(data => data.trim() !== '', {
-      message: 'Cannot be empty'
-    }),
-    cccNo: z.string({
-      required_error: 'CCC No is required'
-    }).refine(data => data.trim() !== '', {
-      message: 'CCC No. is required'
-    }),
+    idNo: z
+      .string({
+        required_error: 'ID No required'
+      })
+      .refine((data) => data.trim() !== '', {
+        message: 'Cannot be empty'
+      }),
+    cccNo: z
+      .string({
+        required_error: 'CCC No is required'
+      })
+      .refine((data) => data.trim() !== '', {
+        message: 'CCC No. is required'
+      }),
     occupation: z.string(),
-    schoolName: z.string(),
+    // schoolName: z.string(),
     // location: z.string(),
-    // maritalStatus: z.string(),
-    entryPoint: z.string(),
+    maritalStatus: z.string(),
+    // entryPoint: z.string(),
     county: z.string(),
     subCounty: z.string(),
     ward: z.string(),
 
     //
-    kinFirstName: z.string({
-      required_error: 'Required First name'
-    }).refine(data => data.trim() !== '', {
-      message: 'First Name is required'
-    }),
-    kinLastName: z.string({
-      required_error: 'Required Second Name'
-    }).refine(data => data.trim() !== '', {
-      message: 'Last Name is Required'
-    }),
+    kinFirstName: z
+      .string({
+        required_error: 'Required First name'
+      })
+      .refine((data) => data.trim() !== '', {
+        message: 'First Name is required'
+      }),
+    kinLastName: z
+      .string({
+        required_error: 'Required Second Name'
+      })
+      .refine((data) => data.trim() !== '', {
+        message: 'Last Name is Required'
+      }),
     kinGender: z.string(),
+    educationLevel: z.string(),
     kinDOB: z.string(),
     // kinIDNo: z.string(),
     relationship: z.string(),
