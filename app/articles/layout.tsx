@@ -8,16 +8,16 @@ import { Sidebar } from '../../components/sidebar/Sidebar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
-import { Book, BookCheck, BookCopy, LayoutDashboardIcon, PlusIcon } from 'lucide-react'
+import { Book, BookCheck, BookCopy, PlusIcon } from 'lucide-react'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 
 const DL: SidebarListItemsProps[] = [
-  {
-    id: '1',
-    label: 'Dashboard',
-    link: '/articles/dashboard',
-    icon: <LayoutDashboardIcon size={15} />
-  },
+  // {
+  //   id: '1',
+  //   label: 'Dashboard',
+  //   link: '/articles/dashboard',
+  //   icon: <LayoutDashboardIcon size={15} />
+  // },
   {
     id: '5',
     label: 'Books',

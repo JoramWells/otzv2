@@ -91,7 +91,7 @@ const itemList: ItemListProps[] = [
     id: '8',
     label: 'Articles',
     icon: <BookIcon />,
-    link: '/articles/dashboard',
+    link: '/articles/books',
     description:
       'Upload, manage and add patient learning materials for E-learning',
     listItem: [
