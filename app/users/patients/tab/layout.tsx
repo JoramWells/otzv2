@@ -104,6 +104,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
       label: 'Settings',
       link: `/users/patients/tab/settings/${patientID}`,
       icon: <BookCopy size={17} />
+    },
+    {
+      id: '11',
+      label: 'Visits',
+      link: `/users/patients/tab/visits/${patientID}`,
+      icon: <BookCopy size={17} />
     }
   ]
 

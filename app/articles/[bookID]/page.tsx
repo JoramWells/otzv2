@@ -15,7 +15,6 @@ const ArticlePage = () => {
   const { data } = useGetAllArticlesQuery()
 
   const [deleteArticles, { isLoading }] = useDeleteArticlesMutation()
-
   console.log(data)
 
   return (
