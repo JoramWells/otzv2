@@ -1,18 +1,15 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 'use client'
 
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_components/patient/SidebarListItemsComponent'
 import { Sidebar } from '@/components/sidebar/Sidebar'
-import { tertiaryColor } from '@/constants/color'
-import { store } from '@/lib/store'
 import { type AvatarProps } from '@/types'
 import { generateRandomColors } from '@/utils/generateRandomColors'
 import { ChakraProvider } from '@chakra-ui/react'
-import { BookCheckIcon, BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
-import { useParams, usePathname } from 'next/navigation'
+import { BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
+import { useParams, usePathname, useSearchParams } from 'next/navigation'
 import { useMemo, type ReactNode } from 'react'
 import { Provider } from 'react-redux'
 
@@ -43,89 +40,48 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname()
 
   const { data } = useGetPatientQuery(patientID)
+  const searchParams = useSearchParams()
+  const appointmentID = searchParams.get('visitID')
 
   const DL: SidebarListItemsProps[] = [
     {
       id: '1',
-      label: 'Dashboard',
-      link: `/users/patients/tab/dashboard/${patientID}`,
+      label: 'Triage',
+      link: `/users/patients/tab/visit-detail/triage/${patientID}?visitID=${appointmentID}`,
       icon: <LayoutDashboardIcon size={17} />
     },
     {
       id: '2',
-      label: 'Appointments',
+      label: 'MMAS',
       link: `/users/patients/tab/appointments/${patientID}`,
       icon: <LayoutDashboardIcon size={17} />
     },
     {
       id: '3',
-      label: 'Caregivers',
+      label: 'Time & Schedule',
       link: `/users/patients/tab/caregivers/${patientID}`,
       icon: <HeartHandshake size={17} />
     },
     {
       id: '4',
-      label: 'Case Managers',
+      label: 'Disclosure Checklist',
       link: `/users/patients/tab/casemanagers/${patientID}`,
       icon: <InspectionPanel size={17} />
     },
     {
       id: '5',
-      label: 'Home Visits',
+      label: 'Follow Up Checklist',
       link: `/users/patients/tab/homevisit/${patientID}`,
       icon: <Users size={17} />
     },
+
     {
       id: '6',
-      label: 'Lab',
-      link: `/users/patients/tab/lab/${patientID}`,
-      icon: <BookCheckIcon size={17} />
-    },
-    {
-      id: '7',
-      label: 'Pharmacy',
-      link: `/users/patients/tab/pharmacy/${patientID}`,
-      icon: <BookCopy size={17} />
-    },
-    {
-      id: '8',
-      label: 'Medication',
-      link: `/users/patients/tab/medication/${patientID}`,
-      icon: <BookCopy size={17} />
-    },
-    {
-      id: '9',
-      label: 'Messages',
-      link: `/users/patients/tab/messages/${patientID}`,
-      icon: <BookCopy size={17} />
-    },
-    {
-      id: '10',
-      label: 'Settings',
-      link: `/users/patients/tab/settings/${patientID}`,
-      icon: <BookCopy size={17} />
-    },
-    {
-      id: '11',
-      label: 'Visits',
+      label: 'Reports',
       link: `/users/patients/tab/visits/${patientID}`,
       icon: <BookCopy size={17} />
     }
   ]
-
-  if (
-    pathname === `/users/patients/tab/steps/${patientID}` ||
-    pathname === `/users/patients/tab/visit-detail/${patientID}` ||
-    pathname === `/users/patients/tab/visit-detail/triage/${patientID}`
-  ) {
-    return (
-      <Provider store={store}>
-        <ChakraProvider>
-          <div className={'bg-slate-50 min-h-screen'}>{children}</div>
-        </ChakraProvider>
-      </Provider>
-    )
-  }
 
   return (
     <div className="flex flex-row">

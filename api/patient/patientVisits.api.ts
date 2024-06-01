@@ -36,6 +36,9 @@ export const patientVisitsApi = createApi({
     getPatientVisit: builder.query({
       query: (id) => `detail/${id}`
     }),
+    getHistoryPatientVisit: builder.query<any, string>({
+      query: (id) => `patient-history/${id}`
+    }),
     updatePatientVisit: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
@@ -55,6 +58,6 @@ export const patientVisitsApi = createApi({
 })
 
 export const {
-  useGetAllPatientVisitsQuery, useUpdatePatientVisitMutation,
+  useGetAllPatientVisitsQuery, useUpdatePatientVisitMutation, useGetHistoryPatientVisitQuery,
   useDeletePatientVisitMutation, useAddPatientVisitMutation, useGetPatientVisitQuery
 } = patientVisitsApi

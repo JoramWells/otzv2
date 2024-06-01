@@ -19,6 +19,9 @@ export const disclosureChecklistApi = createApi({
     getDisclosureChecklist: builder.query({
       query: (id) => `detail/${id}`
     }),
+    getAllDisclosureChecklistByVisitId: builder.query({
+      query: (id) => `details/${id}`
+    }),
     updateDisclosureChecklist: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
@@ -38,6 +41,6 @@ export const disclosureChecklistApi = createApi({
 })
 
 export const {
-  useGetAllDisclosureChecklistQuery, useAddDisclosureChecklistMutation,
+  useGetAllDisclosureChecklistQuery, useAddDisclosureChecklistMutation, useGetAllDisclosureChecklistByVisitIdQuery,
   useGetDisclosureChecklistQuery
 } = disclosureChecklistApi

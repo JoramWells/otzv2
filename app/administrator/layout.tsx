@@ -7,7 +7,7 @@ import { store } from '@/lib/store'
 import { NotificationProvider } from '@/context/NotificationContext'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BellPlus, Calendar, LayoutDashboardIcon, Map, Pill, Users, Warehouse } from 'lucide-react'
+import { BellPlus, Calendar, DatabaseBackup, LayoutDashboardIcon, Map, Pill, Users, Warehouse } from 'lucide-react'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -63,6 +63,12 @@ const DL: SidebarListItemsProps[] = [
     label: 'Occupation',
     link: '/administrator/occupations',
     icon: <Users size={17} />
+  },
+  {
+    id: '12',
+    label: 'ETL',
+    link: '/administrator/etl',
+    icon: <DatabaseBackup size={17} />
   }
 ]
 

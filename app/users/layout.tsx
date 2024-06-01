@@ -40,7 +40,7 @@ const DL: SidebarListItemsProps[] = [
     icon: <Users size={17} />
   },
   {
-    id: '6',
+    id: '5',
     label: 'Reports',
     link: 'viratrack/reports',
     icon: <BookCopy size={17} />
@@ -64,6 +64,8 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
     pathname === `/users/patients/tab/messages/${patientID}` ||
     pathname === `/users/patients/tab/settings/${patientID}` ||
     pathname === `/users/patients/tab/visits/${patientID}` ||
+    pathname === `/users/patients/tab/visit-detail/${patientID}` ||
+    pathname === `/users/patients/tab/visit-detail/triage/${patientID}` ||
     pathname === `/users/patients/tab/steps/${patientID}`
   ) {
     return (
