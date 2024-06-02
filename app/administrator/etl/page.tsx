@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
 import { Button } from '@/components/ui/button'
@@ -5,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
-import React, { useEffect, useState } from 'react'
+import React, { type FormEvent, useEffect, useState } from 'react'
 //
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -28,14 +30,16 @@ const dataList = [
 ]
 
 const ETL = () => {
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState<File | undefined>()
   const [progress, setProgress] = useState(0)
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData()
-    formData.append('file', file)
-    console.log(file, 'filex')
+    if (file != null) {
+      formData.append('file', file)
+    }
+    formData.append('file', '')
     try {
       const response = await axios.post(
         'http://127.0.0.1:8000/upload/',
