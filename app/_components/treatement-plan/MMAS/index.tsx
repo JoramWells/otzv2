@@ -10,7 +10,8 @@ import MmasEight from './MMASEight'
 import { useAddMmasMutation, useGetMmasQuery } from '@/api/treatmentplan/mmas.api'
 import { Button } from '@/components/ui/button'
 import { InfoIcon, Loader2 } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
+import { useAddMmasFourMutation } from '@/api/treatmentplan/mmasFour.api'
+import { useAddMmasEightMutation } from '@/api/treatmentplan/mmasEight.api'
 
 interface DataProps {
   isForget: boolean
@@ -42,19 +43,19 @@ const MMASForm = ({
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
-  const [isQuitWorse, setIsQuitWorse]: [
+  const [isQuitFeelWorse, setIsQuitWorse]: [
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
-  const [isQuitBetter, setIsQuitBetter]: [
+  const [isQuitFeelBetter, setIsQuitBetter]: [
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
-  const [isTookYesterday, setIsTookYesterday]: [
+  const [isTookMedYesterday, setIsTookYesterday]: [
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
-  const [isQuitControl, setIsQuitControl]: [
+  const [isQuitOutControl, setIsQuitControl]: [
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
@@ -67,22 +68,35 @@ const MMASForm = ({
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
 
+  const [mmassFourScore, setMMASFourScore] = useState(0)
+  const [mmassEightScore, setMMASEightScore] = useState(0)
+
   const inputValues = {
-    isForget,
-    isCareless,
-    isQuitWorse,
-    isQuitBetter,
-    isTookYesterday,
-    isQuitControl,
+    isTookMedYesterday,
+    isQuitOutControl,
     isUnderPressure,
     difficultyRemembering,
-    patientID,
-    patientVisitID: appointmentID
+    mmassEightScore
   }
 
-  const [addMmas, { isLoading, data: savedData }] = useAddMmasMutation()
+  //
+  const inputValuesFour = {
+    isForget,
+    isCareless,
+    isQuitFeelWorse,
+    isQuitFeelBetter,
+    mmassFourScore
+  }
 
-  const [mmassFourScore, setMMASFourScore] = useState(0)
+  const inputValuesEight = {
+    patientID,
+    patientVisitID: appointmentID,
+    ...inputValues,
+    ...inputValuesFour
+  }
+
+  const [addMmasFour, { isLoading, data: savedData }] = useAddMmasFourMutation()
+  const [addMmasEight, { isLoading: isLoading8, data: mmas8Data }] = useAddMmasEightMutation()
 
   useEffect(() => {
     if (formData) {
@@ -95,15 +109,13 @@ const MMASForm = ({
       setIsUnderPressure(formData.isUnderPressure)
     }
 
-    const booleanStates = [
-      isForget,
-      isCareless,
-      isQuitWorse,
-      isQuitBetter
-    ]
-    const newScore = booleanStates.reduce((total, state) => total + (state ? 1 : 0), 0)
+    const booleanStates = [isForget, isCareless, isQuitFeelWorse, isQuitFeelBetter]
+    const newScore = booleanStates.reduce(
+      (total, state) => total + (state ? 1 : 0),
+      0
+    )
     setMMASFourScore(newScore)
-  }, [formData, isCareless, isForget, isQuitBetter, isQuitWorse])
+  }, [formData, isCareless, isForget, isQuitFeelBetter, isQuitFeelWorse])
 
   return (
     <div className="flex flex-col space-y-4 w-full">
@@ -113,20 +125,20 @@ const MMASForm = ({
 
           <div className="flex space-x-4 justify-between  items-center">
             <p
-            // className='text-red-500'
-            className='font-bold'
+              // className='text-red-500'
+              className="font-bold"
             >
-             Score: {mmassFourScore}
+              Score: {mmassFourScore}
             </p>
-            {mmassFourScore === 0 && <div
-            className='text-teal-600 font-bold'
-            >Good</div> }
-            {mmassFourScore > 0 && mmassFourScore <= 2 && <p
-            className='text-orange-500 font-bold'
-            >INADEQUATE</p>}
-            {mmassFourScore > 2 && mmassFourScore <= 4 && <p
-            className='text-red-500 font-bold'
-            >POOR</p>}
+            {mmassFourScore === 0 && (
+              <div className="text-teal-600 font-bold">Good</div>
+            )}
+            {mmassFourScore > 0 && mmassFourScore <= 2 && (
+              <p className="text-orange-500 font-bold">INADEQUATE</p>
+            )}
+            {mmassFourScore > 2 && mmassFourScore <= 4 && (
+              <p className="text-red-500 font-bold">POOR</p>
+            )}
           </div>
         </div>
         <MmasFour
@@ -134,20 +146,20 @@ const MMASForm = ({
           setIsForget={setIsForget}
           isCareless={isCareless}
           setIsCareless={setIsCareless}
-          isQuitWorse={isQuitWorse}
+          isQuitWorse={isQuitFeelWorse}
           setIsQuitWorse={setIsQuitWorse}
-          isQuitBetter={isQuitBetter}
+          isQuitBetter={isQuitFeelBetter}
           setIsQuitBetter={setIsQuitBetter}
         />
       </div>
 
-      {(isForget || isCareless || isQuitWorse || isQuitBetter) && (
+      {(isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter) && (
         <div className="w-full">
           <p className="font-bold mb-2">MMAS 8 Form</p>
           <MmasEight
-            isTookYesterday={isTookYesterday}
+            isTookYesterday={isTookMedYesterday}
             setIsTookYesterday={setIsTookYesterday}
-            isQuitControl={isQuitControl}
+            isQuitControl={isQuitOutControl}
             setIsQuitControl={setIsQuitControl}
             isUnderPressure={isUnderPressure}
             setIsUnderPressure={setIsUnderPressure}
@@ -178,16 +190,37 @@ const MMASForm = ({
           </Button>
             )
           : (
-          <Button
-            className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-            onClick={() => {
-              addMmas(inputValues)
-            }}
-            disabled={isLoading}
-          >
-            {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
-            Save
-          </Button>
+          <div>
+            {isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter
+              ? (
+              <Button
+                className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+                onClick={() => {
+                  addMmasEight(inputValuesEight)
+                }}
+                disabled={isLoading8}
+              >
+                {isLoading8 && (
+                  <Loader2 className="animate-spin mr-2" size={18} />
+                )}
+                Save MMAS 8
+              </Button>
+                )
+              : (
+              <Button
+                className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+                onClick={() => {
+                  addMmasFour(inputValuesFour)
+                }}
+                disabled={isLoading}
+              >
+                {isLoading && (
+                  <Loader2 className="animate-spin mr-2" size={18} />
+                )}
+                Save MMAS 4
+              </Button>
+                )}
+          </div>
             )}
       </div>
     </div>

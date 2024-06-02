@@ -220,7 +220,8 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                     {
                       id: '1',
                       label: 'OD'
-                    }, {
+                    },
+                    {
                       id: '2',
                       label: 'BD'
                     }
@@ -232,15 +233,22 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                   value={refillDate}
                   type="date"
                 />
-                <Button
-                  onClick={async () =>
-                    await addPrescription(prescriptionInputValues)
-                  }
-                  disabled={prescriptionSaveLoading}
-                >
-                  {prescriptionSaveLoading && <Loader2 className='mr-2' size={18} />}
-                  Save
-                </Button>
+
+                {/* save prescription */}
+                <div>
+                  <Button
+                    onClick={async () =>
+                      await addPrescription(prescriptionInputValues)
+                    }
+                    disabled={prescriptionSaveLoading}
+                    className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+                  >
+                    {prescriptionSaveLoading && (
+                      <Loader2 className="mr-2" size={18} />
+                    )}
+                    Save
+                  </Button>
+                </div>
               </div>
             )}
             {tab === 2 && <StopComponent />}

@@ -1,26 +1,26 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const mmasFourApi = createApi({
-  reducerPath: 'mmasFourApi',
+export const mmasEightApi = createApi({
+  reducerPath: 'mmasEightApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/mmas-4`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/mmas-8`
   }),
   endpoints: (builder) => ({
-    getAllMmasFour: builder.query({
+    getAllMmasEight: builder.query({
       query: () => 'fetchAll'
     }),
-    addMmasFour: builder.mutation({
+    addMmasEight: builder.mutation({
       query: (newUser) => ({
         url: 'add',
         method: 'POST',
         body: newUser
       })
     }),
-    getMmasFour: builder.query({
+    getMmasEight: builder.query({
       query: (id) => `detail/${id}`
     }),
 
-    deleteMmasFour: builder.mutation({
+    deleteMmasEight: builder.mutation({
       query (id) {
         return {
           url: `delete${id}`,
@@ -32,7 +32,7 @@ export const mmasFourApi = createApi({
 })
 
 export const {
-  useGetAllMmasFourQuery, useAddMmasFourMutation,
-  useGetMmasFourQuery,
-  useDeleteMmasFourMutation
-} = mmasFourApi
+  useGetAllMmasEightQuery, useAddMmasEightMutation,
+  useGetMmasEightQuery,
+  useDeleteMmasEightMutation
+} = mmasEightApi
