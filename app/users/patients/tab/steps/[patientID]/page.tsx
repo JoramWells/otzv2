@@ -12,7 +12,7 @@ import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { useSearchParams } from 'next/navigation'
 import UpdateVL from '../_components/UpdateVL'
 import AddArt from '../_components/AddArt'
-import { useGetMmasQuery } from '@/api/treatmentplan/mmas.api'
+import { useGetMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -51,7 +51,7 @@ const StepsPage = ({ params }: any) => {
   const [activeStep, setActiveStep] = useState(1)
 
   const { data: vsData } = useGetVitalSignQuery(appointmentID)
-  const { data: mmasData } = useGetMmasQuery(appointmentID)
+  const { data: mmasData } = useGetMmasFourQuery(appointmentID)
 
   const pending = true
 

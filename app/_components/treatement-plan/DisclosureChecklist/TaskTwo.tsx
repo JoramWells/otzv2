@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
+import CustomInput from '@/components/forms/CustomInput'
 import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
 
 export interface TaskTwoProps {
@@ -43,7 +44,9 @@ const TaskTwo = ({
   setTaskTwoComments
 }: TaskTwoProps) => (
   <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
-    <h1 className='capitalize text-slate-500'>Task 2: Assess child and caregiver for readiness.</h1>
+    <h1 className="capitalize text-slate-500">
+      Task 2: Assess child and caregiver for readiness.
+    </h1>
     <CustomCheckbox
       label="Child/ caregiver free from severe
           physical illness, trauma, psychological illness or psychiatric illness?"
@@ -103,26 +106,11 @@ const TaskTwo = ({
       onChange={setIsSecuredPatientInfo}
     />
 
-    <p
-      style={{
-        color: '#434343',
-        fontSize: '16px'
-      }}
-      className="ml-6"
-    >
-      How ofter do you find difficulty remembering to take all your medications
-    </p>
-    {/*
-    <Select
-      style={{
-        width: '100%',
-        height: '39px'
-      }}
-      value={isDifficultyRemembering}
-      onChange={(val) => setIsDifficultyRemembering(val)}
-    >
-      <Select.Option>Rarely</Select.Option>
-    </Select> */}
+    <CustomInput
+      label="Task 2 comments."
+      value={taskTwoComments}
+      onChange={setTaskTwoComments}
+    />
   </div>
 )
 

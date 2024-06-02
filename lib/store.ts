@@ -57,6 +57,9 @@ import { pmtctProfileEnrollmentApi } from '@/api/enrollment/pmtctProfileEnrollme
 import { chaptersApi } from '@/api/articles/chapters.api'
 import { mmasFourApi } from '@/api/treatmentplan/mmasFour.api'
 import { mmasEightApi } from '@/api/treatmentplan/mmasEight.api'
+import { partialDisclosureApi } from '@/api/treatmentplan/partial/partialDisclosure.api'
+import { childCaregiverReadinessApi } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
+import { disclosureEligibilityApi } from '@/api/treatmentplan/partial/disclosureEligibility.api'
 
 export const store = configureStore({
   reducer: {
@@ -117,6 +120,10 @@ export const store = configureStore({
     [artPrescriptionApi.reducerPath]: artPrescriptionApi.reducer,
     [mmasFourApi.reducerPath]: mmasFourApi.reducer,
     [mmasEightApi.reducerPath]: mmasEightApi.reducer,
+    [childCaregiverReadinessApi.reducerPath]:
+      childCaregiverReadinessApi.reducer,
+    [partialDisclosureApi.reducerPath]: partialDisclosureApi.reducer,
+    [disclosureEligibilityApi.reducerPath]: disclosureEligibilityApi.reducer,
     [chaptersApi.reducerPath]: chaptersApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
@@ -180,5 +187,8 @@ export const store = configureStore({
       .concat(chaptersApi.middleware)
       .concat(mmasFourApi.middleware)
       .concat(mmasEightApi.middleware)
+      .concat(partialDisclosureApi.middleware)
+      .concat(disclosureEligibilityApi.middleware)
+      .concat(childCaregiverReadinessApi.middleware)
       .concat(pamaEnrollmentApi.middleware)
 })
