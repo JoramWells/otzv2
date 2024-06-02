@@ -3,7 +3,7 @@
 import { useGetAllVitalSignDetailQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { useSearchParams } from 'next/navigation'
 
-const page = () => {
+const TriagePage = () => {
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('visitID')
   const { data: vsData } = useGetAllVitalSignDetailQuery(appointmentID)
@@ -51,4 +51,4 @@ const page = () => {
   )
 }
 
-export default page
+export default TriagePage
