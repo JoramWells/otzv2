@@ -1,17 +1,13 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
-import { type Dispatch, type SetStateAction, useState, useEffect } from 'react'
+import { type Dispatch, type SetStateAction, useState } from 'react'
 
-import TaskOne from './TaskOne'
-import TaskTwo from './TaskTwo'
-import TaskThree from './TaskThree'
-import TaskFour from './TaskFour'
+import TaskThree from '../TaskThree'
+import TaskFour from '../TaskFour'
 import { Button } from '@/components/ui/button'
-import { useAddDisclosureChecklistMutation, useGetDisclosureChecklistQuery } from '@/api/treatmentplan/disclosureChecklist.api'
-import { Loader2 } from 'lucide-react'
 
 interface AddTriageProps {
   handleNext: () => void
@@ -21,23 +17,6 @@ interface AddTriageProps {
 };
 
 const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID }: AddTriageProps) => {
-  const [isCorrectAge, setIsCorrectAge]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isFreeChildCaregiverFromSevereIllness, setIsFreeChildCaregiverFromSevereIllness]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isConsistentSocialSupport, setIsConsistentSocialSupport]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [taskOneComments, setTaskOneComments] = useState('')
-  const [isInterestInEnvironmentAndPlaying, setIsInterestInEnvironmentAndPlaying]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isChildKnowsMedicineAndIllness, setIsChildKnowsMedicineAndIllness]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isChildSchoolEngagement, setIsChildSchoolEngagement]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isAssessedCaregiverReadinessToDisclose, setIsAssessedCaregiverReadinessToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isCaregiverCommunicatedToChild, setIsCaregiverCommunicatedToChild]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isDisclosureReady, setIsDisclosureReady]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isChildCommunicated, setIsChildCommunicated]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isSecuredPatientInfo, setIsSecuredPatientInfo]: [ boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [taskTwoComments, setTaskTwoComments] = useState('')
-
-  // task three
-  const [isKnowledgeable, setIsKnowledgeable]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isWillingToDisclose, setIsWillingToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isAssessedChildSafety, setIsAssessedChildSafety]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isSupportedCaregiverChildToDisclose, setIsSupportedCaregiverChildToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isObservedReactions, setIsObserved]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
@@ -58,42 +37,10 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
   const [taskFourComments, setTaskFourComments] = useState('')
   const [finalComments, setFinalComments] = useState('')
 
-  const childCaregiverReadinessInput = {
-    // taskone
+  // const [addDisclosureChecklist, { isLoading: isLoadingAddDisclosure, data: isSaveData }] = useAddDisclosureChecklistMutation()
 
-    isFreeChildCaregiverFromSevereIllness,
-    isConsistentSocialSupport,
-    isInterestInEnvironmentAndPlaying,
-    isChildKnowsMedicineAndIllness,
-    isChildSchoolEngagement,
-    isAssessedCaregiverReadinessToDisclose,
-    isCaregiverCommunicatedToChild,
-    isSecuredPatientInfo,
-    taskTwoComments
-  }
-
-  const disclosureEligibilityInputs = {
-    // four
-    isCorrectAge,
-    isKnowledgeable,
-    isWillingToDisclose,
-    taskOneComments,
-
-    //
-    patientVisitID: appointmentID,
-    patientID
-  }
-
-  const [addDisclosureChecklist, { isLoading: isLoadingAddDisclosure, data: isSaveData }] = useAddDisclosureChecklistMutation()
-
-  const { data: disclosureData } = useGetDisclosureChecklistQuery(appointmentID)
-  console.log(disclosureData, 'dataDisclosure')
-
-  useEffect(() => {
-    if (isSaveData) {
-      console.log(isSaveData, 'dft')
-    }
-  }, [isSaveData])
+  // const { data: disclosureData } = useGetDisclosureChecklistQuery(appointmentID)
+  // console.log(disclosureData, 'dataDisclosure')
 
   return (
     <div
@@ -101,42 +48,11 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
         width: '100%'
       }}
     >
-      <TaskOne
-        isCorrectAge={isCorrectAge}
-        setIsCorrectAge={setIsCorrectAge}
-        isWillingToDisclose={isWillingToDisclose}
-        setIsWillingToDisclose={setIsWillingToDisclose}
-        isKnowledgeable={isKnowledgeable}
-        setIsKnowledgeable={setIsKnowledgeable}
-        taskOneComments={taskOneComments}
-        setTaskOneComments={setTaskOneComments}
-      />
-      <TaskTwo
-        isFreeFromSevereIllness={isFreeChildCaregiverFromSevereIllness}
-        setIsFreeFromSevereIllness={setIsFreeChildCaregiverFromSevereIllness}
-        isFamilySupport={isConsistentSocialSupport}
-        setIsFamilySupport={setIsConsistentSocialSupport}
-        isEnvironmentInterest={isInterestInEnvironmentAndPlaying}
-        setIsEnvironmentInterest={setIsInterestInEnvironmentAndPlaying}
-        isAware={isAware}
-        setIsAware={setIsAware}
-        isSchoolFree={isChildSchoolEngagement}
-        setIsSchoolFree={setIsChildSchoolEngagement}
-        isDisclosureReady={isAssessedCaregiverReadinessToDisclose}
-        setIsDisclosureReady={setIsAssessedCaregiverReadinessToDisclose}
-        isChildCommunicated={isCaregiverCommunicatedToChild}
-        setIsChildCommunicated={setIsCaregiverCommunicatedToChild}
-        isSecuredPatientInfo={isSecuredPatientInfo}
-        setIsSecuredPatientInfo={setIsSecuredPatientInfo}
-        taskTwoComments={taskTwoComments}
-        setTaskTwoComments={setTaskTwoComments}
-      />
-
-      {/* <TaskThree
-        isReassuredCaregiver={isReassuredCaregiver}
-        setIsReassuredCaregiver={setIsReassuredCaregiver}
-        isAssessedChildCaregiverComfort={isAssessedChildCaregiverComfort}
-        setIsAssessedChildCaregiverComfort={setIsAssessedChildCaregiverComfort}
+      <TaskThree
+        isReassuredCaregiver={isAssessedChildSafety}
+        setIsReassuredCaregiver={setIsAssessedChildSafety}
+        isAssessedChildCaregiverComfort={isAssessedChildSafety}
+        setIsAssessedChildCaregiverComfort={setIsAssessedChildSafety}
         isAssessedChildSafety={isAssessedChildSafety}
         setIsAssessedChildSafety={setIsAssessedChildSafety}
         isSupportedCaregiverChildToDisclose={
@@ -178,7 +94,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
         setTaskFourComments={setTaskFourComments}
         finalComments={finalComments}
         setFinalComments={setFinalComments}
-      /> */}
+      />
 
       <div className="flex justify-end w-full space-x-4 items-center mt-4">
         <Button
@@ -189,9 +105,8 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
         >
           Prev
         </Button>
-
-        {disclosureData
-          ? (
+{/*
+        {disclosureData ? (
           <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
@@ -200,8 +115,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
           >
             Next
           </Button>
-            )
-          : (
+        ) : (
           <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
@@ -214,7 +128,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
             )}
             Save
           </Button>
-            )}
+        )} */}
       </div>
     </div>
   )
