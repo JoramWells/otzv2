@@ -10,7 +10,7 @@ const DetailPage = ({ params }: { params: string }) => {
   // const { patientID } = params
   const { data: disclosureData } = useGetAllDisclosureChecklistByVisitIdQuery(appointmentID)
   return (
-      <div>
+      <>
         {disclosureData && (
           <div>
             <div>Triage</div>
@@ -34,7 +34,7 @@ const DetailPage = ({ params }: { params: string }) => {
         )}
         <div>MMAS</div>
         <div>Follow Up Checklist</div>
-      </div>
+      </>
   )
 }
 
