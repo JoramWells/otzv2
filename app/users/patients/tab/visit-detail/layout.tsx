@@ -53,13 +53,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
     {
       id: '2',
       label: 'MMAS',
-      link: `/users/patients/tab/appointments/${patientID}`,
+      link: `/users/patients/tab/visit-detail/mmas/${patientID}?visitID=${appointmentID}`,
       icon: <LayoutDashboardIcon size={17} />
     },
     {
       id: '3',
       label: 'Time & Schedule',
-      link: `/users/patients/tab/caregivers/${patientID}`,
+      link: `/users/patients/tab/visit-detail/time-schedule/${patientID}?visitID=${appointmentID}`,
       icon: <HeartHandshake size={17} />
     },
     {

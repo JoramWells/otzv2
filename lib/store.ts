@@ -55,6 +55,7 @@ import { pamaEnrollmentApi } from '@/api/enrollment/pamaEnrollment.api'
 import { patientAllergyApi } from '@/api/medicalfile/patientAllergy.api'
 import { pmtctProfileEnrollmentApi } from '@/api/enrollment/pmtctProfileEnrollment.api'
 import { chaptersApi } from '@/api/articles/chapters.api'
+import { mmasFourApi } from '@/api/treatmentplan/mmasFour.api'
 
 export const store = configureStore({
   reducer: {
@@ -113,6 +114,7 @@ export const store = configureStore({
     [patientAllergyApi.reducerPath]: patientAllergyApi.reducer,
     [pmtctProfileEnrollmentApi.reducerPath]: pmtctProfileEnrollmentApi.reducer,
     [artPrescriptionApi.reducerPath]: artPrescriptionApi.reducer,
+    [mmasFourApi.reducerPath]: mmasFourApi.reducer,
     [chaptersApi.reducerPath]: chaptersApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
@@ -174,5 +176,6 @@ export const store = configureStore({
       .concat(patientAllergyApi.middleware)
       .concat(pmtctProfileEnrollmentApi.middleware)
       .concat(chaptersApi.middleware)
+      .concat(mmasFourApi.middleware)
       .concat(pamaEnrollmentApi.middleware)
 })

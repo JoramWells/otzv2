@@ -2,14 +2,12 @@
 'use client'
 
 import { useGetAllDisclosureChecklistByVisitIdQuery } from '@/api/treatmentplan/disclosureChecklist.api'
-import { useGetAllVitalSignDetailQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { useSearchParams } from 'next/navigation'
 
 const DetailPage = ({ params }: { params: string }) => {
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('visitID')
   // const { patientID } = params
-  const { data: vsData } = useGetAllVitalSignDetailQuery(appointmentID)
   const { data: disclosureData } = useGetAllDisclosureChecklistByVisitIdQuery(appointmentID)
   console.log(disclosureData, 'lop')
   return (
@@ -40,7 +38,7 @@ const DetailPage = ({ params }: { params: string }) => {
         <div>Follow Up Checklist</div>
       </div>
     </div>
-  );
+  )
 }
 
 export default DetailPage
