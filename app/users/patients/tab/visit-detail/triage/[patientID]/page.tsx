@@ -13,7 +13,7 @@ const TriagePage = () => {
     <div>
       Vitals Summary
       <div>
-        {vsData?.map((item) => (
+        {vsData?.map((item: any) => (
           <div key={item.id}>
             <div>
               <p>Height </p>
