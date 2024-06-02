@@ -9,14 +9,12 @@ const DetailPage = ({ params }: { params: string }) => {
   const appointmentID = searchParams.get('visitID')
   // const { patientID } = params
   const { data: disclosureData } = useGetAllDisclosureChecklistByVisitIdQuery(appointmentID)
-  console.log(disclosureData, 'lop')
   return (
-    <div>
       <div>
-        {vsData && (
+        {disclosureData && (
           <div>
             <div>Triage</div>
-            {vsData?.map((item) => (
+            {disclosureData?.map((item: any) => (
               <div key={item.id}>{item.temperature}</div>
             ))}
           </div>
@@ -25,7 +23,7 @@ const DetailPage = ({ params }: { params: string }) => {
         {disclosureData && (
           <div>
             <div>Disclosure Checklist</div>
-            {disclosureData?.map((item) => (
+            {disclosureData?.map((item: any) => (
               <div key={item.id}>
                 {item.isWillingToDisclose && (
                   <div>Patient is Willing to disclose</div>
@@ -37,7 +35,6 @@ const DetailPage = ({ params }: { params: string }) => {
         <div>MMAS</div>
         <div>Follow Up Checklist</div>
       </div>
-    </div>
   )
 }
 
