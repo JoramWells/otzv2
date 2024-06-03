@@ -153,7 +153,7 @@ const AddTriage = ({
   return (
     <div>
       <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
-        <p className="text-lg  font-bold">Vital Sign</p>
+        <p className="font-bold">Vital Sign</p>
         <p>Last Updated:</p>
       </div>
       <FormProvider {...methods}>
