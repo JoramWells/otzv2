@@ -207,7 +207,7 @@ const StepsPage = ({ params }: any) => {
                 />
               )}
 
-              {tab === '3' && activeStep === 6 && (
+              {tab === '3' && activeStep === 3 && (
                 <UpdateVL
                   patientVisitID={appointmentID}
                   handleNext={() => {
@@ -220,7 +220,7 @@ const StepsPage = ({ params }: any) => {
                 />
               )}
 
-              {tab === '4' && activeStep === 3 && (
+              {tab === '4' && activeStep === 4 && (
                 <FormOne
                   patientID={patientID}
                   appointmentID={appointmentID}
@@ -233,7 +233,7 @@ const StepsPage = ({ params }: any) => {
                 />
               )}
 
-              {tab === '5' && activeStep === 4 && (
+              {tab === '5' && activeStep === 5 && (
                 <MMASForm
                   formData={mmasData}
                   appointmentID={appointmentID}
@@ -246,7 +246,7 @@ const StepsPage = ({ params }: any) => {
                   }}
                 />
               )}
-              {tab === '6' && activeStep === 5 && (
+              {tab === '6' && activeStep === 6 && (
                 <DisclosureChecklist
                   appointmentID={appointmentID}
                   patientID={patientID}
