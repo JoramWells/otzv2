@@ -20,7 +20,7 @@ import {
   Stepper
 } from '@chakra-ui/react'
 import PersonalDetail from '@/app/_components/patient/steps/PersonalDetails'
-import LocationDetails, { type InputCountyProps } from '@/app/_components/patient/steps/LocationDetails'
+import LocationDetails from '@/app/_components/patient/steps/LocationDetails'
 import { useAddPatientMutation } from '@/api/patient/patients.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
@@ -143,33 +143,8 @@ const AddPatient = () => {
   const { toast } = useToast()
   const [activeStep, setActiveStep] = useState(1)
 
-  // const [location, setLocation] = useState<InputCountyProps | null>(null)
-
-  //
-
-  // nofkin
-  // const [kinFirstName, setKinFirstName] = useState('')
-  // const [kinLastName, setKinLastName] = useState('')
-  // const [kinGender, setKinGender] = useState('')
-  // const [kinDOB, setKinDOB] = useState('')
-  // const [kinIDNo, setKinIDNo] = useState('')
-
-  // const { activeStep } = useSteps({
-  //   index: 1,
-  //   count: steps.length
-  // })
-
   const handleNext = () => {
-    // if (activeStep === 3) {
-    //   await addPatient(inputValues)
-    // }
-
     setActiveStep((prevStep) => prevStep + 1)
-    // navigate({
-    //   pathname: '/add-invoice',
-    //   search: `?id=${invoiceId}`,
-    // });
-    // setSearchParams(activeStep);
   }
 
   const handleBack = () => {

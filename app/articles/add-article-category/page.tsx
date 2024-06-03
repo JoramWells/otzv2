@@ -103,18 +103,19 @@ const ArticleCategory = () => {
           className="p-4 flex-1 flex flex-col space-y-4 bg-white rounded-lg"
           onSubmit={handleCategorySubmit}
         >
-          <p className="font-bold text-slate-700">New Category</p>
+          <p className="font-bold text-slate-700">New Book</p>
 
           <CustomInput
             value={category}
             onChange={setCategory}
-            label="Enter Category Description"
+            label="Book Description"
+            placeholder='Enter Book Description'
           />
 
           {/* Thumbnail Image */}
           <div className="w-full flex flex-col space-y-2 text-[14px] text-slate-700 ">
             <label htmlFor="" className="font-bold">
-              Select Category Thumbnail
+              Select Book Thumbnail (image)
             </label>
             <Input
               className="shadow-none"
@@ -135,7 +136,7 @@ const ArticleCategory = () => {
           /> */}
 
           <Button
-            className="shadow-none bg-teal-600 hover:bg-teal-700"
+            className="shadow-none bg-slate-200 hover:bg-slate-100 text-black"
             // onClick={async () => {
             //   await handleAddArticlesCategory(inputValues)
             // }}
@@ -156,21 +157,23 @@ const ArticleCategory = () => {
           <div>{progress}%</div>
           }
           <CustomSelect
-            label="Select Category"
+            label="Book"
             data={categoryOptions()}
             value={categoryID}
             onChange={setCategoryID}
+            placeholder='Select Book'
           />
 
           <CustomInput
-            label="Sub Category Description"
+            label="Chapter"
             value={subCategory}
             onChange={setSubCategory}
+            placeholder='Enter Chapter description'
           />
           {/* Thumbnail Image */}
           <div className="w-full flex flex-col space-y-2 text-[14px] text-slate-700 ">
             <label htmlFor="" className="font-bold">
-              Select Sub Category Thumbnail
+              Select Chapter Thumbnail
             </label>
             <Input
               className="shadow-none"

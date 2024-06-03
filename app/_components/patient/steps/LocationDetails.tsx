@@ -139,7 +139,7 @@ const LocationDetails = ({ county, subCounty }: { county: string, subCounty: str
       />
 
       <CustomSelect2
-        label="Select Occupation."
+        label="Select Education Level."
         name={'educationLevel'}
         // onChange={setOccupation}
         data={[
