@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
@@ -32,14 +33,14 @@ const UpdateVL = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
 
   const [addViralLoadTest, { isLoading }] = useAddViralLoadTestMutation()
   const statusOptions = useCallback(() => {
-    return statusData?.filter((item: any) => (item.statusDescription.toLowerCase() === 'upcoming'))
+    return statusData?.filter((item: any) => (item.statusDescription.toLowerCase() === 'upcoming')) || []
   }, [statusData])
 
   //
   const agendaDataOptions = useCallback(() => {
     return agendaData?.filter(
       (item: any) => item.agendaDescription.toLowerCase() === 'viral load'
-    )
+    ) || []
   }, [agendaData])
 
   //
@@ -48,41 +49,33 @@ const UpdateVL = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
   const userOptions = useCallback(() => {
     return data?.map((item: any) => ({
       id: item.id, label: item.firstName
-    }))
+    })) || []
   }, [data])
 
   const [dateOfVL, setDateOfVL] = useState('')
   const [dateOfNextVL, setDateOfNextVL] = useState('')
   const [vlResults, setVLResults] = useState('')
   const [vlJustification, setVLJustification] = useState('')
-  const [userID, setUserID] = useState('')
 
-  // const appointmentInputValues = {
-  //   userID,
-  //   patientID,
-  //   patientVisitID,
-  //   appointmentAgendaID: agendaDataOptions()?.id,
-  //   appointmentStatusID: statusOptions()?.id,
-  //   appointmentDate: dateOfNextVL
-  // }
   const inputValues = {
-    userID,
+    patientID,
     dateOfVL,
     dateOfNextVL,
     vlResults,
     vlJustification,
-    patientID,
+    userID: userOptions()?.length > 0 && userOptions()[0]?.id,
     patientVisitID,
-    appointmentAgendaID: agendaDataOptions()[0]?.id,
-    appointmentStatusID: statusOptions()[0]?.id,
+    appointmentAgendaID: agendaDataOptions()?.length > 0 && agendaDataOptions()[0]?.id,
+    appointmentStatusID: statusOptions()?.length > 0 && statusOptions()[0]?.id,
     appointmentDate: dateOfNextVL
   }
   return (
-    <div className="p-2">
-      <div className="border rounded-lg border-slate-200 flex flex-col space-y-4 p-4">
-        <CustomSelect label="Select User" value={userID} onChange={setUserID}
-        data={userOptions()}
-        />
+    <div className="">
+         <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
+        <p className="text-lg  font-bold">Viral Load</p>
+        <p>Last Updated:</p>
+      </div>
+      <div className="flex flex-col space-y-4 p-4">
         <CustomInput
           label="VL results"
           placeholder="Enter VL Results"
@@ -111,7 +104,7 @@ const UpdateVL = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
         />
       </div>
 
-      <div className="flex justify-end mt-4 space-x-4">
+      <div className="flex justify-end mt-4 space-x-4 p-4">
         <Button
           onClick={() => {
             handleBack()

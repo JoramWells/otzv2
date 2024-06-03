@@ -59,7 +59,7 @@ const TimeAndWork = ({
   setDepartureTimeMinutes
 }: TimeAndWorkProps) => {
   return (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg">
+  <div className="flex flex-col gap-y-6 rounded-lg">
     <CustomTimeInput
       label="What time do you wake up mostly?"
       hours={wakeUpTimeHours}

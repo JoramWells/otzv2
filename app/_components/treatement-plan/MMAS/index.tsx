@@ -119,6 +119,10 @@ const MMASForm = ({
 
   return (
     <div className="flex flex-col space-y-4 w-full">
+      <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
+        <p className="font-bold">Morisky Medication Adherence Scale</p>
+        <p className='text-[14px] ' >Last Updated:</p>
+      </div>
       <div className="w-full">
         <div className="w-full justify-between items-center flex">
           <p className="font-bold mb-2">MMAS 4 Form</p>

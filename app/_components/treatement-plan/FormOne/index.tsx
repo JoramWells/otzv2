@@ -101,68 +101,74 @@ const FormOne = ({
 
   return (
     <div className="w-full flex flex-col space-y-4">
-      <TimeAndWork
-        appointmentID={appointmentID}
-        wakeUpTimeHours={wakeUpTimeHours}
-        setWakeUpTimeHours={setWakeUpTimeHours}
-        wakeUpTimeMinutes={wakeUpTimeMinutes}
-        setWakeUpTimeMinutes={setWakeUpTimeMinutes}
-        //
-        departureHomeTimeHours={departureHomeTimeHours}
-        setDepartureHomeTimeHours={setDepartureHomeTimeHours}
-        departureHomeTimeMinutes={departureHomeTimeMinutes}
-        setDepartureHomeTimeMinutes={setDepartureHomeTimeMinutes}
-        //
-        arrivalTimeHours={arrivalTimeHours}
-        setArrivalTimeHours={setArrivalTimeHours}
-        arrivalTimeMinutes={arrivalTimeMinutes}
-        setArrivalTimeMinutes={setArrivalTimeMinutes}
-        //
-        departureTimeHours={departureTimeHours}
-        setDepartureTimeHours={setDepartureTimeHours}
-        departureTimeMinutes={departureTimeMinutes}
-        setDepartureTimeMinutes={setDepartureTimeMinutes}
-        // arrivalHomeTime={arrivalHomeTime}
-        // setArrivalHomeTime={setArrivalHomeTime}
-      />
-      <ScheduleAndTime
-        appointmentID={appointmentID}
-        morningPlace={morningPlace}
-        setMorningPlace={setMorningPlace}
-        eveningPlace={eveningPlace}
-        setEveningPlace={setEveningPlace}
-        medicineStorage={medicineStorage}
-        setMedicineStorage={setMedicineStorage}
-        toolsAndCues={toolAndCues}
-        setToolsAndCues={setToolAndCues}
-        goal={goal}
-        setGoal={setGoal}
-        // time
-        morningHours={morningHours}
-        setMorningHours={setMorningHours}
-        morningMinutes={morningMinutes}
-        setMorningMinutes={setMorningMinutes}
-        //
-        eveningHours={eveningHours}
-        setEveningHours={setEveningHours}
-        eveningMinutes={eveningMinutes}
-        setEveningMinutes={setEveningMinutes}
-        //
-        morningHoursWeekend={morningHoursWeekend}
-        setMorningMinutesWeekend={setMorningMinutesWeekend}
-        morningMinutesWeekend={morningMinutesWeekend}
-        setMorningHoursWeekend={setMorningHoursWeekend}
-        //
-        eveningHoursWeekend={eveningHoursWeekend}
-        setEveningHoursWeekend={setEveningHoursWeekend}
-        eveningMinutesWeekend={eveningMinutesWeekend}
-        setEveningMinutesWeekend={setEveningMinutesWeekend}
-        //
-        eveningWeekendPlace=""
-        morningWeekendPlace=""
-        setEveningPlaceWeekend={() => {}}
-        setMorningPlaceWeekend={() => {}}
-      />
+      <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
+        <p className="text-lg  font-bold">Time & Work Schedule</p>
+        <p>Last Updated:</p>
+      </div>
+      <div className='w-full  p-4'>
+        <TimeAndWork
+          appointmentID={appointmentID}
+          wakeUpTimeHours={wakeUpTimeHours}
+          setWakeUpTimeHours={setWakeUpTimeHours}
+          wakeUpTimeMinutes={wakeUpTimeMinutes}
+          setWakeUpTimeMinutes={setWakeUpTimeMinutes}
+          //
+          departureHomeTimeHours={departureHomeTimeHours}
+          setDepartureHomeTimeHours={setDepartureHomeTimeHours}
+          departureHomeTimeMinutes={departureHomeTimeMinutes}
+          setDepartureHomeTimeMinutes={setDepartureHomeTimeMinutes}
+          //
+          arrivalTimeHours={arrivalTimeHours}
+          setArrivalTimeHours={setArrivalTimeHours}
+          arrivalTimeMinutes={arrivalTimeMinutes}
+          setArrivalTimeMinutes={setArrivalTimeMinutes}
+          //
+          departureTimeHours={departureTimeHours}
+          setDepartureTimeHours={setDepartureTimeHours}
+          departureTimeMinutes={departureTimeMinutes}
+          setDepartureTimeMinutes={setDepartureTimeMinutes}
+          // arrivalHomeTime={arrivalHomeTime}
+          // setArrivalHomeTime={setArrivalHomeTime}
+        />
+        <ScheduleAndTime
+          appointmentID={appointmentID}
+          morningPlace={morningPlace}
+          setMorningPlace={setMorningPlace}
+          eveningPlace={eveningPlace}
+          setEveningPlace={setEveningPlace}
+          medicineStorage={medicineStorage}
+          setMedicineStorage={setMedicineStorage}
+          toolsAndCues={toolAndCues}
+          setToolsAndCues={setToolAndCues}
+          goal={goal}
+          setGoal={setGoal}
+          // time
+          morningHours={morningHours}
+          setMorningHours={setMorningHours}
+          morningMinutes={morningMinutes}
+          setMorningMinutes={setMorningMinutes}
+          //
+          eveningHours={eveningHours}
+          setEveningHours={setEveningHours}
+          eveningMinutes={eveningMinutes}
+          setEveningMinutes={setEveningMinutes}
+          //
+          morningHoursWeekend={morningHoursWeekend}
+          setMorningMinutesWeekend={setMorningMinutesWeekend}
+          morningMinutesWeekend={morningMinutesWeekend}
+          setMorningHoursWeekend={setMorningHoursWeekend}
+          //
+          eveningHoursWeekend={eveningHoursWeekend}
+          setEveningHoursWeekend={setEveningHoursWeekend}
+          eveningMinutesWeekend={eveningMinutesWeekend}
+          setEveningMinutesWeekend={setEveningMinutesWeekend}
+          //
+          eveningWeekendPlace=""
+          morningWeekendPlace=""
+          setEveningPlaceWeekend={() => {}}
+          setMorningPlaceWeekend={() => {}}
+        />
+      </div>
       <div className="flex justify-end mt-4 space-x-4">
         <Button
           onClick={() => {
