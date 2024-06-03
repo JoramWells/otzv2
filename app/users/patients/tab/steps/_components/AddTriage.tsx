@@ -212,7 +212,7 @@ const AddTriage = ({
             // onChange={setheight}
           />
         </div>
-        <div className="border-b border-slate-200 w-full mt-top-2 mt-b-2 font-bold" />
+        {/* <div className="border-b border-slate-200 w-full mt-top-2 mt-b-2 font-bold" />
         <p className="font-bold capitalize">Other recordings</p>
         <CustomInput2
           label="MUAC"
@@ -224,7 +224,7 @@ const AddTriage = ({
           name="LMP"
           type='date'
           // onChange={setLMP}
-        />
+        /> */}
         {/* <div className="border-b border-slate-200 w-full mt-top-2 mt-b-2" /> */}
         {/* <p>Pregnancy Details</p> */}
 
