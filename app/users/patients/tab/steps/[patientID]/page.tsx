@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -14,6 +15,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import UpdateVL from '../_components/UpdateVL'
 import AddArt from '../_components/AddArt'
 import { useGetMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
+import { useGetPatientQuery } from '@/api/patient/patients.api'
+import Avatar from '@/components/Avatar'
+import moment from 'moment'
+import { calculateAge } from '@/utils/calculateAge'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -38,11 +43,11 @@ const dataList2 = [
 
 const steps = [
   { title: 'Vitals', description: 'Vital Signs' },
-  { title: 'ART', description: '' },
-  { title: 'Time', description: '' },
-  { title: 'MMAS', description: '' },
-  { title: 'Disclosure', description: '' },
-  { title: 'Viral Load', description: '' }
+  { title: 'ART', description: 'ART Details' },
+  { title: 'Viral Load', description: 'Viral Load' },
+  { title: 'Time', description: 'Time & Schedule' },
+  { title: 'MMAS', description: 'MMAS-4 & MMAS-8' },
+  { title: 'Disclosure', description: 'Checklist' }
 ]
 
 const StepsPage = ({ params }: any) => {
@@ -53,6 +58,8 @@ const StepsPage = ({ params }: any) => {
   const router = useRouter()
   const pathname = usePathname()
   const tab = searchParams.get('step')
+
+  const { data: personalData } = useGetPatientQuery(patientID)
 
   const { data: vsData } = useGetVitalSignQuery(appointmentID)
   const { data: mmasData } = useGetMmasFourQuery(appointmentID)
@@ -106,7 +113,7 @@ const StepsPage = ({ params }: any) => {
     }
   }, [tab])
 
-  console.log(pathname, 'lop')
+  console.log(personalData, 'lop')
 
   return (
     <>
@@ -120,7 +127,9 @@ const StepsPage = ({ params }: any) => {
                   key={idx}
                   className="hover:cursor-pointer"
                   onClick={() => {
-                    router.push(`?appointmentID=${appointmentID}&step=${String(idx + 1)}`)
+                    router.push(
+                      `?appointmentID=${appointmentID}&step=${String(idx + 1)}`
+                    )
                   }}
                 >
                   <StepIndicator>
@@ -131,15 +140,11 @@ const StepsPage = ({ params }: any) => {
                     />
                   </StepIndicator>
                   <Box>
-                    <StepTitle
-                    className='text-[14px] hover:underline '
-                    >
+                    <StepTitle className="text-[14px] hover:underline ">
                       {step.title}
                     </StepTitle>
-                    <StepDescription
-                    className='text-[12px]'
-                    >
-                    {step.description}
+                    <StepDescription className="text-[12px]">
+                      {step.description}
                     </StepDescription>
                   </Box>
                   <StepSeparator />
@@ -147,83 +152,113 @@ const StepsPage = ({ params }: any) => {
               ))}
             </Stepper>
           </div>
-          <div className="w-1/2 mt-2 bg-white rounded-lg p-4">
-            {tab === '1' && activeStep === 1 && (
-              <AddTriage
-                vlData={vsData}
-                patientID={patientID}
-                handleBack={handleBack}
-                handleNext={() => {
-                  handleNext(activeStep)
-                }}
-                activeStep={activeStep}
-              />
-            )}
+          <div className="w-full mt-2 flex justify-center items-start space-x-2 p-2">
+            <div className="flex flex-col items-center bg-white rounded-lg p-4 w-1/4">
+              {personalData && (
+                <div className="flex flex-col items-center  w-full rounded-lg space-y-1">
+                  <Avatar
+                    name={`${personalData?.firstName} ${personalData?.middleName}`}
+                  />
+                  <p className="font-bold">
+                    {personalData?.firstName} {personalData?.middleName}
+                  </p>
+                  <p className="text-[14px] text-slate-500">
+                    <span className="font-bold">DOB</span>:{' '}
+                    {moment(personalData?.dob).format('ll')},{' '}
+                    {calculateAge(personalData?.dob)} yrs
+                  </p>
+                  <p className="text-[14px] text-slate-500">
+                    <span className="font-semibold">Sex:</span>{' '}
+                    {personalData?.sex === 'M' ? 'MALE' : 'FEMALE'}
+                  </p>
 
-            {/*  */}
-            {tab === '2' && activeStep === 2 && (
-              <AddArt
-                handleNext={() => {
-                  handleNext(activeStep)
-                }}
-                patientID={patientID}
-                handleBack={() => {
-                  handleBack()
-                }}
-              />
-            )}
+                  <div className="text-slate-500 text-sm">
+                    <p>
+                      <span className="font-bold">Phone:</span>{' '}
+                      <span>{personalData?.phoneNo} </span>
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="w-1/2 bg-white rounded-lg">
+              {tab === '1' && activeStep === 1 && (
+                <AddTriage
+                  vlData={vsData}
+                  patientID={patientID}
+                  handleBack={handleBack}
+                  handleNext={() => {
+                    handleNext(activeStep)
+                  }}
+                  activeStep={activeStep}
+                />
+              )}
 
-            {tab === '3' && activeStep === 3 && (
-              <FormOne
-                patientID={patientID}
-                appointmentID={appointmentID}
-                handleNext={() => {
-                  handleNext(activeStep)
-                }}
-                handleBack={() => {
-                  handleBack()
-                }}
-              />
-            )}
+              {/*  */}
+              {tab === '2' && activeStep === 2 && (
+                <AddArt
+                  handleNext={() => {
+                    handleNext(activeStep)
+                  }}
+                  patientID={patientID}
+                  handleBack={() => {
+                    handleBack()
+                  }}
+                />
+              )}
 
-            {tab === '4' && activeStep === 4 && (
-              <MMASForm
-                formData={mmasData}
-                appointmentID={appointmentID}
-                patientID={patientID}
-                handleNext={() => {
-                  handleNext(activeStep)
-                }}
-                handleBack={() => {
-                  handleBack()
-                }}
-              />
-            )}
-            {tab === '5' && activeStep === 5 && (
-              <DisclosureChecklist
-                appointmentID={appointmentID}
-                patientID={patientID}
-                handleNext={() => {
-                  handleNext(activeStep)
-                }}
-                handleBack={() => {
-                  handleBack()
-                }}
-              />
-            )}
+              {tab === '3' && activeStep === 6 && (
+                <UpdateVL
+                  patientVisitID={appointmentID}
+                  handleNext={() => {
+                    handleNext(activeStep)
+                  }}
+                  patientID={patientID}
+                  handleBack={() => {
+                    handleBack()
+                  }}
+                />
+              )}
 
-            {tab === '6' && activeStep === 6 && (
-              <UpdateVL
-                patientVisitID={appointmentID}
-                handleNext={() => {
-                  handleNext(activeStep)
-                }}
-                patientID={patientID}
-                handleBack={() => {
-                  handleBack()
-                }}
-              />
-            )}
+              {tab === '4' && activeStep === 3 && (
+                <FormOne
+                  patientID={patientID}
+                  appointmentID={appointmentID}
+                  handleNext={() => {
+                    handleNext(activeStep)
+                  }}
+                  handleBack={() => {
+                    handleBack()
+                  }}
+                />
+              )}
+
+              {tab === '5' && activeStep === 4 && (
+                <MMASForm
+                  formData={mmasData}
+                  appointmentID={appointmentID}
+                  patientID={patientID}
+                  handleNext={() => {
+                    handleNext(activeStep)
+                  }}
+                  handleBack={() => {
+                    handleBack()
+                  }}
+                />
+              )}
+              {tab === '6' && activeStep === 5 && (
+                <DisclosureChecklist
+                  appointmentID={appointmentID}
+                  patientID={patientID}
+                  handleNext={() => {
+                    handleNext(activeStep)
+                  }}
+                  handleBack={() => {
+                    handleBack()
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
         {/*  */}

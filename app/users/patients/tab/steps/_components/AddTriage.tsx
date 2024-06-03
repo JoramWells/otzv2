@@ -22,8 +22,8 @@ export interface VSProps {
   oxygenSAturation: number
   height: string
   weight: string
-  MUAC: string
-  LMP: string
+  // MUAC: string
+  // LMP: string
 }
 
 interface AddTriageProps {
@@ -106,9 +106,9 @@ const AddTriage = ({
     weight: z.preprocess(value => parseFloat(String(value)), z.number()
       .min(3, { message: 'Weight must be at least 3 kg' })
       .max(300, { message: 'Weight must be at most 300kg' })
-      .refine(val => Number.isFinite(val), { message: 'Invalid weight value' })),
-    MUAC: z.string(),
-    LMP: z.string()
+      .refine(val => Number.isFinite(val), { message: 'Invalid weight value' }))
+    // MUAC: z.string(),
+    // LMP: z.string()
   }).refine(data => data.systolic > data.diastolic, {
     message: 'Systolic pressure must be greater tan diastolic pressure',
     path: ['systolic']
@@ -151,68 +151,73 @@ const AddTriage = ({
   const { handleSubmit } = methods
 
   return (
-    <FormProvider {...methods}>
-      <form
-        className="p-2 rounded-lg flex flex-col space-y-4"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <CustomInput2
-          label="Temperature (°C)"
-          name="temperature"
-          type="number"
-          // onChange={setTemperature}
-        />
-
-        <div className="w-full flex justify-between items-center space-x-8">
+    <div>
+      <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
+        <p className="text-lg  font-bold">Vital Sign</p>
+        <p>Last Updated:</p>
+      </div>
+      <FormProvider {...methods}>
+        <form
+          className="p-4 rounded-lg flex flex-col space-y-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <CustomInput2
-            label="Pulse Rate (bpm)"
-            name="pulseRate"
-            // onChange={setPulseRate}
+            label="Temperature (°C)"
+            name="temperature"
+            type="number"
+            // onChange={setTemperature}
           />
-          <CustomInput2
-            label="Respiratory Rate"
-            name="respiratoryRate"
-            // onChange={setRespiratoryRate}
-          />
-        </div>
 
-        <div>
-          <p className="font-bold mb-1">Blood Pressure  (mmHg)</p>
-          <div className="flex flex-row w-full space-x-4 items-center">
+          <div className="w-full flex justify-between items-center space-x-8">
             <CustomInput2
-              label="Systolic"
-              name="systolic"
-              // onChange={setSystolic}
+              label="Pulse Rate (bpm)"
+              name="pulseRate"
+              // onChange={setPulseRate}
             />
             <CustomInput2
-              label="Diastolic"
-              name="diastolic"
-              // onChange={setDiastolic}
+              label="Respiratory Rate"
+              name="respiratoryRate"
+              // onChange={setRespiratoryRate}
             />
-          </div>{' '}
-        </div>
+          </div>
 
-        <CustomInput2
-          label="Oxygen Saturation (%)"
-          name="oxygenSAturation"
-          // onChange={setOxygen}
-        />
+          <div>
+            <p className="font-bold mb-1">Blood Pressure (mmHg)</p>
+            <div className="flex flex-row w-full space-x-4 items-center">
+              <CustomInput2
+                label="Systolic"
+                name="systolic"
+                // onChange={setSystolic}
+              />
+              <CustomInput2
+                label="Diastolic"
+                name="diastolic"
+                // onChange={setDiastolic}
+              />
+            </div>{' '}
+          </div>
 
-        <div className="flex flex-row space-x-4">
           <CustomInput2
-            label="Weight (kg) "
-            name="weight"
-            type="number"
-            // onChange={setWeight}
+            label="Oxygen Saturation (%)"
+            name="oxygenSAturation"
+            // onChange={setOxygen}
           />
-          <CustomInput2
-            label="Height (cm) "
-            name="height"
-            type="number"
-            // onChange={setheight}
-          />
-        </div>
-        {/* <div className="border-b border-slate-200 w-full mt-top-2 mt-b-2 font-bold" />
+
+          <div className="flex flex-row space-x-4">
+            <CustomInput2
+              label="Weight (kg) "
+              name="weight"
+              type="number"
+              // onChange={setWeight}
+            />
+            <CustomInput2
+              label="Height (cm) "
+              name="height"
+              type="number"
+              // onChange={setheight}
+            />
+          </div>
+          {/* <div className="border-b border-slate-200 w-full mt-top-2 mt-b-2 font-bold" />
         <p className="font-bold capitalize">Other recordings</p>
         <CustomInput2
           label="MUAC"
@@ -225,18 +230,18 @@ const AddTriage = ({
           type='date'
           // onChange={setLMP}
         /> */}
-        {/* <div className="border-b border-slate-200 w-full mt-top-2 mt-b-2" /> */}
-        {/* <p>Pregnancy Details</p> */}
+          {/* <div className="border-b border-slate-200 w-full mt-top-2 mt-b-2" /> */}
+          {/* <p>Pregnancy Details</p> */}
 
-        {/* <CustomCheckbox
+          {/* <CustomCheckbox
         label="Is Pregnant?"
         value={isPregnant}
         onChange={setIsPregnant}
       /> */}
 
-        {/*  */}
+          {/*  */}
 
-        {/* {appointmentData
+          {/* {appointmentData
         ? (
         <div>
           <Button>Next</Button>{' '}
@@ -252,30 +257,33 @@ const AddTriage = ({
           Save
         </Button>
           )} */}
-        <div className="flex w-full justify-end">
-          {vsData || vlData ? (
-            <Button
-              className="bg-slate-200 hover:bg-slate-100 shadow-none text-black"
-              onClick={() => {
-                handleNext()
-              }}
-            >
-              Next
-            </Button>
-          ) : (
-            <Button
-              className="bg bg-blue-500 text-white shadow-none hover:bg-blue-500 "
-              // onClick={async () => await addVitalSign(inputValues)}
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
-              Save
-            </Button>
-          )}
-        </div>
-      </form>
-    </FormProvider>
+          <div className="flex w-full justify-end">
+            {vsData || vlData ? (
+              <Button
+                className="bg-slate-200 hover:bg-slate-100 shadow-none text-black"
+                onClick={() => {
+                  handleNext()
+                }}
+              >
+                Next
+              </Button>
+            ) : (
+              <Button
+                className="bg bg-blue-500 text-white shadow-none hover:bg-blue-500 "
+                // onClick={async () => await addVitalSign(inputValues)}
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading && (
+                  <Loader2 className="animate-spin mr-2" size={18} />
+                )}
+                Save
+              </Button>
+            )}
+          </div>
+        </form>
+      </FormProvider>
+    </div>
   )
 }
 
