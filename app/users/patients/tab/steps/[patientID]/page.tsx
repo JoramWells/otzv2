@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper } from '@chakra-ui/react'
@@ -9,7 +10,7 @@ import DisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChe
 import FormOne from '@/app/_components/treatement-plan/FormOne'
 import AddTriage from '../_components/AddTriage'
 import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import UpdateVL from '../_components/UpdateVL'
 import AddArt from '../_components/AddArt'
 import { useGetMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
@@ -70,33 +71,50 @@ const StepsPage = ({ params }: any) => {
     return () => { window.removeEventListener('beforeunload', handleBeforeUnload) }
   }, [pending])
 
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const updateQueryParams = (newStep: number) => {
+    const newSearchParams = new URLSearchParams(searchParams)
+    newSearchParams.set('step', String(newStep))
+    router.replace(`${pathname}?${newSearchParams.toString()}`)
+  }
+
   const handleNext = (stepx: number) => {
-    if (stepx === steps.length) {
-      // await addPatient(inputValues)
-      console.log('last')
-    } else {
-      setActiveStep((prevStep) => prevStep + 1)
-    }
-    // navigate({
-    //   pathname: '/add-invoice',
-    //   search: `?id=${invoiceId}`,
-    // });
-    // setSearchParams(activeStep);
+    setActiveStep((prevStep) => {
+      const newStep = prevStep + 1
+      updateQueryParams(newStep)
+      return newStep
+    })
   }
 
   const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1)
+    setActiveStep((prevStep) => {
+      const newStep = prevStep - 1
+      updateQueryParams(newStep)
+      return newStep
+    })
   }
+
+  const tab = searchParams.get('step')
+
+  useEffect(() => {
+    if (tab) {
+      setActiveStep(parseInt(tab, 10))
+    }
+  }, [tab])
 
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="w-full flex flex-row space-x-4 justify-center  mt-4">
+      <div className="w-full flex flex-row space-x-4 justify-center  mt-2">
         <div className="flex flex-col items-center w-1/2">
           <div className="w-full bg-white p-2 rounded-lg">
             <Stepper index={activeStep} colorScheme="teal">
               {steps.map((step, idx) => (
-                <Step key={idx}>
+                <Step key={idx} className="hover:cursor-pointer"
+                onClick={() => { router.push(`?step=${String(idx + 1)}`) }}
+                >
                   <StepIndicator>
                     <StepStatus
                       complete={<StepIcon />}
@@ -113,8 +131,8 @@ const StepsPage = ({ params }: any) => {
               ))}
             </Stepper>
           </div>
-          <div className="w-full mt-4 bg-white rounded-lg p-4">
-            {activeStep === 1 && (
+          <div className="w-full mt-2 bg-white rounded-lg p-4">
+            {(tab === '1' && activeStep === 1) && (
               <AddTriage
                 vlData={vsData}
                 patientID={patientID}
@@ -126,9 +144,22 @@ const StepsPage = ({ params }: any) => {
               />
             )}
 
-            {activeStep === 3 && (
+            {/*  */}
+            {(tab === '2' && activeStep === 2) && (
+              <AddArt
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                patientID={patientID}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
+
+            {(tab === '3' && activeStep === 3) && (
               <FormOne
-              patientID={patientID}
+                patientID={patientID}
                 appointmentID={appointmentID}
                 handleNext={() => {
                   handleNext(activeStep)
@@ -139,9 +170,9 @@ const StepsPage = ({ params }: any) => {
               />
             )}
 
-            {activeStep === 4 && (
+            {(tab === '4' && activeStep === 4) && (
               <MMASForm
-              formData={mmasData}
+                formData={mmasData}
                 appointmentID={appointmentID}
                 patientID={patientID}
                 handleNext={() => {
@@ -152,7 +183,7 @@ const StepsPage = ({ params }: any) => {
                 }}
               />
             )}
-            {activeStep === 5 && (
+            {(tab === '5' && activeStep === 5) && (
               <DisclosureChecklist
                 appointmentID={appointmentID}
                 patientID={patientID}
@@ -164,18 +195,8 @@ const StepsPage = ({ params }: any) => {
                 }}
               />
             )}
-            {activeStep === 2 && (
-              <AddArt
-                handleNext={() => {
-                  handleNext(activeStep)
-                }}
-                patientID={patientID}
-                handleBack={() => {
-                  handleBack()
-                }}
-              />
-            )}
-            {activeStep === 6 && (
+
+            {(tab === '6' && activeStep === 6) && (
               <UpdateVL
                 patientVisitID={appointmentID}
                 handleNext={() => {

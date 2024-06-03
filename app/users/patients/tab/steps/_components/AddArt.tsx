@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -138,14 +139,14 @@ const dataList = [
     icon: <TabletsIcon className="mr-2" size={18} />,
     color: 'blue'
   },
+  // {
+  //   id: 2,
+  //   label: 'Stop',
+  //   icon: <StopCircle className="mr-2" size={18} />,
+  //   color: 'red'
+  // },
   {
     id: 2,
-    label: 'Stop',
-    icon: <StopCircle className="mr-2" size={18} />,
-    color: 'red'
-  },
-  {
-    id: 3,
     label: 'Switch',
     icon: <RefreshCcw className="mr-2" size={18} />,
     color: 'teal'
@@ -232,18 +233,16 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
 
   const [tab, setTab] = useState(1)
 
-  console.log(prescriptionDatam, 'lop')
-
   return (
     <div className="w-full flex justify-between items-center">
       {prescriptionData ? (
         <div className="rounded-lg flex flex-col justify-between items-center w-full">
           {/* <p>{prescriptionData?.regimen}</p> */}
           <div className="w-full flex flex-col space-y-2">
-            <p className="text-lg font-bold">Manage Patient Regimen</p>
+            <p className="f">Manage Patient Regimen</p>
             <div>
-              <p>{prescriptionData?.regimen}</p>
-              <p className="capitalize">{prescriptionData?.line}</p>
+              <p className='font-bold'>{prescriptionData?.regimen}</p>
+              <p className="capitalize text-slate-500 text-[14px]">{prescriptionData?.line}</p>
             </div>
             <div className="flex flex-row space-x-4">
               {dataList.map((item) => (
@@ -308,8 +307,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                 </div>
               </div>
             )}
-            {tab === 2 && <StopComponent />}
-            {tab === 3 && <SwitchComponent regimenOptions={regimenOptions()} />}
+            {tab === 2 && <SwitchComponent regimenOptions={regimenOptions()} />}
           </div>
           {/*  */}
           <div className="flex justify-end mt-4 space-x-4 w-full">

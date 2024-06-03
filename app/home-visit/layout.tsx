@@ -10,25 +10,24 @@ import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { BookCopy, HeartHandshake, LayoutDashboardIcon } from 'lucide-react'
-import { ChakraProvider } from '@chakra-ui/react'
 
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: '/lab/dashboard',
+    link: 'dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {
     id: '2',
-    label: 'Lab Visits',
-    link: '/lab/lab-visits',
+    label: 'Home-Visit',
+    link: 'home-visit',
     icon: <HeartHandshake size={17} />
   },
   {
     id: '6',
     label: 'Reports',
-    link: 'viratrack/reports',
+    link: 'reports',
     icon: <BookCopy size={17} />
   }
 ]
@@ -36,7 +35,6 @@ const DL: SidebarListItemsProps[] = [
 const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
-      <ChakraProvider>
         <SidebarProvider>
           <div className="flex flex-row bg-slate-50">
             <Sidebar>
@@ -49,7 +47,6 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
         </SidebarProvider>
-      </ChakraProvider>
     </Provider>
   )
 }

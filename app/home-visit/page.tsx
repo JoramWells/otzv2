@@ -54,9 +54,9 @@ const HomeVisitPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
       <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
         <div>
-          <p className="font-bold text-slate-700">Patients</p>
+          <p className="font-bold text-slate-700">Home Visit</p>
           <p className="text-slate-500 text-[14px] ">
-            Manage Registered Patients
+            Manage Patients Home Visit
           </p>
         </div>
 
