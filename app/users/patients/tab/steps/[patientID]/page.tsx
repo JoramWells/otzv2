@@ -46,7 +46,7 @@ const steps = [
   { title: 'ART', description: 'ART Details' },
   { title: 'Viral Load', description: 'Viral Load' },
   { title: 'Time', description: 'Time & Schedule' },
-  { title: 'MMAS', description: 'MMAS-4 & MMAS-8' },
+  { title: 'MMAS', description: 'MMAS4 & MMAS8' },
   { title: 'Disclosure', description: 'Checklist' }
 ]
 

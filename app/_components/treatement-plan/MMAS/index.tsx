@@ -68,6 +68,13 @@ const MMASForm = ({
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
 
+  //
+  const [isNever, setIsNever] = useState<boolean>(false)
+  const [isOnce, setIsOnce] = useState<boolean>(false)
+  const [isSometimes, setIsSometimes] = useState<boolean>(false)
+  const [isUsually, setIsUsually] = useState<boolean>(false)
+  const [isAllTime, setIsAllTime] = useState<boolean>(false)
+
   const [mmassFourScore, setMMASFourScore] = useState(0)
   const [mmassEightScore, setMMASEightScore] = useState(0)
 
@@ -114,16 +121,27 @@ const MMASForm = ({
       (total, state) => total + (state ? 1 : 0),
       0
     )
+
     setMMASFourScore(newScore)
-  }, [formData, isCareless, isForget, isQuitFeelBetter, isQuitFeelWorse])
+
+    const scoreValue = [1, 1, 1, 0, 1 / 4, 1 / 2, 3 / 4, 1]
+
+    const mmas8Scores = [isTookMedYesterday, isQuitOutControl, isUnderPressure, isNever, isOnce, isSometimes, isUsually, isAllTime]
+    const new8Score = mmas8Scores.reduce(
+      (total, state, idx) => total + (state ? scoreValue[idx] : 0),
+      0
+    )
+
+    setMMASEightScore(new8Score)
+  }, [formData, isAllTime, isCareless, isForget, isNever, isOnce, isQuitFeelBetter, isQuitFeelWorse, isQuitOutControl, isSometimes, isTookMedYesterday, isUnderPressure, isUsually])
 
   return (
     <div className="flex flex-col space-y-4 w-full">
       <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
         <p className="font-bold">Morisky Medication Adherence Scale</p>
-        <p className='text-[14px] ' >Last Updated:</p>
+        <p className="text-[14px] ">Last Updated:</p>
       </div>
-      <div className="w-full">
+      <div className="w-full p-4">
         <div className="w-full justify-between items-center flex">
           <p className="font-bold mb-2">MMAS 4 Form</p>
 
@@ -158,8 +176,12 @@ const MMASForm = ({
       </div>
 
       {(isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter) && (
-        <div className="w-full">
-          <p className="font-bold mb-2">MMAS 8 Form</p>
+        <div className="w-full p-4">
+          <div>
+            <p className="font-bold mb-2">MMAS 8 Form</p>
+            Score: {mmassEightScore}
+          </div>
+
           <MmasEight
             isTookYesterday={isTookMedYesterday}
             setIsTookYesterday={setIsTookYesterday}
@@ -169,11 +191,21 @@ const MMASForm = ({
             setIsUnderPressure={setIsUnderPressure}
             isDifficultyRemembering={difficultyRemembering}
             setIsDifficultyRemembering={setIsDifficultyRemembering}
+            isAllTime={isAllTime}
+            isNever={isNever}
+            isOnce={isOnce}
+            isSometimes={isSometimes}
+            isUsually={isUsually}
+            setIsAllTime={setIsAllTime}
+            setIsNever={setIsNever}
+            setIsOnce={setIsOnce}
+            setIsSometimes={setIsSometimes}
+            setIsUsually={setIsUsually}
           />
         </div>
       )}
 
-      <div className="w-full flex justify-end space-x-4">
+      <div className="w-full flex justify-end space-x-4 p-4">
         <Button
           className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
           onClick={() => {

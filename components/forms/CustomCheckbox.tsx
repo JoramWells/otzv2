@@ -9,7 +9,7 @@ export interface CheckboxProps {
 
 const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) => {
   return (
-    <div className="flex flex-row items-start space-x-3">
+    <div className="flex flex-row items-start space-x-4">
       <Checkbox
         id="checkedBox"
         checked={value}
@@ -24,8 +24,7 @@ const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) 
           {label}
         </label>
         <span
-          className="text-slate-500
-        font-normal
+          className="text-slate-500 text-[14px]
         "
         >
           {description}
