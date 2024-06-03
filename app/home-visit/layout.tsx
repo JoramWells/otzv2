@@ -22,7 +22,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '2',
     label: 'Home-Visit',
-    link: 'home-visit',
+    link: '/home-visit',
     icon: <HeartHandshake size={17} />
   },
   {

@@ -66,15 +66,15 @@ const NotifyPage = () => {
   const router = useRouter()
 
   return (
-    <div className="w-full flex-col flex space-y-4">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="p-4 bg-white">
-        <h1 className="font-semibold text-2xl">Welcome to notify!!</h1>
+      <div className="p-4 bg-white mt-2">
+        <h1 className="font-semibold text-lg">Welcome to notify!!</h1>
         <p className="text-slate-500">
           Manage Sent Notifications to client with ease.
         </p>
       </div>
-      <div className="flex w-full justify-between flex-wrap p-4">
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-4 md:grid-cols-2">
         {dataList.map((item, idx) => (
           <div
             key={idx}
@@ -93,60 +93,25 @@ const NotifyPage = () => {
         ))}
       </div>
       <div className="p-4 w-full">
-        <div className=" ">
+        <div className=" bg-white p-4 ">
           <h1
-            className="font-semibold text-2xl
-        capitalize
+            className="font-semibold text-lg capitalize
         "
           >
-            group Appointments
+            Group Appointments
           </h1>
 
-          <p>Scheduled the following appointments</p>
-          <WeeklyAppointmentBarChart />
+          <p className="text-[14px] text-slate-500 ">
+            Scheduled the following appointments
+          </p>
+          <div className="flex justify-between space-x-4 bg-white p-4">
+            <WeeklyAppointmentBarChart />
+
+          </div>
         </div>
       </div>
-      {/* <div
-        className="flex flex-row w-full justify-between
-      space-x-4
-      "
-      >
-        {['high vl', 'lu'].map((item, idx) => (
-          <div
-            key={idx}
-            className="border border-slate-100 rounded-lg p-4
-        border-l-8 border-l-teal-600 flex-1
-        "
-          >
-            <h1
-              className="capitalize text-lg
-          font-semibold
-          "
-            >
-              Support group
-            </h1>
-            <h1
-              className="capitalize
-            text-slate-500
-          "
-            >
-              Book Appointments for patient with high vl
-            </h1>
-            <p className="mt-2 text-xl font-extrabold">35,567 Patients</p>
 
-            <div className="w-full flex justify-end">
-              <Button
-                className="bg-teal-600
-            shadow-none
-            "
-              >
-                Create Appointment
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div> */}
-    </div>
+    </>
   )
 }
 
