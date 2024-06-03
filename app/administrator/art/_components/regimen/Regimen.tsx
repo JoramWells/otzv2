@@ -26,8 +26,8 @@ interface InputProps {
   artName: string
   artCategoryID: string
   measuringUnitID: string
-  quantity: number
-  expiryDate: Date
+  quantity: string
+  expiryDate: string
 }
 
 const Regimen = () => {
@@ -37,8 +37,8 @@ const Regimen = () => {
     artName: z.string(),
     artCategoryID: z.string(),
     measuringUnitID: z.string(),
-    quantity: z.number(),
-    expiryDate: z.date()
+    quantity: z.string(),
+    expiryDate: z.string()
   })
 
   const methods = useForm<InputProps>({

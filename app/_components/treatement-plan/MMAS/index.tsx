@@ -192,9 +192,9 @@ const MMASForm = ({
               {mmassEightScore > 0 && mmassEightScore <= 2 && (
                 <p className="text-orange-500 font-bold">INADEQUATE</p>
               )}
-              {mmassEightScore => 3 && mmassEightScore <= 8 && (
+              {/* {(mmassEightScore: number) => 3 && mmassEightScore <= 8 && (
                 <p className="text-red-500 font-bold">POOR</p>
-              )}
+              )} */}
             </div>
           </div>
 
