@@ -143,7 +143,7 @@ const MMASForm = ({
       </div>
       <div className="w-full p-4">
         <div className="w-full justify-between items-center flex">
-          <p className="font-bold mb-2">MMAS 4 Form</p>
+          <p className="font-bold mb-2">MMAS-4</p>
 
           <div className="flex space-x-4 justify-between  items-center">
             <p
@@ -177,9 +177,25 @@ const MMASForm = ({
 
       {(isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter) && (
         <div className="w-full p-4">
-          <div>
-            <p className="font-bold mb-2">MMAS 8 Form</p>
-            Score: {mmassEightScore}
+          <div className="w-full justify-between items-center flex">
+            <p className="font-bold mb-2">MMAS-8</p>
+            <div className="flex space-x-4 justify-between  items-center">
+              <p
+                // className='text-red-500'
+                className="font-bold"
+              >
+                Score: {mmassEightScore}
+              </p>
+              {mmassEightScore === 0 && (
+                <div className="text-teal-600 font-bold">Good</div>
+              )}
+              {mmassEightScore > 0 && mmassEightScore <= 2 && (
+                <p className="text-orange-500 font-bold">INADEQUATE</p>
+              )}
+              {mmassEightScore => 3 && mmassEightScore <= 8 && (
+                <p className="text-red-500 font-bold">POOR</p>
+              )}
+            </div>
           </div>
 
           <MmasEight
@@ -239,7 +255,7 @@ const MMASForm = ({
                 {isLoading8 && (
                   <Loader2 className="animate-spin mr-2" size={18} />
                 )}
-                Save MMAS 8
+                Save
               </Button>
                 )
               : (
@@ -253,7 +269,7 @@ const MMASForm = ({
                 {isLoading && (
                   <Loader2 className="animate-spin mr-2" size={18} />
                 )}
-                Save MMAS 4
+                Save
               </Button>
                 )}
           </div>

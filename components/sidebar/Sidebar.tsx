@@ -48,7 +48,7 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
           >
             Login
           </Button>
-          <p className="text-xs underline text-[#F3FAFF]">
+          <p className="text-[12px] underline text-[#F3FAFF]">
             Terms and Conditions
           </p>
         </div>

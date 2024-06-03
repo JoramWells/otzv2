@@ -41,15 +41,6 @@ const dataList2 = [
   }
 ]
 
-const steps = [
-  { title: 'Vitals', description: 'Vital Signs' },
-  { title: 'ART', description: 'ART Details' },
-  { title: 'Viral Load', description: 'Viral Load' },
-  { title: 'Time', description: 'Time & Schedule' },
-  { title: 'MMAS', description: 'MMAS4 & MMAS8' },
-  { title: 'Disclosure', description: 'Checklist' }
-]
-
 const StepsPage = ({ params }: any) => {
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('appointmentID')
@@ -107,11 +98,24 @@ const StepsPage = ({ params }: any) => {
     })
   }
 
+  const [age, setAge] = useState<number>(0)
+
   useEffect(() => {
     if (tab) {
       setActiveStep(parseInt(tab, 10))
     }
-  }, [tab])
+    if (personalData) {
+      setAge(calculateAge(personalData?.dob))
+    }
+  }, [tab, personalData])
+  const steps = [
+    { title: 'Vitals', description: 'Vital Signs' },
+    { title: 'ART', description: 'ART Details' },
+    { title: 'Viral Load', description: 'Viral Load' },
+    { title: 'Time', description: 'Time & Schedule' },
+    { title: 'MMAS', description: 'MMAS4 & MMAS8' },
+    ...(age > 6 && age < 10 ? [{ title: 'Disclosure', description: 'Checklist' }] : [])
+  ]
 
   console.log(personalData, 'lop')
 
@@ -141,10 +145,10 @@ const StepsPage = ({ params }: any) => {
                   </StepIndicator>
                   <Box>
                     <StepTitle className="text-[14px] hover:underline ">
-                      {step.title}
+                      {step?.title}
                     </StepTitle>
                     <StepDescription className="text-[12px]">
-                      {step.description}
+                      {step?.description}
                     </StepDescription>
                   </Box>
                   <StepSeparator />
@@ -246,7 +250,7 @@ const StepsPage = ({ params }: any) => {
                   }}
                 />
               )}
-              {tab === '6' && activeStep === 6 && (
+              {tab === '6' && activeStep === 6 && age > 6 && age < 10 && (
                 <DisclosureChecklist
                   appointmentID={appointmentID}
                   patientID={patientID}
