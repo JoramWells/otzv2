@@ -8,7 +8,6 @@ import { Sidebar } from '@/components/sidebar/Sidebar'
 import { store } from '@/lib/store'
 import { type AvatarProps } from '@/types'
 import { generateRandomColors } from '@/utils/generateRandomColors'
-import { ChakraProvider } from '@chakra-ui/react'
 import { BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useMemo, type ReactNode } from 'react'
@@ -85,7 +84,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex flex-row">
       <Provider store={store} >
-        <ChakraProvider>
           <Sidebar isSearchable={false}>
             <div className=" h-[180px] p-4">
               <div
@@ -125,7 +123,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
             {children}
           </div>
-        </ChakraProvider>
       </Provider>
     </div>
   )

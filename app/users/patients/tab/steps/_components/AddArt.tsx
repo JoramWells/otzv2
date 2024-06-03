@@ -24,8 +24,45 @@ import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentSt
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useAddPrescriptionMutation, useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 
+const reasonOptions = [
+  {
+    id: 'Toxicity/SideEffects',
+    label: 'Toxicity/Side Effects',
+    reasonID: 'Substitution'
+  },
+  {
+    id: 'New Drug Available',
+    label: 'New Drug Available',
+    reasonID: 'Substitution'
+  },
+  {
+    id: 'Drugs Out of Stock',
+    label: 'Drugs Out of Stock',
+    reasonID: 'Substitution'
+  },
+  {
+    id: 'Clinical Treatment Failure',
+    label: 'Clinical Treatment Failure',
+    reasonID: 'SWitch'
+  },
+  {
+    id: 'Immunological Failure',
+    label: 'Immunological Failure',
+    reasonID: 'SWitch'
+  },
+  {
+    id: 'Virological Failure',
+    label: 'Virological Failure',
+    reasonID: 'SWitch'
+  }
+]
+
 const StopComponent = () => {
   const [stopReason, setStopReason] = useState('')
+
+  // const switchReasons =  useCallback(()=>{
+  //   return reasonOptions?.filter(item=>item.reasonID.toLowerCase().includes(reasonID.toLowerCase()))
+  // },[])
   return (
     <div className="flex flex-col space-y-4">
       <CustomInput label="Reason" value={stopReason} onChange={setStopReason} />
@@ -48,6 +85,17 @@ const SwitchComponent = ({
 }) => {
   const [switchReason, setSwitchReason] = useState('')
   const [artName, setArtName] = useState('')
+  const [reasonID, setReasonID] = useState('')
+
+  const switchReasons = useCallback(() => {
+    const tempData = reasonOptions.filter((item: any) =>
+      item.reasonID.toLowerCase().includes(reasonID.toLowerCase())
+    )
+    return tempData.map((item) => ({
+      id: item.label,
+      label: item.label
+    }))
+  }, [reasonID])
   return (
     <div className="flex flex-col space-y-4">
       <CustomSelect
@@ -57,15 +105,24 @@ const SwitchComponent = ({
         data={regimenOptions}
       />
       <CustomSelect
+      label='Reason'
+      value={reasonID}
+      onChange={setReasonID}
+      data={[
+        {
+          id: 'Substitution',
+          label: 'Substitution'
+        }, {
+          id: 'Switch',
+          label: 'Switch'
+        }
+      ]}
+      />
+      <CustomSelect
         label="Switch Reason"
         value={switchReason}
         onChange={setSwitchReason}
-        data={[
-          {
-            id: 'Suspected Treatment Failure',
-            label: 'Suspected Treatment Failure'
-          }
-        ]}
+        data={switchReasons()}
       />
       <Button className="w-full bg-slate-200 hover:bg-slate-100 shadow-none text-black">
         Switch Regimen
