@@ -234,15 +234,20 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const [tab, setTab] = useState(1)
 
   return (
-    <div className="w-full flex justify-between items-center">
+    <div className="w-full flex flex-col justify-between items-center">
+      <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
+        <p className="text-lg  font-bold">ART Details</p>
+        <p>Last Updated:</p>
+      </div>
       {prescriptionData ? (
-        <div className="rounded-lg flex flex-col justify-between items-center w-full">
+        <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
           {/* <p>{prescriptionData?.regimen}</p> */}
           <div className="w-full flex flex-col space-y-2">
-            <p className="f">Manage Patient Regimen</p>
             <div>
-              <p className='font-bold'>{prescriptionData?.regimen}</p>
-              <p className="capitalize text-slate-500 text-[14px]">{prescriptionData?.line}</p>
+              <p className="font-bold">{prescriptionData?.regimen}</p>
+              <p className="capitalize text-slate-500 text-[14px]">
+                {prescriptionData?.line}
+              </p>
             </div>
             <div className="flex flex-row space-x-4">
               {dataList.map((item) => (
