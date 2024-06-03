@@ -24,7 +24,7 @@ export const appointmentAgendaApi = createApi({
     deleteAppointmentAgenda: builder.mutation({
       query (id) {
         return {
-          url: `delete${id}`,
+          url: `delete/${id}`,
           method: 'DELETE'
         }
       }

@@ -1,6 +1,9 @@
-import { Trash2, Pencil } from 'lucide-react'
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable react-hooks/rules-of-hooks */
+import { Trash2, Pencil, Loader2 } from 'lucide-react'
 import { type ColumnDef } from '@tanstack/react-table'
 import moment, { type MomentInput } from 'moment'
+import { useDeleteAppointmentAgendaMutation } from '@/api/appointment/appointmentAgenda.api'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -37,18 +40,28 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
   },
   {
     header: 'Action',
-    cell: ({ row }) => (
-      <div className="flex flex-row gap-x-2">
-        <Pencil
-          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
-          size={25}
-        />
-        <Trash2
-          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
-          size={25}
-        />
-      </div>
-    )
+    cell: ({ row }) => {
+      const [deleteAppointmentAgenda, { isLoading }] = useDeleteAppointmentAgendaMutation()
+      return (
+        <div className="flex flex-row gap-x-2">
+          <Pencil
+            className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+            size={25}
+          />
+          {isLoading
+            ? (
+            <Loader2 className='animate-spin' />
+              )
+            : (
+            <Trash2
+              className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+              size={25}
+              onClick={async () => await deleteAppointmentAgenda(row.original.id)}
+            />
+              )}
+        </div>
+      )
+    }
   }
 ]
 

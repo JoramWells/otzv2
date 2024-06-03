@@ -83,7 +83,7 @@ const Appointment = () => {
     <>
       <BreadcrumbComponent dataList={breadCrumbList} />
       <div
-        className="gap-x-4 flex flex-row mt-4 mb-4 bg-white p-2 rounded-lg
+        className="gap-x-4 flex flex-row mt-2 mb-2 bg-white p-2 rounded-lg
           "
       >
         {categoryList.map((item) => (
@@ -100,7 +100,7 @@ const Appointment = () => {
           </Button>
         ))}
       </div>
-      <div className="w-full">
+      <div className="w-full p-2">
         {value === 1 && (
           <div className="w-full flex items-start space-x-4">
             <div className="w-3/4 bg-white p-2 rounded-lg">
