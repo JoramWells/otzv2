@@ -47,15 +47,17 @@ const BookPage = () => {
 
   const router = useRouter()
 
-  const { data: articleCategoryData } = useGetAllArticlesCategoryQuery()
+  const { data: articleCategoryData, isLoading } = useGetAllArticlesCategoryQuery()
   const [deleteArticlesCategory, { isLoading: isLoadingDelete }] = useDeleteArticlesCategoryMutation()
 
   return (
     <div>
       <BreadcrumbComponent dataList={dataList} />
 
-      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-6 p-4 md:grid-cols-2">
-        {articleCategoryData?.map((item: ArticleCategoryProps) => (
+         <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-6 p-4 md:grid-cols-2">
+        {isLoading
+          ? [1, 2, 3, 4, 5, 6].map((idx) => (<Skeleton key={idx} className='w-[250px] h-[150px] ' />))
+          : articleCategoryData?.map((item: ArticleCategoryProps) => (
           <div
             key={item.id}
             onClick={() => {
@@ -94,7 +96,7 @@ const BookPage = () => {
                 <TrashIcon size={15} className='text-white' />
               </Button>
           </div>
-        ))}
+          ))}
       </div>
     </div>
   )
