@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic'
 import { Button } from '@/components/ui/button'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
+import { Loader2 } from 'lucide-react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -42,6 +43,8 @@ const ArticleCategory = () => {
   const [thumbnail, setThumbnail] = useState<File | undefined>()
   const [subThumbnail, setSubThumbnail] = useState<File | undefined>()
   const [progress, setProgress] = useState(0)
+  const [isLoadingBookSave, setIsLoadingBookSave] = useState<boolean>(false)
+  const [isLoadingChapterSave, setIsLoadingChapterSave] = useState<boolean>(false)
 
   const { data } = useGetAllArticlesCategoryQuery()
 
@@ -61,11 +64,13 @@ const ArticleCategory = () => {
       formData.append('thumbnail', thumbnail)
     }
     formData.append('thumbnail', '')
+    setIsLoadingBookSave(true)
     await axios.post(URL_CATEGORY, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
+    setIsLoadingBookSave(false)
   }
 
   const handleSubCategorySubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -78,6 +83,7 @@ const ArticleCategory = () => {
       formData.append('thumbnail', subThumbnail)
     }
     formData.append('thumbnail', '')
+    setIsLoadingChapterSave(true)
     await axios.post(URL_SUB_CATEGORY, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -90,6 +96,7 @@ const ArticleCategory = () => {
         }
       }
     })
+    setIsLoadingChapterSave(false)
   }
 
   return (
@@ -141,8 +148,9 @@ const ArticleCategory = () => {
             //   await handleAddArticlesCategory(inputValues)
             // }}
             type="submit"
+            disabled={isLoadingBookSave}
           >
-            {/* {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />} */}
+            {isLoadingBookSave && <Loader2 className="mr-2 animate-spin" size={18} />}
             ADD
           </Button>
         </form>
@@ -185,7 +193,11 @@ const ArticleCategory = () => {
               }}
             />
           </div>
-          <Button className="w-full shadow-none bg-slate-200 hover:bg-slate-100 text-black">
+          <Button className="w-full shadow-none bg-slate-200 hover:bg-slate-100 text-black"
+          disabled={isLoadingChapterSave}
+          >
+            {isLoadingChapterSave && <Loader2 className="mr-2 animate-spin" size={18} />}
+
             ADD
           </Button>
         </form>
