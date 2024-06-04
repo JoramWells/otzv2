@@ -1,11 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { useAddArticlesMutation } from '@/api/articles/articles.api'
-import { useAddArticlesCategoryMutation, useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
+import { useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
 import { useGetAllChaptersQuery } from '@/api/articles/chapters.api'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
@@ -16,7 +15,7 @@ import axios from 'axios'
 import { Loader2, PlusCircle } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { type FormEvent, useCallback, useMemo, useState, type Dispatch, type SetStateAction, useEffect } from 'react'
+import { type FormEvent, useCallback, useMemo, useState, useEffect } from 'react'
 // import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
 const BreadcrumbComponent = dynamic(
@@ -44,9 +43,6 @@ const dataList2 = [
     link: ''
   }
 ]
-type FileType = File | null
-
-type SetFileType = Dispatch<SetStateAction<FileType>>
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/articles/articles/add`
 
@@ -59,11 +55,9 @@ export interface ArticleProps {
 const ArticlesPage = () => {
   const ReactQuill = useMemo(() => dynamic(async () => await import('react-quill'), { ssr: false }), [])
 
-  const [addArticlesCategory, { isLoading }] = useAddArticlesCategoryMutation()
   const { data, isLoading: isLoadingData } = useGetAllArticlesCategoryQuery()
 
   //
-  const [addArticles, { isLoading: isLoadingArticles }] = useAddArticlesMutation()
 
   const [content, setContent] = useState('')
   const [title, setTitle] = useState('')
@@ -71,6 +65,7 @@ const ArticlesPage = () => {
   const [articleCategoryID, setArticleCategoryID] = useState('')
   const [chapterID, setChapterID] = useState('')
   const [file, setFile] = useState<File | undefined>()
+  const [isLoadingArticleSave, setIsLoadingArticleSave] = useState<boolean>(false)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -84,21 +79,13 @@ const ArticlesPage = () => {
     }
     formData.append('file', '')
 
-    // const formData = {
-    //   articleCategoryID,
-    //   content: value,
-    //   image: file
-    // }
-
-    // Call the addArticles mutation with the form data and file
-    // await addArticles({ formData, file })
+    setIsLoadingArticleSave(true)
     await axios.post(URL, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
-
-    console.log(formData.get('file'), 'dtx')
+    setIsLoadingArticleSave(false)
   }
   useEffect(() => {
     if (data) {
@@ -115,19 +102,12 @@ const ArticlesPage = () => {
     }))
   }, [chapterData, articleCategoryID])
 
-  console.log(chapterOptions(), 'lko')
-
   const categoryOptions = useCallback(() => {
     return categoryData.map((item: any) => ({
       id: item.id,
       label: item.description
     }))
   }, [categoryData])
-
-  const handleAddArticlesCategory = useCallback(async (input: CategoryInputProps) => {
-    setCategoryData([...categoryData, input])
-    await addArticlesCategory(input)
-  }, [addArticlesCategory, categoryData])
 
   return (
     <>
@@ -203,8 +183,9 @@ const ArticlesPage = () => {
               className="shadow-none bg-teal-600 hover:bg-teal-700"
               type="submit"
               // onClick={() => addArticles({formData, file})}
+              disabled={isLoadingArticleSave}
             >
-              {isLoadingArticles && (
+              {isLoadingArticleSave && (
                 <Loader2 className="mr-2 animate-spin" size={18} />
               )}
               SAVE

@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
 
@@ -38,11 +39,9 @@ const dataList = [
 
 const ArticlePage = ({ params }: { params: any }) => {
   const { bookID } = params
-  const { data } = useGetAllChapterBooksQuery(bookID)
+  const { data, isLoading: isLoadingChapter } = useGetAllChapterBooksQuery(bookID)
 
   const [deleteArticles, { isLoading }] = useDeleteArticlesMutation()
-
-  console.log(data, 'capters')
 
   const router = useRouter()
 
@@ -51,7 +50,8 @@ const ArticlePage = ({ params }: { params: any }) => {
       <BreadcrumbComponent dataList={dataList} />
 
       <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-6 p-4 md:grid-cols-2">
-        {data?.map((item: any) => (
+        {isLoadingChapter ? [1, 2, 3, 4, 5, 6].map((idx) => (<Skeleton key={idx} className='w-[250px] h-[150px] ' />))
+          : data?.map((item: any) => (
           <div key={item.id} className="rounded-xl bg-white relative"
           onClick={() => { router.push(`/articles/articles/${item.id}`) }}
           >
@@ -95,7 +95,7 @@ const ArticlePage = ({ params }: { params: any }) => {
               <TrashIcon size={18} />
             </Button>
           </div>
-        ))}
+          ))}
       </div>
     </>
   )
