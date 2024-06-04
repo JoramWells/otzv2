@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -133,6 +134,12 @@ const AddTriage = ({
 
   //
   const [addVitalSign, { isLoading, data: vsData }] = useAddVitalSignMutation()
+
+  useEffect(() => {
+    if (vsData) {
+      handleNext()
+    }
+  }, [vsData, handleNext])
 
   const methods = useForm<InputProps>({
     resolver: zodResolver(Schema)

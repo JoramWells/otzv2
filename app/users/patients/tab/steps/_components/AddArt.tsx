@@ -15,7 +15,7 @@ import {
   StopCircle,
   TabletsIcon
 } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
@@ -171,7 +171,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const { data: statusData } = useGetAllAppointmentStatusQuery()
   const { data: userData } = useGetAllUsersQuery()
 
-  const [addPrescription, { isLoading: prescriptionSaveLoading }] = useAddPrescriptionMutation()
+  const [addPrescription, { isLoading: prescriptionSaveLoading, data: addPillPrescriptionData }] = useAddPrescriptionMutation()
 
   const agendaDataOptions = useCallback(() => {
     return agendaData?.filter(
@@ -196,11 +196,17 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     appointmentStatusID: statusOptions?.()[0]?.id
   }
 
+  useEffect(() => {
+    if (addPillPrescriptionData) {
+      handleNext()
+    }
+  }, [addPillPrescriptionData, handleNext])
+
   const [startDate, setStartDate] = useState('')
 
   const { data } = useGetAllArtRegimenQuery()
   const [regimenLine, setRegimenLine] = useState('first line')
-  const [isStandardRegimen, setIsStandardRegimen] = useState(false)
+  const [isStandardRegimen, setIsStandardRegimen] = useState(true)
   const [isNonStandardRegimen, setIsNonStandardRegimen] = useState(false)
   const [artRegimen, setArtRegimen] = useState('')
   const [nonStandardArtRegimen, setNonStandardArtRegimen] = useState('')
@@ -239,7 +245,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
         <p className="text-lg  font-bold">ART Details</p>
         <p>Last Updated:</p>
       </div>
-      {prescriptionData ? (
+      {(prescriptionData || addPrescriptionData) ? (
         <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
           {/* <p>{prescriptionData?.regimen}</p> */}
           <div className="w-full flex flex-col space-y-2">
@@ -353,7 +359,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
         >
           {/*  */}
 
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 p-4">
             <div>
               <CustomSelect
                 label="Regimen Line"
@@ -418,7 +424,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
               onChange={setStartDate}
             />
           </div>
-          <div className="flex justify-end mt-4 space-x-4">
+          <div className="flex justify-end mt-4 space-x-4 p-4">
             <Button
               onClick={() => {
                 handleBack()
