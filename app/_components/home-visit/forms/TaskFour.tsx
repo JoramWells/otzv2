@@ -30,7 +30,7 @@ const TaskFour = ({
   isHouseholdTested,
   setIsHouseholdTested
 }: TaskFourProps) => (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+  <div className="flex flex-col gap-y-4">
     <CustomCheckbox
       value={isCountedPills}
       onChange={setIsCountedPills}

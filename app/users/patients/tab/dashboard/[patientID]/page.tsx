@@ -204,7 +204,7 @@ const PatientDetails = ({ params }: any) => {
         <div className="flex-1 rounded-lg h-[145px] overflow-y-auto ">
             {prescriptionData
               ? (
-              <div>ART Prescribed</div>
+              <div>ART Prescribe</div>
                 )
               : (
               <div
@@ -255,7 +255,7 @@ const PatientDetails = ({ params }: any) => {
             </>
               )
             : (
-            <div>No Priority Appointment</div>
+            <div>No Priority Appointments</div>
               )}
         </div>
       </div>

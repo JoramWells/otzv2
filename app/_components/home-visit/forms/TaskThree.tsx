@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable import/no-extraneous-dependencies */
 
+import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import CustomInput from '../../../../components/forms/CustomInput'
 import CustomSelect from '../../../../components/forms/CustomSelect'
+import { useEffect, useState } from 'react'
+import { Badge } from '@/components/ui/badge'
 
 export interface TaskThreeProps {
   dateHomeVisitRequested: string
@@ -15,6 +20,7 @@ export interface TaskThreeProps {
   evaluationOfAction: string
   setEvaluationOfAction: (val: string) => void
   returnToClinic: string
+  patientID: string
   setReturnToClinic: (val: string) => void
 }
 const TaskThree = ({
@@ -29,57 +35,88 @@ const TaskThree = ({
   evaluationOfAction,
   setEvaluationOfAction,
   returnToClinic,
-  setReturnToClinic
-}: TaskThreeProps) => (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+  setReturnToClinic,
+  patientID
+}: TaskThreeProps) => {
+  const { data: pData } = useGetPrescriptionDetailQuery(patientID)
+  console.log(pData, 'PDATA')
 
-    {/* DOB */}
+  const [medicineCount, setMedicineCount] = useState(0)
 
-    <CustomInput
-      label="Medicine Counted"
-      value={noOfMedicine}
-      onChange={setNoOfMedicine}
-    />
+  useEffect(() => {
+    if (pData) {
+      setMedicineCount(pData?.expectedNoOfPills)
+    }
+  }, [pData])
 
-    {/*  */}
-    <CustomSelect
-      label="Medicine Status"
-      value={medicineStatus}
-      onChange={setMedicineStatus}
-      data={[
-        {
-          id: 'Adequate',
-          label: 'Adequate'
-        },
-        {
-          id: 'Inadequate',
-          label: 'Inadequate'
-        }
-      ]}
-    />
+  return (
+    <div className="flex flex-col gap-y-4">
+      {/* DOB */}
 
-    {/*  */}
-    <CustomInput
-      label="Action Taken"
-      value={actionTaken}
-      onChange={setActionTaken}
-    />
+      <div className="flex space-x-4 justify-between relative">
+        <div>
+          Medicine Counted
+          {medicineCount}
+          {medicineCount === parseInt(noOfMedicine, 10)
+            ? <Badge>Adequate</Badge>
+            : <Badge>Inadequate</Badge>}
+        </div>
+        <div>
+          Computed Medicine Count
+          {pData?.computedNoOfPills}
+        </div>
+      </div>
 
-    {/*  */}
-    <CustomInput
-      label="Evaluation of Action"
-      value={evaluationOfAction}
-      onChange={setEvaluationOfAction}
-    />
+      <CustomInput
+        label="Medicine Counted"
+        value={noOfMedicine}
+        onChange={setNoOfMedicine}
+      />
 
-    {/*  */}
-    <CustomInput
-      label="Return to Clinic"
-      type='date'
-      value={returnToClinic}
-      onChange={setReturnToClinic}
-    />
-  </div>
-)
+      {/*  */}
+
+      <div>
+        {noOfMedicine === pData?.expectedNoOfPills ? 'Adequate' : 'Inadequate'}
+      </div>
+      <CustomSelect
+        label="Medicine Status"
+        value={medicineStatus}
+        onChange={setMedicineStatus}
+        data={[
+          {
+            id: 'Adequate',
+            label: 'Adequate'
+          },
+          {
+            id: 'Inadequate',
+            label: 'Inadequate'
+          }
+        ]}
+      />
+
+      {/*  */}
+      <CustomInput
+        label="Action Taken"
+        value={actionTaken}
+        onChange={setActionTaken}
+      />
+
+      {/*  */}
+      <CustomInput
+        label="Evaluation of Action"
+        value={evaluationOfAction}
+        onChange={setEvaluationOfAction}
+      />
+
+      {/*  */}
+      <CustomInput
+        label="Return to Clinic"
+        type="date"
+        value={returnToClinic}
+        onChange={setReturnToClinic}
+      />
+    </div>
+  )
+}
 
 export default TaskThree

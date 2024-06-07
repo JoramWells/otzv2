@@ -58,7 +58,7 @@ const TaskOne = ({
   }, [userData])
 
   return (
-    <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+    <div className="flex flex-col gap-y-4 ">
       <CustomSelect
         label="Reason for visit"
         data={reasonOptions()}

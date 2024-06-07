@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { type Dispatch, type SetStateAction, useCallback, useState, useEffect } from 'react'
+import { type Dispatch, type SetStateAction, useCallback, useState, useEffect, Suspense } from 'react'
 import {
   Box,
   Button,
@@ -26,6 +26,9 @@ import { useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useGetPatientQuery } from '@/api/patient/patients.api'
+import Avatar from '@/components/Avatar'
+import { calculateAge } from '@/utils/calculateAge'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -134,6 +137,8 @@ const DisclosureChecklist = ({ params }: any) => {
 
   const [addHomeVisit, { isLoading }] = useAddHomeVisitMutation()
   const { data: patientData } = useGetArtPrescriptionQuery(patientID)
+  const { data: personalData } = useGetPatientQuery(patientID)
+
   useEffect(() => {
     if (patientData) {
       setIsARV(true)
@@ -150,8 +155,8 @@ const DisclosureChecklist = ({ params }: any) => {
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className='flex items-center w-full flex-col mt-2 p-2'>
-        <div className="border border-slate-200 p-2 bg-white rounded-xl w-1/2">
+      <div className="flex items-center w-full flex-col mt-2 p-2">
+        <div className=" p-2 bg-white rounded-xl w-3/4">
           <Stepper index={activeStep} colorScheme="teal">
             {steps.map((step, index) => (
               <Step key={index}>
@@ -172,110 +177,147 @@ const DisclosureChecklist = ({ params }: any) => {
             ))}
           </Stepper>
         </div>
-        <div className="bg-white w-1/2 rounded-lg">
-          {activeStep === 1 && (
-            <TaskOne
-              homeVisitReason={homeVisitReason}
-              setHomeVisitReason={setHomeVisitReason}
-              requestedBy={requestedBy}
-              setRequestedBy={setRequestedBy}
-              dateRequested={dateRequested}
-              setDateRequested={setDateRequested}
-              frequency={frequency}
-              setFrequency={setFrequency}
-            />
-          )}
-          {activeStep === 2 && (
-            <TaskTwo
-              isARV={isARV}
-              setIsARV={setIsARV}
-              isTB={isTB}
-              setIsTB={setIsTB}
-              currentRegimen={currentRegimen}
-              setCurrentRegimen={setCurrentRegimen}
-              currentRegimenBegan={currentRegimenBegan}
-              setCurrentRegimenBegan={setCurrentRegimenBegan}
-              treatmentStartDate={treatmentStartDate}
-              setTreatmentStartDate={setTreatmentStartDate}
-              treatmentEndDate={treatmentEndDate}
-              setTreatmentEndDate={setTreatmentEndDate}
-              intensivePhaseEndDate={intensivePhaseEndDate}
-              setIntensivePhaseEndDate={setIntensivePhaseEndDate}
-              oralDrugs={oralDrugs}
-              setOralDrugs={setOralDrugs}
-              patientID={patientID}
-              complaints={complaints}
-              setComplaints={setComplaints}
-            />
-          )}
-
-          {activeStep === 3 && (
-            <TaskThree
-              dateHomeVisitRequested={dateHomeVisitRequested}
-              setDateHomeVisitRequested={setDateHomeVisitRequested}
-              noOfMedicine={noOfMedicine}
-              setNoOfMedicine={setNoOfMedicine}
-              medicineStatus={medicineStatus}
-              setMedicineStatus={setMedicineStatus}
-              actionTaken={actionTaken}
-              setActionTaken={setActionTaken}
-              evaluationOfAction={evaluationOfAction}
-              setEvaluationOfAction={setEvaluationOfAction}
-              returnToClinic={returnToClinic}
-              setReturnToClinic={setReturnToClinic}
-            />
-          )}
-
-          {activeStep === 4 && (
-            <TaskFour
-              isCountedPills={isCountedPills}
-              setIsCountedPills={setIsCountedPills}
-              isClinicVisits={isClinicVisits}
-              setIsClinicVisits={setIsClinicVisits}
-              isDisclosure={isDisclosure}
-              setIsDisclosure={setIsDisclosure}
-              isGuardianSupport={isGuardianSupport}
-              setIsGuardianSupport={setIsGuardianSupport}
-              isSupportGroupAttendance={isSupportGroupAttendance}
-              setIsSupportGroupAttendance={setIsSupportGroupAttendance}
-              isHouseholdTested={isHouseholdTested}
-              setIsHouseholdTested={setIsHouseholdTested}
-            />
-          )}
-
-          <div className="flex justify-end pt-2 gap-x-2">
-            <Button
-              size={'sm'}
-              onClick={handleBack}
-              isDisabled={activeStep === 1}
-            >
-              Back
-            </Button>
-            {activeStep === 4
+        <div className="w-full flex justify-center p-2 space-x-2">
+          <div className="flex flex-col items-center bg-white rounded-lg p-4 w-1/4 h-[200px]">
+            {!personalData
               ? (
-              <Button
-                colorScheme="teal"
-                size={'sm'}
-                onClick={() => {
-                  addHomeVisit(inputValues)
-                }}
-                isLoading={isLoading}
-              >
-                Complete
-              </Button>
+              <Skeleton className="w-full h-[200px]" />
                 )
               : (
-              <Button
-                colorScheme="teal"
-                size={'sm'}
-                onClick={() => {
-                  handleNext()
-                }}
-                isLoading={isLoading}
-              >
-                Next
-              </Button>
+              <Suspense fallback={<div>loading..</div>}>
+                <div className="flex flex-col items-center  w-full rounded-lg space-y-1">
+                  <Avatar
+                    name={`${personalData?.firstName} ${personalData?.middleName}`}
+                  />
+                  <p className="font-bold">
+                    {personalData?.firstName} {personalData?.middleName}
+                  </p>
+                  <p className="text-[14px] text-slate-500">
+                    <span className="font-bold">DOB</span>:{' '}
+                    {moment(personalData?.dob).format('ll')},{' '}
+                    {calculateAge(personalData?.dob)} yrs
+                  </p>
+                  <p className="text-[14px] text-slate-500">
+                    <span className="font-semibold">Sex:</span>{' '}
+                    {personalData?.sex === 'M' ? 'MALE' : 'FEMALE'}
+                  </p>
+
+                  <div className="text-slate-500 text-sm">
+                    <p>
+                      <span className="font-bold">Phone:</span>{' '}
+                      <span>{personalData?.phoneNo} </span>
+                    </p>
+                  </div>
+                </div>
+              </Suspense>
                 )}
+          </div>
+          <div className="bg-white w-1/2  p-4 rounded-lg">
+            {activeStep === 1 && (
+              <TaskOne
+                homeVisitReason={homeVisitReason}
+                setHomeVisitReason={setHomeVisitReason}
+                requestedBy={requestedBy}
+                setRequestedBy={setRequestedBy}
+                dateRequested={dateRequested}
+                setDateRequested={setDateRequested}
+                frequency={frequency}
+                setFrequency={setFrequency}
+              />
+            )}
+            {activeStep === 2 && (
+              <TaskTwo
+                isARV={isARV}
+                setIsARV={setIsARV}
+                isTB={isTB}
+                setIsTB={setIsTB}
+                currentRegimen={currentRegimen}
+                setCurrentRegimen={setCurrentRegimen}
+                currentRegimenBegan={currentRegimenBegan}
+                setCurrentRegimenBegan={setCurrentRegimenBegan}
+                treatmentStartDate={treatmentStartDate}
+                setTreatmentStartDate={setTreatmentStartDate}
+                treatmentEndDate={treatmentEndDate}
+                setTreatmentEndDate={setTreatmentEndDate}
+                intensivePhaseEndDate={intensivePhaseEndDate}
+                setIntensivePhaseEndDate={setIntensivePhaseEndDate}
+                oralDrugs={oralDrugs}
+                setOralDrugs={setOralDrugs}
+                patientID={patientID}
+                complaints={complaints}
+                setComplaints={setComplaints}
+              />
+            )}
+
+            {activeStep === 3 && (
+              <TaskThree
+                dateHomeVisitRequested={dateHomeVisitRequested}
+                setDateHomeVisitRequested={setDateHomeVisitRequested}
+                noOfMedicine={noOfMedicine}
+                setNoOfMedicine={setNoOfMedicine}
+                medicineStatus={medicineStatus}
+                setMedicineStatus={setMedicineStatus}
+                actionTaken={actionTaken}
+                setActionTaken={setActionTaken}
+                evaluationOfAction={evaluationOfAction}
+                setEvaluationOfAction={setEvaluationOfAction}
+                returnToClinic={returnToClinic}
+                setReturnToClinic={setReturnToClinic}
+                patientID={patientID}
+              />
+            )}
+
+            {activeStep === 4 && (
+              <TaskFour
+                isCountedPills={isCountedPills}
+                setIsCountedPills={setIsCountedPills}
+                isClinicVisits={isClinicVisits}
+                setIsClinicVisits={setIsClinicVisits}
+                isDisclosure={isDisclosure}
+                setIsDisclosure={setIsDisclosure}
+                isGuardianSupport={isGuardianSupport}
+                setIsGuardianSupport={setIsGuardianSupport}
+                isSupportGroupAttendance={isSupportGroupAttendance}
+                setIsSupportGroupAttendance={setIsSupportGroupAttendance}
+                isHouseholdTested={isHouseholdTested}
+                setIsHouseholdTested={setIsHouseholdTested}
+              />
+            )}
+
+            <div className="flex justify-end pt-2 gap-x-2">
+              <Button
+                size={'sm'}
+                onClick={handleBack}
+                isDisabled={activeStep === 1}
+              >
+                Back
+              </Button>
+              {activeStep === 4
+                ? (
+                <Button
+                  colorScheme="teal"
+                  size={'sm'}
+                  onClick={() => {
+                    addHomeVisit(inputValues)
+                  }}
+                  isLoading={isLoading}
+                >
+                  Complete
+                </Button>
+                  )
+                : (
+                <Button
+                  colorScheme="teal"
+                  size={'sm'}
+                  onClick={() => {
+                    handleNext()
+                  }}
+                  isLoading={isLoading}
+                >
+                  Next
+                </Button>
+                  )}
+            </div>
           </div>
         </div>
       </div>

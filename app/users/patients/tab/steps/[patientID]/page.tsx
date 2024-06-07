@@ -207,7 +207,7 @@ const StepsPage = ({ params }: any) => {
               {/*  */}
               {tab === '2' && activeStep === 2 && (
                 <Suspense
-                fallback={<div>loading..</div>}
+                fallback={<div>loading...</div>}
                 >
                   <AddArt
                     handleNext={() => {

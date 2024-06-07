@@ -47,7 +47,7 @@ const TaskTwo = ({
   setComplaints
 }: TaskTwoProps) => {
   return (
-    <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+    <div className="flex flex-col gap-y-4 rounded-lg ">
       <div
         className="w-full flex-col border p-2 rounded-xl
         border-slate-200 bg-slate-50
