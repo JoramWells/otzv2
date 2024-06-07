@@ -69,8 +69,12 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
     header: 'Total Pills'
   },
   {
-    accessorKey: 'nofOfPills',
+    accessorKey: 'expectedNoOfPills',
     header: 'Remaining Pills'
+  },
+  {
+    accessorKey: 'computedNoOfPills',
+    header: 'Computed No Of Pills'
   },
   {
     accessorKey: 'refillDate',

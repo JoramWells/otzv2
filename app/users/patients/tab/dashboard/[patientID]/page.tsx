@@ -98,7 +98,7 @@ const PatientDetails = ({ params }: any) => {
             Current Patient Profile Details
           </p>
         </div>
-        <div className='flex items-center bg-teal-600 rounded-lg'>
+        <div className="flex items-center bg-teal-600 rounded-lg">
           <Button
             disabled={isLoading}
             onClick={async () => {
@@ -110,8 +110,8 @@ const PatientDetails = ({ params }: any) => {
             Initiate Care
           </Button>
           <StartVisitDropdown
-          appointmentList={priorityAppointment}
-          patientID={patientID}
+            appointmentList={priorityAppointment}
+            patientID={patientID}
           />
         </div>
       </div>
@@ -168,8 +168,7 @@ const PatientDetails = ({ params }: any) => {
           </div>
             )}
         {/*  */}
-        <div className="flex-1 bg-white rounded-lg p-2 h-[145px] ">
-          <p className="font-bold">Recent Vital Signs</p>
+        <div className="flex-1 bg-white rounded-lg  h-[145px] ">
           {vsData
             ? (
             <div>
@@ -182,32 +181,50 @@ const PatientDetails = ({ params }: any) => {
             </div>
               )
             : (
-            <div>
-              <p className="text-slate-500 text-[14px] ">
-                No Recent Vital Signs
-              </p>
-              <Link href={'update'} className="text-blue-500 text-sm underline">
-                Update
-              </Link>
+            <div
+              className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
+            >
+              <InfoIcon className="text-slate-500" size={18} />
+              <div>
+                <p className="text-slate-500 text-[14px] ">
+                  No Recent Vital Signs Record
+                </p>
+                <Link
+                  href={'update'}
+                  className="text-blue-500 text-sm underline"
+                >
+                  Update
+                </Link>
+              </div>
             </div>
               )}
         </div>
 
         {/*  */}
-        <div className="flex-1 bg-white rounded-lg p-2 h-[145px] overflow-y-auto ">
-          <p className="text-lg font-bold">Medication</p>
-          <div className="flex justify-between">
+        <div className="flex-1 rounded-lg h-[145px] overflow-y-auto ">
             {prescriptionData
               ? (
               <div>ART Prescribed</div>
                 )
               : (
-              <div>Prescribe ART</div>
+              <div
+                className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
+              >
+                <InfoIcon className="text-slate-500" size={18} />
+                <div>
+                  <p className="text-slate-500 text-[14px] ">
+                    No Medication
+                  </p>
+                  <Link
+                    href={'update'}
+                    className="text-blue-500 text-sm underline"
+                  >
+                    Update
+                  </Link>
+                </div>
+              </div>
                 )}
-          </div>
-          <div>TPT</div>
-          <div>Anti TB</div>
-          <div>Prep/pep</div>
+
         </div>
 
         {/*  */}

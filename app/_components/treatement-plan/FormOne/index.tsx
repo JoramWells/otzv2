@@ -73,15 +73,16 @@ const FormOne = ({
   // console.log(morningTime, morningHours, 'uty')
 
   const inputValues = {
+    patientID,
     wakeUpTime,
     departureHomeTime,
     arrivalTime,
     arrivalHomeTime,
     departureTime,
     morningPlace,
-    morningTime,
+    morningMedicineTime: morningTime,
     eveningPlace,
-    eveningTime,
+    eveningMedicineTime: eveningTime,
     medicineStorage,
     toolAndCues,
     eveningTimeWeekend,

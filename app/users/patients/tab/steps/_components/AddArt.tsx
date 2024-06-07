@@ -189,6 +189,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     patientID,
     frequency,
     noOfPill,
+    computedNoOfPills: noOfPill,
     refillDate,
     userID: userData?.[0].id,
     patientVisitID: appointmentID,
