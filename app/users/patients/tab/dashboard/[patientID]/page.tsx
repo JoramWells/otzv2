@@ -106,7 +106,7 @@ const PatientDetails = ({ params }: any) => {
             }}
             className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold"
           >
-            {isLoading && <Loader2 className="mr-2" size={18} />}
+            {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />}
             Initiate Care
           </Button>
           <StartVisitDropdown

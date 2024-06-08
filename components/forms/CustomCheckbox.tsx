@@ -9,7 +9,7 @@ export interface CheckboxProps {
 
 const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) => {
   return (
-    <div className="flex flex-row items-start space-x-4">
+    <div className="flex flex-row items-start space-x-4 hover:bg-slate-50 hover:cursor-pointer p-2 rounded-lg">
       <Checkbox
         id="checkedBox"
         checked={value}
@@ -20,7 +20,7 @@ const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) 
         // pt={1}
       />
       <div className="flex flex-col">
-        <label htmlFor="checkedBox" className={`capitalize font-semibold ${value && 'text-slate-700'} text-slate-500 m-0 `}>
+        <label htmlFor="checkedBox" className={`capitalize text-[16px] ${value && 'text-slate-700'} text-slate-500 `}>
           {label}
         </label>
         <span

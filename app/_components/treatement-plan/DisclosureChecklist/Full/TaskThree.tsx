@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
+import CustomCheckbox from '@/components/forms/CustomCheckbox'
 
 export interface TaskThreeProps {
   isReassuredCaregiver: boolean
@@ -46,7 +46,9 @@ const TaskThree = ({
   taskThreeComments,
   setTaskThreeComments
 }: TaskThreeProps) => (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+    <div className="flex flex-col gap-y-2 p-4 ">
+    <h1 className='capitalize font-bold'>Task 3: Execute Disclosure</h1>
+
     <CustomCheckbox
       label="Reassured the caregiver and child?"
       value={isReassuredCaregiver}

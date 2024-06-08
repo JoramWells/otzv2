@@ -25,7 +25,7 @@ const MmasFour = ({
   setIsQuitBetter
 }: MMASFourProps) => (
   <div
-  className='flex flex-col space-y-4'
+  className='flex flex-col space-y-2 '
   >
     <CustomCheckbox
       label="Do you ever forget to take medicine?"

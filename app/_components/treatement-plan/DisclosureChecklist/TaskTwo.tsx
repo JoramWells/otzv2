@@ -43,8 +43,8 @@ const TaskTwo = ({
   taskTwoComments,
   setTaskTwoComments
 }: TaskTwoProps) => (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
-    <h1 className="capitalize text-slate-500">
+  <div className="flex flex-col gap-y-2 p-4">
+    <h1 className="capitalize font-bold">
       Task 2: Assess child and caregiver for readiness.
     </h1>
     <CustomCheckbox

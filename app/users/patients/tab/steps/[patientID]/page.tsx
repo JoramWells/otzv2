@@ -19,6 +19,7 @@ import { useGetPatientQuery } from '@/api/patient/patients.api'
 import Avatar from '@/components/Avatar'
 import moment from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
+import FullDisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist/Full'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -113,9 +114,15 @@ const StepsPage = ({ params }: any) => {
     { title: 'ART', description: 'ART Details' },
     { title: 'Viral Load', description: 'Viral Load' },
     { title: 'Time', description: 'Time & Schedule' },
-    { title: 'MMAS', description: 'MMAS4 & MMAS8' },
-    ...(age > 6 && age < 10 ? [{ title: 'Disclosure', description: 'Checklist' }] : [])
+    { title: 'MMAS', description: 'MMAS4 & MMAS8' }
+
   ]
+
+  if (age >= 5 && age <= 8) {
+    steps.push({ title: 'Disclosure', description: 'Partial Disclosure' })
+  } else if (age >= 9 && age <= 12) {
+    steps.push({ title: 'Disclosure', description: 'Full Disclosure' })
+  }
 
   console.log(personalData, 'lop')
 
@@ -206,9 +213,7 @@ const StepsPage = ({ params }: any) => {
 
               {/*  */}
               {tab === '2' && activeStep === 2 && (
-                <Suspense
-                fallback={<div>loading...</div>}
-                >
+                <Suspense fallback={<div>loading...</div>}>
                   <AddArt
                     handleNext={() => {
                       handleNext(activeStep)
@@ -260,8 +265,22 @@ const StepsPage = ({ params }: any) => {
                   }}
                 />
               )}
-              {tab === '6' && activeStep === 6 && age > 6 && age < 10 && (
+              {tab === '6' && activeStep === 6 && age >= 5 && age <= 8 && (
                 <DisclosureChecklist
+                  appointmentID={appointmentID}
+                  patientID={patientID}
+                  handleNext={() => {
+                    handleNext(activeStep)
+                  }}
+                  handleBack={() => {
+                    handleBack()
+                  }}
+                />
+              )}
+
+              {/*  */}
+              {tab === '6' && activeStep === 6 && age >= 9 && age <= 12 && (
+                <FullDisclosureChecklist
                   appointmentID={appointmentID}
                   patientID={patientID}
                   handleNext={() => {

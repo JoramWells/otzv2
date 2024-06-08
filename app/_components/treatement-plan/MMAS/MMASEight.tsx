@@ -51,7 +51,7 @@ const MmasEight = ({
     setter(value)
   }
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-2">
       <CustomCheckbox
         label="Did you take your medicine yesterday?"
         value={isTookYesterday}
@@ -73,11 +73,11 @@ const MmasEight = ({
       />
 
       <div>
-        <p>
+        <p className="font-bold text-[14px] " >
           How ofter do you find difficulty remembering to take all your
-          medications
+          medications ?
         </p>
-        <div className="grid grid-cols-2 gap-4 mt-2">
+        <div className="grid grid-cols-2 gap-2 ">
           <CustomCheckbox label="A. Never/Rarely" description="0 point(s)"
           value={isNever}
           onChange={handleFrequencyChange(setIsNever)}

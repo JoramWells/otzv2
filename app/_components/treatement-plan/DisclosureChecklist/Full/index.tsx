@@ -5,9 +5,9 @@
 
 import { type Dispatch, type SetStateAction, useState } from 'react'
 
-import TaskThree from '../TaskThree'
-import TaskFour from '../TaskFour'
 import { Button } from '@/components/ui/button'
+import TaskThree from './TaskThree'
+import TaskFour from './TaskFour'
 
 interface AddTriageProps {
   handleNext: () => void
@@ -16,7 +16,7 @@ interface AddTriageProps {
   appointmentID: string | null
 };
 
-const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID }: AddTriageProps) => {
+const FullDisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID }: AddTriageProps) => {
   const [isAssessedChildSafety, setIsAssessedChildSafety]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isSupportedCaregiverChildToDisclose, setIsSupportedCaregiverChildToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isObservedReactions, setIsObserved]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
@@ -37,17 +37,17 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
   const [taskFourComments, setTaskFourComments] = useState('')
   const [finalComments, setFinalComments] = useState('')
 
-  // const [addDisclosureChecklist, { isLoading: isLoadingAddDisclosure, data: isSaveData }] = useAddDisclosureChecklistMutation()
+  // const [addFullDisclosureChecklist, { isLoading: isLoadingAddDisclosure, data: isSaveData }] = useAddFullDisclosureChecklistMutation()
 
-  // const { data: disclosureData } = useGetDisclosureChecklistQuery(appointmentID)
+  // const { data: disclosureData } = useGetFullDisclosureChecklistQuery(appointmentID)
   // console.log(disclosureData, 'dataDisclosure')
 
   return (
-    <div
-      style={{
-        width: '100%'
-      }}
-    >
+    <div className="flex flex-col w-full">
+      <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2 bg-slate-200 rounded-t-lg">
+        <p className="font-bold text-lg">Full Disclosure</p>
+        <p className="text-[14px] text-slate-500">Last Updated:</p>
+      </div>
       <TaskThree
         isReassuredCaregiver={isAssessedChildSafety}
         setIsReassuredCaregiver={setIsAssessedChildSafety}
@@ -105,7 +105,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
         >
           Prev
         </Button>
-{/*
+        {/*
         {disclosureData ? (
           <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
@@ -119,7 +119,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
           <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
-              addDisclosureChecklist(inputValues)
+              addFullDisclosureChecklist(inputValues)
             }}
             disabled={isLoadingAddDisclosure}
           >
@@ -134,4 +134,4 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
   )
 }
 
-export default DisclosureChecklist
+export default FullDisclosureChecklist

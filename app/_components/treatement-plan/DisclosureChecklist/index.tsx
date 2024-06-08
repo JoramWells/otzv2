@@ -80,11 +80,11 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
   }, [isSaveData])
 
   return (
-    <div
-      style={{
-        width: '100%'
-      }}
-    >
+    <div className="flex flex-col w-full">
+      <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2 bg-slate-200 rounded-t-lg">
+        <p className="font-bold text-lg">Partial Disclosure</p>
+        <p className="text-[14px] text-slate-500">Last Updated:</p>
+      </div>
       <TaskOne
         isCorrectAge={isCorrectAge}
         setIsCorrectAge={setIsCorrectAge}
@@ -126,7 +126,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
           Prev
         </Button>
 
-        {(disclosureData || isSaveData)
+        {disclosureData || isSaveData
           ? (
           <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"

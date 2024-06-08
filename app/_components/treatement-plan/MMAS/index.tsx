@@ -132,18 +132,18 @@ const MMASForm = ({
       0
     )
 
-    setMMASEightScore(new8Score)
-  }, [formData, isAllTime, isCareless, isForget, isNever, isOnce, isQuitFeelBetter, isQuitFeelWorse, isQuitOutControl, isSometimes, isTookMedYesterday, isUnderPressure, isUsually])
+    setMMASEightScore(new8Score + mmassFourScore)
+  }, [formData, isAllTime, isCareless, isForget, isNever, isOnce, isQuitFeelBetter, isQuitFeelWorse, isQuitOutControl, isSometimes, isTookMedYesterday, isUnderPressure, isUsually, mmassFourScore])
 
   return (
-    <div className="flex flex-col space-y-4 w-full">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
-        <p className="font-bold">Morisky Medication Adherence Scale</p>
-        <p className="text-[14px] ">Last Updated:</p>
+    <div className="flex flex-col w-full">
+      <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
+        <p className="font-bold text-lg">Morisky Medication Adherence Scale</p>
+        <p className="text-[14px] text-slate-500 ">Last Updated:</p>
       </div>
       <div className="w-full p-4">
         <div className="w-full justify-between items-center flex">
-          <p className="font-bold mb-2">MMAS-4</p>
+          <p className="font-bold ">MMAS-4</p>
 
           <div className="flex space-x-4 justify-between  items-center">
             <p
@@ -178,7 +178,7 @@ const MMASForm = ({
       {(isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter) && (
         <div className="w-full p-4">
           <div className="w-full justify-between items-center flex">
-            <p className="font-bold mb-2">MMAS-8</p>
+            <p className="font-bold">MMAS-8</p>
             <div className="flex space-x-4 justify-between  items-center">
               <p
                 // className='text-red-500'
@@ -192,9 +192,9 @@ const MMASForm = ({
               {mmassEightScore > 0 && mmassEightScore <= 2 && (
                 <p className="text-orange-500 font-bold">INADEQUATE</p>
               )}
-              {/* {(mmassEightScore: number) => 3 && mmassEightScore <= 8 && (
+              {mmassEightScore > 2 && mmassEightScore <= 8 && (
                 <p className="text-red-500 font-bold">POOR</p>
-              )} */}
+              )}
             </div>
           </div>
 

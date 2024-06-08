@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
+import CustomCheckbox from '@/components/forms/CustomCheckbox'
 
 export interface TaskFourProps {
   isPeerRelationshipAssessed: boolean
@@ -42,7 +42,9 @@ const TaskFour = ({
   finalComments,
   setFinalComments
 }: TaskFourProps) => (
-  <div className="flex flex-col gap-y-6 border p-4 rounded-lg mt-4">
+  <div className="flex flex-col gap-y-2 p-4 ">
+    <h1 className="capitalize font-bold">Task 4 : Post Disclosure Assessment</h1>
+
     <CustomCheckbox
       label="Assessed family, social and peer relationship and support after disclose?"
       value={isPeerRelationshipAssessed}
