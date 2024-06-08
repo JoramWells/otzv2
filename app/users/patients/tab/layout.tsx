@@ -9,6 +9,7 @@ import { Sidebar } from '@/components/sidebar/Sidebar'
 import { tertiaryColor } from '@/constants/color'
 import { store } from '@/lib/store'
 import { type AvatarProps } from '@/types'
+import { calculateAge } from '@/utils/calculateAge'
 import { generateRandomColors } from '@/utils/generateRandomColors'
 import { ChakraProvider } from '@chakra-ui/react'
 import { BookCheckIcon, BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
@@ -147,13 +148,15 @@ const Layout = ({ children }: { children: ReactNode }) => {
                   </p>
                   {/*  */}
                   <p className="text-slate-500 font-bold text-sm">
-                    {data?.initialRegimen}
+                    Age{calculateAge(data?.dob)}
                   </p>
 
                   <p className="text-sm text-slate-500">{data?.cccNo} </p>
                   <div className="text-slate-500 text-sm">
-                    Phone No:
-                    <p>{data?.phoneNo} </p>
+                    <p>
+                      Phone No:
+                      <span>{data?.phoneNo} </span>
+                    </p>
                   </div>
                 </div>
               )}
@@ -162,7 +165,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
           <SidebarListItemsComponent dataList={DL} />
         </Sidebar>
-        <div className={'flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50'}>
+        <div
+          className={
+            'flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50'
+          }
+        >
           {/* <Navbar /> */}
 
           {children}

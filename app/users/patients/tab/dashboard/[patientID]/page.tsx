@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/quotes */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -19,10 +20,13 @@ import moment from 'moment'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { StartVisitDropdown } from '../../../_components/StartVisitDropdown'
 import { useGetTimeAndWorkByPatientIDQuery } from '@/api/treatmentplan/timeAndWork.api'
+import { calculateBMI } from '@/utils/calculateBMI'
+import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
+import WeightHeightLineChart from '@/app/_components/charts/WeightHeightLineChart'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -61,12 +65,18 @@ const PatientDetails = ({ params }: any) => {
 
   const { data: prescriptionData } = useGetArtPrescriptionQuery(patientID)
 
+  const { data: artPrescription } = useGetPrescriptionDetailQuery(patientID)
+
   // const inputValues = {
   //   patientID,
   //   patientVisitID
   // }
 
-  console.log(timeData, 'tdf')
+  console.log(artPrescription, "tdf")
+
+  const calculateAdherence = (noOfPills: number, pillsTaken: number) => {
+    return (pillsTaken / noOfPills) * 100
+  }
 
   const handleStartVisit = async () => {
     const newVisitID = uuidv4()
@@ -78,6 +88,7 @@ const PatientDetails = ({ params }: any) => {
   }
 
   const { data: vsData } = useGetVitalSignByPatientIDQuery(patientID)
+  const [bmi, setBMI] = useState(0)
 
   useEffect(() => {
     if (visitData) {
@@ -85,7 +96,12 @@ const PatientDetails = ({ params }: any) => {
         `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
       )
     }
-  }, [visitData, patientID])
+    if (vsData) {
+      const BMI = calculateBMI(vsData?.weight, vsData?.height)
+
+      setBMI(BMI)
+    }
+  }, [visitData, patientID, vsData])
 
   return (
     <div className="">
@@ -94,9 +110,6 @@ const PatientDetails = ({ params }: any) => {
       <div className="p-2 w-full justify-between flex items-center bg-white mt-2">
         <div>
           <p className="font-bold">Patient Profile</p>
-          <p className="text-[14px] text-slate-500 ">
-            Current Patient Profile Details
-          </p>
         </div>
         <div className="flex items-center bg-teal-600 rounded-lg">
           <Button
@@ -119,10 +132,15 @@ const PatientDetails = ({ params }: any) => {
       <div className="flex space-x-4 flex-row w-full items-start p-4">
         {data
           ? (
-          <div className="rounded-lg p-4 flex-1 bg-white h-[145px] ">
-            <p className="font-bold">Current Viral Load</p>
+          <div className="rounded-lg p-4 flex-1 flex items-center bg-white h-[145px] relative border border-slate-200 ">
+            <div>
+              <p className="font-bold text-[14px]">Viral Load</p>
+              <p className="text-2xl font-extrabold ">
+                {data.vlResults} <span className="text-[14px]">Copies/ml</span>
+              </p>
+            </div>
             <div className="flex flex-col space-y-2">
-              <div className="w-full flex justify-between items-center">
+              <div className="w-full flex justify-end items-center absolute top-2 right-2 ">
                 {data.isVLValid
                   ? (
                   <Badge className="rounded-full shadow-none hover:bg-emerald-50  bg-emerald-50 text-emerald-500">
@@ -135,18 +153,13 @@ const PatientDetails = ({ params }: any) => {
                   </Badge>
                     )}
               </div>
-              <div className="text-slate-500 flex w-full justify-between items-center">
-                <p className=" text-[14px]">Results:</p>
-                <p className="text-[14px] font-bold ">
-                  {data.vlResults} Copies/ml
-                </p>
-              </div>
+
               <div className="flex justify-between w-full items-center text-[14px] text-slate-500 ">
-                <p>Date</p>
-                {moment(data.dateOfVL).format('ll')}
+                <p>Date </p>
+                {moment(data.dateOfVL).format("ll")}
               </div>
               <div className="flex w-full justify-between items-center text-[14px] text-slate-500">
-                <p>Justification</p>
+                <p>Justification </p>
                 {data.vlJustification}
               </div>
             </div>
@@ -154,7 +167,6 @@ const PatientDetails = ({ params }: any) => {
             )
           : (
           <div
-
             className={`bg-[${secondaryColor}] p-2 rounded-lg 
             border-l-4 BORDER-[${secondaryColor}]
             flex flex-row h-[145px] space-x-4 flex-1`}
@@ -164,23 +176,55 @@ const PatientDetails = ({ params }: any) => {
               <p className="text-slate-500 text-[14px] ">
                 No Recent Viral Load
               </p>
-              <Link href={'update'} className="text-blue-500 text-sm underline">
+              <Link href={"update"} className="text-blue-500 text-sm underline">
                 Update
               </Link>
             </div>
           </div>
             )}
         {/*  */}
-        <div className="flex-1 bg-white rounded-lg  h-[145px] ">
+        <div
+          className={
+            "border rounded-lg  h-[145px] bg-white flex-1 p-4 flex flex-col  justify-center"
+          }
+        >
           {vsData
             ? (
-            <div>
-              <div>
-                <p>height</p>
-                45cm
+            <div className="flex items-center space-x-4 ">
+              <div className="">
+                <h1
+                  className={`text-2xl font-extrabold
+                  ${bmi > 30 && "text-red-500"}
+                  `}
+                >
+                  BMI
+                </h1>
+                <p>{bmi}</p>
               </div>
-              <div>weight 28k</div>
-              <div>bmi 28k</div>
+
+              <div className="flex flex-col space-y-2">
+                <div className="flex space-x-4 items-center">
+                  <p className="text-[14px] text-slate-500 ">Weight (kg)</p>
+                  <p className="font-bold">{vsData?.weight}</p>
+                </div>
+                <div className="border-b w-full border-slate-200" />
+
+                <div>
+                  <div className="flex items-center space-x-4 ">
+                    <p className="text-[14px] text-slate-500 ">Height (cm)</p>
+                    <p className="font-bold">{vsData?.height}</p>
+                  </div>
+                </div>
+              </div>
+              {bmi > 30
+                ? (
+                <Badge className="shadow-none rounded-full bg-red-50 text-red-500 hover:bg-red-50 ">
+                  Obese
+                </Badge>
+                  )
+                : (
+                <Badge>Not Obese</Badge>
+                  )}
             </div>
               )
             : (
@@ -193,7 +237,7 @@ const PatientDetails = ({ params }: any) => {
                   No Recent Vital Signs Record
                 </p>
                 <Link
-                  href={'update'}
+                  href={"update"}
                   className="text-blue-500 text-sm underline"
                 >
                   Update
@@ -205,29 +249,38 @@ const PatientDetails = ({ params }: any) => {
 
         {/*  */}
         <div className="flex-1 rounded-lg h-[145px] overflow-y-auto ">
-            {prescriptionData
-              ? (
-              <div>ART Prescribe</div>
-                )
-              : (
-              <div
-                className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
-              >
-                <InfoIcon className="text-slate-500" size={18} />
-                <div>
-                  <p className="text-slate-500 text-[14px] ">
-                    No Medication
-                  </p>
-                  <Link
-                    href={'update'}
-                    className="text-blue-500 text-sm underline"
-                  >
-                    Update
-                  </Link>
-                </div>
-              </div>
-                )}
+          {prescriptionData
+            ? (
+            <div className="h-[145px] bg-white p-2 border border-slate-200 rounded-lg">
+              <p
+              className='text-2xl font-extrabold'
+              >{prescriptionData?.regimen}</p>
+              {calculateAdherence(artPrescription?.noOfPills, artPrescription?.computedNoOfPills)} %
 
+              <p>
+                {artPrescription?.noOfPills}
+              </p>
+              <p>
+                {moment(artPrescription?.refillDate).format('LL')}
+              </p>
+            </div>
+              )
+            : (
+            <div
+              className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
+            >
+              <InfoIcon className="text-slate-500" size={18} />
+              <div>
+                <p className="text-slate-500 text-[14px] ">No Medication</p>
+                <Link
+                  href={"update"}
+                  className="text-blue-500 text-sm underline"
+                >
+                  Update
+                </Link>
+              </div>
+            </div>
+              )}
         </div>
 
         {/*  */}
@@ -236,8 +289,8 @@ const PatientDetails = ({ params }: any) => {
             <p className="font-bold">Appointments</p>
             <Button
               className="text-slate-500 shadow-none"
-              variant={'outline'}
-              size={'sm'}
+              variant={"outline"}
+              size={"sm"}
             >
               View More
               <ArrowRight size={18} className="ml-1" />
@@ -262,8 +315,12 @@ const PatientDetails = ({ params }: any) => {
               )}
         </div>
       </div>
-      <div>
-        <div>Line Cart for weit</div>
+      <div className='flex p-4 bg-white'>
+        <div className='w-1/2'>
+          <WeightHeightLineChart
+          patientID={patientID}
+           />
+        </div>
         <div>Line Cart for VL</div>
       </div>
     </div>

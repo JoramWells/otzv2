@@ -163,8 +163,8 @@ const StepsPage = ({ params }: any) => {
               ))}
             </Stepper>
           </div>
-          <div className="w-full mt-2 flex justify-center items-start space-x-2 p-2">
-            <div className="flex flex-col items-center bg-white rounded-lg p-4 w-1/4 h-[200px]">
+          <div className="w-3/4 mt-2 flex justify-between items-start space-x-4">
+            <div className="flex flex-col items-center bg-white rounded-lg p-4 w-1/5 h-[200px]">
               {!personalData
                 ? (
                 <Skeleton className="w-full h-[200px]" />
@@ -198,7 +198,7 @@ const StepsPage = ({ params }: any) => {
                 </Suspense>
                   )}
             </div>
-            <div className="w-1/2 bg-white rounded-lg">
+            <div className="flex-1">
               {tab === '1' && activeStep === 1 && (
                 <AddTriage
                   vlData={vsData}
@@ -207,6 +207,7 @@ const StepsPage = ({ params }: any) => {
                   handleNext={() => {
                     handleNext(activeStep)
                   }}
+                  age={age}
                   activeStep={activeStep}
                 />
               )}
