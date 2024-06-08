@@ -184,18 +184,20 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
       (item: any) => item.statusDescription.toLowerCase() === 'upcoming'
     ) || []
   }, [statusData])
-
   const prescriptionInputValues = {
     patientID,
     frequency,
     noOfPill,
     computedNoOfPills: noOfPill,
+    artPrescriptionID: prescriptionData?.id,
     refillDate,
     userID: userData?.[0].id,
     patientVisitID: appointmentID,
     appointmentAgendaID: agendaDataOptions?.()[0]?.id,
     appointmentStatusID: statusOptions?.()[0]?.id
   }
+
+  console.log(prescriptionData)
 
   useEffect(() => {
     if (addPillPrescriptionData) {

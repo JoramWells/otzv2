@@ -124,7 +124,7 @@ const MMASForm = ({
 
     setMMASFourScore(newScore)
 
-    const scoreValue = [1, 1, 1, 0, 1 / 4, 1 / 2, 3 / 4, 1]
+    const scoreValue = [-1, 1, 1, 0, 1 / 4, 1 / 2, 3 / 4, 1]
 
     const mmas8Scores = [isTookMedYesterday, isQuitOutControl, isUnderPressure, isNever, isOnce, isSometimes, isUsually, isAllTime]
     const new8Score = mmas8Scores.reduce(

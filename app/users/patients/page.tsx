@@ -33,7 +33,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'Patients',
-    link: ''
+    link: '/'
   }
 ]
 

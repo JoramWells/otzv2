@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation'
 
 interface InputProps {
   id: string
+  patientVisitID: string
   AppointmentAgenda: {
     agendaDescription: string
   }
@@ -42,14 +43,23 @@ export function StartVisitDropdown ({ appointmentList = [], patientID }: { appoi
         <DropdownMenuLabel>Upcoming Appointments</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {appointmentList.map((column: InputProps) => {
+          const isRefill =
+                  column.AppointmentAgenda?.agendaDescription.toLowerCase() ===
+                  'refill'.toLowerCase()
+          console.log(column, isRefill, 'columnx')
+
           return (
             <DropdownMenuCheckboxItem
               key={column.id}
               className="capitalize w-full"
               onClick={() => {
-                router.push(
-                  `/users/patients/tab/steps/${patientID}?appointmentID=${column.id}&type=${column.AppointmentAgenda?.agendaDescription}`
-                )
+                if (isRefill) {
+                  router.push(`/users/patients/refill/${patientID}?appointmentID=${column.patientVisitID}`)
+                } else {
+                  router.push(
+                   `/users/patients/tab/steps/${patientID}?appointmentID=${column.id}&type=${column.AppointmentAgenda?.agendaDescription}`
+                  )
+                }
               }}
             >
               <div className='w-full' >{column.AppointmentAgenda?.agendaDescription}</div>

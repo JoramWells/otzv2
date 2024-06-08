@@ -41,7 +41,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'dashboard',
-    link: 'dashboard'
+    link: ''
   }
 ]
 export interface InputTabProps {
@@ -154,7 +154,10 @@ const PatientDetails = ({ params }: any) => {
             )
           : (
           <div
-            className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
+
+            className={`bg-[${secondaryColor}] p-2 rounded-lg 
+            border-l-4 BORDER-[${secondaryColor}]
+            flex flex-row h-[145px] space-x-4 flex-1`}
           >
             <InfoIcon className="text-slate-500" size={18} />
             <div>
