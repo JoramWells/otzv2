@@ -71,9 +71,9 @@ const UpdateVL = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
   }
   return (
     <div className="">
-         <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
+         <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
         <p className="text-lg  font-bold">Viral Load</p>
-        <p>Last Updated:</p>
+        <p className='text-[14px] text-slate-500 ' >Last Updated:</p>
       </div>
       <div className="flex flex-col space-y-4 p-4">
         <CustomInput
@@ -104,7 +104,7 @@ const UpdateVL = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
         />
       </div>
 
-      <div className="flex justify-end mt-4 space-x-4 p-4">
+      <div className="flex justify-end space-x-4 p-4">
         <Button
           onClick={() => {
             handleBack()

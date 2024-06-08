@@ -18,7 +18,7 @@ export interface CustomTimeInputProps {
 const CustomTimeInput = ({ label, hours, minutes, setHours, setMinutes }: CustomTimeInputProps) => {
   return (
     <div>
-      <p className="font-bold mb-2">{label}</p>
+      <p className="mb-1">{label}</p>
       <div className="flex flex-row items-center gap-x-4">
         <div className="flex flex-row gap-x-2">
           <div className="flex flex-col space-y-1">

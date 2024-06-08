@@ -101,12 +101,11 @@ const FormOne = ({
   // })
 
   return (
-    <div className="w-full flex flex-col space-y-4">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
+    <div className="w-full flex flex-col">
+      <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
         <p className="text-lg  font-bold">Time & Work Schedule</p>
-        <p>Last Updated:</p>
+        <p className='text-slate-500 text-[14px] ' >Last Updated:</p>
       </div>
-      <div className='w-full  p-4'>
         <TimeAndWork
           appointmentID={appointmentID}
           wakeUpTimeHours={wakeUpTimeHours}
@@ -169,8 +168,7 @@ const FormOne = ({
           setEveningPlaceWeekend={() => {}}
           setMorningPlaceWeekend={() => {}}
         />
-      </div>
-      <div className="flex justify-end mt-4 space-x-4">
+      <div className="flex justify-end p-4 space-x-4">
         <Button
           onClick={() => {
             handleBack()

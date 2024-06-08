@@ -159,13 +159,15 @@ const AddTriage = ({
 
   return (
     <div>
-      <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
-        <p className="font-bold">Vital Sign</p>
-        <p>Last Updated:</p>
+      <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
+        <p className=" text-lg font-bold">Vital Sign</p>
+        <p
+        className='text-[14px] text-slate-500 '
+        >Last Updated:</p>
       </div>
       <FormProvider {...methods}>
         <form
-          className="p-4 rounded-lg flex flex-col space-y-4"
+          className="p-4 rounded-lg flex flex-col space-y-2"
           onSubmit={handleSubmit(onSubmit)}
         >
           <CustomInput2
@@ -276,7 +278,7 @@ const AddTriage = ({
               </Button>
             ) : (
               <Button
-                className="bg bg-blue-500 text-white shadow-none hover:bg-blue-500 "
+                className="bg bg-slate-200 text-white shadow-none hover:bg-slate-100 "
                 // onClick={async () => await addVitalSign(inputValues)}
                 type="submit"
                 disabled={isLoading}

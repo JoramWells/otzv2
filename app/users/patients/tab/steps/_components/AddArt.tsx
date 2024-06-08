@@ -244,9 +244,11 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
 
   return (
     <div className="w-full flex flex-col justify-between items-center">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 p-4 bg-slate-100 rounded-t-lg">
+      <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
         <p className="text-lg  font-bold">ART Details</p>
-        <p>Last Updated:</p>
+        <p
+        className='text-[14px] text-slate-500 '
+        >Last Updated:</p>
       </div>
       {(prescriptionData || addPrescriptionData) ? (
         <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">

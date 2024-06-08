@@ -72,7 +72,8 @@ const ScheduleAndTime = ({
 }: ScheduleAndTimeProps) => {
   const { data: prescriptionDatam } = useGetPrescriptionQuery(appointmentID)
   return (
-    <div className="flex flex-col space-y-6  ">
+    <div className="flex flex-col space-y-2 p-4">
+      <p className='font-bold'>Weekend Schedule</p>
       <div>
         <p className="mb-2 text-slate-500">
           Based on your schedule, what is the best time and place to take
