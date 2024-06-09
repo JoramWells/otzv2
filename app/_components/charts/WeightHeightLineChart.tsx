@@ -15,6 +15,7 @@ import {
 } from 'chart.js'
 import { useGetAllVitalSignByPatientIDQuery } from '@/api/vitalsigns/vitalSigns.api'
 import moment from 'moment'
+import { calculateBMI } from '@/utils/calculateBMI'
 
 ChartJS.register(
   CategoryScale,
@@ -28,10 +29,15 @@ ChartJS.register(
 
 const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
   const { data: patientData } = useGetAllVitalSignByPatientIDQuery(patientID)
+  const bmiData = patientData?.map((item: any) => {
+    return calculateBMI(item.weight, item.height)
+  })
   console.log(patientData, 'vitals')
 
   const data = {
-    labels: patientData?.map((item: any) => moment(item?.createdAt).format('ll')),
+    labels: patientData?.map((item: any) =>
+      moment(item?.createdAt).format('ll')
+    ),
     datasets: [
       {
         label: 'Height',
@@ -45,6 +51,13 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
         data: patientData?.map((item: any) => item.weight),
         borderColor: 'rgb(255, 99, 132)',
         yAxisID: 'y2',
+        fill: false
+      },
+      {
+        label: 'BMI',
+        data: bmiData,
+        borderColor: 'rgb(54, 162, 235)',
+        yAxisID: 'y3',
         fill: false
       }
     ]
@@ -76,6 +89,18 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
         title: {
           display: true,
           text: 'Weight (kg)'
+        }
+      },
+      y3: {
+        type: 'linear' as const,
+        display: true,
+        position: 'right' as const,
+        grid: {
+          drawOnChartArea: false // only want the grid lines for one axis to show up
+        },
+        title: {
+          display: true,
+          text: 'BMI (kg)'
         }
       }
     }
