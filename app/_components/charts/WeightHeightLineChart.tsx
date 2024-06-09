@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 // src/components/MultiAxisLineChart.js
 
 import React from 'react'
@@ -30,18 +31,18 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
   console.log(patientData, 'vitals')
 
   const data = {
-    labels: patientData?.map((item) => moment(item?.createdAt).format('ll')),
+    labels: patientData?.map((item: any) => moment(item?.createdAt).format('ll')),
     datasets: [
       {
         label: 'Height',
-        data: patientData?.map((item) => item.height),
+        data: patientData?.map((item: any) => item.height),
         borderColor: 'rgb(75, 192, 192)',
         yAxisID: 'y1',
         fill: false
       },
       {
         label: 'Weight',
-        data: patientData?.map((item) => item.weight),
+        data: patientData?.map((item: any) => item.weight),
         borderColor: 'rgb(255, 99, 132)',
         yAxisID: 'y2',
         fill: false
@@ -52,23 +53,23 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
   const options = {
     responsive: true,
     interaction: {
-      mode: 'index',
+      mode: 'index' as const,
       intersect: false
     },
     scales: {
       y1: {
-        type: 'linear',
+        type: 'linear' as const,
         display: true,
-        position: 'left',
+        position: 'left' as const,
         title: {
           display: true,
           text: 'Height (cm)'
         }
       },
       y2: {
-        type: 'linear',
+        type: 'linear' as const,
         display: true,
-        position: 'right',
+        position: 'right' as const,
         grid: {
           drawOnChartArea: false // only want the grid lines for one axis to show up
         },
