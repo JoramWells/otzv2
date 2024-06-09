@@ -37,6 +37,7 @@ const Avatar = ({ name }: AvatarProps) => {
     </div>
   )
 }
+//
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const params = useParams()
