@@ -27,6 +27,7 @@ import { useGetTimeAndWorkByPatientIDQuery } from '@/api/treatmentplan/timeAndWo
 import { calculateBMI } from '@/utils/calculateBMI'
 import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import WeightHeightLineChart from '@/app/_components/charts/WeightHeightLineChart'
+import PillBox from '../../../_components/PillBox'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -251,18 +252,19 @@ const PatientDetails = ({ params }: any) => {
         <div className="flex-1 rounded-lg h-[145px] overflow-y-auto ">
           {prescriptionData
             ? (
-            <div className="h-[145px] bg-white p-2 border border-slate-200 rounded-lg">
-              <p
-              className='text-2xl font-extrabold'
-              >{prescriptionData?.regimen}</p>
-              {calculateAdherence(artPrescription?.noOfPills, artPrescription?.computedNoOfPills)} %
-
-              <p>
-                {artPrescription?.noOfPills}
-              </p>
-              <p>
-                {moment(artPrescription?.refillDate).format('LL')}
-              </p>
+            <div className="h-[145px] flex bg-white p-2 border border-slate-200 rounded-lg">
+              <div className="flex-1">
+                <p className="text-2xl font-extrabold">
+                  {prescriptionData?.regimen}
+                </p>
+                {calculateAdherence(
+                  artPrescription?.noOfPills,
+                  artPrescription?.computedNoOfPills
+                )}{" "}
+                %<p>{artPrescription?.noOfPills}</p>
+                <p>{moment(artPrescription?.refillDate).format("LL")}</p>
+              </div>
+        <PillBox />
             </div>
               )
             : (
@@ -315,11 +317,9 @@ const PatientDetails = ({ params }: any) => {
               )}
         </div>
       </div>
-      <div className='flex p-4 bg-white'>
-        <div className='w-1/2'>
-          <WeightHeightLineChart
-          patientID={patientID}
-           />
+      <div className="flex p-4 bg-white">
+        <div className="w-1/2">
+          <WeightHeightLineChart patientID={patientID} />
         </div>
         <div>Line Cart for VL</div>
       </div>

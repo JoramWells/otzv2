@@ -59,18 +59,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
       icon: <LayoutDashboardIcon size={17} />
     },
     {
-      id: '3',
-      label: 'Caregivers',
-      link: `/users/patients/tab/caregivers/${patientID}`,
-      icon: <HeartHandshake size={17} />
-    },
-    {
-      id: '4',
-      label: 'Case Managers',
-      link: `/users/patients/tab/casemanagers/${patientID}`,
-      icon: <InspectionPanel size={17} />
-    },
-    {
       id: '5',
       label: 'Home Visits',
       link: `/users/patients/tab/homevisit/${patientID}`,
@@ -148,16 +136,17 @@ const Layout = ({ children }: { children: ReactNode }) => {
                   </p>
                   {/*  */}
                   <p className="text-slate-500 font-bold text-sm">
-                    Age{calculateAge(data?.dob)}
+                    Age: {calculateAge(data?.dob)} yrs
                   </p>
 
-                  <p className="text-sm text-slate-500">{data?.cccNo} </p>
+                  <p className="text-sm text-slate-500">CCC No.{data?.cccNo} </p>
                   <div className="text-slate-500 text-sm">
                     <p>
                       Phone No:
                       <span>{data?.phoneNo} </span>
                     </p>
                   </div>
+                  {/* <Button>Update   Profile</Button> */}
                 </div>
               )}
             </div>
