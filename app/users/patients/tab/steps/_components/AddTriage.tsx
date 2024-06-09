@@ -92,7 +92,7 @@ const AddTriage = ({
   }, [vsData, handleNext])
 
   const methods = useForm<InputProps>({
-    resolver: zodResolver(parseInt(age, 10) <= 1 ? InfantSchema : AdultSchema)
+    resolver: zodResolver(age <= 1 ? InfantSchema : AdultSchema)
   })
 
   //
