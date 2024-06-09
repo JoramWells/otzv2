@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
@@ -8,6 +9,7 @@ import { useGetAllTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
 import { useGetPillDailyUptakeCountQuery } from '@/api/treatmentplan/uptake.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
+import { useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
 
 const DoubleARTUptakeBarChart = dynamic(
   async () => await import('../../_components/charts/DoubleARTUptakeBarChart'),
@@ -24,32 +26,6 @@ const BreadcrumbComponent = dynamic(
     loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
   }
 )
-const dataList = [
-  {
-    id: '1',
-    label: 'On ART',
-    count: 50,
-    link: '/notify/appointment'
-  },
-  {
-    id: '2',
-    label: 'On TB',
-    count: 20,
-    link: ''
-  },
-  {
-    id: '3',
-    label: 'On Anti-TB',
-    count: 13,
-    link: ''
-  },
-  {
-    id: '4',
-    label: 'On Prep/Pep',
-    count: 7,
-    link: ''
-  }
-]
 
 const dataList2 = [
   {
@@ -84,6 +60,36 @@ const NotifyPage = () => {
     patientsDueMorning: true
   })
 
+  const { data: facilityData } = useGetFacilityAdherenceQuery()
+  console.log(facilityData)
+
+  const dataList = [
+    {
+      id: '1',
+      label: 'On ART',
+      count: 50,
+      link: '/notify/appointment'
+    },
+    {
+      id: '2',
+      label: 'On TB',
+      count: 20,
+      link: ''
+    },
+    {
+      id: '3',
+      label: 'On Anti-TB',
+      count: 13,
+      link: ''
+    },
+    {
+      id: '4',
+      label: 'Adherence',
+      count: facilityData || 0,
+      link: ''
+    }
+  ]
+
   return (
     <div className="w-full  bg-slate-50">
       <BreadcrumbComponent dataList={dataList2} />
@@ -101,7 +107,7 @@ const NotifyPage = () => {
               <h1 className="">{item.label}</h1>
               <Users size={15} />
             </div>
-            <p className="text-xl font-bold">{item.count}</p>
+            <p className="text-xl font-bold">{item.label === 'Adherence' ? `${item.count} %` : item.count}</p>
             <p className="text-slate-500 text-[12px]">Since last month</p>
           </div>
         ))}

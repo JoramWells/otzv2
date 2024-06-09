@@ -31,26 +31,6 @@ import WeightHeightLineChart from '@/app/_components/charts/WeightHeightLineChar
 import PillBox from '../../../_components/PillBox'
 import { calculateAdherence } from '@/utils/calculateAdherence'
 
-const BreadcrumbComponent = dynamic(
-  async () => await import('@/components/nav/BreadcrumbComponent'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
-  }
-)
-
-const dataList2 = [
-  {
-    id: '1',
-    label: 'home',
-    link: '/'
-  },
-  {
-    id: '2',
-    label: 'dashboard',
-    link: ''
-  }
-]
 export interface InputTabProps {
   id: number
   params?: string
@@ -104,31 +84,44 @@ const PatientDetails = ({ params }: any) => {
 
   return (
     <div className="">
-      <BreadcrumbComponent dataList={dataList2} />
-
-      <div className="p-2 w-full justify-between flex items-center bg-white mt-2">
+      <div className="p-2 w-full justify-between flex items-center bg-white">
         <div>
           <p className="font-bold">Patient Profile</p>
         </div>
-        <div className="flex items-center bg-teal-600 rounded-lg">
-          <Button
-            disabled={isLoading}
-            onClick={async () => {
-              await handleStartVisit()
-            }}
-            className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold"
-          >
-            {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />}
-            Initiate Care
-          </Button>
-          <StartVisitDropdown
-            appointmentList={priorityAppointment}
-            patientID={patientID}
-          />
+        {/*  */}
+        <div className="flex items-center space-x-2">
+          <div className='flex space-x-2 items-center'>
+            <p>Time</p>
+            <div className='flex flex-col space-y-1'>
+              <div
+              className='text-[14px] '
+              >Morning</div>
+              <div
+              className='text-[14px] '
+              >Evening</div>
+            </div>
+          </div>
+          {/*  */}
+          <div className="flex items-center bg-teal-600 rounded-lg">
+            <Button
+              disabled={isLoading}
+              onClick={async () => {
+                await handleStartVisit()
+              }}
+              className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold"
+            >
+              {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />}
+              Initiate Care
+            </Button>
+            <StartVisitDropdown
+              appointmentList={priorityAppointment}
+              patientID={patientID}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="flex space-x-4 flex-row w-full items-start p-4">
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-2 md:grid-cols-2">
         {data
           ? (
           <div className="rounded-lg p-4 flex-1 flex items-center bg-white h-[145px] relative border border-slate-200 ">

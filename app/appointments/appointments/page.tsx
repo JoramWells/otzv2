@@ -24,7 +24,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'Dashboard',
-    link: ''
+    link: '/'
   }
 ]
 

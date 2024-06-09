@@ -40,26 +40,28 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
     ),
     datasets: [
       {
-        label: 'Height',
-        data: patientData?.map((item: any) => item.height),
-        borderColor: 'rgb(75, 192, 192)',
+        label: 'BMI',
+        data: bmiData,
+        borderColor: 'rgb(255, 99, 132)',
+
         yAxisID: 'y1',
         fill: false
       },
       {
-        label: 'Weight',
-        data: patientData?.map((item: any) => item.weight),
-        borderColor: 'rgb(255, 99, 132)',
+        label: 'HEIGHT',
+        data: patientData?.map((item: any) => item.height),
+        borderColor: 'rgb(75, 192, 192)',
         yAxisID: 'y2',
         fill: false
       },
       {
-        label: 'BMI',
-        data: bmiData,
+        label: 'WEIGHT',
+        data: patientData?.map((item: any) => item.weight),
         borderColor: 'rgb(54, 162, 235)',
         yAxisID: 'y3',
         fill: false
       }
+
     ]
   }
 
@@ -70,25 +72,13 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
       intersect: false
     },
     scales: {
-      y1: {
+      y2: {
         type: 'linear' as const,
         display: true,
         position: 'left' as const,
         title: {
           display: true,
           text: 'Height (cm)'
-        }
-      },
-      y2: {
-        type: 'linear' as const,
-        display: true,
-        position: 'right' as const,
-        grid: {
-          drawOnChartArea: false // only want the grid lines for one axis to show up
-        },
-        title: {
-          display: true,
-          text: 'Weight (kg)'
         }
       },
       y3: {
@@ -100,9 +90,21 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
         },
         title: {
           display: true,
-          text: 'BMI (kg)'
+          text: 'Weight (kg)'
         }
       }
+      // y3: {
+      //   type: 'linear' as const,
+      //   display: true,
+      //   position: 'right' as const,
+      //   grid: {
+      //     drawOnChartArea: false // only want the grid lines for one axis to show up
+      //   },
+      //   title: {
+      //     display: true,
+      //     text: 'BMI (kg)'
+      //   }
+      // }
     }
   }
 

@@ -37,11 +37,14 @@ export const prescriptionApi = createApi({
           method: 'DELETE'
         }
       }
+    }),
+    getFacilityAdherence: builder.query<any, void>({
+      query: () => 'facility-adherence'
     })
   })
 })
 
 export const {
-  useGetAllPrescriptionsQuery, useUpdatePrescriptionMutation, useGetPrescriptionDetailQuery,
+  useGetAllPrescriptionsQuery, useUpdatePrescriptionMutation, useGetPrescriptionDetailQuery, useGetFacilityAdherenceQuery,
   useDeletePrescriptionMutation, useAddPrescriptionMutation, useGetPrescriptionQuery
 } = prescriptionApi
