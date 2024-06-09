@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -152,7 +153,7 @@ const AddTriage = ({
                   name="diastolic"
                   // onChange={setDiastolic}
                 />
-              </div>{" "}
+              </div>{' '}
             </div>
 
             <CustomInput2
@@ -220,7 +221,7 @@ const AddTriage = ({
                 <Button
                   className="bg-slate-200 hover:bg-slate-100 shadow-none text-black"
                   onClick={() => {
-                    handleNext();
+                    handleNext()
                   }}
                 >
                   Next
@@ -247,7 +248,7 @@ const AddTriage = ({
           <p>Recent Vitals</p>
           <div className="flex justify-between items-center space-x-2">
             <CalendarCheck2 size={15} />
-            <p>{moment(latestVitalsData?.createdAt).format("ll")}</p>
+            <p>{moment(latestVitalsData?.createdAt).format('ll')}</p>
           </div>
         </div>
 
@@ -303,7 +304,7 @@ const AddTriage = ({
         </CollapseButton>
       </div>
     </div>
-  );
+  )
 }
 
 export default AddTriage

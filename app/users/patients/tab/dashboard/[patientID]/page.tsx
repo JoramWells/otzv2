@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/quotes */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -28,6 +29,7 @@ import { calculateBMI } from '@/utils/calculateBMI'
 import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import WeightHeightLineChart from '@/app/_components/charts/WeightHeightLineChart'
 import PillBox from '../../../_components/PillBox'
+import { calculateAdherence } from '@/utils/calculateAdherence'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -74,10 +76,6 @@ const PatientDetails = ({ params }: any) => {
   // }
 
   console.log(artPrescription, "tdf")
-
-  const calculateAdherence = (noOfPills: number, pillsTaken: number) => {
-    return (pillsTaken / noOfPills) * 100
-  }
 
   const handleStartVisit = async () => {
     const newVisitID = uuidv4()
@@ -258,13 +256,17 @@ const PatientDetails = ({ params }: any) => {
                   {prescriptionData?.regimen}
                 </p>
                 {calculateAdherence(
-                  artPrescription?.noOfPills,
-                  artPrescription?.computedNoOfPills
+                  artPrescription?.refillDate,
+                  artPrescription?.computedNoOfPills,
+                  artPrescription?.frequency
                 )}{" "}
                 %<p>{artPrescription?.noOfPills}</p>
                 <p>{moment(artPrescription?.refillDate).format("LL")}</p>
               </div>
-        <PillBox />
+              <PillBox
+                noOfPills={artPrescription?.noOfPills}
+                remainingPills={artPrescription?.expectedNoOfPills}
+              />
             </div>
               )
             : (
