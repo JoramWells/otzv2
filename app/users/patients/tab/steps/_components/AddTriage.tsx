@@ -37,7 +37,7 @@ interface AddTriageProps {
   patientID: string
   activeStep: number
   vlData: VSProps
-  age: string
+  age: number
 };
 
 interface InputProps {
