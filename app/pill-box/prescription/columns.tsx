@@ -4,6 +4,10 @@ import { type ColumnDef } from '@tanstack/react-table'
 import moment, { type MomentInput } from 'moment'
 
 import Avatar from '@/components/Avatar'
+import { calculateAdherence } from '@/utils/calculateAdherence'
+import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
+import { CalendarDays } from 'lucide-react'
+import { useCallback } from 'react'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -11,10 +15,14 @@ export interface FullNameProps {
 }
 
 export interface PrescriptionProps {
+  frequency: number
+  computedNoOfPills: number
+  expectedNoOfPills: number
+  noOfPills: number
   ART: {
     artName: string
   }
-  refillDate: MomentInput
+  refillDate: MomentInput | string
   nextRefillDate: MomentInput
   appointmentTime: MomentInput
   appointmentDate: any
@@ -43,30 +51,31 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2 pt-4 pb-4 lg:pt-2 lg:pb-2 xl:pt-0 xl:pb-0 xxl:pt-0 xxl:pb-0">
+      <div className="flex flex-row items-center gap-x-2 ">
         <Avatar
           // size={'sm'}
           // className="font-bold"
           name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
-        <div>
           <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
-        </div>
       </div>
     )
   },
   {
     accessorKey: 'currentARTRegimen',
-    header: 'ART Regimen',
+    header: 'Regimen',
     cell: ({ row }) => <p>{row.original.ART?.artName}</p>
   },
   {
     accessorKey: 'frequency',
-    header: 'Times'
+    header: 'FREQUENCY',
+    cell: ({ row }) => (
+      <p className="text-slate-500 font-bold">x{row.original.frequency} </p>
+    )
   },
   {
     accessorKey: 'noOfPills',
-    header: 'Total Pills'
+    header: 'Prescribed'
   },
   {
     accessorKey: 'expectedNoOfPills',
@@ -74,24 +83,59 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
   },
   {
     accessorKey: 'computedNoOfPills',
-    header: 'Computed No Of Pills'
+    header: 'Dispensed'
+  },
+  {
+    accessorKey: 'adherence',
+    header: 'Adherence (%)',
+    cell: ({ row }) => {
+      const { refillDate, computedNoOfPills, frequency } = row.original
+      const adherence = calculateAdherence(refillDate, computedNoOfPills, frequency)
+      return (
+        <p
+        className='text-slate-500'
+        >{adherence} %</p>
+      )
+    }
   },
   {
     accessorKey: 'refillDate',
     header: 'Refill Date',
-    cell: ({ row }) => (
-      <div>
-        <p>{moment(row.original.refillDate).format('ll')}</p>
-      </div>
-    )
+    cell: ({ row }) => {
+      const { refillDate } = row.original
+      const duration = useCallback(() => {
+        return calculateTimeDuration(refillDate)
+      }, [refillDate])()
+      return (
+        <div className='flex items-start space-x-1'>
+          <CalendarDays className='' size={15} />
+          <div>
+            <p>{moment(row.original.refillDate).format('ll')}</p>
+            <small className="font-bold text-slate-500">
+              {duration}
+            </small>
+          </div>
+        </div>
+      )
+    }
   },
   {
     accessorKey: 'nextRefillDate',
     header: 'Next Refill Date',
-    cell: ({ row }) => (
-      <div>
-        <p>{moment(row.original.nextRefillDate).format('ll')}</p>
-      </div>
-    )
+    cell: ({ row }) => {
+      const { nextRefillDate } = row.original
+      const duration = useCallback(() => {
+        return calculateTimeDuration(nextRefillDate)
+      }, [nextRefillDate])()
+      return (
+        <div className="flex items-start space-x-1">
+          <CalendarDays className="" size={15} />
+          <div>
+            <p>{moment(row.original.nextRefillDate).format('ll')}</p>
+            <small className="font-bold text-slate-500">{duration}</small>
+          </div>
+        </div>
+      )
+    }
   }
 ]

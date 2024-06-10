@@ -12,7 +12,7 @@ interface InputProps {
 }
 
 const Schema: ZodType<InputProps> = z.object({
-  statusDescription: z.string().email()
+  statusDescription: z.string()
 })
 
 const AddAppointmentStatus = () => {
@@ -23,8 +23,8 @@ const AddAppointmentStatus = () => {
   // const [addAppointmentStatus, { isLoading }] =
   //   useAddAppointmentStatusMutation()
 
-  const submitForm = (data: any) => {
-    console.log(data)
+  const submitForm = async(data: any) => {
+   await addAppointmentStatus(data)
   }
 
   return (

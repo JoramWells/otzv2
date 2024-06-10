@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/quotes */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -82,6 +83,8 @@ const PatientDetails = ({ params }: any) => {
     }
   }, [visitData, patientID, vsData])
 
+  console.log('vd', vsData)
+
   return (
     <div className="">
       <div className="p-2 w-full justify-between flex items-center bg-white">
@@ -90,15 +93,11 @@ const PatientDetails = ({ params }: any) => {
         </div>
         {/*  */}
         <div className="flex items-center space-x-2">
-          <div className='flex space-x-2 items-center'>
+          <div className="flex space-x-2 items-center">
             <p>Time</p>
-            <div className='flex flex-col space-y-1'>
-              <div
-              className='text-[14px] '
-              >Morning</div>
-              <div
-              className='text-[14px] '
-              >Evening</div>
+            <div className="flex flex-col space-y-1">
+              <div className="text-[14px] ">Morning</div>
+              <div className="text-[14px] ">Evening</div>
             </div>
           </div>
           {/*  */}
@@ -122,8 +121,7 @@ const PatientDetails = ({ params }: any) => {
       </div>
 
       <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-2 md:grid-cols-2">
-        {data
-          ? (
+        {data ? (
           <div className="rounded-lg p-4 flex-1 flex items-center bg-white h-[145px] relative border border-slate-200 ">
             <div>
               <p className="font-bold text-[14px]">Viral Load</p>
@@ -133,17 +131,15 @@ const PatientDetails = ({ params }: any) => {
             </div>
             <div className="flex flex-col space-y-2">
               <div className="w-full flex justify-end items-center absolute top-2 right-2 ">
-                {data.isVLValid
-                  ? (
+                {data.isVLValid ? (
                   <Badge className="rounded-full shadow-none hover:bg-emerald-50  bg-emerald-50 text-emerald-500">
                     Valid
                   </Badge>
-                    )
-                  : (
+                ) : (
                   <Badge className="rounded-full shadow-none hover:bg-red-50  bg-red-50 text-red-500">
                     Invalid
                   </Badge>
-                    )}
+                )}
               </div>
 
               <div className="flex justify-between w-full items-center text-[14px] text-slate-500 ">
@@ -156,8 +152,7 @@ const PatientDetails = ({ params }: any) => {
               </div>
             </div>
           </div>
-            )
-          : (
+        ) : (
           <div
             className={`bg-[${secondaryColor}] p-2 rounded-lg 
             border-l-4 BORDER-[${secondaryColor}]
@@ -173,53 +168,82 @@ const PatientDetails = ({ params }: any) => {
               </Link>
             </div>
           </div>
-            )}
+        )}
         {/*  */}
         <div
           className={
-            "border rounded-lg  h-[145px] bg-white flex-1 p-4 flex flex-col  justify-center"
+            "rounded-lg  h-[145px] bg-white flex-1 p-2 flex flex-col  justify-center"
           }
         >
-          {vsData
-            ? (
-            <div className="flex items-center space-x-4 ">
-              <div className="">
-                <h1
-                  className={`text-2xl font-extrabold
+          {vsData ? (
+            <div className="flex items-center space-x-4 justify-between">
+              <div className="flex-1 p-2 h-[100%] ">
+                <div className="w-full flex items-center space-x-2 ">
+                  <div className="">
+                    <h1
+                      className={`text-xl
                   ${bmi > 30 && "text-red-500"}
                   `}
-                >
-                  BMI
-                </h1>
-                <p>{bmi}</p>
+                    >
+                      BMI
+                    </h1>
+                    <p
+                      className={`text-xl font-extrabold
+                  ${bmi > 30 && "text-red-500"}
+                  `}
+                    >
+                      {bmi}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col">
+                    <div className="flex space-x-4 items-center">
+                      <p className="text-[14px] text-slate-500 ">(kg)</p>
+                      <p className="font-bold">{vsData?.weight}</p>
+                    </div>
+                    <div className="border-b w-full border-slate-200" />
+
+                    <div>
+                      <div className="flex items-center space-x-4 ">
+                        <p className="text-[14px] text-slate-500 ">(cm)</p>
+                        <p className="font-bold">{vsData?.height}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* {bmi > 30
+                  ? (
+                  <Badge className="shadow-none rounded-full bg-red-50 text-red-500 hover:bg-red-50 ">
+                    Obese
+                  </Badge>
+                    )
+                  : (
+                  <Badge>Not Obese</Badge>
+                    )} */}
               </div>
 
-              <div className="flex flex-col space-y-2">
-                <div className="flex space-x-4 items-center">
-                  <p className="text-[14px] text-slate-500 ">Weight (kg)</p>
-                  <p className="font-bold">{vsData?.weight}</p>
-                </div>
-                <div className="border-b w-full border-slate-200" />
-
+              <div className="flex-1 flex">
                 <div>
-                  <div className="flex items-center space-x-4 ">
-                    <p className="text-[14px] text-slate-500 ">Height (cm)</p>
-                    <p className="font-bold">{vsData?.height}</p>
+                  <p className="text-xl">BP</p>
+                  <div className="flex items-center">
+                    <p>{vsData?.systolic}</p>
+                    <p>/</p>
+                    <p>{vsData?.diastolic}</p>
+                  </div>
+                </div>
+                <div className='flex'>
+                  <div>
+                    <p>Sys</p>
+                    <p>{vsData?.systolic}</p>
+                  </div>
+                  <div>
+                    <p>Dias</p>
+                    <p>{vsData?.diastolic}</p>
                   </div>
                 </div>
               </div>
-              {bmi > 30
-                ? (
-                <Badge className="shadow-none rounded-full bg-red-50 text-red-500 hover:bg-red-50 ">
-                  Obese
-                </Badge>
-                  )
-                : (
-                <Badge>Not Obese</Badge>
-                  )}
             </div>
-              )
-            : (
+          ) : (
             <div
               className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
             >
@@ -236,13 +260,12 @@ const PatientDetails = ({ params }: any) => {
                 </Link>
               </div>
             </div>
-              )}
+          )}
         </div>
 
         {/*  */}
         <div className="flex-1 rounded-lg h-[145px] overflow-y-auto ">
-          {prescriptionData
-            ? (
+          {prescriptionData ? (
             <div className="h-[145px] flex bg-white p-2 border border-slate-200 rounded-lg">
               <div className="flex-1">
                 <p className="text-2xl font-extrabold">
@@ -261,8 +284,7 @@ const PatientDetails = ({ params }: any) => {
                 remainingPills={artPrescription?.expectedNoOfPills}
               />
             </div>
-              )
-            : (
+          ) : (
             <div
               className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
             >
@@ -277,7 +299,7 @@ const PatientDetails = ({ params }: any) => {
                 </Link>
               </div>
             </div>
-              )}
+          )}
         </div>
 
         {/*  */}
@@ -293,8 +315,7 @@ const PatientDetails = ({ params }: any) => {
               <ArrowRight size={18} className="ml-1" />
             </Button>
           </div>
-          {priorityAppointment?.length > 0
-            ? (
+          {priorityAppointment?.length > 0 ? (
             <>
               {priorityAppointment.map((item: any) => (
                 <div
@@ -306,10 +327,9 @@ const PatientDetails = ({ params }: any) => {
                 </div>
               ))}
             </>
-              )
-            : (
+          ) : (
             <div>No Priority Appointments</div>
-              )}
+          )}
         </div>
       </div>
       <div className="flex p-4 bg-white">

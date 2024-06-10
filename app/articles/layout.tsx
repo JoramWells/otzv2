@@ -38,8 +38,8 @@ const DL: SidebarListItemsProps[] = [
   },
   {
     id: '4',
-    label: 'Reports',
-    link: 'viratrack/reports',
+    label: 'E-learning',
+    link: '/articles/e-learning',
     icon: <BookCopy size={15} />
   }
 ]
