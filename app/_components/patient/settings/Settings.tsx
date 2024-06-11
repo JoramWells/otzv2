@@ -17,36 +17,7 @@ import { useEffect, useState } from 'react'
 //  -lab appointments -vl
 // viral load
 
-// const dataList = [
-//   {
-//     id: 1,
-//     label: 'Viral Load Collection'
-//   },
-//   {
-//     id: 2,
-//     label: 'Viral Load Update'
-//   },
-//   {
-//     id: 3,
-//     label: 'Daily Drug'
-//   },
-//   {
-//     id: 4,
-//     label: 'Daily Drug Confirmation'
-//   },
-//   {
-//     id: 5,
-//     label: 'Drug Reorder Level'
-//   },
-//   {
-//     id: 6,
-//     label: 'Drug Refill Date'
-//   },
-//   {
-//     id: 7,
-//     label: 'Events'
-//   }
-// ]
+
 
 export interface UserNotificationData {
   id: string
@@ -118,11 +89,10 @@ const Settings = ({ patientID }: InputProps) => {
                 handleClick(item.id)
               }}
             >
-              <p>{item.notificationSubCategory.notificationSubCategoryName} </p>
+              <p>{item.notificationSubCategory?.notificationSubCategoryName} </p>
               <p>
                 {
-                  item.notificationSubCategory.notificationCategory
-                    .notificationDescription
+                  item.notificationSubCategory?.notificationCategory?.notificationDescription
                 }{' '}
               </p>
               <p className="font-bold">{item.notificationDescription}</p>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import CustomTab from '@/components/tab/CustomTab'
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { columns, type AppointmentProps } from '@/app/appointments/columns'
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
@@ -25,15 +25,26 @@ const AppointmentHomepage = () => {
 
   const missedAppointment = useCallback(() => {
     return data?.filter((item: any) =>
-      item.appointmentStatus?.statusDescription
+      item.AppointmentStatus?.statusDescription
         .toLowerCase()
         .includes('Missed'.toLowerCase())
     )
   }, [data])
 
+  //
+  const pendingAppointment = useCallback(() => {
+    return data?.filter((item: any) =>
+      item.AppointmentStatus?.statusDescription
+        .toLowerCase()
+        .includes('Pending'.toLowerCase())
+    )
+  }, [data])
+
+  console.log(missedAppointment(), 'kolp')
+
   const upcomingAppointment = useCallback(() => {
     return data?.filter((item: any) =>
-      item.appointmentStatus?.statusDescription
+      item.AppointmentStatus?.statusDescription
         .toLowerCase()
         .includes('Upcoming'.toLowerCase())
     )
@@ -41,7 +52,7 @@ const AppointmentHomepage = () => {
 
   const rescheduledAppointment = useCallback(() => {
     return data?.filter((item: any) =>
-      item.appointmentStatus?.statusDescription
+      item.AppointmentStatus?.statusDescription
         .toLowerCase()
         .includes('Rescheduled'.toLowerCase())
     )
@@ -63,7 +74,7 @@ const AppointmentHomepage = () => {
       },
       {
         id: 4,
-        label: 'Upcoming '
+        label: 'Upcoming'
       },
       {
         id: 5,
@@ -89,12 +100,9 @@ const AppointmentHomepage = () => {
         )}
       </div>
 
-      {/* {value === 2 && (
-        <AppointmentStatusTab
-          columns={columns}
-          data={pendingAppointment() || []}
-        />
-      )} */}
+      {value === 'pending' && (
+        <CustomTable columns={columns} data={pendingAppointment() || []} />
+      )}
 
       {value === 'rescheduled' && (
         <CustomTable columns={columns} data={rescheduledAppointment() || []} />

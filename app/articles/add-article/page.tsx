@@ -8,12 +8,14 @@ import { useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.
 import { useGetAllChaptersQuery } from '@/api/articles/chapters.api'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import axios from 'axios'
-import { Loader2, PlusCircle } from 'lucide-react'
+import { EyeIcon, Loader2, PlusCircle, Save, TrashIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import Link from 'next/link'
 import { type FormEvent, useCallback, useMemo, useState, useEffect } from 'react'
 // import ReactQuill from "react-quill";
@@ -109,11 +111,22 @@ const ArticlesPage = () => {
     }))
   }, [categoryData])
 
+  const book = useCallback(() => {
+    console.log(categoryData)
+    const tempData = categoryData?.filter((item) => item.id === articleCategoryID)
+    return tempData?.map(item => ({
+      id: item.id,
+      label: item.description
+    })) || []
+  }, [articleCategoryID, categoryData])()
+
+  console.log(content)
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="w-full flex justify-between mt-2 mb-2 p-2 bg-white">
+      <div className="w-full flex justify-between mt-2 p-2 bg-white">
         <p
           className="font-bold text-slate-700
         items-center
@@ -129,12 +142,12 @@ const ArticlesPage = () => {
         </Button>
       </div>
 
-      <div className="p-4 flex flex-row space-x-4  w-full justify-center">
+      <div className="p-4 flex flex-row space-x-4 items-start w-full">
         {/* <EditorContent editor={editor} /> */}
 
         <div
           className="w-1/2 rounded-lg bg-white
-      p-4 flex flex-col space-y-4 "
+      p-4 flex flex-col space-y-4 sticky top-30"
         >
           <p className="font-bold text-xl text-slate-700">New Article</p>
 
@@ -194,6 +207,70 @@ const ArticlesPage = () => {
         </div>
 
         {/*  */}
+
+        <div className="w-1/2 border rounded-lg relative ">
+          <div className="absolute top-2 right-2">
+            <div className="flex space-x-2 ">
+              <Button
+                size={'sm'}
+                // className='bg-transparent'
+              >
+                <Save size={15} />
+              </Button>
+
+              <Button
+                size={'sm'}
+                // className='bg-transparent'
+              >
+                <TrashIcon size={15} />
+              </Button>
+            </div>
+          </div>
+          <div className="p-4 ">
+            <h1 className="font-bold">{title} </h1>
+          </div>
+          {file && (
+            <Image
+              // w={0}
+              alt="im"
+              // placeholder="data:image/..."
+              width={0}
+              height={0}
+              // quality={350}
+              // fill={true}
+              // objectFit="contain"
+              // priority
+              // layout="fill"
+              src={window.URL.createObjectURL(file)}
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'cover'
+              }}
+            />
+          )}
+
+          <div className="mt-2 p-4">
+            <h3 className="font-bold mb-2">
+              {chapterOptions() &&
+                chapterOptions().length > 0 &&
+                chapterOptions()[0]?.label}
+            </h3>
+
+            {/*  */}
+            <div
+              className="text-[14px] "
+              dangerouslySetInnerHTML={{
+                __html: content
+              }}
+            />
+
+            {/*  */}
+            <Badge className="rounded-full text-[12px] ">
+              {book.length > 0 && book[0]?.label}
+            </Badge>
+          </div>
+        </div>
       </div>
     </>
   )

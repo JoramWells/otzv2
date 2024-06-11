@@ -150,8 +150,8 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
     }
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Action',
+    accessorKey: 'updatedAt',
+    header: 'Updated',
     cell: ({ row }) => (<p>{moment(row.original.createdAt).format('ll')} </p>)
   },
   {

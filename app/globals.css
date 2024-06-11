@@ -69,7 +69,17 @@
 @layer base {
   * {
     @apply border-border;
+  
   }
+  h1 {
+    @apply text-2xl;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+
   body {
     @apply bg-background text-foreground;
   }

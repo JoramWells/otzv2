@@ -7,6 +7,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 import CustomInput2 from '@/components/forms/CustomInput2'
 import { z, type ZodType } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useAddAppointmentStatusMutation } from '@/api/appointment/appointmentStatus.api'
+import { Loader2 } from 'lucide-react'
 interface InputProps {
   statusDescription: string
 }
@@ -20,11 +22,11 @@ const AddAppointmentStatus = () => {
     resolver: zodResolver(Schema)
   })
 
-  // const [addAppointmentStatus, { isLoading }] =
-  //   useAddAppointmentStatusMutation()
+  const [addAppointmentStatus, { isLoading }] =
+    useAddAppointmentStatusMutation()
 
-  const submitForm = async(data: any) => {
-   await addAppointmentStatus(data)
+  const submitForm = async (data: any) => {
+    await addAppointmentStatus(data)
   }
 
   return (
@@ -45,11 +47,12 @@ const AddAppointmentStatus = () => {
           // colorScheme="teal"
           // width={'full'}
           // onClick={() => addAppointmentStatus(inputValues)}
-          // isLoading={isLoading}
+          disabled={isLoading}
           type='submit'
-          className="w-full shadow-none text-emerald-600 border-teal-200"
+          className="w-full shadow-none text-black border-slate-200 hover:bg-slate-100"
           variant={'outline'}
         >
+          {isLoading && <Loader2 className='mr-2 animate-spin' size={15} />}
           Add New
         </Button>
       </form>
