@@ -90,7 +90,7 @@ const NotifyPage = () => {
             // onClick={() => router.push('/notify/appointment')}
           >
             <div className="flex flex-row items-center justify-between">
-              <h1 className="">{item.label}</h1>
+              <h3 className="">{item.label}</h3>
               <Users size={15} />
             </div>
             <p className="text-xl font-bold">{item.count}</p>

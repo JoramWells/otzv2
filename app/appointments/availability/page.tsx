@@ -23,6 +23,9 @@ const days = [
   },
   {
     day: 'Friday'
+  },
+  {
+    day: 'Saturday'
   }
 ]
 

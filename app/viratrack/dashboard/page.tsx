@@ -88,7 +88,7 @@ const NotifyPage = () => {
 
       <div className="flex flex-row justify-between items-center bg-white p-4 mt-4">
         <div>
-          <p className="text-xl font-bold">Welcome to ViraTrack</p>
+          <p className="text-lg font-bold">Welcome to ViraTrack</p>
           <p>Scheduled the following appointments</p>
         </div>
         <Button
@@ -103,7 +103,7 @@ const NotifyPage = () => {
           New Patient
         </Button>
       </div>
-      <div className="flex w-full justify-between flex-wrap p-4">
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-4 md:grid-cols-2">
         {dataList.map((item, idx) => (
           <div
             key={idx}
@@ -113,11 +113,11 @@ const NotifyPage = () => {
             onClick={() => router.push('/notify/appointment')}
           >
             <div className="flex flex-row items-center justify-between">
-              <h1 className="font-bold text-lg">{item.label}</h1>
+              <h3 className="font-bold text-lg">{item.label}</h3>
               <Users size={20} />
             </div>
-            <p className="text-2xl font-bold">{item.count}</p>
-            <p className="text-slate-500 text-sm">Since last month</p>
+            <p className="text-xl font-bold">{item.count}</p>
+            <p className="text-slate-500 text-[12px]">Since last month</p>
           </div>
         ))}
       </div>
