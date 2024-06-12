@@ -175,22 +175,26 @@ const StepsPage = ({ params }: any) => {
                     <Avatar
                       name={`${personalData?.firstName} ${personalData?.middleName}`}
                     />
-                    <p className="font-bold">
+                    <p className="font-bold text-[14px] ">
                       {personalData?.firstName} {personalData?.middleName}
                     </p>
-                    <p className="text-[14px] text-slate-500">
+                    <p className="text-[12px] text-slate-500">
                       <span className="font-bold">DOB</span>:{' '}
                       {moment(personalData?.dob).format('ll')},{' '}
-                      {calculateAge(personalData?.dob)} yrs
                     </p>
-                    <p className="text-[14px] text-slate-500">
+                    <p
+                    className='text-[12px] text-slate-500'
+                    >
+                      <span>Age: </span>
+                      {calculateAge(personalData?.dob)} yrs</p>
+                    <p className="text-[12px] text-slate-500">
                       <span className="font-semibold">Sex:</span>{' '}
                       {personalData?.sex === 'M' ? 'MALE' : 'FEMALE'}
                     </p>
 
                     <div className="text-slate-500 text-sm">
                       <p>
-                        <span className="font-bold">Phone:</span>{' '}
+                        <span className="font-bold text-[12px] ">Phone:</span>{' '}
                         <span>{personalData?.phoneNo} </span>
                       </p>
                     </div>

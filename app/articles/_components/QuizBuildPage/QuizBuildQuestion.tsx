@@ -1,8 +1,16 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
+import { useGetAllChaptersQuery } from '@/api/articles/chapters.api'
+import { useAddQuestionsMutation } from '@/api/articles/questions.api'
+import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
-import { XIcon } from 'lucide-react'
-import { type RefObject, createRef, forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { CheckCheck, Loader2, XIcon } from 'lucide-react'
+import { type RefObject, createRef, forwardRef, useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { type CategoryInputProps } from '../../add-article/page'
+import { useGetAllArticlesQuery } from '@/api/articles/articles.api'
+import ListCounter from '@/components/ListCounter'
 interface CorrectAnswerProps {
   onChangeCorrectAnswer: (text: string) => void
 }
@@ -16,20 +24,30 @@ function CorrectAnswer ({ onChangeCorrectAnswer }: CorrectAnswerProps) {
       onChangeCorrectAnswer(upperText)
     }
   }
-  return <div className="mt-4">
-    <input
-      className="border border-gray-300 p-2 rounded"
-      value={correctAnswerInput}
-      maxLength={1}
-      onChange={e => {
-        handleChangeInput(e.target.value)
-      }}
-    />
-  </div>
+  return (
+    <div className="flex space-x-4 items-start mt-4">
+      <div className="flex items-center  space-x-2">
+        <ListCounter
+        text={3}
+        />
+        <h3 className="font-semibold">Answer</h3>
+      </div>
+
+      <input
+        className="border border-gray-300 p-2 rounded flex-1"
+        value={correctAnswerInput}
+        maxLength={1}
+        onChange={(e) => {
+          handleChangeInput(e.target.value)
+        }}
+      />
+    </div>
+  )
 }
 
 interface QuestionsInterface {
   id: string
+  articleID: string
   mainQuestion: string
   choices: string[]
   correctAnswer: string
@@ -80,42 +98,47 @@ function Choices ({ singleQuestion, questionIndex, quizQuestions, setQuizQuestio
   }
 
   return (
-    <div className="mt-4">
-      <h3 className="font-semibold">Choices</h3>
-      {choices.map((singleChoice: string, idx: number) => (
-        <div key={idx} className="flex items-center mt-2">
-          <span className="mr-2">{alphabets[idx]}</span>
-          <input
-            className="border border-gray-300 p-2 rounded flex-grow"
-            type="text"
-            placeholder={`Enter your ${positions[idx]} choice`}
-            value={singleChoice.substring(prefixes[idx].length + 2)}
-            onChange={(e) => {
-              handleChoiceChangeInput(
-                e.target.value,
-                idx,
-                questionIndex
-              )
-            }}
-          />
-          {idx >= 2 && (
-            <XIcon
-              className="ml-2 cursor-pointer"
-              onClick={() => {
-                deleteChoice(idx)
-              }}
-            />
-          )}
+    <div className="flex flex-col">
+      <div className="flex items-start space-x-4">
+        <div className="flex items-center  space-x-2">
+          <ListCounter text={2} />
+          <h3 className="font-semibold">Choices</h3>
         </div>
-      ))}
-      <Button
-        className="mt-2"
-        onClick={() => {
-          addNewChoice()
-        }}
-      >
-        Add a choice
-      </Button>
+        <div className="flex-1 flex-col space-y-4  rounded-lg p-4 bg-slate-50 ">
+          {choices.map((singleChoice: string, idx: number) => (
+            <div key={idx} className="flex items-center relative">
+              <span className="mr-2">{alphabets[idx]}</span>
+              <input
+                className="border border-gray-200 p-2 rounded flex-grow"
+                type="text"
+                placeholder={`Enter your ${positions[idx]} choice`}
+                value={singleChoice.substring(prefixes[idx].length + 2)}
+                onChange={(e) => {
+                  handleChoiceChangeInput(e.target.value, idx, questionIndex)
+                }}
+              />
+              {idx >= 2 && (
+                <XIcon
+                  className="ml-2 cursor-pointer absolute right-2"
+                  onClick={() => {
+                    deleteChoice(idx)
+                  }}
+                />
+              )}
+            </div>
+          ))}
+          <div className="flex justify-end">
+            <Button
+              className="mt-2 bg-slate-200 text-black hover:bg-slate-100"
+              onClick={() => {
+                addNewChoice()
+              }}
+            >
+              Add a choice
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -130,10 +153,17 @@ const SingleQuestion = forwardRef(function SingleQuestion ({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }, ref: React.Ref<HTMLInputElement>) {
   return (
-    <div className="mt-4">
-      <h3 className="font-semibold">Question: {questionIndex}</h3>
+    <div className="flex space-x-4 items-center w-full justify-between">
+        <div className="flex items-center  space-x-2">
+          <ListCounter
+          text={1}
+          />
+        </div>
+
+      <h3 className="font-semibold">Quiz {questionIndex}</h3>
       <input
         className="border border-gray-300 p-2 rounded w-full"
+        // className='shadow-none flex-1'
         placeholder="Enter question"
         value={value}
         onChange={onChange}
@@ -144,16 +174,89 @@ const SingleQuestion = forwardRef(function SingleQuestion ({
 })
 
 const QuizBuildQuestion = () => {
+  const [categoryData, setCategoryData] = useState<CategoryInputProps[]>([])
+  const [articleCategoryID, setArticleCategoryID] = useState('')
+  const [chapterID, setChapterID] = useState('')
+  const [articleID, setArticleID] = useState('')
+
   const endOfListRef = useRef<HTMLDivElement | null>(null)
   const prefixes = ['A', 'B', 'C', 'D']
   const [quizQuestions, setQuizQuestions] = useState<QuestionsInterface[]>([
     {
       id: uuidv4(),
+      articleID,
       mainQuestion: '',
       choices: prefixes.slice(0, 2).map((prefix: string) => prefix + ' '),
       correctAnswer: ''
     }
   ])
+
+  const [addQuestions, { isLoading: loadingQuiz }] = useAddQuestionsMutation()
+
+  //
+  const { data: chapterData } = useGetAllChaptersQuery()
+  const { data, isLoading: isLoadingData } = useGetAllArticlesCategoryQuery()
+
+  //
+  const { data: articlesData } = useGetAllArticlesQuery()
+  const articlesOption = useCallback(() => {
+    const tempData = articlesData?.filter(item => item.Chapter.id === chapterID)
+    return tempData?.map(item => ({
+      id: item.id,
+      label: item.title
+    }))
+  }, [articlesData, chapterID])
+
+  console.log(articlesOption(), 'articles')
+
+  const chapterOptions = useCallback(() => {
+    const tempData = chapterData?.filter(
+      (item: any) => item.ArticleCategory?.id === articleCategoryID
+    )
+    return tempData?.map((item: any) => ({
+      id: item.id,
+      label: item.description
+    }))
+  }, [chapterData, articleCategoryID])
+
+  //
+  const chapterOptions2 = useCallback(() => {
+    const tempData = chapterData?.filter(
+      (item: any) => item?.id === articleCategoryID
+    )
+    return tempData?.map((item: any) => ({
+      id: item.id,
+      label: item.description
+    }))
+  }, [chapterData, articleCategoryID])
+
+  const categoryOptions = useCallback(() => {
+    return categoryData.map((item: any) => ({
+      id: item.id,
+      label: item.description
+    }))
+  }, [categoryData])
+
+  //
+  const book = useCallback(() => {
+    const tempData = categoryData?.filter(
+      (item) => item.id === articleCategoryID
+    )
+    console.log(categoryData, 'sert')
+    return (
+      tempData?.map((item) => ({
+        id: item.id,
+        label: item.description
+      })) || []
+    )
+  }, [articleCategoryID, categoryData])()
+
+  //
+  useEffect(() => {
+    if (data) {
+      setCategoryData(data)
+    }
+  }, [data])
 
   function addNewQuestion () {
     const lastIndexQuizQuestions = quizQuestions.length - 1
@@ -182,7 +285,8 @@ const QuizBuildQuestion = () => {
       id: uuidv4(),
       mainQuestion: '',
       choices: prefixes.slice(0, 2).map((prefix) => prefix + ' '),
-      correctAnswer: ''
+      correctAnswer: '',
+      articleID
     }
     setQuizQuestions([...quizQuestions, newQuestion])
     textRefs.current = [...textRefs.current, createRef<HTMLInputElement>()]
@@ -199,7 +303,7 @@ const QuizBuildQuestion = () => {
   function handleInputChange (index: number, text: string) {
     const updateQuestions = quizQuestions.map((question, i) => {
       if (index === i) {
-        return { ...question, mainQuestion: text }
+        return { ...question, mainQuestion: text, articleID }
       }
       return question
     })
@@ -259,50 +363,120 @@ const QuizBuildQuestion = () => {
 
   console.log(quizQuestions)
 
+  const [tab, setTab] = useState(1)
+
+  const handleNext = () => {
+    setTab(prev => prev + 1)
+  }
+
+  const handleBack = () => {
+    setTab(prev => prev - 1)
+  }
+
   return (
-    <div className="p-4 bg-gray-100 rounded-lg shadow-md">
-      {quizQuestions.map((singleQuestion, questionIndex) => (
-        <div
-          key={questionIndex + 1}
-          className="mb-4 p-4 bg-white rounded-lg shadow"
-          ref={quizQuestions.length - 1 === questionIndex ? endOfListRef : null}
-        >
-          <SingleQuestion
-            questionIndex={(questionIndex + 1).toString()}
-            value={singleQuestion.mainQuestion}
-            ref={textRefs.current[questionIndex]}
-            onChange={(e) => {
-              handleInputChange(questionIndex, e.target.value)
-            }}
-          />
-          {questionIndex !== 0 && (
-            <XIcon
-              className="ml-2 cursor-pointer text-red-500"
-              onClick={() => {
-                deleteQuestion(singleQuestion)
-              }}
+    <div className="p-4 flex flex-col items-center ">
+      <div className="w-1/2 bg-white rounded-lg">
+        {tab === 1 && (
+          <div className="">
+            <CustomSelect
+              label="Select Category"
+              value={articleCategoryID}
+              onChange={setArticleCategoryID}
+              data={categoryOptions()}
             />
-          )}
-          <Choices
-            questionIndex={questionIndex}
-            singleQuestion={singleQuestion}
-            quizQuestions={quizQuestions}
-            setQuizQuestions={setQuizQuestions}
-            prefixes={prefixes}
-            onChangeChoice={(text, choiceIndex, questionIndex) => {
-              updateChoicesArray(text, choiceIndex, questionIndex)
-            }}
-          />
-          <CorrectAnswer
-            onChangeCorrectAnswer={(text: string) => {
-              updateCorrectAnswer(text, questionIndex)
-            }}
-          />
+
+            <CustomSelect
+              label="Select Chapter"
+              value={chapterID}
+              onChange={setChapterID}
+              data={chapterOptions()}
+            />
+            <CustomSelect
+              label="Select Article"
+              data={articlesOption()}
+              value={articleID}
+              onChange={setArticleID}
+            />
+          </div>
+        )}
+
+        {tab === 2 && (
+          <>
+            <div className="">
+              <h1>{book.length > 0 && book[0]?.label}</h1>
+              <h3 className="font-bold mb-2">
+                {chapterOptions2() &&
+                  chapterOptions2().length > 0 &&
+                  chapterOptions2()[0]?.label}
+              </h3>
+              {quizQuestions.map((singleQuestion, questionIndex) => (
+                <div
+                  key={questionIndex + 1}
+                  // className="mb-4"
+                  ref={
+                    quizQuestions.length - 1 === questionIndex
+                      ? endOfListRef
+                      : null
+                  }
+                >
+                  <div className="flex flex-col space-y-2"></div>
+                  <div className="p-4">
+                    <div className="p-4 border border-s-slate-200 rounded-lg">
+                      <SingleQuestion
+                        questionIndex={(questionIndex + 1).toString()}
+                        value={singleQuestion.mainQuestion}
+                        ref={textRefs.current[questionIndex]}
+                        onChange={(e) => {
+                          handleInputChange(questionIndex, e.target.value)
+                        }}
+                      />
+                    </div>
+                    <div className="p-4 border">
+                      {questionIndex !== 0 && (
+                        <XIcon
+                          className="ml-2 cursor-pointer text-red-500"
+                          onClick={() => {
+                            deleteQuestion(singleQuestion)
+                          }}
+                        />
+                      )}
+                      <Choices
+                        questionIndex={questionIndex}
+                        singleQuestion={singleQuestion}
+                        quizQuestions={quizQuestions}
+                        setQuizQuestions={setQuizQuestions}
+                        prefixes={prefixes}
+                        onChangeChoice={(text, choiceIndex, questionIndex) => {
+                          updateChoicesArray(text, choiceIndex, questionIndex)
+                        }}
+                      />
+                      <CorrectAnswer
+                        onChangeCorrectAnswer={(text: string) => {
+                          updateCorrectAnswer(text, questionIndex)
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div className="flex justify-end p-4">
+                <Button className="" onClick={addNewQuestion}>
+                  Add Question
+                </Button>
+              </div>
+            </div>
+            <Button onClick={async () => await addQuestions(quizQuestions)}>
+              {loadingQuiz && <Loader2 className="animate-spin mr-2" />}
+              Save
+            </Button>
+          </>
+        )}
+
+        <div className="flex space-x-4">
+          <Button onClick={handleBack}>Prev</Button>
+          <Button onClick={handleNext}>Next</Button>
         </div>
-      ))}
-      <Button className="mt-4" onClick={addNewQuestion}>
-        ADD
-      </Button>
+      </div>
     </div>
   )
 }

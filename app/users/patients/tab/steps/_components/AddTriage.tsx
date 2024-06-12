@@ -15,8 +15,9 @@ import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { AdultSchema, InfantSchema } from './type'
 import moment from 'moment'
-import { CollapseButton } from '@/app/_components/dashboard/CollapseButton'
+import { CollapseButton } from '@/components/CollapseButton'
 import { calculateBMI } from '@/utils/calculateBMI'
+import { Badge } from '@/components/ui/badge'
 
 export interface VSProps {
   temperature: number
@@ -110,9 +111,11 @@ const AddTriage = ({
   return (
     <div className="flex items-start justify-between space-x-4 ">
       <div className="w-3/4 bg-white rounded-lg">
-        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
+        <div className="flex justify-between items-center w-full border-b border-slate-100 pr-4 p-2 bg-slate-200 rounded-t-lg">
           <p className=" text-lg font-bold">Vital Sign</p>
-          <p className="text-[14px] text-slate-500 ">Last Updated:</p>
+          <p className="text-[14px] text-slate-500 ">
+            {age < 9 ? <Badge className='shadow-none'>Paed</Badge> : <Badge className='shadow-none'>Adult</Badge> }
+          </p>
         </div>
         <FormProvider {...methods}>
           <form
@@ -176,7 +179,7 @@ const AddTriage = ({
                 // onChange={setheight}
               />
             </div>
-            {/* <div className="border-b border-slate-200 w-full mt-top-2 mt-b-2 font-bold" />
+            {/* <div className="border-b border-slate-100 w-full mt-top-2 mt-b-2 font-bold" />
         <p className="font-bold capitalize">Other recordings</p>
         <CustomInput2
           label="MUAC"
@@ -189,7 +192,7 @@ const AddTriage = ({
           type='date'
           // onChange={setLMP}
         /> */}
-            {/* <div className="border-b border-slate-200 w-full mt-top-2 mt-b-2" /> */}
+            {/* <div className="border-b border-slate-100 w-full mt-top-2 mt-b-2" /> */}
             {/* <p>Pregnancy Details</p> */}
 
             {/* <CustomCheckbox
@@ -243,27 +246,34 @@ const AddTriage = ({
           </form>
         </FormProvider>
       </div>
-      <div className="w-1/3 border bg-white rounded-lg p-2">
-        <div className="flex justify-between items-center w-full p-2">
-          <p>Recent Vitals</p>
-          <div className="flex justify-between items-center space-x-2">
+      <div className="w-1/3 bg-white rounded-lg p-2">
+        <div className="flex justify-between items-center w-full border p-2">
+          <p className="text-[14px] font-bold ">Recent Vitals</p>
+          <div className="flex justify-between items-center space-x-2 text-slate-500 text-[12px] ">
             <CalendarCheck2 size={15} />
             <p>{moment(latestVitalsData?.createdAt).format('ll')}</p>
           </div>
         </div>
 
-        <div className="flex justify-between items-center w-full p-2">
-          <p>Temperature</p>
-          <p>{latestVitalsData?.temperature} </p>
+        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
+          <p className=" text-slate-500">Temperature</p>
+          <p className="font-bold">{latestVitalsData?.temperature} °C</p>
         </div>
-        <div className="flex justify-between items-center w-full p-2">
-          <p>Pulse Rate</p>
-          <p>{latestVitalsData?.pulseRate} </p>
+        <div className="w-full border-b border-slate-100" />
+
+        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
+          <span className="text-slate-500 ">Pulse Rate</span>
+          <p className="font-bold">{latestVitalsData?.pulseRate} bpm</p>
         </div>
-        <div className="flex justify-between items-center w-full p-2">
-          <p>Respiratory Rate</p>
-          <p>{latestVitalsData?.respiratoryRate} </p>
+        <div className="w-full border-b border-slate-100" />
+
+        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
+          <span className="text-slate-500 ">Respiratory Rate</span>
+          <span className="font-bold">
+            {latestVitalsData?.respiratoryRate} bpm
+          </span>
         </div>
+        <div className="w-full border-b border-slate-100" />
         <CollapseButton label="Blood Pressure">
           <div className="w-full flex items-center space-x-4">
             <div>
@@ -277,6 +287,7 @@ const AddTriage = ({
             </div>
           </div>
         </CollapseButton>
+        <div className="w-full border-b border-slate-100" />
 
         <CollapseButton label="BMI">
           <div className="w-full flex items-center space-x-4 justify-between">

@@ -28,7 +28,7 @@ const BreadcrumbComponent = dynamic(
   }
 )
 
-interface CategoryInputProps {
+export interface CategoryInputProps {
   id?: string
   description: string
 };
@@ -119,8 +119,6 @@ const ArticlesPage = () => {
       label: item.description
     })) || []
   }, [articleCategoryID, categoryData])()
-
-  console.log(content)
 
   return (
     <>
