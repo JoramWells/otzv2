@@ -27,13 +27,13 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '3',
     label: 'Reminder',
-    link: '/pill-box/reminder?tab=all',
+    link: '/pill-box/reminder',
     icon: <BellDot size={17} />
   },
   {
     id: '4',
-    label: 'Reports',
-    link: 'viratrack/reports',
+    label: 'Treatment Failure',
+    link: '/pill-box/treatment-failure',
     icon: <BookCopy size={17} />
   }
 ]

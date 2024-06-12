@@ -5,10 +5,10 @@ import { CustomTable } from '../../_components/table/CustomTable'
 // import { columns } from './columns'
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import CustomTab from '@/components/tab/CustomTab'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { eveningColumn } from './eveningColumn'
 import { morningColumn } from './morningColumn'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import moment from 'moment'
 // import { checkTime } from '@/utils/isRightTimeForDrugs'
 import { useAddPatientNotificationMutation } from '@/api/notifications/patientNotification.api'
@@ -32,12 +32,12 @@ const dataList2 = [
   {
     id: '2',
     label: 'dashboard',
-    link: 'dashboard'
+    link: '/dashboard'
   },
   {
     id: '3',
     label: 'Reminder',
-    link: 'reminder'
+    link: '/reminder'
   }
 ]
 
@@ -72,7 +72,23 @@ const AppointmentPage = () => {
     })
   }, [patientsDueMorning])
 
-  console.log(patientsDueMorning, 'yut')
+  const pathname = usePathname()
+  const router = useRouter()
+
+  const updateQueryParams = useCallback(
+    (newStep: string) => {
+      const newSearchParams = new URLSearchParams(searchParams)
+      newSearchParams.set('tab', newStep)
+      router.replace(`${pathname}?${newSearchParams.toString()}`)
+    },
+    [pathname, router, searchParams]
+  )
+
+  useEffect(() => {
+    if (tab === null) {
+      updateQueryParams('all')
+    }
+  }, [tab, updateQueryParams])
 
   const [currentTime, setCurrentTime] = useState(moment())
   // useEffect(() => {
