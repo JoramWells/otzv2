@@ -74,12 +74,12 @@ const NotifyPage = () => {
           Manage Sent Notifications to client with ease.
         </p>
       </div>
-      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-4 md:grid-cols-2">
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
         {dataList.map((item, idx) => (
           <div
             key={idx}
             className="rounded-lg p-5 bg-white
-             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-none
+             h-[130px] flex flex-col flex-1 hover:cursor-pointer hover:shadow-none
       "
             onClick={() => router.push('/notify/appointment')}
           >

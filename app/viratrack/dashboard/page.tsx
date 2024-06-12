@@ -20,7 +20,7 @@ const VLBarChart = dynamic(
   async () => await import('../../_components/charts/VLBarChart'),
   {
     ssr: false,
-    loading: () => <Skeleton className="h-[400px] w-[600px] rounded-lg" />
+    loading: () => <Skeleton className="h-[300px] w-1/4 rounded-lg" />
   }
 )
 
@@ -28,7 +28,7 @@ const VLPieChart = dynamic(
   async () => await import('../../_components/charts/VLPieChart'),
   {
     ssr: false,
-    loading: () => <Skeleton className="h-[400px] w-[600px] rounded-lg" />
+    loading: () => <Skeleton className="h-[300px] w-1/4 rounded-lg" />
   }
 )
 
@@ -83,10 +83,10 @@ const NotifyPage = () => {
   const router = useRouter()
 
   return (
-    <div className="p-4">
+    <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="flex flex-row justify-between items-center bg-white p-4 mt-4">
+      {/* <div className="flex flex-row justify-between items-center bg-white p-4 mt-4">
         <div>
           <p className="text-lg font-bold">Welcome to ViraTrack</p>
           <p>Scheduled the following appointments</p>
@@ -102,13 +102,13 @@ const NotifyPage = () => {
           <PlusCircle size={18} className="mr-2" />
           New Patient
         </Button>
-      </div>
-      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-4 md:grid-cols-2">
+      </div> */}
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-2  md:grid-cols-2">
         {dataList.map((item, idx) => (
           <div
             key={idx}
             className="border-slate-200 rounded-lg p-4 bg-white
-             h-[130px] flex flex-col w-[350px] hover:cursor-pointer hover:shadow-sm
+             h-[130px] flex flex-col flex-1 hover:cursor-pointer hover:shadow-sm
       "
             onClick={() => router.push('/notify/appointment')}
           >

@@ -82,7 +82,7 @@ const VLBarChart = () => {
   }
 
   return (
-    <div className="h-[400px] w-[600px] bg-slate-50 rounded-lg">
+    <div className="h-[300px] w-1/4 bg-slate-50 rounded-lg">
       <div className="p-4 flex flex-row justify-between items-center">
         <h1 className="font-bold text-lg">Viral Load Validity</h1>
         <div className="w-[100px]">

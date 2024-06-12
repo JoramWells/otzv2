@@ -85,24 +85,22 @@ const AppointmentHomepage = () => {
   )
   return (
     <div>
-      <div className="w-full p-4 flex flex-col space-y-2">
+      <div className="w-full">
         <CustomTab
           categoryList={categoryList}
           setValue={setValue}
           value={value}
         />
+          <div className="bg-white rounded-lg p-4">
 
         {value === 'all' && (
-          <div className="bg-white rounded-lg p-4">
-            {/* <AppointmentFilter /> */}
             <CustomTable columns={columns} data={sortedAppointment || []} />
-          </div>
         )}
-      </div>
 
-      {value === 'pending' && (
+        {/*  */}
+              {value === 'pending' && (
         <CustomTable columns={columns} data={pendingAppointment() || []} />
-      )}
+              )}
 
       {value === 'rescheduled' && (
         <CustomTable columns={columns} data={rescheduledAppointment() || []} />
@@ -115,6 +113,10 @@ const AppointmentHomepage = () => {
       {value === 'missed' && (
         <CustomTable columns={columns} data={missedAppointment() || []} />
       )}
+          </div>
+
+      </div>
+
     </div>
   )
 }

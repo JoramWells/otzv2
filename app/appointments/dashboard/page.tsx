@@ -80,11 +80,11 @@ const NotifyPage = () => {
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 p-4 md:grid-cols-2">
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4  md:grid-cols-2">
         {dataList.map((item, idx) => (
           <div
             key={idx}
-            className="rounded-lg p-5 bg-white
+            className="rounded-lg p-4 bg-white
              h-[130px] flex flex-col  hover:cursor-pointer hover:shadow-none
       "
             // onClick={() => router.push('/notify/appointment')}

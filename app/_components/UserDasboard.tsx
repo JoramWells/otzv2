@@ -23,8 +23,8 @@ const UserDashboardCard = ({ item }: UserDashboardCardProps) => {
       }}
     >
       <div className="flex flex-row items-center justify-between">
-        <h1 className="font-bold">{item.label}</h1>
-        <Users size={18} />
+        <h2 className="font-bold">{item.label}</h2>
+        <Users size={15} />
       </div>
       <CountUp
       end={item.count}
