@@ -30,6 +30,12 @@ const DL: SidebarListItemsProps[] = [
     icon: <PlusIcon size={17} />
   },
   {
+    id: '7',
+    label: 'Availability',
+    link: '/appointments/availability',
+    icon: <PlusIcon size={17} />
+  },
+  {
     id: '5',
     label: 'Rescheduled',
     link: '/notify/voice-call',

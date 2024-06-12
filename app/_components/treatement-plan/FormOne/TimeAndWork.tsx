@@ -59,37 +59,36 @@ const TimeAndWork = ({
   setDepartureTimeMinutes
 }: TimeAndWorkProps) => {
   return (
-  <div className="flex flex-col gap-y-2 p-4">
-    <p className='font-bold'>Time</p>
-    <CustomTimeInput
-      label="What time do you wake up mostly?"
-      hours={wakeUpTimeHours}
-      setHours={setWakeUpTimeHours}
-      minutes={wakeUpTimeMinutes}
-      setMinutes={setWakeUpTimeMinutes}
-    />
-    <CustomTimeInput
-      label="What time do you leave for school or work?"
-      hours={departureHomeTimeHours}
-      setHours={setDepartureHomeTimeHours}
-      minutes={departureHomeTimeMinutes}
-      setMinutes={setDepartureHomeTimeMinutes}
-    />
-    <CustomTimeInput
-      label="What time do you leave from work or school?"
-      hours={arrivalTimeHours}
-      setHours={setArrivalTimeHours}
-      minutes={arrivalTimeMinutes}
-      setMinutes={setArrivalTimeMinutes}
-    />
-    <CustomTimeInput
-      label="What time do you get home from work or school?"
-      hours={departureTimeHours}
-      setHours={setDepartureTimeHours}
-      minutes={departureTimeMinutes}
-      setMinutes={setDepartureTimeMinutes}
-    />
-  </div>
+      <div className="flex-1 flex flex-col space-y-2 border p-4 rounded-lg bg-white">
+        <CustomTimeInput
+          label="What time do you wake up mostly?"
+          hours={wakeUpTimeHours}
+          setHours={setWakeUpTimeHours}
+          minutes={wakeUpTimeMinutes}
+          setMinutes={setWakeUpTimeMinutes}
+        />
+        <CustomTimeInput
+          label="What time do you leave for school or work?"
+          hours={departureHomeTimeHours}
+          setHours={setDepartureHomeTimeHours}
+          minutes={departureHomeTimeMinutes}
+          setMinutes={setDepartureHomeTimeMinutes}
+        />
+        <CustomTimeInput
+          label="What time do you leave from work or school?"
+          hours={arrivalTimeHours}
+          setHours={setArrivalTimeHours}
+          minutes={arrivalTimeMinutes}
+          setMinutes={setArrivalTimeMinutes}
+        />
+        <CustomTimeInput
+          label="What time do you get home from work or school?"
+          hours={departureTimeHours}
+          setHours={setDepartureTimeHours}
+          minutes={departureTimeMinutes}
+          setMinutes={setDepartureTimeMinutes}
+        />
+      </div>
   )
 }
 

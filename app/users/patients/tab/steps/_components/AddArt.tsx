@@ -24,6 +24,7 @@ import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAg
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useAddPrescriptionMutation, useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
+import { Badge } from '@/components/ui/badge'
 
 const reasonOptions = [
   {
@@ -243,224 +244,228 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const [tab, setTab] = useState(1)
 
   return (
-    <div className="w-full flex flex-col justify-between items-center">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
-        <p className="text-lg  font-bold">ART Details</p>
-        <p
-        className='text-[14px] text-slate-500 '
-        >Last Updated:</p>
-      </div>
-      {(prescriptionData || addPrescriptionData) ? (
-        <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
-          {/* <p>{prescriptionData?.regimen}</p> */}
-          <div className="w-full flex flex-col space-y-2">
-            <div>
-              <p className="font-bold">{prescriptionData?.regimen}</p>
-              <p className="capitalize text-slate-500 text-[14px]">
-                {prescriptionData?.line}
-              </p>
-            </div>
-            <div className="flex flex-row space-x-4">
-              {dataList.map((item) => (
-                <Button
-                  onClick={() => {
-                    setTab(item.id)
-                  }}
-                  key={item.id}
-                  className={`bg-white shadow-none  text-slate-500 border border-slate-200 hover:bg-slate-100  ${
-                    item.id === tab && 'bg-slate-50 text-black'
-                  }`}
-                >
-                  {item.icon}
-                  {item.label}
-                </Button>
-              ))}
-            </div>
+    <div className='flex items-start space-x-4 w-full' >
+      <div className="w-3/4 flex flex-col justify-between items-center bg-white">
+        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
+          <p className="text-lg  font-bold">ART Details</p>
+          <div className="flex space-x-2 items-center">
+            <Badge className="shadow-none"> {prescriptionData?.regimen} </Badge>
+            {/* <p className="capitalize text-slate-500 text-[12px]">
+            {prescriptionData?.line}
+          </p> */}
+          </div>
+        </div>
+        {prescriptionData || addPrescriptionData ? (
+          <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
+            {/* <p>{prescriptionData?.regimen}</p> */}
+            <div className="w-full flex flex-col space-y-2">
+              <div className="flex flex-row space-x-4">
+                {dataList.map((item) => (
+                  <Button
+                    onClick={() => {
+                      setTab(item.id)
+                    }}
+                    key={item.id}
+                    className={`bg-white shadow-none  text-slate-500 border border-slate-200 hover:bg-slate-100  ${
+                      item.id === tab && 'bg-slate-50 text-black'
+                    }`}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </Button>
+                ))}
+              </div>
 
-            {tab === 1 && (
-              <div className="flex flex-col space-y-4  border  rounded-lg p-4">
-                <CustomInput
-                  label="Number of Pills"
-                  onChange={setNoOfPills}
-                  value={noOfPill}
-                />
+              {tab === 1 && (
+                <div className="flex flex-col space-y-4  border  rounded-lg p-4">
+                  <CustomInput
+                    label="Number of Pills"
+                    onChange={setNoOfPills}
+                    value={noOfPill}
+                  />
+                  <CustomSelect
+                    label="Frequency"
+                    value={frequency}
+                    onChange={setFrequency}
+                    data={[
+                      {
+                        id: '1',
+                        label: 'OD'
+                      },
+                      {
+                        id: '2',
+                        label: 'BD'
+                      }
+                    ]}
+                  />
+                  <CustomInput
+                    label="Refill Date"
+                    onChange={setRefillDate}
+                    value={refillDate}
+                    type="date"
+                  />
+
+                  {/* save prescription */}
+                  <div>
+                    <Button
+                      onClick={async () =>
+                        await addPrescription(prescriptionInputValues)
+                      }
+                      disabled={prescriptionSaveLoading}
+                      className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+                    >
+                      {prescriptionSaveLoading && (
+                        <Loader2 className="mr-2" size={18} />
+                      )}
+                      Save
+                    </Button>
+                  </div>
+                </div>
+              )}
+              {tab === 2 && (
+                <SwitchComponent regimenOptions={regimenOptions()} />
+              )}
+            </div>
+            {/*  */}
+            <div className="flex justify-end mt-4 space-x-4 w-full">
+              <Button
+                onClick={() => {
+                  handleBack()
+                }}
+                className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
+              >
+                Prev
+              </Button>
+              {prescriptionData || addPrescriptionData ? (
+                <Button
+                  className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+                  onClick={() => {
+                    handleNext()
+                  }}
+                >
+                  Next
+                </Button>
+              ) : (
+                <Button
+                  className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+                  onClick={async () => await addArtPrescription(inputValues)}
+                >
+                  {isLoading && (
+                    <Loader2 className="animate-spin mr-2" size={18} />
+                  )}
+                  Save
+                </Button>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div
+            // label={<Plus className="text-slate-500" size={18} />}
+            className="w-full"
+          >
+            {/*  */}
+
+            <div className="flex flex-col space-y-4 p-4">
+              <div>
                 <CustomSelect
-                  label="Frequency"
-                  value={frequency}
-                  onChange={setFrequency}
+                  label="Regimen Line"
+                  value={regimenLine}
+                  onChange={setRegimenLine}
                   data={[
                     {
-                      id: '1',
-                      label: 'OD'
+                      id: 'first Line',
+                      label: 'First Line'
                     },
                     {
-                      id: '2',
-                      label: 'BD'
+                      id: 'second Line',
+                      label: 'Second Line'
+                    },
+                    {
+                      id: 'third Line',
+                      label: 'Third Line'
                     }
                   ]}
                 />
-                <CustomInput
-                  label="Refill Date"
-                  onChange={setRefillDate}
-                  value={refillDate}
-                  type="date"
-                />
-
-                {/* save prescription */}
-                <div>
-                  <Button
-                    onClick={async () =>
-                      await addPrescription(prescriptionInputValues)
-                    }
-                    disabled={prescriptionSaveLoading}
-                    className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-                  >
-                    {prescriptionSaveLoading && (
-                      <Loader2 className="mr-2" size={18} />
-                    )}
-                    Save
-                  </Button>
-                </div>
               </div>
-            )}
-            {tab === 2 && <SwitchComponent regimenOptions={regimenOptions()} />}
-          </div>
-          {/*  */}
-          <div className="flex justify-end mt-4 space-x-4 w-full">
-            <Button
-              onClick={() => {
-                handleBack()
-              }}
-              className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
-            >
-              Prev
-            </Button>
-            {prescriptionData || addPrescriptionData ? (
-              <Button
-                className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
-                onClick={() => {
-                  handleNext()
-                }}
-              >
-                Next
-              </Button>
-            ) : (
-              <Button
-                className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
-                onClick={async () => await addArtPrescription(inputValues)}
-              >
-                {isLoading && (
-                  <Loader2 className="animate-spin mr-2" size={18} />
-                )}
-                Save
-              </Button>
-            )}
-          </div>
-        </div>
-      ) : (
-        <div
-          // label={<Plus className="text-slate-500" size={18} />}
-          className="w-full"
-        >
-          {/*  */}
 
-          <div className="flex flex-col space-y-4 p-4">
-            <div>
-              <CustomSelect
-                label="Regimen Line"
-                value={regimenLine}
-                onChange={setRegimenLine}
-                data={[
-                  {
-                    id: 'first Line',
-                    label: 'First Line'
-                  },
-                  {
-                    id: 'second Line',
-                    label: 'Second Line'
-                  },
-                  {
-                    id: 'third Line',
-                    label: 'Third Line'
-                  }
-                ]}
+              <CustomCheckbox
+                label="Standard Regimen"
+                value={isStandardRegimen}
+                onChange={setIsStandardRegimen}
+              />
+
+              {isStandardRegimen && (
+                <div>
+                  <CustomSelect
+                    value={artRegimen}
+                    onChange={setArtRegimen}
+                    data={regimenOptions()}
+                  />
+                </div>
+              )}
+
+              <CustomCheckbox
+                label="Non Standard Regimen"
+                value={isNonStandardRegimen}
+                onChange={setIsNonStandardRegimen}
+              />
+              {isNonStandardRegimen && (
+                <div>
+                  <CustomSelect
+                    value={nonStandardArtRegimen}
+                    onChange={setNonStandardArtRegimen}
+                    data={[
+                      {
+                        id: 'lopinavir',
+                        label: 'Lopinavir'
+                      }
+                    ]}
+                  />
+                </div>
+              )}
+              <CustomInput
+                label="Start Date"
+                type="date"
+                value={startDate}
+                onChange={setStartDate}
               />
             </div>
-
-            <CustomCheckbox
-              label="Standard Regimen"
-              value={isStandardRegimen}
-              onChange={setIsStandardRegimen}
-            />
-
-            {isStandardRegimen && (
-              <div>
-                <CustomSelect
-                  value={artRegimen}
-                  onChange={setArtRegimen}
-                  data={regimenOptions()}
-                />
-              </div>
-            )}
-
-            <CustomCheckbox
-              label="Non Standard Regimen"
-              value={isNonStandardRegimen}
-              onChange={setIsNonStandardRegimen}
-            />
-            {isNonStandardRegimen && (
-              <div>
-                <CustomSelect
-                  value={nonStandardArtRegimen}
-                  onChange={setNonStandardArtRegimen}
-                  data={[
-                    {
-                      id: 'lopinavir',
-                      label: 'Lopinavir'
-                    }
-                  ]}
-                />
-              </div>
-            )}
-            <CustomInput
-              label="Start Date"
-              type="date"
-              value={startDate}
-              onChange={setStartDate}
-            />
-          </div>
-          <div className="flex justify-end mt-4 space-x-4 p-4">
-            <Button
-              onClick={() => {
-                handleBack()
-              }}
-              className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
-            >
-              Prev
-            </Button>
-            {prescriptionData || addPrescriptionData ? (
+            <div className="flex justify-end mt-4 space-x-4 p-4">
               <Button
-                className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
                 onClick={() => {
-                  handleNext()
+                  handleBack()
                 }}
+                className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
               >
-                Next
+                Prev
               </Button>
-            ) : (
-              <Button
-                className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
-                onClick={async () => await addArtPrescription(inputValues)}
-              >
-                {isLoading && (
-                  <Loader2 className="animate-spin mr-2" size={18} />
-                )}
-                Save
-              </Button>
-            )}
+              {prescriptionData || addPrescriptionData ? (
+                <Button
+                  className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+                  onClick={() => {
+                    handleNext()
+                  }}
+                >
+                  Next
+                </Button>
+              ) : (
+                <Button
+                  className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+                  onClick={async () => await addArtPrescription(inputValues)}
+                >
+                  {isLoading && (
+                    <Loader2 className="animate-spin mr-2" size={18} />
+                  )}
+                  Save
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+      <div>
+        Recent prescription
+      </div>
     </div>
   )
 }

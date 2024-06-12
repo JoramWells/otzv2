@@ -6,6 +6,7 @@ import { useAddViralLoadTestMutation } from '@/api/enrollment/viralLoadTests.api
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useCallback, useState } from 'react'
 
@@ -70,59 +71,64 @@ const UpdateVL = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
     appointmentDate: dateOfNextVL
   }
   return (
-    <div className="">
-         <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
-        <p className="text-lg  font-bold">Viral Load</p>
-        <p className='text-[14px] text-slate-500 ' >Last Updated:</p>
-      </div>
-      <div className="flex flex-col space-y-4 p-4">
-        <CustomInput
-          label="VL results"
-          placeholder="Enter VL Results"
-          type="number"
-          value={vlResults}
-          onChange={setVLResults}
-        />
-        <CustomInput
-          label="Enter date of current VL"
-          type="date"
-          value={dateOfVL}
-          onChange={setDateOfVL}
-        />
-        <CustomInput
-          label="Enter date of next VL"
-          type="date"
-          value={dateOfNextVL}
-          onChange={setDateOfNextVL}
-        />
+    <div className="w-full flex space-x-4 items-start">
+      <div className="w-3/4">
+        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
+          <p className="text-lg  font-bold">Viral Load</p>
+          <Badge
+          className='shadow-none'
+          >LDL</Badge>
+        </div>
+        <div className="flex flex-col space-y-4 p-4 bg-white">
+          <CustomInput
+            label="VL results"
+            placeholder="Enter VL Results"
+            type="number"
+            value={vlResults}
+            onChange={setVLResults}
+          />
+          <CustomInput
+            label="Enter date of current VL"
+            type="date"
+            value={dateOfVL}
+            onChange={setDateOfVL}
+          />
+          <CustomInput
+            label="Enter date of next VL"
+            type="date"
+            value={dateOfNextVL}
+            onChange={setDateOfNextVL}
+          />
 
-        <CustomSelect
-          label="Reason"
-          data={justificationOptions}
-          value={vlJustification}
-          onChange={setVLJustification}
-        />
+          <CustomSelect
+            label="Reason"
+            data={justificationOptions}
+            value={vlJustification}
+            onChange={setVLJustification}
+          />
+          <div className="flex justify-end space-x-4">
+            <Button
+              onClick={() => {
+                handleBack()
+              }}
+              className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
+            >
+              Prev
+            </Button>
+            <Button
+              className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+              disabled={isLoading}
+              onClick={() => {
+                addViralLoadTest(inputValues)
+              }}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
       </div>
-
-      <div className="flex justify-end space-x-4 p-4">
-        <Button
-          onClick={() => {
-            handleBack()
-          }}
-          className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
-        >
-          Prev
-        </Button>
-        <Button
-          className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
-          disabled={isLoading}
-          onClick={() => {
-            addViralLoadTest(inputValues)
-          }}
-        >
-          Next
-        </Button>
-      </div>
+      {/* recent viral load */}
+      <div>Recent viral load</div>
     </div>
   )
 }

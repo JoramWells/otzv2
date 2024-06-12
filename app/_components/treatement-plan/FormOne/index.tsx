@@ -12,6 +12,10 @@ import ScheduleAndTime from './ScheduleAndTime'
 import { Button } from '@/components/ui/button'
 import { useAddTimeAndWorkMutation, useGetTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
 import { Loader2 } from 'lucide-react'
+import { CollapseButton } from '@/components/CollapseButton'
+import { CollapseButton2 } from '@/components/CollapseButton2'
+import ListCounter from '@/components/ListCounter'
+import Plan from './Plan'
 
 interface AddTriageProps {
   handleNext: () => void
@@ -101,104 +105,135 @@ const FormOne = ({
   // })
 
   return (
-    <div className="w-full flex flex-col">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
-        <p className="text-lg  font-bold">Time & Work Schedule</p>
-        <p className='text-slate-500 text-[14px] ' >Last Updated:</p>
-      </div>
-        <TimeAndWork
-          appointmentID={appointmentID}
-          wakeUpTimeHours={wakeUpTimeHours}
-          setWakeUpTimeHours={setWakeUpTimeHours}
-          wakeUpTimeMinutes={wakeUpTimeMinutes}
-          setWakeUpTimeMinutes={setWakeUpTimeMinutes}
-          //
-          departureHomeTimeHours={departureHomeTimeHours}
-          setDepartureHomeTimeHours={setDepartureHomeTimeHours}
-          departureHomeTimeMinutes={departureHomeTimeMinutes}
-          setDepartureHomeTimeMinutes={setDepartureHomeTimeMinutes}
-          //
-          arrivalTimeHours={arrivalTimeHours}
-          setArrivalTimeHours={setArrivalTimeHours}
-          arrivalTimeMinutes={arrivalTimeMinutes}
-          setArrivalTimeMinutes={setArrivalTimeMinutes}
-          //
-          departureTimeHours={departureTimeHours}
-          setDepartureTimeHours={setDepartureTimeHours}
-          departureTimeMinutes={departureTimeMinutes}
-          setDepartureTimeMinutes={setDepartureTimeMinutes}
-          // arrivalHomeTime={arrivalHomeTime}
-          // setArrivalHomeTime={setArrivalHomeTime}
-        />
-        <ScheduleAndTime
-          appointmentID={appointmentID}
-          morningPlace={morningPlace}
-          setMorningPlace={setMorningPlace}
-          eveningPlace={eveningPlace}
-          setEveningPlace={setEveningPlace}
-          medicineStorage={medicineStorage}
-          setMedicineStorage={setMedicineStorage}
-          toolsAndCues={toolAndCues}
-          setToolsAndCues={setToolAndCues}
-          goal={goal}
-          setGoal={setGoal}
-          // time
-          morningHours={morningHours}
-          setMorningHours={setMorningHours}
-          morningMinutes={morningMinutes}
-          setMorningMinutes={setMorningMinutes}
-          //
-          eveningHours={eveningHours}
-          setEveningHours={setEveningHours}
-          eveningMinutes={eveningMinutes}
-          setEveningMinutes={setEveningMinutes}
-          //
-          morningHoursWeekend={morningHoursWeekend}
-          setMorningMinutesWeekend={setMorningMinutesWeekend}
-          morningMinutesWeekend={morningMinutesWeekend}
-          setMorningHoursWeekend={setMorningHoursWeekend}
-          //
-          eveningHoursWeekend={eveningHoursWeekend}
-          setEveningHoursWeekend={setEveningHoursWeekend}
-          eveningMinutesWeekend={eveningMinutesWeekend}
-          setEveningMinutesWeekend={setEveningMinutesWeekend}
-          //
-          eveningWeekendPlace=""
-          morningWeekendPlace=""
-          setEveningPlaceWeekend={() => {}}
-          setMorningPlaceWeekend={() => {}}
-        />
-      <div className="flex justify-end p-4 space-x-4">
-        <Button
-          onClick={() => {
-            handleBack()
-          }}
-          className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
-        >
-          Prev
-        </Button>
-        {timeData || savedData
-          ? (
+    <div className="flex space-x-4 items-start">
+      <div className="w-3/4 flex flex-col bg-white">
+        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
+          <p className="text-lg  font-bold">Time & Work Schedule</p>
+          <p className="text-slate-500 text-[14px] ">Last Updated:</p>
+        </div>
+
+        <div className='p-4 w-full flex-col flex space-y-2' >
+          <div className="flex ">
+            <ListCounter text={1} />
+            <CollapseButton2 label="Schedule">
+              <TimeAndWork
+                appointmentID={appointmentID}
+                wakeUpTimeHours={wakeUpTimeHours}
+                setWakeUpTimeHours={setWakeUpTimeHours}
+                wakeUpTimeMinutes={wakeUpTimeMinutes}
+                setWakeUpTimeMinutes={setWakeUpTimeMinutes}
+                //
+                departureHomeTimeHours={departureHomeTimeHours}
+                setDepartureHomeTimeHours={setDepartureHomeTimeHours}
+                departureHomeTimeMinutes={departureHomeTimeMinutes}
+                setDepartureHomeTimeMinutes={setDepartureHomeTimeMinutes}
+                //
+                arrivalTimeHours={arrivalTimeHours}
+                setArrivalTimeHours={setArrivalTimeHours}
+                arrivalTimeMinutes={arrivalTimeMinutes}
+                setArrivalTimeMinutes={setArrivalTimeMinutes}
+                //
+                departureTimeHours={departureTimeHours}
+                setDepartureTimeHours={setDepartureTimeHours}
+                departureTimeMinutes={departureTimeMinutes}
+                setDepartureTimeMinutes={setDepartureTimeMinutes}
+                // arrivalHomeTime={arrivalHomeTime}
+                // setArrivalHomeTime={setArrivalHomeTime}
+              />
+            </CollapseButton2>
+          </div>
+
+          <div className="flex">
+            <ListCounter text={2} />
+
+            <CollapseButton2 label="Time">
+              <ScheduleAndTime
+                appointmentID={appointmentID}
+                morningPlace={morningPlace}
+                setMorningPlace={setMorningPlace}
+                eveningPlace={eveningPlace}
+                setEveningPlace={setEveningPlace}
+                // time
+                morningHours={morningHours}
+                setMorningHours={setMorningHours}
+                morningMinutes={morningMinutes}
+                setMorningMinutes={setMorningMinutes}
+                //
+                eveningHours={eveningHours}
+                setEveningHours={setEveningHours}
+                eveningMinutes={eveningMinutes}
+                setEveningMinutes={setEveningMinutes}
+                //
+                morningHoursWeekend={morningHoursWeekend}
+                setMorningMinutesWeekend={setMorningMinutesWeekend}
+                morningMinutesWeekend={morningMinutesWeekend}
+                setMorningHoursWeekend={setMorningHoursWeekend}
+                //
+                eveningHoursWeekend={eveningHoursWeekend}
+                setEveningHoursWeekend={setEveningHoursWeekend}
+                eveningMinutesWeekend={eveningMinutesWeekend}
+                setEveningMinutesWeekend={setEveningMinutesWeekend}
+                //
+                eveningWeekendPlace=""
+                morningWeekendPlace=""
+                setEveningPlaceWeekend={() => {}}
+                setMorningPlaceWeekend={() => {}}
+              />
+            </CollapseButton2>
+          </div>
+
+          {/*  */}
+          <div className="flex ">
+            <ListCounter text={3} />
+
+            <CollapseButton2 label="Goal for this plan">
+              <Plan
+                medicineStorage={medicineStorage}
+                setMedicineStorage={setMedicineStorage}
+                toolsAndCues={toolAndCues}
+                setToolsAndCues={setToolAndCues}
+                goal={goal}
+                setGoal={setGoal}
+              />
+            </CollapseButton2>
+          </div>
+        </div>
+
+        <div className="flex justify-end p-4 space-x-4">
           <Button
-            className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
             onClick={() => {
-              handleNext()
+              handleBack()
             }}
+            className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
           >
-            Next
+            Prev
           </Button>
-            )
-          : (
-          <Button
-            className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
-            onClick={async () => await addTimeAndWork(inputValues)}
-            disabled={isLoading}
-          >
-            {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
-            Save
-          </Button>
-            )}
+          {timeData || savedData
+            ? (
+            <Button
+              className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+              onClick={() => {
+                handleNext()
+              }}
+            >
+              Next
+            </Button>
+              )
+            : (
+            <Button
+              className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+              onClick={async () => await addTimeAndWork(inputValues)}
+              disabled={isLoading}
+            >
+              {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
+              Save
+            </Button>
+              )}
+        </div>
       </div>
+
+      {/* recent time and work */}
+      <div>Recent time and work</div>
     </div>
   )
 }
