@@ -34,7 +34,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'Dashboard',
-    link: ''
+    link: '/'
   }
 ]
 
@@ -68,13 +68,13 @@ function TimeSlots ({ duration, setDuration }: { duration: number, setDuration: 
   )
 }
 
-function PreviewMeeting ({ duration }) {
-  const [date, setDate] = useState(new Date())
-  const [timeSlots, setTimeSlots] = useState([])
+function PreviewMeeting ({ duration }: { duration: number }) {
+  const [date, setDate] = useState<Date | undefined>(new Date())
+  const [timeSlots, setTimeSlots] = useState<string[]>([])
 
-  const createTimeSLot = (interval) => {
+  const createTimeSLot = (interval: number) => {
     const time = 8 * 60 // 8am
-    const endTime = 22 * 60 // 10pm
+    const endTime = 22 * 60 // 10pmel
 
     const totalSlots = (endTime - time) / interval
 
