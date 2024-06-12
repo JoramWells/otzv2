@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
@@ -5,7 +6,7 @@ import { useGetAllChaptersQuery } from '@/api/articles/chapters.api'
 import { useAddQuestionsMutation } from '@/api/articles/questions.api'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
-import { CheckCheck, Loader2, XIcon } from 'lucide-react'
+import { Loader2, XIcon } from 'lucide-react'
 import { type RefObject, createRef, forwardRef, useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { type CategoryInputProps } from '../../add-article/page'
@@ -195,13 +196,13 @@ const QuizBuildQuestion = () => {
 
   //
   const { data: chapterData } = useGetAllChaptersQuery()
-  const { data, isLoading: isLoadingData } = useGetAllArticlesCategoryQuery()
+  const { data } = useGetAllArticlesCategoryQuery()
 
   //
   const { data: articlesData } = useGetAllArticlesQuery()
   const articlesOption = useCallback(() => {
-    const tempData = articlesData?.filter(item => item.Chapter.id === chapterID)
-    return tempData?.map(item => ({
+    const tempData = articlesData?.filter((item: any) => item.Chapter.id === chapterID)
+    return tempData?.map((item: any) => ({
       id: item.id,
       label: item.title
     }))
