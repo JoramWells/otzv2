@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { type PrescriptionProps, columns } from './columns'
+import { columns } from './columns'
 import { useEffect } from 'react'
 import useNotification from '@/hooks/useNotification'
 import { type NotificationProps } from '@/context/NotificationContext'
@@ -10,6 +10,7 @@ import socketIOClient, { type Socket } from 'socket.io-client'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
+import { type PrescriptionProps } from '../types'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {

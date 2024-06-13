@@ -1,19 +1,39 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import moment from 'moment'
+import moment, { type MomentInput } from 'moment'
 
 import Avatar from '@/components/Avatar'
 import { calculateAdherence } from '@/utils/calculateAdherence'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { CalendarDays } from 'lucide-react'
 import { useCallback } from 'react'
-import Link from 'next/link'
-import { type PrescriptionProps } from '../types'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
   firstName?: string
+}
+
+export interface PrescriptionProps {
+  frequency: number
+  computedNoOfPills: number
+  expectedNoOfPills: number
+  noOfPills: number
+  ART: {
+    artName: string
+  }
+  refillDate: MomentInput | string
+  nextRefillDate: MomentInput
+  appointmentTime: MomentInput
+  appointmentDate: any
+  appointmentAgenda: any
+  createdAt: Date
+  user: any
+  Patient: any
+  id: any
+  header: string
+  accessorKey?: keyof PatientProps
+  // render?: (props: any) => React.ReactNode
 }
 
 export interface PatientProps {
@@ -117,10 +137,5 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
         </div>
       )
     }
-  },
-  {
-    accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => <Link href={`/pill-box/prescription-detail/${row.original.patientVisitID} `}>Action</Link>
   }
 ]
