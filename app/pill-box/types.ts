@@ -10,12 +10,13 @@ export interface PrescriptionProps {
   ART?: {
     artName: string
   }
-  refillDate: MomentInput | string
-  nextRefillDate: MomentInput | string
+  refillDate: Date
+  nextRefillDate: Date
   appointmentTime?: MomentInput
   appointmentDate?: any
   appointmentAgenda?: any
-  createdAt?: Date
+  createdAt: Date | string
+  updatedAt?: Date
   user?: any
   Patient?: any
   id?: any

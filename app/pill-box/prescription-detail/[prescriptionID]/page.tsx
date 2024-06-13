@@ -17,7 +17,8 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
     computedNoOfPills: 0,
     noOfPills: 0,
     expectedNoOfPills: 0,
-    nextRefillDate: ''
+    nextRefillDate: new Date(),
+    refillDate: new Date()
   })
 
   const { data } = useGetPrescriptionQuery(prescriptionID)
@@ -103,7 +104,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
         </div>
         <div className="flex-1 bg-white p-4 rounded-lg flex flex-col space-y-4">
           <div className="">
-            <div className="flex space-x-2 p-2">
+            <div className="flex border rounded-full w-1/4">
               {[
                 {
                   id: 1,
@@ -119,17 +120,19 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                   onClick={() => {
                     setValue(id)
                   }}
+
+                  className={`rounded-full flex-1  text-black bg-white ${value === id && 'bg-slate-100'} hover:bg-slate-50 `}
                 >
                   {label}
                 </Button>
               ))}
             </div>
 
-            <hr />
+            {/* <hr /> */}
           </div>
           {value === 1 && (
-            <div>
-              <div className="flex flex-col space-y-2 bg-slate-50 rounded-lg border border-slate-200 p-4">
+            <div className='flex flex-col space-y-2'>
+              <div className="flex flex-col space-y-4 bg-slate-50 rounded-lg border border-slate-200 p-4">
                 <div>
                   {' '}
                   Prescribed = Expected No. of Pills x Dispensed Pills{' '}
@@ -146,14 +149,14 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                   </div>
                 </div>
               </div>
-              <hr />
-              <div>
+              {/* <hr /> */}
+              <div className='flex flex-col space-y-2'>
                 <h2>Summary</h2>
                 <Textarea
                   placeholder="How is prescription Going?"
                   className="shadow-none"
                 />
-                <p>Discuss the details of this prescription.</p>
+                {/* <small>Discuss the details of this prescription.</small> */}
               </div>
               <hr />
               <div>

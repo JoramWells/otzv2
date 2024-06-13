@@ -8,7 +8,7 @@ import { useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
 import { calculateAdherence } from '@/utils/calculateAdherence'
 
 const SMSPage = () => {
-  const [value, setValue] = useState<number>(1)
+  const [value, setValue] = useState('')
 
   const { data } = useGetAllPrescriptionsQuery()
 
