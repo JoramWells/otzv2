@@ -4,175 +4,24 @@
 import { useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.api'
 import { useGetAllChaptersQuery } from '@/api/articles/chapters.api'
 import { useAddQuestionsMutation } from '@/api/articles/questions.api'
-import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { Loader2, XIcon } from 'lucide-react'
-import { type RefObject, createRef, forwardRef, useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
+import { type RefObject, createRef, useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { type CategoryInputProps } from '../../add-article/page'
 import { useGetAllArticlesQuery } from '@/api/articles/articles.api'
-import ListCounter from '@/components/ListCounter'
-interface CorrectAnswerProps {
-  onChangeCorrectAnswer: (text: string) => void
-}
+import InitialPage from '../InitialPage'
+import CorrectAnswer from './CorrectAnswer'
+import Choices from './Choices'
+import Question from './Question'
 
-function CorrectAnswer ({ onChangeCorrectAnswer }: CorrectAnswerProps) {
-  const [correctAnswerInput, setCorrectAnswerInput] = useState('')
-  function handleChangeInput (text: string) {
-    const upperText = text.toUpperCase()
-    if (upperText === '' || ['A', 'B', 'C', 'D'].includes(upperText)) {
-      setCorrectAnswerInput(upperText)
-      onChangeCorrectAnswer(upperText)
-    }
-  }
-  return (
-    <div className="flex space-x-4 items-start mt-4">
-      <div className="flex items-center  space-x-2">
-        <ListCounter
-        text={3}
-        />
-        <h3 className="font-semibold">Answer</h3>
-      </div>
-
-      <input
-        className="border border-gray-300 p-2 rounded flex-1"
-        value={correctAnswerInput}
-        maxLength={1}
-        onChange={(e) => {
-          handleChangeInput(e.target.value)
-        }}
-      />
-    </div>
-  )
-}
-
-interface QuestionsInterface {
+export interface QuestionsInterface {
   id: string
   articleID: string
   mainQuestion: string
   choices: string[]
   correctAnswer: string
 }
-
-interface ChoicesProps {
-  singleQuestion: QuestionsInterface
-  questionIndex: number
-  quizQuestions: QuestionsInterface[]
-  setQuizQuestions: (quizes: QuestionsInterface[]) => void
-  onChangeChoice: (text: string, choiceIndex: number, questionIndex: number) => void
-  prefixes: string[]
-}
-
-function Choices ({ singleQuestion, questionIndex, quizQuestions, setQuizQuestions, onChangeChoice, prefixes }: ChoicesProps) {
-  const { choices } = singleQuestion
-  const alphabets = ['A', 'B', 'C', 'D']
-  const positions = ['First', 'Second', 'Third', 'Fourth']
-
-  function addNewChoice () {
-    const quizQuestionsCopy = [...quizQuestions]
-
-    // check if prev not empty
-    const lastChoicesPosition = quizQuestionsCopy[questionIndex].choices.length
-    for (let i = lastChoicesPosition - 1; i >= 0; i--) {
-      const eachInput = quizQuestionsCopy[questionIndex].choices[i].substring(2)
-      if (eachInput.trim().length === 0) {
-        console.log('empty field')
-        return
-      }
-    }
-    if (lastChoicesPosition < 4) {
-      const newChoice = `${alphabets[lastChoicesPosition]}. `
-      quizQuestionsCopy[questionIndex].choices.push(newChoice)
-      setQuizQuestions(quizQuestionsCopy)
-    }
-    console.log(singleQuestion)
-  }
-
-  function deleteChoice (choiceIndex: number) {
-    const quizQuestionCopy = [...quizQuestions]
-    quizQuestionCopy[questionIndex].choices.splice(choiceIndex, 1)
-    setQuizQuestions(quizQuestionCopy)
-  }
-
-  function handleChoiceChangeInput (text: string, choiceIndex: number, questionIndex: number) {
-    onChangeChoice(text, choiceIndex, questionIndex)
-  }
-
-  return (
-    <div className="flex flex-col">
-      <div className="flex items-start space-x-4">
-        <div className="flex items-center  space-x-2">
-          <ListCounter text={2} />
-          <h3 className="font-semibold">Choices</h3>
-        </div>
-        <div className="flex-1 flex-col space-y-4  rounded-lg p-4 bg-slate-50 ">
-          {choices.map((singleChoice: string, idx: number) => (
-            <div key={idx} className="flex items-center relative">
-              <span className="mr-2">{alphabets[idx]}</span>
-              <input
-                className="border border-gray-200 p-2 rounded flex-grow"
-                type="text"
-                placeholder={`Enter your ${positions[idx]} choice`}
-                value={singleChoice.substring(prefixes[idx].length + 2)}
-                onChange={(e) => {
-                  handleChoiceChangeInput(e.target.value, idx, questionIndex)
-                }}
-              />
-              {idx >= 2 && (
-                <XIcon
-                  className="ml-2 cursor-pointer absolute right-2"
-                  onClick={() => {
-                    deleteChoice(idx)
-                  }}
-                />
-              )}
-            </div>
-          ))}
-          <div className="flex justify-end">
-            <Button
-              className="mt-2 bg-slate-200 text-black hover:bg-slate-100"
-              onClick={() => {
-                addNewChoice()
-              }}
-            >
-              Add a choice
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const SingleQuestion = forwardRef(function SingleQuestion ({
-  questionIndex,
-  value,
-  onChange
-}: {
-  questionIndex: string
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}, ref: React.Ref<HTMLInputElement>) {
-  return (
-    <div className="flex space-x-4 items-center w-full justify-between">
-        <div className="flex items-center  space-x-2">
-          <ListCounter
-          text={1}
-          />
-        </div>
-
-      <h3 className="font-semibold">Quiz {questionIndex}</h3>
-      <input
-        className="border border-gray-300 p-2 rounded w-full"
-        // className='shadow-none flex-1'
-        placeholder="Enter question"
-        value={value}
-        onChange={onChange}
-        ref={ref}
-      />
-    </div>
-  )
-})
 
 const QuizBuildQuestion = () => {
   const [categoryData, setCategoryData] = useState<CategoryInputProps[]>([])
@@ -376,34 +225,28 @@ const QuizBuildQuestion = () => {
 
   return (
     <div className="p-4 flex flex-col items-center ">
-      <div className="w-1/2 bg-white rounded-lg">
+      <div className="w-1/2 bg-white rounded-lg p-4">
         {tab === 1 && (
-          <div className="">
-            <CustomSelect
-              label="Select Category"
-              value={articleCategoryID}
-              onChange={setArticleCategoryID}
-              data={categoryOptions()}
-            />
-
-            <CustomSelect
-              label="Select Chapter"
-              value={chapterID}
-              onChange={setChapterID}
-              data={chapterOptions()}
-            />
-            <CustomSelect
-              label="Select Article"
-              data={articlesOption()}
-              value={articleID}
-              onChange={setArticleID}
-            />
-          </div>
+          <InitialPage
+            articleCategoryID={articleCategoryID}
+            articleData={articlesOption()}
+            articleID={articleID}
+            bookData={categoryOptions()}
+            chapterID={chapterID}
+            chapterData={chapterOptions()}
+            setArticleCategoryID={setArticleCategoryID}
+            setArticleID={setArticleID}
+            setChapterID={setChapterID}
+          />
         )}
 
         {tab === 2 && (
           <>
-            <div className="">
+            <div
+              className="border border-dashed rounded-lg relative
+
+            "
+            >
               <h1>{book.length > 0 && book[0]?.label}</h1>
               <h3 className="font-bold mb-2">
                 {chapterOptions2() &&
@@ -420,10 +263,9 @@ const QuizBuildQuestion = () => {
                       : null
                   }
                 >
-                  <div className="flex flex-col space-y-2"></div>
-                  <div className="p-4">
+                  <div className="p-4 flex flex-col space-y-4">
                     <div className="p-4 border border-s-slate-200 rounded-lg">
-                      <SingleQuestion
+                      <Question
                         questionIndex={(questionIndex + 1).toString()}
                         value={singleQuestion.mainQuestion}
                         ref={textRefs.current[questionIndex]}
@@ -461,21 +303,34 @@ const QuizBuildQuestion = () => {
                 </div>
               ))}
               <div className="flex justify-end p-4">
-                <Button className="" onClick={addNewQuestion}>
+                <Button
+                  className="bg-white border-2 border-slate-200 text-black"
+                  onClick={addNewQuestion}
+                >
                   Add Question
                 </Button>
               </div>
             </div>
-            <Button onClick={async () => await addQuestions(quizQuestions)}>
-              {loadingQuiz && <Loader2 className="animate-spin mr-2" />}
-              Save
-            </Button>
           </>
         )}
 
-        <div className="flex space-x-4">
-          <Button onClick={handleBack}>Prev</Button>
-          <Button onClick={handleNext}>Next</Button>
+        <div className="flex space-x-4 justify-end p-4">
+          <Button onClick={handleBack}
+          disabled={tab === 1}
+          >Prev</Button>
+          {tab === 2
+            ? (
+            <Button
+              onClick={async () => await addQuestions(quizQuestions)}
+              className=""
+            >
+              {loadingQuiz && <Loader2 className="animate-spin mr-2 " />}
+              Save
+            </Button>
+              )
+            : (
+            <Button onClick={handleNext}>Next</Button>
+              )}
         </div>
       </div>
     </div>
