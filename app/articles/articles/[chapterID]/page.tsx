@@ -44,6 +44,14 @@ const Page = ({ params }: { params: any }) => {
     <>
       <BreadcrumbComponent dataList={dataList} />
 
+      <div
+      className='p-2 bg-white w-full mt-2'
+      >
+        <h2
+        className='font-bold'
+        >Chapters</h2>
+      </div>
+
       <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-5 p-4 md:grid-cols-2">
         {isLoading
           ? [1, 2, 3, 4, 5].map((idx) => (
