@@ -206,7 +206,7 @@ const ArticlesPage = () => {
 
         {/*  */}
 
-        <div className="w-1/2 border rounded-lg relative ">
+        <div className="w-1/2 border rounded-lg relative bg-white">
           <div className="absolute top-2 right-2">
             <div className="flex space-x-2 ">
               <Button

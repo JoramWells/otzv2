@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { useGetArticlesQuery } from '@/api/articles/articles.api'
@@ -5,6 +8,12 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { useEffect, useMemo, useState } from 'react'
+import 'react-quill/dist/quill.snow.css'
+import { type CategoryInputProps } from '../../add-article/page'
+import CustomInput from '@/components/forms/CustomInput'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -32,54 +41,115 @@ const loaderProp = ({ src }: { src: string }) => {
 }
 
 const Page = ({ params }: { params: any }) => {
+  const ReactQuill = useMemo(
+    () => dynamic(async () => await import('react-quill'), { ssr: false }),
+    []
+  )
+
   const { articleID } = params
   const { data: articleData } = useGetArticlesQuery(articleID)
+  const [content, setContent] = useState('')
+  const [title, setTitle] = useState('')
+  const [categoryData, setCategoryData] = useState<CategoryInputProps[]>([])
+  const [articleCategoryID, setArticleCategoryID] = useState('')
+  const [chapterID, setChapterID] = useState('')
+  const [file, setFile] = useState<File | undefined>()
+
+  useEffect(() => {
+    if (articleData) {
+      const { content, title, file } = articleData
+      setContent(content)
+      setTitle(title)
+      setFile(file)
+    }
+  }, [articleData])
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList} />
 
-      <div className="flex justify-center items-center mt-2">
+      <div className="flex p-4">
         <div
           //   key={item.id}
-          className="rounded-xl bg-white relative"
+          className="rounded-xl bg-white relative w-1/2 flex flex-col space-y-2"
           //   onClick={() => {
           //     router.push(`/articles/article-detail/${item.id}`);
           //   }}
         >
-          <Image
-            // w={0}
-            alt="im"
-            // placeholder="data:image/..."
-            width={500}
-            height={350}
-            // quality={100}
-            // fill
-            // objectFit='contain'
-            // priority
-            // layout='fill'
-            className="rounded-t-lg"
-            src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${articleData?.image}`}
-            style={{
-              width: '500px',
-              height: '350px',
-              objectFit: 'cover'
-            }}
-            loader={loaderProp}
+          <CustomInput
+            label="Article title"
+            value={title}
+            onChange={setTitle}
+            placeholder="Enter title"
           />
 
-          <div className="p-2">
-            <p className="text-lg font-bold">{articleData?.title}</p>
+          <div className="w-[200px]">
+            <Image
+              // w={0}
+              alt="im"
+              // placeholder="data:image/..."
+              width={0}
+              height={0}
+              // quality={100}
+              // fill
+              // objectFit='contain'
+              // priority
+              // layout='fill'
+              className="rounded-t-lg"
+              src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${articleData?.image}`}
+              style={{
+                width: '100%',
+                height: 'auto',
+                objectFit: 'cover'
+              }}
+              loader={loaderProp}
+            />
+          </div>
 
-            <div
+          <div className="p-2">
+            {/*  */}
+            <div className="h-[250px] ">
+              <label htmlFor="" className="font-bold">
+                Description
+              </label>
+              <ReactQuill
+                theme="snow"
+                value={content}
+                onChange={setContent}
+                className="rounded-xl h-[200px] "
+              />
+            </div>
+
+            {/*  */}
+
+            <Input
+              className=""
+              type="file"
+              name="file"
+              // value={file}
+              onChange={(e) => {
+                setFile(e.target.files?.[0])
+              }}
+            />
+
+            {/* <div
               className="text-[14px] "
               dangerouslySetInnerHTML={{ __html: articleData?.content }}
-            />
+            /> */}
             <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
               {/* {item.} */}#
             </Badge>
+            <div
+            className='flex space-x-2 items-center justify-end p-2 '
+            >
+              <Button
+              className='text-red-500  bg-white hover:bg-red-50'
+              >Delete</Button>
+              <Button>Save</Button>
+            </div>
           </div>
-
         </div>
+        <div>Settins</div>
       </div>
     </>
   )

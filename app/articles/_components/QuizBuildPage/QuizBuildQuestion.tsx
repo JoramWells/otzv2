@@ -18,7 +18,7 @@ import Question from './Question'
 export interface QuestionsInterface {
   id: string
   articleID: string
-  mainQuestion: string
+  question: string
   choices: string[]
   correctAnswer: string
 }
@@ -35,7 +35,7 @@ const QuizBuildQuestion = () => {
     {
       id: uuidv4(),
       articleID,
-      mainQuestion: '',
+      question: '',
       choices: prefixes.slice(0, 2).map((prefix: string) => prefix + ' '),
       correctAnswer: ''
     }
@@ -111,7 +111,7 @@ const QuizBuildQuestion = () => {
   function addNewQuestion () {
     const lastIndexQuizQuestions = quizQuestions.length - 1
     if (
-      quizQuestions[lastIndexQuizQuestions].mainQuestion.trim().length === 0
+      quizQuestions[lastIndexQuizQuestions].question.trim().length === 0
     ) {
       console.log('Cannot be empty')
       return
@@ -133,7 +133,7 @@ const QuizBuildQuestion = () => {
 
     const newQuestion: QuestionsInterface = {
       id: uuidv4(),
-      mainQuestion: '',
+      question: '',
       choices: prefixes.slice(0, 2).map((prefix) => prefix + ' '),
       correctAnswer: '',
       articleID
@@ -153,7 +153,7 @@ const QuizBuildQuestion = () => {
   function handleInputChange (index: number, text: string) {
     const updateQuestions = quizQuestions.map((question, i) => {
       if (index === i) {
-        return { ...question, mainQuestion: text, articleID }
+        return { ...question, question: text, articleID }
       }
       return question
     })
@@ -256,28 +256,28 @@ const QuizBuildQuestion = () => {
               {quizQuestions.map((singleQuestion, questionIndex) => (
                 <div
                   key={questionIndex + 1}
-                  // className="mb-4"
+                  className="relative"
                   ref={
                     quizQuestions.length - 1 === questionIndex
                       ? endOfListRef
                       : null
                   }
                 >
-                  <div className="p-4 flex flex-col space-y-4">
+                  <div className="p-4 flex flex-col space-y-4 ">
                     <div className="p-4 border border-s-slate-200 rounded-lg">
                       <Question
                         questionIndex={(questionIndex + 1).toString()}
-                        value={singleQuestion.mainQuestion}
+                        value={singleQuestion.question}
                         ref={textRefs.current[questionIndex]}
                         onChange={(e) => {
                           handleInputChange(questionIndex, e.target.value)
                         }}
                       />
                     </div>
-                    <div className="p-4 border">
+                    <div className="p-4 border ">
                       {questionIndex !== 0 && (
                         <XIcon
-                          className="ml-2 cursor-pointer text-red-500"
+                          className="ml-2 cursor-pointer text-red-500 absolute right-0 top-0"
                           onClick={() => {
                             deleteQuestion(singleQuestion)
                           }}
