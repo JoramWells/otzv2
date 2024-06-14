@@ -14,6 +14,7 @@ import { type CategoryInputProps } from '../../add-article/page'
 import CustomInput from '@/components/forms/CustomInput'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { XIcon } from 'lucide-react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -83,29 +84,6 @@ const Page = ({ params }: { params: any }) => {
             placeholder="Enter title"
           />
 
-          <div className="w-[200px]">
-            <Image
-              // w={0}
-              alt="im"
-              // placeholder="data:image/..."
-              width={0}
-              height={0}
-              // quality={100}
-              // fill
-              // objectFit='contain'
-              // priority
-              // layout='fill'
-              className="rounded-t-lg"
-              src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${articleData?.image}`}
-              style={{
-                width: '100%',
-                height: 'auto',
-                objectFit: 'cover'
-              }}
-              loader={loaderProp}
-            />
-          </div>
-
           <div className="p-2">
             {/*  */}
             <div className="h-[250px] ">
@@ -121,16 +99,51 @@ const Page = ({ params }: { params: any }) => {
             </div>
 
             {/*  */}
+            <div className="w-[200px] p-2 mt-6">
+              <label htmlFor="" className="font-bold">
+                Thumbnail
+              </label>
+              <div className="border border-dashed rounded-lg relative  w-full p-2">
+                <Image
+                  // w={0}
+                  alt="im"
+                  // placeholder="data:image/..."
+                  width={0}
+                  height={0}
+                  // quality={100}
+                  // fill
+                  // objectFit='contain'
+                  // priority
+                  // layout='fill'
+                  className="rounded-lg"
+                  src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${articleData?.image}`}
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'cover'
+                  }}
+                  loader={loaderProp}
+                />
+                <XIcon
+                className='absolute right-2 top-2'
+                />
+              </div>
+            </div>
 
-            <Input
-              className=""
-              type="file"
-              name="file"
-              // value={file}
-              onChange={(e) => {
-                setFile(e.target.files?.[0])
-              }}
-            />
+            <div>
+              <label htmlFor=""
+              className='text-slate-500 text-[12px]  '
+              >Select Thumbnail Image</label>
+              <Input
+                // className="mt-6"
+                type="file"
+                name="file"
+                // value={file}
+                onChange={(e) => {
+                  setFile(e.target.files?.[0])
+                }}
+              />
+            </div>
 
             {/* <div
               className="text-[14px] "
@@ -139,12 +152,10 @@ const Page = ({ params }: { params: any }) => {
             <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
               {/* {item.} */}#
             </Badge>
-            <div
-            className='flex space-x-2 items-center justify-end p-2 '
-            >
-              <Button
-              className='text-red-500  bg-white hover:bg-red-50'
-              >Delete</Button>
+            <div className="flex space-x-2 items-center justify-end p-2 ">
+              <Button className="text-red-500  bg-white hover:bg-red-50">
+                Delete
+              </Button>
               <Button>Save</Button>
             </div>
           </div>
