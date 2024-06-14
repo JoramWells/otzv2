@@ -8,6 +8,36 @@ import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
+import { PlusIcon } from 'lucide-react'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'dashboard',
+    link: '/dashboard'
+  },
+  {
+    id: '3',
+    label: 'prescription',
+    link: '/prescription'
+  }
+]
 
 const PrescriptionDetailPage = ({ params }: { params: any }) => {
   const { prescriptionID } = params
@@ -48,13 +78,13 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
   const [value, setValue] = useState(1)
   return (
     <div>
-      <h1>Prescription Update</h1>
+      <BreadcrumbComponent dataList={dataList2} />
+
+      {/* <h1>Prescription Update</h1> */}
 
       {/*  */}
-      <div>ART details</div>
-      <div>F{patientAdherence?.frequency}</div>
+      {/* <div>ART details</div> */}
 
-      <hr />
       <div className="flex items-start justify-between p-4 space-x-4">
         <div className="flex-1 bg-white rounded-lg">
           <div className="flex justify-between border border-slate-200 p-2 bg-slate-100">
@@ -120,8 +150,9 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                   onClick={() => {
                     setValue(id)
                   }}
-
-                  className={`rounded-full flex-1  text-black bg-white ${value === id && 'bg-slate-100'} hover:bg-slate-50 `}
+                  className={`rounded-full flex-1  text-black bg-white ${
+                    value === id && 'bg-slate-100'
+                  } hover:bg-slate-50 `}
                 >
                   {label}
                 </Button>
@@ -131,7 +162,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
             {/* <hr /> */}
           </div>
           {value === 1 && (
-            <div className='flex flex-col space-y-2'>
+            <div className="flex flex-col space-y-2">
               <div className="flex flex-col space-y-4 bg-slate-50 rounded-lg border border-slate-200 p-4">
                 <div>
                   {' '}
@@ -150,7 +181,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                 </div>
               </div>
               {/* <hr /> */}
-              <div className='flex flex-col space-y-2'>
+              <div className="flex flex-col space-y-2">
                 <h2>Summary</h2>
                 <Textarea
                   placeholder="How is prescription Going?"
@@ -166,14 +197,15 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                   <li>Discuss MDT</li>
                 </ol>
               </div>
+
+              <Button className="bg-slate-100 hover:bg-slate-50 text-black">
+                <PlusIcon />
+                Comment
+              </Button>
             </div>
           )}
 
-          {value === 2 &&
-          <div>
-            Graph
-          </div>
-          }
+          {value === 2 && <div>Graph</div>}
         </div>
       </div>
     </div>
