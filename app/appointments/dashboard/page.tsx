@@ -22,26 +22,26 @@ const dataList = [
   {
     id: '1',
     label: 'Todays Appointment',
-    count: 50,
-    link: '/notify/appointment'
+    count: 50
+    // link: '/notify/appointment'
   },
   {
     id: '2',
     label: 'Refill Appointments',
-    count: 20,
-    link: ''
+    count: 20
+    // link: ''
   },
   {
     id: '3',
     label: 'Viral Load',
-    count: 13,
-    link: ''
+    count: 13
+    // link: ''
   },
   {
     id: '4',
     label: 'Recent Appointments',
-    count: 7,
-    link: ''
+    count: 7
+    // link: ''
   }
 ]
 
@@ -61,7 +61,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'Dashboard',
-    link: ''
+    link: '/'
   }
 ]
 

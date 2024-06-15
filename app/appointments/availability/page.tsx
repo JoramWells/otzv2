@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 'use client'
+import { useAddUserAvailabilityMutation } from '@/api/users/userAvailability.api'
+import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { type CheckedState } from '@radix-ui/react-checkbox'
-import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
+import { useCallback, useState } from 'react'
 
 const days = [
   {
@@ -61,12 +66,25 @@ const Availability = () => {
     console.log(daysAvailable)
   }
 
-  const handleChange = () => {
-    console.log({
+  const { data } = useGetAllUsersQuery()
+  const userOptions = useCallback(() => {
+    return (data?.map((item: any) => ({
+      id: item.id,
+      label: item.firstName
+    })) || []
+    )
+  }, [data])
+
+  const [addUserAvailability, { isLoading }] = useAddUserAvailabilityMutation()
+
+  const handleChange = async () => {
+    const inputValues = {
+      userID: userOptions()?.length > 0 && userOptions()[0]?.id,
       daysAvailable,
       startTime,
       endTime
-    })
+    }
+    await addUserAvailability(inputValues)
   }
 
   return (
@@ -109,6 +127,7 @@ const Availability = () => {
                 </label>
                 <Input type="time" className="shadow-none"
                 onChange={e => { setStartTime(e.target.value) }}
+                value={startTime}
                 />
               </div>
               <div>
@@ -118,14 +137,16 @@ const Availability = () => {
 
                 <Input type="time" className="shadow-none"
                 onChange={e => { setEndTime(e.target.value) }}
+                value={endTime}
                 />
               </div>
             </div>
           </div>
           <Button
           className='mt-4'
-          onClick={() => { handleChange() }}
+          onClick={async () => { await handleChange() }}
           >
+            {isLoading && <Loader2 className='mr-2 animate-spin' size={15} />}
             Save
           </Button>
         </div>

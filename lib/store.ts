@@ -61,6 +61,7 @@ import { partialDisclosureApi } from '@/api/treatmentplan/partial/partialDisclos
 import { childCaregiverReadinessApi } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 import { disclosureEligibilityApi } from '@/api/treatmentplan/partial/disclosureEligibility.api'
 import { questionsApi } from '../api/articles/questions.api'
+import { userAvailabilityApi } from '@/api/users/userAvailability.api'
 
 export const store = configureStore({
   reducer: {
@@ -126,6 +127,7 @@ export const store = configureStore({
     [partialDisclosureApi.reducerPath]: partialDisclosureApi.reducer,
     [disclosureEligibilityApi.reducerPath]: disclosureEligibilityApi.reducer,
     [chaptersApi.reducerPath]: chaptersApi.reducer,
+    [userAvailabilityApi.reducerPath]: userAvailabilityApi.reducer,
     [questionsApi.reducerPath]: questionsApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
@@ -193,5 +195,6 @@ export const store = configureStore({
       .concat(disclosureEligibilityApi.middleware)
       .concat(childCaregiverReadinessApi.middleware)
       .concat(pamaEnrollmentApi.middleware)
+      .concat(userAvailabilityApi.middleware)
       .concat(questionsApi.middleware)
 })
