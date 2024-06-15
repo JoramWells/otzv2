@@ -9,7 +9,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
 import { useGetAllAppointmentsQuery, useGetAllPriorityAppointmentsQuery } from '@/api/appointment/appointment.api.'
-import { type AppointmentProps } from '../columns'
 import Avatar from '@/components/Avatar'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),

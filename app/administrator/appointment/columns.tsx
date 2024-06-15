@@ -71,6 +71,10 @@ export const appointmentStatusColumns: Array<ColumnDef<ColumnProps>> = [
     header: 'Status Description'
   },
   {
+    accessorKey: 'color',
+    header: 'Color'
+  },
+  {
     accessorKey: 'updatedAt',
     header: 'Updated At'
   },

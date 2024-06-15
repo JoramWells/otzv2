@@ -11,6 +11,7 @@ import moment from 'moment'
 import { PlusIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Checkbox } from '@/components/ui/checkbox'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -182,14 +183,44 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
               </div>
               {/* <hr /> */}
               <div className="flex flex-col space-y-2">
+                <h1 className='capitalize' >Enhanced ADHERENCE COUNSELLING FORM</h1>
+<p>MMAS-8 Score</p>
+
                 <h2>Summary</h2>
                 <Textarea
-                  placeholder="How is prescription Going?"
+                  placeholder="Comment on treatment interruptions"
                   className="shadow-none"
                 />
                 {/* <small>Discuss the details of this prescription.</small> */}
               </div>
               <hr />
+
+              <div>
+                <Textarea placeholder="Treatment motivation" />
+
+                <Textarea placeholder="Barriers to adherence" />
+                <div>
+                  Your impression about current patients adherence
+                  <div className="flex justify-between">
+                    <div>
+                      <label htmlFor="">Excellent</label>
+                      <Checkbox />
+                    </div>
+
+                    <div>
+                      <label htmlFor="">Unsure</label>
+                      <Checkbox />
+                    </div>
+
+                    <div>
+                      <label htmlFor="">Inadequate</label>
+                      <Checkbox />
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
               <div>
                 <h2>Actions</h2>
                 <ol>

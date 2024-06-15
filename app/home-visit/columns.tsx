@@ -1,35 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import moment, { type MomentInput } from 'moment'
+import moment from 'moment'
 
 import Avatar from '@/components/Avatar'
+import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
   firstName?: string
-}
-
-export interface PrescriptionProps {
-  ART: {
-    artName: string
-  }
-  refillDate: MomentInput
-  nextRefillDate: MomentInput
-  returnToClinic: MomentInput
-  appointmentDate: any
-  appointmentAgenda: any
-  updatedAt: MomentInput
-  createdAt: Date
-  user: any
-  patient: {
-    firstName: string
-    middleName: string
-  }
-  id: any
-  header: string
-  accessorKey?: keyof PatientProps
-  // render?: (props: any) => React.ReactNode
 }
 
 export interface PatientProps {
@@ -42,7 +21,7 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<PrescriptionProps>> = [
+export const columns: Array<ColumnDef<HomeVisitProps>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
@@ -85,7 +64,15 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
     accessorKey: 'returnToClinic',
     header: 'Return To Clinic',
     cell: ({ row }) => (
-        <p>{moment(row.original.returnToClinic).format('ll')}</p>
+      <p>{moment(row.original.returnToClinic).format('ll')}</p>
+    )
+  },
+  {
+    accessorKey: 'Action',
+
+    header: 'Action',
+    cell: ({ row }) => (
+      <Link href={`/home-visit/${row.original.id}`}>Action</Link>
     )
   }
 ]

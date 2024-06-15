@@ -28,12 +28,13 @@ const AddAppointmentStatus = () => {
   const submitForm = async (data: any) => {
     await addAppointmentStatus(data)
   }
+  // const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
 
   return (
     <FormProvider {...methods} >
       <form
         className="w-1/4 flex flex-col items-center bg-white
-      justify-center rounded-lg p-4 gap-y-4 "
+      justify-center rounded-lg p-4 gap-y-2 "
       onSubmit={methods.handleSubmit(submitForm)}
       >
         <CustomInput2

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import CustomTab from '@/components/tab/CustomTab'
 import { useCallback, useMemo, useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
-import { columns, type AppointmentProps } from '@/app/appointments/columns'
+import { columns } from '@/app/appointments/columns'
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { useSearchParams } from 'next/navigation'
 
@@ -18,18 +19,21 @@ const AppointmentHomepage = () => {
     date: '2022-01-01'
   })
 
-  const sortedAppointment: AppointmentProps[] = data ? [...data] : []
+  const sortedAppointment: AppointmentProps[] = useMemo(() => (data ? [...data] : []), [data])
+
+  // const memSorted = useCallback(() => {}, [])
+
   sortedAppointment.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
   )
 
   const missedAppointment = useCallback(() => {
-    return data?.filter((item: any) =>
+    return sortedAppointment?.filter((item: any) =>
       item.AppointmentStatus?.statusDescription
         .toLowerCase()
         .includes('Missed'.toLowerCase())
     )
-  }, [data])
+  }, [sortedAppointment])
 
   //
   const pendingAppointment = useCallback(() => {
@@ -40,15 +44,13 @@ const AppointmentHomepage = () => {
     )
   }, [data])
 
-  console.log(missedAppointment(), 'kolp')
-
   const upcomingAppointment = useCallback(() => {
-    return data?.filter((item: any) =>
+    return sortedAppointment?.filter((item: any) =>
       item.AppointmentStatus?.statusDescription
         .toLowerCase()
         .includes('Upcoming'.toLowerCase())
     )
-  }, [data])
+  }, [sortedAppointment])
 
   const rescheduledAppointment = useCallback(() => {
     return data?.filter((item: any) =>
@@ -85,38 +87,45 @@ const AppointmentHomepage = () => {
   )
   return (
     <div>
-      <div className="w-full">
-        <CustomTab
-          categoryList={categoryList}
-          setValue={setValue}
-          value={value}
-        />
-          <div className="bg-white rounded-lg p-4">
 
-        {value === 'all' && (
+<div className='mt-1 p-2 bg-white mb-1' >
+  <h2>
+    Appointments
+  </h2>
+</div>
+
+      <CustomTab
+        categoryList={categoryList}
+        setValue={setValue}
+        value={value}
+      />
+      <div className="w-full p-4">
+        <div className="bg-white rounded-lg p-4">
+          {value === 'all' && (
             <CustomTable columns={columns} data={sortedAppointment || []} />
-        )}
+          )}
 
-        {/*  */}
-              {value === 'pending' && (
-        <CustomTable columns={columns} data={pendingAppointment() || []} />
-              )}
+          {/*  */}
+          {value === 'pending' && (
+            <CustomTable columns={columns} data={pendingAppointment() || []} />
+          )}
 
-      {value === 'rescheduled' && (
-        <CustomTable columns={columns} data={rescheduledAppointment() || []} />
-      )}
+          {value === 'rescheduled' && (
+            <CustomTable
+              columns={columns}
+              data={rescheduledAppointment() || []}
+            />
+          )}
 
-      {value === 'upcoming' && (
-        <CustomTable columns={columns} data={upcomingAppointment() || []} />
-      )}
+          {value === 'upcoming' && (
+            <CustomTable columns={columns} data={upcomingAppointment() || []} />
+          )}
 
-      {value === 'missed' && (
-        <CustomTable columns={columns} data={missedAppointment() || []} />
-      )}
-          </div>
-
+          {value === 'missed' && (
+            <CustomTable columns={columns} data={missedAppointment() || []} />
+          )}
+        </div>
       </div>
-
     </div>
   )
 }

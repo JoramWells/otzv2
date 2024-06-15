@@ -1,32 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import moment, { type MomentInput } from 'moment'
+import moment from 'moment'
 
 import Link from 'next/link'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
+import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
   firstName?: string
-}
-
-export interface AppointmentProps {
-  Patient: {
-    firstName?: string
-    middleName?: string
-  }
-  appointmentDate: MomentInput
-  appointmentTime: MomentInput
-  AppointmentAgenda: {
-    agendaDescription: string
-  }
-  AppointmentStatus: {
-    statusDescription: string
-  }
-  createdAt: Date
-  id: string
 }
 
 export interface PatientProps {
@@ -104,7 +88,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
           <Badge
             // colorScheme="red"
             // rounded={'full'}
-            className="rounded-full"
+            className="rounded-full bg-red-50 text-red-500 shadow-none"
           >
             {appointmentStatus}
           </Badge>
@@ -152,7 +136,12 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
   {
     accessorKey: 'updatedAt',
     header: 'Updated',
-    cell: ({ row }) => (<p>{moment(row.original.createdAt).format('ll')} </p>)
+    cell: ({ row }) => (
+      <div>
+        <p>{moment(row.original.updatedAt).format('ll')} </p>
+        <span className='text-[12px] text-slate-500 ' >{calculateTimeDuration(row.original.updatedAt)}</span>{' '}
+      </div>
+    )
   },
   {
     // accessorKey: 'action',

@@ -5,6 +5,7 @@ import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 // import { type MomentInput } from 'moment'
 import React from 'react'
 import { Bar } from 'react-chartjs-2'
+import moment from 'moment'
 
 // interface Props {
 //   data: BarChartProps
@@ -22,8 +23,9 @@ export interface BarChartProps {
 Chart.register(...registerables)
 
 const WeeklyAppointmentBarChart = () => {
+  const currentDate = moment().format('YYYY-MM-DD')
   const { data: weeklyData } = useGetAllAppointmentsQuery({
-    date: '2022-01-01',
+    date: currentDate,
     mode: 'weekly'
   })
   console.log(weeklyData, 'wered')
