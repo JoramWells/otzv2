@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
+import { Badge } from '@/components/ui/badge'
 
 export interface MMASFourProps {
   isForget: boolean
@@ -27,29 +28,32 @@ const MmasFour = ({
   mmassFourScore
 }: MMASFourProps) => (
   <div className="flex flex-col bg-white rounded-lg ">
-    <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
-      <p className="font-bold text-lg">MMAS-4</p>
-      <div className="flex space-x-2 justify-between  items-center text-[12px] ">
-        <p
-          // className='text-red-500'
-          className="font-bold"
-        >
-          Score: {mmassFourScore}
-        </p>
+    <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 pl-4 p-2 bg-slate-200 rounded-t-lg">
+      <p className="font-bold ">MMAS-4</p>
+      <div className="flex space-x-4 justify-between  items-center text-[12px] ">
         {mmassFourScore === 0 && (
-          <div className="text-teal-600 font-bold">Good</div>
+          <Badge
+            // className='text-red-500'
+            className="font-bold bg-green-50 text-green-500 rounded-full shadow-none border-green-200"
+          >
+            {mmassFourScore} Good
+          </Badge>
         )}
         {mmassFourScore > 0 && mmassFourScore <= 2 && (
-          <p className="text-orange-500 font-bold">INADEQUATE</p>
+          <Badge className="text-orange-500 font-bold bg-orange-50 rounded-full shadow-none border border-orange-200">
+            {' '}
+            {mmassFourScore} INADEQUATE
+          </Badge>
         )}
         {mmassFourScore > 2 && mmassFourScore <= 4 && (
-          <p className="text-red-500 font-bold">POOR</p>
+          <Badge className="text-red-500 font-bold bg-red-50 border-red-200 border rounded-full shadow-none">
+            {' '}
+            {mmassFourScore} POOR
+          </Badge>
         )}
       </div>
     </div>
-    <div
-    className='flex space-y-1 p-4 flex-col'
-    >
+    <div className="flex space-y-1 p-4 flex-col">
       <CustomCheckbox
         label="Do you ever forget to take medicine?"
         onChange={setIsForget}

@@ -10,7 +10,7 @@ import MmasEight from './MMASEight'
 import { useAddMmasMutation, useGetMmasQuery } from '@/api/treatmentplan/mmas.api'
 import { Button } from '@/components/ui/button'
 import { InfoIcon, Loader2 } from 'lucide-react'
-import { useAddMmasFourMutation } from '@/api/treatmentplan/mmasFour.api'
+import { useAddMmasFourMutation, useGetMmasFourByPatientIDQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useAddMmasEightMutation } from '@/api/treatmentplan/mmasEight.api'
 
 interface DataProps {
@@ -105,6 +105,11 @@ const MMASForm = ({
   const [addMmasFour, { isLoading, data: savedData }] = useAddMmasFourMutation()
   const [addMmasEight, { isLoading: isLoading8, data: mmas8Data }] = useAddMmasEightMutation()
 
+  const { data: recentMMMASFourData } =
+      useGetMmasFourByPatientIDQuery(patientID)
+
+  console.log(recentMMMASFourData, 'mmasFour')
+
   useEffect(() => {
     if (formData) {
       setIsForget(formData.isForget)
@@ -136,13 +141,11 @@ const MMASForm = ({
   }, [formData, isAllTime, isCareless, isForget, isNever, isOnce, isQuitFeelBetter, isQuitFeelWorse, isQuitOutControl, isSometimes, isTookMedYesterday, isUnderPressure, isUsually, mmassFourScore])
 
   return (
-    <div
-    className='flex space-x-4 items-start'
-    >
-      <div className="flex flex-col w-3/4 space-y-4">
-
+    <div className="flex space-x-4 items-start">
+      <div className="w-3/4 ">
+        <div className="flex flex-col space-y-4">
           <MmasFour
-          mmassFourScore={mmassFourScore}
+            mmassFourScore={mmassFourScore}
             isForget={isForget}
             setIsForget={setIsForget}
             isCareless={isCareless}
@@ -153,10 +156,9 @@ const MMASForm = ({
             setIsQuitBetter={setIsQuitBetter}
           />
 
-        {(isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter) && (
-
+          {(isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter) && (
             <MmasEight
-            mmassEightScore={mmassEightScore}
+              mmassEightScore={mmassEightScore}
               isTookYesterday={isTookMedYesterday}
               setIsTookYesterday={setIsTookYesterday}
               isQuitControl={isQuitOutControl}
@@ -176,9 +178,10 @@ const MMASForm = ({
               setIsSometimes={setIsSometimes}
               setIsUsually={setIsUsually}
             />
-        )}
-
-        <div className="w-full flex justify-end space-x-4 p-4">
+          )}
+        </div>
+        <hr/>
+        <div className="w-full flex justify-end space-x-4 pb-2 pt-2 bg-white">
           <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
@@ -233,9 +236,9 @@ const MMASForm = ({
               )}
         </div>
       </div>
-      <div
-      className='w-1/3 bg-white rounded-lg p-4 flex items-start flex-grow-0'
-      >Recent tests</div>
+      <div className="w-1/3 bg-white rounded-lg p-4 flex items-start flex-grow-0">
+        Recent tests
+      </div>
     </div>
   )
 }

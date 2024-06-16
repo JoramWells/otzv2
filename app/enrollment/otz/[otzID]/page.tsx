@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
@@ -5,7 +6,7 @@ import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Avatar, Button } from '@chakra-ui/react'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { columns } from '../columns'
 import moment from 'moment'
 import { AreaChart, ArrowLeftRight } from 'lucide-react'
@@ -27,12 +28,11 @@ const itemList = [
 ]
 
 const OTZDetail = ({ params }: any) => {
-  const patientID = params.otzID
+  const patientID: string = params.otzID
   const [value, setValue] = useState(1)
 
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
   const { data: switchHistoryData } = useGetArtRegimenSwitchQuery(patientID)
-  console.log(vlData, 'dtc')
 
   return (
     <div className="ml-64 pt-12">

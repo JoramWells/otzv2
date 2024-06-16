@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
+import { Badge } from '@/components/ui/badge'
 
 export interface MMASEightProps {
   isTookYesterday: boolean
@@ -54,23 +55,22 @@ const MmasEight = ({
   }
   return (
     <div className="bg-white rounded-lg">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
-        <p className="font-bold text-lg">MMAS-8</p>
+      <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2 bg-slate-200 rounded-t-lg">
+        <p className="font-bold ">MMAS-8</p>
         <div className="flex space-x-4 justify-between  items-center text-[12px] ">
-          <p
-            // className='text-red-500'
-            className="font-bold"
-          >
-            Score: {mmassEightScore}
-          </p>
           {mmassEightScore === 0 && (
-            <div className="text-teal-600 font-bold">Good</div>
+            <Badge
+              // className='text-red-500'
+              className="font-bold bg-green-50 text-green-500 rounded-full shadow-none border-green-200"
+            >
+            {mmassEightScore}  Good
+            </Badge>
           )}
           {mmassEightScore > 0 && mmassEightScore <= 2 && (
-            <p className="text-orange-500 font-bold">INADEQUATE</p>
+            <Badge className="text-orange-500 font-bold bg-orange-50 rounded-full shadow-none border border-orange-200"> {mmassEightScore} INADEQUATE</Badge>
           )}
-          {mmassEightScore > 2 && mmassEightScore <= 4 && (
-            <p className="text-red-500 font-bold">POOR</p>
+          {mmassEightScore > 2 && mmassEightScore <= 8 && (
+            <Badge className="text-red-500 font-bold bg-red-50 border-red-200 border rounded-full shadow-none"> {mmassEightScore} POOR</Badge>
           )}
         </div>
       </div>

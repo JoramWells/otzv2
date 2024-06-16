@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useGetHomeVisitQuery } from '@/api/homevisit/homeVisit.api'
 import { Skeleton } from '@chakra-ui/react'
@@ -26,11 +27,13 @@ const dataList2 = [
 ]
 
 const HomeVisit = ({ params }: { params: any }) => {
-  const { homeVisitID } = params
-  const [homeVisitData, setHomeVisitData] = useState<HomeVisitProps>()
+  const { homeVisitID }: { homeVisitID: string } = params
+  const [homeVisitData, setHomeVisitData] = useState({
+    returnToClinic: ''
+  })
   const { data } = useGetHomeVisitQuery(homeVisitID)
   useEffect(() => {
-    if (data) {
+    if (data != null) {
       const { returnToClinic } = data
       setHomeVisitData({
         returnToClinic
@@ -54,7 +57,7 @@ const HomeVisit = ({ params }: { params: any }) => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default HomeVisit
