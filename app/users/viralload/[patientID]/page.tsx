@@ -1,10 +1,9 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 // import { useGetPatientQuery } from '@/api/patient/patients.api'
-import CustomInput from '@/components/forms/CustomInput'
-import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
@@ -19,14 +18,12 @@ const ViralLoadPage = ({ params }: any) => {
   return (
     <div className="p-4 mt-14 flex flex-col items-center justify-center">
       <p>ViralLoadPage</p>
-      {data
-        ? (
+      {data ? (
         <div>
           <p>This is a new Patient According to registration Details</p>
           <p>This is the first VL Update</p>
         </div>
-          )
-        : (
+      ) : (
         <div
           className="border border-slate-200 rounded-lg p-4 w-1/2
         flex flex-col space-y-6
@@ -37,15 +34,13 @@ const ViralLoadPage = ({ params }: any) => {
             <p>This is a new Patient According to registration Details</p>
             <p>This is the first VL Update</p>
           </div>
-{/*
+          {/*
           <CustomInput label="Date of VL" type="date" />
 
           <CustomInput label="VL Results(Copies/ml)" />
 
           <CustomSelect label="VL Justification" /> */}
-          <div
-className='flex justify-end'
-          >
+          <div className="flex justify-end">
             <Button
               className="shadow-none bg-teal-600 flex-grow-0
           flex-shrink-0 hover:bg-teal-700 font-bold
@@ -55,7 +50,7 @@ className='flex justify-end'
             </Button>
           </div>
         </div>
-          )}
+      )}
 
       <ol>
         <li>VL Results</li>
