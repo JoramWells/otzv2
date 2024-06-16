@@ -49,7 +49,7 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
       },
       {
         label: 'HEIGHT',
-        data: patientData?.map((item: any) => item.height),
+        data: patientData?.map((item: any) => item.height * 100),
         borderColor: 'rgb(75, 192, 192)',
         yAxisID: 'y2',
         fill: false
