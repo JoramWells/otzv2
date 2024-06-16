@@ -23,6 +23,9 @@ export const viralLoadApi = createApi({
     getViralLoadTest: builder.query<ViralLoadInterface, string>({
       query: (id) => `detail/${id}`
     }),
+    getAllViralLoadByPatientID: builder.query<ViralLoadInterface[], string>({
+      query: (id) => `details/${id}`
+    }),
     getOTZPatientEnrollment: builder.query({
       query: (id) => `patient/${id}`
     }),
@@ -45,7 +48,7 @@ export const viralLoadApi = createApi({
 })
 
 export const {
-  useGetAllViralLoadTestsQuery, useUpdateViralLoadTestMutation,
+  useGetAllViralLoadTestsQuery, useUpdateViralLoadTestMutation, useGetAllViralLoadByPatientIDQuery,
   useDeleteViralLoadTestMutation, useAddViralLoadTestMutation, useGetViralLoadTestQuery,
   useGetOTZPatientEnrollmentQuery, useGetAllVlCategoriesQuery
 } = viralLoadApi

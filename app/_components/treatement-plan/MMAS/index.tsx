@@ -136,145 +136,106 @@ const MMASForm = ({
   }, [formData, isAllTime, isCareless, isForget, isNever, isOnce, isQuitFeelBetter, isQuitFeelWorse, isQuitOutControl, isSometimes, isTookMedYesterday, isUnderPressure, isUsually, mmassFourScore])
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
-        <p className="font-bold text-lg">Morisky Medication Adherence Scale</p>
-        <p className="text-[14px] text-slate-500 ">Last Updated:</p>
-      </div>
-      <div className="w-full p-4">
-        <div className="w-full justify-between items-center flex">
-          <p className="font-bold ">MMAS-4</p>
+    <div
+    className='flex space-x-4 items-start'
+    >
+      <div className="flex flex-col w-3/4 space-y-4">
 
-          <div className="flex space-x-4 justify-between  items-center">
-            <p
-              // className='text-red-500'
-              className="font-bold"
-            >
-              Score: {mmassFourScore}
-            </p>
-            {mmassFourScore === 0 && (
-              <div className="text-teal-600 font-bold">Good</div>
-            )}
-            {mmassFourScore > 0 && mmassFourScore <= 2 && (
-              <p className="text-orange-500 font-bold">INADEQUATE</p>
-            )}
-            {mmassFourScore > 2 && mmassFourScore <= 4 && (
-              <p className="text-red-500 font-bold">POOR</p>
-            )}
-          </div>
-        </div>
-        <MmasFour
-          isForget={isForget}
-          setIsForget={setIsForget}
-          isCareless={isCareless}
-          setIsCareless={setIsCareless}
-          isQuitWorse={isQuitFeelWorse}
-          setIsQuitWorse={setIsQuitWorse}
-          isQuitBetter={isQuitFeelBetter}
-          setIsQuitBetter={setIsQuitBetter}
-        />
-      </div>
-
-      {(isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter) && (
-        <div className="w-full p-4">
-          <div className="w-full justify-between items-center flex">
-            <p className="font-bold">MMAS-8</p>
-            <div className="flex space-x-4 justify-between  items-center">
-              <p
-                // className='text-red-500'
-                className="font-bold"
-              >
-                Score: {mmassEightScore}
-              </p>
-              {mmassEightScore === 0 && (
-                <div className="text-teal-600 font-bold">Good</div>
-              )}
-              {mmassEightScore > 0 && mmassEightScore <= 2 && (
-                <p className="text-orange-500 font-bold">INADEQUATE</p>
-              )}
-              {mmassEightScore > 2 && mmassEightScore <= 8 && (
-                <p className="text-red-500 font-bold">POOR</p>
-              )}
-            </div>
-          </div>
-
-          <MmasEight
-            isTookYesterday={isTookMedYesterday}
-            setIsTookYesterday={setIsTookYesterday}
-            isQuitControl={isQuitOutControl}
-            setIsQuitControl={setIsQuitControl}
-            isUnderPressure={isUnderPressure}
-            setIsUnderPressure={setIsUnderPressure}
-            isDifficultyRemembering={difficultyRemembering}
-            setIsDifficultyRemembering={setIsDifficultyRemembering}
-            isAllTime={isAllTime}
-            isNever={isNever}
-            isOnce={isOnce}
-            isSometimes={isSometimes}
-            isUsually={isUsually}
-            setIsAllTime={setIsAllTime}
-            setIsNever={setIsNever}
-            setIsOnce={setIsOnce}
-            setIsSometimes={setIsSometimes}
-            setIsUsually={setIsUsually}
+          <MmasFour
+          mmassFourScore={mmassFourScore}
+            isForget={isForget}
+            setIsForget={setIsForget}
+            isCareless={isCareless}
+            setIsCareless={setIsCareless}
+            isQuitWorse={isQuitFeelWorse}
+            setIsQuitWorse={setIsQuitWorse}
+            isQuitBetter={isQuitFeelBetter}
+            setIsQuitBetter={setIsQuitBetter}
           />
-        </div>
-      )}
 
-      <div className="w-full flex justify-end space-x-4 p-4">
-        <Button
-          className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-          onClick={() => {
-            handleBack()
-          }}
-        >
-          Prev
-        </Button>
-        {formData || savedData
-          ? (
+        {(isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter) && (
+
+            <MmasEight
+            mmassEightScore={mmassEightScore}
+              isTookYesterday={isTookMedYesterday}
+              setIsTookYesterday={setIsTookYesterday}
+              isQuitControl={isQuitOutControl}
+              setIsQuitControl={setIsQuitControl}
+              isUnderPressure={isUnderPressure}
+              setIsUnderPressure={setIsUnderPressure}
+              isDifficultyRemembering={difficultyRemembering}
+              setIsDifficultyRemembering={setIsDifficultyRemembering}
+              isAllTime={isAllTime}
+              isNever={isNever}
+              isOnce={isOnce}
+              isSometimes={isSometimes}
+              isUsually={isUsually}
+              setIsAllTime={setIsAllTime}
+              setIsNever={setIsNever}
+              setIsOnce={setIsOnce}
+              setIsSometimes={setIsSometimes}
+              setIsUsually={setIsUsually}
+            />
+        )}
+
+        <div className="w-full flex justify-end space-x-4 p-4">
           <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
-              handleNext()
+              handleBack()
             }}
           >
-            Next
+            Prev
           </Button>
-            )
-          : (
-          <div>
-            {isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter
-              ? (
-              <Button
-                className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-                onClick={() => {
-                  addMmasEight(inputValuesEight)
-                }}
-                disabled={isLoading8}
-              >
-                {isLoading8 && (
-                  <Loader2 className="animate-spin mr-2" size={18} />
-                )}
-                Save
-              </Button>
-                )
-              : (
-              <Button
-                className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-                onClick={() => {
-                  addMmasFour(inputValuesFour)
-                }}
-                disabled={isLoading}
-              >
-                {isLoading && (
-                  <Loader2 className="animate-spin mr-2" size={18} />
-                )}
-                Save
-              </Button>
-                )}
-          </div>
-            )}
+          {formData || savedData
+            ? (
+            <Button
+              className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+              onClick={() => {
+                handleNext()
+              }}
+            >
+              Next
+            </Button>
+              )
+            : (
+            <div>
+              {isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter
+                ? (
+                <Button
+                  className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+                  onClick={() => {
+                    addMmasEight(inputValuesEight)
+                  }}
+                  disabled={isLoading8}
+                >
+                  {isLoading8 && (
+                    <Loader2 className="animate-spin mr-2" size={18} />
+                  )}
+                  Save
+                </Button>
+                  )
+                : (
+                <Button
+                  className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+                  onClick={() => {
+                    addMmasFour(inputValuesFour)
+                  }}
+                  disabled={isLoading}
+                >
+                  {isLoading && (
+                    <Loader2 className="animate-spin mr-2" size={18} />
+                  )}
+                  Save
+                </Button>
+                  )}
+            </div>
+              )}
+        </div>
       </div>
+      <div
+      className='w-1/3 bg-white rounded-lg p-4 flex items-start flex-grow-0'
+      >Recent tests</div>
     </div>
   )
 }
