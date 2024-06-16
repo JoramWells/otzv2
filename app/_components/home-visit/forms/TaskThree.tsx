@@ -76,7 +76,7 @@ const TaskThree = ({
       {/*  */}
 
       <div>
-        {noOfMedicine === pData?.expectedNoOfPills ? 'Adequate' : 'Inadequate'}
+        {parseInt(noOfMedicine, 10) === pData?.expectedNoOfPills ? 'Adequate' : 'Inadequate'}
       </div>
       <CustomSelect
         label="Medicine Status"

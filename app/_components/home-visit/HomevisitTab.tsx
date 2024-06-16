@@ -15,7 +15,6 @@ export interface HomeVisitProps {
 
 const HomeVisitTab = ({ patientID }: HomeVisitProps) => {
   const { data } = useGetHomeVisitQuery(patientID)
-  console.log(data, 'dtc')
 
   return (
     <div

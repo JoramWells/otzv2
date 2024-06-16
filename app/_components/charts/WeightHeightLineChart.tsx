@@ -76,6 +76,8 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
         type: 'linear' as const,
         display: true,
         position: 'left' as const,
+        min: 0,
+        max: 200,
         title: {
           display: true,
           text: 'Height (cm)'
