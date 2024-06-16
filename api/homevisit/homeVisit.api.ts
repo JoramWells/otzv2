@@ -17,7 +17,7 @@ export const homeVisitApi = createApi({
         body: response
       })
     }),
-    getHomeVisit: builder.query<HomeVisitProps | null, string>({
+    getHomeVisit: builder.query({
       query: (id) => `detail/${id}`
     }),
     updateHomeVisit: builder.mutation({
