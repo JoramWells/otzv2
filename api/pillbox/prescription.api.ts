@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { type PrescriptionProps } from '@/app/pill-box'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const prescriptionApi = createApi({
@@ -20,7 +21,7 @@ export const prescriptionApi = createApi({
     getPrescription: builder.query({
       query: (id) => `detail/${id}`
     }),
-    getPrescriptionDetail: builder.query({
+    getPrescriptionDetail: builder.query<PrescriptionProps, string>({
       query: (id) => `details/${id}`
     }),
     updatePrescription: builder.mutation({

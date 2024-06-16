@@ -9,7 +9,7 @@ import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { CalendarDays } from 'lucide-react'
 import { useCallback } from 'react'
 import Link from 'next/link'
-import { type PrescriptionProps } from '../types'
+import { type PrescriptionProps } from '..'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {

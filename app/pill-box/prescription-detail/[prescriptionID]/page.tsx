@@ -3,7 +3,7 @@
 import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import { calculateAdherence } from '@/utils/calculateAdherence'
 import { useEffect, useState } from 'react'
-import { type PrescriptionProps } from '../../types'
+import { type PrescriptionProps } from '../..'
 import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'

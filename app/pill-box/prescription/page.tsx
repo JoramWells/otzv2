@@ -10,7 +10,7 @@ import socketIOClient, { type Socket } from 'socket.io-client'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
-import { type PrescriptionProps } from '../types'
+import { type PrescriptionProps } from '..'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {

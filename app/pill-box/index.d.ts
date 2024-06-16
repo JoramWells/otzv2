@@ -1,6 +1,6 @@
 import { type MomentInput } from 'moment'
 
-export interface PrescriptionProps {
+declare interface PrescriptionProps {
   patientVisitID?: string
   frequency: number
   computedNoOfPills: number

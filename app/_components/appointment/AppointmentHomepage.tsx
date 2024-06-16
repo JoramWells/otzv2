@@ -85,47 +85,84 @@ const AppointmentHomepage = () => {
     ],
     []
   )
+
+  const availableDays = [
+    {
+      id: 1,
+      label: 'Available'
+    },
+    {
+      id: 2,
+      label: 'Unavailable'
+    }
+  ]
+
+  const [available, setAvailableDays] = useState(1)
+
   return (
     <div>
-
-<div className='mt-1 p-2 bg-white mb-1' >
-  <h2>
-    Appointments
-  </h2>
-</div>
-
-      <CustomTab
-        categoryList={categoryList}
-        setValue={setValue}
-        value={value}
-      />
-      <div className="w-full p-4">
-        <div className="bg-white rounded-lg p-4">
-          {value === 'all' && (
-            <CustomTable columns={columns} data={sortedAppointment || []} />
-          )}
-
-          {/*  */}
-          {value === 'pending' && (
-            <CustomTable columns={columns} data={pendingAppointment() || []} />
-          )}
-
-          {value === 'rescheduled' && (
-            <CustomTable
-              columns={columns}
-              data={rescheduledAppointment() || []}
-            />
-          )}
-
-          {value === 'upcoming' && (
-            <CustomTable columns={columns} data={upcomingAppointment() || []} />
-          )}
-
-          {value === 'missed' && (
-            <CustomTable columns={columns} data={missedAppointment() || []} />
-          )}
-        </div>
+      <div className="mt-1 p-2 bg-white mb-1">
+        <h2>Appointments</h2>
       </div>
+
+      <div className="flex items-center space-x-4 p-2">
+        {availableDays.map?.((item, i) => (
+          <div key={item.id} onClick={() => { setAvailableDays(item.id) }}>
+            {item.label}
+          </div>
+        ))}
+      </div>
+
+      <hr />
+
+      {available === 1 && (
+        <>
+          <CustomTab
+            categoryList={categoryList}
+            setValue={setValue}
+            value={value}
+          />
+          <div className="w-full p-4">
+            <div className="bg-white rounded-lg p-4">
+              {value === 'all' && (
+                <CustomTable columns={columns} data={sortedAppointment || []} />
+              )}
+
+              {/*  */}
+              {value === 'pending' && (
+                <CustomTable
+                  columns={columns}
+                  data={pendingAppointment() || []}
+                />
+              )}
+
+              {value === 'rescheduled' && (
+                <CustomTable
+                  columns={columns}
+                  data={rescheduledAppointment() || []}
+                />
+              )}
+
+              {value === 'upcoming' && (
+                <CustomTable
+                  columns={columns}
+                  data={upcomingAppointment() || []}
+                />
+              )}
+
+              {value === 'missed' && (
+                <CustomTable
+                  columns={columns}
+                  data={missedAppointment() || []}
+                />
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/*  */}
+      {available === 2 && <div>unavailable</div>}
     </div>
   )
 }

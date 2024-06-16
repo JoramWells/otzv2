@@ -137,9 +137,14 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
     accessorKey: 'updatedAt',
     header: 'Updated',
     cell: ({ row }) => (
-      <div>
-        <p>{moment(row.original.updatedAt).format('ll')} </p>
-        <span className='text-[12px] text-slate-500 ' >{calculateTimeDuration(row.original.updatedAt)}</span>{' '}
+      <div
+      className='flex items-center space-x-2'
+      >
+        <p>{moment(row.original.updatedAt).format('ll')}</p>
+        <span className='text-[10px] text-slate-400 ' >|</span>
+        <span className="text-[12px] text-slate-500 ">
+          {calculateTimeDuration(row.original.updatedAt)}
+        </span>{' '}
       </div>
     )
   },

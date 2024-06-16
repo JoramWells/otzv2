@@ -23,8 +23,9 @@ import CustomSelect from '@/components/forms/CustomSelect'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
-import { useAddPrescriptionMutation, useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
+import { useAddPrescriptionMutation, useGetPrescriptionQuery, useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import { Badge } from '@/components/ui/badge'
+import { calculateAdherence } from '@/utils/calculateAdherence'
 
 const reasonOptions = [
   {
@@ -198,8 +199,6 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     appointmentStatusID: statusOptions?.()[0]?.id
   }
 
-  console.log(prescriptionData)
-
   useEffect(() => {
     if (addPillPrescriptionData) {
       handleNext()
@@ -230,7 +229,9 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
 
   const [addArtPrescription, { isLoading, data: addPrescriptionData }] = useAddArtPrescriptionMutation()
 
-  const { data: prescriptionDatam } = useGetPrescriptionQuery(appointmentID)
+  const { data: prescriptionDatam, isLoading: isLoadingPrescription, isError: isErrorPrescription } = useGetPrescriptionDetailQuery(patientID)
+
+  console.log(prescriptionDatam, 'artP')
 
   const inputValues = {
     patientID,
@@ -244,7 +245,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const [tab, setTab] = useState(1)
 
   return (
-    <div className='flex items-start space-x-4 w-full' >
+    <div className="flex items-start space-x-4 w-full">
       <div className="w-3/4 flex flex-col justify-between items-center bg-white">
         <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
           <p className="text-lg  font-bold">ART Details</p>
@@ -463,8 +464,47 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
           </div>
         )}
       </div>
-      <div>
-        Recent prescription
+      <div className="w-1/3 rounded-lg bg-white border border-slate-200">
+        <div className="border border-slate-200 p-2 pl-4 bg-slate-100 border-t-0 rounded-t-lg">
+          <p className='text-[14px] font-bold ' >Recent Prescription</p>
+        </div>
+        <div>
+          {isLoadingPrescription ? (
+            <div>Loading...</div>
+          ) : isErrorPrescription ? (
+            <div>error</div>
+          ) : prescriptionDatam ? (
+            <div className="p-4 flex-col flex space-y-2">
+              <div className="flex justify-between items-center w-full text-[14px] ">
+                <p className="text-slate-500 ">Prescribed Pills</p>
+                <p className="font-bold">{prescriptionDatam.noOfPills} </p>
+              </div>
+
+              <hr />
+
+              {/*  */}
+              <div className="flex justify-between items-center w-full text-[14px] ">
+                <p className="text-slate-500 ">Expected No. Of Pills</p>
+                <p className="font-bold">{prescriptionDatam.expectedNoOfPills} </p>
+              </div>
+              <hr />
+              {/*  */}
+              <div className="flex justify-between items-center w-full text-[14px] ">
+                <p className="text-slate-500 ">Pills Taken</p>
+                <p className="font-bold">{prescriptionDatam.computedNoOfPills} </p>
+              </div>
+
+              <hr />
+              {/*  */}
+              <div className="flex justify-between items-center w-full text-[14px] ">
+                <p className="text-slate-500 ">Adherence</p>
+                <p className="font-bold">{calculateAdherence(prescriptionDatam.refillDate, prescriptionDatam.computedNoOfPills, prescriptionDatam.frequency)} % </p>
+              </div>
+            </div>
+          ) : (
+            <div>No Recent prescription</div>
+          )}
+        </div>
       </div>
     </div>
   )
