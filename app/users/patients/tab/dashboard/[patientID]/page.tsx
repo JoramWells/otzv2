@@ -19,7 +19,6 @@ import { secondaryColor } from '@/constants/color'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { ArrowRight, InfoIcon, Loader2 } from 'lucide-react'
 import moment from 'moment'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -273,15 +272,15 @@ const PatientDetails = ({ params }: any) => {
                 </p>
                 {calculateAdherence(
                   artPrescription?.refillDate,
-                  artPrescription?.computedNoOfPills,
-                  artPrescription?.frequency
+                  artPrescription ? artPrescription.computedNoOfPills : 0,
+                  artPrescription ? artPrescription?.frequency : 1
                 )}{" "}
                 %<p>{artPrescription?.noOfPills}</p>
                 <p>{moment(artPrescription?.refillDate).format("LL")}</p>
               </div>
               <PillBox
-                noOfPills={artPrescription?.noOfPills}
-                remainingPills={artPrescription?.expectedNoOfPills}
+                noOfPills={artPrescription ? artPrescription?.noOfPills : 0}
+                remainingPills={artPrescription ? artPrescription?.expectedNoOfPills : 0}
               />
             </div>
           ) : (
