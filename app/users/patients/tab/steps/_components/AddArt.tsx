@@ -470,7 +470,9 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
         </div>
         <div>
           {isLoadingPrescription ? (
-            <div>Loading...</div>
+            <div className='p-4 flex space-x-4'>
+              <Loader2 className='animate-spin mr-2' size={15} />
+              Loading...</div>
           ) : isErrorPrescription ? (
             <div>error</div>
           ) : prescriptionDatam ? (

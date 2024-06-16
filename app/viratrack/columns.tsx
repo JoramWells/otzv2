@@ -1,57 +1,30 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { type ColumnDef } from '@tanstack/react-table'
-import moment, { type MomentInput } from 'moment'
+import moment from 'moment'
 import Link from 'next/link'
-import { type ReactNode } from 'react'
-import Avatar from '../../components/Avatar'
 import { Badge } from '@/components/ui/badge'
+import Avatar from '@/components/Avatar'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
   firstName?: string
 }
 
-interface ColumnProps {
-  isVLValid: boolean
-  dateOfVL: MomentInput
-  vlJustification: string
-  vlResults: string
-  patient: any
-  sex: ReactNode
-  dob: MomentInput
-  firstName: any
-  school: any
-  id: any
-  accessorKey?: keyof PatientProps
-  // render?: (props: any) => React.ReactNode
-}
-
-export interface PatientProps {
-  id?: string
-  patient_name?: FullNameProps
-  age?: number
-  dob?: string
-  gender?: string
-  mflCode?: string
-  occupation?: string
-  // action?: React.ReactNode
-}
-
-export const columns: Array<ColumnDef<ColumnProps>> = [
+export const columns: Array<ColumnDef<ViralLoadInterface>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
       <div className="flex flex-row space-x-4 items-center pt-2 pb-2">
         <Avatar
-          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
+          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
         <div className="flex flex-col space-y-1">
           <Link
             className="capitalize"
             href={`/patients/${row.original.id}`}
-          >{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</Link>
+          >{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</Link>
         </div>
       </div>
     )

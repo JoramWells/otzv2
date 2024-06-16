@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Input } from '@/components/ui/input'
 import { type InputEventProps, type CustomInputProps } from '@/types'
 
 const CustomInput = ({ description, label, placeholder, value, type = 'text', onChange }: CustomInputProps) => {
@@ -11,10 +10,8 @@ const CustomInput = ({ description, label, placeholder, value, type = 'text', on
       {description && (
         <p className="mb-1 text-slate-500 text-[12px]">{description}</p>
       )}
-      <Input
-        className="border border-gray-200
-            p-2 w-full rounded-lg shadow-none
-            "
+      <input
+        className="border border-gray-200 p-2 rounded flex-grow"
         placeholder={placeholder}
         value={value}
         type={type}
