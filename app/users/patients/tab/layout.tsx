@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -7,6 +8,7 @@
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_components/patient/SidebarListItemsComponent'
 import { Sidebar } from '@/components/sidebar/Sidebar'
+import { Skeleton } from '@/components/ui/skeleton'
 import { tertiaryColor } from '@/constants/color'
 import { store } from '@/lib/store'
 import { type AvatarProps } from '@/types'
@@ -45,7 +47,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   const pathname = usePathname()
 
-  const { data } = useGetPatientQuery(patientID)
+  const { data, isLoading, isError } = useGetPatientQuery(patientID)
 
   const DL: SidebarListItemsProps[] = [
     {
@@ -123,26 +125,30 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex flex-row">
       <ChakraProvider>
-        <Sidebar isSearchable={false}>
-          <div className=" h-[180px] p-4">
-            <div
+        <Sidebar isSearchable= {false}>
+          <div className=" h-[160px] p-4 mb-4">
+            {isLoading ? <Skeleton className='w-full h-[160px]' />
+
+              : isError ? <div>error...</div>
+
+                : <div
               className="flex flex-col items-center
-          bg-slate-50 rounded-lg p-2
+          bg-slate-50 rounded-lg p-2 h-[160px]
           w-full "
             >
-              {data && (
+
                 <div className="flex flex-col items-center  w-full rounded-lg space-y-1">
                   <Avatar name={`${data?.firstName} ${data?.middleName}`} />
                   <p className="font-bold">
                     {data?.firstName} {data?.middleName}
                   </p>
                   {/*  */}
-                  <p className="text-slate-500 font-bold text-sm">
+                  <p className="text-slate-500 font-bold text-[12px]">
                     Age: {calculateAge(data?.dob)} yrs
                   </p>
 
-                  <p className="text-sm text-slate-500">CCC No.{data?.cccNo} </p>
-                  <div className="text-slate-500 text-sm">
+                  <p className="text-[12px] text-slate-500">CCC No.{data?.cccNo} </p>
+                  <div className="text-slate-500 text-[12px]">
                     <p>
                       Phone No:
                       <span>{data?.phoneNo} </span>
@@ -150,8 +156,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
                   </div>
                   {/* <Button>Update   Profile</Button> */}
                 </div>
-              )}
             </div>
+          }
+
           </div>
 
           <SidebarListItemsComponent dataList={DL} />

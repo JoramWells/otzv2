@@ -1,5 +1,5 @@
-/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/quotes */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -14,7 +14,6 @@ import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
 import { useGetVitalSignByPatientIDQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
 import { secondaryColor } from '@/constants/color'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { ArrowRight, InfoIcon, Loader2 } from 'lucide-react'
@@ -28,8 +27,7 @@ import { useGetTimeAndWorkByPatientIDQuery } from '@/api/treatmentplan/timeAndWo
 import { calculateBMI } from '@/utils/calculateBMI'
 import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import WeightHeightLineChart from '@/app/_components/charts/WeightHeightLineChart'
-import PillBox from '../../../_components/PillBox'
-import { calculateAdherence } from '@/utils/calculateAdherence'
+import ArtCard from '../../../_components/ART/ArtCard'
 
 export interface InputTabProps {
   id: number
@@ -154,7 +152,6 @@ const PatientDetails = ({ params }: any) => {
         ) : (
           <div
             className={`bg-[${secondaryColor}] p-2 rounded-lg 
-            border-l-4 BORDER-[${secondaryColor}]
             flex flex-row h-[145px] space-x-4 flex-1`}
           >
             <InfoIcon className="text-slate-500" size={18} />
@@ -169,12 +166,13 @@ const PatientDetails = ({ params }: any) => {
           </div>
         )}
         {/*  */}
-        <div
-          className={
-            "rounded-lg  h-[145px] bg-white flex-1 p-2 flex flex-col  justify-center"
-          }
-        >
-          {vsData ? (
+
+        {vsData ? (
+          <div
+            className={
+              "rounded-lg  h-[145px] bg-white flex-1 p-2 flex flex-col  justify-center"
+            }
+          >
             <div className="flex items-center space-x-4 justify-between">
               <div className="flex-1 p-2 h-[100%] ">
                 <div className="w-full flex items-center space-x-2 ">
@@ -230,7 +228,7 @@ const PatientDetails = ({ params }: any) => {
                     <p>{vsData?.diastolic}</p>
                   </div>
                 </div>
-                <div className='flex'>
+                <div className="flex">
                   <div>
                     <p>Sys</p>
                     <p>{vsData?.systolic}</p>
@@ -242,47 +240,30 @@ const PatientDetails = ({ params }: any) => {
                 </div>
               </div>
             </div>
-          ) : (
-            <div
-              className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
-            >
-              <InfoIcon className="text-slate-500" size={18} />
-              <div>
-                <p className="text-slate-500 text-[14px] ">
-                  No Recent Vital Signs Record
-                </p>
-                <Link
-                  href={"update"}
-                  className="text-blue-500 text-sm underline"
-                >
-                  Update
-                </Link>
-              </div>
+          </div>
+        ) : (
+          <div
+            className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
+          >
+            <InfoIcon className="text-slate-500" size={18} />
+            <div>
+              <p className="text-slate-500 text-[14px] ">
+                No Recent Vital Signs Record
+              </p>
+              <Link href={"update"} className="text-blue-500 text-sm underline">
+                Update
+              </Link>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/*  */}
         <div className="flex-1 rounded-lg h-[145px] overflow-y-auto ">
           {prescriptionData ? (
-            <div className="h-[145px] flex bg-white p-2 border border-slate-200 rounded-lg">
-              <div className="flex-1">
-                <p className="text-2xl font-extrabold">
-                  {prescriptionData?.regimen}
-                </p>
-                {calculateAdherence(
-                  artPrescription?.refillDate,
-                  artPrescription ? artPrescription.computedNoOfPills : 0,
-                  artPrescription ? artPrescription?.frequency : 1
-                )}{" "}
-                %<p>{artPrescription?.noOfPills}</p>
-                <p>{moment(artPrescription?.refillDate).format("LL")}</p>
-              </div>
-              <PillBox
-                noOfPills={artPrescription ? artPrescription?.noOfPills : 0}
-                remainingPills={artPrescription ? artPrescription?.expectedNoOfPills : 0}
-              />
-            </div>
+     <ArtCard
+     artPrescription={artPrescription}
+     regimen={prescriptionData?.regimen}
+     />
           ) : (
             <div
               className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}

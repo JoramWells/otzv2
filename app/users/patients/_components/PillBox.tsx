@@ -8,36 +8,52 @@ const getReorderLevel = (noOfPills: number) => {
   return Math.floor(noOfPills / 5)
 }
 
+const getFillColor = (remainingPills: number, noOfPills: number) => {
+  const fillPercentage = (remainingPills / noOfPills) * 100
+  if (fillPercentage >= 60) {
+    return '#4CAF50'
+  } else if (fillPercentage >= 30) {
+    return '#FFEB3B'
+  } else {
+    return '#F44336'
+  }
+}
+
 const PillBox = ({ noOfPills, remainingPills }: PillBoxProps) => {
   const isReorder = remainingPills < getReorderLevel(noOfPills)
+  const fillColor = getFillColor(remainingPills, noOfPills)
+  const fillHeight = (remainingPills / noOfPills) * 54
   return (
     <>
+
+      {/*  */}
       <svg
-        width="80"
-        height="128"
-        viewBox="0 0 80 128"
+        width="32"
+        height="59"
+        viewBox="0 0 32 59"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M24 2H56C59.3137 2 62 4.68629 62 8V14H18V8C18 4.68629 20.6863 2 24 2Z"
-          stroke={isReorder ? 'red' : 'black'}
-          strokeWidth="4"
+          d="M12 1H20C21.3062 1 22.4175 1.83481 22.8293 3H9.17071C9.58254 1.83481 10.6938 1 12 1Z"
+          stroke={isReorder ? '#F44336' : fillColor}
+          strokeWidth="2"
         />
         <rect
-          x="2"
-          y="14"
-          width="76"
-          height="112"
-          rx="6"
-          stroke={isReorder ? 'red' : 'black'}
-          strokeWidth="4"
+          x="1"
+          y="4"
+          width="30"
+          height={fillHeight}
+          rx="7"
+          fill={fillColor}
+          stroke={isReorder ? '#f44336' : fillColor}
+          strokeWidth="2"
         />
         <text
-          x="40"
-          y="72"
+          x="16"
+          y="28.5"
           fontFamily="Arial"
-          fontSize="20"
+          fontSize="12"
           fontWeight={'bold'}
           fill="black"
           textAnchor="middle"
