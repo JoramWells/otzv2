@@ -90,23 +90,27 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
         grid: {
           drawOnChartArea: false // only want the grid lines for one axis to show up
         },
+        min: 0,
+        max: 80,
         title: {
           display: true,
           text: 'Weight (kg)'
         }
+      },
+      y1: {
+        type: 'linear' as const,
+        display: true,
+        position: 'right' as const,
+        grid: {
+          drawOnChartArea: false // only want the grid lines for one axis to show up
+        },
+        min: 0,
+        max: 30,
+        title: {
+          display: true,
+          text: 'BMI (kg/m2)'
+        }
       }
-      // y3: {
-      //   type: 'linear' as const,
-      //   display: true,
-      //   position: 'right' as const,
-      //   grid: {
-      //     drawOnChartArea: false // only want the grid lines for one axis to show up
-      //   },
-      //   title: {
-      //     display: true,
-      //     text: 'BMI (kg)'
-      //   }
-      // }
     }
   }
 
