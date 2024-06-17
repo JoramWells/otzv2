@@ -98,7 +98,7 @@ const ArticlesPage = () => {
   const { data: chapterData } = useGetAllChaptersQuery()
 
   const chapterOptions = useCallback(() => {
-    const tempData = chapterData?.filter((item: any) => item.ArticleCategory?.id === articleCategoryID)
+    const tempData = chapterData?.filter((item: any) => item.Book?.id === articleCategoryID)
     return tempData?.map((item: any) => ({
       id: item.id, label: item.description
     }))
@@ -110,6 +110,7 @@ const ArticlesPage = () => {
       label: item.description
     }))
   }, [categoryData])
+
 
   const book = useCallback(() => {
     console.log(categoryData)
@@ -158,7 +159,7 @@ const ArticlesPage = () => {
             />
 
             <CustomSelect
-              label="Select Category"
+              label="Select Book"
               value={articleCategoryID}
               onChange={setArticleCategoryID}
               data={categoryOptions()}

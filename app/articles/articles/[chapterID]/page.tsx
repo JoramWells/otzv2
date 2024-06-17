@@ -4,6 +4,7 @@ import { useGetAllArticleChaptersByIdQuery } from '@/api/articles/articles.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { calculateReadingTime } from '@/utils/calculateReadTime'
 import { TrashIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
@@ -97,6 +98,8 @@ const Page = ({ params }: { params: any }) => {
                       __html: item.content?.substring(0, 50).concat('..')
                     }}
                   />
+
+                  {calculateReadingTime(item.content)} mins
                   <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
                     {/* {item.} */}#
                   </Badge>

@@ -28,7 +28,7 @@ interface ArticleCategoryProps {
   ArticleCategory: {
     id: string
   }
-  Chapters:string[]
+  Chapters: string[]
 }
 
 const dataList = [
