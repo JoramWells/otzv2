@@ -102,7 +102,7 @@ const BookPage = () => {
                 />
                 <div className="p-2 flex flex-col space-y-2">
                   <Link className="font-bold" href={`/articles/${item.id}`}>
-                    {item.description}
+                    {item.description?.substring(0, 50).concat('...')}
                   </Link>
                   <p className="text-slate-500 text-[12px] "> Chapters {item?.Chapters.length}</p>
                   <hr />

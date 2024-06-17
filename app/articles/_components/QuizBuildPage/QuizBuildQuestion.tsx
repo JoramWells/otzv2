@@ -61,7 +61,7 @@ const QuizBuildQuestion = () => {
 
   const chapterOptions = useCallback(() => {
     const tempData = chapterData?.filter(
-      (item: any) => item.ArticleCategory?.id === articleCategoryID
+      (item: any) => item.Book?.id === articleCategoryID
     )
     return tempData?.map((item: any) => ({
       id: item.id,

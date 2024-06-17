@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -8,13 +9,14 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { type FormEvent, useEffect, useMemo, useState } from 'react'
 import 'react-quill/dist/quill.snow.css'
 import { type CategoryInputProps } from '../../add-article/page'
 import CustomInput from '@/components/forms/CustomInput'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { XIcon } from 'lucide-react'
+import axios from 'axios'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -41,6 +43,8 @@ const loaderProp = ({ src }: { src: string }) => {
   return src
 }
 
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/articles/articles/edit/`
+
 const Page = ({ params }: { params: any }) => {
   const ReactQuill = useMemo(
     () => dynamic(async () => await import('react-quill'), { ssr: false }),
@@ -55,6 +59,29 @@ const Page = ({ params }: { params: any }) => {
   const [articleCategoryID, setArticleCategoryID] = useState('')
   const [chapterID, setChapterID] = useState('')
   const [file, setFile] = useState<File | undefined>()
+  const [isLoadingArticleSave, setIsLoadingArticleSave] =
+    useState<boolean>(false)
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData()
+
+    formData.append('chapterID', chapterID)
+    formData.append('title', title)
+    formData.append('content', content)
+    if (file != null) {
+      formData.append('file', file)
+    }
+    formData.append('file', '')
+
+    setIsLoadingArticleSave(true)
+    await axios.put(URL + articleID, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    setIsLoadingArticleSave(false)
+  }
 
   useEffect(() => {
     if (articleData) {
@@ -70,12 +97,13 @@ const Page = ({ params }: { params: any }) => {
       <BreadcrumbComponent dataList={dataList} />
 
       <div className="flex p-4">
-        <div
+        <form
           //   key={item.id}
-          className="rounded-xl bg-white relative w-1/2 flex flex-col space-y-2"
+          className="rounded-xl bg-white relative w-1/2 flex flex-col space-y-2 P-4"
           //   onClick={() => {
           //     router.push(`/articles/article-detail/${item.id}`);
           //   }}
+          onSubmit={handleSubmit}
         >
           <CustomInput
             label="Article title"
@@ -156,11 +184,14 @@ const Page = ({ params }: { params: any }) => {
               <Button className="text-red-500  bg-white hover:bg-red-50">
                 Delete
               </Button>
-              <Button>Save</Button>
+              <Button
+              type='submit'
+              // onClick={async () => { await handleSubmit() }}
+              >Save</Button>
             </div>
           </div>
-        </div>
-        <div>Settins</div>
+        </form>
+        <div>Settings</div>
       </div>
     </>
   )

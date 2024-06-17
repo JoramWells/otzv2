@@ -192,15 +192,22 @@ const ArticlesPage = () => {
               />
             </div>
 
-            <Input
-              className=""
-              type="file"
-              name="file"
-              // value={file}
-              onChange={(e) => {
-                setFile(e.target.files?.[0])
-              }}
-            />
+            <div
+            className='flex flex-col space-y-2'
+            >
+              <label htmlFor=""
+              className='text-slate-700 text-[14px] font-bold '
+              >Thumbnail Image</label>
+              <Input
+                className=""
+                type="file"
+                name="file"
+                // value={file}
+                onChange={(e) => {
+                  setFile(e.target.files?.[0])
+                }}
+              />
+            </div>
 
             {/*  */}
             <Button
@@ -221,7 +228,7 @@ const ArticlesPage = () => {
 
         <div className="w-1/2 border rounded-lg relative bg-white">
           <div className="w-full right-2 bg-slate-50 p-2 flex justify-between items-center border-b border-slate-200 ">
-            <p className='font-bold' >Article Preview</p>
+            <p className="font-bold">Article Preview</p>
             <div className="flex space-x-2 ">
               <Button
                 size={'sm'}
@@ -261,35 +268,29 @@ const ArticlesPage = () => {
               }}
             />
           ) : (
-          <div
-          className='p-4 font-bold text-slate-500'
-          >
-            Thumbnail image
-          </div>
+            <div className="p-4 font-bold text-slate-500">Thumbnail image</div>
           )}
 
           <div className="mt-2 p-4">
-            {chapterOptions() && chapterOptions().length > 0
-              ? (
+            {chapterOptions() && chapterOptions().length > 0 ? (
               <h3 className="font-bold mb-2">{chapterOptions()[0]?.label}</h3>
-                )
-              : (
+            ) : (
               <h3 className="text-slate-500">Select A Chapter</h3>
-                )}
+            )}
 
             {/*  */}
-            {content
-              ? (
+            {content ? (
               <div
                 className="text-[14px] "
                 dangerouslySetInnerHTML={{
                   __html: content
                 }}
               />
-                )
-              : (
-              <div className="text-[14px] text-slate-500 ">Enter Content...</div>
-                )}
+            ) : (
+              <div className="text-[14px] text-slate-500 ">
+                Enter Content...
+              </div>
+            )}
 
             {/*  */}
             <hr className="mt-2 mb-2" />
@@ -297,7 +298,9 @@ const ArticlesPage = () => {
             <div className="flex justify-between items-center">
               <div className="flex space-x-2 items-center text-slate-500">
                 <Clock10Icon className="" size={15} />
-                <p className='text-[14px] font-bold ' >{minuteRead} minute read</p>
+                <p className="text-[14px] font-bold ">
+                  {minuteRead} minute read
+                </p>
               </div>
               {book.length > 0 && (
                 <Badge className="rounded-full text-[12px] ">

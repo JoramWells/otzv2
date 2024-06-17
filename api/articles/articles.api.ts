@@ -39,12 +39,19 @@ export const articlesApi = createApi({
           method: 'DELETE'
         }
       }
+    }),
+    updateArticles: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: `edit/${id}`,
+        method: 'PUT',
+        body: patch
+      })
     })
   })
 })
 
 export const {
   useGetAllArticlesQuery, useAddArticlesMutation, useGetAllArticleChaptersByIdQuery,
-  useGetArticlesQuery,
+  useGetArticlesQuery, useUpdateArticlesMutation,
   useDeleteArticlesMutation
 } = articlesApi
