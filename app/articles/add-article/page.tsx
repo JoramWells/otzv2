@@ -42,7 +42,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'Patients',
-    link: ''
+    link: '/'
   }
 ]
 
@@ -111,7 +111,6 @@ const ArticlesPage = () => {
     }))
   }, [categoryData])
 
-
   const book = useCallback(() => {
     const tempData = categoryData?.filter((item) => item.id === articleCategoryID)
     return tempData?.map(item => ({
@@ -145,11 +144,15 @@ const ArticlesPage = () => {
 
         <div
           className="w-1/2 rounded-lg bg-white
-      p-4 flex flex-col space-y-4 sticky top-30"
+      flex flex-col  sticky top-30"
         >
-          <p className="font-bold text-xl text-slate-700">New Article</p>
+          <div className="p-2 border border-slate-200 rounded-t-lg bg-slate-50 ">
+            <p className="font-bold  text-slate-700 ">
+              Create New Article
+            </p>
+          </div>
 
-          <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+          <form className="flex flex-col space-y-4 p-4" onSubmit={handleSubmit}>
             <CustomInput
               label="Article title"
               value={title}
@@ -207,7 +210,8 @@ const ArticlesPage = () => {
         {/*  */}
 
         <div className="w-1/2 border rounded-lg relative bg-white">
-          <div className="absolute top-2 right-2">
+          <div className="w-full right-2 bg-slate-50 p-2 flex justify-between items-center">
+            <p>Article Preview</p>
             <div className="flex space-x-2 ">
               <Button
                 size={"sm"}
