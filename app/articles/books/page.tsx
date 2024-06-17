@@ -28,6 +28,7 @@ interface ArticleCategoryProps {
   ArticleCategory: {
     id: string
   }
+  Chapters:string[]
 }
 
 const dataList = [
@@ -49,6 +50,8 @@ const BookPage = () => {
   const { data: articleCategoryData, isLoading } = useGetAllArticlesCategoryQuery()
   const [deleteArticlesCategory, { isLoading: isLoadingDelete }] = useDeleteArticlesCategoryMutation()
 
+  console.log(articleCategoryData, 'rty')
+
   return (
     <div>
       <BreadcrumbComponent dataList={dataList} />
@@ -66,7 +69,9 @@ const BookPage = () => {
         </h2>
         <Button className="bg-teal-600 font-bold shadow-none hover:bg-teal-700">
           <PlusCircle className="mr-2" size={18} />
-          <Link href={'/articles/add-article-category'}>New Book</Link>
+          <Link href={'/articles/add-article-category'}
+          className='underline'
+          >New Book</Link>
         </Button>
       </div>
 
@@ -99,7 +104,7 @@ const BookPage = () => {
                   <Link className="font-bold" href={`/articles/${item.id}`}>
                     {item.description}
                   </Link>
-                  <p className="text-slate-500 text-[12px] "> Chapters (4)</p>
+                  <p className="text-slate-500 text-[12px] "> Chapters {item?.Chapters.length}</p>
                   <hr />
                   <div className="flex justify-end">
                     <Button
