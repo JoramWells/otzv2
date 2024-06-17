@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
 
@@ -5,11 +6,10 @@ import { useDeleteArticlesCategoryMutation, useGetAllArticlesCategoryQuery } fro
 import { Button } from '@/components/ui/button'
 // import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { PlusCircle, TrashIcon } from 'lucide-react'
+import { Loader2, PlusCircle, TrashIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 // import { useState } from 'react'
 //
 const BreadcrumbComponent = dynamic(
@@ -46,8 +46,6 @@ const dataList = [
 const BookPage = () => {
 //   const [value, setValue] = useState('')
 
-  const router = useRouter()
-
   const { data: articleCategoryData, isLoading } = useGetAllArticlesCategoryQuery()
   const [deleteArticlesCategory, { isLoading: isLoadingDelete }] = useDeleteArticlesCategoryMutation()
 
@@ -55,19 +53,20 @@ const BookPage = () => {
     <div>
       <BreadcrumbComponent dataList={dataList} />
 
-      <div className="w-full flex justify-between mt-2 p-2 bg-white items-center">
+      <div className="w-full flex justify-between mt-2 pl-4 p-2 bg-white items-center">
         <h2
           className="font-bold text-slate-700
         items-center
         "
         >
-          All Books
+          All Books{' '}
+          <span
+          className='text-[14px] '
+          >({articleCategoryData ? articleCategoryData.length : 0})</span>
         </h2>
         <Button className="bg-teal-600 font-bold shadow-none hover:bg-teal-700">
           <PlusCircle className="mr-2" size={18} />
-          <Link href={'/articles/add-article-category'}>
-            New Book
-          </Link>
+          <Link href={'/articles/add-article-category'}>New Book</Link>
         </Button>
       </div>
 
@@ -77,13 +76,7 @@ const BookPage = () => {
               <Skeleton key={idx} className="flex-1 h-[250px] " />
             ))
           : articleCategoryData?.map((item: ArticleCategoryProps) => (
-              <div
-                key={item.id}
-                onClick={() => {
-                  router.push(`/articles/${item.id}`)
-                }}
-                className="border border-slate-200 rounded-lg relative bg-white"
-              >
+              <div key={item.id} className="rounded-lg relative bg-white">
                 <Image
                   // w={0}
                   alt="im"
@@ -102,18 +95,31 @@ const BookPage = () => {
                     objectFit: 'cover'
                   }}
                 />
-                <div className="p-2">
-                  <h2 className="font-bold">{item.description}</h2>
+                <div className="p-2 flex flex-col space-y-2">
+                  <Link className="font-bold" href={`/articles/${item.id}`}>
+                    {item.description}
+                  </Link>
                   <p className="text-slate-500 text-[12px] "> Chapters (4)</p>
+                  <hr />
+                  <div className="flex justify-end">
+                    <Button
+                      className="bg-white/[.2] text-slate-500 hover:bg-white/[.1] shadow-none  "
+                      size={'sm'}
+                      onClick={async () =>
+                        await deleteArticlesCategory(item.id)
+                      }
+                      disabled={isLoadingDelete}
+                    >
+                      {isLoadingDelete
+                        ? (
+                        <Loader2 className="animate-spin" size={15} />
+                          )
+                        : (
+                        <TrashIcon size={15} className="" />
+                          )}
+                    </Button>
+                  </div>
                 </div>
-                <Button
-                  className="bg-white/[.2] text-slate-500 hover:bg-white/[.1] shadow-none absolute top-2 right-2"
-                  size={'sm'}
-                  onClick={async () => await deleteArticlesCategory(item.id)}
-                  disabled={isLoadingDelete}
-                >
-                  <TrashIcon size={15} className="text-white" />
-                </Button>
               </div>
           ))}
       </div>
