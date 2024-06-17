@@ -99,7 +99,7 @@ const Page = ({ params }: { params: any }) => {
                     }}
                   />
 
-                  {calculateReadingTime(item.content)} mins
+                  {calculateReadingTime(item.content as string)} mins
                   <Badge className="shadow-none rounded-full bg-slate-200 text-slate-700 hover:bg-slate-200 ">
                     {/* {item.} */}#
                   </Badge>
