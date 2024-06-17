@@ -133,7 +133,7 @@ const ArticlesPage = () => {
         </p>
         <Button className="bg-teal-600 font-bold shadow-none hover:bg-teal-700">
           <PlusCircle className="mr-2" size={18} />
-          <Link href={"/articles/add-article-category"}>
+          <Link href={'/articles/add-article-category'}>
             Add Articles Category
           </Link>
         </Button>
@@ -188,7 +188,7 @@ const ArticlesPage = () => {
               name="file"
               // value={file}
               onChange={(e) => {
-                setFile(e.target.files?.[0]);
+                setFile(e.target.files?.[0])
               }}
             />
 
@@ -214,14 +214,14 @@ const ArticlesPage = () => {
             <p>Article Preview</p>
             <div className="flex space-x-2 ">
               <Button
-                size={"sm"}
+                size={'sm'}
                 // className='bg-transparent'
               >
                 <Save size={15} />
               </Button>
 
               <Button
-                size={"sm"}
+                size={'sm'}
                 // className='bg-transparent'
               >
                 <TrashIcon size={15} />
@@ -245,9 +245,9 @@ const ArticlesPage = () => {
               // layout="fill"
               src={window.URL.createObjectURL(file)}
               style={{
-                width: "100%",
-                height: "auto",
-                objectFit: "cover",
+                width: '100%',
+                height: 'auto',
+                objectFit: 'cover'
               }}
             />
           )}
@@ -263,7 +263,7 @@ const ArticlesPage = () => {
             <div
               className="text-[14px] "
               dangerouslySetInnerHTML={{
-                __html: content,
+                __html: content
               }}
             />
 
@@ -278,7 +278,7 @@ const ArticlesPage = () => {
         </div>
       </div>
     </>
-  );
+  )
 }
 
 export default ArticlesPage
