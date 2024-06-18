@@ -21,12 +21,18 @@ const DL: SidebarListItemsProps[] = [
   },
   {
     id: '2',
+    label: 'Eligible',
+    link: '/home-visit/eligible',
+    icon: <HeartHandshake size={17} />
+  },
+  {
+    id: '3',
     label: 'Home-Visit',
     link: '/home-visit',
     icon: <HeartHandshake size={17} />
   },
   {
-    id: '6',
+    id: '4',
     label: 'Reports',
     link: 'reports',
     icon: <BookCopy size={17} />

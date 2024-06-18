@@ -1,6 +1,10 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import moment from 'moment/moment'
 import { Avatar, Tag } from '@chakra-ui/react'
+import Link from 'next/link'
+import { calculateAge } from '@/utils/calculateAge'
+import { Badge } from '@/components/ui/badge'
+import { type PatientProps } from '@/types'
 
 // import { FaEdit } from 'react-icons/fa'
 
@@ -22,17 +26,6 @@ interface ColumnProps {
   header: string
   accessorKey?: keyof PatientProps
   // render?: (props: any) => React.ReactNode
-}
-
-export interface PatientProps {
-  id?: string
-  patient?: FullNameProps
-  age?: number
-  dob?: string
-  gender?: string
-  mflCode?: string
-  occupation?: string
-  // action?: React.ReactNode
 }
 
 export const columns: Array<ColumnDef<ColumnProps>> = [
@@ -100,5 +93,80 @@ export const columns: Array<ColumnDef<ColumnProps>> = [
         >{moment(new Date(row.original.currentARTStartDate)).format('ll')}</p> */}
       </div>
     )
+  }
+]
+
+//
+export const patientColumns: Array<ColumnDef<PatientProps>> = [
+  {
+    accessorKey: 'firstName',
+    header: 'Patient Name',
+    cell: ({ row }) => (
+      <div
+        className="flex flex-row gap-x-3 items-center
+      pt-1 pb-1
+      "
+      >
+        <Avatar
+          size={'xs'}
+          className="font-bold"
+          name={`${row.original?.firstName} ${row.original?.middleName}`}
+        />
+        <Link
+          className="capitalize  text-blue-500 text-[14px] hover:cursor-pointer hover:underline "
+          href={`/users/patients/tab/dashboard/${row.original.id}`}
+        >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
+      </div>
+    )
+  },
+  {
+    accessorKey: 'sex',
+    header: 'Sex'
+    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
+  },
+  {
+    accessorKey: 'dob',
+    header: 'Age',
+    cell: ({ row }) => <p>{calculateAge(row.original?.dob)}</p>,
+    enableSorting: true
+  },
+  {
+    accessorKey: 'phoneNo',
+    header: 'Phone No',
+    cell: ({ row }) => (
+      <div>
+        {row.original.phoneNo
+          ? (
+              row.original.phoneNo
+            )
+          : (
+          <Badge
+            className="rounded-full shadow-none bg-slate-100 hover:bg-slate-200 hover:cursor-pointer
+      text-slate-500 text-[12px]
+      "
+          >
+            Update
+          </Badge>
+            )}
+      </div>
+    )
+  },
+  {
+    accessorKey: 'cccNo',
+    header: 'CCC No.'
+    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
+  },
+  {
+    accessorKey: 'populationType',
+    header: 'Population Type'
+  },
+  // {
+  //   accessorKey: 'entryPoint',
+  //   header: 'Entry Point'
+  // },
+  {
+    accessorKey: 'createdAt',
+    header: 'Date of Enrollment',
+    cell: ({ row }) => <p>{moment(row.original.createdAt).format('ll')}</p>
   }
 ]

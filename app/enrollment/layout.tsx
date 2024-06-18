@@ -27,20 +27,21 @@ const DL: SidebarListItemsProps[] = [
     link: '/enrollment/otz',
     icon: <WatchIcon size={17} />
   },
+
   {
-    id: '3',
+    id: '4',
     label: 'OVC',
     link: '/enrollment/ovc',
     icon: <Thermometer size={17} />
   },
   {
-    id: '4',
+    id: '5',
     label: 'PAMA',
     link: '/enrollment/pama',
     icon: <Thermometer size={17} />
   },
   {
-    id: '5',
+    id: '6',
     label: 'PMTCT',
     link: '/enrollment/pmtct',
     icon: <Thermometer size={17} />

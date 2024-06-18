@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useGetAllOTZEnrollmentsQuery } from '@/api/enrollment/otzEnrollment.api'
-import { columns } from './columns'
+import { columns, patientColumns } from './columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -10,6 +10,7 @@ import CustomTab from '@/components/tab/CustomTab'
 import { Suspense, useCallback, useState } from 'react'
 import SelectPatientDialog from '../_components/SelectPatientDialog'
 import { useGetAllEligibleOTZPatientsQuery } from '@/api/patient/patients.api'
+import { Button } from '@/components/ui/button'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -28,7 +29,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'enrollments',
-    link: 'enrollments'
+    link: '/enrollments'
   }
 ]
 
@@ -72,26 +73,55 @@ const OTZ = () => {
     )
   }, [patientData])
 
+  const [value, setValue] = useState(1)
+
   return (
     <Suspense>
       <div className="">
         <BreadcrumbComponent dataList={dataList2} />
-        <div className="flex justify-end w-full">
-          <SelectPatientDialog
-            label="Create New OTZ"
-            link="/enrollment/enroll-otz"
-            data={patientDataOptions()}
-          />
+        <div className="flex p-2 w-full">
+          {[
+            { id: 1, label: 'Enrolled' },
+            { id: 2, label: 'Not Enrolled' }
+          ].map((item) => (
+            <Button
+              key={item.id}
+              onClick={() => {
+                setValue(item.id)
+              }}
+            >
+              {item.label}
+            </Button>
+          ))}
         </div>
 
-        <div className="w-full mt-4">
-          <CustomTab value={tab} setValue={setTab} categoryList={tabList} />
-        </div>
+        {value === 1 && (
+          <>
+            <div className="w-full mt-4">
+              <CustomTab value={tab} setValue={setTab} categoryList={tabList} />
+            </div>
 
-        <div className="p-4 bg-white rounded-lg mt-4">
-          <p className="mb-2 text-lg text-slate-700 font-bold">OTZ Patients</p>
-          <CustomTable columns={columns} data={data || []} />
-        </div>
+            <div className=" bg-white rounded-lg p-4">
+              <p className="mb-2 text-lg text-slate-700 font-bold">
+                OTZ Patients
+              </p>
+              <CustomTable columns={columns} data={data || []} />
+            </div>
+          </>
+        )}
+
+        {/*  */}
+        {value === 2 && (
+          <div
+          className='p-4'
+          >
+            <div
+            className='bg-white rounded-lg p-4'
+            >
+              <CustomTable columns={patientColumns} data={patientData || []} />
+            </div>
+          </div>
+        )}
       </div>
     </Suspense>
   )

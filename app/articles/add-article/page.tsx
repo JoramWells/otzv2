@@ -159,7 +159,7 @@ const ArticlesPage = () => {
       flex flex-col  sticky top-30"
         >
           <div className="pl-4 p-3 border border-slate-200 rounded-t-lg bg-slate-50 ">
-            <p className="font-bold  text-slate-700 ">Create New Article</p>
+            <p className="font-bold  text-slate-700 ">New Content</p>
           </div>
 
           <form className="flex flex-col space-y-4 p-4" onSubmit={handleSubmit}>
@@ -183,21 +183,34 @@ const ArticlesPage = () => {
               onChange={setChapterID}
               data={chapterOptions()}
             />
-            <div className="h-[250px] ">
-              <ReactQuill
-                theme="snow"
-                value={content}
-                onChange={setContent}
-                className="rounded-xl h-[200px] "
-              />
+            <div>
+              <div className="flex space-x-2 mb-2 border w-1/4 ">
+                {['Article', 'Video'].map((item) => (
+                  <Button className="rounded-full flex-1" variant={'outline'}
+                  key={item}
+                  >
+                    {item}
+                  </Button>
+                ))}
+
+              </div>
+              <div className="h-[250px] ">
+                <ReactQuill
+                  theme="snow"
+                  value={content}
+                  onChange={setContent}
+                  className="rounded-xl h-[200px] "
+                />
+              </div>
             </div>
 
-            <div
-            className='flex flex-col space-y-2'
-            >
-              <label htmlFor=""
-              className='text-slate-700 text-[14px] font-bold '
-              >Thumbnail Image</label>
+            <div className="flex flex-col space-y-2">
+              <label
+                htmlFor=""
+                className="text-slate-700 text-[14px] font-bold "
+              >
+                Thumbnail Image
+              </label>
               <Input
                 className=""
                 type="file"
@@ -226,7 +239,7 @@ const ArticlesPage = () => {
 
         {/*  */}
 
-        <div className="w-1/2 border rounded-lg relative bg-white">
+        <div className="w-1/2 border rounded-lg bg-white h-[600px] overflow-auto relative">
           <div className="w-full right-2 bg-slate-50 p-2 flex justify-between items-center border-b border-slate-200 ">
             <p className="font-bold">Article Preview</p>
             <div className="flex space-x-2 ">
@@ -245,7 +258,7 @@ const ArticlesPage = () => {
               </Button>
             </div>
           </div>
-          <div className="p-4 ">
+          <div className="p-4 sticky top-0 backdrop-blur-lg  bg-white/50 ">
             <h1 className="font-bold">{title || 'Article Title'} </h1>
           </div>
           {file ? (
