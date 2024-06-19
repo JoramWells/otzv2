@@ -12,7 +12,7 @@ import moment, { type MomentInput } from 'moment'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -71,6 +71,13 @@ const Page = ({ params }: { params: any }) => {
   }
 
   const router = useRouter()
+
+  useEffect(() => {
+    if (data) {
+      const tempData: VideoProps[] = data?.filter((item: VideoProps) => item.video?.length > 0)
+      setVideos(tempData)
+    }
+  }, [data])
 
   const [tab, setTab] = useState(1)
 
@@ -203,7 +210,7 @@ const Page = ({ params }: { params: any }) => {
                 <p
                 className='text-[12px] text-slate-500 '
                 >
-                  {calculateTimeDuration(moment(item.updatedAt, 'YYYY-MM-DD'))} {' '} Viewers: {item.viewers}
+                  {calculateTimeDuration(moment(item.updatedAt, 'YYYY-MM-DD'))} {' '} Views: {item.viewers}
                 </p>
               </div>
             </div>
