@@ -6,7 +6,9 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { calculateReadingTime } from '@/utils/calculateReadTime'
+import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { TrashIcon } from 'lucide-react'
+import moment, { type MomentInput } from 'moment'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -37,7 +39,7 @@ const Page = ({ params }: { params: any }) => {
   const { data, isLoading } = useGetAllArticleChaptersByIdQuery(chapterID)
   console.log(data, 'dr')
 
-  const videoData = useCallback(() => {
+  const videoData: VideoProps[] = useCallback(() => {
     return data?.filter((item: any) => item.video?.length > 0)
   }, [data])()
 
@@ -45,15 +47,42 @@ const Page = ({ params }: { params: any }) => {
     return data?.filter((item: any) => item.image?.length > 0) || []
   }, [data])()
 
-  console.log(videoData, 'tyui')
-
   const loaderProp = ({ src }: { src: string }) => {
     return src
+  }
+
+  type ControlsProps = Record<string, boolean>
+
+  const [videos, setVideos] = useState<VideoProps[]>(videoData)
+  const [showControls, setShowControls] = useState<ControlsProps>({
+    id: false
+  })
+
+  function handleMouseEnter (id: string) {
+    setShowControls(prev => ({ ...prev, [id]: true }))
+  }
+
+  function handleMouseLeave (id: string) {
+    setShowControls(prev => ({ ...prev, [id]: false }))
+  }
+
+  function handlePlay (id: string) {
+    setVideos(prev => prev?.map((video: VideoProps) => video.id === id ? { ...video, viewers: video.viewers + 1 } : video))
   }
 
   const router = useRouter()
 
   const [tab, setTab] = useState(1)
+
+  interface VideoProps {
+    id: string
+    video: string
+    updatedAt: MomentInput
+    viewers: number
+    Chapter: {
+      description: string
+    }
+  }
 
   return (
     <>
@@ -149,21 +178,35 @@ const Page = ({ params }: { params: any }) => {
 
       {/*  */}
       {tab === 2 && (
-        <div
-        className='p-4 flex space-x-4'
-        >
-          {videoData?.map((item: any) => (
-            <video
-            height={'320'}
-            width={'350'}
-            controls
-            key={item.id}
+        <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-5 p-4 md:grid-cols-2">
+          {videos?.map((item: VideoProps) => (
+            <div key={item.id} className="300px 150px bg-white rounded-lg "
+            onMouseEnter={() => { handleMouseEnter(item.id) }}
+            onMouseLeave={() => { handleMouseLeave(item.id) }}
             >
-              <source
-                src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.video}`}
-                type='video/mp4'
-              />
-            </video>
+              <video
+                height={'50px'}
+                width={'300px'}
+                className="max-h-[150px] rounded-lg "
+                controls={showControls[item.id] || false}
+                onPlay={() => { handlePlay(item.id) }}
+              >
+                <source
+                  src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item.video}`}
+                  type="video/mp4"
+                />
+              </video>
+              <div className="p-4 mt-2">
+                <h3
+                className='text-[14px] font-bold '
+                >{item.Chapter?.description}</h3>
+                <p
+                className='text-[12px] text-slate-500 '
+                >
+                  {calculateTimeDuration(moment(item.updatedAt, 'YYYY-MM-DD'))} {' '} Viewers: {item.viewers}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       )}
