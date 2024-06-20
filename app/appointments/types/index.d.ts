@@ -5,6 +5,9 @@ declare interface AppointmentProps {
   }
   appointmentDate: MomentInput
   appointmentTime: MomentInput
+  rescheduledDate: MomentInput
+  rescheduledReason: string
+
   AppointmentAgenda: {
     agendaDescription: string
   }

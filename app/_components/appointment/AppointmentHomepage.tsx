@@ -52,14 +52,6 @@ const AppointmentHomepage = () => {
     )
   }, [sortedAppointment])
 
-  const rescheduledAppointment = useCallback(() => {
-    return data?.filter((item: any) =>
-      item.AppointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Rescheduled'.toLowerCase())
-    )
-  }, [data])
-
   const categoryList = useMemo(
     () => [
       {
@@ -70,10 +62,7 @@ const AppointmentHomepage = () => {
         id: 2,
         label: 'Pending'
       },
-      {
-        id: 3,
-        label: 'Rescheduled'
-      },
+
       {
         id: 4,
         label: 'Upcoming'
@@ -133,13 +122,6 @@ const AppointmentHomepage = () => {
                 <CustomTable
                   columns={columns}
                   data={pendingAppointment() || []}
-                />
-              )}
-
-              {value === 'rescheduled' && (
-                <CustomTable
-                  columns={columns}
-                  data={rescheduledAppointment() || []}
                 />
               )}
 

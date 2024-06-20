@@ -38,7 +38,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '5',
     label: 'Rescheduled',
-    link: '/notify/voice-call',
+    link: '/appointments/rescheduled',
     icon: <Undo2Icon size={17} />
   },
   {

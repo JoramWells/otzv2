@@ -23,7 +23,7 @@ const dataList = [
     link: '/'
   },
   {
-    id: '1',
+    id: '2',
     label: 'Dashboard',
     link: '/administrator/dashboard'
   }
@@ -42,7 +42,7 @@ const ETL = () => {
     formData.append('file', '')
     try {
       const response = await axios.post(
-        'http://127.0.0.1:8000/upload/',
+        `${process.env.NEXT_PUBLIC_API_URL}/api/etl/upload/`,
         formData,
         {
           headers: {
