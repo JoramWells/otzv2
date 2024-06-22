@@ -3,12 +3,21 @@ declare interface HomeVisitProps {
     artName: string
   }
   refillDate: MomentInput
-  nextRefillDate: MomentInput
+  noOfPills: number
   returnToClinic: MomentInput
-  appointmentDate: any
-  appointmentAgenda: any
+  medicineStatus: string
+  dateRequested: MomentInput
+  isDisclosure: boolean
+  isHouseholdTested: boolean
+  isSupportGroupAttendance: boolean
   updatedAt: MomentInput
   createdAt: Date
+  homeVisitFrequency: {
+    homeVisitFrequencyDescription: string
+  }
+  homeVisitReason: {
+    homeVisitReasonDescription: string
+  }
   user: any
   patient: {
     firstName: string
@@ -16,6 +25,6 @@ declare interface HomeVisitProps {
   }
   id: any
   header: string
-//   accessorKey?: keyof PatientProps
+  //   accessorKey?: keyof PatientProps
   // render?: (props: any) => React.ReactNode
 }

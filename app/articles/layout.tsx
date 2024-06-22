@@ -8,7 +8,7 @@ import { Sidebar } from '../../components/sidebar/Sidebar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
-import { Book, BookCheck, BookCopy, PlusIcon } from 'lucide-react'
+import { Book, BookCopy, PlusIcon } from 'lucide-react'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 
 const DL: SidebarListItemsProps[] = [
@@ -24,12 +24,7 @@ const DL: SidebarListItemsProps[] = [
     link: '/articles/books',
     icon: <Book size={15} />
   },
-  {
-    id: '2',
-    label: 'Articles',
-    link: '/articles',
-    icon: <BookCheck size={15} />
-  },
+
   {
     id: '3',
     label: 'New Articles',

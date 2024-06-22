@@ -8,8 +8,8 @@ interface MapProps {
 }
 
 const containerStyle = {
-  width: '50%',
-  height: '700px',
+  width: '250px',
+  height: '150px',
   borderRadius: '10px'
 }
 
@@ -32,9 +32,7 @@ const MapComponent: React.FC<MapProps> = ({ center }) => {
     setMap(null)
   }, [])
   return isLoaded ? (
-    <div
-    className='flex flex-row justify-center w-full mt-4'
-    >
+
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -45,7 +43,6 @@ const MapComponent: React.FC<MapProps> = ({ center }) => {
         {/* Child components, such as markers, info windows, etc. */}
         <></>
       </GoogleMap>
-    </div>
   ) : (
     <></>
   )

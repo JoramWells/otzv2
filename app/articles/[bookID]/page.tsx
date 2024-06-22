@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { TrashIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -72,11 +73,9 @@ const ArticlePage = ({ params }: { params: any }) => {
       <div className="flex items-start justify-between space-x-4 p-4">
         <div className="w-1/2">
           {isLoadingChapter ? (
-            <div>loadin...</div>
+            <div>loading...</div>
           ) : book ? (
-            <div
-            className='rounded-lg bg-white'
-            >
+            <div className="rounded-lg bg-white">
               <Image
                 // w={0}
                 alt="im"
@@ -97,10 +96,8 @@ const ArticlePage = ({ params }: { params: any }) => {
                 }}
                 loader={loaderProp}
               />
-              <div
-              className='p-4'
-              >
-                <h2>{book.description}</h2>
+              <div className="p-4">
+                <h3 className="font-bold text-lg">{book.description}</h3>
               </div>
             </div>
           ) : (
@@ -109,22 +106,20 @@ const ArticlePage = ({ params }: { params: any }) => {
         </div>
 
         <div className="flex flex-col w-1/2 space-y-2 bg-white p-4 rounded-lg">
-        <div>
-          <h3>
-            Chapters
-          </h3>
-        </div>
+          <div>
+            <h3 className='font-bold' >Chapters <span>{data?.length} </span> </h3>
+          </div>
           {isLoadingChapter
             ? [1, 2, 3, 4, 5].map((idx) => (
-                <Skeleton key={idx} className="flex-1 h-[250px] " />
+                <Skeleton key={idx} className="flex-1 h-[50px] w-[100px] " />
               ))
             : data?.map((item: any) => (
                 <div
                   key={item.id}
-                  className="rounded-lg bg-white relative flex justify-between border border-slate-200"
-                  onClick={() => {
-                    router.push(`/articles/articles/${item.id}`)
-                  }}
+                  className="rounded-lg bg-white relative flex justify-between border border-slate-200
+                  hover: cursor-pointer hover:bg-slate-50
+                  "
+
                 >
                   <div className="flex space-x-4 items-center">
                     <Image
@@ -147,13 +142,20 @@ const ArticlePage = ({ params }: { params: any }) => {
                       }}
                       loader={loaderProp}
                     />
-                    <div className="p-2">
-                      <p className="font-bold">{item.description}</p>
-                      <Badge className="shadow-none rounded-full">#tag</Badge>
+                    <div className="p-2 flex flex-col items-start">
+                      <Link
+                        className="underline text-blue-500 text-[14px] "
+                        href={`/articles/articles/${item.id}`}
+                      >
+                        {item.description}
+                      </Link>
+                      <Badge className="shadow-none rounded-full bg-slate-100 hover:bg-slate-200
+                      text-slate-500
+                       ">#tag</Badge>
                     </div>
                   </div>
 
-                  <div className="p-2 flex space-x-4 items-center">
+                  <div className="flex space-x-4 items-center">
                     <div className="h-[30px] border-l border-slate-200" />
 
                     <div className="flex justify-end">

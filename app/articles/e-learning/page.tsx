@@ -55,8 +55,8 @@ const EPage = () => {
                   // w={0}
                   alt="im"
                   // placeholder="data:image/..."
-                  width={0}
-                  height={0}
+                  width={300}
+                  height={150}
                   // quality={100}
                   // fill
                   // objectFit='contain'
@@ -66,22 +66,24 @@ const EPage = () => {
                   src={`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${item?.Article?.image}`}
                   style={{
                     width: '300px',
-                    height: '150px'
-                    // objectFit: 'cover'
+                    height: '150px',
+                    objectFit: 'cover'
                   }}
                   // loader={loaderProp}
                 />
                 <div className="flex flex-col space-y-1 p-2">
-                  <h2 className="font-bold">{item?.Article.title} </h2>
-                  <h3
-                  className='text-slate-500 font-bold '
-                  >{item?.question}</h3>
-                  <p className='text-slate-500' >{item?.choices.length} choices</p>
+                  <Link className="text-blue-500  underline "
+                  href={'/'}
+                  >
+                    {item?.question}
+                  </Link>
+
+                  <p className="text-slate-500">
+                    {item?.choices.length} choices
+                  </p>
 
                   <hr />
-                  <div
-                  className='flex justify-end space-x-2'
-                  >
+                  <div className="flex justify-end space-x-2">
                     <Button
                       className=""
                       size={'sm'}
@@ -91,9 +93,7 @@ const EPage = () => {
                       {isLoading && (
                         <Loader2 className="animate-spin mr-2" size={15} />
                       )}
-                      <Edit2Icon size={15}
-                      className='text-blue-500'
-                      />
+                      <Edit2Icon size={15} className="text-blue-500" />
                     </Button>
                     <Button
                       className=""
@@ -104,14 +104,13 @@ const EPage = () => {
                       {isLoading && (
                         <Loader2 className="animate-spin mr-2" size={15} />
                       )}
-                      <Trash2Icon size={15} className='text-red-500' />
+                      <Trash2Icon size={15} className="text-red-500" />
                     </Button>
                   </div>
                 </div>
               </div>
           ))}
       </div>
-
     </div>
   )
 }

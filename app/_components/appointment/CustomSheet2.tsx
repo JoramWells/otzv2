@@ -45,7 +45,7 @@ interface UserProps {
   middleName: string
 }
 
-const CustomSheet = ({ data }: DataProps) => {
+const CustomSheet2 = ({ data }: DataProps) => {
   const [userName, setUsername] = useState('')
   const [appointmentAgenda, setAppointmentAgenda] = useState('')
   const [appointmentStatus, setAppointmentStatus] = useState('')
@@ -179,4 +179,4 @@ const CustomSheet = ({ data }: DataProps) => {
   )
 }
 
-export default CustomSheet
+export default CustomSheet2
