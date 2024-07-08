@@ -13,7 +13,6 @@ import { TrashIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const BreadcrumbComponent = dynamic(
@@ -64,7 +63,7 @@ const ArticlePage = ({ params }: { params: any }) => {
 
   const [deleteArticles, { isLoading }] = useDeleteArticlesMutation()
 
-  const router = useRouter()
+  // const router = useRouter()
 
   return (
     <>

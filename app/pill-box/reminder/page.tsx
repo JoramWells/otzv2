@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
@@ -90,7 +91,7 @@ const AppointmentPage = () => {
 
   const updateMorningStatus = (arr: string[], id: string) => {
     if (arr.length > 0) {
-      return arr?.map((obj) => {
+      return arr?.map((obj: any) => {
         if (obj.id === id) {
           return { ...obj, morningStatus: true }
         }
@@ -108,7 +109,7 @@ const AppointmentPage = () => {
         if (patientsDueMorning) {
           setUptakeData(patientsDueMorning)
           const updatedData = updateMorningStatus(patientsDueMorning, data.id)
-          setUptakeData(updatedData)
+          setUptakeData(updatedData as any)
           console.log(updatedData, 'uio')
         }
       })

@@ -5,15 +5,13 @@ import { calculateAdherence } from '@/utils/calculateAdherence'
 import { useEffect, useState } from 'react'
 import { type PrescriptionProps } from '../..'
 import { Badge } from '@/components/ui/badge'
-import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
-import { PlusIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Checkbox } from '@/components/ui/checkbox'
 import { useSearchParams } from 'next/navigation'
 import { useGetMmasEightByPatientIDQuery } from '@/api/treatmentplan/mmasEight.api'
+import EnhancedAdherenceCounsellingForm from '../../_components/EnhancedAdherenceCounsellingForm'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -170,77 +168,10 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
             {/* <hr /> */}
           </div>
           {value === 1 && (
-            <div className="flex flex-col space-y-2">
-              <div className="flex flex-col space-y-4 bg-slate-50 rounded-lg border border-slate-200 p-4">
-                <div>
-                  {' '}
-                  Prescribed = Expected No. of Pills x Dispensed Pills{' '}
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    {' '}
-                    {patientAdherence?.noOfPills} ={' '}
-                    {patientAdherence?.expectedNoOfPills} +{' '}
-                    {patientAdherence?.computedNoOfPills}{' '}
-                  </div>
-                  <div>
-                    <Badge>Not Good</Badge>
-                  </div>
-                </div>
-              </div>
-              {/* <hr /> */}
-              <div className="flex flex-col space-y-2">
-                <h1 className='capitalize' >Enhanced ADHERENCE COUNSELLING FORM</h1>
-<p>MMAS-8 Score</p>
-
-                <h2>Summary</h2>
-                <Textarea
-                  placeholder="Comment on treatment interruptions"
-                  className="shadow-none"
-                />
-                {/* <small>Discuss the details of this prescription.</small> */}
-              </div>
-              <hr />
-
-              <div>
-                <Textarea placeholder="Treatment motivation" />
-
-                <Textarea placeholder="Barriers to adherence" />
-                <div>
-                  Your impression about current patients adherence
-                  <div className="flex justify-between">
-                    <div>
-                      <label htmlFor="">Excellent</label>
-                      <Checkbox />
-                    </div>
-
-                    <div>
-                      <label htmlFor="">Unsure</label>
-                      <Checkbox />
-                    </div>
-
-                    <div>
-                      <label htmlFor="">Inadequate</label>
-                      <Checkbox />
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h2>Actions</h2>
-                <ol>
-                  <li>Assign Case Manager</li>
-                  <li>Discuss MDT</li>
-                </ol>
-              </div>
-
-              <Button className="bg-slate-100 hover:bg-slate-50 text-black">
-                <PlusIcon />
-                Comment
-              </Button>
-            </div>
+<EnhancedAdherenceCounsellingForm
+score={mmas8Data?.totalScores}
+adherence={patientAdherence?.adherence}
+ />
           )}
 
           {value === 2 && <div>Graph</div>}
