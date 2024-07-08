@@ -8,8 +8,11 @@ import { Sidebar } from '../../components/sidebar/Sidebar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
-import { BellDot, BookCopy, LayoutDashboardIcon, Pill } from 'lucide-react'
+import { BellDot, BookCopy, Kanban, LayoutDashboardIcon, Pill } from 'lucide-react'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -17,6 +20,12 @@ const DL: SidebarListItemsProps[] = [
     label: 'Dashboard',
     link: '/pill-box/dashboard',
     icon: <LayoutDashboardIcon size={17} />
+  },
+  {
+    id: '5',
+    label: 'Issues',
+    link: '/pill-box/issues',
+    icon: <Kanban size={17} />
   },
   {
     id: '2',
@@ -39,7 +48,17 @@ const DL: SidebarListItemsProps[] = [
 ]
 
 const PillLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
+  const { data: session } = useSession()
+  const router = useRouter()
+  useEffect(() => {
+    console.log(session)
+    if (!session) {
+      setTimeout(() => { router.push('/login') }, 2000)
+      // router.push('/login')
+    }
+  }, [session, router])
+  if (session) {
+    return (
     <Provider store={store}>
       <SidebarProvider>
         <div className="flex flex-row">
@@ -54,7 +73,12 @@ const PillLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </SidebarProvider>
     </Provider>
-  )
+    )
+  }
+
+  return <div>
+  <p>Redirecting...</p>
+</div>
 }
 
 export default PillLayout

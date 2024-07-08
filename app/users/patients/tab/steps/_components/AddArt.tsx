@@ -172,6 +172,13 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const { data: agendaData } = useGetAllAppointmentAgendaQuery()
   const { data: statusData } = useGetAllAppointmentStatusQuery()
   const { data: userData } = useGetAllUsersQuery()
+  const [recentPrescriptionData, setRecentPrescriptionData] = useState()
+
+  useEffect(() => {
+    if (prescriptionData) {
+      setRecentPrescriptionData(prescriptionData)
+    }
+  }, [prescriptionData])
 
   const [addPrescription, { isLoading: prescriptionSaveLoading, data: addPillPrescriptionData }] = useAddPrescriptionMutation()
 
@@ -191,7 +198,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     frequency,
     noOfPill,
     computedNoOfPills: noOfPill,
-    artPrescriptionID: prescriptionData?.id,
+    artPrescriptionID: recentPrescriptionData?.id,
     refillDate,
     userID: userData?.[0].id,
     patientVisitID: appointmentID,

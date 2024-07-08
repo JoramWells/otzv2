@@ -20,6 +20,16 @@ export const patientNotificationApi = createApi({
     getPatientNotification: builder.query({
       query: (id) => `detail/${id}`
     }),
+    getNotificationBYCategory: builder.query({
+      query: (params) => {
+        // if(params){
+        const { type } = params
+        let queryString = ''
+        queryString += `type=${type}`
+        return `/getNotificationByCategory?${queryString}`
+        // }
+      }
+    }),
     updatePatientNotification: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
@@ -40,7 +50,7 @@ export const patientNotificationApi = createApi({
 })
 
 export const {
-  useGetAllPatientNotificationsQuery, useAddPatientNotificationMutation,
+  useGetAllPatientNotificationsQuery, useAddPatientNotificationMutation, useGetNotificationBYCategoryQuery,
   useGetPatientNotificationQuery, useUpdatePatientNotificationMutation,
   useDeletePatientNotificationMutation
 } = patientNotificationApi

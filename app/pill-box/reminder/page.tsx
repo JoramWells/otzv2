@@ -14,6 +14,8 @@ import moment from 'moment'
 import { useAddPatientNotificationMutation } from '@/api/notifications/patientNotification.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
+import io from 'socket.io-client'
+import { useSession } from 'next-auth/react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -57,10 +59,12 @@ const dataList = [
 ]
 
 const AppointmentPage = () => {
+  const { data: session } = useSession()
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery()
+  const [uptakeData, setUptakeData] = useState([])
 
   const [addPatientNotification] = useAddPatientNotificationMutation()
 
@@ -83,6 +87,31 @@ const AppointmentPage = () => {
     },
     [pathname, router, searchParams]
   )
+
+  const updateMorningStatus = (arr: string[], id) => {
+    if (arr.length > 0) {
+      return arr?.map((obj) => {
+        if (obj.id === id) {
+          return { ...obj, morningStatus: true }
+        }
+        return obj
+      })
+    }
+    return null
+  }
+
+  useEffect(() => {
+    const newSocket = io('http://localhost:5003')
+    newSocket.emit('getPharmacyNotifications', session.user)
+    newSocket.on('newPharmacyNotifications', data => {
+      if (patientsDueMorning) {
+        setUptakeData(patientsDueMorning)
+        const updatedData = updateMorningStatus(patientsDueMorning, data.id)
+        setUptakeData(updatedData)
+        console.log(updatedData, 'uio')
+      }
+    })
+  }, [session, patientsDueMorning])
 
   useEffect(() => {
     if (tab === null) {
@@ -132,21 +161,21 @@ const AppointmentPage = () => {
           {value === 'all' && (
             <CustomTable
               columns={morningColumn}
-              data={patientsDueMorning || []}
+              data={uptakeData || []}
             />
           )}
           {/*  */}
           {value === 'morning' && (
             <CustomTable
               columns={morningColumn}
-              data={patientsDueMorning || []}
+              data={uptakeData || []}
             />
           )}
           {/*  */}
           {value === 'evening' && (
             <CustomTable
               columns={eveningColumn}
-              data={patientsDueMorning || []}
+              data={uptakeData || []}
             />
           )}
         </div>
