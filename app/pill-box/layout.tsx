@@ -52,12 +52,12 @@ const PillLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
   useEffect(() => {
     console.log(session)
-    if (!session) {
+    if (session == null) {
       setTimeout(() => { router.push('/login') }, 2000)
       // router.push('/login')
     }
   }, [session, router])
-  if (session) {
+  if (session != null) {
     return (
     <Provider store={store}>
       <SidebarProvider>

@@ -59,59 +59,6 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<ColumnProps>> = [
-  {
-    accessorKey: 'patient',
-    header: 'Patient Name',
-    cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2 pt-1 pb-1">
-        <Avatar
-          // size={'sm'}
-          // className="font-bold"
-          name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
-        />
-          <p className="capitalize font-semibold">{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</p>
-      </div>
-    )
-  },
-  // <X />
-  {
-    accessorKey: 'notifications',
-    header: 'Notifications',
-    cell: ({ row }) => (
-      <div className="flex flex-col space-y-2">
-        <div className="flex flex-row items-center space-x-2">
-          {row.original.notifications?.push && (
-            <Badge className="bg-cyan-50 text-cyan-600 shadow-none">
-              Push Notification
-            </Badge>
-          )}
-          {row.original.notifications?.sms && (
-            <Badge className="bg-blue-50 text-blue-600 shadow-none">SMS</Badge>
-          )}
-          {row.original.notifications?.voiceCall && <Badge>Voice Call</Badge>}
-          {row.original.notifications?.whatsapp && (
-            <Badge
-              className="bg-green-50 text-green-600 shadow-none
-            hover:bg-green-50
-            "
-            >
-              Whatsapp
-            </Badge>
-          )}
-        </div>
-      </div>
-    )
-  },
-  {
-    // accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => (
-      <Link href={`/pill-box/daily-uptake/${row.original.id}`}>Edit </Link>
-    )
-  }
-]
-
 export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'patient',
@@ -130,20 +77,20 @@ export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
       </div>
     )
   },
-  {
-    accessorKey: 'medicineTime',
-    header: 'Medicine Time',
-    cell: ({ row }) => (
-      <p>{moment(row.original.medicineTime, 'HH:mm:ss').format('HH:mm a')} </p>
-    )
-  },
+  // {
+  //   accessorKey: 'priority',
+  //   header: 'Medicine Time',
+  //   cell: ({ row }) => (
+  //     <p>{moment(row.original.medicineTime, 'HH:mm:ss').format('HH:mm a')} </p>
+  //   )
+  // },
   {
     accessorKey: 'message',
     header: 'Messages'
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: 'Priority',
     cell: ({ row }) => {
       const sentTime = moment(row.original.createdAt, 'HH:mm:ss')
       const medicineTime = moment(row.original.medicineTime, 'HH:mm:ss')
@@ -156,7 +103,6 @@ export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
 
       return (
         <div>
-          {sentTime.format('HH:mm a')}
           {isSame()
             ? (
             <Badge className="rounded-full shadow-none bg-teal-50 text-teal-600 hover:bg-teal-100">
@@ -165,7 +111,7 @@ export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
               )
             : (
             <Badge className="rounded-full bg-red-50 text-red-500 shadow-none hover:bg-red-100">
-              NOT OK
+              HIGH
             </Badge>
               )}
         </div>

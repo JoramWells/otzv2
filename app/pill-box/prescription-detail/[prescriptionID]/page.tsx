@@ -12,6 +12,8 @@ import { PlusIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Checkbox } from '@/components/ui/checkbox'
+import { useSearchParams } from 'next/navigation'
+import { useGetMmasEightByPatientIDQuery } from '@/api/treatmentplan/mmasEight.api'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -42,6 +44,8 @@ const dataList2 = [
 
 const PrescriptionDetailPage = ({ params }: { params: any }) => {
   const { prescriptionID } = params
+  const searchParams = useSearchParams()
+  const patientID = searchParams.get('patientID')
   const [patientAdherence, setPatientAdherence] = useState({
     frequency: 0,
     adherence: 0,
@@ -54,6 +58,9 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
   const { data } = useGetPrescriptionQuery(prescriptionID)
 
+  const { data: mmas8Data } = useGetMmasEightByPatientIDQuery(patientID)
+
+  console.log(mmas8Data, 'mmas8')
   useEffect(() => {
     if (data) {
       const { frequency, refillDate, computedNoOfPills, noOfPills, expectedNoOfPills, nextRefillDate }: PrescriptionProps = data

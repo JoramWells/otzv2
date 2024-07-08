@@ -88,7 +88,7 @@ const AppointmentPage = () => {
     [pathname, router, searchParams]
   )
 
-  const updateMorningStatus = (arr: string[], id) => {
+  const updateMorningStatus = (arr: string[], id: string) => {
     if (arr.length > 0) {
       return arr?.map((obj) => {
         if (obj.id === id) {
@@ -102,15 +102,17 @@ const AppointmentPage = () => {
 
   useEffect(() => {
     const newSocket = io('http://localhost:5003')
-    newSocket.emit('getPharmacyNotifications', session.user)
-    newSocket.on('newPharmacyNotifications', data => {
-      if (patientsDueMorning) {
-        setUptakeData(patientsDueMorning)
-        const updatedData = updateMorningStatus(patientsDueMorning, data.id)
-        setUptakeData(updatedData)
-        console.log(updatedData, 'uio')
-      }
-    })
+    if (session != null) {
+      newSocket.emit('getPharmacyNotifications', session.user)
+      newSocket.on('newPharmacyNotifications', (data) => {
+        if (patientsDueMorning) {
+          setUptakeData(patientsDueMorning)
+          const updatedData = updateMorningStatus(patientsDueMorning, data.id)
+          setUptakeData(updatedData)
+          console.log(updatedData, 'uio')
+        }
+      })
+    }
   }, [session, patientsDueMorning])
 
   useEffect(() => {

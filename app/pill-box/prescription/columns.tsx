@@ -121,6 +121,6 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
   {
     accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <Link href={`/pill-box/prescription-detail/${row.original.patientVisitID} `}>Action</Link>
+    cell: ({ row }) => <Link href={`/pill-box/prescription-detail/${row.original.patientVisitID}?patientID=${row.original?.Patient?.id} `}>Action</Link>
   }
 ]

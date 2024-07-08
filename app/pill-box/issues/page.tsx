@@ -74,7 +74,6 @@ const NotificationPage = () => {
   //     socket.disconnect();
   //   };
   // }, [ showNotification]);
-  console.log(patientNotificationData)
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
