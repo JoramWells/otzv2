@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { type PrescriptionProps } from '@/app/pill-box'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type PrescriptionInterface } from 'otz-types'
 
 export const prescriptionApi = createApi({
   reducerPath: 'prescriptionApi',
@@ -8,7 +8,7 @@ export const prescriptionApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription`
   }),
   endpoints: (builder) => ({
-    getAllPrescriptions: builder.query<any, void>({
+    getAllPrescriptions: builder.query<PrescriptionInterface, void>({
       query: () => 'fetchAll'
     }),
     addPrescription: builder.mutation({
@@ -21,7 +21,7 @@ export const prescriptionApi = createApi({
     getPrescription: builder.query({
       query: (id) => `detail/${id}`
     }),
-    getPrescriptionDetail: builder.query<PrescriptionProps, string>({
+    getPrescriptionDetail: builder.query<PrescriptionInterface | undefined, string>({
       query: (id) => `details/${id}`
     }),
     updatePrescription: builder.mutation({

@@ -25,8 +25,10 @@ import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentSt
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useAddPrescriptionMutation, useGetPrescriptionQuery, useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import { Badge } from '@/components/ui/badge'
-import { calculateAdherence } from '@/utils/calculateAdherence'
 import RecentPrescriptionCard from './ART/RecentPrescriptionCard'
+import PrescribeCard from './ART/PrescribeCard'
+import { type PrescriptionInterface } from 'otz-types'
+import InitiateART from './ART/InitiateART'
 
 const reasonOptions = [
   {
@@ -163,9 +165,9 @@ interface AddArtProps {
 }
 
 const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
-  const [noOfPill, setNoOfPills] = useState('')
-  const [frequency, setFrequency] = useState('')
-  const [refillDate, setRefillDate] = useState('')
+  const [noOfPill, setNoOfPills] = useState<string>('')
+  const [frequency, setFrequency] = useState<string>('')
+  const [refillDate, setRefillDate] = useState<string>('')
 
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('appointmentID')
@@ -173,7 +175,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const { data: agendaData } = useGetAllAppointmentAgendaQuery()
   const { data: statusData } = useGetAllAppointmentStatusQuery()
   const { data: userData } = useGetAllUsersQuery()
-  const [recentPrescriptionData, setRecentPrescriptionData] = useState()
+  const [recentPrescriptionData, setRecentPrescriptionData] = useState<PrescriptionInterface>()
 
   const [
     addPrescription,
@@ -245,7 +247,9 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
 
   const { data: prescriptionDatam, isLoading: isLoadingPrescription, isError: isErrorPrescription } = useGetPrescriptionDetailQuery(patientID)
 
-  console.log(prescriptionDatam, 'artP')
+  async function handleSavePrescription () {
+    return await addArtPrescription(prescriptionInputValues)
+  }
 
   const inputValues = {
     patientID,
@@ -292,50 +296,16 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
               </div>
 
               {tab === 1 && (
-                <div className="flex flex-col space-y-4  border  rounded-lg p-4">
-                  <CustomInput
-                    label="Number of Pills"
-                    onChange={setNoOfPills}
-                    value={noOfPill}
-                  />
-                  <CustomSelect
-                    label="Frequency"
-                    value={frequency}
-                    onChange={setFrequency}
-                    data={[
-                      {
-                        id: '1',
-                        label: 'OD'
-                      },
-                      {
-                        id: '2',
-                        label: 'BD'
-                      }
-                    ]}
-                  />
-                  <CustomInput
-                    label="Refill Date"
-                    onChange={setRefillDate}
-                    value={refillDate}
-                    type="date"
-                  />
-
-                  {/* save prescription */}
-                  <div>
-                    <Button
-                      onClick={async () =>
-                        await addPrescription(prescriptionInputValues)
-                      }
-                      disabled={prescriptionSaveLoading}
-                      className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-                    >
-                      {prescriptionSaveLoading && (
-                        <Loader2 className="mr-2" size={18} />
-                      )}
-                      Save
-                    </Button>
-                  </div>
-                </div>
+                <PrescribeCard
+                  noOfPill={noOfPill}
+                  setNoOfPills={setNoOfPills}
+                  frequency={frequency}
+                  setFrequency={setFrequency}
+                  refillDate={refillDate}
+                  isLoadingSave={isLoading}
+                  setRefillDate={setRefillDate}
+                  savePrescription={handleSavePrescription}
+                />
               )}
               {tab === 2 && (
                 <SwitchComponent regimenOptions={regimenOptions()} />
@@ -380,71 +350,22 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
           >
             {/*  */}
 
-            <div className="flex flex-col space-y-4 p-4">
-              <div>
-                <CustomSelect
-                  label="Regimen Line"
-                  value={regimenLine}
-                  onChange={setRegimenLine}
-                  data={[
-                    {
-                      id: 'first Line',
-                      label: 'First Line'
-                    },
-                    {
-                      id: 'second Line',
-                      label: 'Second Line'
-                    },
-                    {
-                      id: 'third Line',
-                      label: 'Third Line'
-                    }
-                  ]}
-                />
-              </div>
+            {/*  */}
 
-              <CustomCheckbox
-                label="Standard Regimen"
-                value={isStandardRegimen}
-                onChange={setIsStandardRegimen}
-              />
-
-              {isStandardRegimen && (
-                <div>
-                  <CustomSelect
-                    value={artRegimen}
-                    onChange={setArtRegimen}
-                    data={regimenOptions()}
-                  />
-                </div>
-              )}
-
-              <CustomCheckbox
-                label="Non Standard Regimen"
-                value={isNonStandardRegimen}
-                onChange={setIsNonStandardRegimen}
-              />
-              {isNonStandardRegimen && (
-                <div>
-                  <CustomSelect
-                    value={nonStandardArtRegimen}
-                    onChange={setNonStandardArtRegimen}
-                    data={[
-                      {
-                        id: 'lopinavir',
-                        label: 'Lopinavir'
-                      }
-                    ]}
-                  />
-                </div>
-              )}
-              <CustomInput
-                label="Start Date"
-                type="date"
-                value={startDate}
-                onChange={setStartDate}
-              />
-            </div>
+            <InitiateART
+              art={regimenOptions()}
+              artRegimen={artRegimen}
+              isNonStandardRegimen
+              isStandardRegimen={isStandardRegimen}
+              nonStandardArtRegimen={nonStandardArtRegimen}
+              regimenLine={regimenLine}
+              setArtRegimen={setArtRegimen}
+              setIsNonStandardRegimen={setIsNonStandardRegimen}
+              setIsStandardRegimen={setIsStandardRegimen}
+              setNonStandardArtRegimen={setNonStandardArtRegimen}
+              setRegimenLine={setRegimenLine}
+              setStartDate={setStartDate}
+              startDate={startDate} />
             <div className="flex justify-end mt-4 space-x-4 p-4">
               <Button
                 onClick={() => {
@@ -480,7 +401,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
       </div>
       {/*  */}
       <RecentPrescriptionCard
-        data={prescriptionData}
+        data={prescriptionDatam}
         isLoading={isLoadingPrescription}
         isError={isErrorPrescription}
       />

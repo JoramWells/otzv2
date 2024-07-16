@@ -9,7 +9,7 @@ import { type PrescriptionInterface } from 'otz-types'
 interface PrescriptionCardProps {
   isLoading: boolean
   isError: boolean
-  data: PrescriptionInterface
+  data: PrescriptionInterface | undefined
 }
 
 const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardProps) => {
