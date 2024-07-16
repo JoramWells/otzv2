@@ -12,7 +12,6 @@ import FormOne from '@/app/_components/treatement-plan/FormOne'
 import AddTriage from '../_components/AddTriage'
 import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import UpdateVL from '../_components/UpdateVL'
 import AddArt from '../_components/AddArt'
 import { useGetMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
@@ -20,6 +19,7 @@ import Avatar from '@/components/Avatar'
 import moment from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
 import FullDisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist/Full'
+import LabTests from '../_components/LabTests'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -124,8 +124,6 @@ const StepsPage = ({ params }: any) => {
     steps.push({ title: 'Disclosure', description: 'Full Disclosure' })
   }
 
-  console.log(personalData, 'lop')
-
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
@@ -182,11 +180,10 @@ const StepsPage = ({ params }: any) => {
                       <span className="font-bold">DOB</span>:{' '}
                       {moment(personalData?.dob).format('ll')},{' '}
                     </p>
-                    <p
-                    className='text-[12px] text-slate-500'
-                    >
+                    <p className="text-[12px] text-slate-500">
                       <span>Age: </span>
-                      {calculateAge(personalData?.dob)} yrs</p>
+                      {calculateAge(personalData?.dob)} yrs
+                    </p>
                     <p className="text-[12px] text-slate-500">
                       <span className="font-semibold">Sex:</span>{' '}
                       {personalData?.sex === 'M' ? 'MALE' : 'FEMALE'}
@@ -232,7 +229,7 @@ const StepsPage = ({ params }: any) => {
               )}
 
               {tab === '3' && activeStep === 3 && (
-                <UpdateVL
+                <LabTests
                   patientVisitID={appointmentID}
                   handleNext={() => {
                     handleNext(activeStep)
