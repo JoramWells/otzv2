@@ -2,7 +2,7 @@
 
 import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import CustomInput from '@/components/forms/CustomInput'
-import CustomTimeInput from '@/components/forms/CustomTimeInput'
+import CustomTimeInput2 from '@/components/forms/CustomTimeInput2'
 
 export interface ScheduleAndTimeProps {
   morningPlace: string
@@ -13,23 +13,15 @@ export interface ScheduleAndTimeProps {
   eveningWeekendPlace: string
   setEveningPlace: (val: string) => void
   setEveningPlaceWeekend: (val: string) => void
-  morningHours: string
-  setMorningHours: (val: string) => void
-  morningMinutes: string
-  setMorningMinutes: (val: string) => void
-  eveningHours: string
-  setEveningHours: (val: string) => void
-  eveningMinutes: string
-  setEveningMinutes: (val: string) => void
-  morningHoursWeekend: string
-  setMorningHoursWeekend: (val: string) => void
-  morningMinutesWeekend: string
-  setMorningMinutesWeekend: (val: string) => void
-  eveningHoursWeekend: string
-  setEveningHoursWeekend: (val: string) => void
-  eveningMinutesWeekend: string
+  morningTime: string
+  setMorningTime: (val: string) => void
+  eveningTime: string
+  setEveningTime: (val: string) => void
+  morningTimeWeekend: string
+  setMorningTimeWeekend: (val: string) => void
+  eveningTimeWeekend: string
+  setEveningTimeWeekend: (val: string) => void
   appointmentID: string | null
-  setEveningMinutesWeekend: (val: string) => void
 }
 const ScheduleAndTime = ({
   appointmentID,
@@ -42,106 +34,126 @@ const ScheduleAndTime = ({
   setEveningPlace,
   setEveningPlaceWeekend,
 
-  morningHours,
-  setMorningHours,
-  morningMinutes,
-  setMorningMinutes,
-  eveningHours,
-  setEveningHours,
-  eveningMinutes,
-  setEveningMinutes,
-  morningHoursWeekend,
-  setMorningHoursWeekend,
-  morningMinutesWeekend,
-  setMorningMinutesWeekend,
-  eveningHoursWeekend,
-  setEveningHoursWeekend,
-  eveningMinutesWeekend,
-  setEveningMinutesWeekend
+  morningTime,
+  setMorningTime,
+  eveningTime,
+  setEveningTime,
+  morningTimeWeekend,
+  setMorningTimeWeekend,
+  eveningTimeWeekend,
+  setEveningTimeWeekend
 }: ScheduleAndTimeProps) => {
   const { data: prescriptionDatam } = useGetPrescriptionQuery(appointmentID)
   return (
-      <div className='flex-1 border p-4 rounded-lg'>
-        <div>
-          <p className="mb-2 text-slate-500">
-            Based on your schedule, what is the best time and place to take
-            medicine?
-          </p>
-          <div className="flex flex-row gap-x-6">
-            <CustomTimeInput
+    <div className="flex-1 border p-4 rounded-lg">
+      <div>
+        <p className="mb-2 text-slate-500">
+          Based on your schedule, what is the best time and place to take
+          medicine?
+        </p>
+        <div className="flex flex-row gap-x-6">
+          <div className="w-1/4">
+            <CustomTimeInput2
               label="Morning Time"
-              hours={morningHours}
-              setHours={setMorningHours}
+              onChange={setMorningTime}
+              value={morningTime}
+            />
+          </div>
+          {/* <CustomTimeInput
+              label="Morning Time"
+              Time={morningTime}
+              setTime={setMorningTime}
               minutes={morningMinutes}
               setMinutes={setMorningMinutes}
-            />
-            <CustomInput
-              label="Enter Place"
-              value={morningPlace}
-              onChange={setMorningPlace}
-            />
-          </div>
+            /> */}
+          <CustomInput
+            label="Enter Place"
+            value={morningPlace}
+            onChange={setMorningPlace}
+          />
         </div>
+      </div>
 
-        {/*  */}
-        {prescriptionDatam?.frequency === 2 && (
-          <div className="flex flex-row gap-x-6">
-            <CustomTimeInput
+      {/*  */}
+      {prescriptionDatam?.frequency === 2 && (
+        <div className="flex flex-row gap-x-6">
+          <div className="w-1/4">
+            <CustomTimeInput2
               label="Evening Time"
-              hours={eveningHours}
-              setHours={setEveningHours}
-              minutes={eveningMinutes}
-              setMinutes={setEveningMinutes}
-            />
-            <CustomInput
-              label="Enter Place"
-              value={eveningPlace}
-              onChange={setEveningPlace}
+              onChange={setEveningTime}
+              value={eveningTime}
             />
           </div>
-        )}
+          {/* <CustomTimeInput
+            label="Evening Time"
+            Time={eveningTime}
+            setTime={setEveningTime}
+            minutes={eveningMinutes}
+            setMinutes={setEveningMinutes}
+          /> */}
+          <CustomInput
+            label="Enter Place"
+            value={eveningPlace}
+            onChange={setEveningPlace}
+          />
+        </div>
+      )}
 
-        <div>
-          <p className="mb-2 text-slate-500">
-            If these routine changes during weekend (other days) how can this
-            modified?
-          </p>
-          <div className="flex flex-col space-y-4">
-            <div className="flex flex-row gap-x-6">
-              <CustomTimeInput
+      <div>
+        <p className="mb-2 text-slate-500">
+          If these routine changes during weekend (other days) how can this
+          modified?
+        </p>
+        <div className="flex flex-col space-y-4">
+          <div className="flex flex-row gap-x-6">
+            <div className="w-1/4">
+              <CustomTimeInput2
                 label="Morning Time"
-                hours={morningHoursWeekend}
-                setHours={setMorningHoursWeekend}
-                minutes={morningMinutesWeekend}
-                setMinutes={setMorningMinutesWeekend}
-              />
-              <CustomInput
-                label="Enter Place"
-                value={morningWeekendPlace}
-                onChange={setMorningPlaceWeekend}
+                onChange={setMorningTimeWeekend}
+                value={morningTimeWeekend}
               />
             </div>
 
-            {prescriptionDatam?.frequency === 2 && (
-              <div className="flex flex-row gap-x-6">
-                <CustomTimeInput
-                  label="Evening Time"
-                  hours={eveningHoursWeekend}
-                  setHours={setEveningHoursWeekend}
-                  minutes={eveningMinutesWeekend}
-                  setMinutes={setEveningMinutesWeekend}
-                />
-                <CustomInput
-                  label="Enter Place"
-                  value={eveningWeekendPlace}
-                  onChange={setEveningPlaceWeekend}
+            {/* <CustomTimeInput
+              label="Morning Time"
+              Time={morningTimeWeekend}
+              setTime={setMorningTimeWeekend}
+              minutes={morningMinutesWeekend}
+              setMinutes={setMorningMinutesWeekend}
+            /> */}
+            <CustomInput
+              label="Enter Place"
+              value={morningWeekendPlace}
+              onChange={setMorningPlaceWeekend}
+            />
+          </div>
+
+          {prescriptionDatam?.frequency === 2 && (
+            <div className="flex flex-row gap-x-6">
+              <div className="w-1/4">
+                <CustomTimeInput2
+                  label="Morning Time"
+                  onChange={setEveningTimeWeekend}
+                  value={eveningTimeWeekend}
                 />
               </div>
-            )}
-          </div>
+              {/* <CustomTimeInput
+                label="Evening Time"
+                Time={eveningTimeWeekend}
+                setTime={setEveningTimeWeekend}
+                minutes={eveningMinutesWeekend}
+                setMinutes={setEveningMinutesWeekend}
+              /> */}
+              <CustomInput
+                label="Enter Place"
+                value={eveningWeekendPlace}
+                onChange={setEveningPlaceWeekend}
+              />
+            </div>
+          )}
         </div>
-
       </div>
+    </div>
   )
 }
 
