@@ -26,6 +26,7 @@ import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useAddPrescriptionMutation, useGetPrescriptionQuery, useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import { Badge } from '@/components/ui/badge'
 import { calculateAdherence } from '@/utils/calculateAdherence'
+import RecentPrescriptionCard from './ART/RecentPrescriptionCard'
 
 const reasonOptions = [
   {
@@ -174,13 +175,19 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const { data: userData } = useGetAllUsersQuery()
   const [recentPrescriptionData, setRecentPrescriptionData] = useState()
 
+  const [
+    addPrescription,
+    { isLoading: prescriptionSaveLoading, data: addPillPrescriptionData }
+  ] = useAddPrescriptionMutation()
+
   useEffect(() => {
     if (prescriptionData) {
       setRecentPrescriptionData(prescriptionData)
     }
-  }, [prescriptionData])
-
-  const [addPrescription, { isLoading: prescriptionSaveLoading, data: addPillPrescriptionData }] = useAddPrescriptionMutation()
+    if (addPillPrescriptionData) {
+      setRecentPrescriptionData(addPillPrescriptionData)
+    }
+  }, [prescriptionData, addPillPrescriptionData])
 
   const agendaDataOptions = useCallback(() => {
     return agendaData?.filter(
@@ -471,50 +478,12 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
           </div>
         )}
       </div>
-      <div className="w-1/3 rounded-lg bg-white border border-slate-200">
-        <div className="border border-slate-200 p-2 pl-4 bg-slate-100 border-t-0 rounded-t-lg">
-          <p className='text-[14px] font-bold ' >Recent Prescription</p>
-        </div>
-        <div>
-          {isLoadingPrescription ? (
-            <div className='p-4 flex space-x-4'>
-              <Loader2 className='animate-spin mr-2' size={15} />
-              Loading...</div>
-          ) : isErrorPrescription ? (
-            <div>error</div>
-          ) : prescriptionDatam ? (
-            <div className="p-4 flex-col flex space-y-2">
-              <div className="flex justify-between items-center w-full text-[14px] ">
-                <p className="text-slate-500 ">Prescribed Pills</p>
-                <p className="font-bold">{prescriptionDatam.noOfPills} </p>
-              </div>
-
-              <hr />
-
-              {/*  */}
-              <div className="flex justify-between items-center w-full text-[14px] ">
-                <p className="text-slate-500 ">Expected No. Of Pills</p>
-                <p className="font-bold">{prescriptionDatam.expectedNoOfPills} </p>
-              </div>
-              <hr />
-              {/*  */}
-              <div className="flex justify-between items-center w-full text-[14px] ">
-                <p className="text-slate-500 ">Pills Taken</p>
-                <p className="font-bold">{prescriptionDatam.computedNoOfPills} </p>
-              </div>
-
-              <hr />
-              {/*  */}
-              <div className="flex justify-between items-center w-full text-[14px] ">
-                <p className="text-slate-500 ">Adherence</p>
-                <p className="font-bold">{calculateAdherence(prescriptionDatam.refillDate, prescriptionDatam.computedNoOfPills, prescriptionDatam.frequency)} % </p>
-              </div>
-            </div>
-          ) : (
-            <div>No Recent prescription</div>
-          )}
-        </div>
-      </div>
+      {/*  */}
+      <RecentPrescriptionCard
+        data={prescriptionData}
+        isLoading={isLoadingPrescription}
+        isError={isErrorPrescription}
+      />
     </div>
   )
 }

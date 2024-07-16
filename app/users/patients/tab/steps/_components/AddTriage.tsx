@@ -101,6 +101,7 @@ const AddTriage = ({
     const submitData = {
       patientID,
       patientVisitID: appointmentID,
+      type: 'clinical encounter',
       ...data
     }
     await addVitalSign(submitData)
@@ -113,9 +114,9 @@ const AddTriage = ({
       <div className="w-3/4 bg-white rounded-lg">
         <div className="flex justify-between items-center w-full border-b border-slate-100 pr-4 p-2 bg-slate-200 rounded-t-lg">
           <p className=" text-lg font-bold">Vital Sign</p>
-          <p className="text-[14px] text-slate-500 ">
-            {age < 9 ? <Badge className='shadow-none'>Paed</Badge> : <Badge className='shadow-none'>Adult</Badge> }
-          </p>
+            {age < 9 ? <Badge className='shadow-none
+            bg-purple-50 border border-purple-200 text-purple-500 uppercase
+            '>Paed</Badge> : <Badge className='shadow-none'>Adult</Badge> }
         </div>
         <FormProvider {...methods}>
           <form

@@ -7322,6 +7322,11 @@ orderedmap@^2.0.0:
   resolved "https://registry.npmjs.org/orderedmap/-/orderedmap-2.1.1.tgz"
   integrity sha512-TvAWxi0nDe1j/rtMcWcIj94+Ffe6n7zhow33h40SKxmsmozs6dz/e+EajymfoFcHd7sxNn8yHM8839uixMOV6g==
 
+otz-types@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.npmjs.org/otz-types/-/otz-types-1.1.5.tgz"
+  integrity sha512-foNKs3PAiWJYgELwq0KrrnDdVfUV2q13lms1FdQM8EXpWJsYg2JooOv2fGeaXJhv7MUu2PhwX5ZuK3Sq715pjA==
+
 p-limit@^2.2.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/p-limit/-/p-limit-2.3.0.tgz"

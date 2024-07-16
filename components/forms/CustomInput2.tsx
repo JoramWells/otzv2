@@ -40,7 +40,7 @@ const CustomInput2 = ({
       <Input
         className={`border border-gray-200
             p-2 w-full rounded-lg shadow-none ${
-              error && 'outline outline-red-500'
+              error && 'outline outline-2 outline-red-400'
             }
             `}
         value={value}
