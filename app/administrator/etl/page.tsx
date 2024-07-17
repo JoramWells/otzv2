@@ -17,6 +17,7 @@ import { addDays } from 'date-fns'
 import { type DateRange } from 'react-day-picker'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import moment from 'moment'
+import { useGetAllETLQuery } from '@/api/etl/etl.api'
 //
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -61,6 +62,9 @@ const ETL = () => {
 
   const [headers, setHeaders] = useState<string[]>([])
 
+  const { data } = useGetAllETLQuery()
+  console.log(data, 'etl data')
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const filex = e.target.files[0]
     if (filex) {
@@ -99,7 +103,7 @@ const ETL = () => {
     formData.append('file', '')
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/etl/upload/`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/etl/upload-csv/`,
         formData,
         {
           headers: {
@@ -157,10 +161,7 @@ const ETL = () => {
       <div className="flex justify-between w-full items-center bg-white p-2">
         <p>Manage Data</p>
         <Button>Upload</Button>
-        <CaseManagerDialog
-        label='Filter'
-        width='1500px'
-        >
+        <CaseManagerDialog label="Filter" width="1500px">
           <Calendar
             mode="range"
             defaultMonth={date?.from}
@@ -172,6 +173,14 @@ const ETL = () => {
         {/* <CustomSheet></CustomSheet> */}
       </div>
 
+      {data?.map((item) => (
+        <div key={item.id}>
+          <a
+            href={`${process.env.NEXT_PUBLIC_API_URL}/api/etl/media/${item.file}`}
+          >{item.file} </a>
+        </div>
+      ))}
+
       {csvArray.length > 0 && (
         <>
           <div className="p-4">
@@ -182,14 +191,14 @@ const ETL = () => {
         </>
       )}
 
-      <form action="">
+      <form action="" onSubmit={handleSubmit}>
         <Input
           // label=''
           type="file"
           accept=".csv"
           onChange={handleFileChange}
         />
-        <Button type="button">Submit</Button>
+        <Button type="submit">Submit</Button>
       </form>
     </div>
   )

@@ -62,6 +62,7 @@ import { childCaregiverReadinessApi } from '@/api/treatmentplan/partial/childCar
 import { disclosureEligibilityApi } from '@/api/treatmentplan/partial/disclosureEligibility.api'
 import { questionsApi } from '../api/articles/questions.api'
 import { userAvailabilityApi } from '@/api/users/userAvailability.api'
+import { etlApi } from '@/api/etl/etl.api'
 
 export const store = configureStore({
   reducer: {
@@ -128,7 +129,8 @@ export const store = configureStore({
     [disclosureEligibilityApi.reducerPath]: disclosureEligibilityApi.reducer,
     [chaptersApi.reducerPath]: chaptersApi.reducer,
     [userAvailabilityApi.reducerPath]: userAvailabilityApi.reducer,
-    [questionsApi.reducerPath]: questionsApi.reducer
+    [questionsApi.reducerPath]: questionsApi.reducer,
+    [etlApi.reducerPath]: etlApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -196,5 +198,6 @@ export const store = configureStore({
       .concat(childCaregiverReadinessApi.middleware)
       .concat(pamaEnrollmentApi.middleware)
       .concat(userAvailabilityApi.middleware)
+      .concat(etlApi.middleware)
       .concat(questionsApi.middleware)
 })
