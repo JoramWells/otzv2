@@ -8,7 +8,13 @@ import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
-import React, { type FormEvent, useEffect, useState, useMemo, type ChangeEvent } from 'react'
+import React, {
+  type FormEvent,
+  useEffect,
+  useState,
+  useMemo,
+  type ChangeEvent
+} from 'react'
 import Papa, { type ParseMeta } from 'papaparse'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { type ColumnDef } from '@tanstack/react-table'
@@ -18,6 +24,7 @@ import { type DateRange } from 'react-day-picker'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import moment from 'moment'
 import { useGetAllETLQuery } from '@/api/etl/etl.api'
+import Link from 'next/link'
 //
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -41,7 +48,7 @@ const dataList = [
 
 type CsvRow = Record<string, string>
 
-interface ParseResult <T> {
+interface ParseResult<T> {
   data: T[]
   errors: ParseError[]
   meta: ParseMeta
@@ -73,7 +80,7 @@ const ETL = () => {
         skipEmptyLines: true,
         complete: (res: ParseResult<CsvRow>) => {
           if (res.errors.length > 0) {
-            setError(res.errors.map(e => e.message).join(', '))
+            setError(res.errors.map((e) => e.message).join(', '))
           } else {
             setError(null)
             setCSVArray(res.data)
@@ -85,13 +92,13 @@ const ETL = () => {
     console.log(filex, 'fr')
   }
 
-  const columns = useMemo<Array<ColumnDef<any>>>(() =>
-    headers.map(header => (
-      {
+  const columns = useMemo<Array<ColumnDef<any>>>(
+    () =>
+      headers.map((header) => ({
         accessorKey: header,
         header
-      }
-    )), [headers]
+      })),
+    [headers]
   )
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -103,13 +110,13 @@ const ETL = () => {
     formData.append('file', '')
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/etl/upload-csv/`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/etl/upload/`,
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data'
           },
-          onUploadProgress: e => {
+          onUploadProgress: (e) => {
             const { loaded, total } = e
             if (total) {
               const percentCompleted = Math.round((loaded * 100) / total)
@@ -141,7 +148,7 @@ const ETL = () => {
   }, [csvArray])
 
   const handleFilter = (range: DateRange | undefined) => {
-    const dataFiltered = csvArray.filter(item => {
+    const dataFiltered = csvArray.filter((item) => {
       if (range === undefined) {
         return []
       } else {
@@ -175,9 +182,16 @@ const ETL = () => {
 
       {data?.map((item) => (
         <div key={item.id}>
-          <a
+          <Link
+            href={`/etl/${item.id}`}
+          >
+          {item.file}
+          </Link>
+          {/* <a
             href={`${process.env.NEXT_PUBLIC_API_URL}/api/etl/media/${item.file}`}
-          >{item.file} </a>
+          >
+            {item.file}{' '}
+          </a> */}
         </div>
       ))}
 

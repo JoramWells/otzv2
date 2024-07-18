@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Bell, BookIcon, CalendarCheck, LineChart, Pill, SaveAll, Search, Shield, Users } from 'lucide-react'
+import { Bell, BookIcon, CalendarCheck, DatabaseBackup, LineChart, Pill, SaveAll, Search, Shield, Users } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
 import { type ReactNode, Suspense } from 'react'
@@ -108,6 +108,35 @@ const itemList: ItemListProps[] = [
     icon: <SaveAll />,
     link: '/enrollment/dashboard',
     description: 'Manage patient enrollment (OTZ, OVC & PAMA) ',
+    listItem: [
+      {
+        id: '1',
+        label: 'OTZ',
+        link: '/administrator/dashboard'
+      },
+      {
+        id: '2',
+        label: 'OVC',
+        link: '/administrator/dashboard'
+      },
+      {
+        id: '3',
+        label: 'PAMA',
+        link: '/administrator/dashboard'
+      },
+      {
+        id: '3',
+        label: 'PMTCT',
+        link: '/administrator/dashboard'
+      }
+    ]
+  },
+  {
+    id: '13',
+    label: 'ETL',
+    icon: <DatabaseBackup />,
+    link: '/etl/dashboard',
+    description: 'Extract, Transform & Load CSV Data',
     listItem: [
       {
         id: '1',
