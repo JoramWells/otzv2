@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 'use client'
@@ -28,10 +29,11 @@ import {
   getPaginationRowModel,
   type ColumnFiltersState,
   getFilteredRowModel,
-  type SortingState
+  type SortingState,
+  type ColumnResizeMode
 } from '@tanstack/react-table'
 import { BookOpen, ChevronsLeft, ChevronsRight, FileDown } from 'lucide-react'
-import { type ReactNode, useState } from 'react'
+import { type ReactNode, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
 
 export interface CustomTableProps<TData, TValue> {
@@ -53,10 +55,19 @@ export function CustomTable<TData, TValue> ({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange')
+
+  const defaultColumn = useMemo(() => ({
+    minWidth: 30,
+    width: 150,
+    maxWidth: 400
+  }), [])
 
   const table = useReactTable({
     data,
     columns,
+    columnResizeMode,
+    columnResizeDirection: 'rtl',
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -108,7 +119,7 @@ export function CustomTable<TData, TValue> ({
               </Button>
             </CSVLink>
 
-           {filter && filter}
+            {filter && filter}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -148,15 +159,18 @@ export function CustomTable<TData, TValue> ({
       >
         <Table>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableHeader key={headerGroup.id} className="bg-gray-50">
+            <TableHeader key={headerGroup.id} className="bg-gray-50 relative">
               <TableRow>
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    style={{
-                      fontSize: '12px',
-                      textTransform: 'uppercase'
+                    {...{
+                      colSpan: header.colSpan,
+                      style: {
+                        width: header.getSize()
+                      }
                     }}
+                    className="text-[12px] uppercase overflow-hidden whitespace-nowrap overflow-ellipsis "
                   >
                     {header.isPlaceholder
                       ? null
@@ -164,6 +178,23 @@ export function CustomTable<TData, TValue> ({
                         header.column.columnDef.header,
                         header.getContext()
                       )}
+                    <div
+                      className={` absolute right-0 bg-black cursor-col-resize select-none touch-none ${
+                        header.column.getIsResizing() ? 'bg-blue-500' : ''
+                      } `}
+                      onMouseDown={header.getResizeHandler()}
+                      onTouchStart={header.getResizeHandler()}
+                      style={{
+                        transform:
+                          columnResizeMode === 'onEnd' &&
+                          header.column.getIsResizing()
+                            ? `translateX(${
+                                table.getState().columnSizingInfo.deltaOffset
+                              }px)`
+                            : ''
+                      }}
+
+                    />
                   </TableHead>
                 ))}
               </TableRow>
@@ -177,7 +208,13 @@ export function CustomTable<TData, TValue> ({
             {table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="text-[14px]">
+                  <TableCell
+                    key={cell.id}
+                    className="text-[14px] overflow-hidden whitespace-nowrap overflow-ellipsis "
+                    style={{
+                      width: cell.column.getSize()
+                    }}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -205,7 +242,7 @@ export function CustomTable<TData, TValue> ({
               }}
               disabled={!table.getCanPreviousPage()}
               size={'sm'}
-              className='bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none'
+              className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
             >
               <ChevronsLeft size={18} />
               Prev
