@@ -9,7 +9,6 @@ import Papa, { type ParseMeta } from 'papaparse'
 
 import React, { useEffect, useMemo, useState } from 'react'
 import { facilityMAPColumns } from './columns'
-import moment from 'moment'
 import { Button } from '@/components/ui/button'
 import CustomPieChart from '../_components/CustomPieChart'
 
@@ -46,7 +45,7 @@ const DatabaseDetail = ({ params }: any) => {
     [headers]
   )
 
-  console.log(facilityMAPData)
+  console.log(csvArray, 'arraty')
 
   useEffect(() => {
     if (data?.file) {
@@ -75,8 +74,6 @@ const DatabaseDetail = ({ params }: any) => {
     }
   }, [data])
 
-  console.log(csvArray, 'klo')
-  console.log(error, 'error')
   const [tabValue, setTabValue] = useState(1)
   // console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/etl/media/${data?.file}`, 'klo')
 
@@ -107,7 +104,7 @@ const DatabaseDetail = ({ params }: any) => {
             <>
               <div className="p-4">
                 <div className="bg-white rounded-lg p-4">
-                  <CustomTable columns={columns} data={csvArray || []} />
+                 <CustomTable columns={columns} data={csvArray || []} />
                 </div>
               </div>
             </>

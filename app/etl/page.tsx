@@ -25,6 +25,9 @@ import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import moment from 'moment'
 import { useGetAllETLQuery } from '@/api/etl/etl.api'
 import Link from 'next/link'
+import { linelistColumn } from './columns'
+import { Upload } from 'lucide-react'
+import DragNDrop from '@/components/DragNDrop'
 //
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -89,7 +92,6 @@ const ETL = () => {
         }
       })
     }
-    console.log(filex, 'fr')
   }
 
   const columns = useMemo<Array<ColumnDef<any>>>(
@@ -162,13 +164,14 @@ const ETL = () => {
     setDate(range)
   }
 
+  const [dragFiles, setDraggedFiles] = useState()
+
   return (
     <div>
       <BreadcrumbComponent dataList={dataList} />
       <div className="flex justify-between w-full items-center bg-white p-2">
         <p>Manage Data</p>
-        <Button>Upload</Button>
-        <CaseManagerDialog label="Filter" width="1500px">
+        {/* <CaseManagerDialog label="Filter" width="1500px">
           <Calendar
             mode="range"
             defaultMonth={date?.from}
@@ -176,44 +179,63 @@ const ETL = () => {
             onSelect={handleFilter}
             numberOfMonths={2}
           />
+        </CaseManagerDialog> */}
+        <CaseManagerDialog
+          width="1500px"
+          label={
+            <div className="flex flex-row space-x-2 items-center">
+              <Upload size={18} className="text-slate-500" />{' '}
+              <p className="text-slate-500">Upload</p>
+            </div>
+          }
+        >
+          <div
+          className='flex justify-center items-center flex-row'
+          >
+            {csvArray.length > 0 && (
+              <>
+                <div className="p-4 w-[1450px]">
+                  <div className="bg-white rounded-lg p-4">
+                    <CustomTable columns={columns} data={filteredData || []} />
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+          <form action="" onSubmit={handleSubmit}>
+            <Input
+              // label=''
+              type="file"
+              accept=".csv"
+              onChange={handleFileChange}
+            />
+            <Button type="submit">Submit</Button>
+          </form>
         </CaseManagerDialog>
-        {/* <CustomSheet></CustomSheet> */}
       </div>
 
-      {data?.map((item) => (
+      {/* {data?.map((item) => (
         <div key={item.id}>
-          <Link
-            href={`/etl/${item.id}`}
-          >
-          {item.file}
-          </Link>
-          {/* <a
+          <Link href={`/etl/${item.id}`}>{item.file}</Link> */}
+      {/* <a
             href={`${process.env.NEXT_PUBLIC_API_URL}/api/etl/media/${item.file}`}
           >
             {item.file}{' '}
           </a> */}
-        </div>
-      ))}
+      {/* </div>
+      ))} */}
 
-      {csvArray.length > 0 && (
+      {data?.length > 0 && (
         <>
           <div className="p-4">
             <div className="bg-white rounded-lg p-4">
-              <CustomTable columns={columns} data={filteredData || []} />
+              <CustomTable columns={linelistColumn} data={data || []} />
             </div>
           </div>
         </>
       )}
 
-      <form action="" onSubmit={handleSubmit}>
-        <Input
-          // label=''
-          type="file"
-          accept=".csv"
-          onChange={handleFileChange}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
+      <DragNDrop onFileSelected={setDraggedFiles} />
     </div>
   )
 }
