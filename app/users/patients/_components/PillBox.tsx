@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 interface PillBoxProps {
   noOfPills: number
-  remainingPills: number
+  remainingPills: number | undefined
 }
 
 // reorder level 1/5
@@ -20,9 +21,9 @@ const getFillColor = (remainingPills: number, noOfPills: number) => {
 }
 
 const PillBox = ({ noOfPills, remainingPills }: PillBoxProps) => {
-  const isReorder = remainingPills < getReorderLevel(noOfPills)
-  const fillColor = getFillColor(remainingPills, noOfPills)
-  const fillHeight = (remainingPills / noOfPills) * 54
+  const isReorder = remainingPills ? remainingPills < getReorderLevel(noOfPills) : false
+  const fillColor = remainingPills ? getFillColor(remainingPills, noOfPills) : '#fff'
+  const fillHeight = remainingPills ? (remainingPills / noOfPills) * 54 : 34
   return (
     <>
 

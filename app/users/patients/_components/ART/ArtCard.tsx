@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { type PrescriptionProps } from '@/app/pill-box'
 import PillBox from '../PillBox'
 import { calculateAdherence } from '@/utils/calculateAdherence'
 import moment from 'moment'
 import { CalendarCheck2 } from 'lucide-react'
+import { type PrescriptionInterface } from 'otz-types'
 
 interface ArtCardProps {
-  artPrescription?: PrescriptionProps
+  artPrescription?: PrescriptionInterface
   regimen: string
 }
 
@@ -26,7 +26,7 @@ const ArtCard = ({ artPrescription, regimen }: ArtCardProps) => {
             <p>Adherence</p>
             {calculateAdherence(
               artPrescription?.refillDate,
-              artPrescription ? artPrescription.computedNoOfPills : 0,
+              artPrescription ? artPrescription?.computedNoOfPills as unknown as number : 0 as unknown as number,
               artPrescription ? artPrescription?.frequency : 1
             )}{' '}
             %
