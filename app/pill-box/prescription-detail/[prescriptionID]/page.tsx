@@ -3,7 +3,6 @@
 import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import { calculateAdherence } from '@/utils/calculateAdherence'
 import { useEffect, useState } from 'react'
-import { type PrescriptionProps } from '../..'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
@@ -12,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useSearchParams } from 'next/navigation'
 import { useGetMmasEightByPatientIDQuery } from '@/api/treatmentplan/mmasEight.api'
 import EnhancedAdherenceCounsellingForm from '../../_components/EnhancedAdherenceCounsellingForm'
+import { type PrescriptionInterface } from 'otz-types'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -40,11 +40,17 @@ const dataList2 = [
   }
 ]
 
+interface AdherenceProps {
+  adherence: number
+}
+
+type PrescriptionAdherenceProps = PrescriptionInterface & AdherenceProps
+
 const PrescriptionDetailPage = ({ params }: { params: any }) => {
   const { prescriptionID } = params
   const searchParams = useSearchParams()
   const patientID = searchParams.get('patientID')
-  const [patientAdherence, setPatientAdherence] = useState({
+  const [patientAdherence, setPatientAdherence] = useState<PrescriptionAdherenceProps>({
     frequency: 0,
     adherence: 0,
     computedNoOfPills: 0,
@@ -61,10 +67,10 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
   console.log(mmas8Data, 'mmas8')
   useEffect(() => {
     if (data) {
-      const { frequency, refillDate, computedNoOfPills, noOfPills, expectedNoOfPills, nextRefillDate }: PrescriptionProps = data
+      const { frequency, refillDate, computedNoOfPills, noOfPills, expectedNoOfPills, nextRefillDate }: PrescriptionInterface = data
       const adherence = calculateAdherence(
         refillDate,
-        computedNoOfPills,
+        computedNoOfPills as unknown as number,
         frequency
       )
       setPatientAdherence({
@@ -82,6 +88,14 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
   console.log(data)
 
   const [value, setValue] = useState(1)
+  const {
+    computedNoOfPills,
+    noOfPills,
+    expectedNoOfPills,
+    refillDate,
+    nextRefillDate,
+    adherence
+  } = patientAdherence
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -100,41 +114,41 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
           <div className="p-4 flex flex-col space-y-2">
             <div className="flex  justify-between items-center">
               <p>Dispensed</p>
-              <p>{patientAdherence?.computedNoOfPills}</p>
+              <p>{computedNoOfPills}</p>
             </div>
 
             <hr />
 
             <div className=" flex justify-between items-center">
               <p>Prescribed No Of Pills</p>
-              <p>{patientAdherence?.noOfPills}</p>
+              <p>{noOfPills}</p>
             </div>
             <hr />
 
             <div className=" flex justify-between items-center">
               <p>Expected No Pills</p>
-              <p>{patientAdherence?.expectedNoOfPills}</p>
+              <p>{expectedNoOfPills}</p>
             </div>
 
             <hr />
 
             <div className=" flex justify-between items-center">
               <p>Refilled</p>
-              <p>{moment(patientAdherence?.refillDate).format('ll')}</p>
+              <p>{moment(refillDate).format('ll')}</p>
             </div>
 
             <hr />
 
             <div className=" flex justify-between items-center">
               <p>Next Refill</p>
-              <p>{moment(patientAdherence?.nextRefillDate).format('ll')}</p>
+              <p>{moment(nextRefillDate).format('ll')}</p>
             </div>
 
             <hr />
 
             <div className=" flex justify-between items-center">
               <p>Adherence Rate</p>
-              <p>{patientAdherence?.adherence} %</p>
+              <p>{adherence} %</p>
             </div>
           </div>
         </div>
