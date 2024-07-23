@@ -9,7 +9,7 @@ import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { CalendarDays } from 'lucide-react'
 import { useCallback } from 'react'
 import Link from 'next/link'
-import { type PrescriptionProps } from '..'
+import { type PrescriptionInterface } from 'otz-types'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -26,7 +26,7 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<PrescriptionProps>> = [
+export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface >> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
@@ -70,7 +70,7 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
     header: 'Adherence (%)',
     cell: ({ row }) => {
       const { refillDate, computedNoOfPills, frequency } = row.original
-      const adherence = calculateAdherence(refillDate, computedNoOfPills, frequency)
+      const adherence = calculateAdherence(refillDate, computedNoOfPills as unknown as number, frequency)
       return (
         <p
         className='text-slate-500'

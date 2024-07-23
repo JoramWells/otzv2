@@ -10,7 +10,6 @@ import socketIOClient, { type Socket } from 'socket.io-client'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
-import { type PrescriptionProps } from '..'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -40,11 +39,10 @@ const dataList2 = [
 const PrescriptionPage = () => {
   const { data } = useGetAllPrescriptionsQuery()
 
-  const sortedData: PrescriptionProps[] = data ? [...data] : []
+  const sortedData = data ? [...data] : []
   sortedData.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()
   )
-  console.log(sortedData, 'yu')
 
   const showNotification = useNotification()
 

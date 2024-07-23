@@ -8,7 +8,7 @@ export const prescriptionApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription`
   }),
   endpoints: (builder) => ({
-    getAllPrescriptions: builder.query<PrescriptionInterface, void>({
+    getAllPrescriptions: builder.query<PrescriptionInterface[], void>({
       query: () => 'fetchAll'
     }),
     addPrescription: builder.mutation({
