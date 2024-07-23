@@ -172,7 +172,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const { data: prescriptionDatam, isLoading: isLoadingPrescription, isError: isErrorPrescription } = useGetPrescriptionDetailQuery(patientID)
 
   async function handleSavePrescription () {
-    return await addArtPrescription(prescriptionInputValues)
+    return await addPrescription(prescriptionInputValues)
   }
 
   const inputValues = {

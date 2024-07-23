@@ -104,6 +104,16 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
             {appointmentStatus}
           </Badge>
         )
+      } else if (appointmentStatus === 'Completed') {
+        return (
+          <Badge
+            // colorScheme="blue"
+            // rounded={'full'}
+            className="rounded-full bg-emerald-50 text-emerald-500 hover:bg-emerald-50 shadow-none"
+          >
+            {appointmentStatus}
+          </Badge>
+        )
       } else if (appointmentStatus === 'Pending') {
         return (
           <Badge

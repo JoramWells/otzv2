@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Bell, BookIcon, CalendarCheck, DatabaseBackup, LineChart, Pill, SaveAll, Search, Shield, Users } from 'lucide-react'
+import { Search } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
-import { type ReactNode, Suspense } from 'react'
+import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MenuSelect } from './_components/MenuSelect'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 
 interface ListItemProps {
   id: string
@@ -17,7 +18,7 @@ interface ListItemProps {
 interface ItemListProps {
   id: string
   label: string
-  icon: ReactNode
+  src: string
   description?: string
   link: string
   listItem: ListItemProps[]
@@ -27,8 +28,8 @@ const itemList: ItemListProps[] = [
   {
     id: '1',
     label: 'Administrator',
-    icon: <Shield color="#f9be7c" />,
     link: '/administrator/dashboard',
+    src: '/img/admin.png',
     description: 'Manage user registration, medicine, schools...',
     listItem: [
       {
@@ -76,7 +77,7 @@ const itemList: ItemListProps[] = [
   {
     id: '9',
     label: 'Appointments',
-    icon: <CalendarCheck />,
+    src: '/img/calendar.png',
     link: '/appointments/dashboard',
     description: 'Manage System, Patient and Users Appointments',
     listItem: [
@@ -90,7 +91,8 @@ const itemList: ItemListProps[] = [
   {
     id: '8',
     label: 'Articles',
-    icon: <BookIcon />,
+    src: '/img/book.png',
+
     link: '/articles/books',
     description:
       'Upload, manage and add patient learning materials for E-learning',
@@ -105,7 +107,8 @@ const itemList: ItemListProps[] = [
   {
     id: '12',
     label: 'Enrollments',
-    icon: <SaveAll />,
+    src: '/img/clipboard.png',
+
     link: '/enrollment/dashboard',
     description: 'Manage patient enrollment (OTZ, OVC & PAMA) ',
     listItem: [
@@ -134,7 +137,8 @@ const itemList: ItemListProps[] = [
   {
     id: '13',
     label: 'ETL',
-    icon: <DatabaseBackup />,
+    src: '/img/database.png',
+
     link: '/etl/dashboard',
     description: 'Extract, Transform & Load CSV Data',
     listItem: [
@@ -163,7 +167,8 @@ const itemList: ItemListProps[] = [
   {
     id: '11',
     label: 'Home Visit',
-    icon: <Pill />,
+    src: '/img/home.png',
+
     link: '/home-visit',
     listItem: [
       {
@@ -181,8 +186,9 @@ const itemList: ItemListProps[] = [
   {
     id: '2',
     label: 'Pill Box',
-    icon: <Pill />,
     link: '/pill-box/dashboard',
+    src: '/img/pill.png',
+
     description:
       'Patient Prescription, track drug uptake, reminders. Manage daily pill reminders.',
     listItem: [
@@ -201,8 +207,9 @@ const itemList: ItemListProps[] = [
   {
     id: '3',
     label: 'Users',
-    icon: <Users />,
     link: '/users/dashboard',
+    src: '/img/user.png',
+
     description: 'Manage patient, caregiver and case managers registration',
     listItem: [
       {
@@ -230,8 +237,9 @@ const itemList: ItemListProps[] = [
   {
     id: '5',
     label: 'Notify',
-    icon: <Bell />,
     link: '/notify/dashboard',
+    src: '/img/notification-bell.png',
+
     description:
       'Manage patient notifications. All settings for Whatsapp, SMS, Voice Call and App notifications.',
     listItem: [
@@ -260,8 +268,9 @@ const itemList: ItemListProps[] = [
   {
     id: '6',
     label: 'ViraTrack',
-    icon: <LineChart />,
     link: '/viratrack/dashboard',
+    src: '/img/graph.png',
+
     description: 'Track patient Viral load',
     listItem: [
       {
@@ -282,7 +291,15 @@ export default function Home () {
         bg-white
         border-slate-200 p-4 w-full"
         >
-          <div>Care +</div>
+          <Image
+            src={'/img/logo1.svg'}
+            alt="img"
+            width={0}
+            height={0}
+            style={{ width: '90px', height: 'auto' }}
+
+            // quality={100}
+          />
           <Button className="bg-teal-600 shadow-none hover:bg-teal-700">
             Login
           </Button>
@@ -312,7 +329,7 @@ export default function Home () {
               </div>
             </div>
           </Suspense>
-          <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
+          <div className="grid p-2 w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
             {itemList.map((item) => (
               <Suspense
                 key={item.id}
@@ -328,13 +345,19 @@ export default function Home () {
                     <MenuSelect dataList={item.listItem} />
                   </div>
                   <div className="w-full flex flex-row space-x-4 justify-start items-start">
-                    <div
-                      className="bg-slate-100 hover:cursor-pointer transition ease-in-out delay-150
-                    p-1 hover:bg-slate-100 text-slate-500 rounded-full
-              "
-                    >
-                      {item.icon}
-                    </div>
+                    <Image
+                      src={item.src}
+                      alt="img"
+                      width={80}
+                      height={80}
+                      style={{
+                        width: '80px',
+                        height: '80px',
+                        objectFit: 'contain'
+                      }}
+
+                      // quality={100}
+                    />
                     <div>
                       <Link
                         className="text-xl font-bold hover:underline"

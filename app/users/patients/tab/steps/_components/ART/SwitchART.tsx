@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useAddArtPrescriptionMutation } from '@/api/art/artPrescription.api'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
