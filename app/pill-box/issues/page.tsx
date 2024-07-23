@@ -2,15 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { useGetAllUserNotificationsQuery } from '@/api/notifications/userNotification.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { columns, sentMessagesColumns } from './columns'
-import { useGetAllPatientNotificationsQuery, useGetNotificationBYCategoryQuery } from '../../../api/notifications/patientNotification.api'
-import { Button } from '@/components/ui/button'
-import { useEffect, useState } from 'react'
-import socketIOClient, { type Socket } from 'socket.io-client'
-import { NotificationProps } from '@/context/NotificationContext'
-import useNotification from '@/hooks/useNotification'
+import { sentMessagesColumns } from './columns'
+import { useGetNotificationBYCategoryQuery } from '../../../api/notifications/patientNotification.api'
+import { useState } from 'react'
+
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 const BreadcrumbComponent = dynamic(
@@ -20,18 +16,6 @@ const BreadcrumbComponent = dynamic(
     loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
   }
 )
-
-const dataList = [
-  {
-    id: 1,
-    label: 'Patient Settings'
-  },
-  {
-    id: 2,
-    label: 'Sent Messages'
-  }
-
-]
 
 const dataList2 = [
   {
