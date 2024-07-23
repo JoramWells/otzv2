@@ -46,6 +46,16 @@ export const appointmentApi = createApi({
     getPriorityAppointmentDetail: builder.query({
       query: (id) => `priorityAppointmentDetail/${id}`
     }),
+    getRecentPatientAppointment: builder.mutation({
+      query: ({ id, params }) => {
+        if (params) {
+          const { agenda } = params
+          return `recent-appointment/${id}?agenda=${agenda}`
+        }
+        return `recent-appointment/${id}`
+      }
+
+    }),
     getAllPriorityAppointments: builder.query<any, void>({
       query: () => 'priorityAppointments'
     }),
@@ -70,6 +80,6 @@ export const appointmentApi = createApi({
 export const {
   useGetAllAppointmentsQuery, useAddAppointmentMutation, useGetPriorityAppointmentDetailQuery,
   useGetAppointmentQuery, useGetAppointmentDetailQuery, useGetAllPriorityAppointmentsQuery,
-  useUpdateAppointmentMutation, useDeleteAppointmentMutation,
+  useUpdateAppointmentMutation, useDeleteAppointmentMutation, useGetRecentPatientAppointmentMutation,
   useGetAllWeeklyAppointmentsQuery
 } = appointmentApi

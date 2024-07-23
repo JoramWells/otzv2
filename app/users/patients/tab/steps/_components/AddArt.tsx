@@ -235,6 +235,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                 <SwitchART
                   regimenOptions={regimenOptions()}
                   reasonOptions={reasonOptions}
+                  patientID={patientID}
                 />
               )}
             </div>
