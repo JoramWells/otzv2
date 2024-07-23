@@ -7,9 +7,31 @@ import Link from 'next/link'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
-import { days } from './availability/page'
 // import { FaEdit } from 'react-icons/fa'
 
+const days = [
+  {
+    day: 'Sunday'
+  },
+  {
+    day: 'Monday'
+  },
+  {
+    day: 'Tuesday'
+  },
+  {
+    day: 'Wednesday'
+  },
+  {
+    day: 'Thursday'
+  },
+  {
+    day: 'Friday'
+  },
+  {
+    day: 'Saturday'
+  }
+]
 export interface FullNameProps {
   firstName?: string
 }

@@ -41,7 +41,7 @@ const TaskThree = ({
   const { data: pData } = useGetPrescriptionDetailQuery(patientID)
   console.log(pData, 'PDATA')
 
-  const [medicineCount, setMedicineCount] = useState(0)
+  const [medicineCount, setMedicineCount] = useState<number | undefined>(0)
 
   useEffect(() => {
     if (pData) {
