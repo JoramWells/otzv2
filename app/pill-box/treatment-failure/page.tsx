@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { type PrescriptionProps, columns } from './columns'
+import { columns } from './columns'
 import { useCallback, useMemo, useState } from 'react'
 import CustomTab from '../../../components/tab/CustomTab'
 import { useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
@@ -13,11 +13,11 @@ const SMSPage = () => {
   const { data } = useGetAllPrescriptionsQuery()
 
   const filterData = useCallback(() => {
-    const prescriptionCopy: PrescriptionProps[] = data ? [...data] : []
+    const prescriptionCopy = data ? [...data] : []
     // data less than zero
-    const adherence = prescriptionCopy.filter((item => calculateAdherence(item.refillDate, item.computedNoOfPills, item.frequency) < 50))
+    const adherence = prescriptionCopy.filter((item => calculateAdherence(item.refillDate, item.computedNoOfPills as unknown as number, item.frequency) < 50))
     return adherence.sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()
     ) || []
   }, [data])()
 
@@ -51,7 +51,7 @@ const SMSPage = () => {
 
       {/* tab navigation */}
 
-      <CustomTable columns={columns} data={filterData } />
+      <CustomTable columns={columns} data={filterData || [] } />
     </div>
   )
 }

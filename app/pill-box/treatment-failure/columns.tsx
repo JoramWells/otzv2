@@ -1,39 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import moment, { type MomentInput } from 'moment'
+import moment from 'moment'
 
 import Avatar from '@/components/Avatar'
 import { calculateAdherence } from '@/utils/calculateAdherence'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { CalendarDays } from 'lucide-react'
 import { useCallback } from 'react'
+import { type PrescriptionInterface } from 'otz-types'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
   firstName?: string
-}
-
-export interface PrescriptionProps {
-  frequency: number
-  computedNoOfPills: number
-  expectedNoOfPills: number
-  noOfPills: number
-  ART: {
-    artName: string
-  }
-  refillDate: MomentInput | string
-  nextRefillDate: MomentInput
-  appointmentTime: MomentInput
-  appointmentDate: any
-  appointmentAgenda: any
-  createdAt: Date
-  user: any
-  Patient: any
-  id: any
-  header: string
-  accessorKey?: keyof PatientProps
-  // render?: (props: any) => React.ReactNode
 }
 
 export interface PatientProps {
@@ -46,7 +25,7 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<PrescriptionProps>> = [
+export const columns: Array<ColumnDef< PrescriptionInterface & PrescriptionProps>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
@@ -90,7 +69,7 @@ export const columns: Array<ColumnDef<PrescriptionProps>> = [
     header: 'Adherence (%)',
     cell: ({ row }) => {
       const { refillDate, computedNoOfPills, frequency } = row.original
-      const adherence = calculateAdherence(refillDate, computedNoOfPills, frequency)
+      const adherence = calculateAdherence(refillDate, computedNoOfPills as unknown as number, frequency)
       return (
         <p
         className='text-slate-500'
