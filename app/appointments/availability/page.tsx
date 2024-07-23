@@ -11,7 +11,7 @@ import { type CheckedState } from '@radix-ui/react-checkbox'
 import { Loader2 } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
-export const days = [
+const days = [
   {
     day: 'Sunday'
   },
