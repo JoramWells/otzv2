@@ -76,7 +76,7 @@ const ETL = () => {
   console.log(data, 'etl data')
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const filex = e.target.files[0]
+    const filex = e.target?.files?.[0]
     if (filex) {
       Papa.parse(filex, {
         header: true,
@@ -149,22 +149,22 @@ const ETL = () => {
     }
   }, [csvArray])
 
-  const handleFilter = (range: DateRange | undefined) => {
-    const dataFiltered = csvArray.filter((item) => {
-      if (range === undefined) {
-        return []
-      } else {
-        const tempData = new Date(
-          moment(item.DOB, 'DD-MM-YY').format('DD-MM-YYYY')
-        )
-        return tempData >= range?.from && tempData <= range?.to
-      }
-    })
-    setFilteredData(dataFiltered)
-    setDate(range)
-  }
+  // const handleFilter = (range: DateRange | undefined) => {
+  //   const dataFiltered = csvArray.filter((item) => {
+  //     if (range !== undefined) {
+  //       const tempData = new Date(
+  //         moment(item.DOB, 'DD-MM-YY').format('DD-MM-YYYY')
+  //       )
+  //       return tempData >= range.from && tempData <= range?.to
+  //     } else {
+  //       return []
+  //     }
+  //   })
+  //   setFilteredData(dataFiltered)
+  //   setDate(range)
+  // }
 
-  const [dragFiles, setDraggedFiles] = useState()
+  const [dragFiles, setDraggedFiles] = useState<File[]>()
 
   return (
     <div>
