@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import PieChart from '@/app/_components/charts/PieChart'
 import React from 'react'
 
 interface RegimenLineProps {
-  'Current Regimen Line': 'First line' | 'Second line' | 'Third line'
+  'Current Regimen Line'?: 'First line' | 'Second line' | 'Third line'
 
 }
 

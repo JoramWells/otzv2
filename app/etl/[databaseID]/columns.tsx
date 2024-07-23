@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import moment, { type MomentInput } from 'moment'
-
-import Avatar from '@/components/Avatar'
-import { calculateAdherence } from '@/utils/calculateAdherence'
-import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
-import { CalendarDays } from 'lucide-react'
-import { useCallback } from 'react'
-// import { FaEdit } from 'react-icons/fa'
+import { type MomentInput } from 'moment'
 
 export interface FullNameProps {
   firstName?: string

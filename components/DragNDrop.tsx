@@ -1,21 +1,28 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { type ChangeEvent, type DragEvent, useEffect, useState } from 'react'
 
-const DragNDrop = ({ onFileSelected }) => {
+interface InputProps {
+  onFileSelected: (file: File[]) => void
+}
+
+const DragNDrop = ({ onFileSelected }: InputProps) => {
   const [files, setFiles] = useState<File[]>([])
 
   //
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = e.target.files
-    if (selectedFiles?.length > 0) {
-      const newFiles = Array.from(selectedFiles)
-      setFiles(prevFiles => [...prevFiles, ...newFiles])
+    const selectedFiles: FileList | null = e.target.files
+    if (selectedFiles !== null) {
+      if (selectedFiles.length > 0) {
+        const newFiles = Array.from(selectedFiles)
+        setFiles((prevFiles) => [...prevFiles, ...newFiles])
+      }
     }
   }
 
   //
   const handleFileDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault()
-    const droppedFiles = e.dataTransfer.files
+    const droppedFiles: FileList | undefined = e.dataTransfer.files
     if (droppedFiles.length) {
       const newFiles = Array.from(droppedFiles)
       setFiles(prevFiles => [...prevFiles, ...newFiles])

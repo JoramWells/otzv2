@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
@@ -124,7 +125,7 @@ const DatabaseDetail = ({ params }: any) => {
               />
               <div>
                 Graphs
-                {csvArray.length > 0 && <CustomPieChart data={csvArray} />}
+                {csvArray.length > 0 && <CustomPieChart data={csvArray || []} />}
               </div>
             </div>
           )}
