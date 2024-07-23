@@ -1,6 +1,5 @@
 services:
 
-
   client:
     build:
       context: .
@@ -29,4 +28,10 @@ services:
 
     ports:
       - "3000:3000"
+      
+    networks:
+      - otz
 
+networks:
+ otz:
+  driver: bridge
