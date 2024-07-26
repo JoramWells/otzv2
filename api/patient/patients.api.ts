@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type PatientAttributes } from 'otz-types'
 
 interface Post {
   id: number
@@ -23,7 +24,7 @@ export const patientsApi = createApi({
     // }
   }),
   endpoints: (builder) => ({
-    getAllPatients: builder.query<any, void>({
+    getAllPatients: builder.query<PatientAttributes[], void>({
       query: () => 'fetchAll'
     }),
     getAllPMTCTPatients: builder.query<any, void>({
@@ -39,7 +40,7 @@ export const patientsApi = createApi({
         body: newUser
       })
     }),
-    getPatient: builder.query({
+    getPatient: builder.query<PatientAttributes, string>({
       query: (id) => `detail/${id}`
     }),
     updatePatient: builder.mutation({

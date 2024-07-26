@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic'
 import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
 import { useGetAllAppointmentsQuery, useGetAllPriorityAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import Avatar from '@/components/Avatar'
+import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -106,9 +107,12 @@ const NotifyPage = () => {
             Group Appointments
           </h1>
 
-          <p className='text-[14px] text-slate-500 ' >Scheduled the following appointments</p>
+          <p className="text-[14px] text-slate-500 ">
+            Scheduled the following appointments
+          </p>
           <div className="flex justify-between space-x-4 bg-white p-4">
-            <WeeklyAppointmentBarChart />
+            <AppointmentBarChart />
+
             <AppointmentPieChart data={weeklyData} />
             <div className="flex-1 bg-white rounded-lg flex flex-col p-4 border border-slate-200">
               <p className="font-bold pl-2">Upcoming Appointments</p>

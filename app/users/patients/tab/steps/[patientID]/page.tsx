@@ -15,11 +15,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import AddArt from '../_components/AddArt'
 import { useGetMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
-import Avatar from '@/components/Avatar'
-import moment from 'moment'
 import { calculateAge } from '@/utils/calculateAge'
 import FullDisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist/Full'
 import LabTests from '../_components/LabTests'
+import PatientProfile from '../_components/PatientProfile'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -51,7 +50,7 @@ const StepsPage = ({ params }: any) => {
   const pathname = usePathname()
   const tab = searchParams.get('step')
 
-  const { data: personalData } = useGetPatientQuery(patientID)
+  const { data: personalData, isLoading: isLoadingPersonalData } = useGetPatientQuery(patientID)
 
   const { data: vsData } = useGetVitalSignQuery(appointmentID)
   const { data: mmasData } = useGetMmasFourQuery(appointmentID)
@@ -162,43 +161,9 @@ const StepsPage = ({ params }: any) => {
             </Stepper>
           </div>
           <div className="w-3/4 mt-2 flex justify-between items-start space-x-4">
-            <div className="flex flex-col items-center bg-white rounded-lg p-4 w-1/5 h-[200px]">
-              {!personalData
-                ? (
-                <Skeleton className="w-full h-[200px]" />
-                  )
-                : (
-                <Suspense fallback={<div>loading..</div>}>
-                  <div className="flex flex-col items-center  w-full rounded-lg space-y-1">
-                    <Avatar
-                      name={`${personalData?.firstName} ${personalData?.middleName}`}
-                    />
-                    <p className="font-bold text-[14px] ">
-                      {personalData?.firstName} {personalData?.middleName}
-                    </p>
-                    <p className="text-[12px] text-slate-500">
-                      <span className="font-bold">DOB</span>:{' '}
-                      {moment(personalData?.dob).format('ll')},{' '}
-                    </p>
-                    <p className="text-[12px] text-slate-500">
-                      <span>Age: </span>
-                      {calculateAge(personalData?.dob)} yrs
-                    </p>
-                    <p className="text-[12px] text-slate-500">
-                      <span className="font-semibold">Sex:</span>{' '}
-                      {personalData?.sex === 'M' ? 'MALE' : 'FEMALE'}
-                    </p>
-
-                    <div className="text-slate-500 text-sm">
-                      <p>
-                        <span className="font-bold text-[12px] ">Phone:</span>{' '}
-                        <span>{personalData?.phoneNo} </span>
-                      </p>
-                    </div>
-                  </div>
-                </Suspense>
-                  )}
-            </div>
+            <PatientProfile data={personalData}
+            isLoading={isLoadingPersonalData}
+            />
             <div className="flex-1">
               {tab === '1' && activeStep === 1 && (
                 <AddTriage

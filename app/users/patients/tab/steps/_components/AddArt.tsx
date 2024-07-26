@@ -189,12 +189,12 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   return (
     <div className="flex items-start space-x-4 w-full">
       <div className="w-3/4 flex flex-col justify-between items-center bg-white">
-        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
+        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 border-b-blue-200  rounded-t-lg">
           <p className="text-lg  font-bold">ART Details</p>
           <div className="flex space-x-2 items-center">
             <Badge className="shadow-none"> {prescriptionData?.regimen} </Badge>
             {/* <p className="capitalize text-slate-500 text-[12px]">
-            {prescriptionData?.line}
+            {prescriptionData?.line}slate
           </p> */}
           </div>
         </div>
