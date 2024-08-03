@@ -11,6 +11,10 @@ import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
 import { useGetAllAppointmentsQuery, useGetAllPriorityAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import Avatar from '@/components/Avatar'
 import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
+import AppointmentInteractivePieChart from '@/components/Recharts/AppointmentInteractivePieChart'
+import CustomSelect from '@/components/forms/CustomSelect'
+import { useState } from 'react'
+import { ValueNoneIcon } from '@radix-ui/react-icons'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -67,14 +71,20 @@ const dataList2 = [
 ]
 
 const NotifyPage = () => {
+  const [value, setValue] = useState('weekly')
+
   const { data: weeklyData } = useGetAllAppointmentsQuery({
     date: '2022-01-01',
-    mode: 'weekly'
+    mode: value
   })
 
   const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
 
   const router = useRouter()
+
+  const handleSelectChange = (val: string) => {
+    setValue(val)
+  }
 
   return (
     <div className="">
@@ -110,10 +120,26 @@ const NotifyPage = () => {
           <p className="text-[14px] text-slate-500 ">
             Scheduled the following appointments
           </p>
+          <div className="w-1/4">
+            <CustomSelect
+              placeholder="Years"
+              data={[
+                { id: 'all', label: 'all' },
+                { id: 'weekly', label: 'weekly' },
+                { id: 'monthly', label: 'monthly' }
+              ]}
+              value={value}
+              onChange={(val) => {
+                handleSelectChange(val)
+              }}
+            />
+          </div>
           <div className="flex justify-between space-x-4 bg-white p-4">
             <AppointmentBarChart />
 
-            <AppointmentPieChart data={weeklyData} />
+            <AppointmentInteractivePieChart data={weeklyData} />
+
+            {/* <AppointmentPieChart data={weeklyData} /> */}
             <div className="flex-1 bg-white rounded-lg flex flex-col p-4 border border-slate-200">
               <p className="font-bold pl-2">Upcoming Appointments</p>
               {priorityAppointmentData?.map((item: AppointmentProps) => (
@@ -133,6 +159,8 @@ const NotifyPage = () => {
           </div>
         </div>
       </div>
+      <AppointmentPieChart data={weeklyData} />
+
       {/* <div
         className="flex flex-row w-full justify-between
       space-x-4

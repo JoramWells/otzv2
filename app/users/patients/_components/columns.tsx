@@ -6,11 +6,19 @@ import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { TrashIcon } from 'lucide-react'
+import { Ellipsis, Pin, TrashIcon } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
-
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+//
 interface AppointmentProps {
   id: any
   User: {
@@ -235,7 +243,7 @@ export const patientColumns: Array<ColumnDef<PatientProps>> = [
           name={`${row.original?.firstName} ${row.original?.middleName}`}
         />
         <Link
-          className="capitalize  text-blue-500 text-[14px] hover:cursor-pointer hover:underline "
+          className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
           href={`/users/patients/tab/dashboard/${row.original.id}`}
         >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
       </div>
@@ -289,9 +297,34 @@ export const patientColumns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'createdAt',
     header: 'Date of Enrollment',
-    cell: ({ row }) => (<p>{moment(row.original.createdAt).format('ll')}</p>)
+    cell: ({ row }) => <p>{moment(row.original.createdAt).format('ll')}</p>
+  },
+  {
+    accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => <DropDownComponent />
   }
 ]
+
+const DropDownComponent = () => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Ellipsis className="hover:cursor-pointer text-slate-500" size={18} />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Upcoming Appointments</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuCheckboxItem>
+          <div className="flex justify-between items-center w-full">
+            <p>Favorite</p>
+            <Pin size={18} className='text-slate-500' />
+          </div>
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 export const patientVisitColumns: Array<ColumnDef<PatientProps>> = [
   {
