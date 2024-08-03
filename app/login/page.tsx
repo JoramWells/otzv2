@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 // import CustomSelect from '../_components/forms/CustomSelect'
 // import { useGetAllHospitalsQuery } from '@/api/hospital/hospital.api'
 import axios from 'axios'
+import Footer from '@/components/Footer'
 // import { getServerSession } from 'next-auth'
 
 const LoginPage = () => {
@@ -58,11 +59,19 @@ const LoginPage = () => {
   }
   console.log(hospitalData)
   return (
-    <div className="flex flex-col items-center justify-center w-full h-screen overflow-hidden">
+    <div className="flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-slate-50">
       <form
-        className="flex flex-col w-[500px] border p-5 rounded-lg gap-y-6 mx-auto ml-auto"
+        className="flex flex-col w-[500px] p-5 rounded-lg gap-y-6 mx-auto ml-auto bg-white"
         onSubmit={handleSubmit}
       >
+        <div>
+          <h1
+          className='text-2xl font-bold'
+          >Sign In</h1>
+          <h3
+          className='text-slate-500'
+          >Login to your Account?</h3>
+        </div>
         {/* {} */}
         {/* <CustomSelect
           label="Select Hospital"
@@ -84,6 +93,7 @@ const LoginPage = () => {
           Dont have an account, contact admin?
         </Link>
       </form>
+      <Footer/>
     </div>
   )
 }

@@ -8,6 +8,7 @@ import { MenuSelect } from './_components/MenuSelect'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
+import Footer from '@/components/Footer'
 
 interface ListItemProps {
   id: string
@@ -378,14 +379,7 @@ export default function Home () {
           </div>
         </div>
       </main>
-      <footer className="absolute bottom-0 p-4 w-full text-center bg-white">
-        <p className="text-slate-700 font-bold">
-          Powered by Synergy Data Group
-        </p>
-        <p className="text-sm text-slate-500">
-          Copyright @2024 . Terms and Conditions Applied
-        </p>
-      </footer>
+<Footer/>
     </div>
   )
 }
