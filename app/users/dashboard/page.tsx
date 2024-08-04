@@ -10,6 +10,8 @@ import { useMemo } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
+import PopulationTypeChart from '@/components/Recharts/PopulationTypeChart'
+import RegisteredPatientsLineChart from '@/components/Recharts/RegisteredPatientsLineChart'
 
 const UserDashboardCard = dynamic(
   async () => await import('@/app/_components/UserDasboard'),
@@ -154,6 +156,14 @@ const NotifyPage = () => {
 
           <PieChart data={pieChartData} />
         </div>
+        <PopulationTypeChart
+        data={data}
+        />
+
+        {/*  */}
+        <RegisteredPatientsLineChart
+        data={data}
+        />
       </div>
     </div>
   )

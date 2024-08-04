@@ -14,8 +14,8 @@ const handler = NextAuth({
         password: {}
       },
       async authorize (credentials, req) {
-        const response = await axios.post('http://root:5000/users/login', {
-          email: credentials?.email,
+        const response = await axios.post('http://localhost:5001/patients/login', {
+          firstName: credentials?.email,
           password: credentials?.password
         })
         if (response) {

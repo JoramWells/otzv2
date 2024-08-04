@@ -1,10 +1,22 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { useSidebar } from '@/context/SidebarContext'
+import { CircleUser } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { type UserInterface } from 'otz-types'
+import { useEffect, useState } from 'react'
 // import { BellIcon } from 'lucide-react'
 export const Sidebar = ({ children, isSearchable = true }: { children: React.ReactNode, isSearchable?: boolean }) => {
   const { isSidebarOpen } = useSidebar()
+  const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
+  useEffect(() => {
+    if (session) {
+      setUser(session?.user)
+    }
+  }, [session])
+
   return (
     <div
       className={`
@@ -41,13 +53,23 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
       </div> */}
       <div className="absolute p-4 bottom-0  w-full text-center">
         <div>
-          <Button
-            className="w-full mb-4 shadow-none bg-[#003153]/5
+          {user
+            ? (
+            <div className="flex space-x-4 marker:items-center p-2 text-white">
+              <CircleUser />
+              <p>{user.firstName}</p>
+            </div>
+              )
+            : (
+            <Button
+              className="w-full mb-4 shadow-none bg-[#003153]/5
           text-slate-700 font-bold hover:bg-slate-100
           "
-          >
-            Login
-          </Button>
+            >
+              Login
+            </Button>
+              )}
+
           <p className="text-[12px] underline text-[#F3FAFF]">
             Terms and Conditions
           </p>

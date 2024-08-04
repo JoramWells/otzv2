@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
@@ -10,13 +11,14 @@ import { type FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 // import CustomSelect from '../_components/forms/CustomSelect'
 // import { useGetAllHospitalsQuery } from '@/api/hospital/hospital.api'
-import axios from 'axios'
 import Footer from '@/components/Footer'
+import FormError from '@/components/auth/FormError'
 // import { getServerSession } from 'next-auth'
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState<string | undefined>()
 
   const router = useRouter()
 
@@ -29,9 +31,16 @@ const LoginPage = () => {
     })
     console.log('dtx')
     console.log(response)
+    // if(response?.error){
+    //   setError(response.error)
+    // }
     if (response?.error === null) {
-      router.push('/dashboard')
+      router.push('/')
       router.refresh()
+    } else {
+      (
+        setError(response?.error)
+      )
     }
   }
 
@@ -49,15 +58,15 @@ const LoginPage = () => {
 
   // const [hospitalName, setHospitalName] = useState('')
 
-  const hospitalData = async () => {
-    try {
-      const data = await axios.get('/api/root-service/hospital')
-      return data
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  console.log(hospitalData)
+  // const hospitalData = async () => {
+  //   try {
+  //     const data = await axios.get('/api/root-service/hospital')
+  //     return data
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // console.log(hospitalData)
   return (
     <div className="flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-slate-50">
       <form
@@ -69,8 +78,8 @@ const LoginPage = () => {
           className='text-2xl font-bold'
           >Sign In</h1>
           <h3
-          className='text-slate-500'
-          >Login to your Account?</h3>
+          className='text-slate-500 text-[14px] '
+          >Login to your Account.</h3>
         </div>
         {/* {} */}
         {/* <CustomSelect
@@ -81,6 +90,9 @@ const LoginPage = () => {
         /> */}
         <CustomInput label="Email" value={email} onChange={setEmail} />
         <CustomInput label="Password" value={password} onChange={setPassword} />
+        {error && <FormError
+        message={error}
+        />}
         <Button
           size={'lg'}
           className="bg-teal-600 hover:bg-teal-700 shadow-none"
@@ -89,8 +101,8 @@ const LoginPage = () => {
         >
           Login
         </Button>
-        <Link href={'/auth/register'} className="text-center">
-          Dont have an account, contact admin?
+        <Link href={'/auth/register'} className="text-center text-[14px] text-slate-500">
+          Don&apos;t have an account? Contact admin.
         </Link>
       </form>
       <Footer/>
