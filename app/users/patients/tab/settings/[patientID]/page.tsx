@@ -7,13 +7,52 @@ import { useEffect, useState } from 'react'
 import { useGetPatientQuery, useUpdatePatientMutation } from '@/api/patient/patients.api'
 import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import { Loader2 } from 'lucide-react'
+
+interface InputProps {
+  value: string
+  setValue: () => void
+}
+
+const SelectYears = ({ value, setValue }: InputProps) => {
+  // const [value, setValue] = useState()
+  return (
+    <Select
+    onValueChange={e => { setValue(e) }}
+    value={value}
+    >
+      <SelectTrigger className="shadow-none">
+        <SelectValue placeholder="Role" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Years</SelectLabel>
+          <SelectItem value="clinician">Clinician</SelectItem>
+          <SelectItem value="mentor mother">Mentor Mother</SelectItem>
+          <SelectItem value="ayp advocate">AYP Advocate</SelectItem>
+          <SelectItem value="nurse">Nurse</SelectItem>
+          <SelectItem value="patient">Patient</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
 
 const ProfileSettings = ({ params }: { params: any }) => {
   const [phoneNo, setPhoneNo] = useState('')
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [role, setRole] = useState('')
   const { patientID } = params
 
   const { data: patientProfileData } = useGetPatientQuery(patientID)
@@ -25,6 +64,7 @@ const ProfileSettings = ({ params }: { params: any }) => {
       setFirstName(patientProfileData.firstName)
       setMiddleName(patientProfileData.middleName)
       setLastName(patientProfileData.lastName)
+      setRole(patientProfileData.role)
     }
   }, [patientProfileData])
 
@@ -36,9 +76,11 @@ const ProfileSettings = ({ params }: { params: any }) => {
     phoneNo
   }
 
+  console.log(patientProfileData, 'patientProfileData')
+
   return (
     <>
-      <div className="p-2">
+      <div className="p-2 bg-white rounded-lg">
         <div className="w-1/2 flex flex-col space-y-4">
           <CustomInput
             label="First Name"
@@ -58,14 +100,22 @@ const ProfileSettings = ({ params }: { params: any }) => {
           />
 
           <CustomInput label="Phone" value={phoneNo} onChange={setPhoneNo} />
+
+          {/*  */}
+          <SelectYears
+          setValue={setRole}
+          value={role}
+          />
+
           <div className="flex space-x-4">
             <Button>Save Changes</Button>
             <Button
-            disabled={isLoading}
-            onClick={async () => await updatePatient(inputValues)}
+              disabled={isLoading}
+              onClick={async () => await updatePatient(inputValues)}
             >
-              {isLoading && <Loader2 className='animate-spin mr-2' size={15} />}
-              Delete Account</Button>
+              {isLoading && <Loader2 className="animate-spin mr-2" size={15} />}
+              Delete Account
+            </Button>
           </div>
         </div>
       </div>

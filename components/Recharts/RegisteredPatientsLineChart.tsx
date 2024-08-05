@@ -58,7 +58,7 @@ const RegisteredPatientsLineChart = ({ data }) => {
       {prepareData?.length > 0 && (
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto  h-[250px] w-full border"
+          className="aspect-auto  h-[300px] w-full"
         >
           <AreaChart data={prepareData}>
             <defs>

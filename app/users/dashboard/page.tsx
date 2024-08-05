@@ -141,29 +141,18 @@ const NotifyPage = () => {
       </div>
       <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
         <h1 className=" text-lg ">Patient Management</h1>
-        <p
-          className="font-semibold capitalize
-        "
-        >
-          Dashboard Analytics
-        </p>
 
         {/*  */}
 
         {/*  */}
         <div className="flex justify-between space-x-4 ">
-          <LineChart data={barCartData} />
+          <RegisteredPatientsLineChart data={data} />
 
           <PieChart data={pieChartData} />
         </div>
-        <PopulationTypeChart
-        data={data}
-        />
+        <PopulationTypeChart data={data} />
 
         {/*  */}
-        <RegisteredPatientsLineChart
-        data={data}
-        />
       </div>
     </div>
   )

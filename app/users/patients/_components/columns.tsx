@@ -6,7 +6,7 @@ import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Ellipsis, Pin, TrashIcon } from 'lucide-react'
+import { Edit, Ellipsis, Pin, TrashIcon } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
@@ -302,11 +302,11 @@ export const patientColumns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <DropDownComponent />
+    cell: ({ row }) => <DropDownComponent id={row.original.id} />
   }
 ]
 
-const DropDownComponent = () => {
+const DropDownComponent = ({ id }: { id: string }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -318,7 +318,17 @@ const DropDownComponent = () => {
         <DropdownMenuCheckboxItem>
           <div className="flex justify-between items-center w-full">
             <p>Favorite</p>
-            <Pin size={18} className='text-slate-500' />
+            <Pin size={18} className="text-slate-500" />
+          </div>
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem>
+          <div className="flex justify-between items-center w-full">
+            <Link
+            href={`/users/patients/tab/settings/${id}`}
+            >
+            Edit
+            </Link>
+            <Edit size={18} className="text-slate-500" />
           </div>
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
