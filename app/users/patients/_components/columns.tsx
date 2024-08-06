@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
@@ -18,6 +20,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { useMarkPatientAsImportantMutation } from '@/api/patient/patients.api'
+import { type PatientAttributes } from 'otz-types'
 //
 interface AppointmentProps {
   id: any
@@ -227,7 +231,7 @@ export const labTabColumns: Array<ColumnDef<LabTabProps>> = [
   }
 ]
 
-export const patientColumns: Array<ColumnDef<PatientProps>> = [
+export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'firstName',
     header: 'Patient Name',
@@ -302,11 +306,12 @@ export const patientColumns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <DropDownComponent id={row.original.id} />
+    cell: ({ row }) => <DropDownComponent id={row.original.id!} isImportant={row.original.isImportant!} />
   }
 ]
 
-const DropDownComponent = ({ id }: { id: string }) => {
+const DropDownComponent = ({ id, isImportant }: { id: string, isImportant: boolean }) => {
+  const [markPatientAsImportant] = useMarkPatientAsImportantMutation()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -315,19 +320,29 @@ const DropDownComponent = ({ id }: { id: string }) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Upcoming Appointments</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          onClick={async () =>
+            await markPatientAsImportant({
+              id,
+              isImportant: !isImportant
+            })
+          }
+        >
           <div className="flex justify-between items-center w-full">
-            <p>Favorite</p>
-            <Pin size={18} className="text-slate-500" />
+            {isImportant
+              ? <p
+            className='text-yellow-500'
+            >Unpin</p>
+              : <p>Pin</p>}
+            <Pin
+              size={18}
+              className={`text-slate-500 ${isImportant && 'text-yellow-500'} `}
+            />
           </div>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem>
           <div className="flex justify-between items-center w-full">
-            <Link
-            href={`/users/patients/tab/settings/${id}`}
-            >
-            Edit
-            </Link>
+            <Link href={`/users/patients/tab/settings/${id}`}>Edit</Link>
             <Edit size={18} className="text-slate-500" />
           </div>
         </DropdownMenuCheckboxItem>

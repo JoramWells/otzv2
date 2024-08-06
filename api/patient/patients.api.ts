@@ -50,6 +50,13 @@ export const patientsApi = createApi({
         body: patch
       })
     }),
+    markPatientAsImportant: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: `mark-important/${id}`,
+        method: 'PUT',
+        body: patch
+      })
+    }),
     deletePatient: builder.mutation({
       query (id) {
         return {
@@ -63,5 +70,5 @@ export const patientsApi = createApi({
 
 export const {
   useGetAllPatientsQuery, useUpdatePatientMutation, useGetAllPMTCTPatientsQuery, useGetAllEligibleOTZPatientsQuery,
-  useDeletePatientMutation, useAddPatientMutation, useGetPatientQuery
+  useDeletePatientMutation, useAddPatientMutation, useGetPatientQuery, useMarkPatientAsImportantMutation
 } = patientsApi

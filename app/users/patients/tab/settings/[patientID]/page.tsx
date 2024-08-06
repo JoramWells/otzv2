@@ -73,15 +73,16 @@ const ProfileSettings = ({ params }: { params: any }) => {
     firstName,
     middleName,
     lastName,
-    phoneNo
+    phoneNo,
+    role
   }
 
   console.log(patientProfileData, 'patientProfileData')
 
   return (
     <>
-      <div className="p-2 bg-white rounded-lg">
-        <div className="w-1/2 flex flex-col space-y-4">
+      <div className="p-2 ">
+        <div className="w-1/2 flex flex-col space-y-4 bg-white rounded-lg">
           <CustomInput
             label="First Name"
             value={firstName}
