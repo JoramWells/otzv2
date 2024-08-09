@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 
@@ -43,6 +44,17 @@ export const patientsApi = createApi({
     getPatient: builder.query<PatientAttributes, string>({
       query: (id) => `detail/${id}`
     }),
+    getImportantPatients: builder.query<PatientAttributes, any>({
+      query: (params) => {
+        if (params) {
+          const { limit } = params
+
+          return `important-patients?limit=${limit}`
+        }
+        return 'important-patients'
+      }
+
+    }),
     updatePatient: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
@@ -70,5 +82,5 @@ export const patientsApi = createApi({
 
 export const {
   useGetAllPatientsQuery, useUpdatePatientMutation, useGetAllPMTCTPatientsQuery, useGetAllEligibleOTZPatientsQuery,
-  useDeletePatientMutation, useAddPatientMutation, useGetPatientQuery, useMarkPatientAsImportantMutation
+  useDeletePatientMutation, useAddPatientMutation, useGetPatientQuery, useMarkPatientAsImportantMutation, useGetImportantPatientsQuery
 } = patientsApi

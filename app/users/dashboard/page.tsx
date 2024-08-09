@@ -4,22 +4,24 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
+import { useGetAllPatientsQuery, useGetImportantPatientsQuery } from '@/api/patient/patients.api'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
 import { useMemo } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
+// import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
 import PopulationTypeChart from '@/components/Recharts/PopulationTypeChart'
 import RegisteredPatientsLineChart from '@/components/Recharts/RegisteredPatientsLineChart'
+import { CustomTable } from '@/app/_components/table/CustomTable'
+import { importantPatientColumn } from '../patients/_components/columns'
 
-const UserDashboardCard = dynamic(
-  async () => await import('@/app/_components/UserDasboard'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="h-[110px] rounded-lg flex-1 p-4" />
-  }
-)
+// const UserDashboardCard = dynamic(
+//   async () => await import('@/app/_components/UserDasboard'),
+//   {
+//     ssr: false,
+//     loading: () => <Skeleton className="h-[110px] rounded-lg flex-1 p-4" />
+//   }
+// )
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -30,13 +32,6 @@ const BreadcrumbComponent = dynamic(
 )
 
 //
-const LineChart = dynamic(
-  async () => await import('../../_components/charts/LineChart'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="w-full h-[300px] md:w-3/4" />
-  }
-)
 
 const PieChart = dynamic(
   async () => await import('../../_components/charts/PieChart'),
@@ -63,33 +58,6 @@ const NotifyPage = () => {
       link: 'dashboard'
     }
   ]
-
-  const dlMemoized: UserDashboardCardDataListProps[] = useMemo(() => [
-    {
-      id: '1',
-      label: 'Registered Patients',
-      count: data?.length,
-      link: '/patients/registered-patients'
-    },
-    {
-      id: '2',
-      label: 'Mortality',
-      count: 20,
-      link: ''
-    },
-    {
-      id: '3',
-      label: 'Caregivers',
-      count: 13,
-      link: ''
-    },
-    {
-      id: '4',
-      label: 'App Notification',
-      count: 7,
-      link: '/'
-    }
-  ], [data])
 
   const ageRanges: Array<[number, number]> = [
     [0, 9],
@@ -125,33 +93,49 @@ const NotifyPage = () => {
     return data?.filter((item: any) => new Date(item.dateConfirmedPositive).getFullYear() === year).length
   })
 
-  const barCartData = {
-    labels: uniqueYears,
-    datasets: [{ data: patientsCountPerYear }]
-  }
+  const { data: importantPatients } = useGetImportantPatientsQuery({
+    limit: 5
+  })
+  console.log(importantPatients, 'important patients')
 
   return (
     <div className="w-full">
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="flex w-full justify-between flex-wrap space-x-4 p-2">
-        {dlMemoized.map((item, idx) => (
-          <UserDashboardCard key={idx} item={item} />
-        ))}
-      </div>
       <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
-        <h1 className=" text-lg ">Patient Management</h1>
-
-        {/*  */}
-
         {/*  */}
         <div className="flex justify-between space-x-4 ">
           <RegisteredPatientsLineChart data={data} />
 
           <PieChart data={pieChartData} />
         </div>
-        <PopulationTypeChart data={data} />
+        <div className="flex justify-between">
+          <PopulationTypeChart data={data} />
+          <div>
+            <div>Starred Patients</div>
+            <CustomTable 
+            data={importantPatients || []}
+            columns={importantPatientColumn}
+            />
+            <div className='flex space-x-4' >
+              <div>Name</div>
+              <div>Gender</div>
+              <div>Phone</div>
+              <div>Population Type</div>
+            </div>
 
+            {importantPatients?.map((item) => (
+              <div key={item.id} className="flex space-x-4">
+                <div>
+                  {item.firstName} {item.middleName}
+                </div>
+                <div>{item.sex}</div>
+                <div>{item.phoneNo}</div>
+                <div>{item.populationType}</div>
+              </div>
+            ))}
+          </div>
+        </div>
         {/*  */}
       </div>
     </div>

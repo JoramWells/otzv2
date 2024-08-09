@@ -9,6 +9,8 @@ import {
   ChartStyle,
   ChartTooltipContent
 } from '@/components/ui/chart'
+import UsersRadial from './UsersRadial'
+import CountUp from 'react-countup'
 
 const chartConfig = {
   visitors: {
@@ -54,11 +56,26 @@ const RegisteredPatientsLineChart = ({ data }) => {
   console.log(prepareData, 'bart')
 
   return (
-    <>
+    <div className="w-full bg-slate-50 rounded-lg p-2">
+      <div
+      className='w-full  flex justify-between  space-x-4 mb-2'
+      >
+        <div
+        className='w-1/2 p-4 bg-white rounded-lg'
+        >
+          <p
+          className='font-semibold text-slate-700 text-lg '
+          >Registered Patients</p>
+          <CountUp
+          end={data?.length}
+          />
+        </div>
+        <UsersRadial data={data} />
+      </div>
       {prepareData?.length > 0 && (
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto  h-[300px] w-full"
+          className="aspect-auto  h-[300px] w-full bg-white rounded-lg"
         >
           <AreaChart data={prepareData}>
             <defs>
@@ -135,11 +152,11 @@ const RegisteredPatientsLineChart = ({ data }) => {
               stroke="var(--color-desktop)"
               stackId={'a'}
             />
-<ChartLegend content={<ChartLegendContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
         </ChartContainer>
       )}
-    </>
+    </div>
   )
 }
 
