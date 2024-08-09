@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+// import { Button } from '@/components/ui/button'
 import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
@@ -416,19 +416,19 @@ export const patientVisitColumns: Array<ColumnDef<PatientProps>> = [
   },
   {
     accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => (
-      <Button
-      className=''
-      variant={'outline'}
-      >
-        <Link href={`/patients/add-triage/${row.original?.Patient?.id}?appointmentID=${row.original?.id} `}>See Patient</Link>
-      </Button>
-    )
+    header: 'Action'
+    // cell: ({ row }) => (
+    //   <Button
+    //   className=''
+    //   variant={'outline'}
+    //   >
+    //     <Link href={`/patients/add-triage/${row.original?.Patient?.id}?appointmentID=${row.original?.id} `}>See Patient</Link>
+    //   </Button>
+    // )
   }
 ]
 
-export const importantPatientColumn: Array<ColumnDef<PatientProps>> = [
+export const importantPatientColumn: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'firstName',
     header: 'Patient Name',
@@ -441,12 +441,12 @@ export const importantPatientColumn: Array<ColumnDef<PatientProps>> = [
         <Avatar
           size={'xs'}
           className="font-bold"
-          name={`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}
+          name={`${row.original?.firstName} ${row.original?.middleName}`}
         />
         <Link
           className="capitalize font-semibold text-slate-700 text-[12px] "
           href={`/users/patients/tab/dashboard/${row.original.id}`}
-        >{`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}</Link>
+        >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
       </div>
     )
   },
@@ -483,25 +483,20 @@ export const importantPatientColumn: Array<ColumnDef<PatientProps>> = [
     )
   },
   {
-    accessorKey: 'cccNo',
-    header: 'CCC No.'
-    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
-  },
-  {
     accessorKey: 'populationType',
     header: 'Population Type'
-  },
-  {
-    accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => (
-      <Button className="" variant={'outline'}>
-        <Link
-          href={`/patients/add-triage/${row.original?.Patient?.id}?appointmentID=${row.original?.id} `}
-        >
-          See Patient
-        </Link>
-      </Button>
-    )
   }
+  // {
+  //   accessorKey: 'action',
+  //   header: 'Action',
+  //   cell: ({ row }) => (
+  //     <Button className="" variant={'outline'}>
+  //       <Link
+  //         href={`/patients/add-triage/${row.original?.Patient?.id}?appointmentID=${row.original?.id} `}
+  //       >
+  //         See Patient
+  //       </Link>
+  //     </Button>
+  //   )
+  // }
 ]

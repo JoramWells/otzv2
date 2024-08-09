@@ -38,7 +38,7 @@ const PieChart = ({ data }: Props) => {
       <div className="flex flex-row items-center justify-between
       pl-4 pr-4 pt-2
       ">
-          <h1 className="font-bold text-slate-700">CALHIV</h1>
+          <p className="font-bold text-slate-700">CALHIV</p>
         <SelectYears />
       </div>
       <div

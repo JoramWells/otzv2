@@ -15,6 +15,7 @@ import AppointmentInteractivePieChart from '@/components/Recharts/AppointmentInt
 import CustomSelect from '@/components/forms/CustomSelect'
 import { useState } from 'react'
 import { ValueNoneIcon } from '@radix-ui/react-icons'
+import { Button } from '@/components/ui/button'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -110,36 +111,51 @@ const NotifyPage = () => {
       </div>
       <div className="p-4 w-full">
         <div className=" bg-white p-4 ">
-          <h1
-            className="font-semibold text-lg capitalize
+          <div className="flex justify-between w-3/4 ">
+            <div>
+              <h1
+                className="font-semibold text-lg capitalize
         "
-          >
-            Group Appointments
-          </h1>
+              >
+                Group Appointments
+              </h1>
 
-          <p className="text-[14px] text-slate-500 ">
-            Scheduled the following appointments
-          </p>
-          <div className="w-1/4">
-            <CustomSelect
-              placeholder="Years"
-              data={[
-                { id: 'all', label: 'all' },
-                { id: 'weekly', label: 'weekly' },
-                { id: 'monthly', label: 'monthly' }
-              ]}
-              value={value}
-              onChange={(val) => {
-                handleSelectChange(val)
-              }}
-            />
+              <p className="text-[14px] text-slate-500 ">
+                Scheduled the following appointments
+              </p>
+            </div>
+            {/* <CustomSelect
+                placeholder="Years"
+                data={[
+                  { id: 'all', label: 'all' },
+                  { id: 'weekly', label: 'weekly' },
+                  { id: 'monthly', label: 'monthly' }
+                ]}
+                value={value}
+                onChange={(val) => {
+                  handleSelectChange(val)
+                }}
+              /> */}
+            <div className='flex space-x-2' >
+              {[
+                { id: 0, label: 'all' },
+                { id: 1, label: 'weekly' },
+                { id: 2, label: 'monthly' }
+              ].map((item, idx) => (
+                <Button
+                  key={item.id}
+                  className={`rounded-full border bg-transparent text-black hover:bg-slate-100 ${item.label === value && 'bg-slate-200'} `}
+                  onClick={() => handleSelectChange(item.label.toLowerCase())}
+                >
+                  {item.label}
+                </Button>
+              ))}
+            </div>
           </div>
           <div className="flex justify-between space-x-4 bg-white p-4">
-            <AppointmentBarChart />
+            <AppointmentBarChart data={weeklyData} />
+            <AppointmentPieChart data={weeklyData} />
 
-            <AppointmentInteractivePieChart data={weeklyData} />
-
-            {/* <AppointmentPieChart data={weeklyData} /> */}
             <div className="flex-1 bg-white rounded-lg flex flex-col p-4 border border-slate-200">
               <p className="font-bold pl-2">Upcoming Appointments</p>
               {priorityAppointmentData?.map((item: AppointmentProps) => (
@@ -159,7 +175,6 @@ const NotifyPage = () => {
           </div>
         </div>
       </div>
-      <AppointmentPieChart data={weeklyData} />
 
       {/* <div
         className="flex flex-row w-full justify-between

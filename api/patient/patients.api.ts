@@ -44,7 +44,7 @@ export const patientsApi = createApi({
     getPatient: builder.query<PatientAttributes, string>({
       query: (id) => `detail/${id}`
     }),
-    getImportantPatients: builder.query<PatientAttributes, any>({
+    getImportantPatients: builder.query<PatientAttributes[], any>({
       query: (params) => {
         if (params) {
           const { limit } = params

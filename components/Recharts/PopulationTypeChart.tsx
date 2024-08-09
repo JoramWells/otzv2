@@ -63,7 +63,7 @@ const PopulationTypeChart = ({ data }) => {
 
         <ChartContainer
           config={chartConfig}
-          className="aspect-square max-h-[350px] w-1/2 border"
+          className="aspect-square max-h-[350px] w-1/2 bg-white rounded-lg"
         >
           {chartDatam && (
             <RadarChart data={chartDatam}

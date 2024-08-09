@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 'use client'
 
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 
 import {
   Card,
@@ -19,11 +19,6 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart'
-import { useGetAllUserAvailabilitiesQuery } from '@/api/users/userAvailability.api'
-import { useCallback, useState } from 'react'
-import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
-import moment from 'moment'
-import CustomSelect from '../forms/CustomSelect'
 
 const chartConfig = {
   refill: {
@@ -40,54 +35,7 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-interface DataProps {
-  appointmentDate: Date
-}
-
-export function AppointmentBarChart () {
-  const currentDate = moment().format('YYYY-MM-DD')
-  const [value, setValue] = useState<string>('weekly')
-
-  const { data: weeklyData } = useGetAllAppointmentsQuery({
-    date: currentDate,
-    mode: value
-  })
-  const { data: availabilityData } = useGetAllUserAvailabilitiesQuery()
-  const weekDays = useCallback(() => {
-    return availabilityData?.map((item: any) => item.daysAvailable)
-  }, [availabilityData])()
-
-  const filterAvailableWeekDays = useCallback(() => {
-    const tempData = weekDays
-      ? Object.fromEntries(
-        Object.entries(weekDays[0]).filter(([key, value]) => value === true)
-      )
-      : []
-    return tempData
-  }, [weekDays])()
-
-  const transformDataToCart = () => {
-    const daysOfWeek = filterAvailableWeekDays
-      ? Object.keys(filterAvailableWeekDays)
-      : []
-    const appointmentsCountByDay = [0, 0, 0, 0, 0, 0, 0]
-
-    weeklyData?.forEach((appointment: DataProps) => {
-      const appointmentDate = new Date(appointment.appointmentDate)
-      const dayOfWeek = appointmentDate.getDay()
-      appointmentsCountByDay[dayOfWeek]++
-    })
-
-    return daysOfWeek?.map((day, week) => {
-      return { day: [day], count: appointmentsCountByDay[week] }
-    })
-    // return {
-    //   labels: daysOfWeek,
-    //   datasets: appointmentsCountByDay
-
-    // }
-  }
-
+export function AppointmentBarChart ({ data }) {
   const groupAppointmentsByDay = (appointments: any[]) => {
     const groupedData = {}
     appointments?.forEach((appointment: { AppointmentAgenda: any, appointmentDate: any }) => {
@@ -104,11 +52,7 @@ export function AppointmentBarChart () {
   }
 
   // const chartData = transformDataToCart()
-  const chartData = groupAppointmentsByDay(weeklyData)
-
-  const handleSelectChange = (val: string) => {
-    setValue(val)
-  }
+  const chartData = groupAppointmentsByDay(data)
 
   return (
     <div className="h-[300px] w-1/2 ">
@@ -121,22 +65,6 @@ export function AppointmentBarChart () {
           <div>
             <CardTitle>Bar Chart - Label</CardTitle>
             <CardDescription>January - June 2024</CardDescription>
-          </div>
-          <div
-          className='w-1/4'
-          >
-            <CustomSelect
-              placeholder="Years"
-              data={[
-                { id: 'all', label: 'all' },
-                { id: 'weekly', label: 'weekly' },
-                { id: 'monthly', label: 'monthly' }
-              ]}
-              value={value}
-              onChange={(val) => {
-                handleSelectChange(val)
-              }}
-            />
           </div>
         </CardHeader>
         <CardContent>

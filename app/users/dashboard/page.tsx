@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/require-array-sort-compare */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -89,14 +90,14 @@ const NotifyPage = () => {
   uniqueYears.sort((a: number, b: number) => a - b)
 
   // Count the number of patients for each year
-  const patientsCountPerYear = uniqueYears.map((year: any) => {
-    return data?.filter((item: any) => new Date(item.dateConfirmedPositive).getFullYear() === year).length
-  })
+  // const patientsCountPerYear = uniqueYears.map((year: any) => {
+  //   return data?.filter((item: any) => new Date(item.dateConfirmedPositive).getFullYear() === year).length
+  // })
 
   const { data: importantPatients } = useGetImportantPatientsQuery({
     limit: 5
   })
-  console.log(importantPatients, 'important patients')
+  console.log(uniqueYears, 'important patients')
 
   return (
     <div className="w-full">
@@ -104,36 +105,26 @@ const NotifyPage = () => {
 
       <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
         {/*  */}
-        <div className="flex justify-between space-x-4 ">
+        <div className="flex justify-between space-x-2 ">
           <RegisteredPatientsLineChart data={data} />
 
           <PieChart data={pieChartData} />
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between bg-slate-50 p-2 space-x-2">
           <PopulationTypeChart data={data} />
-          <div>
-            <div>Starred Patients</div>
-            <CustomTable 
-            data={importantPatients || []}
-            columns={importantPatientColumn}
-            />
-            <div className='flex space-x-4' >
-              <div>Name</div>
-              <div>Gender</div>
-              <div>Phone</div>
-              <div>Population Type</div>
+          <div className="p-2 bg-white rounded-lg w-1/2  ">
+            <div
+            className='p-2'
+            >
+              <div
+              className='text-lg font-semibold text-slate-700 mb-2'
+              >Pinned Patients</div>
             </div>
-
-            {importantPatients?.map((item) => (
-              <div key={item.id} className="flex space-x-4">
-                <div>
-                  {item.firstName} {item.middleName}
-                </div>
-                <div>{item.sex}</div>
-                <div>{item.phoneNo}</div>
-                <div>{item.populationType}</div>
-              </div>
-            ))}
+            <CustomTable
+              isSearch={false}
+              data={importantPatients || []}
+              columns={importantPatientColumn}
+            />
           </div>
         </div>
         {/*  */}
