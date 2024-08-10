@@ -16,7 +16,7 @@ const PatientProfile = ({ data, isLoading }: InputProps) => {
     <>
       {isLoading
         ? (
-        <Skeleton className="w-full h-[200px]" />
+        <Skeleton className="w-1/5 h-[200px]" />
           )
         : (
         <>

@@ -111,12 +111,20 @@ const AddTriage = ({
 
   return (
     <div className="flex items-start justify-between space-x-4 ">
-      <div className="w-3/4 bg-white rounded-lg">
-        <div className="flex justify-between items-center w-full border-b border-slate-100 pr-4 p-2 bg-slate-200 rounded-t-lg">
-          <p className=" text-lg font-bold">Vital Sign</p>
-            {age < 9 ? <Badge className='shadow-none
+      <div className="w-3/4 bg-white rounded-lg ">
+        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200  rounded-t-lg">
+          <p className=" text-lg font-bold ml-2">Vital Sign</p>
+          {age < 9 ? (
+            <Badge
+              className="shadow-none
             bg-purple-50 border border-purple-200 text-purple-500 uppercase
-            '>Paed</Badge> : <Badge className='shadow-none'>Adult</Badge> }
+            "
+            >
+              Paed
+            </Badge>
+          ) : (
+            <Badge className="shadow-none">Adult</Badge>
+          )}
         </div>
         <FormProvider {...methods}>
           <form
@@ -247,73 +255,78 @@ const AddTriage = ({
           </form>
         </FormProvider>
       </div>
-      <div className="w-1/3 bg-white rounded-lg p-2">
-        <div className="flex justify-between items-center w-full border p-2">
-          <p className="text-[14px] font-bold ">Recent Vitals</p>
+      <div className="w-1/3 bg-white rounded-lg">
+        <div className="flex justify-between items-center w-full border p-2.5 rounded-t-lg bg-slate-200 ">
+          <p className="text-[16px] font-bold ml-2 ">Recent Vitals</p>
           <div className="flex justify-between items-center space-x-2 text-slate-500 text-[12px] ">
             <CalendarCheck2 size={15} />
             <p>{moment(latestVitalsData?.createdAt).format('ll')}</p>
           </div>
         </div>
 
-        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
-          <p className=" text-slate-500">Temperature</p>
-          <p className="font-bold">{latestVitalsData?.temperature} °C</p>
-        </div>
-        <div className="w-full border-b border-slate-100" />
-
-        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
-          <span className="text-slate-500 ">Pulse Rate</span>
-          <p className="font-bold">{latestVitalsData?.pulseRate} bpm</p>
-        </div>
-        <div className="w-full border-b border-slate-100" />
-
-        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
-          <span className="text-slate-500 ">Respiratory Rate</span>
-          <span className="font-bold">
-            {latestVitalsData?.respiratoryRate} bpm
-          </span>
-        </div>
-        <div className="w-full border-b border-slate-100" />
-        <CollapseButton label="Blood Pressure">
-          <div className="w-full flex items-center space-x-4">
-            <div>
-              <p className="text-[14px] ">Systolic</p>
-              <p className="font-bold">{latestVitalsData?.systolic}</p>
-            </div>
-            <p>/</p>
-            <div>
-              <p className="text-[14px] ">Diastolic</p>
-              <p className="font-bold">{latestVitalsData?.diastolic}</p>
-            </div>
+        <div className='p-2' >
+          <div className="flex justify-between items-center w-full p-2 text-[14px] ">
+            <p className=" text-slate-500">Temperature</p>
+            <p className="font-bold">{latestVitalsData?.temperature} °C</p>
           </div>
-        </CollapseButton>
-        <div className="w-full border-b border-slate-100" />
+          <div className="w-full border-b border-slate-100" />
 
-        <CollapseButton label="BMI">
-          <div className="w-full flex items-center space-x-4 justify-between">
+          <div className="flex justify-between items-center w-full p-2 text-[14px] ">
+            <span className="text-slate-500 ">Pulse Rate</span>
+            <p className="font-bold">{latestVitalsData?.pulseRate} bpm</p>
+          </div>
+          <div className="w-full border-b border-slate-100" />
+
+          <div className="flex justify-between items-center w-full p-2 text-[14px] ">
+            <span className="text-slate-500 ">Respiratory Rate</span>
+            <span className="font-bold">
+              {latestVitalsData?.respiratoryRate} bpm
+            </span>
+          </div>
+          <div className="w-full border-b border-slate-100" />
+          <CollapseButton label="Blood Pressure">
             <div className="w-full flex items-center space-x-4">
               <div>
-                <p>Weight</p>
-                <p className="font-bold">
-                  {latestVitalsData?.weight}
-                  <span className="text-[14px]">kg</span>
-                </p>
+                <p className="text-[14px] ">Systolic</p>
+                <p className="font-bold">{latestVitalsData?.systolic}</p>
               </div>
               <p>/</p>
               <div>
-                <p>Height</p>
-                <p className="font-bold">
-                  {latestVitalsData?.height}
-                  <span className="text-[14px]">cm</span>
-                </p>
+                <p className="text-[14px] ">Diastolic</p>
+                <p className="font-bold">{latestVitalsData?.diastolic}</p>
               </div>
             </div>
-            <div>
-              {calculateBMI(latestVitalsData?.weight, latestVitalsData?.height)}
+          </CollapseButton>
+          <div className="w-full border-b border-slate-100" />
+
+          <CollapseButton label="BMI">
+            <div className="w-full flex items-center space-x-4 justify-between">
+              <div className="w-full flex items-center space-x-4">
+                <div>
+                  <p>Weight</p>
+                  <p className="font-bold">
+                    {latestVitalsData?.weight}
+                    <span className="text-[14px]">kg</span>
+                  </p>
+                </div>
+                <p>/</p>
+                <div>
+                  <p>Height</p>
+                  <p className="font-bold">
+                    {latestVitalsData?.height}
+                    <span className="text-[14px]">cm</span>
+                  </p>
+                </div>
+              </div>
+              <div>
+                {calculateBMI(
+                  latestVitalsData?.weight,
+                  latestVitalsData?.height
+                )}
+              </div>
             </div>
-          </div>
-        </CollapseButton>
+          </CollapseButton>
+        </div>
       </div>
     </div>
   )

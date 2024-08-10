@@ -28,7 +28,6 @@ import { calculateBMI } from '@/utils/calculateBMI'
 import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import WeightHeightLineChart from '@/app/_components/charts/WeightHeightLineChart'
 import ArtCard from '../../../_components/ART/ArtCard'
-import { PatientSelect } from './_components/PatientSelect'
 
 export interface InputTabProps {
   id: number
