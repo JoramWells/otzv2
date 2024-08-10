@@ -28,6 +28,7 @@ import { calculateBMI } from '@/utils/calculateBMI'
 import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import WeightHeightLineChart from '@/app/_components/charts/WeightHeightLineChart'
 import ArtCard from '../../../_components/ART/ArtCard'
+import { PatientSelect } from './_components/PatientSelect'
 
 export interface InputTabProps {
   id: number
@@ -52,8 +53,6 @@ const PatientDetails = ({ params }: any) => {
   //   patientID,
   //   patientVisitID
   // }
-
-  console.log(artPrescription, "tdf")
 
   const handleStartVisit = async () => {
     const newVisitID = uuidv4()
@@ -85,7 +84,7 @@ const PatientDetails = ({ params }: any) => {
   return (
     <div className="">
       <div className="p-2 w-full justify-between flex items-center bg-white">
-        <div>
+        <div className='z-20' >
           <p className="font-bold">Patient Profile</p>
         </div>
         {/*  */}

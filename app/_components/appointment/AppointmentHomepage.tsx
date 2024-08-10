@@ -75,36 +75,31 @@ const AppointmentHomepage = () => {
     []
   )
 
-  const availableDays = [
-    {
-      id: 1,
-      label: 'Available'
-    },
-    {
-      id: 2,
-      label: 'Unavailable'
-    }
-  ]
+  // const availableDays = [
+  //   {
+  //     id: 1,
+  //     label: 'Available'
+  //   },
+  //   {
+  //     id: 2,
+  //     label: 'Unavailable'
+  //   }
+  // ]
 
-  const [available, setAvailableDays] = useState(1)
+  // const [available, setAvailableDays] = useState(1)
 
   return (
     <div>
       <div className="mt-1 p-2 bg-white mb-1">
         <h2>Appointments</h2>
-      </div>
-
-      <div className="flex items-center space-x-4 p-2">
-        {availableDays.map?.((item, i) => (
-          <div key={item.id} onClick={() => { setAvailableDays(item.id) }}>
-            {item.label}
-          </div>
-        ))}
+        {/* <Button>
+          Create New Appointments
+        </Button> */}
       </div>
 
       <hr />
 
-      {available === 1 && (
+      {/* {available === 1 && ( */}
         <>
           <CustomTab
             categoryList={categoryList}
@@ -141,10 +136,10 @@ const AppointmentHomepage = () => {
             </div>
           </div>
         </>
-      )}
+      // )}
 
       {/*  */}
-      {available === 2 && <div>unavailable</div>}
+      {/* {available === 2 && <div>unavailable</div>} */}
     </div>
   )
 }

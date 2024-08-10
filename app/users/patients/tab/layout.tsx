@@ -47,7 +47,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   const pathname = usePathname()
 
-  const { data, isLoading, isError } = useGetPatientQuery(patientID)
+  const { data, isLoading, isError } = useGetPatientQuery(patientID as string)
 
   const DL: SidebarListItemsProps[] = [
     {

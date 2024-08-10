@@ -35,7 +35,7 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-export function AppointmentBarChart ({ data }) {
+export function AppointmentBarChart ({ data }: { data: AppointmentProps[] }) {
   const groupAppointmentsByDay = (appointments: any[]) => {
     const groupedData = {}
     appointments?.forEach((appointment: { AppointmentAgenda: any, appointmentDate: any }) => {
