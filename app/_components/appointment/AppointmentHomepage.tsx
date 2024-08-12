@@ -15,7 +15,7 @@ const AppointmentHomepage = () => {
 
   // const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
   const { data } = useGetAllAppointmentsQuery({
-    mode: 'weekly',
+    mode: 'all',
     date: '2022-01-01'
   })
 
@@ -136,7 +136,6 @@ const AppointmentHomepage = () => {
             </div>
           </div>
         </>
-      // )}
 
       {/*  */}
       {/* {available === 2 && <div>unavailable</div>} */}

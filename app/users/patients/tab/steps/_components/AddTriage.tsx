@@ -54,6 +54,81 @@ interface InputProps {
   LMP: string
 }
 
+const RecentVitalsSigns = ({ data }: { data: any }) => {
+  return (
+    <div className="w-1/3 bg-white rounded-lg">
+      <div className="flex justify-between items-center w-full border p-2.5 rounded-t-lg bg-slate-200 ">
+        <p className="text-[16px] font-bold ml-2 ">Recent Vitals</p>
+        <div className="flex justify-between items-center space-x-2 text-slate-500 text-[12px] ">
+          <CalendarCheck2 size={15} />
+          <p>{moment(data?.createdAt).format('ll')}</p>
+        </div>
+      </div>
+
+      <div className="p-2">
+        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
+          <p className=" text-slate-500">Temperature</p>
+          <p className="font-bold">{data?.temperature} °C</p>
+        </div>
+        <div className="w-full border-b border-slate-100" />
+
+        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
+          <span className="text-slate-500 ">Pulse Rate</span>
+          <p className="font-bold">{data?.pulseRate} bpm</p>
+        </div>
+        <div className="w-full border-b border-slate-100" />
+
+        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
+          <span className="text-slate-500 ">Respiratory Rate</span>
+          <span className="font-bold">
+            {data?.respiratoryRate} bpm
+          </span>
+        </div>
+        <div className="w-full border-b border-slate-100" />
+        <CollapseButton label="Blood Pressure">
+          <div className="w-full flex items-center space-x-4">
+            <div>
+              <p className="text-[14px] ">Systolic</p>
+              <p className="font-bold">{data?.systolic}</p>
+            </div>
+            <p>/</p>
+            <div>
+              <p className="text-[14px] ">Diastolic</p>
+              <p className="font-bold">{data?.diastolic}</p>
+            </div>
+          </div>
+        </CollapseButton>
+        <div className="w-full border-b border-slate-100" />
+
+        <CollapseButton label="BMI">
+          <div className="w-full flex items-center space-x-4 justify-between">
+            <div className="w-full flex items-center space-x-4">
+              <div>
+                <p>Weight</p>
+                <p className="font-bold">
+                  {data?.weight}
+                  <span className="text-[14px]">kg</span>
+                </p>
+              </div>
+              <p>/</p>
+              <div>
+                <p>Height</p>
+                <p className="font-bold">
+                  {data?.height}
+                  <span className="text-[14px]">cm</span>
+                </p>
+              </div>
+            </div>
+            <div>
+              {calculateBMI(data?.weight, data?.height)}
+            </div>
+          </div>
+        </CollapseButton>
+      </div>
+    </div>
+  )
+}
+
 const AddTriage = ({
   patientID,
   handleNext,
@@ -126,69 +201,70 @@ const AddTriage = ({
             <Badge className="shadow-none">Adult</Badge>
           )}
         </div>
-        <FormProvider {...methods}>
-          <form
-            className="p-4 rounded-lg flex flex-col space-y-2"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <CustomInput2
-              label="Temperature (°C)"
-              name="temperature"
-              type="number"
-              // onChange={setTemperature}
-            />
-
-            <div className="w-full flex justify-between items-center space-x-8">
+        <div className="p-4 relative pb-[68px]">
+          <FormProvider {...methods}>
+            <form
+              className="p-4 rounded-lg flex flex-col space-y-2 border"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <CustomInput2
-                label="Pulse Rate (bpm)"
-                name="pulseRate"
-                // onChange={setPulseRate}
-              />
-              <CustomInput2
-                label="Respiratory Rate"
-                name="respiratoryRate"
-                // onChange={setRespiratoryRate}
-              />
-            </div>
-
-            <div>
-              <p className="font-bold mb-1">Blood Pressure (mmHg)</p>
-              <div className="flex flex-row w-1/2 space-x-4 items-center">
-                <CustomInput2
-                  label="Systolic"
-                  name="systolic"
-                  // onChange={setSystolic}
-                />
-                <div className="mt-2 text-slate-500 ">/</div>
-                <CustomInput2
-                  label="Diastolic"
-                  name="diastolic"
-                  // onChange={setDiastolic}
-                />
-              </div>{' '}
-            </div>
-
-            <CustomInput2
-              label="Oxygen Saturation (%)"
-              name="oxygenSAturation"
-              // onChange={setOxygen}
-            />
-
-            <div className="flex flex-row space-x-4 w-1/2 ">
-              <CustomInput2
-                label="Weight (kg) "
-                name="weight"
+                label="Temperature (°C)"
+                name="temperature"
                 type="number"
-                // onChange={setWeight}
+                // onChange={setTemperature}
               />
+
+              <div className="w-full flex justify-between items-center space-x-8">
+                <CustomInput2
+                  label="Pulse Rate (bpm)"
+                  name="pulseRate"
+                  // onChange={setPulseRate}
+                />
+                <CustomInput2
+                  label="Respiratory Rate"
+                  name="respiratoryRate"
+                  // onChange={setRespiratoryRate}
+                />
+              </div>
+
+              <div>
+                <p className="font-bold mb-1">Blood Pressure (mmHg)</p>
+                <div className="flex flex-row w-1/2 space-x-4 items-center">
+                  <CustomInput2
+                    label="Systolic"
+                    name="systolic"
+                    // onChange={setSystolic}
+                  />
+                  <div className="mt-2 text-slate-500 ">/</div>
+                  <CustomInput2
+                    label="Diastolic"
+                    name="diastolic"
+                    // onChange={setDiastolic}
+                  />
+                </div>{' '}
+              </div>
+
               <CustomInput2
-                label="Height (cm) "
-                name="height"
-                type="number"
-                // onChange={setheight}
+                label="Oxygen Saturation (%)"
+                name="oxygenSAturation"
+                // onChange={setOxygen}
               />
-            </div>
-            {/* <div className="border-b border-slate-100 w-full mt-top-2 mt-b-2 font-bold" />
+
+              <div className="flex flex-row space-x-4 w-1/2 ">
+                <CustomInput2
+                  label="Weight (kg) "
+                  name="weight"
+                  type="number"
+                  // onChange={setWeight}
+                />
+                <CustomInput2
+                  label="Height (cm) "
+                  name="height"
+                  type="number"
+                  // onChange={setheight}
+                />
+              </div>
+              {/* <div className="border-b border-slate-100 w-full mt-top-2 mt-b-2 font-bold" />
         <p className="font-bold capitalize">Other recordings</p>
         <CustomInput2
           label="MUAC"
@@ -201,18 +277,18 @@ const AddTriage = ({
           type='date'
           // onChange={setLMP}
         /> */}
-            {/* <div className="border-b border-slate-100 w-full mt-top-2 mt-b-2" /> */}
-            {/* <p>Pregnancy Details</p> */}
+              {/* <div className="border-b border-slate-100 w-full mt-top-2 mt-b-2" /> */}
+              {/* <p>Pregnancy Details</p> */}
 
-            {/* <CustomCheckbox
+              {/* <CustomCheckbox
         label="Is Pregnant?"
         value={isPregnant}
         onChange={setIsPregnant}
       /> */}
 
-            {/*  */}
+              {/*  */}
 
-            {/* {appointmentData
+              {/* {appointmentData
         ? (
         <div>
           <Button>Next</Button>{' '}
@@ -228,106 +304,37 @@ const AddTriage = ({
           Save
         </Button>
           )} */}
-            <div className="flex w-full justify-end">
-              {vsData || vlData ? (
-                <Button
-                  className="bg-slate-200 hover:bg-slate-100 shadow-none text-black"
-                  onClick={() => {
-                    handleNext()
-                  }}
-                >
-                  Next
-                </Button>
-              ) : (
-                <Button
-                  className="bg bg-slate-200 text-black shadow-none hover:bg-slate-100 "
-                  // onClick={async () => await addVitalSign(inputValues)}
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  {isLoading && (
-                    <Loader2 className="animate-spin mr-2" size={18} />
-                  )}
-                  Save
-                </Button>
-              )}
-            </div>
-          </form>
-        </FormProvider>
-      </div>
-      <div className="w-1/3 bg-white rounded-lg">
-        <div className="flex justify-between items-center w-full border p-2.5 rounded-t-lg bg-slate-200 ">
-          <p className="text-[16px] font-bold ml-2 ">Recent Vitals</p>
-          <div className="flex justify-between items-center space-x-2 text-slate-500 text-[12px] ">
-            <CalendarCheck2 size={15} />
-            <p>{moment(latestVitalsData?.createdAt).format('ll')}</p>
-          </div>
-        </div>
-
-        <div className='p-2' >
-          <div className="flex justify-between items-center w-full p-2 text-[14px] ">
-            <p className=" text-slate-500">Temperature</p>
-            <p className="font-bold">{latestVitalsData?.temperature} °C</p>
-          </div>
-          <div className="w-full border-b border-slate-100" />
-
-          <div className="flex justify-between items-center w-full p-2 text-[14px] ">
-            <span className="text-slate-500 ">Pulse Rate</span>
-            <p className="font-bold">{latestVitalsData?.pulseRate} bpm</p>
-          </div>
-          <div className="w-full border-b border-slate-100" />
-
-          <div className="flex justify-between items-center w-full p-2 text-[14px] ">
-            <span className="text-slate-500 ">Respiratory Rate</span>
-            <span className="font-bold">
-              {latestVitalsData?.respiratoryRate} bpm
-            </span>
-          </div>
-          <div className="w-full border-b border-slate-100" />
-          <CollapseButton label="Blood Pressure">
-            <div className="w-full flex items-center space-x-4">
-              <div>
-                <p className="text-[14px] ">Systolic</p>
-                <p className="font-bold">{latestVitalsData?.systolic}</p>
-              </div>
-              <p>/</p>
-              <div>
-                <p className="text-[14px] ">Diastolic</p>
-                <p className="font-bold">{latestVitalsData?.diastolic}</p>
-              </div>
-            </div>
-          </CollapseButton>
-          <div className="w-full border-b border-slate-100" />
-
-          <CollapseButton label="BMI">
-            <div className="w-full flex items-center space-x-4 justify-between">
-              <div className="w-full flex items-center space-x-4">
-                <div>
-                  <p>Weight</p>
-                  <p className="font-bold">
-                    {latestVitalsData?.weight}
-                    <span className="text-[14px]">kg</span>
-                  </p>
-                </div>
-                <p>/</p>
-                <div>
-                  <p>Height</p>
-                  <p className="font-bold">
-                    {latestVitalsData?.height}
-                    <span className="text-[14px]">cm</span>
-                  </p>
-                </div>
-              </div>
-              <div>
-                {calculateBMI(
-                  latestVitalsData?.weight,
-                  latestVitalsData?.height
+              <div className="flex w-full justify-end absolute bottom-4 right-4 ">
+                {vsData || vlData ? (
+                  <Button
+                    className="bg-slate-200 hover:bg-slate-100 shadow-none text-black"
+                    onClick={() => {
+                      handleNext()
+                    }}
+                  >
+                    Next
+                  </Button>
+                ) : (
+                  <Button
+                    className="bg bg-teal-600 shadow-none hover:bg-teal-500 text-white "
+                    // onClick={async () => await addVitalSign(inputValues)}
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {isLoading && (
+                      <Loader2 className="animate-spin mr-2" size={18} />
+                    )}
+                    Save
+                  </Button>
                 )}
               </div>
-            </div>
-          </CollapseButton>
+            </form>
+          </FormProvider>
         </div>
       </div>
+      {/*  */}
+
+      <RecentVitalsSigns data={latestVitalsData} />
     </div>
   )
 }

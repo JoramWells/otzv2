@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/return-await */
 /* eslint-disable @typescript-eslint/ban-types */
 import CustomInput from '@/components/forms/CustomInput'
@@ -20,9 +21,26 @@ interface PrescriptionCardProps {
 
   isLoadingSave: boolean
   savePrescription: () => {}
+  handleBack: () => void
+  handleNext: () => void
+  prescriptionData: any
+  addPrescriptionData: any
 }
 
-const PrescribeCard = ({ noOfPill, setNoOfPills, frequency, setFrequency, refillDate, setRefillDate, isLoadingSave, savePrescription }: PrescriptionCardProps) => {
+const PrescribeCard = ({
+  noOfPill,
+  setNoOfPills,
+  frequency,
+  setFrequency,
+  refillDate,
+  setRefillDate,
+  isLoadingSave,
+  savePrescription,
+  handleBack,
+  handleNext,
+  prescriptionData,
+  addPrescriptionData
+}: PrescriptionCardProps) => {
   return (
     <div className="flex flex-col space-y-4  border  rounded-lg p-4">
       <CustomInput
@@ -52,17 +70,40 @@ const PrescribeCard = ({ noOfPill, setNoOfPills, frequency, setFrequency, refill
         type="date"
       />
 
-      {/* save prescription */}
-      <div>
+      {/*  */}
+      <div className="flex justify-end mt-4 space-x-4 w-full absolute bottom-4 right-4 ">
         <Button
-          onClick={ () => savePrescription()}
-          disabled={isLoadingSave}
-          className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+          onClick={() => {
+            handleBack()
+          }}
+          className="bg-slate-200 shadow-none text-slate-700 hover:bg-slate-100"
         >
-          {isLoadingSave && <Loader2 className="mr-2" size={18} />}
-          Save
+          Back
         </Button>
+        {prescriptionData || addPrescriptionData
+          ? (
+          <Button
+            className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+            onClick={() => {
+              handleNext()
+            }}
+          >
+            Next
+          </Button>
+            )
+          : (
+          <Button
+            onClick={() => savePrescription()}
+            disabled={isLoadingSave}
+            className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
+          >
+            {isLoadingSave && <Loader2 className="mr-2" size={18} />}
+            Save
+          </Button>
+            )}
       </div>
+
+      {/* save prescription */}
     </div>
   )
 }

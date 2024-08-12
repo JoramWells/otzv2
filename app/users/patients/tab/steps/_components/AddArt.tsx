@@ -20,7 +20,7 @@ import { useSearchParams } from 'next/navigation'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
-import { useAddPrescriptionMutation, useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
+import { useAddPrescriptionMutation, useGetPrescriptionDetailQuery, useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import { Badge } from '@/components/ui/badge'
 import RecentPrescriptionCard from './ART/RecentPrescriptionCard'
 import PrescribeCard from './ART/PrescribeCard'
@@ -171,6 +171,8 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
 
   const { data: prescriptionDatam, isLoading: isLoadingPrescription, isError: isErrorPrescription } = useGetPrescriptionDetailQuery(patientID)
 
+  const { data: currentPrescriptionData } = useGetPrescriptionQuery(appointmentID)
+
   async function handleSavePrescription () {
     return await addPrescription(prescriptionInputValues)
   }
@@ -189,8 +191,8 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   return (
     <div className="flex items-start space-x-4 w-full">
       <div className="w-3/4 flex flex-col justify-between items-center bg-white">
-        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 border-b-blue-200  rounded-t-lg">
-          <p className="text-lg  font-bold">ART Details</p>
+        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200  rounded-t-lg">
+          <p className="text-lg  font-bold ml-2">ART Details</p>
           <div className="flex space-x-2 items-center">
             <Badge className="shadow-none"> {prescriptionData?.regimen} </Badge>
             {/* <p className="capitalize text-slate-500 text-[12px]">
@@ -201,7 +203,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
         {prescriptionData || addPrescriptionData ? (
           <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
             {/* <p>{prescriptionData?.regimen}</p> */}
-            <div className="w-full flex flex-col space-y-2">
+            <div className="w-full flex flex-col space-y-2 relative pb-[60px] ">
               <div className="flex flex-row space-x-4">
                 {dataList.map((item) => (
                   <Button
@@ -229,6 +231,10 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                   isLoadingSave={isLoading}
                   setRefillDate={setRefillDate}
                   savePrescription={handleSavePrescription}
+                  handleBack={handleBack}
+                  handleNext={handleNext}
+                  prescriptionData={currentPrescriptionData}
+                  addPrescriptionData={addPrescriptionData}
                 />
               )}
               {tab === 2 && (
@@ -239,37 +245,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                 />
               )}
             </div>
-            {/*  */}
-            <div className="flex justify-end mt-4 space-x-4 w-full">
-              <Button
-                onClick={() => {
-                  handleBack()
-                }}
-                className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
-              >
-                Prev
-              </Button>
-              {prescriptionData || addPrescriptionData ? (
-                <Button
-                  className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
-                  onClick={() => {
-                    handleNext()
-                  }}
-                >
-                  Next
-                </Button>
-              ) : (
-                <Button
-                  className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
-                  onClick={async () => await addArtPrescription(inputValues)}
-                >
-                  {isLoading && (
-                    <Loader2 className="animate-spin mr-2" size={18} />
-                  )}
-                  Save
-                </Button>
-              )}
-            </div>
+
           </div>
         ) : (
           <div

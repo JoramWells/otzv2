@@ -57,7 +57,7 @@ const PatientDetails = ({ params }: any) => {
     const newVisitID = uuidv4()
     const inputValues = {
       patientID,
-      patientVisitID: newVisitID
+      id: newVisitID
     }
     await addPatientVisit(inputValues)
   }
