@@ -24,6 +24,7 @@ export const internalLabRequestApi = createApi({
     getInternalLabRequest: builder.query({
       query: (id) => `detail/${id}`
     }),
+
     getInternalLabRequestByID: builder.query({
       query: (id) => `labDetail/${id}`
     }),

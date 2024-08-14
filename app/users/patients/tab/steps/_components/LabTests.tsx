@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
-import { useAddViralLoadTestMutation, useGetAllViralLoadByPatientIDQuery, useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useAddViralLoadTestMutation, useGetAllViralLoadByPatientIDQuery, useGetViralLoadTestByPatientVisitIDQuery, useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,7 @@ import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import ViralLoad from './LabTests/ViralLoad'
 import RecentViralLoadCard from './LabTests/RecentViralLoadCard'
+import { ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 const justificationOptions = [
   {
@@ -33,6 +34,9 @@ interface InputProps {
 const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputProps) => {
   const { data: statusData } = useGetAllAppointmentStatusQuery()
   const { data: agendaData } = useGetAllAppointmentAgendaQuery()
+
+  const { data: currentVLData } =
+    useGetViralLoadTestByPatientVisitIDQuery(patientVisitID)
 
   const [addViralLoadTest, { isLoading }] = useAddViralLoadTestMutation()
   const statusOptions = useCallback(() => {
@@ -111,6 +115,8 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
     }
   }, [allPatientVLData])
 
+  console.log(currentVLData, 'currentVLData')
+
   return (
     <div className="w-full flex space-x-4 items-start">
       <div className="w-3/4">
@@ -138,19 +144,35 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
               onClick={() => {
                 handleBack()
               }}
-              className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
+              variant='outline'
+              className=" shadow-none text-black hover:bg-slate-100"
             >
-              Prev
+              <ChevronsLeft size={15} className='mr-2' /> Prev
             </Button>
-            <Button
-              className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
-              disabled={isLoading}
-              onClick={() => {
-                addViralLoadTest(inputValues)
-              }}
-            >
-              Next
-            </Button>
+            {currentVLData
+              ? (
+              <Button
+                className=" shadow-none hover:bg-slate-100 text-black"
+                disabled={isLoading}
+                variant={'outline'}
+                onClick={() => {
+                  handleNext()
+                }}
+              >
+                Next <ChevronsRight className='ml-2' size={15} />
+              </Button>
+                )
+              : (
+              <Button
+                className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+                disabled={isLoading}
+                onClick={() => {
+                  addViralLoadTest(inputValues)
+                }}
+              >
+                Save
+              </Button>
+                )}
           </div>
         </div>
 

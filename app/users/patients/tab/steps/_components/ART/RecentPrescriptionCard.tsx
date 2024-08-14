@@ -6,6 +6,7 @@ import { calculateAdherence } from '@/utils/calculateAdherence'
 import { Loader2 } from 'lucide-react'
 import React from 'react'
 import { type PrescriptionInterface } from 'otz-types'
+import RecentTestHeader from '../RecentTestHeader'
 interface PrescriptionCardProps {
   isLoading: boolean
   isError: boolean
@@ -14,10 +15,12 @@ interface PrescriptionCardProps {
 
 const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardProps) => {
   return (
-    <div className="w-1/3 rounded-lg bg-white border border-slate-200">
-      <div className="border border-slate-200 p-2 pl-4 bg-slate-100 border-t-0 rounded-t-lg">
-        <p className="text-[14px] font-bold ">Recent Prescription</p>
-      </div>
+    <div className="w-1/3 rounded-lg bg-white">
+      <RecentTestHeader
+      title='Recent Prescription'
+      date={data?.createdAt}
+      />
+
       <div>
         {isLoading ? (
           <div className="p-4 flex space-x-4 items-center">
@@ -38,17 +41,13 @@ const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardPr
             {/*  */}
             <div className="flex justify-between items-center w-full text-[14px] ">
               <p className="text-slate-500 ">Expected No. Of Pills</p>
-              <p className="font-bold">
-                {data.expectedNoOfPills}{' '}
-              </p>
+              <p className="font-bold">{data.expectedNoOfPills} </p>
             </div>
             <hr />
             {/*  */}
             <div className="flex justify-between items-center w-full text-[14px] ">
               <p className="text-slate-500 ">Pills Taken</p>
-              <p className="font-bold">
-                {data.computedNoOfPills}{' '}
-              </p>
+              <p className="font-bold">{data.computedNoOfPills} </p>
             </div>
 
             <hr />
