@@ -1,6 +1,6 @@
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
-import CustomSelect from '@/components/forms/CustomSelect'
+import CustomSelect, { type DataItem } from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { PlusCircleIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -32,7 +32,7 @@ const HeaderTitle = ({ title, link, label = '' }: HeaderTitleProps) => {
           label="Select Patient Name"
           value={patientID}
           onChange={setPatientID}
-          data={dataOptions()}
+          data={dataOptions() as DataItem[]}
         />
         <Button
           className="bg-teal-600 hover:bg-teal-700 shadow-none"
