@@ -14,7 +14,11 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
   const [user, setUser] = useState<Partial<UserInterface>>()
   useEffect(() => {
     if (session) {
-      setUser(session?.user)
+      const transformedUser: Partial<UserInterface> = {
+        ...session.user,
+        email: session.user.email ?? undefined
+      }
+      setUser(transformedUser)
     }
   }, [session])
 
