@@ -15,7 +15,7 @@ import { ListFilter, PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
-import { type PatientProps } from '@/types'
+import { type PatientAttributes } from 'otz-types'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -77,9 +77,9 @@ const Patients = () => {
   // const datax = await getPatients()
   const { data, isLoading } = useGetAllPatientsQuery()
 
-  const filteredArray: PatientProps[] = data ? [...data] : []
+  const filteredArray: PatientAttributes[] = data ? [...data] : []
   filteredArray.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()
   )
 
   // console.log(data, 'dtx')
