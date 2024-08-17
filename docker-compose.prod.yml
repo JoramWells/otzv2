@@ -32,6 +32,42 @@ services:
     networks:
       - otz
 
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf
+      # - ./nginx/ssl:/etc/nginx/ssl
+      - ./ssl/otzplus.crt:/etc/ssl/otzplus.crt
+      - ./ssl/otzplus.key:/etc/ssl/otzplus.key
+      - ./ssl/www_otzplus_xyz.crt:/etc/ssl/www_otzplus_xyz.crt
+      - ./ssl/www_otzplus_xyz_chain.crt:/etc/ssl/www_otzplus_xyz_chain.crt
+    ports:
+      - 85:85
+      - 443:443
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   placement:
+    #     max_replicas_per_node: 1
+    #   update_config:
+    #     parallelism: 2
+    #     delay: 10s
+    #   restart_policy:
+    #     condition: on-failure    
+    #   resources:
+    #     limits:
+    #       cpus: '0.05'
+    #       # memory: 700M
+    #     reservations:
+    #       cpus: '0.05'
+    #       # memory: 700M 
+
+    depends_on:
+      - client
+
+    networks:
+      - otz      
+
 networks:
  otz:
   driver: bridge
