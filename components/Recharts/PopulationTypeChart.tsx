@@ -1,14 +1,6 @@
 import React, { useCallback } from 'react'
 import { PolarAngleAxis, Radar, RadarChart, PolarGrid } from 'recharts'
 
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardHeader,
-//   CardTitle
-// } from '@/components/ui/card'
-
 import {
   type ChartConfig,
   ChartContainer,
@@ -26,9 +18,9 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-const PopulationTypeChart = ({ data }) => {
+const PopulationTypeChart = ({ data }: { data: any[] }) => {
   const countMap = useCallback(() => {
-    const tempData = data ? [...data] : []
+    const tempData = ((data?.length) !== 0) ? [...data] : []
 
     const filteredData = tempData.filter(item => {
       return item.populationType

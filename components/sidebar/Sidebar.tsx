@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 export const Sidebar = ({ children, isSearchable = true }: { children: React.ReactNode, isSearchable?: boolean }) => {
   const { isSidebarOpen } = useSidebar()
   const { data: session } = useSession()
-  const [user, setUser] = useState<UserInterface>()
+  const [user, setUser] = useState<Partial<UserInterface>>()
   useEffect(() => {
     if (session) {
       setUser(session?.user)
