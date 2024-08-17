@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -20,7 +21,7 @@ import { Loader2 } from 'lucide-react'
 
 interface InputProps {
   value: string
-  setValue: () => void
+  setValue: (e: string) => void
 }
 
 const SelectYears = ({ value, setValue }: InputProps) => {
@@ -48,10 +49,10 @@ const SelectYears = ({ value, setValue }: InputProps) => {
 }
 
 const ProfileSettings = ({ params }: { params: any }) => {
-  const [phoneNo, setPhoneNo] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [middleName, setMiddleName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [phoneNo, setPhoneNo] = useState<string | undefined>('')
+  const [firstName, setFirstName] = useState<string | undefined>('')
+  const [middleName, setMiddleName] = useState<string | undefined>('')
+  const [lastName, setLastName] = useState<string | undefined>('')
   const [role, setRole] = useState('')
   const { patientID } = params
 
@@ -85,22 +86,22 @@ const ProfileSettings = ({ params }: { params: any }) => {
         <div className="w-1/2 flex flex-col space-y-4 bg-white rounded-lg">
           <CustomInput
             label="First Name"
-            value={firstName}
+            value={firstName!}
             onChange={setFirstName}
           />
 
           <CustomInput
             label="Second Name"
-            value={middleName}
+            value={middleName!}
             onChange={setMiddleName}
           />
           <CustomInput
             label="Last Name"
-            value={lastName}
+            value={lastName!}
             onChange={setLastName}
           />
 
-          <CustomInput label="Phone" value={phoneNo} onChange={setPhoneNo} />
+          <CustomInput label="Phone" value={phoneNo!} onChange={setPhoneNo} />
 
           {/*  */}
           <SelectYears
