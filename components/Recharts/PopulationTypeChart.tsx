@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useCallback } from 'react'
 import { PolarAngleAxis, Radar, RadarChart, PolarGrid } from 'recharts'
 
@@ -10,6 +11,7 @@ import {
   // ChartStyle,
   ChartTooltipContent
 } from '@/components/ui/chart'
+import { type PatientAttributes } from 'otz-types'
 
 const chartConfig = {
   desktop: {
@@ -18,7 +20,9 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-const PopulationTypeChart = ({ data }: { data: any[] }) => {
+type CountMap = Record<string, number>
+
+const PopulationTypeChart = ({ data }: { data: PatientAttributes[] }) => {
   const countMap = useCallback(() => {
     const tempData = ((data?.length) !== 0) ? [...data] : []
 
@@ -27,16 +31,16 @@ const PopulationTypeChart = ({ data }: { data: any[] }) => {
     })
 
     const cleanedData = filteredData.map(item => ({
-      populationType: item.populationType.replace(/\r\n/g, '')
+      populationType: item?.populationType?.replace(/\r\n/g, '') ?? ''
     }))
 
     const kpData = cleanedData.filter(item => {
       return item.populationType !== 'General Population'
     })
 
-    return kpData?.reduce((acc, curr) => {
+    return kpData?.reduce<CountMap>((acc, curr) => {
       const { populationType } = curr
-      if (acc[populationType]) {
+      if (acc[populationType] !== 0) {
         acc[populationType]++
       } else {
         acc[populationType] = 1

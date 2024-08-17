@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/require-array-sort-compare */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -106,12 +107,12 @@ const NotifyPage = () => {
       <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
         {/*  */}
         <div className="flex justify-between space-x-2 ">
-          <RegisteredPatientsLineChart data={data} />
+          <RegisteredPatientsLineChart data={data! } />
 
           <PieChart data={pieChartData} />
         </div>
         <div className="flex justify-between bg-slate-50 p-2 space-x-2">
-          <PopulationTypeChart data={data} />
+          <PopulationTypeChart data={data!} />
           <div className="p-2 bg-white rounded-lg w-1/2  ">
             <div
             className='p-2'

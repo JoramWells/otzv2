@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useCallback } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 import {
@@ -10,6 +12,7 @@ import {
 } from '@/components/ui/chart'
 import UsersRadial from './UsersRadial'
 import CountUp from 'react-countup'
+import { type PatientAttributes } from 'otz-types'
 
 const chartConfig = {
   visitors: {
@@ -25,9 +28,17 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-const RegisteredPatientsLineChart = ({ data }) => {
+interface CountMapEntry {
+  year: number
+  M: number
+  F: number
+}
+
+type CountMap = Record<number, CountMapEntry>
+
+const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) => {
   const prepareData = useCallback(() => {
-    const countMap = {}
+    const countMap: CountMap = {}
 
     const filteredData = data?.filter(item => item.sex !== null).map(item => {
       let normalizedSex = item.sex
@@ -42,11 +53,13 @@ const RegisteredPatientsLineChart = ({ data }) => {
 
     filteredData?.forEach(item => {
       const { date, sex } = item
-      const year = new Date(date).getFullYear()
-      if (!countMap[year]) {
-        countMap[year] = { year, M: 0, F: 0 }
+      const year = new Date(date!).getFullYear()
+      if (sex && (sex === 'M' || sex === 'F')) {
+        if (!countMap[year]) {
+          countMap[year] = { year, M: 0, F: 0 }
+        }
+        countMap[year][sex]++
       }
-      countMap[year][sex]++
     })
 
     return Object.values(countMap)
