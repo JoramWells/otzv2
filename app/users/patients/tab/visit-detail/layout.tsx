@@ -37,7 +37,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const params = useParams()
   const { patientID } = params
 
-  const { data } = useGetPatientQuery(patientID)
+  const { data } = useGetPatientQuery(patientID as string)
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('visitID')
 
