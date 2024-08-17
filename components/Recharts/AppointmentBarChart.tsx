@@ -35,9 +35,11 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
+type GroupData = Record<string, any>
+
 export function AppointmentBarChart ({ data }: { data: AppointmentProps[] }) {
   const groupAppointmentsByDay = (appointments: any[]) => {
-    const groupedData = {}
+    const groupedData: GroupData = {}
     appointments?.forEach((appointment: { AppointmentAgenda: any, appointmentDate: any }) => {
       const { AppointmentAgenda, appointmentDate } = appointment
       if (!groupedData[appointmentDate]) {
