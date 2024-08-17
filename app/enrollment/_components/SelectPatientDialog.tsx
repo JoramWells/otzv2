@@ -12,8 +12,8 @@ interface SelectPatientDialogProps {
 }
 
 interface SelectOptions {
-  id: string
-  label: string
+  id?: string
+  label?: string
 }
 
 const SelectPatientDialog = ({ link = '', label = 'Create', data }: SelectPatientDialogProps) => {

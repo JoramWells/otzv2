@@ -119,7 +119,7 @@ const Dashboard = () => {
     labels: ['Paediatric', 'OTZ', 'OTZ Plus', 'Adult'],
     datasets: [
       {
-        data: calculateAgeRange(data || [], ageRanges),
+        data: calculateAgeRange(data ?? [], ageRanges),
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
       }
     ]

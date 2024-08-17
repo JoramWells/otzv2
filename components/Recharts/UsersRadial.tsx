@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React from 'react'
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts'
 import {
   type ChartConfig,
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart'
@@ -21,7 +21,7 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-const UsersRadial = ({ data }) => {
+const UsersRadial = ({ data }: { data: any[] }) => {
   return (
     <div
     className=' w-1/2 bg-white'

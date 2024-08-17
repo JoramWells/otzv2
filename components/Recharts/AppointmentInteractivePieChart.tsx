@@ -3,46 +3,41 @@ import { Label, Pie, PieChart, Sector } from 'recharts'
 import { type PieSectorDataItem } from 'recharts/types/polar/Pie'
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
+  CardContent
+
 } from '@/components/ui/card'
 
 import {
-  type ChartConfig,
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartStyle,
   ChartTooltipContent
 } from '@/components/ui/chart'
 
-const chartConfig = {
-  visitors: {
-    label: 'Visitors'
-  },
-  desktop: {
-    label: 'Desktop'
-  },
-  mobile: {
-    label: 'Mobile'
-  },
-  january: {
-    label: 'January',
-    color: 'hsl(var(--chart-1))'
-  },
-  february: {
-    label: 'February',
-    color: 'hsl(var(--chart-2))'
-  }
-}
+// const chartConfig = {
+//   visitors: {
+//     label: 'Visitors'
+//   },
+//   desktop: {
+//     label: 'Desktop'
+//   },
+//   mobile: {
+//     label: 'Mobile'
+//   },
+//   january: {
+//     label: 'January',
+//     color: 'hsl(var(--chart-1))'
+//   },
+//   february: {
+//     label: 'February',
+//     color: 'hsl(var(--chart-2))'
+//   }
+// }
 
-const desktopData = [
-  { month: 'january', desktop: 186, fill: 'var(--color-january)' },
-  { month: 'february', desktop: 305, fill: 'var(--color-february)' }
-]
+// const desktopData = [
+//   { month: 'january', desktop: 186, fill: 'var(--color-january)' },
+//   { month: 'february', desktop: 305, fill: 'var(--color-february)' }
+// ]
 
 const AppointmentInteractivePieChart = ({ data }) => {
   const id = 'pie-interactive'
@@ -65,7 +60,7 @@ const AppointmentInteractivePieChart = ({ data }) => {
   }
 
   //
-  const groupedData = groupAppointmentsByDay(data)
+  // const groupedData = groupAppointmentsByDay(data)
 
   //
   const createChartConfig = appointments => {

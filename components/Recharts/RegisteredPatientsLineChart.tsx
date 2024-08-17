@@ -6,7 +6,6 @@ import {
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
-  ChartStyle,
   ChartTooltipContent
 } from '@/components/ui/chart'
 import UsersRadial from './UsersRadial'

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { Button } from '@/components/ui/button'
 import { useSidebar } from '@/context/SidebarContext'

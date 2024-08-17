@@ -4,12 +4,11 @@ import '../../globals.css'
 // import Link from 'next/link'
 import { ChevronRight, ChevronDown } from 'lucide-react'
 import { SidebarSubButton } from './SidebarSubButton'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { type SideBarCollapseButtonProps } from '@/types'
 import { Button } from '@/components/ui/button'
-import { useSession } from 'next-auth/react'
 
 export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, icon = <div/> }: SideBarCollapseButtonProps) => {
   const [visible, setVisible] = useState(false)

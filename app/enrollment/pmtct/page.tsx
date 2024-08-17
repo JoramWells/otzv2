@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '@/app/_components/table/CustomTable'
@@ -8,6 +9,7 @@ import { useGetAllPMTCTProfileEnrollmentsQuery } from '@/api/enrollment/pmtctPro
 import { columns } from './columns'
 import { useCallback } from 'react'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
+import { type PatientAttributes } from 'otz-types'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -29,10 +31,6 @@ const dataList2 = [
     link: 'enrollments'
   }
 ]
-interface Patient {
-  id: string
-  firstName: string
-}
 
 const PMTCT = () => {
   // const datax = await getPatients()
@@ -42,7 +40,7 @@ const PMTCT = () => {
 
   const patientDataOptions = useCallback(() => {
     return (
-      patientData?.map((item: Patient) => ({
+      patientData?.map((item: PatientAttributes) => ({
         id: item.id,
         label: item.firstName
       })) || []
