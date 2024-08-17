@@ -123,6 +123,13 @@ const LocationDetails = ({ county, subCounty }: { county: string, subCounty: str
 
   return (
     <>
+      {/* <Autocomplete
+        className="border"
+        apiKey="AIzaSyDSg2RZcb6i3EohltpyGWSd4GGnfWpA4bQ"
+        onPlaceSelected={(place) => {
+          console.log(place);
+        }}
+      /> */}
       <CustomInput2
         label="Phone No."
         description="You can enter more than one phone number."
