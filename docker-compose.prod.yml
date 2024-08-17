@@ -43,7 +43,7 @@ services:
       - ./ssl/www_otzplus_xyz_chain.crt:/etc/ssl/www_otzplus_xyz_chain.crt
     ports:
       - 8085:8085
-      - 443:443
+      # - 443:443
     # deploy:
     #   mode: replicated
     #   replicas: 2
