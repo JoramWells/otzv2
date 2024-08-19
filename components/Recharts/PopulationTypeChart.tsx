@@ -24,7 +24,7 @@ type CountMap = Record<string, number>
 
 const PopulationTypeChart = ({ data }: { data: PatientAttributes[] }) => {
   const countMap = useCallback(() => {
-    const tempData = ((data?.length) !== 0) ? [...data] : []
+    const tempData = data ? [...data] : []
 
     const filteredData = tempData.filter(item => {
       return item.populationType

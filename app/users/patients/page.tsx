@@ -91,7 +91,7 @@ const Patients = () => {
       <BreadcrumbComponent dataList={dataList2} />
       <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
         <div>
-          <p className="font-bold text-slate-700">Patients</p>
+          <h2 className="font-bold text-slate-700">Patients</h2>
           <p className="text-slate-500 text-[14px] ">
             Manage Registered Patients
           </p>
