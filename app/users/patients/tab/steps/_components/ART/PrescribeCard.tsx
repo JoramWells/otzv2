@@ -4,7 +4,7 @@
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
-import { Loader2 } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
 import React, { type Dispatch, type SetStateAction } from 'react'
 
 interface PrescriptionCardProps {
@@ -71,24 +71,28 @@ const PrescribeCard = ({
       />
 
       {/*  */}
-      <div className="flex justify-end mt-4 space-x-4 w-full absolute bottom-4 right-4 ">
+      <div className="flex justify-end mt-4 space-x-4 w-full absolute bottom-2 right-0.5 ">
         <Button
           onClick={() => {
             handleBack()
           }}
-          className="bg-slate-200 shadow-none text-slate-700 hover:bg-slate-100"
+          className="shadow-none text-slate-500"
+        variant='outline'
         >
+          <ChevronsLeft className='mr-2' size={18} />
           Back
         </Button>
-        {prescriptionData || addPrescriptionData
+        {prescriptionData
           ? (
           <Button
-            className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+            className=" shadow-none  text-slate-500"
+            variant='outline'
             onClick={() => {
               handleNext()
             }}
           >
             Next
+            <ChevronsRight className='ml-2' size={18} />
           </Button>
             )
           : (

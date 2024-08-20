@@ -11,13 +11,11 @@ import FormOne from '@/app/_components/treatement-plan/FormOne'
 import AddTriage from '../_components/AddTriage'
 import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import AddArt from '../_components/AddArt'
 import { useGetMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { calculateAge } from '@/utils/calculateAge'
 import FullDisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist/Full'
 import LabTests from '../_components/LabTests'
-import PatientProfile from '../_components/PatientProfile'
 import CustomStepper from '../_components/CustomStepper'
 
 const BreadcrumbComponent = dynamic(
@@ -25,6 +23,29 @@ const BreadcrumbComponent = dynamic(
   {
     ssr: false,
     loading: () => <Skeleton className="w-full h-[52px]" />
+  }
+)
+
+const AddArt = dynamic(async () => await import('../_components/AddArt'), {
+  ssr: false,
+  loading: () => (
+    <div
+    className='flex w-full justify-between space-x-4'
+    >
+      <Skeleton className="w-3/4 h-[200px]" />
+      <Skeleton className="w-1/3 h-[200px]" />
+    </div>
+  )
+})
+
+//
+const PatientProfile = dynamic(
+  async () => await import('../_components/PatientProfile'),
+  {
+    ssr: false,
+    loading: () => (
+        <Skeleton className="w-1/3 h-[200px]" />
+    )
   }
 )
 

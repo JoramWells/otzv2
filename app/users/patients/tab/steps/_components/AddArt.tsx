@@ -10,11 +10,13 @@ import {
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { Button } from '@/components/ui/button'
 import {
+  ChevronsLeft,
+  ChevronsRight,
   Loader2,
   RefreshCcw,
   TabletsIcon
 } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
@@ -27,6 +29,7 @@ import PrescribeCard from './ART/PrescribeCard'
 import { type PrescriptionInterface } from 'otz-types'
 import InitiateART from './ART/InitiateART'
 import SwitchART from './ART/SwitchART'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const reasonOptions = [
   {
@@ -189,109 +192,108 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const [tab, setTab] = useState(1)
 
   return (
-    <div className="flex items-start space-x-4 w-full">
-      <div className="w-3/4 flex flex-col justify-between items-center bg-white">
-        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200  rounded-t-lg">
-          <p className="text-lg  font-bold ml-2">ART Details</p>
-          <div className="flex space-x-2 items-center">
-            <Badge className="shadow-none"> {prescriptionData?.regimen} </Badge>
-            {/* <p className="capitalize text-slate-500 text-[12px]">
+    <>
+      <Suspense fallback={<Skeleton className="w-3/4 h-[400px] " />}>
+        <div
+          className="w-3/4 flex flex-col justify-between items-center bg-white
+      border rounded-lg border-slate-200
+      "
+        >
+          <div className="flex justify-between items-center w-full border-b bg-slate-50 border-slate-200  p-3  rounded-t-lg">
+            <p className="text-lg  font-bold">ART Details</p>
+            <div className="flex space-x-2 items-center">
+              <Badge className="shadow-none">
+                {' '}
+                {prescriptionData?.regimen}{' '}
+              </Badge>
+              {/* <p className="capitalize text-slate-500 text-[12px]">
             {prescriptionData?.line}slate
           </p> */}
-          </div>
-        </div>
-        {prescriptionData || addPrescriptionData ? (
-          <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
-            {/* <p>{prescriptionData?.regimen}</p> */}
-            <div className="w-full flex flex-col space-y-2 relative pb-[60px] ">
-              <div className="flex flex-row space-x-4">
-                {dataList.map((item) => (
-                  <Button
-                    onClick={() => {
-                      setTab(item.id)
-                    }}
-                    key={item.id}
-                    className={`bg-white shadow-none  text-slate-500 border border-slate-200 hover:bg-slate-100  ${
-                      item.id === tab && 'bg-slate-50 text-black'
-                    }`}
-                  >
-                    {item.icon}
-                    {item.label}
-                  </Button>
-                ))}
-              </div>
-
-              {tab === 1 && (
-                <PrescribeCard
-                  noOfPill={noOfPill}
-                  setNoOfPills={setNoOfPills}
-                  frequency={frequency}
-                  setFrequency={setFrequency}
-                  refillDate={refillDate}
-                  isLoadingSave={isLoading}
-                  setRefillDate={setRefillDate}
-                  savePrescription={handleSavePrescription}
-                  handleBack={handleBack}
-                  handleNext={handleNext}
-                  prescriptionData={currentPrescriptionData}
-                  addPrescriptionData={addPrescriptionData}
-                />
-              )}
-              {tab === 2 && (
-                <SwitchART
-                  regimenOptions={regimenOptions()}
-                  reasonOptions={reasonOptions}
-                  patientID={patientID}
-                />
-              )}
             </div>
-
           </div>
-        ) : (
-          <div
-            // label={<Plus className="text-slate-500" size={18} />}
-            className="w-full p-4"
-          >
-            {/*  */}
+          {prescriptionData || addPrescriptionData ? (
+            <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
+              {/* <p>{prescriptionData?.regimen}</p> */}
+              <div className="w-full flex flex-col space-y-2 relative pb-[60px] ">
+                <div className="flex flex-row space-x-4">
+                  {dataList.map((item) => (
+                    <Button
+                      onClick={() => {
+                        setTab(item.id)
+                      }}
+                      key={item.id}
+                      className={`bg-white shadow-none  text-slate-500 border border-slate-200 hover:bg-slate-100  ${
+                        item.id === tab && 'bg-slate-50 text-black'
+                      }`}
+                    >
+                      {item.icon}
+                      {item.label}
+                    </Button>
+                  ))}
+                </div>
 
-            {/*  */}
+                {tab === 1 && (
+                  <PrescribeCard
+                    noOfPill={noOfPill}
+                    setNoOfPills={setNoOfPills}
+                    frequency={frequency}
+                    setFrequency={setFrequency}
+                    refillDate={refillDate}
+                    isLoadingSave={isLoading}
+                    setRefillDate={setRefillDate}
+                    savePrescription={handleSavePrescription}
+                    handleBack={handleBack}
+                    handleNext={handleNext}
+                    prescriptionData={currentPrescriptionData}
+                    addPrescriptionData={addPrescriptionData}
+                  />
+                )}
+                {tab === 2 && (
+                  <SwitchART
+                    regimenOptions={regimenOptions()}
+                    reasonOptions={reasonOptions}
+                    patientID={patientID}
+                  />
+                )}
+              </div>
+            </div>
+          ) : (
+            <div
+              // label={<Plus className="text-slate-500" size={18} />}
+              className="w-full p-4"
+            >
+              {/*  */}
 
-            <InitiateART
-              art={regimenOptions()}
-              artRegimen={artRegimen}
-              isNonStandardRegimen={isNonStandardRegimen}
-              isStandardRegimen={isStandardRegimen}
-              nonStandardArtRegimen={nonStandardArtRegimen}
-              regimenLine={regimenLine}
-              setArtRegimen={setArtRegimen}
-              setIsNonStandardRegimen={setIsNonStandardRegimen}
-              setIsStandardRegimen={setIsStandardRegimen}
-              setNonStandardArtRegimen={setNonStandardArtRegimen}
-              setRegimenLine={setRegimenLine}
-              setStartDate={setStartDate}
-              startDate={startDate}
-            />
-            <div className="flex justify-end mt-4 space-x-4 p-4">
-              <Button
-                onClick={() => {
-                  handleBack()
-                }}
-                className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
-              >
-                Prev
-              </Button>
-              {prescriptionData || addPrescriptionData ? (
+              {/*  */}
+
+              <InitiateART
+                art={regimenOptions()}
+                artRegimen={artRegimen}
+                isNonStandardRegimen={isNonStandardRegimen}
+                isStandardRegimen={isStandardRegimen}
+                nonStandardArtRegimen={nonStandardArtRegimen}
+                regimenLine={regimenLine}
+                setArtRegimen={setArtRegimen}
+                setIsNonStandardRegimen={setIsNonStandardRegimen}
+                setIsStandardRegimen={setIsStandardRegimen}
+                setNonStandardArtRegimen={setNonStandardArtRegimen}
+                setRegimenLine={setRegimenLine}
+                setStartDate={setStartDate}
+                startDate={startDate}
+              />
+              <div className="flex justify-end space-x-4 mt-4">
                 <Button
-                  className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
                   onClick={() => {
-                    handleNext()
+                    handleBack()
                   }}
+                  className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
                 >
-                  Next
+                  <ChevronsLeft className="mr-2" size={18} />
+                  Prev
                 </Button>
-              ) : (
+
                 <Button
-                  className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+                  className="bg-teal-600 shadow-none hover:bg-teal-600 text-white"
                   onClick={async () => await addArtPrescription(inputValues)}
                 >
                   {isLoading && (
@@ -299,18 +301,18 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                   )}
                   Save
                 </Button>
-              )}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </Suspense>
       {/*  */}
       <RecentPrescriptionCard
         data={prescriptionDatam}
         isLoading={isLoadingPrescription}
         isError={isErrorPrescription}
       />
-    </div>
+    </>
   )
 }
 
