@@ -8,6 +8,7 @@ import { patientsApi } from '../patients.api'
 // import { store } from '@/lib/store'
 import fetchMock from 'jest-fetch-mock'
 import { setupApiStore } from '../../setupApiStore'
+import { patientTestData } from '../data/testData'
 
 describe('Patients API tests', () => {
   beforeAll(() => {
@@ -32,6 +33,24 @@ describe('Patients API tests', () => {
 
     expect(method).toBe('GET')
     // expect(`{$url}//api/users/patients`).toBe(`${process.env.NEXT_PUBLIC_API_URL}/api/users/patients`)
+  })
+
+  //
+  test('successful response', async () => {
+    const storeRef = setupApiStore(patientsApi)
+    fetchMock.mockResponse(JSON.stringify([patientTestData]))
+
+    //
+    return storeRef.store.dispatch<any>(
+      patientsApi.endpoints.getPatient.initiate(
+        'e4eaaaf2-d142-4b42-9c0c-3e4b3b489a9e'
+      )
+    ).then((action: any) => {
+      const { status, data, isSuccess } = action
+      expect(status).toBe('fulfilled')
+      expect(isSuccess).toBe(true)
+      expect(data).toStrictEqual([patientTestData])
+    })
   })
 })
 

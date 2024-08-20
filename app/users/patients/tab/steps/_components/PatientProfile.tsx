@@ -20,7 +20,9 @@ const PatientProfile = ({ data, isLoading }: InputProps) => {
           )
         : (
         <>
-          <div className="flex flex-col items-center bg-white rounded-lg p-4 w-1/5 h-[200px]">
+          <div className="flex flex-col items-center bg-white rounded-lg p-4 w-1/5 h-[200px]
+          border
+          ">
 
                 <div className="flex flex-col items-center  w-full rounded-lg space-y-1">
                   <Avatar name={`${data?.firstName} ${data?.middleName}`} />

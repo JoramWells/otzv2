@@ -250,7 +250,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
         ) : (
           <div
             // label={<Plus className="text-slate-500" size={18} />}
-            className="w-full"
+            className="w-full p-4"
           >
             {/*  */}
 

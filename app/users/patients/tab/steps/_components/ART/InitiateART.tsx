@@ -25,7 +25,7 @@ interface InitiateARTProps {
 
 const InitiateART = ({ regimenLine, setRegimenLine, isStandardRegimen, setIsStandardRegimen, artRegimen, setArtRegimen, isNonStandardRegimen, setIsNonStandardRegimen, setStartDate, startDate, nonStandardArtRegimen, setNonStandardArtRegimen, art }: InitiateARTProps) => {
   return (
-    <div className="flex flex-col space-y-4 p-4">
+    <div className="flex flex-col space-y-4 p-4 border border-dashed border-slate-200 rounded-lg">
       <div>
         <CustomSelect
           label="Regimen Line"

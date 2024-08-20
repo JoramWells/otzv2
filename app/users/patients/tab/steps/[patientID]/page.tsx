@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Box, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 // import FamilyPanning from '../_components/steps/FamilyPanning'
@@ -19,12 +18,13 @@ import { calculateAge } from '@/utils/calculateAge'
 import FullDisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist/Full'
 import LabTests from '../_components/LabTests'
 import PatientProfile from '../_components/PatientProfile'
+import CustomStepper from '../_components/CustomStepper'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
+    loading: () => <Skeleton className="w-full h-[52px]" />
   }
 )
 
@@ -109,9 +109,9 @@ const StepsPage = ({ params }: any) => {
     }
   }, [tab, personalData])
   const steps = [
-    { title: 'Vitals', description: 'Vital Signs' },
+    { title: 'Triage', description: 'Vital Signs' },
     { title: 'ART', description: 'ART Details' },
-    { title: 'Viral Load', description: 'Viral Load' },
+    { title: 'Lab', description: 'Viral Load, CD4' },
     { title: 'Time', description: 'Time & Schedule' },
     { title: 'MMAS', description: 'MMAS4 & MMAS8' }
 
@@ -126,45 +126,22 @@ const StepsPage = ({ params }: any) => {
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="w-full flex flex-row space-x-4 justify-center  mt-2">
-        <div className="flex flex-col items-center w-full">
-          <div className="w-3/4 bg-white p-2 rounded-lg">
-            <Stepper index={activeStep} colorScheme="teal">
-              {steps.map((step, idx) => (
-                <Step
-                  key={idx}
-                  className="hover:cursor-pointer"
-                  onClick={() => {
-                    router.push(
-                      `?appointmentID=${appointmentID}&step=${String(idx + 1)}`
-                    )
-                  }}
-                >
-                  <StepIndicator>
-                    <StepStatus
-                      complete={<StepIcon />}
-                      incomplete={<StepNumber />}
-                      active={<StepNumber />}
-                    />
-                  </StepIndicator>
-                  <Box>
-                    <StepTitle className="text-[14px] hover:underline ">
-                      {step?.title}
-                    </StepTitle>
-                    <StepDescription className="text-[12px]">
-                      {step?.description}
-                    </StepDescription>
-                  </Box>
-                  <StepSeparator />
-                </Step>
-              ))}
-            </Stepper>
-          </div>
-          <div className="w-3/4 mt-2 flex justify-between items-start space-x-4">
-            <PatientProfile data={personalData}
-            isLoading={isLoadingPersonalData}
+      <div className="w-full flex flex-row space-x-4 justify-center ">
+        {/*  */}
+        <div className="flex flex-col items-center w-full p-4">
+          <div className="w-full bg-white p-2 rounded-lg">
+            {/*  */}
+            <CustomStepper
+              steps={steps}
+              activeStep={activeStep}
+              appointmentID={appointmentID}
             />
-            <div className="flex-1">
+          </div>
+          <div className="w-full mt-4 flex justify-between items-start space-x-4">
+            <PatientProfile
+              data={personalData}
+              isLoading={isLoadingPersonalData}
+            />
               {tab === '1' && activeStep === 1 && (
                 <AddTriage
                   vlData={vsData}
@@ -258,7 +235,6 @@ const StepsPage = ({ params }: any) => {
                   }}
                 />
               )}
-            </div>
           </div>
         </div>
         {/*  */}

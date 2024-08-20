@@ -40,7 +40,7 @@ const PopulationTypeChart = ({ data }: { data: PatientAttributes[] }) => {
 
     return kpData?.reduce<CountMap>((acc, curr) => {
       const { populationType } = curr
-      if (acc[populationType] !== 0) {
+      if (acc[populationType] !== undefined) {
         acc[populationType]++
       } else {
         acc[populationType] = 1
@@ -54,7 +54,6 @@ const PopulationTypeChart = ({ data }: { data: PatientAttributes[] }) => {
     count: countMap[populationType]
   }))
 
-  console.log(chartDatam, 'data')
   return (
 
         <ChartContainer

@@ -53,7 +53,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'Patients',
-    link: ''
+    link: '/'
   }
 ]
 
@@ -170,7 +170,6 @@ const AddPatient = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data, 'data')
       redirect('/users/patients')
     }
   }, [data])
@@ -191,10 +190,8 @@ const AddPatient = () => {
 
       <div className="w-full flex flex-col items-center">
         <div
-          style={{
-            width: '50%'
-          }}
-          className=" p-2 bg-white rounded-xl"
+
+          className=" p-2 bg-white rounded-xl w-3/4 "
         >
           <Stepper index={activeStep} colorScheme="teal">
             {steps.map((step, index) => (
@@ -221,7 +218,7 @@ const AddPatient = () => {
         </div>
         <FormProvider {...methods}>
           <form
-            className="w-1/2 bg-white p-4 rounded-lg mt-4 flex flex-col space-y-4"
+            className="w-3/4 bg-white p-4 rounded-lg mt-4 flex flex-col space-y-4"
             onSubmit={handleSubmit(onSubmit)}
           >
             {activeStep === 1 && <PersonalDetail />}
