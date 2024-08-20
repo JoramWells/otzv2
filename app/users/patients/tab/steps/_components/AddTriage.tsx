@@ -19,6 +19,7 @@ import { CollapseButton } from '@/components/CollapseButton'
 import { calculateBMI } from '@/utils/calculateBMI'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import CardHeader from './CardHeader'
 
 export interface VSProps {
   temperature: number
@@ -189,20 +190,25 @@ const AddTriage = ({
     <div className="flex items-start justify-between space-x-4 w-full ">
       <Suspense fallback={<Skeleton className="w-3/4 h-[400px] " />}>
         <div className="w-3/4 bg-white rounded-lg border border-slate-200 ">
-          <div className="flex justify-between items-center w-full border-b bg-slate-50 border-slate-200  p-3  rounded-t-lg">
-            <p className=" text-lg font-bold ml-2">Triage</p>
-            {age < 9 ? (
-              <Badge
-                className="shadow-none
+          <CardHeader
+            header="Triage"
+            rightContent={
+              <>
+                {age < 9 ? (
+                  <Badge
+                    className="shadow-none
             bg-purple-50 border border-purple-200 text-purple-500 uppercase
             "
-              >
-                Paed
-              </Badge>
-            ) : (
-              <Badge className="shadow-none">Adult</Badge>
-            )}
-          </div>
+                  >
+                    Paed
+                  </Badge>
+                ) : (
+                  <Badge className="shadow-none">Adult</Badge>
+                )}
+              </>
+            }
+          />
+
           <div className="p-4 relative pb-[68px]">
             <FormProvider {...methods}>
               <form

@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { InfoIcon, Loader2 } from 'lucide-react'
 import { useAddMmasFourMutation, useGetMmasFourByPatientIDQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useAddMmasEightMutation } from '@/api/treatmentplan/mmasEight.api'
+import CardHeader from '@/app/users/patients/tab/steps/_components/CardHeader'
 
 interface DataProps {
   isForget: boolean
@@ -141,9 +142,12 @@ const MMASForm = ({
   }, [formData, isAllTime, isCareless, isForget, isNever, isOnce, isQuitFeelBetter, isQuitFeelWorse, isQuitOutControl, isSometimes, isTookMedYesterday, isUnderPressure, isUsually, mmassFourScore])
 
   return (
-    <div className="flex space-x-4 items-start">
-      <div className="w-3/4 ">
-        <div className="flex flex-col space-y-4">
+    <>
+      <div className="w-3/4 bg-white border border-slate-200 rounded-lg">
+      <CardHeader
+      header='MMAS'
+      />
+        <div className="flex flex-col p-2">
           <MmasFour
             mmassFourScore={mmassFourScore}
             isForget={isForget}
@@ -180,8 +184,7 @@ const MMASForm = ({
             />
           )}
         </div>
-        <hr/>
-        <div className="w-full flex justify-end space-x-4 pb-2 pt-2 bg-white">
+        <div className="w-full flex justify-end space-x-4 pr-4 pb-4">
           <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
@@ -239,7 +242,7 @@ const MMASForm = ({
       <div className="w-1/3 bg-white rounded-lg p-4 flex items-start flex-grow-0">
         Recent tests
       </div>
-    </div>
+    </>
   )
 }
 

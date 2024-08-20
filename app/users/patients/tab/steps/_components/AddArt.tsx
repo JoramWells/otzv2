@@ -30,6 +30,7 @@ import { type PrescriptionInterface } from 'otz-types'
 import InitiateART from './ART/InitiateART'
 import SwitchART from './ART/SwitchART'
 import { Skeleton } from '@/components/ui/skeleton'
+import CardHeader from './CardHeader'
 
 const reasonOptions = [
   {
@@ -199,18 +200,15 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
       border rounded-lg border-slate-200
       "
         >
-          <div className="flex justify-between items-center w-full border-b bg-slate-50 border-slate-200  p-3  rounded-t-lg">
-            <p className="text-lg  font-bold">ART Details</p>
-            <div className="flex space-x-2 items-center">
+          <CardHeader
+            header="Art Details"
+            rightContent={
               <Badge className="shadow-none">
-                {' '}
-                {prescriptionData?.regimen}{' '}
+                {prescriptionData?.regimen}
               </Badge>
-              {/* <p className="capitalize text-slate-500 text-[12px]">
-            {prescriptionData?.line}slate
-          </p> */}
-            </div>
-          </div>
+            }
+          />
+
           {prescriptionData || addPrescriptionData ? (
             <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
               {/* <p>{prescriptionData?.regimen}</p> */}

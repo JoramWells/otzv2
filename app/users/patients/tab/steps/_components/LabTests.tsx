@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from 'react'
 import ViralLoad from './LabTests/ViralLoad'
 import RecentViralLoadCard from './LabTests/RecentViralLoadCard'
 import { ChevronsLeft, ChevronsRight } from 'lucide-react'
+import CardHeader from './CardHeader'
 
 const justificationOptions = [
   {
@@ -115,15 +116,13 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
     }
   }, [allPatientVLData])
 
-  console.log(currentVLData, 'currentVLData')
-
   return (
-    <div className="w-full flex space-x-4 items-start">
-      <div className="w-3/4">
-        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
-          <p className="text-lg  font-bold">Viral Load</p>
-          <Badge className="shadow-none">LDL</Badge>
-        </div>
+    <>
+      <div className="w-3/4 border border-slate-200 rounded-lg ">
+        <CardHeader
+          header="Viral Load"
+          rightContent={<Badge className="shadow-none">LDL</Badge>}
+        />
 
         {/*  */}
         <div className="bg-white p-4">
@@ -144,10 +143,10 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
               onClick={() => {
                 handleBack()
               }}
-              variant='outline'
+              variant="outline"
               className=" shadow-none text-black hover:bg-slate-100"
             >
-              <ChevronsLeft size={15} className='mr-2' /> Prev
+              <ChevronsLeft size={15} className="mr-2" /> Prev
             </Button>
             {currentVLData
               ? (
@@ -159,7 +158,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
                   handleNext()
                 }}
               >
-                Next <ChevronsRight className='ml-2' size={15} />
+                Next <ChevronsRight className="ml-2" size={15} />
               </Button>
                 )
               : (
@@ -181,7 +180,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
       {/* recent viral load */}
 
       <RecentViralLoadCard average={average} data={vlData} />
-    </div>
+    </>
   )
 }
 

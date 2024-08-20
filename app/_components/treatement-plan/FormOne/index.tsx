@@ -14,6 +14,7 @@ import { Loader2 } from 'lucide-react'
 
 import Plan from './Plan'
 import RecentTimeWorkScheduleCard from './RecentTimeWorkScheduleCard'
+import CardHeader from '@/app/users/patients/tab/steps/_components/CardHeader'
 
 interface AddTriageProps {
   handleNext: () => void
@@ -89,12 +90,14 @@ const FormOne = ({
   // })
 
   return (
-    <div className="flex space-x-4 items-start">
-      <div className="w-3/4 flex flex-col bg-white">
-        <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 p-2 bg-slate-200 rounded-t-lg">
-          <p className="text-lg  font-bold">Time & Work Schedule</p>
-          <p className="text-slate-500 text-[14px] ">Last Updated:</p>
-        </div>
+    <>
+      <div className="w-3/4 flex flex-col bg-white border border-slate-200 rounded-lg">
+        <CardHeader
+          header="Time & Work Schedule"
+          rightContent={
+            <p className="text-slate-500 text-[14px] ">Last Updated:</p>
+          }
+        />
 
         <div className="p-4 w-full flex-col flex space-y-2">
           <div className="flex ">
@@ -193,7 +196,7 @@ const FormOne = ({
 
       {/* recent time and work */}
       <RecentTimeWorkScheduleCard data={patientTimeAndWorkData} />
-    </div>
+    </>
   )
 }
 

@@ -15,7 +15,7 @@ const PatientProfile = ({ data, isLoading }: InputProps) => {
     <>
       {isLoading
         ? (
-        <div className="p-4">Loading ...</div>
+        <div className="p-4 w-1/3 bg-white">Loading ...</div>
           )
         : (
         <div

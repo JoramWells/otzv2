@@ -28,7 +28,8 @@ const MmasFour = ({
   mmassFourScore
 }: MMASFourProps) => (
   <div className="flex flex-col bg-white rounded-lg ">
-    <div className="flex justify-between items-center w-full border-b border-slate-200 pr-4 pl-4 p-2 bg-slate-200 rounded-t-lg">
+    <div className="flex justify-between items-center w-full
+    border-b border-slate-200 pr-4 pl-4 p-2">
       <p className="font-bold ">MMAS-4</p>
       <div className="flex space-x-4 justify-between  items-center text-[12px] ">
         {mmassFourScore === 0 && (

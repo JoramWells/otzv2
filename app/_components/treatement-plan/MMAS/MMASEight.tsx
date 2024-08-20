@@ -55,7 +55,7 @@ const MmasEight = ({
   }
   return (
     <div className="bg-white rounded-lg">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2 bg-slate-200 rounded-t-lg">
+      <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2">
         <p className="font-bold ">MMAS-8</p>
         <div className="flex space-x-4 justify-between  items-center text-[12px] ">
           {mmassEightScore === 0 && (
