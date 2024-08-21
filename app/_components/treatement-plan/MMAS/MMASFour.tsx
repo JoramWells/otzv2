@@ -27,7 +27,7 @@ const MmasFour = ({
   setIsQuitBetter,
   mmassFourScore
 }: MMASFourProps) => (
-  <div className="flex flex-col bg-white rounded-lg ">
+  <div className="flex flex-col bg-white rounded-lg border border-slate-200 ">
     <div className="flex justify-between items-center w-full
     border-b border-slate-200 pr-4 pl-4 p-2">
       <p className="font-bold ">MMAS-4</p>
@@ -54,7 +54,7 @@ const MmasFour = ({
         )}
       </div>
     </div>
-    <div className="flex space-y-1 p-4 flex-col">
+    <div className="flex space-y-1 flex-col">
       <CustomCheckbox
         label="Do you ever forget to take medicine?"
         onChange={setIsForget}

@@ -9,7 +9,7 @@ import MmasFour from './MMASFour'
 import MmasEight from './MMASEight'
 import { useAddMmasMutation, useGetMmasQuery } from '@/api/treatmentplan/mmas.api'
 import { Button } from '@/components/ui/button'
-import { InfoIcon, Loader2 } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight, InfoIcon, Loader2 } from 'lucide-react'
 import { useAddMmasFourMutation, useGetMmasFourByPatientIDQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useAddMmasEightMutation } from '@/api/treatmentplan/mmasEight.api'
 import CardHeader from '@/app/users/patients/tab/steps/_components/CardHeader'
@@ -147,7 +147,7 @@ const MMASForm = ({
       <CardHeader
       header='MMAS'
       />
-        <div className="flex flex-col p-2">
+        <div className="flex flex-col p-4 space-y-4">
           <MmasFour
             mmassFourScore={mmassFourScore}
             isForget={isForget}
@@ -186,12 +186,14 @@ const MMASForm = ({
         </div>
         <div className="w-full flex justify-end space-x-4 pr-4 pb-4">
           <Button
-            className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+            className=" text-slate-500 shadow-none"
+            variant={'outline'}
             onClick={() => {
               handleBack()
             }}
           >
-            Prev
+            <ChevronsLeft className='mr-2' size={18} />
+            Back
           </Button>
           {formData || savedData
             ? (
@@ -202,6 +204,7 @@ const MMASForm = ({
               }}
             >
               Next
+              <ChevronsRight className='ml-2' size={18} />
             </Button>
               )
             : (
@@ -209,7 +212,7 @@ const MMASForm = ({
               {isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter
                 ? (
                 <Button
-                  className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+                  className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
                   onClick={() => {
                     addMmasEight(inputValuesEight)
                   }}

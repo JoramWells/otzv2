@@ -10,7 +10,7 @@ import TimeAndWork from './TimeAndWork'
 import ScheduleAndTime from './ScheduleAndTime'
 import { Button } from '@/components/ui/button'
 import { useAddTimeAndWorkMutation, useGetTimeAndWorkByPatientIDQuery, useGetTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
-import { Loader2 } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
 
 import Plan from './Plan'
 import RecentTimeWorkScheduleCard from './RecentTimeWorkScheduleCard'
@@ -166,24 +166,28 @@ const FormOne = ({
             onClick={() => {
               handleBack()
             }}
-            className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
+            className=" shadow-none text-slate-500 "
+            variant={'outline'}
           >
-            Prev
+            <ChevronsLeft className='mr-2' size={18} />
+            Back
           </Button>
           {timeData || savedData
             ? (
             <Button
-              className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+              className=" shadow-none  text-slate-500"
+              variant={'outline'}
               onClick={() => {
                 handleNext()
               }}
             >
               Next
+              <ChevronsRight className='ml-2' size={18} />
             </Button>
               )
             : (
             <Button
-              className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+              className="bg-teal-600 shadow-none hover:bg-teal-500 text-white"
               onClick={async () => await addTimeAndWork(inputValues)}
               disabled={isLoading}
             >

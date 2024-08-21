@@ -163,7 +163,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
                 )
               : (
               <Button
-                className="bg-slate-200 shadow-none hover:bg-slate-100 text-black"
+                className="bg-teal-600 hover:bg-teal-500 shadow-none text-white"
                 disabled={isLoading}
                 onClick={() => {
                   addViralLoadTest(inputValues)

@@ -54,7 +54,7 @@ const MmasEight = ({
     setter(value)
   }
   return (
-    <div className="bg-white rounded-lg">
+    <div className="bg-white rounded-lg border border-slate-200">
       <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2">
         <p className="font-bold ">MMAS-8</p>
         <div className="flex space-x-4 justify-between  items-center text-[12px] ">
@@ -76,7 +76,7 @@ const MmasEight = ({
       </div>
 
       {/*  */}
-      <div className="flex flex-col space-y-1 p-4">
+      <div className="flex flex-col space-y-1">
         <CustomCheckbox
           label="Did you take your medicine yesterday?"
           value={isTookYesterday}
