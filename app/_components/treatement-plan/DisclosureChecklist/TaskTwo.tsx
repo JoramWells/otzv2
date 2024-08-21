@@ -43,16 +43,19 @@ const TaskTwo = ({
   taskTwoComments,
   setTaskTwoComments
 }: TaskTwoProps) => (
-  <div className="flex flex-col gap-y-2 p-4">
-    <h1 className="capitalize font-bold">
-      Task 2: Assess child and caregiver for readiness.
-    </h1>
+  <div className="flex flex-col border border-slate-200 rounded-lg ">
+    <div className="border-b border-slate-200 p-2">
+      <p className="capitalize font-semibold">
+        Task 2: Assess child and caregiver for readiness.
+      </p>
+    </div>
     <CustomCheckbox
       label="Child/ caregiver free from severe
           physical illness, trauma, psychological illness or psychiatric illness?"
       value={isFreeFromSevereIllness}
       onChange={setIsFreeFromSevereIllness}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -60,6 +63,7 @@ const TaskTwo = ({
       value={isFamilySupport}
       onChange={setIsFamilySupport}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -67,6 +71,7 @@ const TaskTwo = ({
       value={isEnvironmentInterest}
       onChange={setIsEnvironmentInterest}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -77,12 +82,15 @@ const TaskTwo = ({
     />
 
     {/*  */}
+    <hr />
+
     {/*  */}
     <CustomCheckbox
       label=" Assessed functional school engagement by the child consistent, attendance, interacts well with the school community, able to freely discuss school activities?"
       value={isSchoolFree}
       onChange={setIsSchoolFree}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -90,6 +98,7 @@ const TaskTwo = ({
       value={isDisclosureReady}
       onChange={setIsDisclosureReady}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -97,6 +106,7 @@ const TaskTwo = ({
       value={isChildCommunicated}
       onChange={setIsChildCommunicated}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -105,12 +115,17 @@ const TaskTwo = ({
       value={isSecuredPatientInfo}
       onChange={setIsSecuredPatientInfo}
     />
+    <hr />
 
-    <CustomInput
-      label="Task 2 comments."
-      value={taskTwoComments}
-      onChange={setTaskTwoComments}
-    />
+    <div
+    className='p-2 w-full'
+    >
+      <CustomInput
+        label="Task 2 comments."
+        value={taskTwoComments}
+        onChange={setTaskTwoComments}
+      />
+    </div>
   </div>
 )
 

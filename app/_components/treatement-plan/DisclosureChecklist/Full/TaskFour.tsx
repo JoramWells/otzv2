@@ -42,14 +42,18 @@ const TaskFour = ({
   finalComments,
   setFinalComments
 }: TaskFourProps) => (
-  <div className="flex flex-col gap-y-2 p-4 ">
-    <h1 className="capitalize font-bold">Task 4 : Post Disclosure Assessment</h1>
-
+  <div className="flex flex-col border border-slate-200 rounded-lg ">
+    <div className="border-b border-slate-200 p-2">
+      <p className="capitalize font-semibold">
+        Task 4 : Post Disclosure Assessment
+      </p>
+    </div>
     <CustomCheckbox
       label="Assessed family, social and peer relationship and support after disclose?"
       value={isPeerRelationshipAssessed}
       onChange={setIsPeerRelationshipAssessed}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -64,6 +68,7 @@ const TaskFour = ({
       value={isChildQuestionsAllowed}
       onChange={setIsChildQuestionsAllowed}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -71,6 +76,7 @@ const TaskFour = ({
       value={isAddressedNegativeImage}
       onChange={setIsAddressedNegativeImage}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -78,6 +84,7 @@ const TaskFour = ({
       value={isAssessedMoodiness}
       onChange={setIsAssessedMoodiness}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -86,6 +93,7 @@ const TaskFour = ({
       value={isReferredForPhysic}
       onChange={setIsReferredForPhysic}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -93,6 +101,7 @@ const TaskFour = ({
       value={isGivenInfo}
       onChange={setIsGivenInfo}
     />
+    <hr />
 
     <p
       style={{

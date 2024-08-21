@@ -8,6 +8,7 @@ import { type Dispatch, type SetStateAction, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import TaskThree from './TaskThree'
 import TaskFour from './TaskFour'
+import CardHeader from '@/app/users/patients/tab/steps/_components/CardHeader'
 
 interface AddTriageProps {
   handleNext: () => void
@@ -43,80 +44,71 @@ const FullDisclosureChecklist = ({ handleBack, handleNext, patientID, appointmen
   // console.log(disclosureData, 'dataDisclosure')
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2 bg-slate-200 rounded-t-lg">
-        <p className="font-bold text-lg">Full Disclosure</p>
-        <p className="text-[14px] text-slate-500">Last Updated:</p>
-      </div>
-      <TaskThree
-        isReassuredCaregiver={isAssessedChildSafety}
-        setIsReassuredCaregiver={setIsAssessedChildSafety}
-        isAssessedChildCaregiverComfort={isAssessedChildSafety}
-        setIsAssessedChildCaregiverComfort={setIsAssessedChildSafety}
-        isAssessedChildSafety={isAssessedChildSafety}
-        setIsAssessedChildSafety={setIsAssessedChildSafety}
-        isSupportedCaregiverChildToDisclose={
-          isSupportedCaregiverChildToDisclose
-        }
-        setIsSupportedCaregiverChildToDisclose={
-          setIsSupportedCaregiverChildToDisclose
-        }
-        isObservedReactions={isObservedReactions}
-        setIsObserved={setIsObserved}
-        isInvitedChildQuestions={isInvitedChildQuestions}
-        setIsInvitedChildQuestions={setIsInvitedChildQuestions}
-        isReviewedBenefitsOfDisclosure={isReviewedBenefitsOfDisclosure}
-        setIsReviewedBenefitsOfDisclosure={setIsReviewedBenefitsOfDisclosure}
-        isExplainedCareOptions={isExplainedCareOptions}
-        setIsExplainedCareOptions={setIsExplainedCareOptions}
-        isConcludedSessionReassured={isConcludedSessionReassured}
-        setIsConcludedSessionReassured={setIsConcludedSessionReassured}
-        taskThreeComments={taskThreeComments}
-        setTaskThreeComments={setTaskThreeComments}
-      />
+    <div className="flex flex-row justify-between space-x-4 w-full items-start">
+      <div className=" bg-white border border-slate-200 rounded-lg w-3/4 ">
+        <CardHeader header="Full Disclosure" />
+        <div className="flex flex-col gap-y-4 p-4">
+          <TaskThree
+            isReassuredCaregiver={isAssessedChildSafety}
+            setIsReassuredCaregiver={setIsAssessedChildSafety}
+            isAssessedChildCaregiverComfort={isAssessedChildSafety}
+            setIsAssessedChildCaregiverComfort={setIsAssessedChildSafety}
+            isAssessedChildSafety={isAssessedChildSafety}
+            setIsAssessedChildSafety={setIsAssessedChildSafety}
+            isSupportedCaregiverChildToDisclose={
+              isSupportedCaregiverChildToDisclose
+            }
+            setIsSupportedCaregiverChildToDisclose={
+              setIsSupportedCaregiverChildToDisclose
+            }
+            isObservedReactions={isObservedReactions}
+            setIsObserved={setIsObserved}
+            isInvitedChildQuestions={isInvitedChildQuestions}
+            setIsInvitedChildQuestions={setIsInvitedChildQuestions}
+            isReviewedBenefitsOfDisclosure={isReviewedBenefitsOfDisclosure}
+            setIsReviewedBenefitsOfDisclosure={
+              setIsReviewedBenefitsOfDisclosure
+            }
+            isExplainedCareOptions={isExplainedCareOptions}
+            setIsExplainedCareOptions={setIsExplainedCareOptions}
+            isConcludedSessionReassured={isConcludedSessionReassured}
+            setIsConcludedSessionReassured={setIsConcludedSessionReassured}
+            taskThreeComments={taskThreeComments}
+            setTaskThreeComments={setTaskThreeComments}
+          />
 
-      <TaskFour
-        isPeerRelationshipAssessed={isPeerRelationshipAssessed}
-        setIsPeerRelationshipAssessed={setIsPeerRelationshipAssessed}
-        isChildActivityAssessed={isChildActivityAssessed}
-        setIsChildActivityAssessed={setIsChildActivityAssessed}
-        isChildQuestionsAllowed={isChildQuestionsAllowed}
-        setIsChildQuestionsAllowed={setIsChildQuestionsAllowed}
-        isAddressedNegativeImage={isAddressedNegativeImage}
-        setIsAddressedNegativeImage={setIsAddressedNegativeImage}
-        isAssessedMoodiness={isAssessedMoodiness}
-        setIsAssessedMoodiness={setIsAssessedMoodiness}
-        isReferredForPhysic={isReferredForPhysic}
-        setIsReferredForPhysic={setIsReferredForPhysic}
-        isGivenInfo={isGivenInfo}
-        setIsGivenInfo={setIsGivenInfo}
-        taskFourComments={taskFourComments}
-        setTaskFourComments={setTaskFourComments}
-        finalComments={finalComments}
-        setFinalComments={setFinalComments}
-      />
+          <TaskFour
+            isPeerRelationshipAssessed={isPeerRelationshipAssessed}
+            setIsPeerRelationshipAssessed={setIsPeerRelationshipAssessed}
+            isChildActivityAssessed={isChildActivityAssessed}
+            setIsChildActivityAssessed={setIsChildActivityAssessed}
+            isChildQuestionsAllowed={isChildQuestionsAllowed}
+            setIsChildQuestionsAllowed={setIsChildQuestionsAllowed}
+            isAddressedNegativeImage={isAddressedNegativeImage}
+            setIsAddressedNegativeImage={setIsAddressedNegativeImage}
+            isAssessedMoodiness={isAssessedMoodiness}
+            setIsAssessedMoodiness={setIsAssessedMoodiness}
+            isReferredForPhysic={isReferredForPhysic}
+            setIsReferredForPhysic={setIsReferredForPhysic}
+            isGivenInfo={isGivenInfo}
+            setIsGivenInfo={setIsGivenInfo}
+            taskFourComments={taskFourComments}
+            setTaskFourComments={setTaskFourComments}
+            finalComments={finalComments}
+            setFinalComments={setFinalComments}
+          />
 
-      <div className="flex justify-end w-full space-x-4 items-center mt-4">
-        <Button
-          className="shadow-none bg-slate-200 text-black hover:bg-slate-100"
-          onClick={() => {
-            handleBack()
-          }}
-        >
-          Prev
-        </Button>
-        {/*
-        {disclosureData ? (
-          <Button
-            className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-            onClick={() => {
-              handleNext()
-            }}
-          >
-            Next
-          </Button>
-        ) : (
-          <Button
+          <div className="flex justify-end w-full space-x-4 items-center mt-4">
+            <Button
+              className="shadow-none bg-slate-200 text-black hover:bg-slate-100"
+              onClick={() => {
+                handleBack()
+              }}
+            >
+              Prev
+            </Button>
+
+          {/* <Button
             className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
             onClick={() => {
               addFullDisclosureChecklist(inputValues)
@@ -126,10 +118,14 @@ const FullDisclosureChecklist = ({ handleBack, handleNext, patientID, appointmen
             {isLoadingAddDisclosure && (
               <Loader2 className="animate-spin mr-2" size={18} />
             )}
-            Save
-          </Button>
-        )} */}
+            Complete
+          </Button> */}
+
+          </div>
+        </div>
       </div>
+
+      <div className="w-1/3 p-4 bg-white">Recent Disclosure</div>
     </div>
   )
 }

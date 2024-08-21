@@ -9,8 +9,10 @@ import TaskOne from './TaskOne'
 import TaskTwo from './TaskTwo'
 import { Button } from '@/components/ui/button'
 import { useAddDisclosureChecklistMutation, useGetDisclosureChecklistQuery } from '@/api/treatmentplan/disclosureChecklist.api'
-import { Loader2 } from 'lucide-react'
+import { ChevronsLeft, Loader2 } from 'lucide-react'
 import { useAddDisclosureEligibilityMutation, useGetDisclosureEligibilityQuery } from '@/api/treatmentplan/partial/disclosureEligibility.api'
+import CardHeader from '@/app/users/patients/tab/steps/_components/CardHeader'
+import { useRouter } from 'next/navigation'
 
 interface AddTriageProps {
   handleNext: () => void
@@ -72,86 +74,84 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
 
   const { data: disclosureData } = useGetDisclosureEligibilityQuery(appointmentID)
   console.log(disclosureData, 'dataDisclosure')
+  const router = useRouter()
 
   useEffect(() => {
     if (isSaveData) {
-      console.log(isSaveData, 'dft')
+      router.push(
+        `/users/patients/tab/dashboard/${patientID}`
+      )
     }
-  }, [isSaveData])
+  }, [isSaveData, patientID, router])
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2 bg-slate-200 rounded-t-lg">
-        <p className="font-bold text-lg">Partial Disclosure</p>
-        <p className="text-[14px] text-slate-500">Last Updated:</p>
-      </div>
-      <TaskOne
-        isCorrectAge={isCorrectAge}
-        setIsCorrectAge={setIsCorrectAge}
-        isWillingToDisclose={isWillingToDisclose}
-        setIsWillingToDisclose={setIsWillingToDisclose}
-        isKnowledgeable={isKnowledgeable}
-        setIsKnowledgeable={setIsKnowledgeable}
-        taskOneComments={taskOneComments}
-        setTaskOneComments={setTaskOneComments}
-      />
-      <TaskTwo
-        isFreeFromSevereIllness={isFreeChildCaregiverFromSevereIllness}
-        setIsFreeFromSevereIllness={setIsFreeChildCaregiverFromSevereIllness}
-        isFamilySupport={isConsistentSocialSupport}
-        setIsFamilySupport={setIsConsistentSocialSupport}
-        isEnvironmentInterest={isInterestInEnvironmentAndPlaying}
-        setIsEnvironmentInterest={setIsInterestInEnvironmentAndPlaying}
-        isAware={isChildKnowsMedicineAndIllness}
-        setIsAware={setIsChildKnowsMedicineAndIllness}
-        isSchoolFree={isChildSchoolEngagement}
-        setIsSchoolFree={setIsChildSchoolEngagement}
-        isDisclosureReady={isAssessedCaregiverReadinessToDisclose}
-        setIsDisclosureReady={setIsAssessedCaregiverReadinessToDisclose}
-        isChildCommunicated={isCaregiverCommunicatedToChild}
-        setIsChildCommunicated={setIsCaregiverCommunicatedToChild}
-        isSecuredPatientInfo={isSecuredPatientInfo}
-        setIsSecuredPatientInfo={setIsSecuredPatientInfo}
-        taskTwoComments={taskTwoComments}
-        setTaskTwoComments={setTaskTwoComments}
-      />
+    <div className="flex flex-row justify-between space-x-4 w-full items-start">
+      <div className=" bg-white border border-slate-200 rounded-lg w-3/4 ">
+        <CardHeader header="Partial Disclosure" />
 
-      <div className="flex justify-end w-full space-x-4 items-center mt-4">
-        <Button
-          className="shadow-none bg-slate-200 text-black hover:bg-slate-100"
-          onClick={() => {
-            handleBack()
-          }}
-        >
-          Prev
-        </Button>
+        <div className="flex flex-col gap-y-4 p-4">
+          <TaskOne
+            isCorrectAge={isCorrectAge}
+            setIsCorrectAge={setIsCorrectAge}
+            isWillingToDisclose={isWillingToDisclose}
+            setIsWillingToDisclose={setIsWillingToDisclose}
+            isKnowledgeable={isKnowledgeable}
+            setIsKnowledgeable={setIsKnowledgeable}
+            taskOneComments={taskOneComments}
+            setTaskOneComments={setTaskOneComments}
+          />
+          <TaskTwo
+            isFreeFromSevereIllness={isFreeChildCaregiverFromSevereIllness}
+            setIsFreeFromSevereIllness={
+              setIsFreeChildCaregiverFromSevereIllness
+            }
+            isFamilySupport={isConsistentSocialSupport}
+            setIsFamilySupport={setIsConsistentSocialSupport}
+            isEnvironmentInterest={isInterestInEnvironmentAndPlaying}
+            setIsEnvironmentInterest={setIsInterestInEnvironmentAndPlaying}
+            isAware={isChildKnowsMedicineAndIllness}
+            setIsAware={setIsChildKnowsMedicineAndIllness}
+            isSchoolFree={isChildSchoolEngagement}
+            setIsSchoolFree={setIsChildSchoolEngagement}
+            isDisclosureReady={isAssessedCaregiverReadinessToDisclose}
+            setIsDisclosureReady={setIsAssessedCaregiverReadinessToDisclose}
+            isChildCommunicated={isCaregiverCommunicatedToChild}
+            setIsChildCommunicated={setIsCaregiverCommunicatedToChild}
+            isSecuredPatientInfo={isSecuredPatientInfo}
+            setIsSecuredPatientInfo={setIsSecuredPatientInfo}
+            taskTwoComments={taskTwoComments}
+            setTaskTwoComments={setTaskTwoComments}
+          />
 
-        {disclosureData || isSaveData
-          ? (
-          <Button
-            className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-            onClick={() => {
-              handleNext()
-            }}
-          >
-            Next
-          </Button>
-            )
-          : (
-          <Button
-            className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-            onClick={() => {
-              addDisclosureEligibility(submitData)
-            }}
-            disabled={isLoadingAddDisclosure}
-          >
-            {isLoadingAddDisclosure && (
-              <Loader2 className="animate-spin mr-2" size={18} />
-            )}
-            Save
-          </Button>
-            )}
+          <div className="flex justify-end w-full space-x-4 items-center mt-2">
+            <Button
+              className="shadow-none  text-slate-500
+               "
+               variant={'outline'}
+              onClick={() => {
+                handleBack()
+              }}
+            >
+              <ChevronsLeft className='mr-2' size={18} />
+              Prev
+            </Button>
+
+              <Button
+                className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
+                onClick={() => {
+                  addDisclosureEligibility(submitData)
+                }}
+                disabled={isLoadingAddDisclosure}
+              >
+                {isLoadingAddDisclosure && (
+                  <Loader2 className="animate-spin mr-2" size={18} />
+                )}
+                Complete
+              </Button>
+          </div>
+        </div>
       </div>
+      <div className="w-1/3 p-4 bg-white">Recent Disclosure</div>
     </div>
   )
 }

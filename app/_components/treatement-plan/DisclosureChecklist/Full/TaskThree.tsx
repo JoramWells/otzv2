@@ -46,8 +46,10 @@ const TaskThree = ({
   taskThreeComments,
   setTaskThreeComments
 }: TaskThreeProps) => (
-    <div className="flex flex-col gap-y-2 p-4 ">
-    <h1 className='capitalize font-bold'>Task 3: Execute Disclosure</h1>
+  <div className="flex flex-col border border-slate-200 rounded-lg ">
+    <div className="border-b border-slate-200 p-2">
+      <p className="capitalize font-semibold">Task 3: Execute Disclosure</p>
+    </div>
 
     <CustomCheckbox
       label="Reassured the caregiver and child?"
@@ -55,12 +57,15 @@ const TaskThree = ({
       onChange={setIsReassuredCaregiver}
     />
 
+    <hr />
+
     {/*  */}
     <CustomCheckbox
       label="Assessed child and caregiver comfort?"
       value={isAssessedChildCaregiverComfort}
       onChange={setIsAssessedChildCaregiverComfort}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -68,6 +73,7 @@ const TaskThree = ({
       value={isAssessedChildSafety}
       onChange={setIsAssessedChildSafety}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -75,6 +81,8 @@ const TaskThree = ({
       value={isSupportedCaregiverChildToDisclose}
       onChange={setIsSupportedCaregiverChildToDisclose}
     />
+    <hr />
+
     {/*  */}
     <CustomCheckbox
       label="Observed the immediate reactions of both the child and
@@ -82,6 +90,7 @@ const TaskThree = ({
       value={isObservedReactions}
       onChange={setIsObserved}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -89,6 +98,7 @@ const TaskThree = ({
       value={isInvitedChildQuestions}
       onChange={setIsInvitedChildQuestions}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -97,6 +107,7 @@ const TaskThree = ({
       value={isReviewedBenefitsOfDisclosure}
       onChange={setIsReviewedBenefitsOfDisclosure}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
@@ -104,6 +115,7 @@ const TaskThree = ({
       value={isExplainedCareOptions}
       onChange={setIsExplainedCareOptions}
     />
+    <hr />
 
     {/*  */}
     <CustomCheckbox
