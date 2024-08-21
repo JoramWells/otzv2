@@ -150,7 +150,7 @@ const StepsPage = ({ params }: any) => {
       <div className="w-full flex flex-row space-x-4 justify-center ">
         {/*  */}
         <div className="flex flex-col items-center w-full p-4">
-          <div className="w-full bg-white p-2 rounded-lg">
+          <div className="w-full bg-white p-2 rounded-lg static top-[52px] ">
             {/*  */}
             <CustomStepper
               steps={steps}

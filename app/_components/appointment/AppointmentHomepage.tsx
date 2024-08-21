@@ -90,52 +90,44 @@ const AppointmentHomepage = () => {
 
   return (
     <div>
-      <div className="mt-1 p-2 bg-white mb-1">
-        <h2>Appointments</h2>
-        {/* <Button>
-          Create New Appointments
-        </Button> */}
-      </div>
-
-      <hr />
-
       {/* {available === 1 && ( */}
-        <>
+      <>
+        <div
+        className='mt-2 w-full'
+        >
           <CustomTab
             categoryList={categoryList}
             setValue={setValue}
             value={value}
           />
-          <div className="w-full p-4">
-            <div className="bg-white rounded-lg p-4">
-              {value === 'all' && (
-                <CustomTable columns={columns} data={sortedAppointment || []} />
-              )}
+        </div>
+        <div className="w-full p-2">
+          <div className="bg-white rounded-lg p-4">
+            {value === 'all' && (
+              <CustomTable columns={columns} data={sortedAppointment || []} />
+            )}
 
-              {/*  */}
-              {value === 'pending' && (
-                <CustomTable
-                  columns={columns}
-                  data={pendingAppointment() || []}
-                />
-              )}
+            {/*  */}
+            {value === 'pending' && (
+              <CustomTable
+                columns={columns}
+                data={pendingAppointment() || []}
+              />
+            )}
 
-              {value === 'upcoming' && (
-                <CustomTable
-                  columns={columns}
-                  data={upcomingAppointment() || []}
-                />
-              )}
+            {value === 'upcoming' && (
+              <CustomTable
+                columns={columns}
+                data={upcomingAppointment() || []}
+              />
+            )}
 
-              {value === 'missed' && (
-                <CustomTable
-                  columns={columns}
-                  data={missedAppointment() || []}
-                />
-              )}
-            </div>
+            {value === 'missed' && (
+              <CustomTable columns={columns} data={missedAppointment() || []} />
+            )}
           </div>
-        </>
+        </div>
+      </>
 
       {/*  */}
       {/* {available === 2 && <div>unavailable</div>} */}

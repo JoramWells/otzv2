@@ -184,7 +184,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <Link href={`/notify/${row.original.id}`}>Edit </Link>
+    cell: ({ row }) => <Link href={`/appointments/${row.original.id}`}>Edit </Link>
   }
 ]
 

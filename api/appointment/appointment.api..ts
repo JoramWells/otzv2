@@ -1,10 +1,17 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type AppointmentAttributes } from 'otz-types'
 
 interface AppointmentProps {
   date?: string
   mode?: string
+}
+
+export type AppointmentInputProps = AppointmentAttributes & {
+  AppointmentAgenda: {
+    agendaDescription: string
+  }
 }
 
 export const appointmentApi = createApi({
@@ -35,9 +42,9 @@ export const appointmentApi = createApi({
         body: newUser
       })
     }),
-    getAppointment: builder.query({
+    getAppointment: builder.query<AppointmentInputProps, string>({
       query: (id) => {
-        return `detail?/${id}`
+        return `detail/${id}`
       }
     }),
     getAppointmentDetail: builder.query({

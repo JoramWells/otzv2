@@ -14,10 +14,13 @@ const handler = NextAuth({
         password: {}
       },
       async authorize (credentials, req) {
-        const response = await axios.post('http://localhost:5001/patients/login', {
-          firstName: credentials?.email,
-          password: credentials?.password
-        })
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/patients/login`,
+          {
+            firstName: credentials?.email,
+            password: credentials?.password,
+          }
+        );
         if (response) {
           return response.data
         }

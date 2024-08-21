@@ -12,7 +12,9 @@ import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
-import { useParams, usePathname } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -52,32 +54,45 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   const { patientID } = params
 
   const pathname = usePathname()
-  if (
-    pathname === `/users/patients/tab/dashboard/${patientID}` ||
-    pathname === `/users/patients/tab/appointments/${patientID}` ||
-    pathname === `/users/patients/tab/caregivers/${patientID}` ||
-    pathname === `/users/patients/tab/casemanagers/${patientID}` ||
-    pathname === `/users/patients/tab/homevisit/${patientID}` ||
-    pathname === `/users/patients/tab/lab/${patientID}` ||
-    pathname === `/users/patients/tab/pharmacy/${patientID}` ||
-    pathname === `/users/patients/tab/medication/${patientID}` ||
-    pathname === `/users/patients/tab/messages/${patientID}` ||
-    pathname === `/users/patients/tab/settings/${patientID}` ||
-    pathname === `/users/patients/tab/visits/${patientID}` ||
-    pathname === `/users/patients/tab/visit-detail/${patientID}` ||
-    pathname === `/users/patients/tab/visit-detail/triage/${patientID}` ||
-    pathname === `/users/patients/tab/visit-detail/mmas/${patientID}` ||
-    pathname === `/users/patients/tab/visit-detail/time-schedule/${patientID}` ||
-    pathname === `/users/patients/tab/steps/${patientID}`
-  ) {
-    return (
-      <Provider store={store}>
-        <SidebarProvider>{children}</SidebarProvider>
-      </Provider>
-    )
-  }
+  const { data: session } = useSession()
+  const router = useRouter()
+  useEffect(() => {
+    console.log(session)
+    if (session == null) {
+      setTimeout(() => {
+        router.push('/login')
+      }, 2000)
+      // router.push('/login')
+    }
+  }, [session, router])
 
-  return (
+  if (session != null) {
+    if (
+      pathname === `/users/patients/tab/dashboard/${patientID}` ||
+        pathname === `/users/patients/tab/appointments/${patientID}` ||
+        pathname === `/users/patients/tab/caregivers/${patientID}` ||
+        pathname === `/users/patients/tab/casemanagers/${patientID}` ||
+        pathname === `/users/patients/tab/homevisit/${patientID}` ||
+        pathname === `/users/patients/tab/lab/${patientID}` ||
+        pathname === `/users/patients/tab/pharmacy/${patientID}` ||
+        pathname === `/users/patients/tab/medication/${patientID}` ||
+        pathname === `/users/patients/tab/messages/${patientID}` ||
+        pathname === `/users/patients/tab/settings/${patientID}` ||
+        pathname === `/users/patients/tab/visits/${patientID}` ||
+        pathname === `/users/patients/tab/visit-detail/${patientID}` ||
+        pathname === `/users/patients/tab/visit-detail/triage/${patientID}` ||
+        pathname === `/users/patients/tab/visit-detail/mmas/${patientID}` ||
+        pathname ===
+          `/users/patients/tab/visit-detail/time-schedule/${patientID}` ||
+        pathname === `/users/patients/tab/steps/${patientID}`
+    ) {
+      return (
+          <Provider store={store}>
+            <SidebarProvider>{children}</SidebarProvider>
+          </Provider>
+      )
+    }
+    return (
       <Provider store={store}>
         <ChakraProvider>
           <SidebarProvider>
@@ -94,6 +109,13 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
           </SidebarProvider>
         </ChakraProvider>
       </Provider>
+    )
+  }
+
+  return (
+    <div>
+      <p>Redirecting...</p>
+    </div>
   )
 }
 
