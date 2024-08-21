@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
-import { useAddViralLoadTestMutation, useGetAllViralLoadByPatientIDQuery, useGetViralLoadTestByPatientVisitIDQuery, useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useAddViralLoadTestMutation, useGetAllViralLoadByPatientIDQuery, useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -11,7 +11,7 @@ import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import ViralLoad from './LabTests/ViralLoad'
 import RecentViralLoadCard from './LabTests/RecentViralLoadCard'
-import { ChevronsLeft, ChevronsRight } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
 import CardHeader from './CardHeader'
 
 const justificationOptions = [
@@ -36,10 +36,10 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
   const { data: statusData } = useGetAllAppointmentStatusQuery()
   const { data: agendaData } = useGetAllAppointmentAgendaQuery()
 
-  const { data: currentVLData } =
-    useGetViralLoadTestByPatientVisitIDQuery(patientVisitID)
+  // const { data: currentVLData } =
+  //   useGetViralLoadTestByPatientVisitIDQuery(patientVisitID)
 
-  const [addViralLoadTest, { isLoading }] = useAddViralLoadTestMutation()
+  const [addViralLoadTest, { isLoading, data: recentVLData }] = useAddViralLoadTestMutation()
   const statusOptions = useCallback(() => {
     return statusData?.filter((item: any) => (item.statusDescription.toLowerCase() === 'upcoming')) || []
   }, [statusData])
@@ -111,10 +111,16 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
 
   useEffect(() => {
     if (allPatientVLData) {
-      console.log(allPatientVLData)
       setAverage(calculateAverage(allPatientVLData))
     }
   }, [allPatientVLData])
+
+  useEffect(() => {
+    if (recentVLData) {
+      console.log(recentVLData, 'recentVLdata')
+      handleNext()
+    }
+  }, [handleNext, recentVLData])
 
   return (
     <>
@@ -148,7 +154,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
             >
               <ChevronsLeft size={15} className="mr-2" /> Prev
             </Button>
-            {currentVLData
+            {vlData || recentVLData
               ? (
               <Button
                 className=" shadow-none hover:bg-slate-100 text-black"
@@ -169,6 +175,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
                   addViralLoadTest(inputValues)
                 }}
               >
+                {isLoading && <Loader2 className='mr-2 animate-spin' size={18} />}
                 Save
               </Button>
                 )}

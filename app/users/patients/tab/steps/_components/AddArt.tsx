@@ -16,7 +16,7 @@ import {
   RefreshCcw,
   TabletsIcon
 } from 'lucide-react'
-import { Suspense, useCallback, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
@@ -130,7 +130,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
       (item: any) => item.statusDescription.toLowerCase() === 'upcoming'
     ) || []
   }, [statusData])
-  const prescriptionInputValues = {
+  const prescriptionInputValues = useMemo(() => [{
     patientID,
     frequency,
     noOfPill,
@@ -141,7 +141,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     patientVisitID: appointmentID,
     appointmentAgendaID: agendaDataOptions?.()[0]?.id,
     appointmentStatusID: statusOptions?.()[0]?.id
-  }
+  }], [agendaDataOptions, appointmentID, frequency, noOfPill, patientID, recentPrescriptionData?.id, refillDate, statusOptions, userData])
 
   useEffect(() => {
     if (addPillPrescriptionData) {
