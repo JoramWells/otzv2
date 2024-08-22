@@ -104,7 +104,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     return (
       <Provider store={store}>
         <ChakraProvider>
-          <div className={'bg-slate-50 min-h-screen'}>{children}</div>
+          <div className={'bg-slate-50 min-h-[100vh]'}>{children}</div>
         </ChakraProvider>
       </Provider>
     )
@@ -153,7 +153,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         </Sidebar>
         <div
           className={
-            'flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50'
+            'flex flex-col flex-1 h-[100vh] overflow-y-auto bg-slate-50'
           }
         >
           {/* <Navbar /> */}

@@ -17,6 +17,7 @@ import { calculateAge } from '@/utils/calculateAge'
 import FullDisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist/Full'
 import LabTests from '../_components/LabTests'
 import CustomStepper from '../_components/CustomStepper'
+import Footer from '@/components/Footer'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -145,7 +146,9 @@ const StepsPage = ({ params }: any) => {
   }
 
   return (
-    <>
+    <div
+    className='mb-[65px]'
+    >
       <BreadcrumbComponent dataList={dataList2} />
       <div className="w-full flex flex-row space-x-4 justify-center ">
         {/*  */}
@@ -228,6 +231,7 @@ const StepsPage = ({ params }: any) => {
                   handleBack={() => {
                     handleBack()
                   }}
+                  stepsLength={steps.length}
                 />
               )}
               {tab === '6' && activeStep === 6 && age >= 5 && age <= 8 && (
@@ -269,7 +273,8 @@ const StepsPage = ({ params }: any) => {
           <StagingDialog />
         </div> */}
       </div>
-    </>
+      <Footer />
+    </div>
   )
 }
 

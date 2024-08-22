@@ -187,7 +187,9 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
         frequency,
         noOfPill,
         computedNoOfPills: noOfPill,
-        artPrescriptionID: addPrescriptionData?.id,
+        artPrescriptionID: addPrescriptionData?.id
+          ? addPrescriptionData?.id
+          : recentPrescriptionData?.id,
         refillDate,
         userID: userData?.[0].id,
         patientVisitID: appointmentID,
@@ -195,17 +197,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
         appointmentStatusID: statusOptions?.()[0]?.id
       }
     ],
-    [
-      addPrescriptionData,
-      agendaDataOptions,
-      appointmentID,
-      frequency,
-      noOfPill,
-      patientID,
-      refillDate,
-      statusOptions,
-      userData
-    ]
+    [addPrescriptionData?.id, agendaDataOptions, appointmentID, frequency, noOfPill, patientID, recentPrescriptionData?.id, refillDate, statusOptions, userData]
   )[0]
 
   console.log(prescriptionInputValues, 'prescriptionInputValues')

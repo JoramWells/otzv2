@@ -285,7 +285,7 @@ const itemList: ItemListProps[] = [
 
 export default function Home () {
   return (
-    <div className="min-h-screen relative bg-slate-50">
+    <div className="h-[100vh] relative bg-slate-50">
       <Suspense fallback={<Skeleton className="p-4 w-full" />}>
         <nav
           className="flex justify-between

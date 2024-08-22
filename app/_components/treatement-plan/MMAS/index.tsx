@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
-import { type Dispatch, type SetStateAction, useState, useEffect } from 'react'
+import { type Dispatch, type SetStateAction, useState, useEffect, useCallback } from 'react'
 
 import MmasFour from './MMASFour'
 import MmasEight from './MMASEight'
@@ -13,6 +13,8 @@ import { ChevronsLeft, ChevronsRight, InfoIcon, Loader2 } from 'lucide-react'
 import { useAddMmasFourMutation, useGetMmasFourByPatientIDQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useAddMmasEightMutation } from '@/api/treatmentplan/mmasEight.api'
 import CardHeader from '@/app/users/patients/tab/steps/_components/CardHeader'
+import { steps } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 
 interface DataProps {
   isForget: boolean
@@ -29,6 +31,7 @@ interface MMASProps {
   patientID: string
   appointmentID: string | null
   formData: DataProps
+  stepsLength: number
 };
 
 const MMASForm = ({
@@ -36,7 +39,7 @@ const MMASForm = ({
   handleNext,
   handleBack,
   appointmentID,
-  formData
+  formData, stepsLength
 }: MMASProps) => {
   const [isForget, setIsForget]: [boolean, Dispatch<SetStateAction<boolean>>] =
     useState(false)
@@ -111,6 +114,8 @@ const MMASForm = ({
 
   console.log(recentMMMASFourData, 'mmasFour')
 
+  const activeStep = 5
+
   useEffect(() => {
     if (formData) {
       setIsForget(formData.isForget)
@@ -141,12 +146,19 @@ const MMASForm = ({
     setMMASEightScore(new8Score + mmassFourScore)
   }, [formData, isAllTime, isCareless, isForget, isNever, isOnce, isQuitFeelBetter, isQuitFeelWorse, isQuitOutControl, isSometimes, isTookMedYesterday, isUnderPressure, isUsually, mmassFourScore])
 
+  const router = useRouter()
+
+  useEffect(() => {
+    if (activeStep === stepsLength && (mmas8Data || savedData)) {
+      router.push(`/users/patients/tab/dashboard/${patientID}`)
+    }
+    // handleNext()
+  }, [handleNext, mmas8Data, patientID, router, savedData, stepsLength])
+
   return (
     <>
       <div className="w-3/4 bg-white border border-slate-200 rounded-lg">
-      <CardHeader
-      header='MMAS'
-      />
+        <CardHeader header="MMAS" />
         <div className="flex flex-col p-4 space-y-4">
           <MmasFour
             mmassFourScore={mmassFourScore}
@@ -192,10 +204,10 @@ const MMASForm = ({
               handleBack()
             }}
           >
-            <ChevronsLeft className='mr-2' size={18} />
+            <ChevronsLeft className="mr-2" size={18} />
             Back
           </Button>
-          {formData || savedData
+          {formData || savedData || mmas8Data
             ? (
             <Button
               className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
@@ -204,7 +216,7 @@ const MMASForm = ({
               }}
             >
               Next
-              <ChevronsRight className='ml-2' size={18} />
+              <ChevronsRight className="ml-2" size={18} />
             </Button>
               )
             : (
@@ -214,28 +226,36 @@ const MMASForm = ({
                 <Button
                   className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
                   onClick={() => {
+                    // handleSave(addMmasEight, inputValuesEight, mmas8Data)
                     addMmasEight(inputValuesEight)
+                    // if (activeStep === stepsLength && mmas8Data) {
+                    //   router.push(`/users/patients/tab/dashboard/${patientID}`)
+                    // }
                   }}
                   disabled={isLoading8}
                 >
                   {isLoading8 && (
                     <Loader2 className="animate-spin mr-2" size={18} />
                   )}
-                  Save
+                  {activeStep === stepsLength ? 'Complete' : 'Save'}
                 </Button>
                   )
                 : (
                 <Button
-                  className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
+                  className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
                   onClick={() => {
+                    // handleSave(addMmasFour, inputValuesFour, savedData)
                     addMmasFour(inputValuesFour)
+                    // if (activeStep === stepsLength && savedData) {
+                    //   router.push(`/users/patients/tab/dashboard/${patientID}`)
+                    // }
                   }}
                   disabled={isLoading}
                 >
                   {isLoading && (
                     <Loader2 className="animate-spin mr-2" size={18} />
                   )}
-                  Save
+                  {activeStep === stepsLength ? 'Complete' : 'Save'}
                 </Button>
                   )}
             </div>
@@ -243,7 +263,8 @@ const MMASForm = ({
         </div>
       </div>
       <div className="w-1/3 bg-white rounded-lg p-4 flex items-start flex-grow-0">
-        Recent tests
+        Recent testsx
+        {stepsLength}
       </div>
     </>
   )
