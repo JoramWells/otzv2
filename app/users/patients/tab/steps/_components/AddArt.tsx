@@ -130,18 +130,6 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
       (item: any) => item.statusDescription.toLowerCase() === 'upcoming'
     ) || []
   }, [statusData])
-  const prescriptionInputValues = useMemo(() => [{
-    patientID,
-    frequency,
-    noOfPill,
-    computedNoOfPills: noOfPill,
-    artPrescriptionID: recentPrescriptionData?.id,
-    refillDate,
-    userID: userData?.[0].id,
-    patientVisitID: appointmentID,
-    appointmentAgendaID: agendaDataOptions?.()[0]?.id,
-    appointmentStatusID: statusOptions?.()[0]?.id
-  }], [agendaDataOptions, appointmentID, frequency, noOfPill, patientID, recentPrescriptionData?.id, refillDate, statusOptions, userData])
 
   useEffect(() => {
     if (addPillPrescriptionData) {
@@ -191,6 +179,36 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   }
 
   const [tab, setTab] = useState(1)
+
+  const prescriptionInputValues = useMemo(
+    () => [
+      {
+        patientID,
+        frequency,
+        noOfPill,
+        computedNoOfPills: noOfPill,
+        artPrescriptionID: addPrescriptionData?.id,
+        refillDate,
+        userID: userData?.[0].id,
+        patientVisitID: appointmentID,
+        appointmentAgendaID: agendaDataOptions?.()[0]?.id,
+        appointmentStatusID: statusOptions?.()[0]?.id
+      }
+    ],
+    [
+      addPrescriptionData,
+      agendaDataOptions,
+      appointmentID,
+      frequency,
+      noOfPill,
+      patientID,
+      refillDate,
+      statusOptions,
+      userData
+    ]
+  )[0]
+
+  console.log(prescriptionInputValues, 'prescriptionInputValues')
 
   return (
     <>
