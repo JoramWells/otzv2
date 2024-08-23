@@ -70,7 +70,7 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
   return (
     <div className="w-full bg-slate-50 rounded-lg p-2">
       <div
-      className='w-full  flex justify-between  space-x-4 mb-2'
+      className='w-full  flex justify-between  space-x-2 mb-2'
       >
         <div
         className='w-1/2 p-4 bg-white rounded-lg'

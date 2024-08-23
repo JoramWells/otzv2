@@ -55,38 +55,38 @@ const PopulationTypeChart = ({ data }: { data: PatientAttributes[] }) => {
   }))
 
   return (
-
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-square max-h-[350px] w-1/2 bg-white rounded-lg"
-        >
-          {chartDatam && (
-            <RadarChart data={chartDatam}
-            cx='50%'
-            cy={'50%'}
-            outerRadius={'80%'}
-            >
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent indicator='line' />}
-              />
-              <PolarAngleAxis dataKey={'populationType'} />
-              <PolarGrid
-              className='fill-[--color-desktop] opacity-20 '
-              />
-              <Radar
-                dataKey={'count'}
-                fill="var(--color-desktop)"
-                fillOpacity={0.6}
-                dot={{
-                  r: 4,
-                  fillOpacity: 1
-                }}
-              />
-            </RadarChart>
-          )}
-        </ChartContainer>
-
+    <div className='bg-white p-2 rounded-lg w-1/2'>
+      <div className="ml-2 mt-2 max-h-full ">
+        <h3 className="text-slate-700 font-semibold">Key Population</h3>
+      </div>
+      <ChartContainer
+        config={chartConfig}
+        className="aspect-square max-h-[350px] w-full bg-white rounded-lg"
+      >
+        {chartDatam && (
+          <RadarChart data={chartDatam} cx="50%" cy={'50%'} outerRadius={'80%'}>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
+            <PolarAngleAxis
+              dataKey={'populationType'}
+              tickFormatter={(value) => `${value.slice(0, 20)}...`}
+            />
+            <PolarGrid className="fill-[--color-desktop] opacity-20 " />
+            <Radar
+              dataKey={'count'}
+              fill="var(--color-desktop)"
+              fillOpacity={0.6}
+              dot={{
+                r: 4,
+                fillOpacity: 1
+              }}
+            />
+          </RadarChart>
+        )}
+      </ChartContainer>
+    </div>
   )
 }
 

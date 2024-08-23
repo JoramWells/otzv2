@@ -9,7 +9,7 @@
 
 import { useGetAllPatientsQuery, useGetImportantPatientsQuery } from '@/api/patient/patients.api'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 // import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
@@ -17,6 +17,8 @@ import PopulationTypeChart from '@/components/Recharts/PopulationTypeChart'
 import RegisteredPatientsLineChart from '@/components/Recharts/RegisteredPatientsLineChart'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { importantPatientColumn } from '../patients/_components/columns'
+import { Button } from '@/components/ui/button'
+import { type PatientAttributes } from 'otz-types'
 
 // const UserDashboardCard = dynamic(
 //   async () => await import('@/app/_components/UserDasboard'),
@@ -48,6 +50,14 @@ const NotifyPage = () => {
   const { data } = useGetAllPatientsQuery()
 
   // const dataList: UserDashboardCardDataListProps[] =
+  const filteredArray: PatientAttributes[] = data ? [...data] : []
+  filteredArray.sort(
+    (a, b) =>
+      new Date(b.createdAt as unknown as string).getTime() -
+      new Date(a.createdAt as unknown as string).getTime()
+  )
+
+  const recentPatients = filteredArray?.slice(0, 3)
 
   const dataList2 = [
     {
@@ -58,7 +68,7 @@ const NotifyPage = () => {
     {
       id: '2',
       label: 'dashboard',
-      link: 'dashboard'
+      link: '/dashboard'
     }
   ]
 
@@ -99,7 +109,7 @@ const NotifyPage = () => {
   const { data: importantPatients } = useGetImportantPatientsQuery({
     limit: 5
   })
-  console.log(uniqueYears, 'important patients')
+  const [value, setValue] = useState(1)
 
   return (
     <div className="w-full">
@@ -108,25 +118,55 @@ const NotifyPage = () => {
       <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
         {/*  */}
         <div className="flex justify-between space-x-2 ">
-          <RegisteredPatientsLineChart data={data || [] } />
+          <RegisteredPatientsLineChart data={data || []} />
 
           <PieChart data={pieChartData} />
         </div>
         <div className="flex justify-between bg-slate-50 p-2 space-x-2">
-          <PopulationTypeChart data={data || [] } />
+          <PopulationTypeChart data={data || []} />
           <div className="p-2 bg-white rounded-lg w-1/2  ">
             <div
-            className='p-2'
+            className='ml-2 mt-2'
             >
-              <div
-              className='text-lg font-semibold text-slate-700 mb-2'
-              >Pinned Patients</div>
+              <h3 className="text-slate-700 font-semibold">Quick Access</h3>
             </div>
-            <CustomTable
-              isSearch={false}
-              data={importantPatients || []}
-              columns={importantPatientColumn}
-            />
+            <div className="p-2">
+              <div className="flex flex-row space-x-2">
+                {[
+                  { id: 1, label: 'Pinned' },
+                  { id: 2, label: 'Recent' }
+                ].map((item) => (
+                  <Button
+                    key={item.id}
+                    onClick={() => setValue(item.id)}
+                    className={`text-slate-700 hover:bg-slate-50 bg-transparent hover:text-teal-600 rounded-none
+                      ${
+                        value === item.id &&
+                        'border-b-2 border-teal-600 text-teal-600'
+                      }
+                      `}
+                  >
+                    {item.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            {value === 1 && (
+              <CustomTable
+                isSearch={false}
+                data={importantPatients || []}
+                columns={importantPatientColumn}
+              />
+            )}
+
+            {/*  */}
+            {value === 2 && (
+              <CustomTable
+                isSearch={false}
+                data={recentPatients || []}
+                columns={importantPatientColumn}
+              />
+            )}
           </div>
         </div>
         {/*  */}

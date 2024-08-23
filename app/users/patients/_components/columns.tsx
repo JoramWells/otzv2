@@ -481,11 +481,8 @@ export const importantPatientColumn: Array<ColumnDef<PatientAttributes>> = [
             )}
       </div>
     )
-  },
-  {
-    accessorKey: 'populationType',
-    header: 'Population Type'
   }
+
   // {
   //   accessorKey: 'action',
   //   header: 'Action',

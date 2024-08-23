@@ -3,15 +3,15 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import axios from 'axios'
 
-const handler = NextAuth({
+export const handler = NextAuth({
   session: {
     strategy: 'jwt'
   },
   providers: [
     CredentialsProvider({
       credentials: {
-        email: {},
-        password: {}
+        email: {label:'email', type:'text'},
+        password: {label:'password', type:'password'}
       },
       async authorize (credentials, req) {
         const response = await axios.post(
