@@ -54,17 +54,17 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   const { patientID } = params
 
   const pathname = usePathname()
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
   useEffect(() => {
-    console.log(session)
-    if (session == null) {
-      setTimeout(() => {
-        router.push('/login')
-      }, 2000)
-      // router.push('/login')
+    if (status === 'loading') { return }
+    if (status === 'unauthenticated') {
+      // setTimeout(() => {
+      //   router.push('/login')
+      // }, 2000)
+      router.push('/login')
     }
-  }, [session, router])
+  }, [status, router])
 
   if (session != null) {
     if (

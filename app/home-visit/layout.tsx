@@ -11,6 +11,9 @@ import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { BookCopy, HeartHandshake, LayoutDashboardIcon } from 'lucide-react'
 import { ChakraProvider } from '@chakra-ui/react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -40,7 +43,21 @@ const DL: SidebarListItemsProps[] = [
 ]
 
 const PatientLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  useEffect(() => {
+    if (status === 'loading') {
+      return
+    }
+    if (status === 'unauthenticated') {
+    // setTimeout(() => {
+    //   router.push('/login')
+    // }, 2000)
+      router.push('/login')
+    }
+  }, [status, router])
+  if (session != null) {
+    return (
  <ChakraProvider>
      <Provider store={store}>
         <SidebarProvider>
@@ -57,6 +74,13 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
         </SidebarProvider>
     </Provider>
  </ChakraProvider>
+    )
+  }
+
+  return (
+    <div>
+      <p>Redirecting...</p>
+    </div>
   )
 }
 

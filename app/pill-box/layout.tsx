@@ -48,15 +48,17 @@ const DL: SidebarListItemsProps[] = [
 ]
 
 const PillLayout = ({ children }: { children: React.ReactNode }) => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
   useEffect(() => {
-    console.log(session)
-    if (session == null) {
-      setTimeout(() => { router.push('/login') }, 2000)
-      // router.push('/login')
+    if (status === 'loading') {
+      return
     }
-  }, [session, router])
+    if (status === 'unauthenticated') {
+      // setTimeout(() => { router.push('/login') }, 2000)
+      router.push('/login')
+    }
+  }, [status, router])
   if (session != null) {
     return (
     <Provider store={store}>

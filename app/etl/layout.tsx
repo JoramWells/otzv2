@@ -8,6 +8,9 @@ import { NotificationProvider } from '@/context/NotificationContext'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { Database, LayoutDashboardIcon } from 'lucide-react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -25,7 +28,21 @@ const DL: SidebarListItemsProps[] = [
 ]
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  useEffect(() => {
+    if (status === 'loading') {
+      return
+    }
+    if (status === 'unauthenticated') {
+    // setTimeout(() => {
+    //   router.push('/login')
+    // }, 2000)
+      router.push('/login')
+    }
+  }, [status, router])
+  if (session != null) {
+    return (
     <Provider store={store}>
       <SidebarProvider>
         <NotificationProvider>
@@ -42,6 +59,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         </NotificationProvider>
       </SidebarProvider>
     </Provider>
+    )
+  }
+  return (
+      <div>
+        <p>Redirecting...</p>
+      </div>
   )
 }
 

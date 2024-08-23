@@ -10,6 +10,9 @@ import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { BellDot, BookCopy, LayoutDashboardIcon, Pill } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -39,7 +42,21 @@ const DL: SidebarListItemsProps[] = [
 ]
 
 const PatientLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  useEffect(() => {
+    if (status === 'loading') {
+      return
+    }
+    if (status === 'unauthenticated') {
+    // setTimeout(() => {
+    //   router.push('/login')
+    // }, 2000)
+      router.push('/login')
+    }
+  }, [status, router])
+  if (session != null) {
+    return (
     <Provider store={store}>
       <SidebarProvider>
         <div className="flex flex-row">
@@ -54,6 +71,12 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </SidebarProvider>
     </Provider>
+    )
+  }
+  return (
+    <div>
+      <p>Redirecting...</p>
+    </div>
   )
 }
 
