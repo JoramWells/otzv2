@@ -12,7 +12,10 @@ const nextConfig = {
             }
         ]
     },
-    swcMinify: false
+    experimental:{
+        forceSwcTransforms: true
+    }
+    // swcMinify: false
 };
 
 export default withSentryConfig(nextConfig, {
