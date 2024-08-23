@@ -11,7 +11,8 @@ const nextConfig = {
                 pathname: '**'
             }
         ]
-    }
+    },
+    swcMinify: false
 };
 
 export default withSentryConfig(nextConfig, {
