@@ -8,6 +8,9 @@ import { NotificationProvider } from '@/context/NotificationContext'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { BellPlus, Calendar, DatabaseBackup, LayoutDashboardIcon, Map, Pill, Users, Warehouse } from 'lucide-react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -73,23 +76,43 @@ const DL: SidebarListItemsProps[] = [
 ]
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Provider store={store}>
-      <SidebarProvider>
-        <NotificationProvider>
-          <div className="flex flex-row">
-            <Sidebar>
-              <SidebarListItemsComponent dataList={DL} />
-            </Sidebar>
-            <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
-              {/* <Navbar /> */}
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  useEffect(() => {
+    if (status === 'loading') {
+      return
+    }
+    if (status === 'unauthenticated') {
+    // setTimeout(() => {
+    //   router.push('/login')
+    // }, 2000)
+      router.push('/login')
+    }
+  }, [status, router])
+  if (session != null) {
+    return (
+      <Provider store={store}>
+        <SidebarProvider>
+          <NotificationProvider>
+            <div className="flex flex-row">
+              <Sidebar>
+                <SidebarListItemsComponent dataList={DL} />
+              </Sidebar>
+              <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
+                {/* <Navbar /> */}
 
-              {children}
+                {children}
+              </div>
             </div>
-          </div>
-        </NotificationProvider>
-      </SidebarProvider>
-    </Provider>
+          </NotificationProvider>
+        </SidebarProvider>
+      </Provider>
+    )
+  }
+  return (
+    <div>
+      <p>Redirecting...</p>
+    </div>
   )
 }
 

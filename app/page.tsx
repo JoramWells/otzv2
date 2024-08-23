@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+'use client'
 import { Search } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MenuSelect } from './_components/MenuSelect'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 interface ListItemProps {
   id: string
@@ -284,102 +287,122 @@ const itemList: ItemListProps[] = [
 ]
 
 export default function Home () {
-  return (
-    <div className="h-[100vh] relative bg-slate-50">
-      <Suspense fallback={<Skeleton className="p-4 w-full" />}>
-        <nav
-          className="flex justify-between
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  useEffect(() => {
+    if (status === 'loading') {
+      return
+    }
+    if (status === 'unauthenticated') {
+    // setTimeout(() => {
+    //   router.push('/login')
+    // }, 2000)
+      router.push('/login')
+    }
+  }, [status, router])
+  if (session != null) {
+    return (
+      <div className="h-[100vh] relative bg-slate-50">
+        <Suspense fallback={<Skeleton className="p-4 w-full" />}>
+          <nav
+            className="flex justify-between
         bg-white
         border-slate-200 p-4 w-full"
-        >
-          <Image
-            src={'/img/logo1.svg'}
-            alt="img"
-            width={0}
-            height={0}
-            style={{ width: '90px', height: 'auto' }}
+          >
+            <Image
+              src={'/img/logo1.svg'}
+              alt="img"
+              width={0}
+              height={0}
+              style={{ width: '90px', height: 'auto' }}
 
-            // quality={100}
-          />
-          <Button className="bg-teal-600 shadow-none hover:bg-teal-700">
-            Login
-          </Button>
-        </nav>
-      </Suspense>
+              // quality={100}
+            />
+            <Button className="bg-teal-600 shadow-none hover:bg-teal-700">
+              Login
+            </Button>
+          </nav>
+        </Suspense>
 
-      {/* main */}
-      <main className="flex flex-col  items-center w-full">
-        <div className="flex flex-col justify-center items-center w-full">
-          <Suspense fallback={<Skeleton className="w-3/4 p-2" />}>
-            <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
-              <h1 className="text-center text-2xl lg:text-2xl min-[1920px]:text-sm font-extrabold text-teal-600">
-                Welcome to CarePlus +
-              </h1>
+        {/* main */}
+        <main className="flex flex-col  items-center w-full">
+          <div className="flex flex-col justify-center items-center w-full">
+            <Suspense fallback={<Skeleton className="w-3/4 p-2" />}>
+              <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
+                <h1 className="text-center text-2xl lg:text-2xl min-[1920px]:text-sm font-extrabold text-teal-600">
+                  Welcome to CarePlus +
+                </h1>
 
-              <div
-                className="w-[410px] flex flex-row items-center
-              justify-between space-x-4 "
-              >
-                <Input
-                  className="shadow-none rounded-full p-4 h-10 bg-slate-50 border-none"
-                  placeholder="Search.."
-                />
-                <Button className="bg-slate-50 hover:bg-slate-50 shadow-none">
-                  <Search className="text-slate-500" />
-                </Button>
-              </div>
-            </div>
-          </Suspense>
-          <div className="grid p-2 w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
-            {itemList.map((item) => (
-              <Suspense
-                key={item.id}
-                fallback={<Skeleton className="h-[150px]" />}
-              >
                 <div
-                  key={item.id}
-                  tabIndex={0}
-                  className="border-slate-200 p-4 transition ease-in-out delay-150
-          rounded-lg h-[150px] hover:cursor-pointer bg-white shadow-slate-100 shadow-lg"
+                  className="w-[410px] flex flex-row items-center
+              justify-between space-x-4 "
                 >
-                  <div className="w-full flex justify-end">
-                    <MenuSelect dataList={item.listItem} />
-                  </div>
-                  <div className="w-full flex flex-row space-x-4 justify-start items-start">
-                    <Image
-                      src={item.src}
-                      alt="img"
-                      width={80}
-                      height={80}
-                      style={{
-                        width: '80px',
-                        height: '80px',
-                        objectFit: 'contain'
-                      }}
+                  <Input
+                    className="shadow-none rounded-full p-4 h-10 bg-slate-50 border-none"
+                    placeholder="Search.."
+                  />
+                  <Button className="bg-slate-50 hover:bg-slate-50 shadow-none">
+                    <Search className="text-slate-500" />
+                  </Button>
+                </div>
+              </div>
+            </Suspense>
+            <div className="grid p-2 w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
+              {itemList.map((item) => (
+                <Suspense
+                  key={item.id}
+                  fallback={<Skeleton className="h-[150px]" />}
+                >
+                  <div
+                    key={item.id}
+                    tabIndex={0}
+                    className="border-slate-200 p-4 transition ease-in-out delay-150
+          rounded-lg h-[150px] hover:cursor-pointer bg-white shadow-slate-100 shadow-lg"
+                  >
+                    <div className="w-full flex justify-end">
+                      <MenuSelect dataList={item.listItem} />
+                    </div>
+                    <div className="w-full flex flex-row space-x-4 justify-start items-start">
+                      <Image
+                        src={item.src}
+                        alt="img"
+                        width={80}
+                        height={80}
+                        style={{
+                          width: '80px',
+                          height: '80px',
+                          objectFit: 'contain'
+                        }}
 
-                      // quality={100}
-                    />
-                    <div>
-                      <Link
-                        className="text-xl font-bold hover:underline"
-                        href={item.link}
-                      >
-                        {item.label}
-                      </Link>
-                      <p className="text-slate-500 text-sm mt-2">
-                        {item.description
-                          ? item.description
-                          : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
-                      </p>
+                        // quality={100}
+                      />
+                      <div>
+                        <Link
+                          className="text-xl font-bold hover:underline"
+                          href={item.link}
+                        >
+                          {item.label}
+                        </Link>
+                        <p className="text-slate-500 text-sm mt-2">
+                          {item.description
+                            ? item.description
+                            : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Suspense>
-            ))}
+                </Suspense>
+              ))}
+            </div>
           </div>
-        </div>
-      </main>
-<Footer/>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+  return (
+    <div>
+      <p>Redirecting...</p>
     </div>
   )
 }
