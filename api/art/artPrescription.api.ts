@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type ARTPrescriptionInterface } from 'otz-types'
 
 export const artPrescriptionApi = createApi({
   reducerPath: 'artPrescriptionApi',
@@ -7,7 +8,7 @@ export const artPrescriptionApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/art-prescription`
   }),
   endpoints: (builder) => ({
-    getAllArtPrescription: builder.query<any, void>({
+    getAllArtPrescription: builder.query<ARTPrescriptionInterface[], void>({
       query: () => 'fetchAll'
     }),
     addArtPrescription: builder.mutation({

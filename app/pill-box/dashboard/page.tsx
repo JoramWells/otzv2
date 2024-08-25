@@ -10,6 +10,10 @@ import { useGetPillDailyUptakeCountQuery } from '@/api/treatmentplan/uptake.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
+import ARTLineChart from '@/components/Recharts/ARTLineChart'
+import { useGetAllArtPrescriptionQuery } from '@/api/art/artPrescription.api'
+import HorizontalLineChart from '@/components/Recharts/HorizontalLineChart'
+import { type ARTPrescriptionInterface } from 'otz-types'
 
 const DoubleARTUptakeBarChart = dynamic(
   async () => await import('../../_components/charts/DoubleARTUptakeBarChart'),
@@ -36,7 +40,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'dashboard',
-    link: 'dashboard'
+    link: '/dashboard'
   }
 ]
 
@@ -61,14 +65,15 @@ const NotifyPage = () => {
   })
 
   const { data: facilityData } = useGetFacilityAdherenceQuery()
-  console.log(facilityData)
+
+  const { data: artPrescriptionData } = useGetAllArtPrescriptionQuery()
 
   const dataList = [
     {
       id: '1',
       label: 'On ART',
       count: 50,
-      link: '/notify/appointment'
+      link: ''
     },
     {
       id: '2',
@@ -107,13 +112,15 @@ const NotifyPage = () => {
               <h3 className="font-bold">{item.label}</h3>
               <Users size={15} />
             </div>
-            <p className="text-xl font-bold">{item.label === 'Adherence' ? `${item.count} %` : item.count}</p>
+            <p className="text-xl font-bold">
+              {item.label === 'Adherence' ? `${item.count} %` : item.count}
+            </p>
             <p className="text-slate-500 text-[12px]">Since last month</p>
           </div>
         ))}
       </div>
       <div className="bg-white p-4">
-        <div className='w-full mb-2' >
+        <div className="w-full mb-2">
           <h1
             className="font-semibold text-lg
         "
@@ -131,6 +138,11 @@ const NotifyPage = () => {
           eveningTrueCount={uptakeCount?.eveningTrueCount}
           eveningFalseCount={uptakeCount?.eveningFalseCount}
         />
+
+        {/*  */}
+        {/* <ARTLineChart /> */}
+
+        <HorizontalLineChart data={artPrescriptionData!} />
       </div>
 
       {/* <div

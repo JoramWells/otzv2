@@ -101,11 +101,6 @@ const NotifyPage = () => {
 
   uniqueYears.sort((a: number, b: number) => a - b)
 
-  // Count the number of patients for each year
-  // const patientsCountPerYear = uniqueYears.map((year: any) => {
-  //   return data?.filter((item: any) => new Date(item.dateConfirmedPositive).getFullYear() === year).length
-  // })
-
   const { data: importantPatients } = useGetImportantPatientsQuery({
     limit: 5
   })
