@@ -27,7 +27,7 @@ const RadarARTChart = ({ data }: { data: ARTPrescriptionInterface[] }) => {
     const tempData = data ? [...data] : []
 
     const filteredData = tempData.filter((item) => {
-      return item.regimen !== null
+      return item.regimen
     })
 
     // const cleanedData = filteredData.map((item) => ({
@@ -54,9 +54,6 @@ const RadarARTChart = ({ data }: { data: ARTPrescriptionInterface[] }) => {
     count: countMap[regimen]
   }))
 
-  //
-  console.log(chartDatam, 'regimen')
-
   return (
     <div className="bg-white p-2 rounded-lg w-1/2">
       <div className="ml-2 mt-2 max-h-full ">
@@ -73,12 +70,12 @@ const RadarARTChart = ({ data }: { data: ARTPrescriptionInterface[] }) => {
               content={<ChartTooltipContent indicator="line" />}
             />
             <PolarAngleAxis
-              dataKey={'populationType'}
+              dataKey={'regimen'}
               tickFormatter={(value) => `${value.slice(0, 20)}...`}
             />
             <PolarGrid className="fill-[--color-desktop] opacity-20 " />
             <Radar
-              dataKey={'regimen'}
+              dataKey={'count'}
               fill="var(--color-desktop)"
               fillOpacity={0.6}
               dot={{
