@@ -55,50 +55,50 @@ const HorizontalLineChart = ({ data, isLoading }: { data: ARTPrescriptionInterfa
   }, [])
   console.log(data, 'tdata')
   if (isLoading) {
-    return <Skeleton className='max-h-[200px] w-1/4 rounded-lg'/>
+    return <Skeleton className='max-h-[350px] w-1/4 rounded-lg'/>
   }
   return (
-    <div className="w-1/4 max-h-[200px] p-2 ">
-      <div
-      className='ml-4'
-      >
-        <h3
-        className='font-semibold text-slate-700'
-        >Regimen Line Count</h3>
+    <div className="w-1/4 h-[350px] p-2 border border-slate-100 rounded-lg ">
+      <div className="ml-4">
+        <h3 className="font-semibold text-slate-700">Regimen Line Count</h3>
       </div>
-      <ChartContainer
-        config={chartConfig}
-        className="aspect-square max-h-[200px] w-full bg-white rounded-lg"
+      <div
+      className='w-full h-full items-center justify-center flex '
       >
-        <BarChart
-          accessibilityLayer
-          data={transformData()}
-          layout="vertical"
-          margin={{
-            left: 0
-          }}
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-square max-h-[250px] w-full bg-white rounded-lg"
         >
-          <YAxis
-            dataKey={'line'}
-            type="category"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) =>
-              chartConfig[value as keyof typeof chartConfig]?.label
-            }
-          />
+          <BarChart
+            accessibilityLayer
+            data={transformData()}
+            layout="vertical"
+            margin={{
+              left: 0
+            }}
+          >
+            <YAxis
+              dataKey={'line'}
+              type="category"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) =>
+                chartConfig[value as keyof typeof chartConfig]?.label
+              }
+            />
 
-          <XAxis dataKey={'count'} type="number" hide />
+            <XAxis dataKey={'count'} type="number" hide />
 
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent hideLabel />}
-          />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
 
-          <Bar dataKey={'count'} layout="vertical" radius={5} />
-        </BarChart>
-      </ChartContainer>
+            <Bar dataKey={'count'} layout="vertical" radius={5} />
+          </BarChart>
+        </ChartContainer>
+      </div>
     </div>
   )
 }

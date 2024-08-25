@@ -124,3 +124,57 @@ export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface 
     cell: ({ row }) => <Link href={`/pill-box/prescription-detail/${row.original.patientVisitID}?patientID=${row.original?.Patient?.id} `}>Action</Link>
   }
 ]
+
+//
+
+export const importantPrescription: Array<
+ColumnDef<PrescriptionProps & PrescriptionInterface>
+> = [
+  {
+    accessorKey: 'patient',
+    header: 'Patient Name',
+    cell: ({ row }) => (
+      <div className="flex flex-row items-center gap-x-2 ">
+        <Avatar
+          // size={'sm'}
+          // className="font-bold"
+          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
+        />
+        <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+      </div>
+    )
+  },
+  {
+    accessorKey: 'currentARTRegimen',
+    header: 'Regimen',
+    cell: ({ row }) => <p>{row.original.ART?.artName}</p>
+  },
+  {
+    accessorKey: 'noOfPills',
+    header: 'Prescribed'
+  },
+  {
+    accessorKey: 'expectedNoOfPills',
+    header: 'Remaining Pills'
+  },
+
+  {
+    accessorKey: 'nextRefillDate',
+    header: 'Next Refill Date',
+    cell: ({ row }) => {
+      const { nextRefillDate } = row.original
+      const duration = useCallback(() => {
+        return calculateTimeDuration(nextRefillDate)
+      }, [nextRefillDate])()
+      return (
+        <div className="flex items-start space-x-1">
+          <CalendarDays className="" size={15} />
+          <div>
+            <p>{moment(row.original.nextRefillDate).format('ll')}</p>
+            <small className="font-bold text-slate-500">{duration}</small>
+          </div>
+        </div>
+      )
+    }
+  }
+]

@@ -55,7 +55,7 @@ const RadarARTChart = ({ data }: { data: ARTPrescriptionInterface[] }) => {
   }))
 
   return (
-    <div className="bg-white p-2 rounded-lg w-1/2">
+    <div className="bg-white p-2 rounded-lg w-2/5 border border-slate-100 ">
       <div className="ml-2 mt-2 max-h-full ">
         <h3 className="text-slate-700 font-semibold">Key Population</h3>
       </div>
