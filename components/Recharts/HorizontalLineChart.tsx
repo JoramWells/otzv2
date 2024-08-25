@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/chart'
 import { Bar, BarChart, XAxis, YAxis } from 'recharts'
 import { type ARTPrescriptionInterface } from 'otz-types'
+import { Skeleton } from '../ui/skeleton'
 
 const chartConfig = {
   count: {
@@ -26,9 +27,7 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-const HorizontalLineChart = ({ data }: { data: ARTPrescriptionInterface[] }) => {
-  console.log(data, 'lopi')
-
+const HorizontalLineChart = ({ data, isLoading }: { data: ARTPrescriptionInterface[], isLoading: boolean }) => {
   const tempData = useMemo(() => {
     return data?.length > 0 ? [...data] : []
   }, [data])
@@ -54,41 +53,53 @@ const HorizontalLineChart = ({ data }: { data: ARTPrescriptionInterface[] }) => 
     // console.log(!Object.values(acc).some((value) => Number.isNaN(value)))
     return acc
   }, [])
-  console.log(transformData(), 'tdata')
+  console.log(data, 'tdata')
+  if (isLoading) {
+    return <Skeleton className='max-h-[200px] w-1/4 rounded-lg'/>
+  }
   return (
-    <ChartContainer
-      config={chartConfig}
-      className="aspect-square max-h-[200px] w-1/4 bg-white rounded-lg"
-    >
-      <BarChart
-        accessibilityLayer
-        data={transformData()}
-        layout="vertical"
-        margin={{
-          left: 0
-        }}
+    <div className="w-1/4 max-h-[200px] p-2 ">
+      <div
+      className='ml-4'
       >
-        <YAxis
-          dataKey={'line'}
-          type="category"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tickFormatter={(value) =>
-            chartConfig[value as keyof typeof chartConfig]?.label
-          }
-        />
+        <h3
+        className='font-semibold text-slate-700'
+        >Regimen Line Count</h3>
+      </div>
+      <ChartContainer
+        config={chartConfig}
+        className="aspect-square max-h-[200px] w-full bg-white rounded-lg"
+      >
+        <BarChart
+          accessibilityLayer
+          data={transformData()}
+          layout="vertical"
+          margin={{
+            left: 0
+          }}
+        >
+          <YAxis
+            dataKey={'line'}
+            type="category"
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+            tickFormatter={(value) =>
+              chartConfig[value as keyof typeof chartConfig]?.label
+            }
+          />
 
-        <XAxis dataKey={'count'} type="number" hide />
+          <XAxis dataKey={'count'} type="number" hide />
 
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent hideLabel />}
-        />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
 
-        <Bar dataKey={'count'} layout="vertical" radius={5} />
-      </BarChart>
-    </ChartContainer>
+          <Bar dataKey={'count'} layout="vertical" radius={5} />
+        </BarChart>
+      </ChartContainer>
+    </div>
   )
 }
 

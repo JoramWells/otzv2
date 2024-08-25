@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
@@ -14,6 +15,7 @@ import ARTLineChart from '@/components/Recharts/ARTLineChart'
 import { useGetAllArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 import HorizontalLineChart from '@/components/Recharts/HorizontalLineChart'
 import { type ARTPrescriptionInterface } from 'otz-types'
+import RadarARTChart from '@/components/Recharts/RadarARTChart'
 
 const DoubleARTUptakeBarChart = dynamic(
   async () => await import('../../_components/charts/DoubleARTUptakeBarChart'),
@@ -66,7 +68,7 @@ const NotifyPage = () => {
 
   const { data: facilityData } = useGetFacilityAdherenceQuery()
 
-  const { data: artPrescriptionData } = useGetAllArtPrescriptionQuery()
+  const { data: artPrescriptionData, isLoading: loadingArtPrescription } = useGetAllArtPrescriptionQuery()
 
   const dataList = [
     {
@@ -132,17 +134,22 @@ const NotifyPage = () => {
             Manage patient appointments
           </p>
         </div>
-        <DoubleARTUptakeBarChart
-          morningTrueCount={uptakeCount?.morningTrueCount}
-          morningFalseCount={uptakeCount?.morningFalseCount}
-          eveningTrueCount={uptakeCount?.eveningTrueCount}
-          eveningFalseCount={uptakeCount?.eveningFalseCount}
-        />
+        <div className="flex flex-row items-start w-full space-x-4">
+          <DoubleARTUptakeBarChart
+            morningTrueCount={uptakeCount?.morningTrueCount}
+            morningFalseCount={uptakeCount?.morningFalseCount}
+            eveningTrueCount={uptakeCount?.eveningTrueCount}
+            eveningFalseCount={uptakeCount?.eveningFalseCount}
+          />
 
-        {/*  */}
-        {/* <ARTLineChart /> */}
+          {/*  */}
 
-        <HorizontalLineChart data={artPrescriptionData!} />
+          <HorizontalLineChart
+            data={artPrescriptionData as ARTPrescriptionInterface[]}
+            isLoading={loadingArtPrescription}
+          />
+        </div>
+        <RadarARTChart data={artPrescriptionData as ARTPrescriptionInterface[]} />
       </div>
 
       {/* <div
