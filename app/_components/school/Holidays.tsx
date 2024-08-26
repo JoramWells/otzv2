@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { Map } from 'lucide-react'
 import { Button } from '@chakra-ui/react'
-import MapComponent from '../map/MapComponent'
-import useCurrentLocation from '@/hooks/useCurrentLocation'
+// import MapComponent from '../map/MapComponent'
+// import useCurrentLocation from '@/hooks/useCurrentLocation'
 import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
 import { holidaysColumn } from '@/app/administrator/schools/columns'
 
@@ -16,7 +16,7 @@ interface SchoolProps {
 
 const Holidays = ({ handleClick, value }: SchoolProps) => {
   const [isMapVisible, setIsMapVisible] = useState(false)
-  const currentLocation = useCurrentLocation()
+  // const currentLocation = useCurrentLocation()
   const { data: holidaysData } = useGetAllSchoolTermHolidaysQuery()
 
   // get current location
@@ -51,13 +51,13 @@ const Holidays = ({ handleClick, value }: SchoolProps) => {
           </Button>
         </div>
       </div>
-      {isMapVisible
+      {/* {isMapVisible
         ? (
-        <MapComponent center={currentLocation || undefined} />
+        <MapComponent center={currentLocation} />
           )
-        : (
+        : ( */}
         <CustomTable columns={holidaysColumn} data={holidaysData ?? []} />
-          )}
+          {/* // )} */}
     </div>
   )
 }

@@ -8,8 +8,8 @@ interface MapProps {
 }
 
 const containerStyle = {
-  width: '250px',
-  height: '150px',
+  width: '500px',
+  height: '350px',
   borderRadius: '10px'
 }
 

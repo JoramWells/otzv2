@@ -14,6 +14,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import Footer from '@/components/Footer'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -58,22 +59,23 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   }, [status, router])
   if (session != null) {
     return (
- <ChakraProvider>
-     <Provider store={store}>
-        <SidebarProvider>
-          <div className="flex flex-row bg-slate-50">
-            <Sidebar>
-              <SidebarListItemsComponent dataList={DL} />
-            </Sidebar>
-            <div className="flex flex-col flex-1 h-screen overflow-y-auto">
-              {/* <Navbar /> */}
+      <ChakraProvider>
+        <Provider store={store}>
+          <SidebarProvider>
+            <div className="flex flex-row bg-slate-50">
+              <Sidebar>
+                <SidebarListItemsComponent dataList={DL} />
+              </Sidebar>
+              <div className="flex flex-col flex-1 h-screen overflow-y-auto">
+                {/* <Navbar /> */}
 
-              {children}
+                {children}
+                <Footer />
+              </div>
             </div>
-          </div>
-        </SidebarProvider>
-    </Provider>
- </ChakraProvider>
+          </SidebarProvider>
+        </Provider>
+      </ChakraProvider>
     )
   }
 
