@@ -80,7 +80,9 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div>
+    <div
+    className='flex justify-between align-items h-screen '
+    >
       <p>Redirecting...</p>
     </div>
   )

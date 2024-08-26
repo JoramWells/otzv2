@@ -147,7 +147,6 @@ const StepsPage = ({ params }: any) => {
 
   return (
     <div
-    className='mb-[65px]'
     >
       <BreadcrumbComponent dataList={dataList2} />
       <div className="w-full flex flex-row space-x-4 justify-center ">
