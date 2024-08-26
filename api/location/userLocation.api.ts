@@ -20,7 +20,7 @@ export const userLocationApi = createApi({
       })
     }),
     getUserLocation: builder.query({
-      query: (id) => `detail/${id}`
+      query: (id) => `details/${id}`
     }),
     updateUserLocation: builder.mutation({
       query: ({ id, ...patch }) => ({

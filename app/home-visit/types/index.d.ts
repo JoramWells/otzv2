@@ -12,6 +12,7 @@ declare interface HomeVisitProps {
   isSupportGroupAttendance: boolean
   updatedAt: MomentInput
   createdAt: Date
+  patientID: string
   homeVisitFrequency: {
     homeVisitFrequencyDescription: string
   }
@@ -20,6 +21,7 @@ declare interface HomeVisitProps {
   }
   user: any
   patient: {
+    id: string
     firstName: string
     middleName: string
   }

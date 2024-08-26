@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
-import React from 'react'
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
+import React, { useState } from 'react'
+import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api'
 
 interface MapProps {
-  center?: google.maps.LatLngLiteral
+  center: google.maps.LatLngLiteral
 }
 
 const containerStyle = {
@@ -31,18 +31,42 @@ const MapComponent: React.FC<MapProps> = ({ center }) => {
   const onUnmount = React.useCallback(function callback () {
     setMap(null)
   }, [])
-  return isLoaded ? (
 
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={10}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-      >
-        {/* Child components, such as markers, info windows, etc. */}
-        <></>
-      </GoogleMap>
+  const [selectedPlace, setSelectedPlace] = useState<google.maps.LatLngLiteral | null>()
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={12}
+      // onLoad={onLoad}
+      onUnmount={onUnmount}
+    >
+      {/* Child components, such as markers, info windows, etc. */}
+      <Marker
+        position={center}
+        label={{
+          text: 'Your are here!!',
+          color: 'blue',
+          fontSize: '14px'
+        }}
+        onClick={() => {
+          setSelectedPlace(center)
+        }}
+      />
+
+      {(selectedPlace != null) && (
+        <InfoWindow
+          position={selectedPlace}
+          onCloseClick={() => {
+            setSelectedPlace(null)
+          }}
+        >
+          <div>
+            <p>Location Details</p>
+          </div>
+        </InfoWindow>
+      )}
+    </GoogleMap>
   ) : (
     <></>
   )

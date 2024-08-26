@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useGetHomeVisitQuery } from '@/api/homevisit/homeVisit.api'
+import { useGetUserLocationQuery } from '@/api/location/userLocation.api'
 import MapComponent from '@/app/_components/map/MapComponent'
 import { Badge } from '@/components/ui/badge'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
@@ -10,6 +12,7 @@ import { Skeleton } from '@chakra-ui/react'
 import { CalendarCheck2 } from 'lucide-react'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const BreadcrumbComponent = dynamic(
@@ -34,11 +37,17 @@ const dataList2 = [
 ]
 
 const HomeVisit = ({ params }: { params: any }) => {
+  const searchParams = useSearchParams()
+
   const { homeVisitID }: { homeVisitID: string } = params
+  const patientID = searchParams.get('patientID')
+  const [currentPosition, setCurrentPosition] = useState<google.maps.LatLngLiteral>()
+
   const [homeVisitData, setHomeVisitData] = useState({
     returnToClinic: ''
   })
   const { data } = useGetHomeVisitQuery(homeVisitID)
+  const { data: locationData } = useGetUserLocationQuery(patientID)
   useEffect(() => {
     if (data != null) {
       const { returnToClinic } = data
@@ -47,13 +56,20 @@ const HomeVisit = ({ params }: { params: any }) => {
       })
     }
   }, [data])
-  console.log(data)
+  console.log(locationData)
   const [recentVisit, setRecentVisit] = useState<HomeVisitProps>()
   useEffect(() => {
+    if (locationData) {
+      setCurrentPosition({
+        lat: parseInt(locationData.latitude),
+        lng: parseInt(locationData.longitude)
+      })
+    }
+
     if (data) {
       setRecentVisit(data[0])
     }
-  }, [data])
+  }, [data, locationData])
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -170,7 +186,9 @@ const HomeVisit = ({ params }: { params: any }) => {
                     <p
                     className='text-[14px] text-slate-500 '
                     >Location</p>
-                    <MapComponent />
+                    <MapComponent
+                    center={currentPosition!}
+                    />
                   </div>
                 </div>
               )}{' '}

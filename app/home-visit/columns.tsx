@@ -72,7 +72,7 @@ export const columns: Array<ColumnDef<HomeVisitProps>> = [
 
     header: 'Action',
     cell: ({ row }) => (
-      <Link href={`/home-visit/${row.original.id}`}>Action</Link>
+      <Link href={`/home-visit/${row.original.id}?patientID=${row.original.patientID}`}>Action</Link>
     )
   }
 ]
