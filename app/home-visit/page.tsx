@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { useGetAllHomeVisitsQuery } from '@/api/homevisit/homeVisit.api'
-import { useGetAllEligibleOTZPatientsQuery } from '@/api/patient/patients.api'
+import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 // import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
@@ -9,6 +9,7 @@ import { useCallback } from 'react'
 import SelectPatientDialog from '../enrollment/_components/SelectPatientDialog'
 import { CustomTable } from '../_components/table/CustomTable'
 import { columns } from './columns'
+import { type PatientAttributes } from 'otz-types'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -31,21 +32,16 @@ const dataList2 = [
   }
 ]
 
-interface Patient {
-  id: string
-  firstName: string
-}
-
 const HomeVisitPage = () => {
   const { data } = useGetAllHomeVisitsQuery()
 
-  const { data: patientData } = useGetAllEligibleOTZPatientsQuery()
+  const { data: patientData } = useGetAllPatientsQuery()
 
   const patientDataOptions = useCallback(() => {
-    return (patientData?.map((item: Patient) => ({
+    return (patientData?.map((item: PatientAttributes) => ({
       id: item.id,
       label: item.firstName
-    })) || []
+    })) ?? []
     )
   }, [patientData])
 

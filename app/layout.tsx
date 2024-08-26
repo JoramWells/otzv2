@@ -24,7 +24,8 @@ export default async function RootLayout ({
       // className='dark'
       >
         <AuthProviders>
-            <body className={inter.className}>{children}</body>
+            <body className={inter.className}
+            >{children}</body>
         </AuthProviders>
       </html>
   )

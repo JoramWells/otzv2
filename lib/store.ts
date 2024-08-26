@@ -64,6 +64,7 @@ import { questionsApi } from '../api/articles/questions.api'
 import { userAvailabilityApi } from '@/api/users/userAvailability.api'
 import { etlApi } from '@/api/etl/etl.api'
 import { facilityMAPApi } from '@/api/etl/facilityMAP.api'
+import { userLocationApi } from '@/api/location/userLocation.api'
 
 export const store = configureStore({
   reducer: {
@@ -132,7 +133,8 @@ export const store = configureStore({
     [userAvailabilityApi.reducerPath]: userAvailabilityApi.reducer,
     [questionsApi.reducerPath]: questionsApi.reducer,
     [facilityMAPApi.reducerPath]: facilityMAPApi.reducer,
-    [etlApi.reducerPath]: etlApi.reducer
+    [etlApi.reducerPath]: etlApi.reducer,
+    [userLocationApi.reducerPath]: userLocationApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -202,5 +204,6 @@ export const store = configureStore({
       .concat(userAvailabilityApi.middleware)
       .concat(etlApi.middleware)
       .concat(facilityMAPApi.middleware)
+      .concat(userLocationApi.middleware)
       .concat(questionsApi.middleware)
 })

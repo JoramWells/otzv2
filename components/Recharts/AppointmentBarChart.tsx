@@ -5,13 +5,6 @@
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
-import {
   type ChartConfig,
   ChartContainer,
   ChartLegend,
@@ -57,81 +50,71 @@ export function AppointmentBarChart ({ data }: { data: AppointmentProps[] }) {
   const chartData = groupAppointmentsByDay(data)
 
   return (
-    <div className="h-[300px] w-1/2 ">
-      <Card
-      className='border-none shadow-none'
+    <div className="h-[300px] w-3/5 bg-white p-2">
+      <div
+        className="flex flex-row items-center justify-between
+      pl-4 pr-4 pt-2
+      "
       >
-        <CardHeader
-        className='flex flex-row justify-between'
+        <h3 className="font-semibold text-slate-700">Trend</h3>
+      </div>
+      <ChartContainer config={chartConfig} className="aspect-auto h-[250px] ">
+        <BarChart
+          accessibilityLayer
+          data={chartData || []}
+          margin={{
+            top: 20
+          }}
         >
-          <div>
-            <CardTitle>Bar Chart - Label</CardTitle>
-            <CardDescription>January - June 2024</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer
-            config={chartConfig}
-            className="aspect-auto h-[250px] "
-          >
-            <BarChart
-              accessibilityLayer
-              data={chartData || []}
-              margin={{
-                top: 20
-              }}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="appointmentDate"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) => {
-                  const date = new Date(value)
-                  return date.toLocaleDateString('en-US', {
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="appointmentDate"
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+            tickFormatter={(value) => {
+              const date = new Date(value)
+              return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric'
+              })
+            }}
+          />
+          <ChartTooltip
+            // cursor={false}
+            content={
+              <ChartTooltipContent
+                label={(value: string | number | Date) => {
+                  return new Date(value).toLocaleDateString('en-US', {
                     month: 'short',
-                    day: 'numeric'
+                    day: 'numeric',
+                    year: 'numeric'
                   })
                 }}
               />
-              <ChartTooltip
-                // cursor={false}
-                content={
-                  <ChartTooltipContent
-                    label={(value: string | number | Date) => {
-                      return new Date(value).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                      })
-                    }}
-                  />
-                }
-              />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar
-                dataKey="Refill"
-                fill="var(--color-refill)"
-                radius={[0, 0, 4, 4]}
-                stackId={'a'}
-              />
-              <Bar
-                dataKey="Clinic Day"
-                fill="var(--color-clinic)"
-                radius={[0, 0, 4, 4]}
-                stackId={'a'}
-              />
-              <Bar
-                dataKey="viral load"
-                fill="var(--color-vl)"
-                radius={[4, 4, 0, 0]}
-                stackId={'a'}
-              />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
+            }
+          />
+          <ChartLegend content={<ChartLegendContent />} />
+          <Bar
+            dataKey="Refill"
+            fill="var(--color-refill)"
+            radius={[0, 0, 4, 4]}
+            stackId={'a'}
+          />
+          <Bar
+            dataKey="Clinic Day"
+            fill="var(--color-clinic)"
+            radius={[0, 0, 4, 4]}
+            stackId={'a'}
+          />
+          <Bar
+            dataKey="viral load"
+            fill="var(--color-vl)"
+            radius={[4, 4, 0, 0]}
+            stackId={'a'}
+          />
+        </BarChart>
+      </ChartContainer>
     </div>
   )
 }

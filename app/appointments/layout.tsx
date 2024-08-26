@@ -12,6 +12,7 @@ import { BookCopy, CalendarCheck, CalendarDays, PlusIcon, Undo2Icon } from 'luci
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Footer from '@/components/Footer'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -73,8 +74,9 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
           <Sidebar>
             <SidebarListItemsComponent dataList={DL} />
           </Sidebar>
-          <div className="flex flex-col flex-1 h-screen overflow-y-auto">
+          <div className="flex flex-col flex-1 h-[100vh] overflow-y-auto relative">
             {children}
+            <Footer/>
           </div>
         </div>
       </SidebarProvider>

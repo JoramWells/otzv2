@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { Users } from 'lucide-react'
+import { History, Pin, Users } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmentBarChart'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -12,9 +13,11 @@ import { useGetAllAppointmentsQuery, useGetAllPriorityAppointmentsQuery } from '
 import Avatar from '@/components/Avatar'
 import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
 import CustomSelect from '@/components/forms/CustomSelect'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { ValueNoneIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
+import { CustomTable } from '@/app/_components/table/CustomTable'
+import { columns, pinnedColumns } from '../columns'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -86,11 +89,20 @@ const NotifyPage = () => {
     setValue(val)
   }
 
+  const [tab, setTab] = useState(1)
+
+  const filterWeeklyData = useCallback(() => {
+    const tempData = weeklyData ? [...weeklyData] : []
+    return tempData.filter(
+      (item) => item?.Patient?.isImportant
+    )
+  }, [weeklyData])()
+
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-4  md:grid-cols-2">
+      <div className="grid w-full grid-cols-1 gap-2 lg:grid-cols-4  md:grid-cols-2 p-2">
         {dataList.map((item, idx) => (
           <div
             key={idx}
@@ -108,20 +120,17 @@ const NotifyPage = () => {
           </div>
         ))}
       </div>
-      <div className="p-4 w-full">
+      <div className="w-full">
         <div className=" bg-white p-4 ">
-          <div className="flex justify-between w-3/4 ">
+          <div className="flex justify-between w-full ">
             <div>
               <h1
                 className="font-semibold text-lg capitalize
         "
               >
-                Group Appointments
+                Appointments
               </h1>
 
-              <p className="text-[14px] text-slate-500 ">
-                Scheduled the following appointments
-              </p>
             </div>
             {/* <CustomSelect
                 placeholder="Years"
@@ -135,7 +144,7 @@ const NotifyPage = () => {
                   handleSelectChange(val)
                 }}
               /> */}
-            <div className='flex space-x-2' >
+            <div className="flex space-x-2">
               {[
                 { id: 0, label: 'all' },
                 { id: 1, label: 'weekly' },
@@ -143,7 +152,9 @@ const NotifyPage = () => {
               ].map((item, idx) => (
                 <Button
                   key={item.id}
-                  className={`rounded-full border bg-transparent text-black hover:bg-slate-100 ${item.label === value && 'bg-slate-200'} `}
+                  className={`rounded-full border bg-transparent text-black hover:bg-slate-100 ${
+                    item.label === value && 'bg-slate-200'
+                  } `}
                   onClick={() => handleSelectChange(item.label.toLowerCase())}
                 >
                   {item.label}
@@ -151,26 +162,58 @@ const NotifyPage = () => {
               ))}
             </div>
           </div>
-          <div className="flex justify-between space-x-4 bg-white p-4">
+          <div className="flex space-x-2 bg-slate-50 p-2">
             <AppointmentBarChart data={weeklyData} />
             <AppointmentPieChart data={weeklyData} />
 
-            <div className="flex-1 bg-white rounded-lg flex flex-col p-4 border border-slate-200">
-              <p className="font-bold pl-2">Upcoming Appointments</p>
-              {priorityAppointmentData?.map((item: AppointmentProps) => (
-                <div
-                  className="flex items-center space-x-4 w-full hover:cursor-pointer hover:bg-slate-50 p-1 rounded-lg mt-2"
-                  key={item.id}
-                >
-                  <Avatar
-                    name={`${item.Patient?.firstName} ${item.Patient?.middleName}`}
-                  />
-                  <p className="text-[14px] text-slate-500 ">
-                    {item.Patient?.firstName} {item.Patient?.middleName}
-                  </p>
-                </div>
-              ))}
-            </div>
+          </div>
+        </div>
+        <div className="p-2 bg-white mt-2">
+          <div className="flex flex-row space-x-2 mb-2">
+            {[
+              {
+                id: 1,
+                label: 'Pinned',
+                icon: <Pin size={18} className="mr-2" />
+              },
+              {
+                id: 2,
+                label: 'Recent',
+                icon: <History size={18} className="mr-2" />
+              }
+            ].map((item) => (
+              <Button
+                key={item.id}
+                onClick={() => setTab(item.id)}
+                className={`text-slate-700 hover:bg-slate-50 bg-transparent hover:text-teal-600 rounded-none
+                      ${
+                        tab === item.id &&
+                        'border-b-2 border-teal-600 text-teal-600'
+                      }
+                      `}
+              >
+                {item.icon}
+                {item.label}
+              </Button>
+            ))}
+          </div>
+          <div className="p-2">
+            {tab === 1 && (
+              <CustomTable
+                isSearch={false}
+                data={filterWeeklyData || []}
+                columns={pinnedColumns}
+              />
+            )}
+
+            {/*  */}
+            {tab === 2 && (
+              <CustomTable
+                isSearch={false}
+                data={priorityAppointmentData || []}
+                columns={pinnedColumns}
+              />
+            )}
           </div>
         </div>
       </div>
