@@ -6,7 +6,7 @@
 
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_components/patient/SidebarListItemsComponent'
-import Footer from '@/components/Footer'
+// import Footer from '@/components/Footer'
 import { Sidebar } from '@/components/sidebar/Sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { store } from '@/lib/store'
