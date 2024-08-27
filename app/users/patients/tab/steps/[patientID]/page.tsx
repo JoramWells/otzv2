@@ -145,13 +145,12 @@ const StepsPage = ({ params }: any) => {
   }
 
   return (
-    <div
-    >
+    <div>
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="w-full flex flex-row space-x-4 justify-center ">
+      <div className="w-full flex flex-row space-x-4 justify-center relative ">
         {/*  */}
         <div className="flex flex-col items-center w-full p-4">
-          <div className="w-full bg-white p-2 rounded-lg static top-[52px] ">
+          <div className="w-full bg-white p-2 rounded-lg static top-[52px] border border-slate-100 ">
             {/*  */}
             <CustomStepper
               steps={steps}

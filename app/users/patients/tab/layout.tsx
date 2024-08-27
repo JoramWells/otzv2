@@ -104,7 +104,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Provider store={store}>
         <ChakraProvider>
           <div className={'bg-slate-50 min-h-[100vh]'}>{children}</div>
-          <Footer />
+          {/* <Footer /> */}
         </ChakraProvider>
       </Provider>
     )
@@ -160,7 +160,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
           {children}
         </div>
-      <Footer />
+      {/* <Footer /> */}
 
       </ChakraProvider>
     </div>
