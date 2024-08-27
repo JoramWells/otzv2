@@ -12,6 +12,7 @@ import Image from 'next/image'
 import Footer from '@/components/Footer'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import AuthenticateLoader from '@/components/AuthenticateLoader'
 
 interface ListItemProps {
   id: string
@@ -357,7 +358,7 @@ export default function Home () {
                     <div
                       key={item.id}
                       tabIndex={0}
-                      className="border-slate-200 p-4 transition ease-in-out delay-150
+                      className="border-slate-200 p-4 transition ease-in-out delay-150 hover:translate-y-1 transform
           rounded-lg h-[150px] hover:cursor-pointer bg-white shadow-slate-100 shadow-lg"
                     >
                       <div className="w-full flex justify-end">
@@ -403,8 +404,6 @@ export default function Home () {
     )
   }
   return (
-    <div>
-      <p>Redirecting...</p>
-    </div>
+   <AuthenticateLoader/>
   )
 }

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardHeader renders snapshot correctly 1`] = `
+<div>
+  <div
+    class="flex justify-between items-center w-full border-b bg-slate-50 border-slate-200  p-3  rounded-t-lg"
+  >
+    <h3
+      class="text-lg  font-semibold"
+    >
+      Test Hear
+    </h3>
+    <div>
+      Right Content
+    </div>
+  </div>
+</div>
+`;

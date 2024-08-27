@@ -17,7 +17,6 @@ import { calculateAge } from '@/utils/calculateAge'
 import FullDisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist/Full'
 import LabTests from '../_components/LabTests'
 import CustomStepper from '../_components/CustomStepper'
-import Footer from '@/components/Footer'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -272,7 +271,6 @@ const StepsPage = ({ params }: any) => {
           <StagingDialog />
         </div> */}
       </div>
-      <Footer />
     </div>
   )
 }

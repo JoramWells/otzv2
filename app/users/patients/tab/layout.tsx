@@ -1,21 +1,20 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 'use client'
 
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_components/patient/SidebarListItemsComponent'
+import Footer from '@/components/Footer'
 import { Sidebar } from '@/components/sidebar/Sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { tertiaryColor } from '@/constants/color'
 import { store } from '@/lib/store'
 import { type AvatarProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { generateRandomColors } from '@/utils/generateRandomColors'
 import { ChakraProvider } from '@chakra-ui/react'
-import { BookCheckIcon, BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
+import { BookCopy, LayoutDashboardIcon, Users } from 'lucide-react'
 import { useParams, usePathname } from 'next/navigation'
 import { useMemo, type ReactNode } from 'react'
 import { Provider } from 'react-redux'
@@ -105,6 +104,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <Provider store={store}>
         <ChakraProvider>
           <div className={'bg-slate-50 min-h-[100vh]'}>{children}</div>
+          <Footer />
         </ChakraProvider>
       </Provider>
     )
@@ -160,6 +160,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
           {children}
         </div>
+      <Footer />
+
       </ChakraProvider>
     </div>
   )

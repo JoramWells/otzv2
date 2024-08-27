@@ -8,7 +8,7 @@ interface CardHeaderProps {
 const CardHeader = ({ header, rightContent }: CardHeaderProps) => {
   return (
     <div className="flex justify-between items-center w-full border-b bg-slate-50 border-slate-200  p-3  rounded-t-lg">
-      <p className="text-lg  font-bold">{header}</p>
+      <h3 className="text-lg  font-semibold">{header}</h3>
       {rightContent}
     </div>
   )

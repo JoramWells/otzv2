@@ -15,6 +15,7 @@ import { BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users }
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
+import AuthenticateLoader from '@/components/AuthenticateLoader'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -113,9 +114,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div>
-      <p>Redirecting...</p>
-    </div>
+   <AuthenticateLoader/>
   )
 }
 
