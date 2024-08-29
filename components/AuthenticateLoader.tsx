@@ -1,11 +1,12 @@
-import { Loader2 } from 'lucide-react'
 import React from 'react'
 
 const AuthenticateLoader = () => {
   return (
-    <div className="h-screen w-full flex items-center flex-col justify-center">
-      <Loader2 className="animate-spin" />
-      <p>Authenticating...</p>
+    <div className="h-screen w-full flex items-center flex-col space-y-8 justify-center">
+      <span className="loader"></span>
+      <p
+      className='font-semibold text-teal-600'
+      >Authenticating...</p>
     </div>
   )
 }
