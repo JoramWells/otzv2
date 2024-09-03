@@ -56,7 +56,7 @@ const HomeVisit = ({ params }: { params: any }) => {
       })
     }
   }, [data])
-  console.log(locationData)
+  console.log(data)
   const [recentVisit, setRecentVisit] = useState<HomeVisitProps>()
   useEffect(() => {
     if (locationData) {
@@ -101,7 +101,7 @@ const HomeVisit = ({ params }: { params: any }) => {
                   <div className="flex justify-between items-center  text-[14px] ">
                     <p className="text-slate-500">Reason</p>
                     <p>
-                      {recentVisit.homeVisitReason.homeVisitReasonDescription}
+                      {recentVisit.HomeVisitReason.homeVisitReasonDescription}
                     </p>
                   </div>
 
@@ -151,7 +151,7 @@ const HomeVisit = ({ params }: { params: any }) => {
                     <p className="text-slate-500">Frequency</p>
                     <p>
                       {
-                        recentVisit.homeVisitFrequency
+                        recentVisit.HomeVisitFrequency
                           .homeVisitFrequencyDescription
                       }
                     </p>

@@ -29,7 +29,9 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import Avatar from '@/components/Avatar'
 import { calculateAge } from '@/utils/calculateAge'
-
+import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
+import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
+import { v4 as uuidv4 } from 'uuid'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -47,7 +49,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'Patients',
-    link: ''
+    link: '/'
   }
 ]
 
@@ -68,8 +70,10 @@ const DisclosureChecklist = ({ params }: any) => {
   const [frequency, setFrequency] = useState('')
 
   // 2
-  const [isARV, setIsARV]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isTB, setIsTB]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isARV, setIsARV]: [boolean, Dispatch<SetStateAction<boolean>>] =
+    useState(false)
+  const [isTB, setIsTB]: [boolean, Dispatch<SetStateAction<boolean>>] =
+    useState(false)
   const [currentRegimenBegan, setCurrentRegimenBegan] = useState('')
   const [treatmentStartDate, setTreatmentStartDate] = useState('')
   const [treatmentEndDate, setTreatmentEndDate] = useState('')
@@ -87,18 +91,62 @@ const DisclosureChecklist = ({ params }: any) => {
   const [complaints, setComplaints] = useState('')
 
   // 4
-  const [isCountedPills, setIsCountedPills]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(true)
-  const [isClinicVisits, setIsClinicVisits]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isDisclosure, setIsDisclosure]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isGuardianSupport, setIsGuardianSupport]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isSupportGroupAttendance, setIsSupportGroupAttendance]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isHouseholdTested, setIsHouseholdTested]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isCountedPills, setIsCountedPills]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(true)
+  const [isClinicVisits, setIsClinicVisits]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isDisclosure, setIsDisclosure]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isGuardianSupport, setIsGuardianSupport]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isSupportGroupAttendance, setIsSupportGroupAttendance]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isHouseholdTested, setIsHouseholdTested]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  //
+  const { data: agendaData } = useGetAllAppointmentAgendaQuery()
+  const { data: statusData } = useGetAllAppointmentStatusQuery()
+
+  //
+  const agendaDataOptions = useCallback(() => {
+    return (
+      agendaData?.filter(
+        (item: any) => item.agendaDescription.toLowerCase() === 'home visit'
+      ) || []
+    )
+  }, [agendaData])
+
+  const statusOptions = useCallback(() => {
+    return (
+      statusData?.filter(
+        (item: any) => item.statusDescription.toLowerCase() === 'upcoming'
+      ) || []
+    )
+  }, [statusData])
 
   const inputValues = {
     homeVisitReasonID: homeVisitReason,
     userID: requestedBy,
     patientID,
     dateRequested,
+    appointmentAgendaID:
+      agendaDataOptions()?.length > 0 && agendaDataOptions()[0]?.id,
+    appointmentStatusID: statusOptions()?.length > 0 && statusOptions()[0]?.id,
+    appointmentDate: dateRequested,
+    patientVisitID: uuidv4(),
+
     artPrescription: {
       currentRegimen,
       currentRegimenBegan
@@ -108,7 +156,8 @@ const DisclosureChecklist = ({ params }: any) => {
       treatmentEndDate,
       intensivePhaseEndDate
     },
-    homeVisitFrequencyID: frequency,
+    homeVisitFrequencyID: frequency.id,
+    frequency: frequency.label,
     ol_drugs: oralDrugs,
     noOfPills: noOfMedicine,
     medicineStatus,
@@ -143,7 +192,9 @@ const DisclosureChecklist = ({ params }: any) => {
     if (patientData) {
       setIsARV(true)
       setCurrentRegimen(patientData?.regimen)
-      setCurrentRegimenBegan(moment(patientData?.startDate, 'YYYY-MM-DD').format('YYYY-MM-DD'))
+      setCurrentRegimenBegan(
+        moment(patientData?.startDate, 'YYYY-MM-DD').format('YYYY-MM-DD')
+      )
     }
     if (noOfMedicine.length === 0) {
       setIsCountedPills(false)

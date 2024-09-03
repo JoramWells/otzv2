@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const homeVisitReasonApi = createApi({
   reducerPath: 'homeVisitReasonApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/home-visit-reason`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/home-visit-reason`
   }),
   endpoints: (builder) => ({
     getHomeVisitReasons: builder.query<any, void>({
@@ -18,7 +18,7 @@ export const homeVisitReasonApi = createApi({
       })
     }),
     getHomeVisitReason: builder.query({
-      query: (id) => `detail/${id}`
+      query: (id) => `details/${id}`
     }),
     updateHomeVisitReason: builder.mutation({
       query: ({ id, ...patch }) => ({

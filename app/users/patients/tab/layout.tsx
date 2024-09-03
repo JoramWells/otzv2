@@ -7,6 +7,7 @@
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_components/patient/SidebarListItemsComponent'
 // import Footer from '@/components/Footer'
+// import Footer from '@/components/Footer'
 import { Sidebar } from '@/components/sidebar/Sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { store } from '@/lib/store'
@@ -103,8 +104,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     return (
       <Provider store={store}>
         <ChakraProvider>
-          <div className={'bg-slate-50 min-h-[100vh]'}>{children}</div>
-          {/* <Footer /> */}
+          <div className={'bg-slate-50 h-screen flex-1'}>{children}</div>
         </ChakraProvider>
       </Provider>
     )
@@ -113,18 +113,18 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex flex-row">
       <ChakraProvider>
-        <Sidebar isSearchable= {false}>
+        <Sidebar isSearchable={false}>
           <div className=" h-[160px] p-4 mb-4">
-            {isLoading ? <Skeleton className='w-full h-[160px]' />
-
-              : isError ? <div>error...</div>
-
-                : <div
-              className="flex flex-col items-center
+            {isLoading ? (
+              <Skeleton className="w-full h-[160px]" />
+            ) : isError ? (
+              <div>error...</div>
+            ) : (
+              <div
+                className="flex flex-col items-center
           bg-slate-50 rounded-lg p-2 h-[160px]
           w-full "
-            >
-
+              >
                 <div className="flex flex-col items-center  w-full rounded-lg space-y-1">
                   <Avatar name={`${data?.firstName} ${data?.middleName}`} />
                   <p className="font-bold">
@@ -135,7 +135,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
                     Age: {calculateAge(data?.dob)} yrs
                   </p>
 
-                  <p className="text-[12px] text-slate-500">CCC No.{data?.cccNo} </p>
+                  <p className="text-[12px] text-slate-500">
+                    CCC No.{data?.cccNo}{' '}
+                  </p>
                   <div className="text-slate-500 text-[12px]">
                     <p>
                       Phone No:
@@ -144,24 +146,22 @@ const Layout = ({ children }: { children: ReactNode }) => {
                   </div>
                   {/* <Button>Update   Profile</Button> */}
                 </div>
-            </div>
-          }
-
+              </div>
+            )}
           </div>
 
           <SidebarListItemsComponent dataList={DL} />
         </Sidebar>
         <div
           className={
-            'flex flex-col flex-1 h-[100vh] overflow-y-auto bg-slate-50'
+            'flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50'
           }
         >
           {/* <Navbar /> */}
 
           {children}
         </div>
-      {/* <Footer /> */}
-
+        {/* <Footer /> */}
       </ChakraProvider>
     </div>
   )

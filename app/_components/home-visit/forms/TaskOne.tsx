@@ -8,6 +8,8 @@ import { useGetHomeVisitReasonsQuery } from '@/api/homevisit/homeVisitReason.api
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import CustomSelect from '@/components/forms/CustomSelect'
 import CustomInput from '@/components/forms/CustomInput'
+import CustomSelect2 from '@/components/forms/CustomSelect2'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 export interface TaskOneProps {
   homeVisitReason: string
@@ -82,12 +84,44 @@ const TaskOne = ({
 
       {/*  */}
 
-      <CustomSelect
+      {/* <CustomSelect
         label="Frequency of home visit"
         data={frequencyOptions()}
         onChange={setFrequency}
         value={frequency}
-      />
+      /> */}
+
+      <Select
+        onValueChange={(e) => {
+          setFrequency(e)
+        }}
+        value={frequency}
+        // name={name}
+      >
+        <SelectTrigger className="w-full shadow-none">
+          {/* <SelectValue placeholder={placeholder} /> */}
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {frequencyOptions()?.length === 0
+              ? (
+              <SelectItem value="No Data">No Data</SelectItem>
+                )
+              : (
+              <>
+                {frequencyOptions()?.map((item: { item: { id: string, label: string } }) => (
+                  <SelectItem key={item.id} value={item}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </>
+                )}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+
+      {frequency.label}
+
     </div>
   )
 }

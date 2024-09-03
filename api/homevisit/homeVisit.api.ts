@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { HomeVisitInputProps } from '@/app/home-visit/columns'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const homeVisitApi = createApi({
   reducerPath: 'homeVisitApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/home-visit`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/home-visit`
   }),
   endpoints: (builder) => ({
-    getAllHomeVisits: builder.query<any, void>({
+    getAllHomeVisits: builder.query<HomeVisitInputProps, void>({
       query: () => 'fetchAll'
     }),
     addHomeVisit: builder.mutation({
@@ -17,8 +18,8 @@ export const homeVisitApi = createApi({
         body: response
       })
     }),
-    getHomeVisit: builder.query({
-      query: (id) => `detail/${id}`
+    getHomeVisit: builder.query<HomeVisitInputProps, string>({
+      query: (id) => `details/${id}`
     }),
     updateHomeVisit: builder.mutation({
       query: ({ id, ...patch }) => ({

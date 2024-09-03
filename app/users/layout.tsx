@@ -16,6 +16,7 @@ import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
+import Footer from '@/components/Footer'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -105,6 +106,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
                 {/* <Navbar /> */}
 
                 {children}
+                <Footer/>
               </div>
             </div>
           </SidebarProvider>

@@ -15,15 +15,15 @@ const PatientProfile = ({ data, isLoading }: InputProps) => {
     <>
       {isLoading
         ? (
-        <div className="p-4 w-1/3 bg-white">Loading ...</div>
+        <div className="pl-4  pr-4 p-2 w-1/3 bg-white">Loading ...</div>
           )
         : (
         <div
-          className="bg-white rounded-lg w-1/3 sticky top-[45px]
+          className="bg-white rounded-lg w-1/3 sticky top-[50px]
           border border-slate-200
           "
         >
-          <div className="flex space-x-2 items-center w-full border-b bg-slate-50 border-slate-200  p-3  rounded-t-lg">
+          <div className="flex space-x-2 items-center w-full border-b bg-slate-50 border-slate-200 pl-4 p-2  rounded-t-lg">
             <Avatar name={`${data?.firstName} ${data?.middleName}`} />
             <p className="font-bold">
               {data?.firstName} {data?.middleName}

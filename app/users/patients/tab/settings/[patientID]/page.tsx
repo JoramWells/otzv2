@@ -5,7 +5,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useGetPatientQuery, useUpdatePatientMutation } from '@/api/patient/patients.api'
+import { useDeletePatientMutation, useGetPatientQuery, useUpdatePatientMutation } from '@/api/patient/patients.api'
 import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import {
@@ -59,6 +59,8 @@ const ProfileSettings = ({ params }: { params: any }) => {
   const { data: patientProfileData } = useGetPatientQuery(patientID)
   const [updatePatient, { isLoading }] = useUpdatePatientMutation()
 
+  const [deletePatient, { isLoading: isLoadingDeletePatient }] = useDeletePatientMutation()
+
   useEffect(() => {
     if (patientProfileData) {
       setPhoneNo(patientProfileData.phoneNo)
@@ -104,18 +106,21 @@ const ProfileSettings = ({ params }: { params: any }) => {
           <CustomInput label="Phone" value={phoneNo!} onChange={setPhoneNo} />
 
           {/*  */}
-          <SelectYears
-          setValue={setRole}
-          value={role}
-          />
+          <SelectYears setValue={setRole} value={role} />
 
           <div className="flex space-x-4">
-            <Button>Save Changes</Button>
             <Button
               disabled={isLoading}
               onClick={async () => await updatePatient(inputValues)}
             >
               {isLoading && <Loader2 className="animate-spin mr-2" size={15} />}
+              Save Changes
+            </Button>
+            <Button
+              disabled={isLoading}
+              onClick={async () => await deletePatient(patientID)}
+            >
+              {isLoadingDeletePatient && <Loader2 className="animate-spin mr-2" size={15} />}
               Delete Account
             </Button>
           </div>

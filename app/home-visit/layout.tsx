@@ -15,6 +15,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import Footer from '@/components/Footer'
+import AuthenticateLoader from '@/components/AuthenticateLoader'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -79,13 +80,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
-  return (
-    <div
-    className='flex justify-between align-items h-screen '
-    >
-      <p>Redirecting...</p>
-    </div>
-  )
+  return (<AuthenticateLoader/>)
 }
 
 export default PatientLayout

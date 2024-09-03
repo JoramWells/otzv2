@@ -5,23 +5,28 @@ import moment from 'moment'
 
 import Avatar from '@/components/Avatar'
 import Link from 'next/link'
+import { type HomeVisitAttributes } from 'otz-types'
 // import { FaEdit } from 'react-icons/fa'
 
-export interface FullNameProps {
-  firstName?: string
+export type HomeVisitInputProps = HomeVisitAttributes & {
+  Patient: {
+    id?: string
+    firstName?: string
+    secondName?: string
+    middleName?: string
+  }
+  updatedAt: string
+  HomeVisitReason: {
+    id?: string
+    homeVisitReasonDescription?: string
+  }
+  HomeVisitFrequency: {
+    id?: string
+    homeVisitFrequencyDescription?: string
+  }
 }
 
-export interface PatientProps {
-  id?: string
-  age?: number
-  dob?: string
-  gender?: string
-  mflCode?: string
-  occupation?: string
-  // action?: React.ReactNode
-}
-
-export const columns: Array<ColumnDef<HomeVisitProps>> = [
+export const columns: Array<ColumnDef<HomeVisitInputProps>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
@@ -30,10 +35,10 @@ export const columns: Array<ColumnDef<HomeVisitProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
+          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
         </div>
       </div>
     )

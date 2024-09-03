@@ -132,7 +132,7 @@ const NotifyPage = () => {
               </h1>
 
             </div>
-            {/* <CustomSelect
+            <CustomSelect
                 placeholder="Years"
                 data={[
                   { id: 'all', label: 'all' },
@@ -143,7 +143,7 @@ const NotifyPage = () => {
                 onChange={(val) => {
                   handleSelectChange(val)
                 }}
-              /> */}
+              />
             <div className="flex space-x-2">
               {[
                 { id: 0, label: 'all' },
