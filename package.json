@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest --u"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.2.0",
