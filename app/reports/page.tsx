@@ -13,7 +13,7 @@ const Patients = () => {
   return (
       <div className="p-5">
         <p className='mb-4 text-xl font-semibold text-slate-700'>Home Visit</p>
-        <CustomTable columns={columns} data={data || []} />
+        {/* <CustomTable columns={columns} data={data ?? []} /> */}
       </div>
   )
 }
