@@ -16,6 +16,8 @@ export type HomeVisitInputProps = HomeVisitAttributes & {
     middleName?: string
   }
   updatedAt: string
+  patientID: string
+  dateRequested: string
   HomeVisitReason: {
     id?: string
     homeVisitReasonDescription?: string

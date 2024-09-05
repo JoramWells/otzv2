@@ -14,6 +14,7 @@ import moment from 'moment'
 import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { type HomeVisitInputProps } from '../columns'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -48,16 +49,16 @@ const HomeVisit = ({ params }: { params: any }) => {
   })
   const { data } = useGetHomeVisitQuery(homeVisitID)
   const { data: locationData } = useGetUserLocationQuery(patientID)
-  useEffect(() => {
-    if (data != null) {
-      const { returnToClinic } = data
-      setHomeVisitData({
-        returnToClinic
-      })
-    }
-  }, [data])
+  // useEffect(() => {
+  //   if (data != null) {
+  //     const { returnToClinic } = data
+  // setHomeVisitData({
+  //   returnToClinic
+  // })
+  //   }
+  // }, [data])
   console.log(data)
-  const [recentVisit, setRecentVisit] = useState<HomeVisitProps>()
+  const [recentVisit, setRecentVisit] = useState<HomeVisitInputProps>()
   useEffect(() => {
     if (locationData) {
       setCurrentPosition({

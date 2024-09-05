@@ -65,7 +65,7 @@ const HomeVisitPage = () => {
       {/*  */}
       <div className='w-full p-4'>
         <div className="flex justify-end w-full p-4 bg-white rounded-lg">
-          <CustomTable columns={columns} data={data || []} />
+          <CustomTable columns={columns} data={data ?? []} />
         </div>
       </div>
     </>

@@ -8,7 +8,7 @@ export const homeVisitApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/home-visit`
   }),
   endpoints: (builder) => ({
-    getAllHomeVisits: builder.query<HomeVisitInputProps, void>({
+    getAllHomeVisits: builder.query<HomeVisitInputProps[], void>({
       query: () => 'fetchAll'
     }),
     addHomeVisit: builder.mutation({
@@ -18,7 +18,7 @@ export const homeVisitApi = createApi({
         body: response
       })
     }),
-    getHomeVisit: builder.query<HomeVisitInputProps, string>({
+    getHomeVisit: builder.query<HomeVisitInputProps[], string>({
       query: (id) => `details/${id}`
     }),
     updateHomeVisit: builder.mutation({
