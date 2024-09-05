@@ -32,9 +32,9 @@ const HomeVisitTab = ({ patientID }: HomeVisitProps) => {
           </Button>
         </div>
         <div className="mt-4 w-full">
-          <CustomTable columns={columns} data={data ?? []}
+          {/* <CustomTable columns={columns} data={data ?? []}
           isSearch={false}
-          />
+          /> */}
         </div>
       </div>
     </div>
