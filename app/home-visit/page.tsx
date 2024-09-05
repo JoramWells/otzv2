@@ -58,7 +58,7 @@ const HomeVisitPage = () => {
 
         <SelectPatientDialog
           label="New Home Visit"
-          link="/home-visit/add-home-visit"
+          link="/home-visit/config"
           data={patientDataOptions()}
         />
       </div>

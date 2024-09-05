@@ -1,34 +1,34 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { type HomeVisitInputProps } from '@/app/home-visit/columns'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type HomeVisitConfigAttributes } from 'otz-types'
 
-export const homeVisitApi = createApi({
-  reducerPath: 'homeVisitApi',
+export const homeVisitConfigApi = createApi({
+  reducerPath: 'homeVisitConfigApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/home-visit`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/home-visit-config`
   }),
   endpoints: (builder) => ({
-    getAllHomeVisits: builder.query<HomeVisitInputProps, void>({
+    getAllHomeVisitConfig: builder.query<HomeVisitConfigAttributes, void>({
       query: () => 'fetchAll'
     }),
-    addHomeVisit: builder.mutation({
+    addHomeVisitConfig: builder.mutation({
       query: (response) => ({
         url: 'add',
         method: 'POST',
         body: response
       })
     }),
-    getHomeVisit: builder.query<HomeVisitInputProps, string>({
+    getHomeVisitConfig: builder.query<HomeVisitConfigAttributes, string>({
       query: (id) => `details/${id}`
     }),
-    updateHomeVisit: builder.mutation({
+    updateHomeVisitConfig: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
         method: 'PUT',
         body: patch
       })
     }),
-    deleteHomeVisit: builder.mutation({
+    deleteHomeVisitConfig: builder.mutation({
       query (id) {
         return {
           url: `delete${id}`,
@@ -40,6 +40,6 @@ export const homeVisitApi = createApi({
 })
 
 export const {
-  useGetAllHomeVisitsQuery, useAddHomeVisitMutation,
-  useGetHomeVisitQuery
-} = homeVisitApi
+  useGetAllHomeVisitConfigQuery, useAddHomeVisitConfigMutation,
+  useGetHomeVisitConfigQuery
+} = homeVisitConfigApi
