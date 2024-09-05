@@ -4,7 +4,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { type Dispatch, type SetStateAction, useCallback, useState, useEffect, Suspense } from 'react'
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useState,
+  useEffect,
+  Suspense
+} from 'react'
 import {
   Box,
   Button,
@@ -60,6 +67,11 @@ const steps = [
   { title: 'Task Four', description: 'Task Four Form' }
 ]
 
+interface SelectProps {
+  id: string
+  label: string
+}
+
 const DisclosureChecklist = ({ params }: any) => {
   const patientID = params.patientID
   const [activeStep, setActiveStep] = useState(1)
@@ -67,7 +79,7 @@ const DisclosureChecklist = ({ params }: any) => {
   const [homeVisitReason, setHomeVisitReason] = useState('')
   const [requestedBy, setRequestedBy] = useState('')
   const [dateRequested, setDateRequested] = useState('')
-  const [frequency, setFrequency] = useState('')
+  const [frequency, setFrequency] = useState<SelectProps>()
 
   // 2
   const [isARV, setIsARV]: [boolean, Dispatch<SetStateAction<boolean>>] =
@@ -156,8 +168,8 @@ const DisclosureChecklist = ({ params }: any) => {
       treatmentEndDate,
       intensivePhaseEndDate
     },
-    homeVisitFrequencyID: frequency.id,
-    frequency: frequency.label,
+    homeVisitFrequencyID: frequency?.id,
+    frequency: frequency?.label,
     ol_drugs: oralDrugs,
     noOfPills: noOfMedicine,
     medicineStatus,
@@ -268,12 +280,12 @@ const DisclosureChecklist = ({ params }: any) => {
               <TaskOne
                 homeVisitReason={homeVisitReason}
                 setHomeVisitReason={setHomeVisitReason}
-                requestedBy={requestedBy}
-                setRequestedBy={setRequestedBy}
+                // requestedBy={requestedBy}
+                // setRequestedBy={setRequestedBy}
                 dateRequested={dateRequested}
                 setDateRequested={setDateRequested}
-                frequency={frequency}
-                setFrequency={setFrequency}
+                frequency={frequency as any}
+                setFrequency={setFrequency as any}
               />
             )}
             {activeStep === 2 && (
