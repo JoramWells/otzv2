@@ -5,7 +5,8 @@ import moment from 'moment'
 
 import Avatar from '@/components/Avatar'
 import Link from 'next/link'
-import { type HomeVisitConfigAttributes, type HomeVisitAttributes } from 'otz-types'
+import { type HomeVisitAttributes } from 'otz-types'
+import { type HomVisitConfigInputProps } from '@/api/homevisit/homeVisitConfig.api'
 // import { FaEdit } from 'react-icons/fa'
 
 export type HomeVisitInputProps = HomeVisitAttributes & {
@@ -85,7 +86,7 @@ export const columns: Array<ColumnDef<HomeVisitInputProps>> = [
 ]
 
 //
-export const configColumns: Array<ColumnDef<HomeVisitConfigAttributes>> = [
+export const configColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
@@ -105,9 +106,9 @@ export const configColumns: Array<ColumnDef<HomeVisitConfigAttributes>> = [
   {
     accessorKey: 'homeVisitReasonDescription',
     header: 'Reason',
-    cell: ({ row }) => <div>
-      {row.original.HomeVisitReason.homeVisitReasonDescription}
-    </div>
+    cell: ({ row }) => (
+      <div>{row.original.HomeVisitReason.homeVisitReasonDescription}</div>
+    )
   },
   {
     accessorKey: 'frequency',

@@ -6,6 +6,10 @@ export type HomVisitConfigInputProps = HomeVisitConfigAttributes & {
   HomeVisitReason: {
     homeVisitReasonDescription: string
   }
+  Patient: {
+    firstName: string
+    middleName: string
+  }
 }
 
 export const homeVisitConfigApi = createApi({
