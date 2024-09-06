@@ -81,7 +81,7 @@ const Page = ({ params }: { params: any }) => {
   const inputValues = useMemo(
     () => [
       {
-        homeVisitReason,
+        homeVisitReasonID: homeVisitReason,
         patientID,
         userID,
         dateRequested,

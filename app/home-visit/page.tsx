@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { useGetAllHomeVisitsQuery } from '@/api/homevisit/homeVisit.api'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 // import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -8,8 +7,9 @@ import dynamic from 'next/dynamic'
 import { useCallback } from 'react'
 import SelectPatientDialog from '../enrollment/_components/SelectPatientDialog'
 import { CustomTable } from '../_components/table/CustomTable'
-import { columns } from './columns'
+import {  configColumns } from './columns'
 import { type PatientAttributes } from 'otz-types'
+import { useGetAllHomeVisitConfigQuery } from '@/api/homevisit/homeVisitConfig.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -33,7 +33,7 @@ const dataList2 = [
 ]
 
 const HomeVisitPage = () => {
-  const { data } = useGetAllHomeVisitsQuery()
+  const { data } = useGetAllHomeVisitConfigQuery()
 
   const { data: patientData } = useGetAllPatientsQuery()
 
@@ -44,6 +44,8 @@ const HomeVisitPage = () => {
     })) ?? []
     )
   }, [patientData])
+
+  console.log(data)
 
   return (
     <>
@@ -65,7 +67,7 @@ const HomeVisitPage = () => {
       {/*  */}
       <div className='w-full p-4'>
         <div className="flex justify-end w-full p-4 bg-white rounded-lg">
-          <CustomTable columns={columns} data={data ?? []} />
+          <CustomTable columns={configColumns} data={data ?? []} />
         </div>
       </div>
     </>

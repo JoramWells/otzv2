@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import Avatar from '@/components/Avatar'
 import Link from 'next/link'
-import { type HomeVisitAttributes } from 'otz-types'
+import { type HomeVisitConfigAttributes, type HomeVisitAttributes } from 'otz-types'
 // import { FaEdit } from 'react-icons/fa'
 
 export type HomeVisitInputProps = HomeVisitAttributes & {
@@ -80,6 +80,58 @@ export const columns: Array<ColumnDef<HomeVisitInputProps>> = [
     header: 'Action',
     cell: ({ row }) => (
       <Link href={`/home-visit/${row.original.id}?patientID=${row.original.patientID}`}>Action</Link>
+    )
+  }
+]
+
+//
+export const configColumns: Array<ColumnDef<HomeVisitConfigAttributes>> = [
+  {
+    accessorKey: 'patient',
+    header: 'Patient Name',
+    cell: ({ row }) => (
+      <div className="flex flex-row items-center gap-x-2 pt-4 pb-4 lg:pt-2 lg:pb-2 xl:pt-0 xl:pb-0 xxl:pt-0 xxl:pb-0">
+        <Avatar
+          // size={'sm'}
+          // className="font-bold"
+          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
+        />
+        <div>
+          <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+        </div>
+      </div>
+    )
+  },
+  {
+    accessorKey: 'homeVisitReasonDescription',
+    header: 'Reason',
+    cell: ({ row }) => <div>
+      {row.original.HomeVisitReason.homeVisitReasonDescription}
+    </div>
+  },
+  {
+    accessorKey: 'frequency',
+    header: 'Frequency'
+  },
+  {
+    accessorKey: 'dateRequested',
+    header: 'Date Requested',
+    cell: ({ row }) => (
+      <div>
+        <p>{moment(row.original.dateRequested).format('ll')}</p>
+      </div>
+    )
+  },
+  {
+    accessorKey: 'Action',
+
+    header: 'Action',
+    cell: ({ row }) => (
+      <Link
+        href={`/home-visit/config/visit/${row.original.id}?patientID=${row.original.patientID}`}
+      >
+        Action
+      </Link>
     )
   }
 ]

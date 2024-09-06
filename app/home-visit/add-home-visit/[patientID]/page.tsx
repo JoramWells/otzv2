@@ -39,6 +39,7 @@ import { calculateAge } from '@/utils/calculateAge'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { v4 as uuidv4 } from 'uuid'
+import { useSearchParams } from 'next/navigation'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -73,7 +74,9 @@ interface SelectProps {
 }
 
 const DisclosureChecklist = ({ params }: any) => {
-  const patientID = params.patientID
+  const searchParams = useSearchParams()
+  const patientID = searchParams.get('patientID')
+  // const patientID = params.patientID
   const [activeStep, setActiveStep] = useState(1)
 
   const [homeVisitReason, setHomeVisitReason] = useState('')

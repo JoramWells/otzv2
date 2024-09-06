@@ -19,7 +19,7 @@ export const homeVisitConfigApi = createApi({
       })
     }),
     getHomeVisitConfig: builder.query<HomeVisitConfigAttributes, string>({
-      query: (id) => `details/${id}`
+      query: (id) => `detail/${id}`
     }),
     updateHomeVisitConfig: builder.mutation({
       query: ({ id, ...patch }) => ({
