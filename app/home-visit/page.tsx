@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic'
 import { useCallback } from 'react'
 import SelectPatientDialog from '../enrollment/_components/SelectPatientDialog'
 import { CustomTable } from '../_components/table/CustomTable'
-import {  configColumns } from './columns'
+import { configColumns } from './columns'
 import { type PatientAttributes } from 'otz-types'
 import { useGetAllHomeVisitConfigQuery } from '@/api/homevisit/homeVisitConfig.api'
 

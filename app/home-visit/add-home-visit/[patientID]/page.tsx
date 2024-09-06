@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
@@ -201,7 +202,7 @@ const DisclosureChecklist = ({ params }: any) => {
 
   const [addHomeVisit, { isLoading }] = useAddHomeVisitMutation()
   const { data: patientData } = useGetArtPrescriptionQuery(patientID)
-  const { data: personalData } = useGetPatientQuery(patientID)
+  const { data: personalData } = useGetPatientQuery(patientID as string)
 
   useEffect(() => {
     if (patientData) {
@@ -309,7 +310,7 @@ const DisclosureChecklist = ({ params }: any) => {
                 setIntensivePhaseEndDate={setIntensivePhaseEndDate}
                 oralDrugs={oralDrugs}
                 setOralDrugs={setOralDrugs}
-                patientID={patientID}
+                patientID={patientID as string}
                 complaints={complaints}
                 setComplaints={setComplaints}
               />
@@ -329,7 +330,7 @@ const DisclosureChecklist = ({ params }: any) => {
                 setEvaluationOfAction={setEvaluationOfAction}
                 returnToClinic={returnToClinic}
                 setReturnToClinic={setReturnToClinic}
-                patientID={patientID}
+                patientID={patientID as string}
               />
             )}
 

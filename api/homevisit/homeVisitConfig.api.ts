@@ -2,13 +2,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type HomeVisitConfigAttributes } from 'otz-types'
 
+export type HomVisitConfigInputProps = HomeVisitConfigAttributes & {
+  HomeVisitReason: {
+    homeVisitReasonDescription: string
+  }
+}
+
 export const homeVisitConfigApi = createApi({
   reducerPath: 'homeVisitConfigApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/home-visit-config`
   }),
   endpoints: (builder) => ({
-    getAllHomeVisitConfig: builder.query<HomeVisitConfigAttributes, void>({
+    getAllHomeVisitConfig: builder.query<HomVisitConfigInputProps[], void>({
       query: () => 'fetchAll'
     }),
     addHomeVisitConfig: builder.mutation({
@@ -18,7 +24,7 @@ export const homeVisitConfigApi = createApi({
         body: response
       })
     }),
-    getHomeVisitConfig: builder.query<HomeVisitConfigAttributes, string>({
+    getHomeVisitConfig: builder.query<HomVisitConfigInputProps, string>({
       query: (id) => `detail/${id}`
     }),
     updateHomeVisitConfig: builder.mutation({
