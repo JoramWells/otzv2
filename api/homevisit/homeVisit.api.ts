@@ -21,6 +21,9 @@ export const homeVisitApi = createApi({
     getHomeVisit: builder.query<HomeVisitInputProps[], string>({
       query: (id) => `details/${id}`
     }),
+    getAllHomeVisitByID: builder.query<HomeVisitInputProps[], string>({
+      query: (id) => `details/${id}`
+    }),
     updateHomeVisit: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
@@ -41,5 +44,5 @@ export const homeVisitApi = createApi({
 
 export const {
   useGetAllHomeVisitsQuery, useAddHomeVisitMutation,
-  useGetHomeVisitQuery
+  useGetHomeVisitQuery, useGetAllHomeVisitByIDQuery
 } = homeVisitApi

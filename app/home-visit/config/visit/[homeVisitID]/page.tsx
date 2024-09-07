@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 'use client'
+import { useGetAllHomeVisitByIDQuery } from '@/api/homevisit/homeVisit.api'
 import { useGetHomeVisitConfigQuery } from '@/api/homevisit/homeVisitConfig.api'
-import { Button } from '@/components/ui/button'
+import CurrentConfig from '@/app/home-visit/_components/CurrentConfig'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ArrowRight } from 'lucide-react'
-import moment from 'moment'
 import dynamic from 'next/dynamic'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import React from 'react'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -33,49 +33,24 @@ const Page = ({ params }: { params: any }) => {
 
   const { homeVisitID } = params
   const { data } = useGetHomeVisitConfigQuery(homeVisitID as string)
-  const router = useRouter()
-  console.log(data)
+  const { data: homeVisitData } = useGetAllHomeVisitByIDQuery(homeVisitID as string)
+  console.log(homeVisitData)
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="p-2">
-        <div className="w-1/2 bg-white rounded-lg">
-          <div className="bg-slate-200 p-2 rounded-t-lg ">
-            <h3>Config</h3>
-          </div>
-
-          {/*  */}
-          <div className="p-2">
-            <div className="flex justify-between p-2">
-              <h3>Reason</h3>
-              {data?.HomeVisitReason?.homeVisitReasonDescription}
-            </div>
-
-            {/*  */}
-            <hr />
-
-            <div className="flex justify-between p-2">
-              <h3>Frequency</h3>
-              <p>{data?.frequency}</p>
-            </div>
-            <hr />
-
-            <div className="flex justify-between p-2">
-              <h3>Date Requested</h3>
-              <h4>{moment(data?.dateRequested).format('ll')}</h4>
-            </div>
-          </div>
-
-          {/*  */}
-          <Button
-            className="space-x-4 justify-between flex text-blue-500 border-none"
-            variant={'outline'}
-            onClick={() => { router.push(`/home-visit/add-home-visit/${data?.id}?patientID=${patientID}`) }}
-          >
-            Use This Config
-            <ArrowRight size={18} />
-          </Button>
-        </div>
+      <div className="p-2 flex flex-row space-x-4">
+        {/*  */}
+        <CurrentConfig
+          dateRequested={data?.dateRequested}
+          frequency={data?.frequency}
+          homeVisitReasonDescription={
+            data?.HomeVisitReason.homeVisitReasonDescription
+          }
+          id={data?.id}
+          patientID={patientID!}
+          isConfig
+        />
+        <div>Recent Home Visits</div>
       </div>
     </div>
   )
