@@ -66,16 +66,10 @@ const dataList2 = [
 ]
 
 const steps = [
-  // { title: 'Task One', description: 'Task One Form' },
   { title: 'Task Two', description: 'Task Two Form' },
   { title: 'Task Three', description: 'Task Three Form' },
   { title: 'Task Four', description: 'Task Four Form' }
 ]
-
-interface SelectProps {
-  id: string
-  label: string
-}
 
 const DisclosureChecklist = ({ params }: any) => {
   const searchParams = useSearchParams()
@@ -89,10 +83,6 @@ const DisclosureChecklist = ({ params }: any) => {
   const userID = session?.user.id
   //
   const [activeStep, setActiveStep] = useState(1)
-
-  const [homeVisitReason, setHomeVisitReason] = useState('')
-
-  const [frequency, setFrequency] = useState<SelectProps>()
 
   // 2
   const [isARV, setIsARV]: [boolean, Dispatch<SetStateAction<boolean>>] =
@@ -188,7 +178,6 @@ const DisclosureChecklist = ({ params }: any) => {
           treatmentEndDate,
           intensivePhaseEndDate
         },
-        homeVisitFrequencyID: frequency?.id,
         // frequency: frequency?.label,
         ol_drugs: oralDrugs,
         noOfPills: noOfMedicine,
@@ -203,31 +192,7 @@ const DisclosureChecklist = ({ params }: any) => {
         isHouseholdTested
       }
     ],
-    [
-      actionTaken,
-      agendaDataOptions,
-      currentRegimen,
-      currentRegimenBegan,
-      frequency?.id,
-      homeVisitReason,
-      intensivePhaseEndDate,
-      isClinicVisits,
-      isCountedPills,
-      isDisclosure,
-      isGuardianSupport,
-      isHouseholdTested,
-      isSupportGroupAttendance,
-      medicineStatus,
-      noOfMedicine,
-      oralDrugs,
-      patientID,
-      returnToClinic,
-      statusOptions,
-      treatmentEndDate,
-      treatmentStartDate,
-      userID,
-      visitData?.id
-    ]
+    [actionTaken, agendaDataOptions, currentRegimen, currentRegimenBegan, homeVisitID, intensivePhaseEndDate, isClinicVisits, isCountedPills, isDisclosure, isGuardianSupport, isHouseholdTested, isSupportGroupAttendance, medicineStatus, noOfMedicine, oralDrugs, patientID, returnToClinic, statusOptions, treatmentEndDate, treatmentStartDate, userID, visitData?.id]
   )
 
   // const { activeStep } = useSteps({

@@ -83,6 +83,20 @@ const Page = ({ params }: { params: any }) => {
       {
         homeVisitReasonID: homeVisitReason,
         patientID,
+        patient: {
+          firstName: '',
+          middleName: '',
+          sex: '',
+          phoneNo: '',
+          cccNo: ''
+        },
+        user: {
+          firstName: '',
+          middleName: '',
+          sex: '',
+          phoneNo: '',
+          cccNo: ''
+        },
         userID,
         dateRequested,
         appointmentAgendaID:

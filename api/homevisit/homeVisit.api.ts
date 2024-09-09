@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { type HomeVisitInputProps } from '@/app/home-visit/columns'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type HomeVisitAttributes } from 'otz-types'
 
 export const homeVisitApi = createApi({
   reducerPath: 'homeVisitApi',
@@ -8,7 +9,7 @@ export const homeVisitApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/home-visit`
   }),
   endpoints: (builder) => ({
-    getAllHomeVisits: builder.query<HomeVisitInputProps[], void>({
+    getAllHomeVisits: builder.query<HomeVisitAttributes[], void>({
       query: () => 'fetchAll'
     }),
     addHomeVisit: builder.mutation({
@@ -18,10 +19,10 @@ export const homeVisitApi = createApi({
         body: response
       })
     }),
-    getHomeVisit: builder.query<HomeVisitInputProps[], string>({
-      query: (id) => `details/${id}`
+    getHomeVisit: builder.query<HomeVisitInputProps, string>({
+      query: (id) => `detail/${id}`
     }),
-    getAllHomeVisitByID: builder.query<HomeVisitInputProps[], string>({
+    getAllHomeVisitByID: builder.query<HomeVisitAttributes[], string>({
       query: (id) => `details/${id}`
     }),
     updateHomeVisit: builder.mutation({
