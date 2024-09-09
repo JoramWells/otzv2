@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Settings } from 'lucide-react'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -17,8 +17,11 @@ const CurrentConfig = ({ homeVisitReasonDescription, frequency, dateRequested, i
   const router = useRouter()
   return (
     <div className="w-1/4 bg-white rounded-lg">
-      <div className="bg-slate-200 p-2 rounded-t-lg ">
-        <h3>Config</h3>
+      <div className="bg-slate-200 p-3 rounded-t-lg flex items-center space-x-2 ">
+        <Settings size={20} className='text-slate-500' />
+        <h3
+        className='font-semibold text-slate-700 '
+        >Config</h3>
       </div>
 
       {/*  */}

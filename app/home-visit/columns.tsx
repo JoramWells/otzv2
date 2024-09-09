@@ -95,10 +95,10 @@ export const configColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
+          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
         </div>
       </div>
     )

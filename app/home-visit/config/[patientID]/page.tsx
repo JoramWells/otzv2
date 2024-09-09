@@ -5,6 +5,7 @@
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { useAddHomeVisitConfigMutation } from '@/api/homevisit/homeVisitConfig.api'
+import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
 import TaskOne from '@/app/_components/home-visit/forms/TaskOne'
 import { Button } from '@/components/ui/button'
@@ -46,6 +47,9 @@ const Page = ({ params }: { params: any }) => {
   const userID = session?.user.id
 
   //
+  const { data: patientData } = useGetPatientQuery(patientID)
+
+  //
   const [homeVisitReason, setHomeVisitReason] = useState('')
   const [dateRequested, setDateRequested] = useState('')
   const [frequency, setFrequency] = useState('')
@@ -84,18 +88,14 @@ const Page = ({ params }: { params: any }) => {
         homeVisitReasonID: homeVisitReason,
         patientID,
         patient: {
-          firstName: '',
-          middleName: '',
-          sex: '',
-          phoneNo: '',
-          cccNo: ''
+          firstName: patientData?.firstName,
+          middleName: patientData?.middleName,
+          sex: patientData?.sex,
+          phoneNo: patientData?.phoneNo,
+          cccNo: patientData?.cccNo
         },
         user: {
-          firstName: '',
-          middleName: '',
-          sex: '',
-          phoneNo: '',
-          cccNo: ''
+          name: session?.user.name
         },
         userID,
         dateRequested,
@@ -108,16 +108,7 @@ const Page = ({ params }: { params: any }) => {
         patientVisitID: visitData?.id
       }
     ],
-    [
-      agendaDataOptions,
-      dateRequested,
-      frequency,
-      homeVisitReason,
-      patientID,
-      statusOptions,
-      userID,
-      visitData?.id
-    ]
+    [agendaDataOptions, dateRequested, frequency, homeVisitReason, patientData?.cccNo, patientData?.firstName, patientData?.middleName, patientData?.phoneNo, patientData?.sex, patientID, session?.user.name, statusOptions, userID, visitData?.id]
   )
 
   //
@@ -136,21 +127,6 @@ const Page = ({ params }: { params: any }) => {
     //   await addHomeVisitConfig(inputValues[0])
     // }
   }, [addPatientVisit, patientID])
-
-  // const handleStartVisit = async () => {
-  //   const newVisitID = uuidv4()
-  //   const inputValues = {
-  //     patientID,
-  //     id: newVisitID
-  //   }
-  //   await addPatientVisit(inputValues)
-
-  //   //
-  //   if (visitData?.id) {
-  //     // setPatientVisitID(visitData.id)
-  //     await addHomeVisitConfig(inputValues[0])
-  //   }
-  // }
 
   //
   useEffect(() => {
