@@ -42,7 +42,6 @@ const Page = ({ params }: { params: any }) => {
 
   const { data, isLoading: isLoadingConfig } = useGetHomeVisitConfigQuery(homeVisitID as string)
   const { data: homeVisitData } = useGetAllHomeVisitByIDQuery(homeVisitID as string)
-  console.log(homeVisitData, 'datax')
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />

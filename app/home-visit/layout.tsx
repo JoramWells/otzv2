@@ -21,7 +21,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: 'dashboard',
+    link: '/home-visit/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
   {

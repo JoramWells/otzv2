@@ -53,7 +53,6 @@ const HorizontalLineChart = ({ data, isLoading }: { data: ARTPrescriptionInterfa
     // console.log(!Object.values(acc).some((value) => Number.isNaN(value)))
     return acc
   }, [])
-  console.log(data, 'tdata')
   if (isLoading) {
     return <Skeleton className='max-h-[350px] w-1/4 rounded-lg'/>
   }
