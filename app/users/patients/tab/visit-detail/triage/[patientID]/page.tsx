@@ -65,7 +65,7 @@ const TriagePage = () => {
             ) : (
               <div>err</div>
             )
-          ) : vsData && vsData?.length > 0 ? (
+          ) : vsData?.length > 0 ? (
             <div>
               <div
                 className={`border rounded-lg p-4 ${
