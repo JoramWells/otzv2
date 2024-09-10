@@ -11,7 +11,11 @@ interface RecentViralLoadCardProps {
 const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
   return (
     <div className="w-1/3 bg-white rounded-lg">
-      <RecentTestHeader title="Recent Test" date={data?.createdAt} />
+
+<RecentTestHeader
+title='Recent Test'
+date={data?.createdAt}
+/>
       <div className="p-4 flex flex-col space-y-2">
         <div className="flex justify-between items-center w-full text-[14px] ">
           <p className="text-slate-500 ">Results</p>
@@ -21,6 +25,7 @@ const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
         </div>
         <hr />
 
+        {/*  */}
         <div className="flex justify-between items-center w-full text-[14px] ">
           <p className="text-slate-500 ">Justification</p>
           <p className="font-bold">{data?.vlJustification}</p>
@@ -32,7 +37,7 @@ const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
           <p className="font-bold">{moment(data?.dateOfVL).format('ll')}</p>
         </div>
       </div>
-{/*
+
       {parseFloat(average) > 0 && (
         <div className="pl-4 pr-4 pb-4">
           {parseFloat(average) <= 0
@@ -52,7 +57,7 @@ const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
             </div>
               )}
         </div>
-      )} */}
+      )}
     </div>
   )
 }

@@ -8,6 +8,7 @@ export interface DataItem {
 
 export interface SelectProps {
   label?: string
+  description?: string
   value: string
   placeholder?: string
   defaultValue?: string
@@ -22,18 +23,23 @@ const CustomSelect = ({
   data = [],
   onChange,
   value,
+  description,
   name,
   defaultValue
 }: SelectProps) => {
   return (
     <div className="w-full flex space-y-2 flex-col">
-      {label && (
-        <p className="font-semibold text-slate-700 text-[14px] ">{label}</p>
-      )}
+      <div>
+        {label && (
+          <p className="font-semibold text-slate-700 text-[14px] ">{label}</p>
+        )}
 
-       <p
-       className='text-[12px] text-muted-foreground '
-       >The reason for this home visit</p>
+        {description && (
+          <p className="text-[12px] text-muted-foreground ">
+            {description}
+          </p>
+        )}
+      </div>
 
       <Select
         onValueChange={(e) => {

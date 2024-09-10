@@ -40,6 +40,7 @@ const TaskOne = ({
     <div className="flex flex-col gap-y-4 ">
       <CustomSelect
         label="Reason for visit"
+        description="The reason for this home visit"
         data={reasonOptions()}
         onChange={setHomeVisitReason}
         value={homeVisitReason}
@@ -74,7 +75,6 @@ const TaskOne = ({
         onChange={setFrequency}
         value={frequency}
       />
-
     </div>
   )
 }
