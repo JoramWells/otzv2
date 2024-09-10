@@ -31,11 +31,11 @@ const CustomSelect = ({
     <div className="w-full flex space-y-2 flex-col">
       <div>
         {label && (
-          <p className="font-semibold text-slate-700 text-[14px] ">{label}</p>
+          <p className="font-semibold text-slate-700">{label}</p>
         )}
 
         {description && (
-          <p className="text-[12px] text-muted-foreground ">
+          <p className=" text-[14px] text-muted-foreground ">
             {description}
           </p>
         )}

@@ -38,7 +38,7 @@ date={data?.createdAt}
         </div>
       </div>
 
-      {parseFloat(average) > 0 && (
+      { average.length > 0 && parseFloat(average) > 0 && (
         <div className="pl-4 pr-4 pb-4">
           {parseFloat(average) <= 0
             ? (
