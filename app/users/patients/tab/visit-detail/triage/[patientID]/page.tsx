@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -59,7 +60,7 @@ const TriagePage = () => {
         <div className="w-1/2 bg-white rounded-lg p-4">
           <p>Vitals Summary</p>
 
-          {isLoading ? (
+          {/* {isLoading ? (
             <div>loading..</div> ? (
               isError
             ) : (
@@ -79,10 +80,10 @@ const TriagePage = () => {
                   </div>
                   <div>
                     {bmi < 16 && 'Severe Malnutrition'}
-                    {bmi > 16 && bmi < 18.4 && 'Mild/ Moderate Malnutrition'}
-                    {bmi > 18.5 && bmi < 25 && 'Normal/ Recommended'}
-                    {bmi > 25.1 && bmi < 30 && 'Overweight'}
-                    {bmi > 30 && 'Obese'}
+                    {bmi >= 16 && bmi < 18.4 && 'Mild/ Moderate Malnutrition'}
+                    {bmi >= 18.5 && bmi < 25 && 'Normal/ Recommended'}
+                    {bmi >= 25.1 && bmi < 30 && 'Overweight'}
+                    {bmi >= 30 && 'Obese'}
                   </div>
                 </div>
                 <div>
@@ -94,7 +95,6 @@ const TriagePage = () => {
                   <p>{vsData[0]?.weight} kg </p>
                 </div>
                 <div>
-                  {/* calculate bmi kg/m2 */}
                   BMI {''} {bmi}
                 </div>
               </div>
@@ -111,19 +111,17 @@ const TriagePage = () => {
                 <p>Diastolic: {vsData[0]?.diastolic} C </p>
               </div>
 
-              {/*  */}
               <div>
                 <p>Respiratory Rate: {vsData[0]?.respiratoryRate} C </p>
               </div>
 
-              {/*  */}
               <div>
                 <p>Oxygen Saturation {vsData[0]?.oxygenSAturation} C </p>
               </div>
             </div>
           ) : (
             <div>no data</div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
