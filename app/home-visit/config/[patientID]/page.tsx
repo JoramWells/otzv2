@@ -10,7 +10,7 @@ import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
 import TaskOne from '@/app/_components/home-visit/forms/TaskOne'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Loader2 } from 'lucide-react'
+import { ArrowRight, Info, Loader2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import { type PatientAttributes } from 'otz-types'
@@ -146,14 +146,32 @@ const Page = ({ params }: { params: any }) => {
     }
   }, [visitData, addHomeVisitConfig, inputValues])
 
-  console.log(session, 'sessionx')
-
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="p-2">
         <div className="w-1/2 p-4 rounded-lg bg-white">
-          <h2>Create Patient COnfiguration</h2>
+          <h2>Patient Configuration</h2>
+
+          <hr />
+
+          <div className="mt-4 mb-4 p-4 flex flex-row space-x-4 border border-slate-200 rounded-lg">
+            <div
+            className='bg-slate-100 rounded-full p-2 flex items-center justify-center h-10 w-10 '
+            >
+              <Info />
+            </div>
+            <div>
+              <h3
+              className='font-semibold text-slate-700 text-lg '
+              >Create a reusable configuration for patient home visit</h3>
+              <p className='text-muted-foreground'>
+                Configuration defines a reusable entity for a list of upcoming
+                home visit entries.
+              </p>
+            </div>
+          </div>
+
           <TaskOne
             homeVisitReason={homeVisitReason}
             setHomeVisitReason={setHomeVisitReason}
@@ -163,6 +181,7 @@ const Page = ({ params }: { params: any }) => {
             setFrequency={setFrequency}
           />
           <Button
+            className="mt-4"
             onClick={async () => {
               await handleStartVisit()
             }}
@@ -171,6 +190,7 @@ const Page = ({ params }: { params: any }) => {
               <Loader2 className="mr-2 animate-spin " size={18} />
             )}
             Continue
+            <ArrowRight className='ml-2' size={18} />
           </Button>
         </div>
       </div>

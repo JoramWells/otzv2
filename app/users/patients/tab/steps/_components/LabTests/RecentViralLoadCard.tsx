@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import moment from 'moment'
+// import moment from 'moment'
 import RecentTestHeader from '../RecentTestHeader'
 
 interface RecentViralLoadCardProps {
@@ -16,7 +16,7 @@ const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
 title='Recent Test'
 date={data?.createdAt}
 />
-      <div className="p-4 flex flex-col space-y-2">
+      {/* <div className="p-4 flex flex-col space-y-2">
         <div className="flex justify-between items-center w-full text-[14px] ">
           <p className="text-slate-500 ">Results</p>
           <p className="font-bold">
@@ -25,7 +25,6 @@ date={data?.createdAt}
         </div>
         <hr />
 
-        {/*  */}
         <div className="flex justify-between items-center w-full text-[14px] ">
           <p className="text-slate-500 ">Justification</p>
           <p className="font-bold">{data?.vlJustification}</p>
@@ -57,7 +56,7 @@ date={data?.createdAt}
             </div>
               )}
         </div>
-      )}
+      )} */}
     </div>
   )
 }
