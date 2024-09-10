@@ -1,7 +1,5 @@
 import Avatar from '@/components/Avatar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { calculateAge } from '@/utils/calculateAge'
-import moment from 'moment'
 import React, { Suspense } from 'react'
 
 interface PatientProfileInputProps {

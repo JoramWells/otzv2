@@ -136,3 +136,43 @@ export const configColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
     )
   }
 ]
+
+//
+export const importConfigColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
+  {
+    accessorKey: 'patient',
+    header: 'Patient Name',
+    cell: ({ row }) => (
+      <div className="flex flex-row items-center gap-x-2 pt-4 pb-4 lg:pt-2 lg:pb-2 xl:pt-0 xl:pb-0 xxl:pt-0 xxl:pb-0">
+        <Avatar
+          // size={'sm'}
+          // className="font-bold"
+          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
+        />
+        <div>
+          <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
+        </div>
+      </div>
+    )
+  },
+  {
+    accessorKey: 'homeVisitReasonDescription',
+    header: 'Reason',
+    cell: ({ row }) => (
+      <div>{row.original.HomeVisitReason.homeVisitReasonDescription}</div>
+    )
+  },
+  {
+    accessorKey: 'frequency',
+    header: 'Frequency'
+  },
+  {
+    accessorKey: 'dateRequested',
+    header: 'Date Requested',
+    cell: ({ row }) => (
+      <div>
+        <p>{moment(row.original.dateRequested).calendar()}</p>
+      </div>
+    )
+  }
+]

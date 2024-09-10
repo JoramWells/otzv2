@@ -13,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Loader2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
+import { type PatientAttributes } from 'otz-types'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 const BreadcrumbComponent = dynamic(
@@ -80,7 +81,13 @@ const Page = ({ params }: { params: any }) => {
 
   //
 
-  // const [patientVisitID, setPatientVisitID] = useState()
+  const [user, setUser] = useState<PatientAttributes>()
+  useEffect(() => {
+    if (session) {
+      const { user: userSession } = session
+      setUser(userSession as PatientAttributes)
+    }
+  }, [session])
 
   const inputValues = useMemo(
     () => [
@@ -95,7 +102,10 @@ const Page = ({ params }: { params: any }) => {
           cccNo: patientData?.cccNo
         },
         user: {
-          name: session?.user.name
+          firstName: user?.firstName,
+          middleName: user?.middleName,
+          sex: user?.sex,
+          phoneNo: user?.phoneNo
         },
         userID,
         dateRequested,
@@ -108,7 +118,7 @@ const Page = ({ params }: { params: any }) => {
         patientVisitID: visitData?.id
       }
     ],
-    [agendaDataOptions, dateRequested, frequency, homeVisitReason, patientData?.cccNo, patientData?.firstName, patientData?.middleName, patientData?.phoneNo, patientData?.sex, patientID, session?.user.name, statusOptions, userID, visitData?.id]
+    [agendaDataOptions, dateRequested, frequency, homeVisitReason, patientData?.cccNo, patientData?.firstName, patientData?.middleName, patientData?.phoneNo, patientData?.sex, patientID, statusOptions, user?.firstName, user?.middleName, user?.phoneNo, user?.sex, userID, visitData?.id]
   )
 
   //
@@ -135,6 +145,8 @@ const Page = ({ params }: { params: any }) => {
       void addHomeVisitConfig(inputValues[0])
     }
   }, [visitData, addHomeVisitConfig, inputValues])
+
+  console.log(session, 'sessionx')
 
   return (
     <div>
