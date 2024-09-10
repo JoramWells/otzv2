@@ -44,9 +44,6 @@ const HomeVisit = ({ params }: { params: any }) => {
   const patientID = searchParams.get('patientID')
   const [currentPosition, setCurrentPosition] = useState<google.maps.LatLngLiteral>()
 
-  const [homeVisitData, setHomeVisitData] = useState({
-    returnToClinic: ''
-  })
   const { data } = useGetHomeVisitQuery(homeVisitID)
   const { data: locationData } = useGetUserLocationQuery(patientID)
   // useEffect(() => {

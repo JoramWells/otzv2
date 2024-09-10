@@ -27,6 +27,9 @@ export type HomeVisitInputProps = HomeVisitAttributes & {
     id?: string
     homeVisitFrequencyDescription?: string
   }
+  HomeVisitConfig: {
+    frequency: string
+  }
 }
 
 export const columns: Array<ColumnDef<HomeVisitInputProps>> = [
