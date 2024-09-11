@@ -37,21 +37,20 @@ const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
       {average.length > 0 && (
         <div className="pl-4 pr-4 pb-4">
           {parseFloat(average) <= 0
-            ? (
-            <div>This patient has less than 3 viral load tests</div>
-              ? (
-                  parseFloat(average) >= 200 && parseFloat(average) <= 999
-                )
-              : (
-              <div>Persistent LLV </div>
-                )
-              )
+            ? <div>This patient has less than 3 viral load tests</div>
             : (
+                parseFloat(average) >= 200 && parseFloat(average) <= 999
+              )
+                ? (
+              <div>Persistent LLV </div>
+                  )
+
+                : (
             <div className="p-2 text-[14px] border rounded-lg  border-orange-200 bg-orange-50 capitalize text-orange-500 ">
               Average viral load for 3 tests{' '}
               <span className="font-bold">{average}</span>{' '}
             </div>
-              )}
+                  )}
         </div>
       )}
     </div>
