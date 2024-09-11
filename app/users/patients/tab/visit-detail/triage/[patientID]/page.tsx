@@ -27,12 +27,12 @@ const dataList2 = [
   },
   {
     id: '2',
-    label: 'dashboard',
+    label: '/dashboard',
     link: 'dashboard'
   },
   {
     id: '3',
-    label: 'patients',
+    label: '/patients',
     link: 'patients'
   }
 ]
