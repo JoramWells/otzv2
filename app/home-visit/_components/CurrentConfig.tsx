@@ -49,7 +49,7 @@ const CurrentConfig = ({ homeVisitReasonDescription, frequency, dateRequested, i
       {/*  */}
       {isConfig && (
         <Button
-          className="space-x-4 justify-between flex text-blue-500 border-none"
+          className="space-x-4 justify-between flex text-blue-500 m-4 mt-0 shadow-none "
           variant={'outline'}
           onClick={() => {
             router.push(
@@ -58,7 +58,7 @@ const CurrentConfig = ({ homeVisitReasonDescription, frequency, dateRequested, i
           }}
         >
           Use This Config
-          <ArrowRight size={18} />
+          <ArrowRight className='ml-2' size={18} />
         </Button>
       )}
     </div>

@@ -37,7 +37,7 @@ const TaskOne = ({
   }, [reasonData])
 
   return (
-    <div className="flex flex-col gap-y-4 ">
+    <div className="flex flex-col gap-y-4 p-4 pt-0 ">
       <CustomSelect
         label="Reason for visit"
         description="The reason for this home visit"
@@ -46,15 +46,9 @@ const TaskOne = ({
         value={homeVisitReason}
       />
 
-      {/* <CustomSelect
-        label="Requested by"
-        data={usersOption()}
-        onChange={setRequestedBy}
-        value={requestedBy}
-      /> */}
-
       <CustomInput
         label="Date Requested"
+        description='When was this visit requested'
         value={dateRequested}
         onChange={setDateRequested}
         type="date"
@@ -63,7 +57,8 @@ const TaskOne = ({
       {/*  */}
 
       <CustomSelect
-        label="Frequency of home visit"
+        label="Frequency of visit"
+        description='Number of times this patient will be visited?'
         // defaultValue='Once'
         data={[
           { id: 'Once', label: 'Once' },

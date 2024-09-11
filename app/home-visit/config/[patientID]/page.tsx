@@ -16,6 +16,8 @@ import dynamic from 'next/dynamic'
 import { type PatientAttributes } from 'otz-types'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import PatientProfileHomeVisit from '../../_components/PatientProfileHomeVisit'
+import { useRouter } from 'next/navigation'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -48,7 +50,7 @@ const Page = ({ params }: { params: any }) => {
   const userID = session?.user.id
 
   //
-  const { data: patientData } = useGetPatientQuery(patientID)
+  const { data: patientData, isLoading: isLoadingPatient } = useGetPatientQuery(patientID)
 
   //
   const [homeVisitReason, setHomeVisitReason] = useState('')
@@ -75,7 +77,7 @@ const Page = ({ params }: { params: any }) => {
     )
   }, [statusData])
 
-  const [addHomeVisitConfig, { isLoading }] = useAddHomeVisitConfigMutation()
+  const [addHomeVisitConfig, { isLoading, data: homeData }] = useAddHomeVisitConfigMutation()
   const [addPatientVisit, { isLoading: isLoadingVisit, data: visitData }] =
     useAddPatientVisitMutation()
 
@@ -138,6 +140,14 @@ const Page = ({ params }: { params: any }) => {
     // }
   }, [addPatientVisit, patientID])
 
+  const router = useRouter()
+
+  useEffect(() => {
+    if (homeData) {
+      router.push(`/home-visit/config/visit/${homeData?.id}?patientID=${patientID}`)
+    }
+  }, [homeData, patientID, router])
+
   //
   useEffect(() => {
     if (visitData?.id) {
@@ -150,22 +160,30 @@ const Page = ({ params }: { params: any }) => {
     <div>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="p-2">
-        <div className="w-1/2 p-4 rounded-lg bg-white">
-          <h2>Patient Configuration</h2>
+        <PatientProfileHomeVisit
+          isLoading={isLoadingPatient}
+          firstName={patientData?.firstName}
+          middleName={patientData?.middleName}
+          // dob={DOB}
+          // phoneNo={NO}
+          // sex={gender}
+        />
+        <div className="w-1/2 rounded-lg bg-white mt-2 ">
+          <div className="p-3 border-b border-slate-200 pl-4 ">
+            <h2 className="font-semibold text-slate-700 text-lg ">
+              Patient Configuration
+            </h2>
+          </div>
 
-          <hr />
-
-          <div className="mt-4 mb-4 p-4 flex flex-row space-x-4 border border-slate-200 rounded-lg">
-            <div
-            className='bg-slate-100 rounded-full p-2 flex items-center justify-center h-10 w-10 '
-            >
+          <div className="mt-4 mb-4 p-4 flex flex-row space-x-4 border border-slate-200 rounded-lg m-4">
+            <div className="bg-slate-100 rounded-full p-2 flex items-center justify-center h-10 w-10 ">
               <Info />
             </div>
             <div>
-              <h3
-              className='font-semibold text-slate-700 text-lg '
-              >Create a reusable configuration for patient home visit</h3>
-              <p className='text-muted-foreground'>
+              <h3 className="font-semibold text-slate-700 text-lg ">
+                Create a reusable configuration for patient home visit
+              </h3>
+              <p className="text-muted-foreground">
                 Configuration defines a reusable entity for a list of upcoming
                 home visit entries.
               </p>
@@ -181,7 +199,7 @@ const Page = ({ params }: { params: any }) => {
             setFrequency={setFrequency}
           />
           <Button
-            className="mt-4"
+            className="m-4 mt-0"
             onClick={async () => {
               await handleStartVisit()
             }}
@@ -190,7 +208,7 @@ const Page = ({ params }: { params: any }) => {
               <Loader2 className="mr-2 animate-spin " size={18} />
             )}
             Continue
-            <ArrowRight className='ml-2' size={18} />
+            <ArrowRight className="ml-2" size={18} />
           </Button>
         </div>
       </div>
