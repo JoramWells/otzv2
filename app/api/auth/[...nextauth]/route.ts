@@ -15,7 +15,7 @@ const handler = NextAuth({
       },
       async authorize (credentials, req) {
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/users/patients/login`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/users/login`,
           {
             firstName: credentials?.email,
             password: credentials?.password,

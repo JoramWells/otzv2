@@ -154,7 +154,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
             >
               <ChevronsLeft size={15} className="mr-2" /> Prev
             </Button>
-            {vlData || recentVLData
+            {recentVLData
               ? (
               <Button
                 className=" shadow-none hover:bg-slate-100 text-black"

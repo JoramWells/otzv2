@@ -12,25 +12,37 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart'
-
-const chartConfig = {
-  refill: {
-    label: 'Refill',
-    color: 'rgba(54, 162, 235, 0.5)'
-  },
-  vl: {
-    label: 'viral load',
-    color: 'hsl(var(--chart-2))'
-  },
-  clinic: {
-    label: 'Clinic Day',
-    color: 'hsl(var(--chart-1))'
-  }
-} satisfies ChartConfig
+import { useMemo } from 'react'
 
 type GroupData = Record<string, any>
 
+// type ChartConfig = Record<string, { label: string, color: string }>
+
+const colorSet = [1, 2, 3, 4, 5]
+let colorIndex = 0
+
+const getNextColor = () => {
+  const nextColor = colorSet[colorIndex % colorSet.length]
+  colorIndex++
+  return `hsl(var(--chart-${nextColor}))`
+}
+
 export function AppointmentBarChart ({ data }: { data: AppointmentProps[] }) {
+  const chartConfig = useMemo(() => {
+    const config: ChartConfig = {}
+    data?.forEach(({ AppointmentAgenda }) => {
+      const { agendaDescription } = AppointmentAgenda
+      if (!config[agendaDescription]) {
+        config[agendaDescription] = {
+          label: agendaDescription,
+          color: getNextColor()
+        }
+      }
+    })
+
+    return config
+  }, [data])
+
   const groupAppointmentsByDay = (appointments: any[]) => {
     const groupedData: GroupData = {}
     appointments?.forEach((appointment: { AppointmentAgenda: any, appointmentDate: any }) => {
@@ -48,6 +60,8 @@ export function AppointmentBarChart ({ data }: { data: AppointmentProps[] }) {
 
   // const chartData = transformDataToCart()
   const chartData = groupAppointmentsByDay(data)
+
+  // const chartConfig = generateChartConfig(data)
 
   return (
     <div className="h-[300px] w-3/5 bg-white p-2">
@@ -95,24 +109,33 @@ export function AppointmentBarChart ({ data }: { data: AppointmentProps[] }) {
             }
           />
           <ChartLegend content={<ChartLegendContent />} />
-          <Bar
+          {Object.keys(chartConfig).map((key) => (
+            <Bar
+              key={key}
+              dataKey={key}
+              fill={chartConfig[key].color}
+              // radius={[4, 4, 0, 0]}
+              stackId={'a'}
+            />
+          ))}
+          {/* <Bar
             dataKey="Refill"
             fill="var(--color-refill)"
             radius={[0, 0, 4, 4]}
-            stackId={'a'}
+            stackId={"a"}
           />
           <Bar
             dataKey="Clinic Day"
             fill="var(--color-clinic)"
             radius={[0, 0, 4, 4]}
-            stackId={'a'}
+            stackId={"a"}
           />
           <Bar
             dataKey="viral load"
             fill="var(--color-vl)"
             radius={[4, 4, 0, 0]}
-            stackId={'a'}
-          />
+            stackId={"a"}
+          /> */}
         </BarChart>
       </ChartContainer>
     </div>

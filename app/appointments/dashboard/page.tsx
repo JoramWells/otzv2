@@ -1,24 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
 import { History, Pin, Users } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import WeeklyAppointmentBarChart from '../../_components/charts/WeeklyAppointmentBarChart'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
 import { useGetAllAppointmentsQuery, useGetAllPriorityAppointmentsQuery } from '@/api/appointment/appointment.api.'
-import Avatar from '@/components/Avatar'
 import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
-import CustomSelect from '@/components/forms/CustomSelect'
 import { useCallback, useState } from 'react'
-import { ValueNoneIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { columns, pinnedColumns } from '../columns'
+import { pinnedColumns } from '../columns'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -54,13 +48,6 @@ const dataList = [
   }
 ]
 
-interface DataPops {
-  id: number
-  year: number
-  userGain: number
-  userLost: number
-}
-
 const dataList2 = [
   {
     id: '1',
@@ -83,8 +70,6 @@ const NotifyPage = () => {
   })
 
   const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
-
-  const router = useRouter()
 
   const handleSelectChange = (val: string) => {
     setValue(val)
@@ -133,18 +118,7 @@ const NotifyPage = () => {
               </h1>
 
             </div>
-            <CustomSelect
-                placeholder="Years"
-                data={[
-                  { id: 'all', label: 'all' },
-                  { id: 'weekly', label: 'weekly' },
-                  { id: 'monthly', label: 'monthly' }
-                ]}
-                value={value}
-                onChange={(val) => {
-                  handleSelectChange(val)
-                }}
-              />
+
             <div className="flex space-x-2">
               {[
                 { id: 0, label: 'all' },

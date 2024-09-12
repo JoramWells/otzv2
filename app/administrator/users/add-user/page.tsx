@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../../components/forms/CustomInput'
-import { useCallback, useId, useState } from 'react'
+import { useCallback, useState } from 'react'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { useGetAllCountiesQuery } from '@/api/location/county.api'
-import { useGetAllSubCountiesQuery } from '@/api/location/subCounty.api'
 import { useAddUserMutation } from '@/api/users/users.api'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
@@ -21,7 +19,7 @@ const AddUser = () => {
   const [gender, setGender] = useState('')
   const [idNo, setIDNo] = useState('')
   const [county, setCounty] = useState('')
-  const [password, setPassword] = useState('')
+  // const [password, setPassword] = useState('')
   const [phone_no, setPhone_no] = useState('')
   const [email, setEmail] = useState('')
 
@@ -34,14 +32,14 @@ const AddUser = () => {
     idNo,
     county,
     email,
-    phone_no,
-    password
+    phone_no
+    // password
   }
 
   const [addUser, { isLoading }] = useAddUserMutation()
 
   const { data } = useGetAllCountiesQuery()
-  const { data: subCountyData } = useGetAllSubCountiesQuery()
+  // const { data: subCountyData } = useGetAllSubCountiesQuery()
 
   const countiesOption = useCallback(() => {
     return data?.map((item: any) => ({
@@ -110,7 +108,7 @@ const AddUser = () => {
           ]}
         /> */}
 
-        <CustomInput label="Password" value={password} onChange={setPassword} />
+        {/* <CustomInput label="Password" value={password} onChange={setPassword} /> */}
       </div>
 
       <div

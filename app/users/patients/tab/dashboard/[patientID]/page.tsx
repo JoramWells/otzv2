@@ -28,6 +28,7 @@ import { calculateBMI } from '@/utils/calculateBMI'
 import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import WeightHeightLineChart from '@/app/_components/charts/WeightHeightLineChart'
 import ArtCard from '../../../_components/ART/ArtCard'
+import { useSession } from 'next-auth/react'
 
 export interface InputTabProps {
   id: number
@@ -35,8 +36,10 @@ export interface InputTabProps {
 }
 
 const PatientDetails = ({ params }: any) => {
+  const [userID, setUserID] = useState<string>()
   const { patientID } = params
   const { data } = useGetViralLoadTestQuery(patientID)
+  const { data: session } = useSession()
 
   const { data: timeData } = useGetTimeAndWorkByPatientIDQuery(patientID)
 
@@ -57,6 +60,7 @@ const PatientDetails = ({ params }: any) => {
     const newVisitID = uuidv4()
     const inputValues = {
       patientID,
+      userID,
       id: newVisitID
     }
     await addPatientVisit(inputValues)
@@ -66,6 +70,11 @@ const PatientDetails = ({ params }: any) => {
   const [bmi, setBMI] = useState(0)
 
   useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUserID(user?.id)
+    }
+
     if (visitData) {
       redirect(
         `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
@@ -76,9 +85,7 @@ const PatientDetails = ({ params }: any) => {
 
       setBMI(BMI)
     }
-  }, [visitData, patientID, vsData])
-
-  console.log('vd', vsData)
+  }, [visitData, patientID, vsData, session])
 
   return (
     <div className="">
