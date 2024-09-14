@@ -41,10 +41,10 @@ export const columns: Array<ColumnDef<HomeVisitInputProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
+          name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original?.Patient?.middleName}`}</p>
         </div>
       </div>
     )
@@ -83,7 +83,11 @@ export const columns: Array<ColumnDef<HomeVisitInputProps>> = [
 
     header: 'Action',
     cell: ({ row }) => (
-      <Link href={`/home-visit/${row.original.id}?patientID=${row.original.patientID}`}>Action</Link>
+      <Link
+        href={`/home-visit/${row.original.id}?patientID=${row.original.patientID}`}
+      >
+        Action
+      </Link>
     )
   }
 ]
@@ -98,10 +102,10 @@ export const configColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
+          name={`${row.original?.PatientVisit?.Patient?.firstName} ${row.original?.PatientVisit?.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original?.PatientVisit.Patient?.firstName} ${row.original?.PatientVisit?.Patient?.middleName}`}</p>
         </div>
       </div>
     )
@@ -132,7 +136,7 @@ export const configColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
     header: 'Action',
     cell: ({ row }) => (
       <Link
-        href={`/home-visit/config/visit/${row.original.id}?patientID=${row.original.patientID}`}
+        href={`/home-visit/config/visit/${row.original.id}?patientID=${row.original?.PatientVisit?.Patient?.id}`}
       >
         Action
       </Link>
@@ -150,10 +154,10 @@ export const importConfigColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
         <Avatar
           // size={'sm'}
           // className="font-bold"
-          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
+          name={`${row.original?.PatientVisit?.Patient?.firstName} ${row.original?.PatientVisit?.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original?.PatientVisit?.Patient?.firstName} ${row.original?.PatientVisit?.Patient?.middleName}`}</p>
         </div>
       </div>
     )

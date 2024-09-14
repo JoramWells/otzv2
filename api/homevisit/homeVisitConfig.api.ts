@@ -6,9 +6,13 @@ export type HomVisitConfigInputProps = HomeVisitConfigAttributes & {
   HomeVisitReason: {
     homeVisitReasonDescription: string
   }
-  Patient: {
-    firstName: string
-    middleName: string
+  PatientVisit: {
+    Patient: {
+      id: string
+      firstName: string
+      middleName: string
+      isImportant: boolean
+    }
   }
   patient: {
     firstName: string

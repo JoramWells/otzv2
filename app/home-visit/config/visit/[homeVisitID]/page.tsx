@@ -48,8 +48,8 @@ const Page = ({ params }: { params: any }) => {
       <div className="p-2">
         <PatientProfileHomeVisit
           isLoading={isLoadingConfig}
-          firstName={data?.patient.firstName}
-          middleName={data?.patient.middleName}
+          firstName={data?.PatientVisit?.Patient.firstName}
+          middleName={data?.PatientVisit?.Patient.middleName}
         />
         <div className="p-2 flex flex-row space-x-4 items-start ">
           {/*  */}

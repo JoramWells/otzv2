@@ -13,6 +13,8 @@ import Footer from '@/components/Footer'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
+import { UserAccount } from '@/components/users/UserAccount'
+import { type UserInterface } from 'otz-types'
 
 interface ListItemProps {
   id: string
@@ -320,9 +322,11 @@ export default function Home () {
 
                 // quality={100}
               />
-              <Button className="bg-teal-600 shadow-none hover:bg-teal-700">
-                Login
-              </Button>
+
+              <UserAccount
+              user={session?.user as UserInterface }
+              />
+
             </nav>
           </Suspense>
 
@@ -368,11 +372,11 @@ export default function Home () {
                         <Image
                           src={item.src}
                           alt="img"
-                          width={80}
-                          height={80}
+                          width={60}
+                          height={60}
                           style={{
-                            width: '80px',
-                            height: '80px',
+                            width: '60px',
+                            height: '60px',
                             objectFit: 'contain'
                           }}
 

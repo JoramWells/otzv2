@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/await-thenable */
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
 
-import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
-import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { useAddHomeVisitConfigMutation } from '@/api/homevisit/homeVisitConfig.api'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
@@ -13,7 +13,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { ArrowRight, Info, Loader2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
-import { type PatientAttributes } from 'otz-types'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import PatientProfileHomeVisit from '../../_components/PatientProfileHomeVisit'
@@ -50,111 +49,77 @@ const Page = ({ params }: { params: any }) => {
   const userID = session?.user.id
 
   //
-  const { data: patientData, isLoading: isLoadingPatient } = useGetPatientQuery(patientID)
+  const { data: patientData, isLoading: isLoadingPatient } =
+    useGetPatientQuery(patientID)
 
   //
   const [homeVisitReason, setHomeVisitReason] = useState('')
   const [dateRequested, setDateRequested] = useState('')
   const [frequency, setFrequency] = useState('')
 
-  //
-  const { data: agendaData } = useGetAllAppointmentAgendaQuery()
-  const { data: statusData } = useGetAllAppointmentStatusQuery()
-
-  const agendaDataOptions = useCallback(() => {
-    return (
-      agendaData?.filter(
-        (item: any) => item.agendaDescription.toLowerCase() === 'home visit'
-      ) || []
-    )
-  }, [agendaData])
-
-  const statusOptions = useCallback(() => {
-    return (
-      statusData?.filter(
-        (item: any) => item.statusDescription.toLowerCase() === 'upcoming'
-      ) || []
-    )
-  }, [statusData])
-
-  const [addHomeVisitConfig, { isLoading, data: homeData }] = useAddHomeVisitConfigMutation()
-  const [addPatientVisit, { isLoading: isLoadingVisit, data: visitData }] =
+  const [addHomeVisitConfig, { isLoading, data: homeData }] =
+    useAddHomeVisitConfigMutation()
+  const [addPatientVisit, { isLoading: isLoadingVisit }] =
     useAddPatientVisitMutation()
 
   //
-
-  const [user, setUser] = useState<PatientAttributes>()
-  useEffect(() => {
-    if (session) {
-      const { user: userSession } = session
-      setUser(userSession as PatientAttributes)
-    }
-  }, [session])
 
   const inputValues = useMemo(
     () => [
       {
         homeVisitReasonID: homeVisitReason,
-        patientID,
-        patient: {
-          firstName: patientData?.firstName,
-          middleName: patientData?.middleName,
-          sex: patientData?.sex,
-          phoneNo: patientData?.phoneNo,
-          cccNo: patientData?.cccNo
-        },
-        user: {
-          firstName: user?.firstName,
-          middleName: user?.middleName,
-          sex: user?.sex,
-          phoneNo: user?.phoneNo
-        },
-        userID,
+
         dateRequested,
-        appointmentAgendaID:
-          agendaDataOptions()?.length > 0 && agendaDataOptions()[0]?.id,
-        appointmentStatusID:
-          statusOptions()?.length > 0 && statusOptions()[0]?.id,
         frequency,
-        requestedBy: userID,
-        patientVisitID: visitData?.id
+        requestedBy: userID
       }
     ],
-    [agendaDataOptions, dateRequested, frequency, homeVisitReason, patientData?.cccNo, patientData?.firstName, patientData?.middleName, patientData?.phoneNo, patientData?.sex, patientID, statusOptions, user?.firstName, user?.middleName, user?.phoneNo, user?.sex, userID, visitData?.id]
+    [dateRequested, frequency, homeVisitReason, userID]
   )
 
   //
 
   const handleStartVisit = useCallback(async () => {
     const newVisitID = uuidv4()
-    const inputValues = {
+    const visitInputValues = {
+      userID,
       patientID,
       id: newVisitID
     }
-    await addPatientVisit(inputValues)
+    await addPatientVisit(visitInputValues).then(async (res) => {
+      await addHomeVisitConfig({
+        ...inputValues[0],
+        patientVisitID: res.data.id
+      })
+    })
 
     //
     // if (visitData?.id) {
     //   // setPatientVisitID(visitData.id)
     //   await addHomeVisitConfig(inputValues[0])
     // }
-  }, [addPatientVisit, patientID])
+  }, [addHomeVisitConfig, addPatientVisit, inputValues, patientID, userID])
 
   const router = useRouter()
 
   useEffect(() => {
     if (homeData) {
-      router.push(`/home-visit/config/visit/${homeData?.id}?patientID=${patientID}`)
+      router.push(
+        `/home-visit/config/visit/${homeData?.id}?patientID=${patientID}`
+      )
     }
   }, [homeData, patientID, router])
 
   //
-  useEffect(() => {
-    if (visitData?.id) {
-      // setPatientVisitID(visitData?.id)
-      void addHomeVisitConfig(inputValues[0])
-    }
-  }, [visitData, addHomeVisitConfig, inputValues])
+  // useEffect(() => {
+  //   if (visitData) {
+  //     // setPatientVisitID(visitData?.id)
+  //     void addHomeVisitConfig({
+  //       ...inputValues[0],
+  //       patientVisitID: visitData.id
+  //     })
+  //   }
+  // }, [visitData, addHomeVisitConfig, inputValues])
 
   return (
     <div>

@@ -7,9 +7,31 @@ import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
 import { type CheckedState } from '@radix-ui/react-checkbox'
 import { Loader2 } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import { useCallback, useState } from 'react'
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'Dashboard',
+    link: '/'
+  }
+]
 
 const days = [
   {
@@ -89,6 +111,8 @@ const Availability = () => {
 
   return (
     <div>
+      <BreadcrumbComponent dataList={dataList2} />
+
       <div className="p-4">
         <div className="bg-white rounded-lg p-4">
           <p className="font-bold">Availability Days</p>
@@ -112,22 +136,24 @@ const Availability = () => {
           </div>
 
           {/*  */}
-          <hr className='mt-4 mb-4 ' />
+          <hr className="mt-4 mb-4 " />
 
           {/*  */}
           <div className="">
-            <p
-            className='font-bold '
-            >Select Availability Time</p>
+            <p className="font-bold ">Select Availability Time</p>
 
             <div className="flex space-x-2 w-1/4">
               <div className="flex flex-col">
                 <label htmlFor="" className="mb-1">
                   Start Time
                 </label>
-                <Input type="time" className="shadow-none"
-                onChange={e => { setStartTime(e.target.value) }}
-                value={startTime}
+                <Input
+                  type="time"
+                  className="shadow-none"
+                  onChange={(e) => {
+                    setStartTime(e.target.value)
+                  }}
+                  value={startTime}
                 />
               </div>
               <div>
@@ -135,18 +161,24 @@ const Availability = () => {
                   End Time
                 </label>
 
-                <Input type="time" className="shadow-none"
-                onChange={e => { setEndTime(e.target.value) }}
-                value={endTime}
+                <Input
+                  type="time"
+                  className="shadow-none"
+                  onChange={(e) => {
+                    setEndTime(e.target.value)
+                  }}
+                  value={endTime}
                 />
               </div>
             </div>
           </div>
           <Button
-          className='mt-4'
-          onClick={async () => { await handleChange() }}
+            className="mt-4"
+            onClick={async () => {
+              await handleChange()
+            }}
           >
-            {isLoading && <Loader2 className='mr-2 animate-spin' size={15} />}
+            {isLoading && <Loader2 className="mr-2 animate-spin" size={15} />}
             Save
           </Button>
         </div>
