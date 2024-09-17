@@ -28,7 +28,7 @@ export const userAvailabilityApi = createApi({
     }),
     updateUserAvailability: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `update${id}`,
+        url: `edit/${id}`,
         method: 'PUT',
         body: patch
       })
@@ -44,4 +44,4 @@ export const userAvailabilityApi = createApi({
   })
 })
 
-export const { useGetAllUserAvailabilitiesQuery, useAddUserAvailabilityMutation, useGetUserAvailabilityQuery } = userAvailabilityApi
+export const { useGetAllUserAvailabilitiesQuery, useAddUserAvailabilityMutation, useGetUserAvailabilityQuery, useUpdateUserAvailabilityMutation } = userAvailabilityApi

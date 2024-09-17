@@ -107,10 +107,10 @@ const NotifyPage = () => {
   const [value, setValue] = useState(1)
 
   return (
-    <div className="w-full">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="bg-white p-4 flex flex-col space-y-2 rounded-lg">
+      <div className="bg-white flex flex-col space-y-2 rounded-lg">
         {/*  */}
         <div className="flex justify-between space-x-2 ">
           <RegisteredPatientsLineChart data={data || []} />
@@ -119,7 +119,7 @@ const NotifyPage = () => {
         </div>
         <div className="flex justify-between bg-slate-50 p-2 space-x-2">
           <PopulationTypeChart data={data || []} />
-          <div className="p-2 bg-white rounded-lg w-1/2  ">
+          <div className="p-2 bg-white rounded-lg flex-1  ">
             <div
             className='ml-2 mt-2'
             >
@@ -166,7 +166,7 @@ const NotifyPage = () => {
         </div>
         {/*  */}
       </div>
-    </div>
+    </>
   )
 }
 

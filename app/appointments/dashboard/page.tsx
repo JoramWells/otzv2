@@ -84,6 +84,8 @@ const NotifyPage = () => {
     )
   }, [weeklyData])()
 
+  console.log(weeklyData, 'week')
+
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />

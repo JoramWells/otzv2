@@ -215,6 +215,7 @@ const DisclosureChecklist = ({ params }: any) => {
   const handleStartVisit = useCallback(async () => {
     const newVisitID = uuidv4()
     const inputValue = {
+      userID,
       patientID,
       id: newVisitID
     }
@@ -225,7 +226,7 @@ const DisclosureChecklist = ({ params }: any) => {
     //   // setPatientVisitID(visitData.id)
     //   await addHomeVisitConfig(inputValues[0])
     // }
-  }, [addPatientVisit, patientID])
+  }, [addPatientVisit, patientID, userID])
 
   //
   useEffect(() => {

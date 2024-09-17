@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BookCopy, CalendarCheck, CalendarDays, PlusIcon, Undo2Icon } from 'lucide-react'
+import { BookCopy, CalendarCheck, CalendarDays, ClockIcon, PlusIcon, Undo2Icon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -37,7 +37,7 @@ const DL: SidebarListItemsProps[] = [
     id: '7',
     label: 'Availability',
     link: '/appointments/availability',
-    icon: <PlusIcon size={17} />
+    icon: <ClockIcon size={17} />
   },
   {
     id: '5',
@@ -84,11 +84,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
-  return (
-    <div>
-      <p>Redirecting...</p>
-    </div>
-  )
+  return <></>
 }
 
 export default PatientLayout

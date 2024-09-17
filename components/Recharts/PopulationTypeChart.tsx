@@ -55,8 +55,8 @@ const PopulationTypeChart = ({ data }: { data: PatientAttributes[] }) => {
   }))
 
   return (
-    <div className='bg-white p-2 rounded-lg w-1/2'>
-      <div className="ml-2 mt-2 max-h-full ">
+    <div className='bg-white rounded-lg w-1/3'>
+      <div className="ml-4 mt-2 max-h-full ">
         <h3 className="text-slate-700 font-semibold">Key Population</h3>
       </div>
       <ChartContainer
@@ -71,7 +71,7 @@ const PopulationTypeChart = ({ data }: { data: PatientAttributes[] }) => {
             />
             <PolarAngleAxis
               dataKey={'populationType'}
-              tickFormatter={(value) => `${value.slice(0, 20)}...`}
+              tickFormatter={(value) => `${value.slice(0, 10)}...`}
             />
             <PolarGrid className="fill-[--color-desktop] opacity-20 " />
             <Radar

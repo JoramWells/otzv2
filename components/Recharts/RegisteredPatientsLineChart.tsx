@@ -18,11 +18,11 @@ const chartConfig = {
   visitors: {
     label: 'Visitors'
   },
-  desktop: {
+  f: {
     label: 'M',
     color: 'hsl(var(--chart-4))'
   },
-  mobile: {
+  m: {
     label: 'F',
     color: 'hsl(var(--chart-5))'
   }
@@ -100,13 +100,13 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
               >
                 <stop
                   offset={'5%'}
-                  stopColor="var(--color-desktop)"
+                  stopColor="var(--color-f)"
                   stopOpacity={0.8}
                 />
 
                 <stop
                   offset={'95%'}
-                  stopColor="var(--color-desktop)"
+                  stopColor="var(--color-f)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -119,13 +119,13 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
               >
                 <stop
                   offset={'5%'}
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--color-m)"
                   stopOpacity={0.8}
                 />
 
                 <stop
                   offset={'95%'}
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--color-m)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -153,7 +153,7 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
               dataKey={'M'}
               type={'natural'}
               fill="url(#fillMobile)"
-              stroke="var(--color-mobile)"
+              stroke="var(--color-m)"
               stackId={'a'}
             />
 
@@ -161,7 +161,7 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
               dataKey={'F'}
               type={'natural'}
               fill="url(#fillDesktop"
-              stroke="var(--color-desktop)"
+              stroke="var(--color-f)"
               stackId={'a'}
             />
             <ChartLegend content={<ChartLegendContent />} />
