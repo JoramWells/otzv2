@@ -8,11 +8,12 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BookCopy, CalendarCheck, CalendarDays, ClockIcon, PlusIcon, Undo2Icon } from 'lucide-react'
+import { AlignJustify, BookCopy, CalendarCheck, CalendarDays, ClockIcon, LayoutGrid, PlusIcon, Undo2Icon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Footer from '@/components/Footer'
+import AuthenticateLoader from '@/components/AuthenticateLoader'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -28,25 +29,37 @@ const DL: SidebarListItemsProps[] = [
     icon: <CalendarDays size={17} />
   },
   {
+    id: '3',
+    label: 'Events',
+    link: '/appointments/events',
+    icon: <AlignJustify size={17} />
+  },
+  {
     id: '4',
     label: 'Create Appointment',
     link: '/appointments/add-appointment',
     icon: <PlusIcon size={17} />
   },
   {
-    id: '7',
+    id: '5',
     label: 'Availability',
     link: '/appointments/availability',
     icon: <ClockIcon size={17} />
   },
   {
-    id: '5',
+    id: '6',
+    label: 'Apps',
+    link: '/appointments/apps',
+    icon: <LayoutGrid size={17} />
+  },
+  {
+    id: '7',
     label: 'Rescheduled',
     link: '/appointments/rescheduled',
     icon: <Undo2Icon size={17} />
   },
   {
-    id: '6',
+    id: '8',
     label: 'Missed',
     link: '/notify/missed',
     icon: <BookCopy size={17} />
@@ -74,7 +87,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
           <Sidebar>
             <SidebarListItemsComponent dataList={DL} />
           </Sidebar>
-          <div className="flex flex-col flex-1 h-[100vh] overflow-y-auto relative">
+          <div className="flex flex-col flex-1 h-screen overflow-y-auto relative">
             {children}
             <Footer/>
           </div>
@@ -84,7 +97,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
-  return <></>
+  return <AuthenticateLoader/>
 }
 
 export default PatientLayout

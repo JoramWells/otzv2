@@ -139,6 +139,7 @@ const AddPatient = () => {
     nextOfKinPhoneNo: z.string(),
     certificateNo: z.string()
   })
+  
   //
   const { toast } = useToast()
   const [activeStep, setActiveStep] = useState(1)

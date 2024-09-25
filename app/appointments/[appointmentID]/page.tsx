@@ -2,7 +2,6 @@
 /* eslint-disable multiline-ternary */
 'use client'
 import { useGetAppointmentQuery } from '@/api/appointment/appointment.api.'
-import Footer from '@/components/Footer'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Star } from 'lucide-react'
@@ -24,7 +23,7 @@ const dataList2 = [
   },
   {
     id: '2',
-    label: 'Dashboard',
+    label: 'Appointments',
     link: '/'
   }
 ]
@@ -32,6 +31,8 @@ const dataList2 = [
 const Page = ({ params }: any) => {
   const { appointmentID } = params
   const { data, isLoading } = useGetAppointmentQuery(appointmentID as string)
+
+  console.log(data)
 
   return (
     <div className="bg-slate-50 relative h-screen">
@@ -91,13 +92,8 @@ const Page = ({ params }: any) => {
           <p>All messages will appear here</p>
         </div>
       </div>
-      <Footer/>
     </div>
   )
-}
-
-Page.auth = {
-  unauthorized: '/login'
 }
 
 export default Page

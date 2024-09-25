@@ -66,6 +66,8 @@ import { etlApi } from '@/api/etl/etl.api'
 import { facilityMAPApi } from '@/api/etl/facilityMAP.api'
 import { userLocationApi } from '@/api/location/userLocation.api'
 import { homeVisitConfigApi } from '@/api/homevisit/homeVisitConfig.api'
+import { eventTypeApi } from '@/api/appointment/events/eventType'
+import { attendeeApi } from '@/api/appointment/events/attendees'
 
 export const store = configureStore({
   reducer: {
@@ -136,7 +138,9 @@ export const store = configureStore({
     [facilityMAPApi.reducerPath]: facilityMAPApi.reducer,
     [etlApi.reducerPath]: etlApi.reducer,
     [userLocationApi.reducerPath]: userLocationApi.reducer,
-    [homeVisitConfigApi.reducerPath]: homeVisitConfigApi.reducer
+    [homeVisitConfigApi.reducerPath]: homeVisitConfigApi.reducer,
+    [eventTypeApi.reducerPath]: eventTypeApi.reducer,
+    [attendeeApi.reducerPath]: attendeeApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -209,4 +213,6 @@ export const store = configureStore({
       .concat(userLocationApi.middleware)
       .concat(homeVisitConfigApi.middleware)
       .concat(questionsApi.middleware)
+      .concat(eventTypeApi.middleware)
+      .concat(attendeeApi.middleware)
 })

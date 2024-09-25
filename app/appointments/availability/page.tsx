@@ -115,8 +115,6 @@ const Availability = () => {
         ...inputValues,
         id: availabilityID
       })
-
-      console.log({ ...inputValues, id: availabilityID }, 'gyu')
     } else {
       await addUserAvailability(inputValues)
     }
