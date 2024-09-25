@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type EventTypeAttributes } from 'otz-types'
 
 export const eventTypeApi = createApi({
   reducerPath: 'eventTypeApi',
@@ -7,7 +8,7 @@ export const eventTypeApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/event-type`
   }),
   endpoints: (builder) => ({
-    getAllEventType: builder.query<any, void>({
+    getAllEventType: builder.query<EventTypeAttributes[], void>({
       query: () => 'fetchAll'
     }),
     addEventType: builder.mutation({

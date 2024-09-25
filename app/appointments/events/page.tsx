@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Clock2, Loader2, Trash2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import { type EventTypeAttributes } from 'otz-types'
 // import { Button } from '@/components/ui/button'
 import React, { useMemo, useState } from 'react'
 import 'react-quill/dist/quill.snow.css'
@@ -150,7 +151,7 @@ const Page = () => {
 
       {/*  */}
       <h2>Most Popular</h2>
-      {data?.map((item) => (
+      {data?.map((item: EventTypeAttributes) => (
         <div key={item.id} className="border border-slate-200 rounded-lg p-4 flex justify-between items-center">
           <div
           className='flex flex-col space-y-2 items-start'
