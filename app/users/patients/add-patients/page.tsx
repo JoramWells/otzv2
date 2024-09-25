@@ -30,6 +30,7 @@ import { redirect } from 'next/navigation'
 import { FormProvider, useForm } from 'react-hook-form'
 import { type ZodType, z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSession } from 'next-auth/react'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
@@ -86,6 +87,8 @@ interface InputProps {
 }
 
 const AddPatient = () => {
+  const { data: session } = useSession()
+
   const Schema: ZodType<InputProps> = z.object({
     firstName: z.string().nonempty({ message: 'Required' }),
     middleName: z.string().nonempty({ message: 'Required' }),
@@ -139,7 +142,8 @@ const AddPatient = () => {
     nextOfKinPhoneNo: z.string(),
     certificateNo: z.string()
   })
-  
+  const userID = session?.user?.id
+
   //
   const { toast } = useToast()
   const [activeStep, setActiveStep] = useState(1)
@@ -157,6 +161,7 @@ const AddPatient = () => {
     const { county, subCounty, ward, ...rest } = formData
     const submissionData = {
       ...rest,
+      userID,
       location: {
         county,
         subCounty,
