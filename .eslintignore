@@ -1,4 +1,5 @@
 components/ui
+./components/ui
 lib/utils.ts
 ./lib/utils.ts
 .next
