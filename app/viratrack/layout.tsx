@@ -13,6 +13,7 @@ import { BellDot, BookCopy, LayoutDashboardIcon, Pill } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
+import AuthenticateLoader from '@/components/AuthenticateLoader'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -73,11 +74,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
     </Provider>
     )
   }
-  return (
-    <div>
-      <p>Redirecting...</p>
-    </div>
-  )
+  return <AuthenticateLoader />
 }
 
 export default PatientLayout

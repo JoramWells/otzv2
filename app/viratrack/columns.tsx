@@ -18,13 +18,13 @@ export const columns: Array<ColumnDef<ViralLoadInterface>> = [
     cell: ({ row }) => (
       <div className="flex flex-row space-x-4 items-center pt-2 pb-2">
         <Avatar
-          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
+          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
         />
         <div className="flex flex-col space-y-1">
           <Link
             className="capitalize"
             href={`/patients/${row.original.id}`}
-          >{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</Link>
+          >{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</Link>
         </div>
       </div>
     )
