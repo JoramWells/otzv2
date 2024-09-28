@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { AlignJustify, BookCopy, CalendarCheck, CalendarDays, ClockIcon, LayoutGrid, PlusIcon, Undo2Icon } from 'lucide-react'
+import { AlignJustify, BookCopy, CalendarCheck, CalendarDays, ClockIcon, LayoutGrid, PlusIcon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -51,12 +51,6 @@ const DL: SidebarListItemsProps[] = [
     label: 'Apps',
     link: '/appointments/apps',
     icon: <LayoutGrid size={17} />
-  },
-  {
-    id: '7',
-    label: 'Rescheduled',
-    link: '/appointments/rescheduled',
-    icon: <Undo2Icon size={17} />
   },
   {
     id: '8',

@@ -36,6 +36,15 @@ const AppointmentHomepage = () => {
   }, [sortedAppointment])
 
   //
+  const rescheduledAppointment = useCallback(() => {
+    return sortedAppointment?.filter((item: any) =>
+      item.AppointmentStatus?.statusDescription
+        .toLowerCase()
+        .includes('Rescheduled'.toLowerCase())
+    )
+  }, [sortedAppointment])
+
+  //
   const pendingAppointment = useCallback(() => {
     return data?.filter((item: any) =>
       item.AppointmentStatus?.statusDescription
@@ -62,7 +71,10 @@ const AppointmentHomepage = () => {
         id: 2,
         label: 'Pending'
       },
-
+      {
+        id: 3,
+        label: 'Rescheduled'
+      },
       {
         id: 4,
         label: 'Upcoming'
@@ -92,9 +104,7 @@ const AppointmentHomepage = () => {
     <div>
       {/* {available === 1 && ( */}
       <>
-        <div
-        className='mt-2 w-full'
-        >
+        <div className="mt-2 w-full">
           <CustomTab
             categoryList={categoryList}
             setValue={setValue}
@@ -112,6 +122,13 @@ const AppointmentHomepage = () => {
               <CustomTable
                 columns={columns}
                 data={pendingAppointment() || []}
+              />
+            )}
+
+            {value === 'rescheduled' && (
+              <CustomTable
+                columns={columns}
+                data={rescheduledAppointment() || []}
               />
             )}
 

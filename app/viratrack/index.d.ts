@@ -5,7 +5,7 @@ declare interface ViralLoadInterface {
   vlJustification: string
   vlResults: number
   id: any
-  Patient: {
+  patient: {
     firstName: string
     middleName: string
   }
