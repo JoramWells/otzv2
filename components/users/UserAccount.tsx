@@ -2,10 +2,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
 
-import {
-  ChevronDownIcon,
-  UserCircle
-} from 'lucide-react'
+import { ChevronDownIcon, UserCircle } from 'lucide-react'
 
 import {
   DropdownMenu,
@@ -16,9 +13,16 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { type UserInterface } from 'otz-types'
+import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export function UserAccount ({ user }: { user: UserInterface }) {
   // const { data: session } = useSession()
+  const router = useRouter()
+  const logOut = async () => {
+    await signOut()
+    router.push('/')
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,8 +34,7 @@ export function UserAccount ({ user }: { user: UserInterface }) {
       <DropdownMenuContent align="end">
         <DropdownMenuItem className="capitalize">
           <span>
-            {user?.firstName} {' '}
-            {user?.middleName}
+            {user?.firstName} {user?.middleName}
           </span>
         </DropdownMenuItem>
 
@@ -42,7 +45,9 @@ export function UserAccount ({ user }: { user: UserInterface }) {
         <DropdownMenuSeparator />
 
         {/*  */}
-        <DropdownMenuItem className="capitalize">Logout</DropdownMenuItem>
+        <DropdownMenuItem className="capitalize" onClick={async () => { await logOut() }}>
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

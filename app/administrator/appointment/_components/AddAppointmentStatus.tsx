@@ -44,6 +44,13 @@ const AddAppointmentStatus = () => {
           // onChange={setStatusDescription}
         />
 
+        <CustomInput2
+        label='Status color'
+        type='color'
+        name='statusColor'
+        defaultValue='#FF6384'
+        />
+
         <Button
           // colorScheme="teal"
           // width={'full'}

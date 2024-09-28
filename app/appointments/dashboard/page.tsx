@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { History, Pin, Users } from 'lucide-react'
+import { History, Pin } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
@@ -20,33 +20,6 @@ const BreadcrumbComponent = dynamic(
     loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
   }
 )
-
-const dataList = [
-  {
-    id: '1',
-    label: 'Todays Appointment',
-    count: 50
-    // link: '/notify/appointment'
-  },
-  {
-    id: '2',
-    label: 'Refill Appointments',
-    count: 20
-    // link: ''
-  },
-  {
-    id: '3',
-    label: 'Viral Load',
-    count: 13
-    // link: ''
-  },
-  {
-    id: '4',
-    label: 'Recent Appointments',
-    count: 7
-    // link: ''
-  }
-]
 
 const dataList2 = [
   {
@@ -90,24 +63,6 @@ const NotifyPage = () => {
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="grid w-full grid-cols-1 gap-2 lg:grid-cols-4  md:grid-cols-2 p-2">
-        {dataList.map((item, idx) => (
-          <div
-            key={idx}
-            className="rounded-lg p-4 bg-white
-             h-[130px] flex flex-col  hover:cursor-pointer hover:shadow-none
-      "
-            // onClick={() => router.push('/notify/appointment')}
-          >
-            <div className="flex flex-row items-center justify-between">
-              <h3 className="">{item.label}</h3>
-              <Users size={15} />
-            </div>
-            <p className="text-xl font-bold">{item.count}</p>
-            <p className="text-slate-500 text-[12px]">Since last month</p>
-          </div>
-        ))}
-      </div>
       <div className="w-full">
         <div className=" bg-white p-4 ">
           <div className="flex justify-between w-full ">

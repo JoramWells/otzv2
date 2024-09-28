@@ -9,6 +9,7 @@ interface CustomInputProps {
   value?: string
   type?: string
   description?: string
+  defaultValue?: string
   onChange?: (value: any) => void
 }
 
@@ -17,7 +18,8 @@ const CustomInput2 = ({
   label,
   placeholder,
   type = 'text',
-  name
+  name,
+  defaultValue = ''
 }: CustomInputProps) => {
   const { control } = useFormContext()
   const {
@@ -49,6 +51,7 @@ const CustomInput2 = ({
         onBlur={onBlur}
         ref={ref}
         placeholder={placeholder}
+        defaultValue={defaultValue}
       />
       <div className='h-2' >
 

@@ -9,8 +9,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'ψnergy Data Group',
-  description: 'Mother Angela'
+  title: 'CarePlus Software Hospital Management',
+  description: 'Hospital Management System'
 }
 
 export default async function RootLayout ({
