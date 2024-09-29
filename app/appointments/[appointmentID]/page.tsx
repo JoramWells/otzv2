@@ -3,8 +3,9 @@
 'use client'
 import { useGetAppointmentQuery } from '@/api/appointment/appointment.api.'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Star } from 'lucide-react'
+import { History, Star, Trash2, X } from 'lucide-react'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
 const BreadcrumbComponent = dynamic(
@@ -40,12 +41,19 @@ const Page = ({ params }: any) => {
 
       <div className="p-4 flex flex-row space-x-4 items-start">
         {isLoading ? (
-          <div>Loading..</div>
+          <Skeleton className="w-1/2 h-[250px]" />
         ) : (
           <div className="w-1/2 bg-white border border-slate-200 rounded-lg">
             <div className="flex justify-between items-center w-full bg-slate-200 p-2 ">
-              <h2>{data?.AppointmentAgenda?.agendaDescription}</h2>
+              <h2 className="capitalize text-[14px] font-bold">
+                {data?.AppointmentAgenda?.agendaDescription}
+              </h2>
               <div className="flex space-x-2 items-center">
+                {data?.isStarred ? (
+                  <Star className="bg-yellow-500" size={18} />
+                ) : (
+                  <Star className="text-slate-500" size={18} />
+                )}
                 {data?.isRead ? (
                   <Badge>Read</Badge>
                 ) : (
@@ -53,16 +61,13 @@ const Page = ({ params }: any) => {
                     Unread
                   </Badge>
                 )}
-                {data?.isStarred ? (
-                  <Star className="bg-yellow-500" size={18} />
-                ) : (
-                  <Star className="text-slate-500" size={18} />
-                )}
+
+                <Badge>{data?.AppointmentStatus?.statusDescription}</Badge>
               </div>
             </div>
 
             {/*  */}
-            <div className="p-2">
+            <div className="p-2 text-[14px] ">
               <div className="flex justify-between items-start p-2 ">
                 <p>Date</p>
                 <div>
@@ -81,14 +86,27 @@ const Page = ({ params }: any) => {
                   </p>
                 </div>
               </div>
+              <hr />
+              <div className="flex justify-end space-x-2 mt-2">
+                <Button className="bg-emerald-50 hover:bg-emerald-100 text-emerald-500 flex space-x-2 items-center">
+                  <History size={18} className='mr-2' />
+                  Reschedule
+                </Button>
+                <Button className="bg-slate-50 hover:bg-slate-100 text-slate-500 flex space-x-2 items-center">
+                  <X size={18} className="mr-2" />
+                  Cancel
+                </Button>
+                <Button className="flex items-center bg-red-50 hover:bg-red-100 text-red-500">
+                  <Trash2 size={18} className="mr-2" />
+                  Delete
+                </Button>
+              </div>
             </div>
             {/*  */}
           </div>
         )}
 
-        <div
-        className='p-4 bg-white rounded-lg flex-1'
-        >
+        <div className="p-4 bg-white rounded-lg flex-1">
           <p>All messages will appear here</p>
         </div>
       </div>

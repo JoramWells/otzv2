@@ -12,6 +12,9 @@ export type AppointmentInputProps = AppointmentAttributes & {
   AppointmentAgenda: {
     agendaDescription: string
   }
+  AppointmentStatus: {
+    statusDescription: string
+  }
 }
 
 export const appointmentApi = createApi({

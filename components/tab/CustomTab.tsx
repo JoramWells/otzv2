@@ -2,10 +2,12 @@
 import { Button } from '@/components/ui/button'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
+import { Badge } from '@/components/ui/badge'
 
 interface CategoryListProps {
   id: number
   label: string
+  count?: number
 }
 
 export interface CustomTabProps {
@@ -16,12 +18,15 @@ export interface CustomTabProps {
 
 const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
   // check user
-  const isChecked = useCallback((params: string) => {
-    if (value === params) {
-      return true
-    }
-    return false
-  }, [value])
+  const isChecked = useCallback(
+    (params: string) => {
+      if (value === params) {
+        return true
+      }
+      return false
+    },
+    [value]
+  )
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -44,13 +49,25 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
         <Button
           key={item.id}
           className={`shadow-none bg-slate-50 rounded-full text-slate-400 font-semibold 
-          ${isChecked(item.label.toLowerCase()) && 'text-teal-600 font-semibold bg-teal-50'} hover:bg-slate-100
+          ${
+            isChecked(item.label.toLowerCase()) &&
+            'text-teal-600 font-semibold bg-teal-50'
+          } hover:bg-slate-100
           `}
           onClick={() => {
             handleClick(item.label.toLowerCase())
           }}
         >
-          {item.label}
+          <span>{item.label}</span>
+          {/* <Badge
+            className={`ml-2 text-[12px] shadow-none ${
+              isChecked(item.label.toLowerCase()) && 'bg-white'
+            } `}
+          > */}
+          <span
+          className='ml-2 text-[12px] '
+          >{item.count}</span>
+          {/* </Badge> */}
         </Button>
       ))}
     </nav>

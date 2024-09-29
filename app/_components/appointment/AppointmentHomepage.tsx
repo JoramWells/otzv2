@@ -65,26 +65,31 @@ const AppointmentHomepage = () => {
     () => [
       {
         id: 1,
-        label: 'All'
+        label: 'All',
+        count: sortedAppointment?.length
       },
       {
         id: 2,
-        label: 'Pending'
+        label: 'Pending',
+        count: pendingAppointment()?.length
       },
       {
         id: 3,
-        label: 'Rescheduled'
+        label: 'Rescheduled',
+        count: rescheduledAppointment()?.length
       },
       {
         id: 4,
-        label: 'Upcoming'
+        label: 'Upcoming',
+        count: upcomingAppointment()?.length
       },
       {
         id: 5,
-        label: 'Missed'
+        label: 'Missed',
+        count: missedAppointment()?.length
       }
     ],
-    []
+    [missedAppointment, pendingAppointment, rescheduledAppointment, sortedAppointment?.length, upcomingAppointment]
   )
 
   // const availableDays = [
@@ -101,8 +106,7 @@ const AppointmentHomepage = () => {
   // const [available, setAvailableDays] = useState(1)
 
   return (
-    <div>
-      {/* {available === 1 && ( */}
+
       <>
         <div className="mt-2 w-full">
           <CustomTab
@@ -113,6 +117,13 @@ const AppointmentHomepage = () => {
         </div>
         <div className="w-full p-2">
           <div className="bg-white rounded-lg p-4">
+
+          <h2
+          className='capitalize mb-2 font-bold text-slate-700 '
+          >
+            {value} appointments
+          </h2>
+
             {value === 'all' && (
               <CustomTable columns={columns} data={sortedAppointment || []} />
             )}
@@ -146,9 +157,6 @@ const AppointmentHomepage = () => {
         </div>
       </>
 
-      {/*  */}
-      {/* {available === 2 && <div>unavailable</div>} */}
-    </div>
   )
 }
 

@@ -57,7 +57,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
           // className="font-bold"
           name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+        <p className="capitalize font-semibold text-[12px] ">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
       </div>
     )
   },
@@ -72,7 +72,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
     accessorKey: 'appointmentDate',
     header: 'Appointment Date',
     cell: ({ row }) => (
-      <div className="flex flex-col gap-y-2 pt-1.5 pb-1.5">
+      <div className="flex flex-col gap-y-2 pt-1.5 pb-1.5 text-[12px]">
         <p>{moment(row.original.appointmentDate).format('ll')}</p>
         {/*
           <p className="text-sm text-slate-500">
@@ -88,7 +88,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
     accessorKey: 'appointmentTime',
     header: 'Appointment Time',
     cell: ({ row }) => (
-      <p className="text-slate-500">
+      <p className="text-slate-500 text-[12px]">
         {moment(row.original.appointmentTime, 'HH:mm ss').format('HH:mm a')}
       </p>
     )
@@ -97,7 +97,9 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
     accessorKey: 'appointmentAgenda',
     header: 'Appointment agenda',
     cell: ({ row }) => (
-      <p>{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
+      <p
+      className='capitalize text-[12px] '
+      >{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
     )
   },
   {
@@ -111,7 +113,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
           <Badge
             // colorScheme="red"
             // rounded={'full'}
-            className="rounded-full bg-red-50 text-red-500 shadow-none"
+            className="rounded-full bg-red-50 text-red-500 shadow-none text-[12px] "
           >
             {appointmentStatus}
           </Badge>
@@ -171,7 +173,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
     header: 'Updated',
     cell: ({ row }) => (
       <div
-      className='flex items-center space-x-2'
+      className='flex items-center space-x-2 text-[12px] '
       >
         <p>{moment(row.original.updatedAt).format('ll')}</p>
         <span className='text-[10px] text-slate-400 ' >|</span>
@@ -184,7 +186,9 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <Link href={`/appointments/${row.original.id}`}>Edit </Link>
+    cell: ({ row }) => <Link href={`/appointments/${row.original.id}`}
+    className='text-[12px]'
+    >Edit </Link>
   }
 ]
 

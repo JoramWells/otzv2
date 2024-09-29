@@ -57,13 +57,10 @@ const NotifyPage = () => {
     )
   }, [weeklyData])()
 
-  console.log(weeklyData, 'week')
-
   return (
-    <div className="">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="w-full">
           <div className="flex justify-between items-center w-full bg-white p-2 mt-2 ">
             <div>
               <h1
@@ -146,9 +143,8 @@ const NotifyPage = () => {
             )}
           {/* </div> */}
         </div>
-      </div>
 
-    </div>
+    </>
   )
 }
 

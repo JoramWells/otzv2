@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
-import { Suspense } from 'react'
-
 // import { AppointmentFilter } from './__components/AppointmentFilter'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -59,9 +57,7 @@ const AppointmentPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
 
       {/* tab navigation */}
-      <Suspense fallback={<div>loading...</div>}>
         <AppointmentHomepage />
-      </Suspense>
     </div>
   )
 }
