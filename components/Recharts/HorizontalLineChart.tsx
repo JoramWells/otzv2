@@ -54,16 +54,13 @@ const HorizontalLineChart = ({ data, isLoading }: { data: ARTPrescriptionInterfa
     return acc
   }, [])
   if (isLoading) {
-    return <Skeleton className='max-h-[350px] w-1/4 rounded-lg'/>
+    return <Skeleton className='max-h-[350px] flex-1 rounded-lg'/>
   }
   return (
-    <div className="w-1/4 h-[350px] p-2 border border-slate-100 rounded-lg ">
-      <div className="ml-4">
-        <h3 className="font-semibold text-slate-700">Regimen Line Count</h3>
-      </div>
-      <div
-      className='w-full h-full items-center justify-center flex '
-      >
+      <div className="w-full flex-1 border p-2 rounded-lg border-slate-100 ">
+        <div className="ml-2 mt-2">
+          <h3 className="font-semibold text-slate-700">Regimen Line Count</h3>
+        </div>
         <ChartContainer
           config={chartConfig}
           className="aspect-square max-h-[250px] w-full bg-white rounded-lg"
@@ -98,7 +95,6 @@ const HorizontalLineChart = ({ data, isLoading }: { data: ARTPrescriptionInterfa
           </BarChart>
         </ChartContainer>
       </div>
-    </div>
   )
 }
 

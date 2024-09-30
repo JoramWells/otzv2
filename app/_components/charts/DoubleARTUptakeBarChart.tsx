@@ -34,12 +34,15 @@ const DoubleARTUptakeBarChart = ({
 
   return (
     <div
-      className="h-[350px] md:w-[500px] bg-slate-50 rounded-lg
-  w-1/2 p-4
+      className="h-[300px] flex-1 rounded-lg p-2 border border-slate-100
   "
     >
+      <div className="ml-2 mt-2">
+        <h3 className="font-semibold text-slate-700">Daily Duration</h3>
+      </div>
       <Bar
         data={data}
+        height={200}
         options={{
           // scales: {
           //   xAxes: [
@@ -51,12 +54,12 @@ const DoubleARTUptakeBarChart = ({
           //     }
           //   ]
           // },
-          plugins: {
-            title: {
-              display: true,
-              text: 'Daily Dosage'
-            }
-          },
+          // plugins: {
+          //   title: {
+          //     display: true,
+          //     text: 'Daily Dosage'
+          //   }
+          // },
           // scales: {
           //   xAxes: [{ stacked: true }]
           // },

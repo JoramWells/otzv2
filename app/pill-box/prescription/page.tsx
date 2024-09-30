@@ -28,12 +28,12 @@ const dataList2 = [
   {
     id: '2',
     label: 'dashboard',
-    link: 'dashboard'
+    link: '/dashboard'
   },
   {
     id: '3',
     label: 'prescription',
-    link: 'prescription'
+    link: '/prescription'
   }
 ]
 
@@ -64,13 +64,15 @@ const PrescriptionPage = () => {
     }
   }, [data, showNotification])
 
+  console.log(data)
+
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="p-4">
         <div
-        className='p-4 bg-white rounded-lg'
+        className='bg-white rounded-lg'
         >
           <CustomTable columns={columns} data={sortedData || []} />
         </div>

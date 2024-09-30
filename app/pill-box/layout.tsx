@@ -13,6 +13,7 @@ import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_compo
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import AuthenticateLoader from '@/components/AuthenticateLoader'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -78,9 +79,7 @@ const PillLayout = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
-  return <div>
-  <p>Redirecting...</p>
-</div>
+  return <AuthenticateLoader/>
 }
 
 export default PillLayout

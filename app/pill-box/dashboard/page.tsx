@@ -109,25 +109,25 @@ const NotifyPage = () => {
      id: '1',
      label: 'On ART',
      count: 50,
-     link: ''
+     link: '/'
    },
    {
      id: '2',
      label: 'On TB',
      count: 20,
-     link: ''
+     link: '/'
    },
    {
      id: '3',
      label: 'On Anti-TB',
      count: 13,
-     link: ''
+     link: '/'
    },
    {
      id: '4',
      label: 'Adherence',
      count: facilityData || 0,
-     link: ''
+     link: '/'
    }
  ]
 
@@ -142,23 +142,22 @@ const NotifyPage = () => {
           <div
             key={idx}
             className="rounded-lg p-5 bg-white
-             h-[130px] flex flex-col hover:cursor-pointer hover:shadow-sm
+             h-[100px] flex flex-col hover:cursor-pointer hover:shadow-sm
       "
             // onClick={() => router.push('/notify/appointment')}
           >
             <div className="flex flex-row items-center justify-between">
-              <h3 className="font-bold">{item.label}</h3>
+              <h4 className="">{item.label}</h4>
               <Users size={15} />
             </div>
-            <p className="text-xl font-bold">
+            <p className="text-lg font-extrabold">
               {item.label === 'Adherence' ? `${item.count} %` : item.count}
             </p>
             <p className="text-slate-500 text-[12px]">Since last month</p>
           </div>
         ))}
       </div>
-      <div className="bg-white p-4">
-        <div className="flex flex-row items-start w-full space-x-4">
+        <div className="flex flex-row items-start w-full space-x-4 bg-white p-4 ">
           <DoubleARTUptakeBarChart
             morningTrueCount={uptakeCount?.morningTrueCount}
             morningFalseCount={uptakeCount?.morningFalseCount}
@@ -178,7 +177,6 @@ const NotifyPage = () => {
             data={artPrescriptionData as ARTPrescriptionInterface[]}
           />
         </div>
-      </div>
 
       {/*  */}
       <div className="p-2 bg-white mt-2">

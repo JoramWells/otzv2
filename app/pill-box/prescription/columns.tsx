@@ -4,7 +4,6 @@ import { type ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
 
 import Avatar from '@/components/Avatar'
-import { calculateAdherence } from '@/utils/calculateAdherence'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { CalendarDays } from 'lucide-react'
 import { useCallback } from 'react'
@@ -26,18 +25,18 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface >> = [
+export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2 ">
+      <div className="flex flex-row items-center gap-x-2 text-[12px] ">
         <Avatar
           // size={'sm'}
           // className="font-bold"
           name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
-          <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+        <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
       </div>
     )
   },
@@ -50,78 +49,76 @@ export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface 
     accessorKey: 'frequency',
     header: 'FREQUENCY',
     cell: ({ row }) => (
-      <p className="text-slate-500 font-bold">x{row.original.frequency} </p>
+      <p className="text-slate-500 text-[12px]">x{row.original.frequency} </p>
     )
   },
   {
     accessorKey: 'noOfPills',
-    header: 'Prescribed'
+    header: 'Prescribed',
+    cell: ({ row }) => (
+      <p className=" text-[12px]">{row.original.noOfPills} </p>
+    )
   },
   {
     accessorKey: 'expectedNoOfPills',
-    header: 'Remaining Pills'
+    header: 'Remaining Pills',
+    cell: ({ row }) => (
+      <p className=" text-[12px]">{row.original.expectedNoOfPills} </p>
+    )
   },
   {
     accessorKey: 'computedNoOfPills',
-    header: 'Dispensed'
+    header: 'Taken',
+    cell: ({ row }) => (
+      <p className=" text-[12px]">{row.original.computedNoOfPills} </p>
+    )
   },
-  {
-    accessorKey: 'adherence',
-    header: 'Adherence (%)',
-    cell: ({ row }) => {
-      const { refillDate, computedNoOfPills, frequency } = row.original
-      const adherence = calculateAdherence(refillDate, computedNoOfPills as unknown as number, frequency)
-      return (
-        <p
-        className='text-slate-500'
-        >{adherence} %</p>
-      )
-    }
-  },
+  // {
+  //   accessorKey: 'adherence',
+  //   header: 'Adherence (%)',
+  //   cell: ({ row }) => {
+  //     const { refillDate, computedNoOfPills, frequency } = row.original
+  //     const adherence = calculateAdherence(
+  //       refillDate,
+  //       computedNoOfPills as unknown as number,
+  //       frequency
+  //     )
+  //     return <p className="text-slate-500 text ">{adherence} %</p>
+  //   }
+  // },
   {
     accessorKey: 'refillDate',
-    header: 'Refill Date',
+    header: 'Refilled',
     cell: ({ row }) => {
-      const { refillDate } = row.original
-      const duration = useCallback(() => {
-        return calculateTimeDuration(refillDate)
-      }, [refillDate])()
       return (
-        <div className='flex items-start space-x-1'>
-          <CalendarDays className='' size={15} />
-          <div>
-            <p>{moment(row.original.refillDate).format('ll')}</p>
-            <small className="font-bold text-slate-500">
-              {duration}
-            </small>
-          </div>
-        </div>
+          <p className='text-[12px]' >
+            {moment(row.original.refillDate).calendar('ll')}
+          </p>
       )
     }
   },
   {
     accessorKey: 'nextRefillDate',
-    header: 'Next Refill Date',
+    header: 'Next Refill',
     cell: ({ row }) => {
-      const { nextRefillDate } = row.original
-      const duration = useCallback(() => {
-        return calculateTimeDuration(nextRefillDate)
-      }, [nextRefillDate])()
       return (
-        <div className="flex items-start space-x-1">
-          <CalendarDays className="" size={15} />
-          <div>
-            <p>{moment(row.original.nextRefillDate).format('ll')}</p>
-            <small className="font-bold text-slate-500">{duration}</small>
-          </div>
-        </div>
+          <p className='text-[12px]' >
+            {moment(row.original.nextRefillDate).calendar()}
+          </p>
+
       )
     }
   },
   {
     accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <Link href={`/pill-box/prescription-detail/${row.original.patientVisitID}?patientID=${row.original?.Patient?.id} `}>Action</Link>
+    cell: ({ row }) => (
+      <Link
+        href={`/pill-box/prescription-detail/${row.original.patientVisitID}?patientID=${row.original?.Patient?.id} `}
+      >
+        Action
+      </Link>
+    )
   }
 ]
 
