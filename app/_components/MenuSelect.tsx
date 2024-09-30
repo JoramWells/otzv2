@@ -21,7 +21,7 @@ export function MenuSelect ({ dataList }: DataListProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <MoreVertical className="text-slate-500" size={20} />
+        <MoreVertical className="text-slate-500" size={18} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 border-none shadow-slate-200" >
         {dataList.map((item) => (

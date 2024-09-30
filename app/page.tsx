@@ -353,17 +353,17 @@ export default function Home () {
                   </div>
                 </div>
               </Suspense>
-              <div className="grid p-2 w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
+              <div className="grid px-2 w-full grid-cols-1 gap-2 lg:grid-cols-4 md:grid-cols-2">
                 {itemList.map((item) => (
                   <Suspense
                     key={item.id}
-                    fallback={<Skeleton className="h-[150px]" />}
+                    fallback={<Skeleton className="h-[120px]" />}
                   >
                     <div
                       key={item.id}
                       tabIndex={0}
                       className="border-slate-200 p-4 transition ease-in-out delay-150 hover:translate-y-1 transform
-          rounded-lg h-[150px] hover:cursor-pointer bg-white shadow-slate-100 shadow-lg"
+          rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 shadow-lg"
                     >
                       <div className="w-full flex justify-end">
                         <MenuSelect dataList={item.listItem} />
@@ -372,11 +372,11 @@ export default function Home () {
                         <Image
                           src={item.src}
                           alt="img"
-                          width={60}
-                          height={60}
+                          width={50}
+                          height={50}
                           style={{
-                            width: '60px',
-                            height: '60px',
+                            width: '50px',
+                            height: '50px',
                             objectFit: 'contain'
                           }}
 
@@ -384,12 +384,12 @@ export default function Home () {
                         />
                         <div>
                           <Link
-                            className="text-xl font-bold hover:underline"
+                            className="font-bold hover:underline"
                             href={item.link}
                           >
                             {item.label}
                           </Link>
-                          <p className="text-slate-500 text-sm mt-2">
+                          <p className="text-slate-500 text-[12px]">
                             {item.description
                               ? item.description
                               : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
