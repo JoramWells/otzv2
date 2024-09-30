@@ -42,7 +42,7 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
 
   return (
     <nav
-      className="flex flex-row space-x-4 bg-white p-2  w-full
+      className="flex flex-row space-x-2 bg-white p-2  w-full
       "
     >
       {categoryList.map((item) => (
@@ -58,7 +58,9 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
             handleClick(item.label.toLowerCase())
           }}
         >
-          <span>{item.label}</span>
+          <span
+          className='text-[12px]'
+          >{item.label}</span>
           {/* <Badge
             className={`ml-2 text-[12px] shadow-none ${
               isChecked(item.label.toLowerCase()) && 'bg-white'

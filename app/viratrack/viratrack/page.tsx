@@ -5,15 +5,27 @@ import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from '../columns'
 import { useMemo, useState } from 'react'
 
-import { Button } from '@/components/ui/button'
-import { PlusCircle } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import CustomTab from '../../../components/tab/CustomTab'
 import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
+import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 
 // interface ItemsProps {
 //   dob: MomentInput
 // }
+
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'Dashboard',
+    link: '/'
+  }
+]
 
 const TrackPage = () => {
   // const datax = await getPatients()
@@ -55,35 +67,33 @@ const TrackPage = () => {
     [data?.length]
   )
 
-  const router = useRouter()
+  const sortedAppointment: ViralLoadInterface[] = useMemo(
+    () => (vlData ? [...vlData] : []),
+    [vlData]
+  )
+
+  // const memSorted = useCallback(() => {}, [])
+
+  sortedAppointment.sort(
+    (a, b) =>
+      new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+  )
 
   return (
-    <div className="p-4">
-      <div className="mb-4 flex flex-row justify-between items-center">
-          <p className="text-2xl font-bold">Welcome to ViraTrack</p>
+    <>
+      <BreadcrumbComponent dataList={dataList2} />
 
-        <Button
-          className="bg-teal-600 hover:bg-teal-700
-        font-bold shadow-none
-        "
-          onClick={() => {
-            router.push('/patients/add-patients')
-          }}
-        >
-          <PlusCircle size={18} className="mr-2" />
-          New Patient
-        </Button>
+      <div className='mt-2 mb-2 ' >
+        <CustomTab
+          categoryList={categoryList}
+          setValue={setValue}
+          value={value}
+        />
       </div>
-
-      <CustomTab
-        categoryList={categoryList}
-        setValue={setValue}
-        value={value}
-      />
-
-      <CustomTable columns={columns} data={vlData || []} />
-
-    </div>
+      <div className="p-2 bg-white">
+        <CustomTable columns={columns} data={sortedAppointment || []} />
+      </div>
+    </>
   )
 }
 

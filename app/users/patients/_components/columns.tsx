@@ -44,7 +44,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
     header: 'Requested By',
     cell: ({ row }) => (
       <Link
-        className="capitalize font-bold text-slate-700"
+        className="capitalize font-bold text-slate-700 text-[12px] "
         href={`/patients/${row.original.id}`}
       >{`${row.original.User?.firstName} ${row.original.User?.middleName}`}</Link>
     )
@@ -53,7 +53,9 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
     accessorKey: 'appointmentAgenda',
     header: 'Agenda',
     cell: ({ row }) => (
-      <p>{row.original.AppointmentAgenda?.agendaDescription}</p>
+      <p
+      className='text-[12px]'
+      >{row.original.AppointmentAgenda?.agendaDescription}</p>
     )
   },
   {
@@ -238,7 +240,7 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
     cell: ({ row }) => (
       <div
         className="flex flex-row gap-x-3 items-center
-      pt-1 pb-1
+      pt-1 pb-1 text-[12px]
       "
       >
         <Avatar
@@ -255,20 +257,22 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   },
   {
     accessorKey: 'sex',
-    header: 'Sex'
-    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
+    header: 'Sex',
+    cell: ({ row }) => <p className="text-[12px]">{row.original.sex}</p>
   },
   {
     accessorKey: 'dob',
     header: 'Age',
-    cell: ({ row }) => <p>{calculateAge(row.original?.dob)}</p>,
+    cell: ({ row }) => (
+      <p className="text-[12px]">{calculateAge(row.original?.dob)}</p>
+    ),
     enableSorting: true
   },
   {
     accessorKey: 'phoneNo',
     header: 'Phone No',
     cell: ({ row }) => (
-      <div>
+      <div className="text-[12px]">
         {row.original.phoneNo
           ? (
               row.original.phoneNo
@@ -287,12 +291,13 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   },
   {
     accessorKey: 'cccNo',
-    header: 'CCC No.'
-    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
+    header: 'CCC No.',
+    cell: ({ row }) => <p className="text-[12px]">{row.original.cccNo}</p>
   },
   {
     accessorKey: 'populationType',
-    header: 'Population Type'
+    header: 'Population Type',
+    cell: ({ row }) => <p className="text-[12px]">{row.original.populationType}</p>
   },
   // {
   //   accessorKey: 'entryPoint',
@@ -301,12 +306,19 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'createdAt',
     header: 'Date of Enrollment',
-    cell: ({ row }) => <p>{moment(row.original.createdAt).format('ll')}</p>
+    cell: ({ row }) => <p
+    className='text-[12px]'
+    >{moment(row.original.createdAt).format('ll')}</p>
   },
   {
     accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => <DropDownComponent id={row.original.id!} isImportant={row.original.isImportant!} />
+    cell: ({ row }) => (
+      <DropDownComponent
+        id={row.original.id!}
+        isImportant={row.original.isImportant!}
+      />
+    )
   }
 ]
 
@@ -315,7 +327,7 @@ const DropDownComponent = ({ id, isImportant }: { id: string, isImportant: boole
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Ellipsis className="hover:cursor-pointer text-slate-500" size={18} />
+        <Ellipsis className="hover:cursor-pointer text-slate-500" size={15} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Upcoming Appointments</DropdownMenuLabel>

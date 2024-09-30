@@ -94,7 +94,7 @@ export function CustomTable<TData, TValue> ({
         >
           <input
             placeholder="Search.."
-            className="border border-slate-200 h-10 rounded-full p-2 bg-slate-50 "
+            className="border border-slate-200 h-8 rounded-full p-2 bg-slate-50 "
             value={
               (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
             }
@@ -106,15 +106,12 @@ export function CustomTable<TData, TValue> ({
           <div className="flex flex-row space-x-4 items-center">
             <CSVLink data={data as object[]}>
               <Button
-                // size={'sm'}
                 className="bg-slate-100 text-slate-600 hover:bg-slate-200
                 shadow-none font-bold
                 "
-                // rounded={'full'}
-                // color={'gray.500'}
-                // leftIcon={<ArrowDownToLine size={20} />}
+                size={'sm'}
               >
-                <FileDown size={18} className="mr-2" />
+                <FileDown size={15} className="mr-2" />
                 Export
               </Button>
             </CSVLink>
@@ -123,7 +120,8 @@ export function CustomTable<TData, TValue> ({
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto">
+                <Button variant="outline" className="ml-auto shadow-none" size={'sm'}
+                 >
                   Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -223,14 +221,14 @@ export function CustomTable<TData, TValue> ({
           </TableBody>
           {/* } */}
         </Table>
-        <div className="flex gap-x-4 mt-4 justify-between">
+        <div className="flex gap-x-4 justify-between p-4 ">
           <div
             className="flex flex-row items-center text-slate-500
           gap-x-2
           "
           >
-            <BookOpen size={20} />
-            <p className="text-sm">
+            <BookOpen size={15} />
+            <p className="text-[12px]">
               Page {table.getState().pagination.pageIndex + 1} of{' '}
               {table.getPageCount()}
             </p>
@@ -244,7 +242,7 @@ export function CustomTable<TData, TValue> ({
               size={'sm'}
               className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
             >
-              <ChevronsLeft size={18} />
+              <ChevronsLeft size={15} />
               Prev
             </Button>
             <Button
@@ -256,7 +254,7 @@ export function CustomTable<TData, TValue> ({
               size={'sm'}
             >
               Next
-              <ChevronsRight size={18} />
+              <ChevronsRight size={15} />
             </Button>
           </div>
         </div>

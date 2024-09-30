@@ -362,8 +362,8 @@ export default function Home () {
                     <div
                       key={item.id}
                       tabIndex={0}
-                      className="border-slate-200 p-4 transition ease-in-out delay-150 hover:translate-y-1 transform
-          rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 shadow-lg"
+                      className="border-slate-200 p-4 rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 hover:shadow-lg"
+          onClick={() => { router.push(item.link) }}
                     >
                       <div className="w-full flex justify-end">
                         <MenuSelect dataList={item.listItem} />
@@ -372,11 +372,11 @@ export default function Home () {
                         <Image
                           src={item.src}
                           alt="img"
-                          width={50}
-                          height={50}
+                          width={40}
+                          height={40}
                           style={{
-                            width: '50px',
-                            height: '50px',
+                            width: '40px',
+                            height: '40px',
                             objectFit: 'contain'
                           }}
 

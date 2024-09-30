@@ -9,6 +9,7 @@ declare interface ViralLoadInterface {
     firstName: string
     middleName: string
   }
-  createdAt: MomentInput
+  createdAt: Date | string
+  updatedAt: Date | string
   // render?: (props: any) => React.ReactNode
 }

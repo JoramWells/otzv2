@@ -49,7 +49,7 @@ export interface PatientProps {
 export const columns: Array<ColumnDef<AppointmentProps>> = [
   {
     accessorKey: 'patient',
-    header: 'Patient Name',
+    header: 'Name',
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2">
         <Avatar
@@ -70,7 +70,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
   // },
   {
     accessorKey: 'appointmentDate',
-    header: 'Appointment Date',
+    header: 'Date',
     cell: ({ row }) => (
       <div className="flex flex-col gap-y-2 pt-1.5 pb-1.5 text-[12px]">
         <p>{moment(row.original.appointmentDate).format('ll')}</p>
@@ -86,7 +86,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
   },
   {
     accessorKey: 'appointmentTime',
-    header: 'Appointment Time',
+    header: 'Time',
     cell: ({ row }) => (
       <p className="text-slate-500 text-[12px]">
         {moment(row.original.appointmentTime, 'HH:mm ss').format('HH:mm a')}
@@ -95,7 +95,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
   },
   {
     accessorKey: 'appointmentAgenda',
-    header: 'Appointment agenda',
+    header: 'Agenda',
     cell: ({ row }) => (
       <p
       className='capitalize text-[12px] '
@@ -104,7 +104,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
   },
   {
     accessorKey: 'appointmentStatus',
-    header: 'APPOINTMENT STATUS',
+    header: 'Status',
     cell: ({ row }) => {
       const appointmentStatus =
         row.original.AppointmentStatus?.statusDescription

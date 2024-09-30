@@ -118,11 +118,11 @@ const AppointmentHomepage = () => {
         <div className="w-full p-2">
           <div className="bg-white rounded-lg p-4">
 
-          <h2
-          className='capitalize mb-2 font-bold text-slate-700 '
+          <h4
+          className='capitalize mb-2 font-bold '
           >
             {value} appointments
-          </h2>
+          </h4>
 
             {value === 'all' && (
               <CustomTable columns={columns} data={sortedAppointment || []} />

@@ -7,6 +7,8 @@ import Avatar from '@/components/Avatar'
 import Link from 'next/link'
 import { type HomeVisitAttributes } from 'otz-types'
 import { type HomVisitConfigInputProps } from '@/api/homevisit/homeVisitConfig.api'
+import { ArrowRight } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 // import { FaEdit } from 'react-icons/fa'
 
 export type HomeVisitInputProps = HomeVisitAttributes & {
@@ -37,7 +39,7 @@ export const columns: Array<ColumnDef<HomeVisitInputProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2 pt-4 pb-4 lg:pt-2 lg:pb-2 xl:pt-0 xl:pb-0 xxl:pt-0 xxl:pb-0">
+      <div className="flex flex-row text-[12px] items-center gap-x-2 pt-4 pb-4 lg:pt-2 lg:pb-2 xl:pt-0 xl:pb-0 xxl:pt-0 xxl:pb-0">
         <Avatar
           // size={'sm'}
           // className="font-bold"
@@ -98,7 +100,7 @@ export const configColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
     accessorKey: 'patient',
     header: 'Patient Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2 pt-4 pb-4 lg:pt-2 lg:pb-2 xl:pt-0 xl:pb-0 xxl:pt-0 xxl:pb-0">
+      <div className="flex flex-row items-center text-[12px] gap-x-2 pt-4 pb-4 lg:pt-2 lg:pb-2 xl:pt-0 xl:pb-0 xxl:pt-0 xxl:pb-0">
         <Avatar
           // size={'sm'}
           // className="font-bold"
@@ -114,33 +116,43 @@ export const configColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
     accessorKey: 'homeVisitReasonDescription',
     header: 'Reason',
     cell: ({ row }) => (
-      <div>{row.original.HomeVisitReason.homeVisitReasonDescription}</div>
+      <p className="text-[12px]">
+        {row.original.HomeVisitReason.homeVisitReasonDescription}
+      </p>
     )
   },
   {
     accessorKey: 'frequency',
-    header: 'Frequency'
+    header: 'Frequency',
+    cell: ({ row }) => (
+      <p className="text-[12px]">
+        {row.original.frequency}
+      </p>
+    )
   },
   {
     accessorKey: 'dateRequested',
     header: 'Date Requested',
     cell: ({ row }) => (
-      <div>
-        <p>{moment(row.original.dateRequested).format('ll')}</p>
-      </div>
+        <p
+        className='text-[12px]'
+        >{moment(row.original.dateRequested).format('ll')}</p>
     )
   },
   {
     accessorKey: 'Action',
 
     header: 'Action',
-    cell: ({ row }) => (
-      <Link
-        href={`/home-visit/config/visit/${row.original.id}?patientID=${row.original?.PatientVisit?.Patient?.id}`}
-      >
-        Action
-      </Link>
-    )
+    cell: ({ row }) => {
+      const router = useRouter()
+      return (
+      <ArrowRight
+      size={18}
+      className='hover:cursor-pointer hover:text-slate-500 text-slate-400 '
+        onClick={() => { router.push(`/home-visit/config/visit/${row.original.id}?patientID=${row.original?.PatientVisit?.Patient?.id}`) }}
+      />
+      )
+    }
   }
 ]
 

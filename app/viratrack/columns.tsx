@@ -14,9 +14,9 @@ export interface FullNameProps {
 export const columns: Array<ColumnDef<ViralLoadInterface>> = [
   {
     accessorKey: 'patient',
-    header: 'Patient Name',
+    header: 'Name',
     cell: ({ row }) => (
-      <div className="flex flex-row space-x-4 items-center pt-2 pb-2">
+      <div className="flex flex-row space-x-2 text-[12px] items-center">
         <Avatar
           name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
         />
@@ -31,38 +31,45 @@ export const columns: Array<ColumnDef<ViralLoadInterface>> = [
   },
   {
     accessorKey: 'vlResults',
-    header: 'VL Results',
+    header: 'Viral Load',
     cell: ({ row }) => (
-      <div className="flex flex-col space-y-4">
-        <p className="font-bold text-slate-500">{row.original.vlResults}</p>
-      </div>
+      <p className="text-slate-500 text-[12px] ">
+        {row.original.vlResults}
+      </p>
     )
   },
   {
     accessorKey: 'vlJustification',
     header: 'Justification',
     cell: ({ row }) => (
-      <div className="w-[200px]">
-        <p>{row.original.vlJustification}</p>
-      </div>
+      <p className="text-[12px]">{row.original.vlJustification}</p>
     )
   },
   {
     accessorKey: 'dateOfVL',
-    header: 'VL Date',
-    cell: ({ row }) => <p> {moment(row.original.dateOfVL).format('ll')} </p>
+    header: 'Date',
+    cell: ({ row }) => (
+      <p className="text-[12px]">
+        {' '}
+        {moment(row.original.dateOfVL).format('ll')}{' '}
+      </p>
+    )
   },
   {
     accessorKey: 'isVLValid',
     header: 'Status',
     cell: ({ row }) => (
-      <div>
-        {row.original.isVLValid ? <Badge
-        className='rounded-full bg-teal-100 text-teal-600 shadow-none'
-        >Valid</Badge> : <Badge
-        className='bg-red-50 text-red-500 shadow-none rounded-full'
-        >Invalid</Badge> }
-      </div>
+      <>
+        {row.original.isVLValid ? (
+          <Badge className="rounded-full text-[12px] bg-teal-50 text-teal-600 shadow-none hover:bg-gray-50 ">
+           Valid
+          </Badge>
+        ) : (
+          <Badge className="bg-red-50 text-[12px] text-red-500 shadow-none rounded-full hover:bg-red-50 ">
+            Valid
+          </Badge>
+        )}
+      </>
     )
   }
 ]
