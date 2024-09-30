@@ -212,7 +212,7 @@ const AddPatient = () => {
 
                 <Box flexShrink="0">
                   <StepTitle>{step.title}</StepTitle>
-                  <StepDescription className="text-[12px] ">
+                  <StepDescription className="text-[10px] ">
                     {step.description}
                   </StepDescription>
                 </Box>
@@ -224,7 +224,7 @@ const AddPatient = () => {
         </div>
         <FormProvider {...methods}>
           <form
-            className="w-3/4 bg-white p-4 rounded-lg mt-4 flex flex-col space-y-4"
+            className="w-3/4 bg-white p-4 rounded-lg mt-2 flex flex-col space-y-4"
             onSubmit={handleSubmit(onSubmit)}
           >
             {activeStep === 1 && <PersonalDetail />}

@@ -6,7 +6,7 @@ import { CustomTable } from '../../_components/table/CustomTable'
 // import { Button } from '@/components/ui/button'
 // import { PlusCircle } from 'lucide-react'
 // import { useRouter } from 'next/navigation'
-import { Suspense, useState } from 'react'
+import { useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { patientColumns } from './_components/columns'
@@ -105,13 +105,12 @@ const Patients = () => {
             router.push('/users/patients/add-patients')
           }}
         >
-          <PlusCircle size={18} className="mr-2" />
+          <PlusCircle size={15} className="mr-2" />
           New Patient
         </Button>
       </div>
 
-      <Suspense fallback={<Skeleton className="w-full" />}>
-        <div className="bg-white w-full p-4 rounded-lg mt-4">
+        <div className="bg-white w-full p-4 rounded-lg mt-2">
           <CustomTable
             columns={patientColumns}
             data={filteredArray || []}
@@ -120,7 +119,6 @@ const Patients = () => {
             // isSearch
           />
         </div>
-      </Suspense>
     </div>
   )
 }

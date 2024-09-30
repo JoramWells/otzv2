@@ -353,7 +353,7 @@ export default function Home () {
                   </div>
                 </div>
               </Suspense>
-              <div className="grid px-2 w-full grid-cols-1 gap-2 lg:grid-cols-4 md:grid-cols-2">
+              <div className="grid px-4 pt-2 w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
                 {itemList.map((item) => (
                   <Suspense
                     key={item.id}

@@ -15,7 +15,7 @@ const CustomInput = ({ description, label, placeholder, value, type = 'text', on
         )}
       </div>
       <input
-        className="border border-slate-200 p-2 rounded flex-grow"
+        className="border border-slate-200 p-2 rounded-lg flex-grow text-[12px] "
         placeholder={placeholder}
         value={value}
         type={type}

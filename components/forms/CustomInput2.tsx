@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Input } from '@/components/ui/input'
 import { useController, useFormContext } from 'react-hook-form'
 
 interface CustomInputProps {
@@ -39,12 +38,8 @@ const CustomInput2 = ({
       {description && (
         <p className="mb-1 text-slate-500 text-[12px]">{description}</p>
       )}
-      <Input
-        className={`border border-gray-200
-            p-2 w-full rounded-lg shadow-none ${
-              error && 'outline outline-2 outline-red-400'
-            }
-            `}
+      <input
+        className="border border-slate-200 p-2 rounded-lg flex-grow text-[12px] "
         value={value}
         type={type}
         onChange={onChange}
@@ -53,14 +48,11 @@ const CustomInput2 = ({
         placeholder={placeholder}
         defaultValue={defaultValue}
       />
-      <div className='h-2' >
-
-          <div className="text-red-500 text-[12px] ">
-            {' '}
-            {error?.message}{' '}
-          </div>
-
-      </div>
+      {error?.message && (
+        <div className="h-2">
+          <div className="text-red-500 text-[12px] "> {error?.message} </div>
+        </div>
+      )}
     </div>
   )
 }

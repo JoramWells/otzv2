@@ -14,7 +14,7 @@ export const columns: Array<ColumnDef<PatientProps>> = [
     cell: ({ row }) => (
       <div
         className="flex flex-row gap-x-3 items-center
-      pt-1.5 pb-1.5
+      pt-1.5 pb-1.5 text-[12px]
       "
       >
         <Avatar
@@ -31,8 +31,10 @@ export const columns: Array<ColumnDef<PatientProps>> = [
   },
   {
     accessorKey: 'sex',
-    header: 'Sex'
-    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
+    header: 'Sex',
+    cell: ({ row }) => <p
+    className='text-[12px]'
+    >{row.original.sex}</p>
   },
   {
     accessorKey: 'dob',

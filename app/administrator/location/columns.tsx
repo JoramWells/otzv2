@@ -81,3 +81,32 @@ export const subCountyColumns: Array<ColumnDef<SubCountyColumnProps>> = [
     )
   }
 ]
+
+//
+export const wardColumns: Array<ColumnDef<SubCountyColumnProps>> = [
+  {
+    accessorKey: 'county',
+    header: 'County Name',
+    cell: ({ row }) => <p>{row.original.county?.countyName}</p>
+  },
+  {
+    accessorKey: 'subCountyName',
+    header: 'Sub County Name'
+  },
+  {
+    // accessorKey: 'action',
+    header: 'Action',
+    cell: () => (
+      <div className="flex flex-row gap-x-2">
+        <Pencil
+          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+          size={25}
+        />
+        <Trash2
+          className="bg-slate-100 text-slate-500 p-1 hover:cursor-pointer hover:text-slate-700 rounded-md"
+          size={25}
+        />
+      </div>
+    )
+  }
+]

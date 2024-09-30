@@ -7,71 +7,72 @@ import { store } from '@/lib/store'
 import { NotificationProvider } from '@/context/NotificationContext'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BellPlus, Calendar, DatabaseBackup, LayoutDashboardIcon, Map, Pill, Users, Warehouse } from 'lucide-react'
+import { BellPlus, Calendar, Hospital, LayoutDashboardIcon, Map, Pill, Users, Warehouse } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import AuthenticateLoader from '@/components/AuthenticateLoader'
 
 const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
     link: '/administrator/dashboard',
-    icon: <LayoutDashboardIcon size={17} />
+    icon: <LayoutDashboardIcon size={15} />
   },
   {
     id: '2',
     label: 'Appointment',
     link: '/administrator/appointment',
-    icon: <Calendar size={17} />
+    icon: <Calendar size={15} />
   },
   {
     id: '3',
     label: 'Drugs',
     link: '/administrator/art',
-    icon: <Pill size={17} />
+    icon: <Pill size={15} />
   },
   {
     id: '5',
     label: 'home Visit',
     link: '/administrator/home-visit',
-    icon: <Warehouse size={17} />
+    icon: <Warehouse size={15} />
   },
   {
     id: '6',
     label: 'Schools',
     link: '/administrator/schools',
-    icon: <Warehouse size={17} />
+    icon: <Warehouse size={15} />
   },
   {
     id: '7',
     label: 'Location',
     link: '/administrator/location',
-    icon: <Map size={17} />
+    icon: <Map size={15} />
   },
   {
     id: '9',
     label: 'Notifications',
     link: '/administrator/notifications',
-    icon: <BellPlus size={17} />
+    icon: <BellPlus size={15} />
   },
   {
     id: '10',
     label: 'Users',
     link: '/administrator/users',
-    icon: <Users size={17} />
+    icon: <Users size={15} />
   },
   {
     id: '11',
     label: 'Occupation',
     link: '/administrator/occupations',
-    icon: <Users size={17} />
+    icon: <Users size={15} />
   },
   {
     id: '12',
-    label: 'ETL',
-    link: '/administrator/etl',
-    icon: <DatabaseBackup size={17} />
+    label: 'Facilities',
+    link: '/administrator/facilities',
+    icon: <Hospital size={15} />
   }
 ]
 
@@ -110,9 +111,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     )
   }
   return (
-    <div>
-      <p>Redirecting...</p>
-    </div>
+    <AuthenticateLoader/>
   )
 }
 

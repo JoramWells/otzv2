@@ -25,10 +25,10 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
   }
 
   return (
-    <div className="pt-1 pb-1 font-normal ">
+    <div className="pt-1 pb-1 ">
       <Button
         onClick={onToggle}
-        className={`flex items-center  pl-4 pr-4 justify-between text-[#F3FAFF]/[.8]  text-sm rounded-none w-full bg-[#364f6b] shadow-none
+        className={`flex items-center text-[12px]  pl-4 pr-4 justify-between text-[#F3FAFF]/[.8]  text-sm rounded-none w-full bg-[#364f6b] shadow-none
         overflow-y-auto hover:bg-[#F3FAFF]/[.1] transition delay-150 ease-in-out hover:text-[#F3FAFF] ${
           isActive &&
           'bg-gradient-to-r from-[#F1F1E6] text-[#364f6b]'
@@ -41,7 +41,7 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
           {link == null
             ? (
             <p
-              className={`text-capitalize ${
+              className={`text-capitalize font-normal text-[12px] ${
                 isActive ? 'text-sky-600' : 'black'
               }`}
             >
@@ -49,7 +49,7 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
             </p>
               )
             : (
-            <Link href={`${link}`} className="capitalize">
+            <Link href={`${link}`} className="capitalize font-normal text-[12px] ">
               {label}
             </Link>
               )}
