@@ -1,7 +1,7 @@
 declare interface PrescriptionProps {
 
-  ART?: {
-    artName: string
+  ARTPrescription?: {
+    regimen: string
   }
 
   Patient?: any

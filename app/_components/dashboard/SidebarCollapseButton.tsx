@@ -25,7 +25,7 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
   }
 
   return (
-    <div className="pt-1 pb-1">
+    <div className="pt-1 pb-1 font-normal ">
       <Button
         onClick={onToggle}
         className={`flex items-center  pl-4 pr-4 justify-between text-[#F3FAFF]/[.8]  text-sm rounded-none w-full bg-[#364f6b] shadow-none

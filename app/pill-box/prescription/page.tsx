@@ -70,9 +70,9 @@ const PrescriptionPage = () => {
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="p-4">
+      <div className="p-2">
         <div
-        className='bg-white rounded-lg'
+        className='bg-white rounded-lg p-2'
         >
           <CustomTable columns={columns} data={sortedData || []} />
         </div>
