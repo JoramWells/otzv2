@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import {
   type CountyProps,
   useGetAllCountiesQuery
@@ -61,16 +62,13 @@ interface FormInputProps {
   hospitalName: string
 }
 
-const AddFacility = ({
-  county,
-  subCounty
-}: {
-  county: string
-  subCounty: string
-}) => {
+const AddFacility = () => {
   const { data: countyData } = useGetAllCountiesQuery()
   const { data: subCountyData } = useGetAllSubCountiesQuery()
   const { data: wardData } = useGetAllWardsQuery()
+
+  const [county, setCounty] = useState<string>()
+  const [subCounty, setSubCounty] = useState<string>()
 
   const Schema: ZodType<FormInputProps> = z.object({
     hospitalName: z.string().nonempty({ message: 'Input Required' })
