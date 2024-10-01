@@ -43,7 +43,7 @@ export const columns: Array<ColumnDef< PrescriptionInterface & PrescriptionProps
   {
     accessorKey: 'currentARTRegimen',
     header: 'Regimen',
-    cell: ({ row }) => <p>{row.original.ART?.artName}</p>
+    cell: ({ row }) => <p>{row.original.ARTPrescription?.regimen}</p>
   },
   {
     accessorKey: 'frequency',
