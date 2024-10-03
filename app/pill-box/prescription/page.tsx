@@ -67,7 +67,7 @@ const PrescriptionPage = () => {
   console.log(data)
 
   return (
-    <div className="">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="p-2">
@@ -77,7 +77,7 @@ const PrescriptionPage = () => {
           <CustomTable columns={columns} data={sortedData || []} />
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

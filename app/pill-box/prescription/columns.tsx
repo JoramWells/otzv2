@@ -5,7 +5,6 @@ import moment from 'moment'
 
 import Avatar from '@/components/Avatar'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
-import { CalendarDays } from 'lucide-react'
 import { useCallback } from 'react'
 import Link from 'next/link'
 import { type PrescriptionInterface } from 'otz-types'
@@ -28,7 +27,7 @@ export interface PatientProps {
 export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>> = [
   {
     accessorKey: 'patient',
-    header: 'Patient Name',
+    header: 'Name',
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2 text-[12px] ">
         <Avatar
@@ -36,18 +35,18 @@ export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>
           // className="font-bold"
           name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+        <p className="capitalize">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
       </div>
     )
   },
   {
     accessorKey: 'currentARTRegimen',
     header: 'Regimen',
-    cell: ({ row }) => <p>{row.original.ARTPrescription?.regimen}</p>
+    cell: ({ row }) => <p className='text-[12px]' >{row.original.ARTPrescription?.regimen}</p>
   },
   {
     accessorKey: 'frequency',
-    header: 'FREQUENCY',
+    header: 'Frequency',
     cell: ({ row }) => (
       <p className="text-slate-500 text-[12px]">x{row.original.frequency} </p>
     )
@@ -62,9 +61,13 @@ export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>
   {
     accessorKey: 'expectedNoOfPills',
     header: 'Remaining Pills',
-    cell: ({ row }) => (
-      <p className=" text-[12px]">{row.original.expectedNoOfPills} </p>
-    )
+    cell: ({ row }) => {
+      const { expectedNoOfPills } = row.original
+      const isFinished = (expectedNoOfPills != null) ? expectedNoOfPills < 0 : true
+      return (
+      <p className={`text-[12px] ${isFinished && 'text-red-500'}`}>{expectedNoOfPills}</p>
+      )
+    }
   },
   {
     accessorKey: 'computedNoOfPills',
@@ -88,7 +91,7 @@ export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>
   // },
   {
     accessorKey: 'refillDate',
-    header: 'Refilled',
+    header: 'From',
     cell: ({ row }) => {
       return (
           <p className='text-[12px]' >
@@ -99,7 +102,7 @@ export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>
   },
   {
     accessorKey: 'nextRefillDate',
-    header: 'Next Refill',
+    header: 'To',
     cell: ({ row }) => {
       return (
           <p className='text-[12px]' >
@@ -115,6 +118,7 @@ export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>
     cell: ({ row }) => (
       <Link
         href={`/pill-box/prescription-detail/${row.original.patientVisitID}?patientID=${row.original?.Patient?.id} `}
+        className='text-[12px] text-blue-500'
       >
         Action
       </Link>
@@ -129,7 +133,7 @@ ColumnDef<PrescriptionProps & PrescriptionInterface>
 > = [
   {
     accessorKey: 'patient',
-    header: 'Patient Name',
+    header: 'Name',
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2 ">
         <Avatar
@@ -137,39 +141,51 @@ ColumnDef<PrescriptionProps & PrescriptionInterface>
           // className="font-bold"
           name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+        <p className="capitalize">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
       </div>
     )
   },
   {
     accessorKey: 'currentARTRegimen',
     header: 'Regimen',
-    cell: ({ row }) => <p className='text-[12px]' >{row.original.ARTPrescription?.regimen}</p>
+    cell: ({ row }) => (
+      <p className="text-[12px]">{row.original.ARTPrescription?.regimen}</p>
+    )
   },
   {
     accessorKey: 'noOfPills',
-    header: 'Prescribed'
+    header: 'Prescribed',
+    cell: ({ row }) => (
+      <p className=" text-[12px]">{row.original.noOfPills} </p>
+    )
   },
   {
     accessorKey: 'expectedNoOfPills',
-    header: 'Remaining Pills'
+    header: 'Remaining Pills',
+    cell: ({ row }) => {
+      const { expectedNoOfPills } = row.original
+      const isFinished =
+        expectedNoOfPills != null ? expectedNoOfPills < 0 : true
+      return (
+        <p className={`text-[12px] ${isFinished && 'text-red-500'}`}>
+          {expectedNoOfPills}
+        </p>
+      )
+    }
   },
 
   {
     accessorKey: 'nextRefillDate',
-    header: 'Next Refill Date',
+    header: 'To',
     cell: ({ row }) => {
       const { nextRefillDate } = row.original
       const duration = useCallback(() => {
         return calculateTimeDuration(nextRefillDate)
       }, [nextRefillDate])()
       return (
-        <div className="flex items-start space-x-1">
-          <CalendarDays className="" size={15} />
-          <div>
-            <p>{moment(row.original.nextRefillDate).format('ll')}</p>
-            <small className="font-bold text-slate-500">{duration}</small>
-          </div>
+        <div className="flex items-start space-x-1 text-[12px]">
+          <p>{moment(row.original.nextRefillDate).format('ll')}, </p>
+          <p className="text-slate-500">{duration}</p>
         </div>
       )
     }
