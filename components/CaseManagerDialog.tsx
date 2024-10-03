@@ -21,7 +21,7 @@ export function CaseManagerDialog ({ children, description, label, width }: Data
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          // size={'sm'}
+          size={'sm'}
           className="shadow-none border-slate-300"
         >
           {label}

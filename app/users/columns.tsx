@@ -10,7 +10,7 @@ import Link from 'next/link'
 export const columns: Array<ColumnDef<PatientProps>> = [
   {
     accessorKey: 'firstName',
-    header: 'Patient Name',
+    header: 'Name',
     cell: ({ row }) => (
       <div
         className="flex flex-row gap-x-3 items-center

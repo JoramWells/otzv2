@@ -40,7 +40,7 @@ const dataList2 = [
 const FilterComponent = () => {
   const [isMale, setIsMale] = useState(false)
   return (
-    <CaseManagerDialog label={<ListFilter />}>
+    <CaseManagerDialog label={<ListFilter size={18} />}>
       <p>Select Age Range</p>
       <div>
         <p>Select gender</p>
@@ -91,8 +91,8 @@ const Patients = () => {
       <BreadcrumbComponent dataList={dataList2} />
       <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
         <div>
-          <h2 className="font-bold text-slate-700">Patients</h2>
-          <p className="text-slate-500 text-[14px] ">
+          <h3 className="font-bold text-slate-700">Patients</h3>
+          <p className="text-slate-500 text-[12px] ">
             Manage Registered Patients
           </p>
         </div>
@@ -104,6 +104,7 @@ const Patients = () => {
           onClick={() => {
             router.push('/users/patients/add-patients')
           }}
+          size={'sm'}
         >
           <PlusCircle size={15} className="mr-2" />
           New Patient

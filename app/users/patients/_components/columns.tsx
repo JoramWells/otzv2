@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useMarkPatientAsImportantMutation } from '@/api/patient/patients.api'
 import { type PatientAttributes } from 'otz-types'
+import Image from 'next/image'
 //
 interface AppointmentProps {
   id: any
@@ -236,24 +237,47 @@ export const labTabColumns: Array<ColumnDef<LabTabProps>> = [
 export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'firstName',
-    header: 'Patient Name',
-    cell: ({ row }) => (
-      <div
-        className="flex flex-row gap-x-3 items-center
+    header: 'Name',
+    cell: ({ row }) => {
+      const { id, firstName, middleName, avatar } = row.original
+      return (
+        <div
+          className="flex flex-row gap-x-3 items-center
       pt-1 pb-1 text-[12px]
       "
-      >
-        <Avatar
-          size={'xs'}
-          className="font-bold"
-          name={`${row.original?.firstName} ${row.original?.middleName}`}
-        />
-        <Link
-          className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
-          href={`/users/patients/tab/dashboard/${row.original.id}`}
-        >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
-      </div>
-    )
+        >
+          {avatar
+            ? <Image
+            // w={0}
+            alt="im"
+            // placeholder="data:image/..."
+            width={25}
+            height={25}
+            // quality={25}
+            // fill
+            // objectFit='contain'
+            // priority
+            className="rounded-full"
+            src={`${process.env.NEXT_PUBLIC_API_URL}/api/users/${avatar}`}
+            style={{
+              width: '25px',
+              height: '25px',
+              objectFit: 'cover'
+            }}
+          />
+            : <Avatar
+            size={'xs'}
+            className="font-bold"
+            name={`${firstName} ${middleName}`}
+          />
+    }
+          <Link
+            className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
+            href={`/users/patients/tab/dashboard/${id}`}
+          >{`${firstName} ${middleName}`}</Link>
+        </div>
+      )
+    }
   },
   {
     accessorKey: 'sex',
