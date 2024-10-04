@@ -102,7 +102,7 @@ const AppointmentPage = () => {
   }
 
   useEffect(() => {
-    const newSocket = io(`http://${process.env.NEXT_PUBLIC_PILLBOX}:5003`)
+    const newSocket = io(`${process.env.NEXT_PUBLIC_PILLBOX}:5003`)
     if (session != null) {
       newSocket.emit('getPharmacyNotifications', session.user)
       newSocket.on('newPharmacyNotifications', (data) => {
