@@ -119,6 +119,7 @@ const AppointmentPage = () => {
   useEffect(() => {
     if (tab === null) {
       updateQueryParams('all')
+      setValue('all')
     }
   }, [tab, updateQueryParams])
 

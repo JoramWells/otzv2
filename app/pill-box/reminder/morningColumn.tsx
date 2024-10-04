@@ -79,7 +79,6 @@ const EditableCell = ({ value, row }: EditableCellProps) => {
     setChecked(prev => !prev)
     updatePillDailyUptake(inputValues)
     // onChange(e)
-    console.log(row.original)
   }
 
   return <Switch checked={checked}
