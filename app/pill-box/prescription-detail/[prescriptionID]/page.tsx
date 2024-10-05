@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
+import { useGetPrescriptionQuery, useUpdatePrescriptionMutation } from '@/api/pillbox/prescription.api'
 import { calculateAdherence } from '@/utils/calculateAdherence'
 import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
@@ -12,6 +13,9 @@ import { useSearchParams } from 'next/navigation'
 import { useGetMmasEightByPatientIDQuery } from '@/api/treatmentplan/mmasEight.api'
 import EnhancedAdherenceCounsellingForm from '../../_components/EnhancedAdherenceCounsellingForm'
 import { type PrescriptionInterface } from 'otz-types'
+import { CaseManagerDialog } from '@/components/CaseManagerDialog'
+import { Loader2, Pencil } from 'lucide-react'
+import CustomSelect from '@/components/forms/CustomSelect'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -51,6 +55,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
   const searchParams = useSearchParams()
   const patientID = searchParams.get('patientID')
   const [patientAdherence, setPatientAdherence] = useState<PrescriptionAdherenceProps>({
+    id: '',
     frequency: 0,
     adherence: 0,
     computedNoOfPills: 0,
@@ -67,13 +72,14 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
   console.log(mmas8Data, 'mmas8')
   useEffect(() => {
     if (data) {
-      const { frequency, refillDate, computedNoOfPills, noOfPills, expectedNoOfPills, nextRefillDate }: PrescriptionInterface = data
+      const { id, frequency, refillDate, computedNoOfPills, noOfPills, expectedNoOfPills, nextRefillDate }: PrescriptionInterface = data
       const adherence = calculateAdherence(
         refillDate,
         computedNoOfPills as unknown as number,
         frequency
       )
       setPatientAdherence({
+        id,
         frequency,
         adherence,
         computedNoOfPills,
@@ -89,13 +95,19 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
   const [value, setValue] = useState(1)
   const {
+    id,
     computedNoOfPills,
     noOfPills,
     expectedNoOfPills,
     refillDate,
     nextRefillDate,
-    adherence
+    adherence,
+    frequency
   } = patientAdherence
+
+  const [updatePrescription, { isLoading }] = useUpdatePrescriptionMutation()
+
+  const [frequencyInput, setFrequencyInput] = useState()
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -107,46 +119,91 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
       <div className="flex items-start justify-between p-4 space-x-4">
         <div className="flex-1 bg-white rounded-lg">
-          <div className="flex justify-between border border-slate-200 p-2 bg-slate-100">
-            <h2>Prescription Details</h2>
-            <Badge className="shadow-none rounded-full">Good</Badge>
+          <div className="flex justify-between items-center border rounded-t-lg border-slate-200 p-2 bg-slate-100">
+            <h5>Prescription Details</h5>
+            <div className="flex flex-row items-center space-x-1">
+              <Badge className="shadow-none rounded-full">Good</Badge>
+              <CaseManagerDialog label={<Pencil size={14} />}>
+                <div
+                className='p-4'
+                >
+                  <CustomSelect
+                    label="Frequency"
+                    value={frequencyInput as unknown as string}
+                    onChange={setFrequencyInput}
+                    data={[
+                      {
+                        id: '1',
+                        label: 'OD'
+                      },
+                      {
+                        id: '2',
+                        label: 'BD'
+                      }
+                    ]}
+                  />
+
+                  <Button className='mt-2'
+                  size={'sm'}
+                  onClick={async () => await updatePrescription({
+                    id,
+                    frequency: frequencyInput
+                  })}
+                  >
+                    {isLoading && <Loader2 className='animate-spin mr-2' size={18}/>}
+                    Save
+                  </Button>
+                </div>
+              </CaseManagerDialog>
+            </div>
           </div>
-          <div className="p-4 flex flex-col space-y-2">
-            <div className="flex  justify-between items-center">
+          <div className="p-2 flex flex-col">
+            <div className="flex  justify-between items-center text-[14px] p-2 ">
               <p>Dispensed</p>
               <p>{computedNoOfPills}</p>
             </div>
 
             <hr />
 
-            <div className=" flex justify-between items-center">
+            <div className="flex  justify-between items-center text-[14px] p-2 ">
+              <p>Frequency</p>
+              <p>{frequency}</p>
+            </div>
+
+            <hr />
+
+            <div className=" flex justify-between text-[14px] items-center p-2">
               <p>Prescribed No Of Pills</p>
               <p>{noOfPills}</p>
             </div>
             <hr />
 
-            <div className=" flex justify-between items-center">
+            <div
+              className={` flex justify-between items-center text-[14px] p-2 rounded ${
+                expectedNoOfPills && expectedNoOfPills < 0 && 'bg-red-50 font-bold text-red-500'
+              } `}
+            >
               <p>Expected No Pills</p>
               <p>{expectedNoOfPills}</p>
             </div>
 
             <hr />
 
-            <div className=" flex justify-between items-center">
+            <div className=" flex justify-between items-center text-[14px] p-2 ">
               <p>Refilled</p>
               <p>{moment(refillDate).format('ll')}</p>
             </div>
 
             <hr />
 
-            <div className=" flex justify-between items-center">
+            <div className=" flex justify-between items-center text-[14px] p-2 ">
               <p>Next Refill</p>
               <p>{moment(nextRefillDate).format('ll')}</p>
             </div>
 
             <hr />
 
-            <div className=" flex justify-between items-center">
+            <div className=" flex justify-between items-center text-[14px] p-2 ">
               <p>Adherence Rate</p>
               <p>{adherence} %</p>
             </div>
@@ -182,10 +239,10 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
             {/* <hr /> */}
           </div>
           {value === 1 && (
-<EnhancedAdherenceCounsellingForm
-score={mmas8Data?.totalScores}
-adherence={patientAdherence?.adherence}
- />
+            <EnhancedAdherenceCounsellingForm
+              score={mmas8Data?.totalScores}
+              adherence={patientAdherence?.adherence}
+            />
           )}
 
           {value === 2 && <div>Graph</div>}
