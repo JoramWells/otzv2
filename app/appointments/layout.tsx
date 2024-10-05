@@ -25,7 +25,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '2',
     label: 'Appointments',
-    link: '/appointments/appointments?tab=all',
+    link: '/appointments/appointments',
     icon: <CalendarDays size={17} />
   },
   {

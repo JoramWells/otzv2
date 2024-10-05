@@ -67,6 +67,14 @@ const AppointmentPage = () => {
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery()
   const [uptakeData, setUptakeData] = useState([])
 
+  useEffect(() => {
+    if (patientsDueMorning) {
+      setUptakeData(patientsDueMorning)
+    }
+  }, [patientsDueMorning])
+
+  console.log(uptakeData, 'due morning!!')
+
   const [addPatientNotification] = useAddPatientNotificationMutation()
 
   // const isTime = checkTime(patientsDueMorning)?.some(time=>time)
@@ -102,17 +110,25 @@ const AppointmentPage = () => {
   }
 
   useEffect(() => {
-    const newSocket = io(`${process.env.NEXT_PUBLIC_PILLBOX}:5003`)
-    if (session != null) {
-      newSocket.emit('getPharmacyNotifications', session.user)
-      newSocket.on('newPharmacyNotifications', (data) => {
-        if (patientsDueMorning) {
-          setUptakeData(patientsDueMorning)
-          const updatedData = updateMorningStatus(patientsDueMorning, data.id)
-          setUptakeData(updatedData as any)
-          console.log(updatedData, 'uio')
-        }
-      })
+    const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/socket.io`, {
+      path: '/api/pharmacy/socket.io',
+      transports: ['websocket']
+    })
+    // if (session != null) {
+    newSocket.emit('getPharmacyNotifications', session?.user)
+    newSocket.on('newPharmacyNotifications', (data) => {
+      if (patientsDueMorning) {
+        setUptakeData(patientsDueMorning)
+        const updatedData = updateMorningStatus(patientsDueMorning, data.id)
+        setUptakeData(updatedData as any)
+        console.log(updatedData, 'uio')
+      }
+    })
+    // }
+
+    return () => {
+      newSocket.off('getPharmacyNotifications')
+      newSocket.disconnect()
     }
   }, [session, patientsDueMorning])
 

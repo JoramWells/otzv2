@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import CustomTab from '@/components/tab/CustomTab'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { columns } from '@/app/appointments/columns'
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 const AppointmentHomepage = () => {
   const searchParams = useSearchParams()
@@ -91,19 +91,24 @@ const AppointmentHomepage = () => {
     ],
     [missedAppointment, pendingAppointment, rescheduledAppointment, sortedAppointment?.length, upcomingAppointment]
   )
+  const pathname = usePathname()
+  const router = useRouter()
 
-  // const availableDays = [
-  //   {
-  //     id: 1,
-  //     label: 'Available'
-  //   },
-  //   {
-  //     id: 2,
-  //     label: 'Unavailable'
-  //   }
-  // ]
+  const updateQueryParams = useCallback(
+    (newStep: string) => {
+      const newSearchParams = new URLSearchParams(searchParams)
+      newSearchParams.set('tab', newStep)
+      router.replace(`${pathname}?${newSearchParams.toString()}`)
+    },
+    [pathname, router, searchParams]
+  )
 
-  // const [available, setAvailableDays] = useState(1)
+  useEffect(() => {
+    if (tab === null) {
+      updateQueryParams('all')
+      setValue('all')
+    }
+  }, [tab, updateQueryParams])
 
   return (
 
