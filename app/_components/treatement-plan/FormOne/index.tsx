@@ -39,8 +39,8 @@ const FormOne = ({
   const [goal, setGoal] = useState('')
 
   //
-  const [morningTime, setMorningTime] = useState('00')
-  const [eveningTime, setEveningTime] = useState('00')
+  const [morningTime, setMorningTime] = useState<string | undefined>()
+  const [eveningTime, setEveningTime] = useState<string | undefined>()
 
   //
   const [morningTimeWeekend, setMorningTimeWeekend] = useState('00')

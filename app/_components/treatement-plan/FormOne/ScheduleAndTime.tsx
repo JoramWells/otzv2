@@ -13,10 +13,10 @@ export interface ScheduleAndTimeProps {
   eveningWeekendPlace: string
   setEveningPlace: (val: string) => void
   setEveningPlaceWeekend: (val: string) => void
-  morningTime: string
-  setMorningTime: (val: string) => void
-  eveningTime: string
-  setEveningTime: (val: string) => void
+  morningTime: string | undefined
+  setMorningTime: (val: string | undefined) => void
+  eveningTime: string | undefined
+  setEveningTime: (val: string | undefined) => void
   morningTimeWeekend: string
   setMorningTimeWeekend: (val: string) => void
   eveningTimeWeekend: string
