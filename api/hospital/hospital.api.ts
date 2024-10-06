@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const hospitalApi = createApi({
   reducerPath: 'hospitalApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/hospital'
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/hospital`
   }),
   endpoints: (builder) => ({
     getAllHospitals: builder.query<any, void>({

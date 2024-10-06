@@ -168,7 +168,6 @@ const AddPatient = () => {
         ward
       }
     }
-    console.log(submissionData)
     // if(activeStep === 3){
     await addPatient(submissionData)
     // }

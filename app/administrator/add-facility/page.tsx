@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
@@ -18,6 +19,8 @@ import CustomInput2 from '@/components/forms/CustomInput2'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z, type ZodType } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@/components/ui/button'
+import { useAddHospitalsMutation } from '@/api/hospital/hospital.api'
 export interface WardProps {
   ward: SingleValue<SelectOption>
 }
@@ -60,6 +63,9 @@ export interface LocationDetailsProps {
 
 interface FormInputProps {
   hospitalName: string
+  county: string
+  subCounty: string
+  mflCode: string
 }
 
 const AddFacility = () => {
@@ -67,22 +73,27 @@ const AddFacility = () => {
   const { data: subCountyData } = useGetAllSubCountiesQuery()
   const { data: wardData } = useGetAllWardsQuery()
 
-  const [county, setCounty] = useState<string>()
-  const [subCounty, setSubCounty] = useState<string>()
+  // const [county, setCounty] = useState<string>()
+  // const [subCounty, setSubCounty] = useState<string>()
+
+  const [addHospitals, { isLoading }] = useAddHospitalsMutation()
 
   const Schema: ZodType<FormInputProps> = z.object({
-    hospitalName: z.string().nonempty({ message: 'Input Required' })
+    hospitalName: z.string().nonempty({ message: 'Input Required' }),
+    county: z.string(),
+    subCounty: z.string(),
+    ward: z.string(),
+    mflCode: z.string()
   })
 
-  // const { data: schoolsData } = useGetAllSchoolsQuery()
+  const methods = useForm<FormInputProps>({
+    resolver: zodResolver(Schema)
+  })
 
-  // useEffect(() => {
-  //   setLocation({
-  //     county, subCounty, ward
-  //   })
-  // }, [county, setLocation, subCounty, ward])
+  const { watch, handleSubmit } = methods
+  const county = watch('county')
+  const subCounty = watch('subCounty')
 
-  // county
   const countyOptions = useCallback(() => {
     return countyData?.map((item: CountyProps) => ({
       id: item.countyName,
@@ -125,16 +136,27 @@ const AddFacility = () => {
     }))
   }, [subCounty, wardData])
 
-  const methods = useForm<FormInputProps>({
-    resolver: zodResolver(Schema)
-  })
+  const onSubmit = async (data: any) => {
+    const { county, subCounty, ward, ...rest } = data
+    await addHospitals({
+      ...data,
+      location: {
+        county,
+        subCounty,
+        ward
+      }
+    })
+  }
 
   return (
     <>
-      <div className='p-2' >
+      <div className="p-2">
         <div className="p-4 border rounded-lg border-slate-200 bg-white w-1/2 ">
           <FormProvider {...methods}>
-            <form action="" className='flex flex-col space-y-4' >
+            <form
+              className="flex flex-col space-y-4"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               {/* <Autocomplete
         className="border"
         apiKey="AIzaSyDSg2RZcb6i3EohltpyGWSd4GGnfWpA4bQ"
@@ -146,7 +168,15 @@ const AddFacility = () => {
               <CustomInput2
                 label="Facility Name"
                 name="hospitalName"
-                placeholder='Enter facility name'
+                placeholder="Enter facility name"
+                // onChange={setDOB}
+              />
+
+              <CustomInput2
+                label="MFL Code."
+                name="mflCode"
+                placeholder="Enter facility MFL Code"
+                type='number'
                 // onChange={setDOB}
               />
 
@@ -180,6 +210,7 @@ const AddFacility = () => {
                 data={wardOptions()}
                 name="ward"
               />
+              <Button>Save</Button>
             </form>
           </FormProvider>
         </div>

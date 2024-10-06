@@ -33,7 +33,6 @@ import { artRegimenSwitchApi } from '@/api/art/artRegimenSwitch.api'
 import { internalLabRequestApi } from '@/api/viraload/internalLabRequest.api'
 import { measuringUnitApi } from '@/api/art/measuringUnit.api'
 import { smsApi } from '@/api/sms/sms.api'
-import { pillBoxApi } from '@/api/pillbox/pillbox.api'
 import { pillDailyUptakeApi } from '@/api/treatmentplan/uptake.api'
 import { notificationTypeApi } from '@/api/notifications/notificationTypes.api'
 import { notificationCategoryApi } from '@/api/notifications/notificationCategory.api'
@@ -68,6 +67,7 @@ import { userLocationApi } from '@/api/location/userLocation.api'
 import { homeVisitConfigApi } from '@/api/homevisit/homeVisitConfig.api'
 import { eventTypeApi } from '@/api/appointment/events/eventType'
 import { attendeeApi } from '@/api/appointment/events/attendees'
+import { hospitalApi } from '@/api/hospital/hospital.api'
 
 export const store = configureStore({
   reducer: {
@@ -106,7 +106,6 @@ export const store = configureStore({
     [internalLabRequestApi.reducerPath]: internalLabRequestApi.reducer,
     [measuringUnitApi.reducerPath]: measuringUnitApi.reducer,
     [smsApi.reducerPath]: smsApi.reducer,
-    [pillBoxApi.reducerPath]: pillBoxApi.reducer,
     [pillDailyUptakeApi.reducerPath]: pillDailyUptakeApi.reducer,
     [notificationTypeApi.reducerPath]: notificationTypeApi.reducer,
     [notificationCategoryApi.reducerPath]: notificationCategoryApi.reducer,
@@ -140,7 +139,8 @@ export const store = configureStore({
     [userLocationApi.reducerPath]: userLocationApi.reducer,
     [homeVisitConfigApi.reducerPath]: homeVisitConfigApi.reducer,
     [eventTypeApi.reducerPath]: eventTypeApi.reducer,
-    [attendeeApi.reducerPath]: attendeeApi.reducer
+    [attendeeApi.reducerPath]: attendeeApi.reducer,
+    [hospitalApi.reducerPath]: hospitalApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -182,7 +182,6 @@ export const store = configureStore({
       .concat(internalLabRequestApi.middleware)
       .concat(measuringUnitApi.middleware)
       .concat(smsApi.middleware)
-      .concat(pillBoxApi.middleware)
       .concat(pillDailyUptakeApi.middleware)
       .concat(notificationTypeApi.middleware)
       .concat(notificationCategoryApi.middleware)
@@ -215,4 +214,5 @@ export const store = configureStore({
       .concat(questionsApi.middleware)
       .concat(eventTypeApi.middleware)
       .concat(attendeeApi.middleware)
+      .concat(hospitalApi.middleware)
 })

@@ -168,7 +168,7 @@ export function CustomTable<TData, TValue> ({
                         width: header.getSize()
                       }
                     }}
-                    className="text-[12px] text-slate-700 font-bold capitalize overflow-hidden whitespace-nowrap overflow-ellipsis "
+                    className="text-[14px] text-slate-700 capitalize overflow-hidden whitespace-nowrap overflow-ellipsis "
                   >
                     {header.isPlaceholder
                       ? null
