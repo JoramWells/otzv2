@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -5,10 +6,11 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Switch } from '@/components/ui/switch'
 import { useState } from 'react'
-import { useUpdatePillUptakeEveningStatusMutation } from '@/api/treatmentplan/uptake.api'
+import { useDeletePillDailyUptakeMutation, useUpdatePillUptakeEveningStatusMutation } from '@/api/treatmentplan/uptake.api'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 import { type ExtendedAdherenceAttributes } from './morningColumn'
+import { Loader2, Trash2 } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
 
 // {
@@ -78,8 +80,8 @@ const EditableCell = ({ value, row }: EditableCellProps) => {
 
 export const eveningColumn: Array<ColumnDef<ExtendedAdherenceAttributes>> = [
   {
-    accessorKey: 'patient',
-    header: 'Patient Name',
+    accessorKey: 'firstName',
+    header: 'Name',
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2 pt-1 pb-1">
         <Avatar
@@ -98,13 +100,10 @@ export const eveningColumn: Array<ColumnDef<ExtendedAdherenceAttributes>> = [
     accessorKey: 'eveningStatus',
     header: 'Evening Status',
     cell: ({ row }) => (
-      <div className="flex flex-col space-y-2">
-        <div className="flex flex-row items-center">
-          <p className="font-bold text-slate-500 text-[14px] ">Time: </p>
-          <p className="text-[14px] ">
-            {row.original.TimeAndWork?.eveningMedicineTime}
-          </p>
-        </div>
+      <div className="flex flex-col space-y-2 text-[12px]">
+        <p className="text-[12px] ">
+          {row.original.TimeAndWork?.eveningMedicineTime}
+        </p>
 
         {/* <div
           className="flex flex-row space-x-2
@@ -141,5 +140,28 @@ export const eveningColumn: Array<ColumnDef<ExtendedAdherenceAttributes>> = [
     cell: ({ row }) => (
       <EditableCell value={row.original?.eveningStatus} row={row} />
     )
+  },
+  {
+    accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => {
+      const [deletePillDailyUptake, { isLoading }] =
+        useDeletePillDailyUptakeMutation()
+      return (
+        <div className="hover:bg-red-200 hover:text-red-200 h-7 w-7 rounded-full flex items-center justify-center">
+          {isLoading
+            ? (
+            <Loader2 size={16} />
+              )
+            : (
+            <Trash2
+              size={16}
+              className="hover:cursor-pointer text-slate-500 hover:text-red-500"
+              onClick={async () => await deletePillDailyUptake(row.original.id)}
+            />
+              )}
+        </div>
+      )
+    }
   }
 ]

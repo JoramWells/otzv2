@@ -87,7 +87,7 @@ const EditableCell = ({ value, row }: EditableCellProps) => {
 
 export const morningColumn: Array<ColumnDef<ExtendedAdherenceAttributes>> = [
   {
-    accessorKey: 'patient',
+    accessorKey: 'firstName',
     header: 'Name',
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2 pt-1 pb-1">
@@ -105,15 +105,12 @@ export const morningColumn: Array<ColumnDef<ExtendedAdherenceAttributes>> = [
   // <X />
   {
     accessorKey: 'morningStatus',
-    header: 'Morning Status',
+    header: 'Status',
     cell: ({ row }) => (
       <div className="flex flex-col space-y-2 text-[12px]">
-        <div className="flex flex-row items-center">
-          <p className="font-bold text-slate-500 text-[14px] ">Time: </p>
-          <p className="text-[14px] ">
-            {row.original.TimeAndWork?.morningMedicineTime}
+          <p className="">
+            {row.original.TimeAndWork?.morningMedicineTime} AM
           </p>
-        </div>
 
         {/* <div
           className="flex flex-row space-x-2
@@ -166,19 +163,21 @@ export const morningColumn: Array<ColumnDef<ExtendedAdherenceAttributes>> = [
       const [deletePillDailyUptake, { isLoading }] =
         useDeletePillDailyUptakeMutation()
       return (
-        <>
+        <div
+        className='hover:bg-red-200 hover:text-red-200 h-7 w-7 rounded-full flex items-center justify-center'
+        >
           {isLoading
             ? (
-            <Loader2 size={18} />
+            <Loader2 size={16} />
               )
             : (
             <Trash2
-              size={18}
-              className="hover:cursor-pointer bg-slate-200"
+              size={16}
+              className="hover:cursor-pointer text-slate-500 hover:text-red-500"
               onClick={async () => await deletePillDailyUptake(row.original.id)}
             />
               )}
-        </>
+        </div>
       )
     }
   }

@@ -3,17 +3,14 @@
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 // import { columns } from './columns'
-import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import CustomTab from '@/components/tab/CustomTab'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { eveningColumn } from './eveningColumn'
-import { morningColumn } from './morningColumn'
+import { type ExtendedAdherenceAttributes, morningColumn } from './morningColumn'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 // import { checkTime } from '@/utils/isRightTimeForDrugs'
-import { useAddPatientNotificationMutation } from '@/api/notifications/patientNotification.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-import { useSession } from 'next-auth/react'
 import { usePharmacyContext } from '@/context/PharmacyContext'
 
 const BreadcrumbComponent = dynamic(
@@ -42,40 +39,40 @@ const dataList2 = [
   }
 ]
 
-const dataList = [
-  {
-    id: 1,
-    label: 'All'
-  },
-  {
-    id: 2,
-    label: 'Morning'
-  },
-  {
-    id: 3,
-    label: 'Evening'
-  }
-]
-
 const AppointmentPage = () => {
-  const { data: session } = useSession()
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
-  const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery()
   // const [uptakeData, setUptakeData] = useState([])
 
   const { adherenceData } = usePharmacyContext()
 
-  const [addPatientNotification] = useAddPatientNotificationMutation()
-
   // const isTime = checkTime(patientsDueMorning)?.some(time=>time)
 
   const morningData = useCallback(() => {
-    return patientsDueMorning?.filter((item: any) => {
-      return item.timeAndWork?.morningMedicineTime
+    return adherenceData?.filter((item: ExtendedAdherenceAttributes) => {
+      return item.TimeAndWork?.morningMedicineTime !== null
     })
-  }, [patientsDueMorning])
+  }, [adherenceData])()
+
+  const eveningData = useCallback(() => {
+    return adherenceData?.filter((item: ExtendedAdherenceAttributes) => {
+      return item.TimeAndWork?.eveningMedicineTime !== null
+    })
+  }, [adherenceData])()
+
+  const categoryList = useMemo(() => [
+    {
+      id: 1,
+      label: 'Morning',
+      count: morningData?.length
+    },
+    {
+      id: 2,
+      label: 'Evening',
+      count: eveningData?.length
+    }
+  ], [eveningData?.length, morningData?.length])
 
   const pathname = usePathname()
   const router = useRouter()
@@ -91,8 +88,8 @@ const AppointmentPage = () => {
 
   useEffect(() => {
     if (tab === null) {
-      updateQueryParams('all')
-      setValue('all')
+      updateQueryParams('morning')
+      setValue('morning')
     }
   }, [tab, updateQueryParams])
 
@@ -130,28 +127,21 @@ const AppointmentPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
 
       {/* {currentTime.format("HH:mm:ss")} */}
-      <CustomTab categoryList={dataList} value={value} setValue={setValue} />
+      <CustomTab categoryList={categoryList} value={value} setValue={setValue} />
 
       {/*  */}
       <div className="p-4">
         <div className="bg-white p-4 rounded-lg">
-          {value === 'all' && (
-            <CustomTable
-              columns={morningColumn}
-              data={adherenceData ?? []}
-              isSearch={false}
-            />
-          )}
           {/*  */}
           {value === 'morning' && (
-            <CustomTable columns={morningColumn} data={adherenceData ?? []}
+            <CustomTable columns={morningColumn} data={morningData ?? []}
             isSearch={false}
 
             />
           )}
           {/*  */}
           {value === 'evening' && (
-            <CustomTable columns={eveningColumn} data={adherenceData ?? []}
+            <CustomTable columns={eveningColumn} data={eveningData ?? []}
             isSearch={false}
 
             />
