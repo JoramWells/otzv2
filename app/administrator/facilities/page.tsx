@@ -30,7 +30,6 @@ const dataList2 = [
 const Facilities = () => {
   const router = useRouter()
   const { data, isLoading } = useGetAllHospitalsQuery()
-  console.log(data, 'data')
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />

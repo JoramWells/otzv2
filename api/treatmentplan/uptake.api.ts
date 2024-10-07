@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/morningColumn'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 // interface AppointmentProps {
@@ -12,7 +13,7 @@ export const pillDailyUptakeApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/daily-uptake`
   }),
   endpoints: (builder) => ({
-    getAllPillDailyUptake: builder.query<any, void>({
+    getAllPillDailyUptake: builder.query<ExtendedAdherenceAttributes[], void>({
       query: (params) => {
         // if (params) {
         //   const { patientsDueMorning } = params
@@ -54,7 +55,7 @@ export const pillDailyUptakeApi = createApi({
     deletePillDailyUptake: builder.mutation({
       query (id) {
         return {
-          url: `delete${id}`,
+          url: `delete/${id}`,
           method: 'DELETE'
         }
       }
@@ -64,6 +65,6 @@ export const pillDailyUptakeApi = createApi({
 
 export const {
   useGetAllPillDailyUptakeQuery, useAddPillDailyUptakeMutation, useUpdatePillUptakeEveningStatusMutation,
-  useGetPillDailyUptakeQuery, useUpdatePillDailyUptakeMutation,
+  useGetPillDailyUptakeQuery, useUpdatePillDailyUptakeMutation, useDeletePillDailyUptakeMutation,
   useGetPillDailyUptakeCountQuery
 } = pillDailyUptakeApi

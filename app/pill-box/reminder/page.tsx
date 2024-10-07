@@ -1,22 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 // import { columns } from './columns'
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import CustomTab from '@/components/tab/CustomTab'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { eveningColumn } from './eveningColumn'
 import { morningColumn } from './morningColumn'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import moment from 'moment'
 // import { checkTime } from '@/utils/isRightTimeForDrugs'
 import { useAddPatientNotificationMutation } from '@/api/notifications/patientNotification.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-import io from 'socket.io-client'
 import { useSession } from 'next-auth/react'
+import { usePharmacyContext } from '@/context/PharmacyContext'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -65,15 +63,9 @@ const AppointmentPage = () => {
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
   const { data: patientsDueMorning } = useGetAllPillDailyUptakeQuery()
-  const [uptakeData, setUptakeData] = useState([])
+  // const [uptakeData, setUptakeData] = useState([])
 
-  useEffect(() => {
-    if (patientsDueMorning) {
-      setUptakeData(patientsDueMorning)
-    }
-  }, [patientsDueMorning])
-
-  console.log(uptakeData, 'due morning!!')
+  const { adherenceData } = usePharmacyContext()
 
   const [addPatientNotification] = useAddPatientNotificationMutation()
 
@@ -97,41 +89,6 @@ const AppointmentPage = () => {
     [pathname, router, searchParams]
   )
 
-  const updateMorningStatus = (arr: string[], id: string) => {
-    if (arr.length > 0) {
-      return arr?.map((obj: any) => {
-        if (obj.id === id) {
-          return { ...obj, morningStatus: true }
-        }
-        return obj
-      })
-    }
-    return null
-  }
-
-  useEffect(() => {
-    const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/socket.io`, {
-      path: '/api/pharmacy/socket.io',
-      transports: ['websocket']
-    })
-    // if (session != null) {
-    newSocket.emit('getPharmacyNotifications', session?.user)
-    newSocket.on('newPharmacyNotifications', (data) => {
-      if (patientsDueMorning) {
-        setUptakeData(patientsDueMorning)
-        const updatedData = updateMorningStatus(patientsDueMorning, data.id)
-        setUptakeData(updatedData as any)
-        console.log(updatedData, 'uio')
-      }
-    })
-    // }
-
-    return () => {
-      newSocket.off('getPharmacyNotifications')
-      newSocket.disconnect()
-    }
-  }, [session, patientsDueMorning])
-
   useEffect(() => {
     if (tab === null) {
       updateQueryParams('all')
@@ -139,7 +96,7 @@ const AppointmentPage = () => {
     }
   }, [tab, updateQueryParams])
 
-  const [currentTime, setCurrentTime] = useState(moment())
+  // const [currentTime, setCurrentTime] = useState(moment())
   // useEffect(() => {
   //   patientsDueMorning?.forEach((item: any) => {
   //     // const patientID = item
@@ -181,21 +138,22 @@ const AppointmentPage = () => {
           {value === 'all' && (
             <CustomTable
               columns={morningColumn}
-              data={uptakeData || []}
+              data={adherenceData ?? []}
+              isSearch={false}
             />
           )}
           {/*  */}
           {value === 'morning' && (
-            <CustomTable
-              columns={morningColumn}
-              data={uptakeData || []}
+            <CustomTable columns={morningColumn} data={adherenceData ?? []}
+            isSearch={false}
+
             />
           )}
           {/*  */}
           {value === 'evening' && (
-            <CustomTable
-              columns={eveningColumn}
-              data={uptakeData || []}
+            <CustomTable columns={eveningColumn} data={adherenceData ?? []}
+            isSearch={false}
+
             />
           )}
         </div>

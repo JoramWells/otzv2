@@ -62,8 +62,6 @@ const PrescriptionPage = () => {
   //   }
   // }, [data, showNotification])
 
-  console.log(data, 'dtx')
-
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />

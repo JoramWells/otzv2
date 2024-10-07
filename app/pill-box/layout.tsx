@@ -14,6 +14,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
+import { PharmacyProvider } from '@/context/PharmacyContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -62,20 +63,22 @@ const PillLayout = ({ children }: { children: React.ReactNode }) => {
   }, [status, router])
   if (session != null) {
     return (
-    <Provider store={store}>
-      <SidebarProvider>
-        <div className="flex flex-row">
-          <Sidebar>
-            <SidebarListItemsComponent dataList={DL} />
-          </Sidebar>
-          <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
-            {/* <Navbar /> */}
+      <Provider store={store}>
+        <PharmacyProvider>
+          <SidebarProvider>
+            <div className="flex flex-row">
+              <Sidebar>
+                <SidebarListItemsComponent dataList={DL} />
+              </Sidebar>
+              <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
+                {/* <Navbar /> */}
 
-            {children}
-          </div>
-        </div>
-      </SidebarProvider>
-    </Provider>
+                {children}
+              </div>
+            </div>
+          </SidebarProvider>
+        </PharmacyProvider>
+      </Provider>
     )
   }
 

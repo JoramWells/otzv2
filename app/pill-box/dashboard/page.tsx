@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { importantPatientColumn } from '@/app/users/patients/_components/columns'
 import { importantPrescription } from '../prescription/columns'
+import { usePharmacyContext } from '@/context/PharmacyContext'
 
 const DoubleARTUptakeBarChart = dynamic(
   async () => await import('../../_components/charts/DoubleARTUptakeBarChart'),
@@ -67,9 +68,7 @@ const NotifyPage = () => {
     }
   )
 
-  const { data: uptakeCount } = useGetPillDailyUptakeCountQuery({
-    patientsDueMorning: true
-  })
+  const { uptakeCount } = usePharmacyContext()
 
   const { data: facilityData } = useGetFacilityAdherenceQuery()
 
@@ -159,10 +158,10 @@ const NotifyPage = () => {
       </div>
         <div className="flex flex-row items-start w-full space-x-4 bg-white p-4 ">
           <DoubleARTUptakeBarChart
-            morningTrueCount={uptakeCount?.morningTrueCount}
-            morningFalseCount={uptakeCount?.morningFalseCount}
-            eveningTrueCount={uptakeCount?.eveningTrueCount}
-            eveningFalseCount={uptakeCount?.eveningFalseCount}
+            morningTrueCount={uptakeCount.morningTrue}
+            morningFalseCount={uptakeCount.morningFalse}
+            eveningTrueCount={uptakeCount?.eveningTrue}
+            eveningFalseCount={uptakeCount?.eveningFalse}
           />
 
           {/*  */}

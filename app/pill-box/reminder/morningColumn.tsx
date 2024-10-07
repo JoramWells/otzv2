@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import { type MomentInput } from 'moment'
 import { Switch } from '@/components/ui/switch'
 import { useState } from 'react'
-import { useUpdatePillDailyUptakeMutation } from '@/api/treatmentplan/uptake.api'
+import { useDeletePillDailyUptakeMutation, useUpdatePillDailyUptakeMutation } from '@/api/treatmentplan/uptake.api'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
+import { Loader2, Trash2 } from 'lucide-react'
+import { type AdherenceAttributes } from 'otz-types'
 // import { FaEdit } from 'react-icons/fa'
 
 // {
@@ -32,20 +34,16 @@ export interface FullNameProps {
   firstName?: string
 }
 
-export interface ColumnProps {
-  eveningStatus: any
-  morningStatus: any
-  TimeAndWork: any
-  refillDate: MomentInput
-  appointmentTime: MomentInput
-  appointmentDate: any
-  appointmentAgenda: any
-  appointmentStatus: any
-  user: any
-  Patient: any
-  id: any
-  header: string
-  accessorKey?: keyof PatientProps
+export interface ExtendedAdherenceAttributes extends AdherenceAttributes {
+  id: string
+  TimeAndWork?: {
+    morningMedicineTime: string
+    eveningMedicineTime: string
+    Patient: {
+      firstName: string
+      middleName: string
+    }
+  }
   // render?: (props: any) => React.ReactNode
 }
 
@@ -87,10 +85,10 @@ const EditableCell = ({ value, row }: EditableCellProps) => {
   />
 }
 
-export const morningColumn: Array<ColumnDef<ColumnProps>> = [
+export const morningColumn: Array<ColumnDef<ExtendedAdherenceAttributes>> = [
   {
     accessorKey: 'patient',
-    header: 'Patient Name',
+    header: 'Name',
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2 pt-1 pb-1">
         <Avatar
@@ -98,7 +96,7 @@ export const morningColumn: Array<ColumnDef<ColumnProps>> = [
           // className="font-bold"
           name={`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}
         />
-        <div>
+        <div className="text-[12px]">
           <p className="capitalize font-semibold">{`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}</p>
         </div>
       </div>
@@ -109,10 +107,12 @@ export const morningColumn: Array<ColumnDef<ColumnProps>> = [
     accessorKey: 'morningStatus',
     header: 'Morning Status',
     cell: ({ row }) => (
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col space-y-2 text-[12px]">
         <div className="flex flex-row items-center">
-          <p className="font-bold text-slate-500 text-[14px] ">Time: {' '} </p>
-          <p className='text-[14px] ' >{row.original.TimeAndWork?.morningMedicineTime}</p>
+          <p className="font-bold text-slate-500 text-[14px] ">Time: </p>
+          <p className="text-[14px] ">
+            {row.original.TimeAndWork?.morningMedicineTime}
+          </p>
         </div>
 
         {/* <div
@@ -134,16 +134,52 @@ export const morningColumn: Array<ColumnDef<ColumnProps>> = [
   {
     accessorKey: 'nofOfPills',
     header: 'Status',
-    cell: () => <Badge className='bg-slate-200 text-slate-700
-    rounded-full hover:bg-slate-100 shadow-none
-    '
-    >On Time</Badge>
+    cell: () => (
+      <Badge
+        className="bg-slate-200 text-slate-700
+    rounded-full hover:bg-slate-100 shadow-none text-[12px]
+    "
+      >
+        On Time
+      </Badge>
+    )
   },
+  //   {
+  //     accessorKey: 'createdAt',
+  //     header: 'Created At',
+  //     cell: ({ row }) => <p>
+  // {/* {moment(row.original?.createdAt).format('ll')} */}
+  // {row.original?.createdAt}
+  //     </p>
+  //   },
   {
     accessorKey: 'RT',
-    header: 'Action',
+    header: 'Confirm',
     cell: ({ row }) => (
-        <EditableCell value={row.original?.morningStatus} row={row} />
+      <EditableCell value={row.original?.morningStatus} row={row} />
     )
+  },
+  {
+    accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => {
+      const [deletePillDailyUptake, { isLoading }] =
+        useDeletePillDailyUptakeMutation()
+      return (
+        <>
+          {isLoading
+            ? (
+            <Loader2 size={18} />
+              )
+            : (
+            <Trash2
+              size={18}
+              className="hover:cursor-pointer bg-slate-200"
+              onClick={async () => await deletePillDailyUptake(row.original.id)}
+            />
+              )}
+        </>
+      )
+    }
   }
 ]

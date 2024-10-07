@@ -3,12 +3,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ColumnDef } from '@tanstack/react-table'
-import { type MomentInput } from 'moment'
 import { Switch } from '@/components/ui/switch'
 import { useState } from 'react'
 import { useUpdatePillUptakeEveningStatusMutation } from '@/api/treatmentplan/uptake.api'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
+import { type ExtendedAdherenceAttributes } from './morningColumn'
 // import { FaEdit } from 'react-icons/fa'
 
 // {
@@ -30,23 +30,6 @@ import { Badge } from '@/components/ui/badge'
 
 export interface FullNameProps {
   firstName?: string
-}
-
-export interface ColumnProps {
-  eveningStatus: any
-  morningStatus: any
-  TimeAndWork: any
-  refillDate: MomentInput
-  appointmentTime: MomentInput
-  appointmentDate: any
-  appointmentAgenda: any
-  appointmentStatus: any
-  user: any
-  Patient: any
-  id: any
-  header: string
-  accessorKey?: keyof PatientProps
-  // render?: (props: any) => React.ReactNode
 }
 
 export interface PatientProps {
@@ -93,7 +76,7 @@ const EditableCell = ({ value, row }: EditableCellProps) => {
   )
 }
 
-export const eveningColumn: Array<ColumnDef<ColumnProps>> = [
+export const eveningColumn: Array<ColumnDef<ExtendedAdherenceAttributes>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
