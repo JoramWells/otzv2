@@ -120,7 +120,7 @@ export function CustomTable<TData, TValue> ({
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto shadow-none" size={'sm'}
+                <Button variant="ghost" className="ml-auto shadow-none" size={'sm'}
                  >
                   Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
                 </Button>
@@ -168,7 +168,7 @@ export function CustomTable<TData, TValue> ({
                         width: header.getSize()
                       }
                     }}
-                    className="text-[14px] text-slate-700 capitalize overflow-hidden whitespace-nowrap overflow-ellipsis "
+                    className="text-[12px] text-slate-700 capitalize overflow-hidden whitespace-nowrap overflow-ellipsis "
                   >
                     {header.isPlaceholder
                       ? null

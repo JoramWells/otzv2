@@ -26,10 +26,10 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>> = [
   {
-    accessorKey: 'patient',
+    accessorKey: 'firstName',
     header: 'Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2 text-[12px] ">
+      <div className="flex flex-row items-center font-semibold gap-x-2 text-[12px] ">
         <Avatar
           // size={'sm'}
           // className="font-bold"
@@ -132,10 +132,10 @@ export const importantPrescription: Array<
 ColumnDef<PrescriptionProps & PrescriptionInterface>
 > = [
   {
-    accessorKey: 'patient',
+    accessorKey: 'firstName',
     header: 'Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2 ">
+      <div className="flex flex-row items-center gap-x-2 font-semibold ">
         <Avatar
           // size={'sm'}
           // className="font-bold"

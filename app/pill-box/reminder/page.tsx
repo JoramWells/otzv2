@@ -123,32 +123,41 @@ const AppointmentPage = () => {
   // }, [patientsDueMorning]);
 
   return (
-    <div className="">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
 
       {/* {currentTime.format("HH:mm:ss")} */}
-      <CustomTab categoryList={categoryList} value={value} setValue={setValue} />
-
+      <div
+      className='mt-2'
+      >
+        <CustomTab
+          categoryList={categoryList}
+          value={value}
+          setValue={setValue}
+        />
+      </div>
       {/*  */}
-      <div className="p-4">
+      <div className="p-2">
         <div className="bg-white p-4 rounded-lg">
           {/*  */}
           {value === 'morning' && (
-            <CustomTable columns={morningColumn} data={morningData ?? []}
-            isSearch={false}
-
+            <CustomTable
+              columns={morningColumn}
+              data={morningData ?? []}
+              isSearch={false}
             />
           )}
           {/*  */}
           {value === 'evening' && (
-            <CustomTable columns={eveningColumn} data={eveningData ?? []}
-            isSearch={false}
-
+            <CustomTable
+              columns={eveningColumn}
+              data={eveningData ?? []}
+              isSearch={false}
             />
           )}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
