@@ -467,7 +467,7 @@ export const patientVisitColumns: Array<ColumnDef<PatientProps>> = [
 export const importantPatientColumn: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'firstName',
-    header: 'Patient Name',
+    header: 'Name',
     cell: ({ row }) => (
       <div
         className="flex flex-row gap-x-3 items-center
@@ -488,8 +488,10 @@ export const importantPatientColumn: Array<ColumnDef<PatientAttributes>> = [
   },
   {
     accessorKey: 'sex',
-    header: 'Sex'
-    // cell: ({ row }) => <p>{row.original.school?.schoolName}</p>,
+    header: 'Sex',
+    cell: ({ row }) => <p
+    className='text-[12px]'
+    >{row.original.sex}</p>
   },
   {
     accessorKey: 'dob',
@@ -501,7 +503,9 @@ export const importantPatientColumn: Array<ColumnDef<PatientAttributes>> = [
     accessorKey: 'phoneNo',
     header: 'Phone No',
     cell: ({ row }) => (
-      <div>
+      <div
+      className='text-[12px]'
+      >
         {row.original.phoneNo
           ? (
               row.original.phoneNo

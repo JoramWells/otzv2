@@ -61,7 +61,7 @@ const PopulationTypeChart = ({ data }: { data: PatientAttributes[] }) => {
       </div>
       <ChartContainer
         config={chartConfig}
-        className="aspect-square max-h-[350px] w-full bg-white rounded-lg"
+        className="aspect-square max-h-[250px] w-full bg-white rounded-lg"
       >
         {chartDatam && (
           <RadarChart data={chartDatam} cx="50%" cy={'50%'} outerRadius={'80%'}>

@@ -35,7 +35,7 @@ const dataList2 = [
 ]
 
 const NotifyPage = () => {
-  const [value, setValue] = useState('weekly')
+  const [value, setValue] = useState('all')
 
   const { data: weeklyData } = useGetAllAppointmentsQuery({
     date: '2022-01-01',
@@ -62,15 +62,12 @@ const NotifyPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
 
           <div className="flex justify-between items-center w-full bg-white p-2 mt-2 ">
-            <div>
-              <h1
-                className="font-semibold text-lg capitalize
+              <h2
+                className="font-semibold text-lg capitalize ml-2
         "
               >
                 Appointments
-              </h1>
-
-            </div>
+              </h2>
 
             <div className="flex space-x-2">
               {[
@@ -80,6 +77,7 @@ const NotifyPage = () => {
               ].map((item, idx) => (
                 <Button
                   key={item.id}
+                  size={'sm'}
                   className={`rounded-full border bg-transparent text-black hover:bg-slate-100 ${
                     item.label === value && 'bg-slate-200'
                   } `}
@@ -110,6 +108,7 @@ const NotifyPage = () => {
               }
             ].map((item) => (
               <Button
+              size={'sm'}
                 key={item.id}
                 onClick={() => setTab(item.id)}
                 className={`text-slate-700 hover:bg-slate-50 bg-transparent hover:text-teal-600 rounded-none

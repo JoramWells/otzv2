@@ -24,19 +24,19 @@ const chartConfig = {
 const UsersRadial = ({ data }: { data: any[] }) => {
   return (
     <div
-    className=' w-1/2 bg-white'
+    className=' w-2/5 bg-white'
     >
       <ChartContainer
         config={chartConfig}
-        className=" h-[150px] w-full mx-auto aspect-square"
+        className=" h-[120px] w-full mx-auto aspect-square"
       >
         <RadialBarChart
           data={chartData}
           endAngle={180}
           innerRadius={80}
-          outerRadius={150}
+          outerRadius={130}
           cx={'50%'}
-          cy={'80%'}
+          cy={'90%'}
         >
           <ChartTooltip
             cursor={false}

@@ -10,20 +10,18 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart'
-import UsersRadial from './UsersRadial'
-import CountUp from 'react-countup'
 import { type PatientAttributes } from 'otz-types'
 
 const chartConfig = {
   visitors: {
     label: 'Visitors'
   },
-  f: {
-    label: 'M',
+  F: {
+    label: 'Female',
     color: 'hsl(var(--chart-4))'
   },
-  m: {
-    label: 'F',
+  M: {
+    label: 'Male',
     color: 'hsl(var(--chart-5))'
   }
 } satisfies ChartConfig
@@ -65,25 +63,10 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
     return Object.values(countMap)
   }, [data])()
 
-  console.log(prepareData, 'bart')
+  console.log(prepareData, 'pdata')
 
   return (
-    <div className="w-full bg-slate-50 rounded-lg p-2">
-      <div
-      className='w-full  flex justify-between  space-x-2 mb-2'
-      >
-        <div
-        className='w-1/2 p-4 bg-white rounded-lg'
-        >
-          <p
-          className='font-semibold text-slate-700 text-lg '
-          >Registered Patients</p>
-          <CountUp
-          end={data?.length}
-          />
-        </div>
-        <UsersRadial data={data} />
-      </div>
+    <div className='flex-1' >
       {prepareData?.length > 0 && (
         <ChartContainer
           config={chartConfig}
@@ -100,13 +83,13 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
               >
                 <stop
                   offset={'5%'}
-                  stopColor="var(--color-f)"
+                  stopColor="var(--color-F)"
                   stopOpacity={0.8}
                 />
 
                 <stop
                   offset={'95%'}
-                  stopColor="var(--color-f)"
+                  stopColor="var(--color-F)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -119,13 +102,13 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
               >
                 <stop
                   offset={'5%'}
-                  stopColor="var(--color-m)"
+                  stopColor="var(--color-M)"
                   stopOpacity={0.8}
                 />
 
                 <stop
                   offset={'95%'}
-                  stopColor="var(--color-m)"
+                  stopColor="var(--color-M)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -153,7 +136,7 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
               dataKey={'M'}
               type={'natural'}
               fill="url(#fillMobile)"
-              stroke="var(--color-m)"
+              stroke="var(--color-M)"
               stackId={'a'}
             />
 
@@ -161,7 +144,7 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
               dataKey={'F'}
               type={'natural'}
               fill="url(#fillDesktop"
-              stroke="var(--color-f)"
+              stroke="var(--color-F)"
               stackId={'a'}
             />
             <ChartLegend content={<ChartLegendContent />} />

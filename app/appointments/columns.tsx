@@ -292,10 +292,10 @@ export const rescheduledColumns: Array<ColumnDef<AppointmentProps>> = [
 
 export const pinnedColumns: Array<ColumnDef<AppointmentProps>> = [
   {
-    accessorKey: 'patient',
-    header: 'Patient Name',
+    accessorKey: 'firstName',
+    header: 'Name',
     cell: ({ row }) => (
-      <div className="flex flex-row items-center gap-x-2">
+      <div className="flex flex-row items-center gap-x-2 text-[12px] ">
         <Avatar
           // size={'sm'}
           // className="font-bold"
@@ -315,14 +315,16 @@ export const pinnedColumns: Array<ColumnDef<AppointmentProps>> = [
 
   {
     accessorKey: 'appointmentAgenda',
-    header: 'Appointment agenda',
+    header: 'Agenda',
     cell: ({ row }) => (
-      <p>{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
+      <p
+      className='capitalize text-[12px] '
+      >{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
     )
   },
   {
     accessorKey: 'appointmentStatus',
-    header: 'APPOINTMENT STATUS',
+    header: 'Status',
     cell: ({ row }) => {
       const appointmentStatus =
         row.original.AppointmentStatus?.statusDescription
@@ -341,7 +343,7 @@ export const pinnedColumns: Array<ColumnDef<AppointmentProps>> = [
           <Badge
             // colorScheme="blue"
             // rounded={'full'}
-            className="rounded-full bg-blue-50 text-blue-500 hover:bg-blue-50 shadow-none"
+            className="rounded-full bg-blue-50 text-blue-500 hover:bg-blue-50 shadow-none text-[12px] "
           >
             {appointmentStatus}
           </Badge>
@@ -388,12 +390,12 @@ export const pinnedColumns: Array<ColumnDef<AppointmentProps>> = [
   },
   {
     accessorKey: 'appointmentDate',
-    header: 'Appointment Date',
+    header: 'Date',
     cell: ({ row }) => (
-      <div className="flex flex-row">
-        <p>{moment(row.original.appointmentDate).format('ll')}</p>,
+      <div className="flex flex-row text-[12px] ">
+        <p>{moment(row.original.appointmentDate).format('ll')}</p>, {' '}
 
-          <p className="text-sm text-slate-500">
+          <p className=" text-slate-500">
             {' '}
             {moment
               .duration(moment(row.original.appointmentDate).diff(moment()))

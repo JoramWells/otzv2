@@ -110,28 +110,24 @@ const NotifyPage = () => {
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="bg-white flex flex-col space-y-2 rounded-lg">
         {/*  */}
-        <div className="flex justify-between space-x-2 ">
+        <div className="flex justify-between space-x-2 p-2 ">
           <RegisteredPatientsLineChart data={data || []} />
 
           <PieChart data={pieChartData} />
         </div>
-        <div className="flex justify-between bg-slate-50 p-2 space-x-2">
+        <div className="flex justify-between pl-2 pr-2 pb-2 space-x-2">
           <PopulationTypeChart data={data || []} />
           <div className="p-2 bg-white rounded-lg flex-1  ">
-            <div
-            className='ml-2 mt-2'
-            >
-              <h3 className="text-slate-700 font-semibold">Quick Access</h3>
-            </div>
-            <div className="p-2">
+
+              <h3 className="font-semibold ml-2 text-slate-700 ">Quick Access</h3>
               <div className="flex flex-row space-x-2">
                 {[
                   { id: 1, label: 'Pinned' },
                   { id: 2, label: 'Recent' }
                 ].map((item) => (
                   <Button
+                  size={'sm'}
                     key={item.id}
                     onClick={() => setValue(item.id)}
                     className={`text-slate-700 hover:bg-slate-50 bg-transparent hover:text-teal-600 rounded-none
@@ -145,7 +141,6 @@ const NotifyPage = () => {
                   </Button>
                 ))}
               </div>
-            </div>
             {value === 1 && (
               <CustomTable
                 isSearch={false}
@@ -165,7 +160,6 @@ const NotifyPage = () => {
           </div>
         </div>
         {/*  */}
-      </div>
     </>
   )
 }

@@ -64,13 +64,13 @@ export function AppointmentBarChart ({ data }: { data: AppointmentProps[] }) {
   // const chartConfig = generateChartConfig(data)
 
   return (
-    <div className="h-[300px] w-3/5 bg-white p-2">
+    <div className="h-[300px] flex-1 bg-white p-2">
       <div
         className="flex flex-row items-center justify-between
       pl-4 pr-4 pt-2
       "
       >
-        <h3 className="font-semibold text-slate-700">Trend</h3>
+        <h4 className="font-semibold text-slate-700">Trend</h4>
       </div>
       <ChartContainer config={chartConfig} className="aspect-auto h-[250px] ">
         <BarChart
