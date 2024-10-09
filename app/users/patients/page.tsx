@@ -87,14 +87,11 @@ const Patients = () => {
   const router = useRouter()
 
   return (
-    <div className="w-full">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
         <div>
           <h3 className="font-bold text-slate-700">Patients</h3>
-          <p className="text-slate-500 text-[12px] ">
-            Manage Registered Patients
-          </p>
         </div>
 
         <Button
@@ -107,7 +104,7 @@ const Patients = () => {
           size={'sm'}
         >
           <PlusCircle size={15} className="mr-2" />
-          New Patient
+          New
         </Button>
       </div>
 
@@ -120,7 +117,7 @@ const Patients = () => {
             // isSearch
           />
         </div>
-    </div>
+    </>
   )
 }
 
