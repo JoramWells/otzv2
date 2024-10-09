@@ -54,7 +54,6 @@ const HomeVisit = ({ params }: { params: any }) => {
   // })
   //   }
   // }, [data])
-  console.log(data, 'data')
   const [recentVisit, setRecentVisit] = useState<HomeVisitInputProps>()
   useEffect(() => {
     if (locationData) {

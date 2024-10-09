@@ -10,7 +10,7 @@ import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_co
 import { Sidebar } from '@/components/sidebar/Sidebar'
 import { store } from '@/lib/store'
 import { ChakraProvider } from '@chakra-ui/react'
-import { BookCopy, LayoutDashboardIcon, Users } from 'lucide-react'
+import { BookCopy, CalendarDays, History, Home, LayoutDashboardIcon, MessageSquare, Settings } from 'lucide-react'
 import { useParams, usePathname } from 'next/navigation'
 import { type ReactNode } from 'react'
 import { Provider } from 'react-redux'
@@ -32,13 +32,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
       id: '2',
       label: 'Appointments',
       link: `/users/patients/tab/appointments/${patientID}`,
-      icon: <LayoutDashboardIcon size={17} />
+      icon: <CalendarDays size={17} />
     },
     {
       id: '5',
       label: 'Home Visits',
       link: `/users/patients/tab/homevisit/${patientID}`,
-      icon: <Users size={17} />
+      icon: <Home size={17} />
     },
     {
       id: '8',
@@ -50,19 +50,19 @@ const Layout = ({ children }: { children: ReactNode }) => {
       id: '9',
       label: 'Messages',
       link: `/users/patients/tab/messages/${patientID}`,
-      icon: <BookCopy size={17} />
+      icon: <MessageSquare size={17} />
     },
     {
       id: '10',
       label: 'Settings',
       link: `/users/patients/tab/settings/${patientID}`,
-      icon: <BookCopy size={17} />
+      icon: <Settings size={17} />
     },
     {
       id: '11',
       label: 'Visits',
       link: `/users/patients/tab/visits/${patientID}`,
-      icon: <BookCopy size={17} />
+      icon: <History size={17} />
     }
   ]
 

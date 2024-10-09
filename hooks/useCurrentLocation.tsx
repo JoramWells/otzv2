@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useCallback, useEffect, useState } from 'react'
 
-interface CurrentLocationProps {
+export interface CurrentLocationProps {
   lat: number
   lng: number
 }

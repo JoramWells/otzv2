@@ -14,7 +14,7 @@ import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
 import { useGetVitalSignByPatientIDQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { Button } from '@/components/ui/button'
 import { secondaryColor } from '@/constants/color'
-import { InfoIcon, Loader2 } from 'lucide-react'
+import { ArrowRight, InfoIcon, Loader2, MapPinOff } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -30,6 +30,9 @@ import BodyMassIndex from './_components/BodyMassIndex'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { PatientProfileDropdown } from '../../../_components/PatientProfileDropdown'
 import { Skeleton } from '@/components/ui/skeleton'
+import MapComponent from '@/app/_components/map/MapComponent'
+import { useGetUserLocationQuery } from '@/api/location/userLocation.api'
+import MapComponent2 from '@/app/_components/map/MapComponent2'
 
 export interface InputTabProps {
   id: number
@@ -42,9 +45,9 @@ const PatientDetails = ({ params }: any) => {
   const { data } = useGetViralLoadTestQuery(patientID)
   const { data: session } = useSession()
   const { data: patientData, isLoading: isLoadingPatientData, isError } = useGetPatientQuery(patientID as string)
-
+  const { data: userLocationData, isLoading: isLoadingUserLocationData, isError: isErrorUserLocation } = useGetUserLocationQuery(patientID)
   const { data: timeData } = useGetTimeAndWorkByPatientIDQuery(patientID)
-
+  console.log(userLocationData, "userLocationData")
   const [addPatientVisit, { isLoading, data: visitData }] = useAddPatientVisitMutation()
 
   const { data: priorityAppointment } = useGetPriorityAppointmentDetailQuery(patientID)
@@ -52,11 +55,16 @@ const PatientDetails = ({ params }: any) => {
   const { data: prescriptionData } = useGetArtPrescriptionQuery(patientID)
 
   const { data: artPrescription } = useGetPrescriptionDetailQuery(patientID)
+  const [currentPosition, setCurrentPosition] = useState<google.maps.LatLngLiteral>()
 
-  // const inputValues = {
-  //   patientID,
-  //   patientVisitID
-  // }
+  useEffect(() => {
+    if (userLocationData) {
+      setCurrentPosition({
+        lat: parseInt(userLocationData?.latitude),
+        lng: parseInt(userLocationData?.longitude)
+      })
+    }
+  }, [userLocationData])
 
   const handleStartVisit = async () => {
     const newVisitID = uuidv4()
@@ -83,10 +91,8 @@ const PatientDetails = ({ params }: any) => {
     }
   }, [visitData, patientID, vsData, session])
 
-  console.log(vsData, 'vsdata')
-
   return (
-    <div className="">
+    <>
       <div className="p-2 w-full justify-between flex items-center bg-white">
         <div className="z-20">
           {isLoadingPatientData ? (
@@ -119,11 +125,17 @@ const PatientDetails = ({ params }: any) => {
               onClick={async () => {
                 await handleStartVisit()
               }}
-              className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold"
+              className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold flex items-center justify-center"
               size={"sm"}
             >
-              {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />}
-              Initiate Care
+              {isLoading ? (
+                <Loader2 className="mr-2 animate-spin" size={16} />
+              ) : (
+                <>
+                  New Visit
+                  <ArrowRight size={16} className="ml-2" />
+                </>
+              )}
             </Button>
             {/* <StartVisitDropdown
               appointmentList={priorityAppointment}
@@ -206,13 +218,25 @@ const PatientDetails = ({ params }: any) => {
         )}
         {/* </div> */}
       </div>
-      <div className="flex p-4 bg-white">
-        <div className="w-1/2">
+      <div className="flex space-x-2 w-full p-2 pt-0">
+        <div className="w-full bg-white p-2 rounded-lg">
           <WeightHeightLineChart patientID={patientID} />
         </div>
-        <div>Line Cart for VL</div>
+        <div className='bg-white flex justify-center items-center p-2'>
+          {isLoadingUserLocationData ? (
+            <Skeleton className="w-[350px] h-[200px]" />
+          ) : isErrorUserLocation ? (
+            <div>error...</div>
+          ) : currentPosition ? (
+            <MapComponent2 center={currentPosition} />
+          ) : (
+            <div>
+              <MapPinOff />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
