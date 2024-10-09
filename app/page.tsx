@@ -335,20 +335,20 @@ export default function Home () {
             <div className="flex flex-col justify-center items-center w-full">
               <Suspense fallback={<Skeleton className="w-3/4 p-2" />}>
                 <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
-                  <h1 className="text-center text-2xl lg:text-2xl min-[1920px]:text-sm font-extrabold text-teal-600">
+                  <h3 className="text-center text-lg lg:text-lg min-[1920px]:text-sm font-bold text-teal-600">
                     Welcome to CarePlus +
-                  </h1>
+                  </h3>
 
                   <div
-                    className="w-[410px] flex flex-row items-center
-              justify-between space-x-4 "
+                    className="w-[300px] flex flex-row items-center
+              justify-between space-x-2 "
                   >
                     <Input
-                      className="shadow-none rounded-full p-4 h-10 bg-slate-50 border-none"
+                      className="shadow-none rounded-full p-4 h-8 bg-slate-50 border-none"
                       placeholder="Search.."
                     />
-                    <Button className="bg-slate-50 hover:bg-slate-50 shadow-none">
-                      <Search className="text-slate-500" />
+                    <Button className="bg-slate-50 rounded-full hover:bg-slate-50 shadow-none" size={'sm'} >
+                      <Search className="text-slate-500" size={18} />
                     </Button>
                   </div>
                 </div>

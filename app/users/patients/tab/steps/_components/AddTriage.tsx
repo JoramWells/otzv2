@@ -9,17 +9,16 @@ import { useAddVitalSignMutation, useGetVitalSignByPatientIDQuery } from '@/api/
 import CustomInput2 from '@/components/forms/CustomInput2'
 import { Button } from '@/components/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CalendarCheck2, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { Suspense, useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { AdultSchema, InfantSchema } from './type'
-import moment from 'moment'
-import { CollapseButton } from '@/components/CollapseButton'
-import { calculateBMI } from '@/utils/calculateBMI'
+
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import CardHeader from './CardHeader'
+import RecentVitalSigns from './LabTests/RecentVitalSigns'
 
 export interface VSProps {
   temperature: number
@@ -54,81 +53,6 @@ interface InputProps {
   weight: number
   MUAC: string
   LMP: string
-}
-
-const RecentVitalsSigns = ({ data }: { data: any }) => {
-  return (
-    <div className="w-1/3 bg-white rounded-lg">
-      <div className="flex justify-between items-center w-full border p-2.5 rounded-t-lg bg-slate-200 ">
-        <p className="text-[16px] font-bold ml-2 ">Recent Vitals</p>
-        <div className="flex justify-between items-center space-x-2 text-slate-500 text-[12px] ">
-          <CalendarCheck2 size={15} />
-          <p>{moment(data?.createdAt).format('ll')}</p>
-        </div>
-      </div>
-
-      <div className="p-2">
-        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
-          <p className=" text-slate-500">Temperature</p>
-          <p className="font-bold">{data?.temperature} °C</p>
-        </div>
-        <div className="w-full border-b border-slate-100" />
-
-        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
-          <span className="text-slate-500 ">Pulse Rate</span>
-          <p className="font-bold">{data?.pulseRate} bpm</p>
-        </div>
-        <div className="w-full border-b border-slate-100" />
-
-        <div className="flex justify-between items-center w-full p-2 text-[14px] ">
-          <span className="text-slate-500 ">Respiratory Rate</span>
-          <span className="font-bold">
-            {data?.respiratoryRate} bpm
-          </span>
-        </div>
-        <div className="w-full border-b border-slate-100" />
-        <CollapseButton label="Blood Pressure">
-          <div className="w-full flex items-center space-x-4">
-            <div>
-              <p className="text-[14px] ">Systolic</p>
-              <p className="font-bold">{data?.systolic}</p>
-            </div>
-            <p>/</p>
-            <div>
-              <p className="text-[14px] ">Diastolic</p>
-              <p className="font-bold">{data?.diastolic}</p>
-            </div>
-          </div>
-        </CollapseButton>
-        <div className="w-full border-b border-slate-100" />
-
-        <CollapseButton label="BMI">
-          <div className="w-full flex items-center space-x-4 justify-between">
-            <div className="w-full flex items-center space-x-4">
-              <div>
-                <p>Weight</p>
-                <p className="font-bold">
-                  {data?.weight}
-                  <span className="text-[14px]">kg</span>
-                </p>
-              </div>
-              <p>/</p>
-              <div>
-                <p>Height</p>
-                <p className="font-bold">
-                  {data?.height}
-                  <span className="text-[14px]">cm</span>
-                </p>
-              </div>
-            </div>
-            <div>
-              {calculateBMI(data?.weight, data?.height)}
-            </div>
-          </div>
-        </CollapseButton>
-      </div>
-    </div>
-  )
 }
 
 const AddTriage = ({
@@ -319,6 +243,7 @@ const AddTriage = ({
                       onClick={() => {
                         handleNext()
                       }}
+                      size={'sm'}
                     >
                       Next
                     </Button>
@@ -328,6 +253,7 @@ const AddTriage = ({
                       // onClick={async () => await addVitalSign(inputValues)}
                       type="submit"
                       disabled={isLoading}
+                      size={'sm'}
                     >
                       {isLoading && (
                         <Loader2 className="animate-spin mr-2" size={18} />
@@ -343,7 +269,16 @@ const AddTriage = ({
       </Suspense>
       {/*  */}
 
-      <RecentVitalsSigns data={latestVitalsData} />
+      <RecentVitalSigns
+      createdAt={latestVitalsData?.createdAt}
+      diastolic={latestVitalsData?.diastolic}
+      height={latestVitalsData?.height}
+      pulseRate={latestVitalsData?.pulseRate}
+      respiratoryRate={latestVitalsData?.respiratoryRate}
+      systolic={latestVitalsData?.systolic}
+      temperature={latestVitalsData?.temperature}
+      weight={latestVitalsData?.weight}
+      />
     </div>
   )
 }

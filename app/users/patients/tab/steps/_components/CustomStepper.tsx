@@ -27,7 +27,9 @@ interface StepType {
 const CustomStepper = ({ steps, activeStep, appointmentID }: CustomStepperProps) => {
   const router = useRouter()
   return (
-    <Stepper index={activeStep} colorScheme="teal">
+    <Stepper index={activeStep} colorScheme="teal"
+    size={'sm'}
+    >
       {steps.map((step, idx) => (
         <Step
           key={idx}
@@ -46,8 +48,8 @@ const CustomStepper = ({ steps, activeStep, appointmentID }: CustomStepperProps)
             />
           </StepIndicator>
           <Box>
-            <StepTitle className=" hover:underline ">{step?.title}</StepTitle>
-            <StepDescription className="text-[12px]">
+            <StepTitle className=" hover:underline text-[12px] ">{step?.title}</StepTitle>
+            <StepDescription className="text-[12px] text-slate-500">
               {step?.description}
             </StepDescription>
           </Box>

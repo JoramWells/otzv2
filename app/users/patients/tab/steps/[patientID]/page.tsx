@@ -158,7 +158,7 @@ const StepsPage = ({ params }: any) => {
               appointmentID={appointmentID}
             />
           </div>
-          <div className="w-full mt-2 flex justify-between items-start space-x-4">
+          <div className="w-full mt-2 flex justify-between items-start space-x-2">
             <PatientProfile
               data={personalData}
               isLoading={isLoadingPersonalData}
