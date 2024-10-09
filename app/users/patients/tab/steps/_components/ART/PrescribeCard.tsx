@@ -78,6 +78,7 @@ const PrescribeCard = ({
           }}
           className="shadow-none text-slate-500"
         variant='outline'
+        size={'sm'}
         >
           <ChevronsLeft className='mr-2' size={18} />
           Back
@@ -90,6 +91,7 @@ const PrescribeCard = ({
             onClick={() => {
               handleNext()
             }}
+            size={'sm'}
           >
             Next
             <ChevronsRight className='ml-2' size={18} />
@@ -100,6 +102,7 @@ const PrescribeCard = ({
             onClick={() => savePrescription()}
             disabled={isLoadingSave}
             className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
+            size={'sm'}
           >
             {isLoadingSave && <Loader2 className="mr-2" size={18} />}
             Save

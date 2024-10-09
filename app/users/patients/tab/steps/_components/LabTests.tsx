@@ -48,7 +48,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
   const agendaDataOptions = useCallback(() => {
     return agendaData?.filter(
       (item: any) => item.agendaDescription.toLowerCase() === 'viral load'
-    ) || []
+    ) ?? []
   }, [agendaData])
 
   //
@@ -151,6 +151,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
               }}
               variant="outline"
               className=" shadow-none text-black hover:bg-slate-100"
+              size={'sm'}
             >
               <ChevronsLeft size={15} className="mr-2" /> Prev
             </Button>
@@ -163,6 +164,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
                 onClick={() => {
                   handleNext()
                 }}
+                size={'sm'}
               >
                 Next <ChevronsRight className="ml-2" size={15} />
               </Button>
@@ -174,6 +176,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
                 onClick={() => {
                   addViralLoadTest(inputValues)
                 }}
+                size={'sm'}
               >
                 {isLoading && <Loader2 className='mr-2 animate-spin' size={18} />}
                 Save

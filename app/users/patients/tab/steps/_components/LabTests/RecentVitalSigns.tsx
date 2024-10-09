@@ -1,21 +1,14 @@
 import { CollapseButton } from '@/components/CollapseButton'
 import { calculateBMI } from '@/utils/calculateBMI'
-import { CalendarCheck2 } from 'lucide-react'
-import moment from 'moment'
 import React from 'react'
+import RecentTestHeader from '../RecentTestHeader'
 
 interface RecentVitalSignsProps { createdAt: Date, temperature?: number, pulseRate?: number, respiratoryRate?: number, systolic?: number, diastolic?: number, weight?: number, height?: number | string }
 
 const RecentVitalSigns = ({ createdAt, temperature, pulseRate, respiratoryRate, systolic, diastolic, weight, height }: RecentVitalSignsProps) => {
   return (
     <div className="w-1/3 bg-white rounded-lg">
-      <div className="flex justify-between items-center w-full border p-2 rounded-t-lg bg-slate-200 ">
-        <p className="text-[14px] font-bold  ">Recent Vitals</p>
-        <div className="flex justify-between items-center space-x-2 text-slate-500 text-[12px] ">
-          <CalendarCheck2 size={15} />
-          <p>{moment(createdAt).format('ll')}</p>
-        </div>
-      </div>
+      <RecentTestHeader title="Recent Vitals" date={createdAt} />
 
       <div className="p-2">
         <div className="flex justify-between items-center w-full p-2 text-[12px] ">
@@ -70,7 +63,8 @@ const RecentVitalSigns = ({ createdAt, temperature, pulseRate, respiratoryRate, 
               </div>
             </div>
             <div>
-                {(weight != null) && calculateBMI(weight, height as string)}</div>
+              {weight != null && calculateBMI(weight, height as string)}
+            </div>
           </div>
         </CollapseButton>
       </div>

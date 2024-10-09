@@ -13,7 +13,7 @@ const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
     <div className="w-1/3 bg-white rounded-lg">
       <RecentTestHeader title="Recent Test" date={data?.createdAt} />
       <div className="p-4 flex flex-col space-y-2">
-        <div className="flex justify-between items-center w-full text-[14px] ">
+        <div className="flex justify-between items-center w-full text-[12px] ">
           <p className="text-slate-500 ">Results</p>
           <p className="font-bold">
             {data?.vlResults} <span className="text-[12px]">Copies/ml</span>
@@ -22,13 +22,13 @@ const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
         <hr />
 
         {/*  */}
-        <div className="flex justify-between items-center w-full text-[14px] ">
+        <div className="flex justify-between items-center w-full text-[12px] ">
           <p className="text-slate-500 ">Justification</p>
           <p className="font-bold">{data?.vlJustification}</p>
         </div>
         <hr />
 
-        <div className="flex justify-between items-center w-full text-[14px] ">
+        <div className="flex justify-between items-center w-full text-[12px] ">
           <p className="text-slate-500 ">Date</p>
           <p className="font-bold">{moment(data?.dateOfVL).format('ll')}</p>
         </div>
@@ -46,7 +46,7 @@ const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
                   )
 
                 : (
-            <div className="p-2 text-[14px] border rounded-lg  border-orange-200 bg-orange-50 capitalize text-orange-500 ">
+            <div className="p-2 text-[12px] border rounded-lg  border-orange-200 bg-orange-50 capitalize text-orange-500 ">
               Average viral load for 3 tests{' '}
               <span className="font-bold">{average}</span>{' '}
             </div>

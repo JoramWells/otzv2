@@ -122,7 +122,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const agendaDataOptions = useCallback(() => {
     return agendaData?.filter(
       (item: any) => item.agendaDescription.toLowerCase() === 'refill'
-    ) || []
+    ) ?? []
   }, [agendaData])
 
   const statusOptions = useCallback(() => {
@@ -233,6 +233,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                       className={`bg-white shadow-none  text-slate-500 border border-slate-200 hover:bg-slate-100  ${
                         item.id === tab && 'bg-slate-50 text-black'
                       }`}
+                      size={'sm'}
                     >
                       {item.icon}
                       {item.label}
@@ -295,6 +296,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                     handleBack()
                   }}
                   className="bg-slate-200 shadow-none text-black hover:bg-slate-100"
+                  size={'sm'}
                 >
                   <ChevronsLeft className="mr-2" size={18} />
                   Prev
@@ -303,6 +305,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                 <Button
                   className="bg-teal-600 shadow-none hover:bg-teal-600 text-white"
                   onClick={async () => await addArtPrescription(inputValues)}
+                  size={'sm'}
                 >
                   {isLoading && (
                     <Loader2 className="animate-spin mr-2" size={18} />
