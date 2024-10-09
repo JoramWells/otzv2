@@ -92,6 +92,11 @@ const Appointment = () => {
   //   }
   // }, [])
 
+  const handleDeleteColumn = (id: string) => {
+    const filteredData = appointmentAgenda.filter(row => row.id !== id)
+    setAppointmentAgenda(filteredData)
+  }
+
   return (
     <>
       <BreadcrumbComponent dataList={breadCrumbList} />
@@ -122,7 +127,7 @@ const Appointment = () => {
                 Manage Appointment Agenda
               </p>
               <CustomTable
-                columns={columns}
+                columns={columns(handleDeleteColumn)}
                 data={appointmentAgenda || []}
                 isSearch={false}
               />

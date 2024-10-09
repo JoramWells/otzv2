@@ -29,7 +29,7 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<AppointmentAgendaAttributes>> = [
+export const columns = (handleDelete: (id: string) => void): Array<ColumnDef<AppointmentAgendaAttributes>> => [
   {
     accessorKey: 'agendaDescription',
     header: 'Agenda Description',
@@ -58,13 +58,17 @@ export const columns: Array<ColumnDef<AppointmentAgendaAttributes>> = [
           />
           {isLoading
             ? (
-            <Loader2 className='animate-spin' size={24} />
+            <Loader2 className='animate-spin text-slate-500' size={20} />
               )
             : (
             <Trash2
               className="bg-red-100 text-red-500 p-1 hover:cursor-pointer hover:text-red-700 rounded-md"
               size={24}
-              onClick={async () => await deleteAppointmentAgenda(row.original.id)}
+              // onClick={async () => await deleteAppointmentAgenda(row.original.id)}
+              onClick={async () => {
+                await deleteAppointmentAgenda(row.original.id)
+                handleDelete(row.original.id)
+              }}
             />
               )}
         </div>
