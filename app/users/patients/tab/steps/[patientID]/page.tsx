@@ -145,11 +145,11 @@ const StepsPage = ({ params }: any) => {
   }
 
   return (
-    <div>
+    <>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="w-full flex flex-row space-x-4 justify-center relative ">
         {/*  */}
-        <div className="flex flex-col items-center w-full p-4">
+        <div className="flex flex-col items-center w-full p-2">
           <div className="w-full bg-white p-2 rounded-lg static top-[52px] border border-slate-100 ">
             {/*  */}
             <CustomStepper
@@ -158,7 +158,7 @@ const StepsPage = ({ params }: any) => {
               appointmentID={appointmentID}
             />
           </div>
-          <div className="w-full mt-4 flex justify-between items-start space-x-4">
+          <div className="w-full mt-2 flex justify-between items-start space-x-4">
             <PatientProfile
               data={personalData}
               isLoading={isLoadingPersonalData}
@@ -270,7 +270,7 @@ const StepsPage = ({ params }: any) => {
           <StagingDialog />
         </div> */}
       </div>
-    </div>
+    </>
   )
 }
 

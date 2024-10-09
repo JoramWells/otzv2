@@ -10,12 +10,12 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
+import { useAddAppointmentAgendaMutation, useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import AddAppointmentAgenda from './_components/AddAppointmentAgenda'
 import AddAppointmentStatus from './_components/AddAppointmentStatus'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-import socketIOClient, { type Socket } from 'socket.io-client'
+import { type AppointmentAgendaAttributes } from 'otz-types'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -42,7 +42,20 @@ const Appointment = () => {
   const [value, setValue] = useState(1)
   const { data: appointmentAgendaData } = useGetAllAppointmentAgendaQuery()
   const { data: appointmentStatusData } = useGetAllAppointmentStatusQuery()
-  console.log(appointmentStatusData, 'dtc')
+
+  const [addAppointmentAgenda, { isLoading, data }] =
+    useAddAppointmentAgendaMutation()
+
+  const [appointmentAgenda, setAppointmentAgenda] = useState<AppointmentAgendaAttributes[]>([])
+  useEffect(() => {
+    if (appointmentAgendaData) {
+      setAppointmentAgenda(appointmentAgendaData)
+    }
+
+    if (data) {
+      setAppointmentAgenda(prev => [...prev, data])
+    }
+  }, [appointmentAgendaData, data])
 
   const breadCrumbList = [
     {
@@ -53,31 +66,31 @@ const Appointment = () => {
     {
       id: '2',
       label: 'Appointment',
-      link: 'appointment'
+      link: '/'
     }
   ]
 
-  useEffect(() => {
-    // if (data) {
-    // setAppointments(data)
-    // }
+  // useEffect(() => {
+  // if (data) {
+  // setAppointments(data)
+  // }
 
-    const socket: Socket = socketIOClient(`${process.env.NEXT_PUBLIC_API_URL}/api/appointment`, {
-      path: '/api/appointment/socket.io',
-      transports: ['websocket']
-    }
-    )
+  //   const socket: Socket = socketIOClient(`${process.env.NEXT_PUBLIC_API_URL}/api/appointment`, {
+  //     path: '/api/appointment/socket.io',
+  //     transports: ['websocket']
+  //   }
+  //   )
 
-    socket.on('appointment-agenda-updated', (socketData: any) => {
-      // showNotification()
-      // setAppointments(socketData)
-      console.log(socketData)
-    })
+  //   socket.on('appointment-agenda-updated', (socketData: any) => {
+  //     // showNotification()
+  //     // setAppointments(socketData)
+  //     console.log(socketData)
+  //   })
 
-    return () => {
-      socket.disconnect()
-    }
-  }, [])
+  //   return () => {
+  //     socket.disconnect()
+  //   }
+  // }, [])
 
   return (
     <>
@@ -95,25 +108,30 @@ const Appointment = () => {
             onClick={() => {
               setValue(item.id)
             }}
+            size={'sm'}
           >
             {item.text}
           </Button>
         ))}
       </div>
-      <div className="w-full p-2">
+      <div className="w-full p-2 pt-0">
         {value === 1 && (
-          <div className="w-full flex items-start space-x-4">
-            <div className="w-3/4 bg-white p-2 rounded-lg">
-              <p className="mb-2 text-lg font-bold text-slate-700">
+          <div className="w-full flex items-start space-x-2">
+            <div className="w-3/4 bg-white rounded-lg p-2">
+              <p className="m-2 font-bold text-slate-700">
                 Manage Appointment Agenda
               </p>
               <CustomTable
                 columns={columns}
-                data={appointmentAgendaData || []}
+                data={appointmentAgenda || []}
                 isSearch={false}
               />
             </div>
-            <AddAppointmentAgenda />
+            <AddAppointmentAgenda
+              addAppointmentAgenda={async () => await addAppointmentAgenda(data)}
+              data={data}
+              isLoading={isLoading}
+            />
           </div>
         )}
 

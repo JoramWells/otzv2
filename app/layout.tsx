@@ -1,4 +1,5 @@
 import AuthProviders from '@/components/providers'
+import { Toaster } from '@/components/ui/toaster'
 import type { Metadata } from 'next'
 // import { getServerSession } from 'next-auth'
 import { Inter } from 'next/font/google'
@@ -25,7 +26,9 @@ export default async function RootLayout ({
       >
         <AuthProviders>
             <body className={inter.className}
-            >{children}</body>
+            >{children}
+            <Toaster/>
+            </body>
         </AuthProviders>
       </html>
   )

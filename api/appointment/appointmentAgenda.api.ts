@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type AppointmentAgendaAttributes } from 'otz-types'
 
 export const appointmentAgendaApi = createApi({
   reducerPath: 'appointmentAgendaApi',
@@ -7,7 +8,7 @@ export const appointmentAgendaApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/appointment-agenda`
   }),
   endpoints: (builder) => ({
-    getAllAppointmentAgenda: builder.query<any, void>({
+    getAllAppointmentAgenda: builder.query<AppointmentAgendaAttributes[], void>({
       query: () => 'fetchAll'
     }),
     addAppointmentAgenda: builder.mutation({
