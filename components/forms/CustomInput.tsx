@@ -6,10 +6,10 @@ const CustomInput = ({ description, label, placeholder, value, type = 'text', on
     <div className="w-full flex flex-col space-y-2">
       <div>
         {label && (
-          <p className="text-slate-700 font-semibold capitalize">{label}</p>
+          <p className="text-slate-700 font-semibold text-[14px] capitalize">{label}</p>
         )}
         {description && (
-          <p className="mb-1 text-slate-500 text-[14px]">
+          <p className="mb-1 text-slate-500 text-[12px]">
             {description}
           </p>
         )}
