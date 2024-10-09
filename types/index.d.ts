@@ -9,9 +9,10 @@ declare interface AvatarProps {
 declare interface CustomInputProps {
   label?: string
   placeholder?: string
-  value: string
+  value: string | number
   type?: string
   description?: string
+  defaultValue?: string | number
   onChange: (value: any) => void
 }
 

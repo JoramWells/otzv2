@@ -95,7 +95,7 @@ interface AddArtProps {
 const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const [noOfPill, setNoOfPills] = useState<string>('')
   const [frequency, setFrequency] = useState<string>('')
-  const [refillDate, setRefillDate] = useState<string>('')
+  const [refillDate, setRefillDate] = useState<string>(new Date().toISOString().split('T')[0])
 
   const searchParams = useSearchParams()
   const appointmentID = searchParams.get('appointmentID')

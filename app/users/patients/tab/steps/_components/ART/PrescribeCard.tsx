@@ -44,7 +44,9 @@ const PrescribeCard = ({
   return (
     <div className="flex flex-col space-y-4  border  rounded-lg p-4">
       <CustomInput
-        label="Number of Pills"
+        label="Pills"
+        description='The number of pills prescribed.'
+        placeholder='Enter the number of pills.'
         onChange={setNoOfPills}
         value={noOfPill as unknown as string}
       />
@@ -52,6 +54,8 @@ const PrescribeCard = ({
         label="Frequency"
         value={frequency as unknown as string}
         onChange={setFrequency}
+        description='The prescribed number of times in a day the patient has to take medicine.'
+        defaultValue='OD'
         data={[
           {
             id: '1',
@@ -65,6 +69,7 @@ const PrescribeCard = ({
       />
       <CustomInput
         label="Refill Date"
+        description='If no date is selected, default date is used for prescription.'
         onChange={setRefillDate}
         value={refillDate}
         type="date"

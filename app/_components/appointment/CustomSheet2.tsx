@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { Button } from '@/components/ui/button'
@@ -78,7 +80,7 @@ const CustomSheet2 = ({ data }: DataProps) => {
     return appointmentAgendaData?.map((item: any) => ({
       id: item.id,
       label: item.agendaDescription
-    }))
+    })) || []
   }, [appointmentAgendaData])
 
   //
@@ -122,7 +124,7 @@ const CustomSheet2 = ({ data }: DataProps) => {
           />
           <CustomSelect
             label="Agenda"
-            data={appointmentAgendaOptions()}
+            data={appointmentAgendaOptions() || []}
             value={appointmentAgenda}
             onChange={setAppointmentAgenda}
           />

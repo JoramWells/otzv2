@@ -66,7 +66,7 @@ const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardPr
             <div className="p-4 border text-red-500 items-center border-red-200 rounded-lg flex space-x-2 bg-red-50">
               <TriangleAlert className="" size={18} />
               <p
-              className='text-[14px] font-semibold'
+              className='text-[12px] font-semibold'
               >No Recent prescription</p>
             </div>
           </div>
