@@ -3,7 +3,7 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable react/jsx-no-undef */
 import { calculateAdherence } from '@/utils/calculateAdherence'
-import { Loader2 } from 'lucide-react'
+import { Loader2, TriangleAlert } from 'lucide-react'
 import React from 'react'
 import { type PrescriptionInterface } from 'otz-types'
 import RecentTestHeader from '../RecentTestHeader'
@@ -16,10 +16,7 @@ interface PrescriptionCardProps {
 const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardProps) => {
   return (
     <div className="w-1/3 rounded-lg bg-white">
-      <RecentTestHeader
-      title='Recent Prescription'
-      date={data?.createdAt}
-      />
+      <RecentTestHeader title="Recent Prescription" date={data?.createdAt} />
 
       <div>
         {isLoading ? (
@@ -65,7 +62,14 @@ const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardPr
             </div>
           </div>
         ) : (
-          <div>No Recent prescription</div>
+          <div className="p-2">
+            <div className="p-4 border text-red-500 items-center border-red-200 rounded-lg flex space-x-2 bg-red-50">
+              <TriangleAlert className="" size={18} />
+              <p
+              className='text-[14px] font-semibold'
+              >No Recent prescription</p>
+            </div>
+          </div>
         )}
       </div>
     </div>

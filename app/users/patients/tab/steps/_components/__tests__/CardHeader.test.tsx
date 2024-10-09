@@ -17,7 +17,7 @@ describe('CardHeader', () => {
     const headerElement = screen.getByText(headerText)
 
     expect(headerElement).toBeInTheDocument()
-    expect(headerElement).toHaveClass('text-lg font-semibold')
+    expect(headerElement).toHaveClass('text-[14px] font-bold')
 
     const rightContentElement = screen.getByText(rightContent)
     expect(rightContentElement).toBeInTheDocument()
