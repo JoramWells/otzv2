@@ -31,6 +31,7 @@ import InitiateART from './ART/InitiateART'
 import SwitchART from './ART/SwitchART'
 import { Skeleton } from '@/components/ui/skeleton'
 import CardHeader from './CardHeader'
+import { useToast } from '@/components/ui/use-toast'
 
 const reasonOptions = [
   {
@@ -169,6 +170,20 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     return await addPrescription(prescriptionInputValues)
   }
 
+  const { toast } = useToast()
+
+  // Toast method
+  const send = useCallback(
+    () =>
+      toast({
+        // variant:'success',
+        title: 'Completed',
+        description: 'New Appointment Created Successfully!!'
+        // action: <ToastAction altText="Saved">Undo</ToastAction>
+      }),
+    [toast]
+  )
+
   const inputValues = {
     patientID,
     regimen: artRegimen,
@@ -179,6 +194,13 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   }
 
   const [tab, setTab] = useState(1)
+
+  useEffect(() => {
+    if (addPrescriptionData) {
+      send()
+    }
+    // handleNext()
+  }, [addPrescriptionData, send])
 
   const prescriptionInputValues = useMemo(
     () => [
@@ -200,7 +222,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     [addPrescriptionData?.id, agendaDataOptions, appointmentID, frequency, noOfPill, patientID, recentPrescriptionData?.id, refillDate, statusOptions, userData]
   )[0]
 
-  console.log(prescriptionInputValues, 'prescriptionInputValues')
+  console.log(addPrescriptionData, 'prescriptionInputValues')
 
   return (
     <>
@@ -211,11 +233,15 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
       "
         >
           <CardHeader
-            header="Art Details"
+            header="Medicine Prescription"
             rightContent={
-              <Badge className="shadow-none">
-                {prescriptionData?.regimen}
-              </Badge>
+              prescriptionData?.regimen && (
+                <Badge className="shadow-none">
+                  <p
+                  className='text-[12px]'
+                  >{prescriptionData?.regimen}</p>
+                </Badge>
+              )
             }
           />
 

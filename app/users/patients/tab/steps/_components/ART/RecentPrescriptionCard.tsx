@@ -25,7 +25,12 @@ const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardPr
             Loading...
           </div>
         ) : isError ? (
-          <div>error</div>
+          <div className="p-2">
+            <div className="border border-red-200 p-4 flex items-center space-x-2 rounded-lg text-[12px] font-semibold text-red-500 ">
+              <TriangleAlert size={18} />
+              <p>Error connecting to server!!</p>
+            </div>
+          </div>
         ) : data ? (
           <div className="p-4 flex-col flex space-y-2">
             <div className="flex justify-between items-center w-full text-[14px] ">
@@ -65,9 +70,9 @@ const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardPr
           <div className="p-2">
             <div className="p-4 border text-red-500 items-center border-red-200 rounded-lg flex space-x-2 bg-red-50">
               <TriangleAlert className="" size={18} />
-              <p
-              className='text-[12px] font-semibold'
-              >No Recent prescription</p>
+              <p className="text-[12px] font-semibold">
+                No Recent prescription
+              </p>
             </div>
           </div>
         )}

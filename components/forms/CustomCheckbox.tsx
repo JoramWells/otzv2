@@ -9,26 +9,33 @@ export interface CheckboxProps {
 
 const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) => {
   return (
-    <div className="flex flex-row items-start space-x-4 hover:bg-slate-50 hover:cursor-pointer p-2 rounded-lg">
+    <div className="flex flex-row items-center space-x-2 hover:bg-slate-50 hover:cursor-pointer p-2 rounded-lg">
       <Checkbox
         id="checkedBox"
         checked={value}
         onCheckedChange={(checked: boolean) => {
           onChange(checked)
         }}
-        className='mt-1'
+        // className="mt-1"
         // pt={1}
       />
       <div className="flex flex-col">
-        <label htmlFor="checkedBox" className={`capitalize text-[16px] ${value && 'text-slate-700'} text-slate-500 `}>
+        <label
+          htmlFor="checkedBox"
+          className={`capitalize text-[14px] font-semibold ${
+            value && 'text-slate-700'
+          } text-slate-500 `}
+        >
           {label}
         </label>
-        <span
-          className="text-slate-500 text-[14px]
+        {(description != null) && (
+          <span
+            className="text-slate-500 text-[14px]
         "
-        >
-          {description}
-        </span>
+          >
+            {description}
+          </span>
+        )}
       </div>
     </div>
   )
