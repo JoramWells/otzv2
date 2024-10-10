@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
@@ -43,7 +45,7 @@ const AddArtCategory = ({ params }: any) => {
     return appointmentAgendaData?.map((item: any) => ({
       id: item.id,
       label: item.agendaDescription
-    }))
+    })) || []
   }, [appointmentAgendaData])
 
   //
@@ -100,7 +102,7 @@ const AddArtCategory = ({ params }: any) => {
         {/*  */}
         <CustomSelect
           label="Agenda/Reason"
-          data={appointmentOptions()}
+          data={appointmentOptions() || []}
           value={agenda}
           onChange={setAppointmentAgenda}
         />
