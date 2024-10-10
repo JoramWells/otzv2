@@ -136,13 +136,14 @@ const AddTriage = ({
           <div className="p-4 relative pb-[68px]">
             <FormProvider {...methods}>
               <form
-                className="p-4 rounded-lg flex flex-col space-y-2 border"
+                className="p-4 rounded-lg flex flex-col space-y-4 border"
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <CustomInput2
                   label="Temperature (°C)"
                   name="temperature"
                   type="number"
+                  placeholder='Enter temperature value'
                   description='The current body temperature as recorded now.'
                   // onChange={setTemperature}
                 />
@@ -151,29 +152,34 @@ const AddTriage = ({
                   <CustomInput2
                     label="Pulse Rate (bpm)"
                     name="pulseRate"
+                    placeholder='Enter pulse rate value'
                     description='Describes the number of times the heart beats measured in beats per minute.'
                     // onChange={setPulseRate}
                   />
                   <CustomInput2
                     label="Respiratory Rate"
                     name="respiratoryRate"
+                    placeholder='Enter respiratory rate value'
                     description='The number of breaths taken in a minute. Measured in breaths per minute.'
                     // onChange={setRespiratoryRate}
                   />
                 </div>
 
-                <div>
-                  <p className="font-bold mb-1">Blood Pressure (mmHg)</p>
-                  <div className="flex flex-row w-1/2 space-x-4 items-center">
+                <div className='mt-2'>
+                  <p className="font-bold">Blood Pressure (mmHg)</p>
+                  <div className="flex flex-row w-full p-4 rounded-lg border border-slate-200 space-x-4 items-center">
                     <CustomInput2
                       label="Systolic"
                       name="systolic"
+                      placeholder='Enter systolic value'
+                      description='Represents the pressure in the arteries when heart beats (mmHg).'
                       // onChange={setSystolic}
                     />
-                    <div className="mt-2 text-slate-500 ">/</div>
                     <CustomInput2
                       label="Diastolic"
                       name="diastolic"
+                      placeholder='Enter diastolic value'
+                      description='Represents the pressure in when the heart is at rest (mmHg).'
                       // onChange={setDiastolic}
                     />
                   </div>{' '}
@@ -182,19 +188,25 @@ const AddTriage = ({
                 <CustomInput2
                   label="Oxygen Saturation (%)"
                   name="oxygenSAturation"
+                  placeholder='Enter oxygen saturation value'
+                  description='Refers the percentage of oxygen-saturated haemoglobin in the blood.'
                   // onChange={setOxygen}
                 />
 
-                <div className="flex flex-row space-x-4 w-1/2 ">
+                <div className="flex flex-row space-x-4 w-full ">
                   <CustomInput2
                     label="Weight (kg) "
                     name="weight"
+                    placeholder='Enter height value'
+                    description='The current weight of as recorded today.'
                     type="number"
                     // onChange={setWeight}
                   />
                   <CustomInput2
                     label="Height (cm) "
                     name="height"
+                    placeholder='Enter height value'
+                    description='The current height as recorded now.'
                     type="number"
                     // onChange={setheight}
                   />

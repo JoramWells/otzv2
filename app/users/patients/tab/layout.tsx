@@ -8,6 +8,7 @@ import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_co
 // import Footer from '@/components/Footer'
 // import Footer from '@/components/Footer'
 import { Sidebar } from '@/components/sidebar/Sidebar'
+import { Toaster } from '@/components/ui/toaster'
 import { store } from '@/lib/store'
 import { ChakraProvider } from '@chakra-ui/react'
 import { BookCopy, CalendarDays, History, Home, LayoutDashboardIcon, MessageSquare, Settings } from 'lucide-react'
@@ -76,7 +77,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
     return (
       <Provider store={store}>
         <ChakraProvider>
-          <div className={'bg-slate-50 min-h-screen flex-1'}>{children}</div>
+          <div className={'bg-slate-50 min-h-screen flex-1'}>
+            {children}
+            <Toaster />
+          </div>
         </ChakraProvider>
       </Provider>
     )
@@ -96,6 +100,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           {/* <Navbar /> */}
 
           {children}
+          <Toaster/>
         </div>
         {/* <Footer /> */}
       </ChakraProvider>
