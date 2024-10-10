@@ -1,8 +1,11 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomTimeInput2 from '@/components/forms/CustomTimeInput2'
+import { Button } from '@/components/ui/button'
+import { useState } from 'react'
 
 export interface ScheduleAndTimeProps {
   morningPlace: string
@@ -44,6 +47,8 @@ const ScheduleAndTime = ({
   setEveningTimeWeekend
 }: ScheduleAndTimeProps) => {
   const { data: prescriptionDatam } = useGetPrescriptionQuery(appointmentID)
+  const [tabValue, setTabValue] = useState('Morning')
+
   return (
     <div className="flex-1 border p-4 rounded-lg">
       <div>
@@ -51,53 +56,120 @@ const ScheduleAndTime = ({
           Based on your schedule, what is the best time and place to take
           medicine?
         </p>
-        <div className="flex flex-row gap-x-6">
-          <div className="w-1/4">
-            <CustomTimeInput2
-              label="Morning Time"
-              onChange={setMorningTime}
-              value={morningTime}
-            />
-          </div>
-          {/* <CustomTimeInput
+        {/*  */}
+        {prescriptionDatam?.frequency === 1 ? (
+          <div>
+            <div className="pb-2 flex space-x-2">
+              {['Morning', 'Evening'].map((item) => (
+                <Button
+                  key={item}
+                  onClick={() => {
+                    setTabValue(item)
+                  }}
+                  className="rounded-full bg-slate-50 text-slate-500 hover:bg-slate-200"
+                  size={'sm'}
+                >
+                  {item}
+                </Button>
+              ))}
+            </div>
+
+            {/*  */}
+            {tabValue === 'Morning' ? (
+              <div className="flex flex-row gap-x-6">
+                <div className="w-1/4">
+                  <CustomTimeInput2
+                    label="Morning Time"
+                    onChange={setMorningTime}
+                    value={morningTime}
+                  />
+                </div>
+                {/* <CustomTimeInput
               label="Morning Time"
               Time={morningTime}
               setTime={setMorningTime}
               minutes={morningMinutes}
               setMinutes={setMorningMinutes}
             /> */}
-          <CustomInput
-            label="Enter Place"
-            value={morningPlace}
-            onChange={setMorningPlace}
-          />
-        </div>
-      </div>
-
-      {/*  */}
-      {prescriptionDatam?.frequency === 2 && (
-        <div className="flex flex-row gap-x-6">
-          <div className="w-1/4">
-            <CustomTimeInput2
-              label="Evening Time"
-              onChange={setEveningTime}
-              value={eveningTime}
-            />
-          </div>
-          {/* <CustomTimeInput
+                <CustomInput
+                  label="Enter Place"
+                  value={morningPlace}
+                  onChange={setMorningPlace}
+                />
+              </div>
+            ) : (
+              <div className="flex flex-row gap-x-6">
+                <div className="w-1/4">
+                  <CustomTimeInput2
+                    label="Evening Time"
+                    onChange={setEveningTime}
+                    value={eveningTime}
+                  />
+                </div>
+                {/* <CustomTimeInput
             label="Evening Time"
             Time={eveningTime}
             setTime={setEveningTime}
             minutes={eveningMinutes}
             setMinutes={setEveningMinutes}
           /> */}
-          <CustomInput
-            label="Enter Place"
-            value={eveningPlace}
-            onChange={setEveningPlace}
+                <CustomInput
+                  label="Enter Place"
+                  value={eveningPlace}
+                  onChange={setEveningPlace}
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-row gap-x-6">
+              <div className="w-1/4">
+                <CustomTimeInput2
+                  label="Morning Time"
+                  onChange={setMorningTime}
+                  value={morningTime}
+                />
+              </div>
+              {/* <CustomTimeInput
+              label="Morning Time"
+              Time={morningTime}
+              setTime={setMorningTime}
+              minutes={morningMinutes}
+              setMinutes={setMorningMinutes}
+            /> */}
+              <CustomInput
+                label="Enter Place"
+                value={morningPlace}
+                onChange={setMorningPlace}
+              />
+            </div>
+          </>
+        )}
+      </div>
+
+      {/*  */}
+      {/* <div className="flex flex-row gap-x-6">
+        <div className="w-1/4">
+          <CustomTimeInput2
+            label="Evening Time"
+            onChange={setEveningTime}
+            value={eveningTime}
           />
-        </div>
-      )}
+        </div> */}
+        {/* <CustomTimeInput
+            label="Evening Time"
+            Time={eveningTime}
+            setTime={setEveningTime}
+            minutes={eveningMinutes}
+            setMinutes={setEveningMinutes}
+          /> */}
+        {/* <CustomInput
+          label="Enter Place"
+          value={eveningPlace}
+          onChange={setEveningPlace}
+        />
+      </div> */}
 
       <div>
         <p className="mb-2 text-slate-500">

@@ -168,6 +168,7 @@ const FormOne = ({
             }}
             className=" shadow-none text-slate-500 "
             variant={'outline'}
+            size={'sm'}
           >
             <ChevronsLeft className='mr-2' size={18} />
             Back
@@ -180,6 +181,7 @@ const FormOne = ({
               onClick={() => {
                 handleNext()
               }}
+              size={'sm'}
             >
               Next
               <ChevronsRight className='ml-2' size={18} />
@@ -190,6 +192,7 @@ const FormOne = ({
               className="bg-teal-600 shadow-none hover:bg-teal-500 text-white"
               onClick={async () => await addTimeAndWork(inputValues)}
               disabled={isLoading}
+              size={'sm'}
             >
               {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
               Save

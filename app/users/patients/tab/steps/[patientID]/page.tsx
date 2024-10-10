@@ -131,11 +131,10 @@ const StepsPage = ({ params }: any) => {
   }, [tab, personalData])
   const steps = [
     { title: 'Triage', description: 'Vital Signs' },
-    { title: 'ART', description: 'ART Details' },
     { title: 'Lab', description: 'Viral Load, CD4' },
+    { title: 'Prescription', description: 'ART Details' },
     { title: 'Time', description: 'Time & Schedule' },
     { title: 'MMAS', description: 'MMAS4 & MMAS8' }
-
   ]
 
   if (age >= 5 && age <= 8) {
@@ -163,37 +162,36 @@ const StepsPage = ({ params }: any) => {
               data={personalData}
               isLoading={isLoadingPersonalData}
             />
-              {tab === '1' && activeStep === 1 && (
-                <AddTriage
-                  vlData={vsData}
-                  patientID={patientID}
-                  handleBack={handleBack}
-                  handleNext={() => {
-                    handleNext(activeStep)
-                  }}
-                  age={age}
-                  activeStep={activeStep}
-                />
-              )}
+            {tab === '1' && activeStep === 1 && (
+              <AddTriage
+                vlData={vsData}
+                patientID={patientID}
+                handleBack={handleBack}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                age={age}
+                activeStep={activeStep}
+              />
+            )}
 
-              {/*  */}
-              {tab === '2' && activeStep === 2 && (
-                <Suspense fallback={<div>loading...</div>}>
-                  <AddArt
-                    handleNext={() => {
-                      handleNext(activeStep)
-                    }}
-                    patientID={patientID}
-                    handleBack={() => {
-                      handleBack()
-                    }}
-                  />
-                </Suspense>
-              )}
+            {tab === '2' && activeStep === 3 && (
+              <LabTests
+                patientVisitID={appointmentID}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                patientID={patientID}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
 
-              {tab === '3' && activeStep === 3 && (
-                <LabTests
-                  patientVisitID={appointmentID}
+            {/*  */}
+            {tab === '3' && activeStep === 2 && (
+              <Suspense fallback={<div>loading...</div>}>
+                <AddArt
                   handleNext={() => {
                     handleNext(activeStep)
                   }}
@@ -202,61 +200,62 @@ const StepsPage = ({ params }: any) => {
                     handleBack()
                   }}
                 />
-              )}
+              </Suspense>
+            )}
 
-              {tab === '4' && activeStep === 4 && (
-                <FormOne
-                  patientID={patientID}
-                  appointmentID={appointmentID}
-                  handleNext={() => {
-                    handleNext(activeStep)
-                  }}
-                  handleBack={() => {
-                    handleBack()
-                  }}
-                />
-              )}
+            {tab === '4' && activeStep === 4 && (
+              <FormOne
+                patientID={patientID}
+                appointmentID={appointmentID}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
 
-              {tab === '5' && activeStep === 5 && (
-                <MMASForm
-                  formData={mmasData}
-                  appointmentID={appointmentID}
-                  patientID={patientID}
-                  handleNext={() => {
-                    handleNext(activeStep)
-                  }}
-                  handleBack={() => {
-                    handleBack()
-                  }}
-                  stepsLength={steps.length}
-                />
-              )}
-              {tab === '6' && activeStep === 6 && age >= 5 && age <= 8 && (
-                <DisclosureChecklist
-                  appointmentID={appointmentID}
-                  patientID={patientID}
-                  handleNext={() => {
-                    handleNext(activeStep)
-                  }}
-                  handleBack={() => {
-                    handleBack()
-                  }}
-                />
-              )}
+            {tab === '5' && activeStep === 5 && (
+              <MMASForm
+                formData={mmasData}
+                appointmentID={appointmentID}
+                patientID={patientID}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                handleBack={() => {
+                  handleBack()
+                }}
+                stepsLength={steps.length}
+              />
+            )}
+            {tab === '6' && activeStep === 6 && age >= 5 && age <= 8 && (
+              <DisclosureChecklist
+                appointmentID={appointmentID}
+                patientID={patientID}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
 
-              {/*  */}
-              {tab === '6' && activeStep === 6 && age >= 9 && age <= 12 && (
-                <FullDisclosureChecklist
-                  appointmentID={appointmentID}
-                  patientID={patientID}
-                  handleNext={() => {
-                    handleNext(activeStep)
-                  }}
-                  handleBack={() => {
-                    handleBack()
-                  }}
-                />
-              )}
+            {/*  */}
+            {tab === '6' && activeStep === 6 && age >= 9 && age <= 12 && (
+              <FullDisclosureChecklist
+                appointmentID={appointmentID}
+                patientID={patientID}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
           </div>
         </div>
         {/*  */}
