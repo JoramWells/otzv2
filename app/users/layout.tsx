@@ -17,6 +17,7 @@ import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import Footer from '@/components/Footer'
+import { Toaster } from '@/components/ui/toaster'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -91,6 +92,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
       return (
           <Provider store={store}>
             <SidebarProvider>{children}</SidebarProvider>
+            <Toaster/>
           </Provider>
       )
     }
@@ -109,6 +111,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
                 <Footer/>
               </div>
             </div>
+            <Toaster/>
           </SidebarProvider>
         </ChakraProvider>
       </Provider>

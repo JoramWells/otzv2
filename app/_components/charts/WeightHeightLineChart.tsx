@@ -29,10 +29,10 @@ ChartJS.register(
 
 const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
   const { data: patientData } = useGetAllVitalSignByPatientIDQuery(patientID)
-  const bmiData = patientData?.map((item: any) => {
+  const topFiveRecentVitalsTest = patientData?.slice(0, 5)
+  const bmiData = topFiveRecentVitalsTest?.map((item: any) => {
     return calculateBMI(item.weight, item.height)
   })
-  console.log(patientData, 'vitals')
 
   const data = {
     labels: patientData?.map((item: any) =>
@@ -49,14 +49,14 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
       },
       {
         label: 'HEIGHT',
-        data: patientData?.map((item: any) => item.height * 100),
+        data: topFiveRecentVitalsTest?.map((item: any) => item.height * 100),
         borderColor: 'rgb(75, 192, 192)',
         yAxisID: 'y2',
         fill: false
       },
       {
         label: 'WEIGHT',
-        data: patientData?.map((item: any) => item.weight),
+        data: topFiveRecentVitalsTest?.map((item: any) => item.weight),
         borderColor: 'rgb(54, 162, 235)',
         yAxisID: 'y3',
         fill: false
@@ -76,7 +76,7 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
         type: 'linear' as const,
         display: true,
         position: 'left' as const,
-        min: 0,
+        min: 50,
         max: 200,
         title: {
           display: true,
@@ -90,7 +90,7 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
         grid: {
           drawOnChartArea: false // only want the grid lines for one axis to show up
         },
-        min: 0,
+        min: 30,
         max: 80,
         title: {
           display: true,
@@ -104,7 +104,7 @@ const WeightHeightLineChart = ({ patientID }: { patientID: string }) => {
         grid: {
           drawOnChartArea: false // only want the grid lines for one axis to show up
         },
-        min: 0,
+        min: 10,
         max: 30,
         title: {
           display: true,

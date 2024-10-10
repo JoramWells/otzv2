@@ -17,7 +17,7 @@ import { secondaryColor } from '@/constants/color'
 import { ArrowRight, InfoIcon, Loader2, MapPinOff } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useGetTimeAndWorkByPatientIDQuery } from '@/api/treatmentplan/timeAndWork.api'
 import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
@@ -33,6 +33,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import MapComponent from '@/app/_components/map/MapComponent'
 import { useGetUserLocationQuery } from '@/api/location/userLocation.api'
 import MapComponent2 from '@/app/_components/map/MapComponent2'
+import { useToast } from '@/components/ui/use-toast'
 
 export interface InputTabProps {
   id: number
@@ -47,7 +48,6 @@ const PatientDetails = ({ params }: any) => {
   const { data: patientData, isLoading: isLoadingPatientData, isError } = useGetPatientQuery(patientID as string)
   const { data: userLocationData, isLoading: isLoadingUserLocationData, isError: isErrorUserLocation } = useGetUserLocationQuery(patientID)
   const { data: timeData } = useGetTimeAndWorkByPatientIDQuery(patientID)
-  console.log(userLocationData, "userLocationData")
   const [addPatientVisit, { isLoading, data: visitData }] = useAddPatientVisitMutation()
 
   const { data: priorityAppointment } = useGetPriorityAppointmentDetailQuery(patientID)
@@ -65,6 +65,19 @@ const PatientDetails = ({ params }: any) => {
       })
     }
   }, [userLocationData])
+
+  const { toast } = useToast()
+
+  const send = useCallback(
+    () =>
+      toast({
+        // variant:'success',
+        title: "Completed",
+        description: "New Patient Visit Created Successfully"
+        // action: <ToastAction altText="Saved">Undo</ToastAction>
+      }),
+    [toast]
+  )
 
   const handleStartVisit = async () => {
     const newVisitID = uuidv4()
@@ -85,11 +98,14 @@ const PatientDetails = ({ params }: any) => {
     }
 
     if (visitData) {
+      console.log(visitData, "visitData")
+
+      send()
       redirect(
         `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
       )
     }
-  }, [visitData, patientID, vsData, session])
+  }, [visitData, patientID, vsData, session, send])
 
   return (
     <>
@@ -128,14 +144,14 @@ const PatientDetails = ({ params }: any) => {
               className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold flex items-center justify-center"
               size={"sm"}
             >
-              {isLoading ? (
+              {isLoading && (
                 <Loader2 className="mr-2 animate-spin" size={16} />
-              ) : (
+              )}
                 <>
                   New Visit
                   <ArrowRight size={16} className="ml-2" />
                 </>
-              )}
+
             </Button>
             {/* <StartVisitDropdown
               appointmentList={priorityAppointment}
@@ -159,7 +175,7 @@ const PatientDetails = ({ params }: any) => {
         ) : (
           <div
             className={`bg-[${secondaryColor}] p-2 rounded-lg 
-            flex flex-row h-[145px] space-x-4 flex-1`}
+            flex flex-row h-[100px] space-x-4 flex-1`}
           >
             <InfoIcon className="text-slate-500" size={18} />
             <div>
@@ -182,7 +198,7 @@ const PatientDetails = ({ params }: any) => {
           />
         ) : (
           <div
-            className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
+            className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[100px] space-x-4 flex-1`}
           >
             <InfoIcon className="text-slate-500" size={18} />
             <div>
@@ -205,7 +221,7 @@ const PatientDetails = ({ params }: any) => {
           />
         ) : (
           <div
-            className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[145px] space-x-4 flex-1`}
+            className={`bg-[${secondaryColor}] p-2 rounded-lg flex flex-row h-[100px] space-x-4 flex-1`}
           >
             <InfoIcon className="text-slate-500" size={18} />
             <div>
@@ -219,7 +235,7 @@ const PatientDetails = ({ params }: any) => {
         {/* </div> */}
       </div>
       <div className="flex space-x-2 w-full p-2 pt-0">
-        <div className="w-full bg-white p-2 rounded-lg">
+        <div className="w-1/2 h-[300px] bg-white p-2 rounded-lg">
           <WeightHeightLineChart patientID={patientID} />
         </div>
         <div className='bg-white flex justify-center items-center p-2'>
