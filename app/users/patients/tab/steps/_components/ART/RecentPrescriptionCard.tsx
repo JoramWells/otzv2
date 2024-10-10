@@ -33,7 +33,7 @@ const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardPr
           </div>
         ) : data ? (
           <div className="p-4 flex-col flex space-y-2">
-            <div className="flex justify-between items-center w-full text-[14px] ">
+            <div className="flex justify-between items-center w-full text-[12px] ">
               <p className="text-slate-500 ">Prescribed Pills</p>
               <p className="font-bold">{data.noOfPills} </p>
             </div>
@@ -41,20 +41,20 @@ const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardPr
             <hr />
 
             {/*  */}
-            <div className="flex justify-between items-center w-full text-[14px] ">
+            <div className="flex justify-between items-center w-full text-[12px] ">
               <p className="text-slate-500 ">Expected No. Of Pills</p>
               <p className="font-bold">{data.expectedNoOfPills} </p>
             </div>
             <hr />
             {/*  */}
-            <div className="flex justify-between items-center w-full text-[14px] ">
+            <div className="flex justify-between items-center w-full text-[12px] ">
               <p className="text-slate-500 ">Pills Taken</p>
               <p className="font-bold">{data.computedNoOfPills} </p>
             </div>
 
             <hr />
             {/*  */}
-            <div className="flex justify-between items-center w-full text-[14px] ">
+            <div className="flex justify-between items-center w-full text-[12px] ">
               <p className="text-slate-500 ">Adherence</p>
               <p className="font-bold">
                 {calculateAdherence(

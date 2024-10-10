@@ -19,7 +19,7 @@ const PatientProfile = ({ data, isLoading }: InputProps) => {
           )
         : (
         <div
-          className="bg-white rounded-lg w-1/3 sticky top-[50px]
+          className="bg-white rounded-lg w-1/3 sticky top-[62px]
           border border-slate-200
           "
         >

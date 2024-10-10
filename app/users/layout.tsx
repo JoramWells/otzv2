@@ -108,10 +108,10 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
                 {/* <Navbar /> */}
 
                 {children}
-                <Footer/>
+                <Footer />
               </div>
+              <Toaster />
             </div>
-            <Toaster/>
           </SidebarProvider>
         </ChakraProvider>
       </Provider>

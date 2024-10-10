@@ -124,7 +124,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
 
   return (
     <>
-      <div className="w-3/4 border border-slate-200 rounded-lg ">
+      <div className="w-2/3 border border-slate-200 rounded-lg ">
         <CardHeader
           header="Viral Load"
           rightContent={<Badge className="shadow-none">LDL</Badge>}

@@ -175,7 +175,7 @@ const StepsPage = ({ params }: any) => {
               />
             )}
 
-            {tab === '2' && activeStep === 3 && (
+            {tab === '2' && activeStep === 2 && (
               <LabTests
                 patientVisitID={appointmentID}
                 handleNext={() => {
@@ -189,7 +189,7 @@ const StepsPage = ({ params }: any) => {
             )}
 
             {/*  */}
-            {tab === '3' && activeStep === 2 && (
+            {tab === '3' && activeStep === 3 && (
               <Suspense fallback={<div>loading...</div>}>
                 <AddArt
                   handleNext={() => {

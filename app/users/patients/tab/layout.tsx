@@ -76,7 +76,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     return (
       <Provider store={store}>
         <ChakraProvider>
-          <div className={'bg-slate-50 h-100vh flex-1'}>{children}</div>
+          <div className={'bg-slate-50 min-h-screen flex-1'}>{children}</div>
         </ChakraProvider>
       </Provider>
     )
