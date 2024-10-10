@@ -178,7 +178,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
       toast({
         // variant:'success',
         title: 'Completed',
-        description: 'New Appointment Created Successfully!!'
+        description: 'New Medicine Added Successfully!!'
         // action: <ToastAction altText="Saved">Undo</ToastAction>
       }),
     [toast]

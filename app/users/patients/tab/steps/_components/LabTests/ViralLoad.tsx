@@ -29,12 +29,12 @@ const ViralLoad = ({ vlResults, setVLResults, dateOfVL, setDateOfVL, dateOfNextV
       <CustomInput
         label="Results"
         placeholder="Enter VL Results"
+        description='Viral load results'
         type="number"
         value={vlResults}
         onChange={setVLResults}
       />
 
-      <div>
          <div className="flex space-x-2 justify-between items-center rounded-lg
          relative border p-4">
           {/* <div className="absolute top-4 right-4 left-8">
@@ -48,6 +48,7 @@ const ViralLoad = ({ vlResults, setVLResults, dateOfVL, setDateOfVL, dateOfNextV
           </div> */}
           <CustomInput
             label="Current VL Date"
+            description='Active viral load date.'
             type="date"
             value={dateOfVL}
             onChange={setDateOfVL}
@@ -56,6 +57,7 @@ const ViralLoad = ({ vlResults, setVLResults, dateOfVL, setDateOfVL, dateOfNextV
 
           <CustomInput
             label="Next VL Date"
+            description='Date of the next viral load.'
             type="date"
             value={dateOfNextVL}
             onChange={setDateOfNextVL}
@@ -66,10 +68,10 @@ const ViralLoad = ({ vlResults, setVLResults, dateOfVL, setDateOfVL, dateOfNextV
               {moment(dateOfNextVL).diff(dateOfVL, 'months')} months
             </p>
           </div>
-        </div>
       </div>
       <CustomSelect
         label="Reason"
+        description='Select the main reason for this viral load.'
         data={justificationOptions}
         value={vlJustification}
         onChange={setVLJustification}

@@ -22,7 +22,7 @@ const CustomTimeInput2 = ({ label, onChange, value, description }: CustomInputPr
       )}
       <Input
         type="time"
-        className="shadow-none"
+        className="shadow-none bg-white"
         onChange={(e) => {
           onChange(e.target.value)
         }}

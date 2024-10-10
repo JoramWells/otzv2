@@ -143,6 +143,7 @@ const AddTriage = ({
                   label="Temperature (°C)"
                   name="temperature"
                   type="number"
+                  description='The current body temperature as recorded now.'
                   // onChange={setTemperature}
                 />
 
@@ -150,11 +151,13 @@ const AddTriage = ({
                   <CustomInput2
                     label="Pulse Rate (bpm)"
                     name="pulseRate"
+                    description='Describes the number of times the heart beats measured in beats per minute.'
                     // onChange={setPulseRate}
                   />
                   <CustomInput2
                     label="Respiratory Rate"
                     name="respiratoryRate"
+                    description='The number of breaths taken in a minute. Measured in breaths per minute.'
                     // onChange={setRespiratoryRate}
                   />
                 </div>

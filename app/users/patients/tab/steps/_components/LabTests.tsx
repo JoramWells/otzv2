@@ -13,6 +13,7 @@ import ViralLoad from './LabTests/ViralLoad'
 import RecentViralLoadCard from './LabTests/RecentViralLoadCard'
 import { ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
 import CardHeader from './CardHeader'
+import { useToast } from '@/components/ui/use-toast'
 
 const justificationOptions = [
   {
@@ -91,6 +92,20 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
     }
   }, [vlData])
 
+  const { toast } = useToast()
+
+  // Toast method
+  const send = useCallback(
+    () =>
+      toast({
+        // variant:'success',
+        title: 'Completed',
+        description: 'New Viral Load Created Successfully!!'
+        // action: <ToastAction altText="Saved">Undo</ToastAction>
+      }),
+    [toast]
+  )
+
   //
   const { data: allPatientVLData } = useGetAllViralLoadByPatientIDQuery(patientID)
   const [average, setAverage] = useState('')
@@ -117,10 +132,11 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
 
   useEffect(() => {
     if (recentVLData) {
-      console.log(recentVLData, 'recentVLdata')
+      // console.log(recentVLData, 'recentVLdata')
       handleNext()
+      send()
     }
-  }, [handleNext, recentVLData])
+  }, [handleNext, recentVLData, send])
 
   return (
     <>

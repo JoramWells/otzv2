@@ -5,6 +5,7 @@ import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomTimeInput2 from '@/components/forms/CustomTimeInput2'
 import { Button } from '@/components/ui/button'
+import { Timer } from 'lucide-react'
 import { useState } from 'react'
 
 export interface ScheduleAndTimeProps {
@@ -66,64 +67,67 @@ const ScheduleAndTime = ({
                   onClick={() => {
                     setTabValue(item)
                   }}
-                  className="rounded-full bg-slate-50 text-slate-500 hover:bg-slate-200"
+                  className={`rounded-full flex items-center font-semibold
+                     bg-slate-50 text-slate-500 hover:bg-slate-200 ${item === tabValue && 'bg-teal-50 text-teal-600'} `}
                   size={'sm'}
                 >
+                  <Timer className="mr-2" size={16} />
                   {item}
                 </Button>
               ))}
             </div>
 
             {/*  */}
-            {tabValue === 'Morning' ? (
-              <div className="flex flex-row gap-x-6">
-                <div className="w-1/4">
-                  <CustomTimeInput2
-                    label="Morning Time"
-                    onChange={setMorningTime}
-                    value={morningTime}
-                  />
-                </div>
-                {/* <CustomTimeInput
+            <div className="flex flex-row gap-x-6 bg-slate-50 border border-slate-200 p-2 rounded-lg">
+              {tabValue === 'Morning' ? (
+                <>
+                  <div className="w-1/4">
+                    <CustomTimeInput2
+                      label="Morning Time"
+                      onChange={setMorningTime}
+                      value={morningTime}
+                    />
+                  </div>
+                  {/* <CustomTimeInput
               label="Morning Time"
               Time={morningTime}
               setTime={setMorningTime}
               minutes={morningMinutes}
               setMinutes={setMorningMinutes}
             /> */}
-                <CustomInput
-                  label="Enter Place"
-                  value={morningPlace}
-                  onChange={setMorningPlace}
-                />
-              </div>
-            ) : (
-              <div className="flex flex-row gap-x-6">
-                <div className="w-1/4">
-                  <CustomTimeInput2
-                    label="Evening Time"
-                    onChange={setEveningTime}
-                    value={eveningTime}
+                  <CustomInput
+                    label="Enter Place"
+                    value={morningPlace}
+                    onChange={setMorningPlace}
                   />
-                </div>
-                {/* <CustomTimeInput
+                </>
+              ) : (
+                <>
+                  <div className="w-1/4">
+                    <CustomTimeInput2
+                      label="Evening Time"
+                      onChange={setEveningTime}
+                      value={eveningTime}
+                    />
+                  </div>
+                  {/* <CustomTimeInput
             label="Evening Time"
             Time={eveningTime}
             setTime={setEveningTime}
             minutes={eveningMinutes}
             setMinutes={setEveningMinutes}
           /> */}
-                <CustomInput
-                  label="Enter Place"
-                  value={eveningPlace}
-                  onChange={setEveningPlace}
-                />
-              </div>
-            )}
+                  <CustomInput
+                    label="Enter Place"
+                    value={eveningPlace}
+                    onChange={setEveningPlace}
+                  />
+                </>
+              )}
+            </div>
           </div>
         ) : (
           <>
-            <div className="flex flex-row gap-x-6">
               <div className="w-1/4">
                 <CustomTimeInput2
                   label="Morning Time"
@@ -143,7 +147,6 @@ const ScheduleAndTime = ({
                 value={morningPlace}
                 onChange={setMorningPlace}
               />
-            </div>
           </>
         )}
       </div>
@@ -157,14 +160,14 @@ const ScheduleAndTime = ({
             value={eveningTime}
           />
         </div> */}
-        {/* <CustomTimeInput
+      {/* <CustomTimeInput
             label="Evening Time"
             Time={eveningTime}
             setTime={setEveningTime}
             minutes={eveningMinutes}
             setMinutes={setEveningMinutes}
           /> */}
-        {/* <CustomInput
+      {/* <CustomInput
           label="Enter Place"
           value={eveningPlace}
           onChange={setEveningPlace}
