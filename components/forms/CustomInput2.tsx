@@ -56,7 +56,7 @@ const CustomInput2 = ({
         </div>
       )}
     </div>
-  );
+  )
 }
 
 export default CustomInput2

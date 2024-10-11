@@ -5,13 +5,13 @@ import { CustomTable } from '../../_components/table/CustomTable'
 // import { columns } from './columns'
 import CustomTab from '@/components/tab/CustomTab'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { eveningColumn } from './eveningColumn'
-import { type ExtendedAdherenceAttributes, morningColumn } from './morningColumn'
+import { type ExtendedAdherenceAttributes } from './morningColumn'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 // import { checkTime } from '@/utils/isRightTimeForDrugs'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { usePharmacyContext } from '@/context/PharmacyContext'
+import { eveningColumn, morningColumn } from './column'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -45,7 +45,7 @@ const AppointmentPage = () => {
   const [value, setValue] = useState<string | null>(tab)
   // const [uptakeData, setUptakeData] = useState([])
 
-  const { adherenceData } = usePharmacyContext()
+  const { adherenceData, setAdherenceData } = usePharmacyContext()
 
   // const isTime = checkTime(patientsDueMorning)?.some(time=>time)
 
@@ -92,6 +92,11 @@ const AppointmentPage = () => {
       setValue('morning')
     }
   }, [tab, updateQueryParams])
+
+  const handleDeleteColumn = (id: string) => {
+    const filteredData = adherenceData?.filter((row) => row.id !== id)
+    setAdherenceData(filteredData)
+  }
 
   // const [currentTime, setCurrentTime] = useState(moment())
   // useEffect(() => {
@@ -142,7 +147,7 @@ const AppointmentPage = () => {
           {/*  */}
           {value === 'morning' && (
             <CustomTable
-              columns={morningColumn}
+              columns={morningColumn(handleDeleteColumn)}
               data={morningData ?? []}
               isSearch={false}
             />
@@ -150,7 +155,7 @@ const AppointmentPage = () => {
           {/*  */}
           {value === 'evening' && (
             <CustomTable
-              columns={eveningColumn}
+              columns={eveningColumn(handleDeleteColumn)}
               data={eveningData ?? []}
               isSearch={false}
             />

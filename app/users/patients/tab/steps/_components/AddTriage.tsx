@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import { Suspense, useEffect } from 'react'
+import { Suspense, useCallback, useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { AdultSchema, InfantSchema } from './type'
 
@@ -19,6 +19,7 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import CardHeader from './CardHeader'
 import RecentVitalSigns from './LabTests/RecentVitalSigns'
+import { useToast } from '@/components/ui/use-toast'
 
 export interface VSProps {
   temperature: number
@@ -87,11 +88,26 @@ const AddTriage = ({
   const [addVitalSign, { isLoading, data: vsData }] = useAddVitalSignMutation()
   const { data: latestVitalsData } = useGetVitalSignByPatientIDQuery(patientID)
 
+  const { toast } = useToast()
+
+  // Toast method
+  const send = useCallback(
+    () =>
+      toast({
+        // variant:'success',
+        title: 'Completed',
+        description: 'New Vitals Created Successfully!!'
+        // action: <ToastAction altText="Saved">Undo</ToastAction>
+      }),
+    [toast]
+  )
+
   useEffect(() => {
     if (vsData) {
       handleNext()
+      send()
     }
-  }, [vsData, handleNext])
+  }, [vsData, handleNext, send])
 
   const methods = useForm<InputProps>({
     resolver: zodResolver(age <= 1 ? InfantSchema : AdultSchema)

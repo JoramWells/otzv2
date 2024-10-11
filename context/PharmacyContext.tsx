@@ -2,7 +2,7 @@ import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/morningColumn'
 import { checkTimeOfDay } from '@/utils/checkTimeOfDay'
 // import { useSession } from 'next-auth/react'
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, type Dispatch, type SetStateAction, useContext, useEffect, useState, type ReactNode } from 'react'
 import io from 'socket.io-client'
 
 interface UptakeCountInterface {
@@ -15,6 +15,7 @@ interface UptakeCountInterface {
 interface PharmacyContextProps {
   adherenceData: ExtendedAdherenceAttributes[] | null | undefined
   uptakeCount: UptakeCountInterface
+  setAdherenceData: Dispatch<SetStateAction<ExtendedAdherenceAttributes[] | null | undefined>>
 }
 
 const defaultUptakeCount = {
@@ -26,7 +27,8 @@ const defaultUptakeCount = {
 
 export const PharmacyContext = createContext<PharmacyContextProps>({
   adherenceData: [],
-  uptakeCount: defaultUptakeCount
+  uptakeCount: defaultUptakeCount,
+  setAdherenceData: () => {}
 })
 
 const updatePillStatus = (data: ExtendedAdherenceAttributes[], id: string, medicineTime: string, status: boolean) => {
@@ -140,7 +142,8 @@ export const PharmacyProvider = ({ children }: { children: ReactNode }) => {
     <PharmacyContext.Provider
       value={{
         adherenceData,
-        uptakeCount
+        uptakeCount,
+        setAdherenceData
       }}
     >
       {children}
