@@ -68,7 +68,9 @@ const ScheduleAndTime = ({
                     setTabValue(item)
                   }}
                   className={`rounded-full flex items-center font-semibold
-                     bg-slate-50 text-slate-500 hover:bg-slate-200 ${item === tabValue && 'bg-teal-50 text-teal-600'} `}
+                     bg-slate-50 text-slate-500 hover:bg-slate-200 ${
+                       item === tabValue && 'bg-teal-50 text-teal-600'
+                     } `}
                   size={'sm'}
                 >
                   <Timer className="mr-2" size={16} />
@@ -128,6 +130,7 @@ const ScheduleAndTime = ({
           </div>
         ) : (
           <>
+            <div className="flex justify-between space-x-2">
               <div className="w-1/4">
                 <CustomTimeInput2
                   label="Morning Time"
@@ -135,44 +138,35 @@ const ScheduleAndTime = ({
                   value={morningTime}
                 />
               </div>
-              {/* <CustomTimeInput
-              label="Morning Time"
-              Time={morningTime}
-              setTime={setMorningTime}
-              minutes={morningMinutes}
-              setMinutes={setMorningMinutes}
-            /> */}
+
               <CustomInput
                 label="Enter Place"
                 value={morningPlace}
                 onChange={setMorningPlace}
               />
+            </div>
+
+            {/*  */}
+            <div
+            className='flex items-center space-x-2 mt-2'
+            >
+              <div className="w-1/4">
+                <CustomTimeInput2
+                  label="Evening Time"
+                  onChange={setEveningTime}
+                  value={eveningTime}
+                />
+              </div>
+
+              <CustomInput
+                label="Enter Place"
+                value={eveningPlace}
+                onChange={setEveningPlace}
+              />
+            </div>
           </>
         )}
       </div>
-
-      {/*  */}
-      {/* <div className="flex flex-row gap-x-6">
-        <div className="w-1/4">
-          <CustomTimeInput2
-            label="Evening Time"
-            onChange={setEveningTime}
-            value={eveningTime}
-          />
-        </div> */}
-      {/* <CustomTimeInput
-            label="Evening Time"
-            Time={eveningTime}
-            setTime={setEveningTime}
-            minutes={eveningMinutes}
-            setMinutes={setEveningMinutes}
-          /> */}
-      {/* <CustomInput
-          label="Enter Place"
-          value={eveningPlace}
-          onChange={setEveningPlace}
-        />
-      </div> */}
 
       <div>
         <p className="mb-2 text-slate-500">
@@ -207,7 +201,7 @@ const ScheduleAndTime = ({
             <div className="flex flex-row gap-x-6">
               <div className="w-1/4">
                 <CustomTimeInput2
-                  label="Morning Time"
+                  label="Evening Time"
                   onChange={setEveningTimeWeekend}
                   value={eveningTimeWeekend}
                 />
