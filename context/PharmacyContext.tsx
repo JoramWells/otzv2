@@ -1,5 +1,5 @@
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
-import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/morningColumn'
+import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/column'
 import { checkTimeOfDay } from '@/utils/checkTimeOfDay'
 // import { useSession } from 'next-auth/react'
 import { createContext, type Dispatch, type SetStateAction, useContext, useEffect, useState, type ReactNode } from 'react'

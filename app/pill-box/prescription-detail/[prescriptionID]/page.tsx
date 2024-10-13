@@ -93,7 +93,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
   console.log(data)
 
-  const [value, setValue] = useState(1)
+  // const [value, setValue] = useState(1)
   const {
     id,
     computedNoOfPills,
@@ -209,44 +209,12 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
             </div>
           </div>
         </div>
-        <div className="flex-1 bg-white p-4 rounded-lg flex flex-col space-y-4">
-          <div className="">
-            <div className="flex border rounded-full w-1/4">
-              {[
-                {
-                  id: 1,
-                  label: 'Stats'
-                },
-                {
-                  id: 2,
-                  label: 'Insights'
-                }
-              ].map(({ id, label }) => (
-                <Button
-                  key={id}
-                  onClick={() => {
-                    setValue(id)
-                  }}
-                  className={`rounded-full flex-1  text-black bg-white ${
-                    value === id && 'bg-slate-100'
-                  } hover:bg-slate-50 `}
-                >
-                  {label}
-                </Button>
-              ))}
-            </div>
 
-            {/* <hr /> */}
-          </div>
-          {value === 1 && (
             <EnhancedAdherenceCounsellingForm
               score={mmas8Data?.totalScores}
               adherence={patientAdherence?.adherence}
             />
-          )}
 
-          {value === 2 && <div>Graph</div>}
-        </div>
       </div>
     </div>
   )

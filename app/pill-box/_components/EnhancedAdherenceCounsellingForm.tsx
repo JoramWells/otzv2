@@ -6,7 +6,7 @@ import React from 'react'
 
 const EnhancedAdherenceCounsellingForm = ({ score, adherence }: { score: string, adherence: number }) => {
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-4 bg-white flex-1 p-4 rounded-lg">
       {/* <div className="flex flex-col space-y-4 bg-slate-50 rounded-lg border border-slate-200 p-4">
                 <div>
                   {' '}
@@ -26,13 +26,16 @@ const EnhancedAdherenceCounsellingForm = ({ score, adherence }: { score: string,
               </div> */}
       {/* <hr /> */}
       <div className="flex flex-col space-y-2">
-        <h1 className="capitalize">Enhanced ADHERENCE COUNSELLING FORM</h1>
+        <h5 className="capitalize">Enhanced Adherence Counselling Form</h5>
+        {/* {score ?
+
+      } */}
         <div
-          className="bg-purple-50 text-purple-500 font-bold flex flex-row
-            p-2 rounded-lg
+          className="bg-purple-50 text-purple-500 border border-purple-200 font-bold flex flex-row
+            p-1 rounded
                  justify-between"
         >
-          <p>MMAS-8 Score</p>
+          <p className='text-[12px]'>MMAS-8</p>
           {score}
         </div>
 
