@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/morningColumn'
+import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/column'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 // interface AppointmentProps {
