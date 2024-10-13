@@ -13,6 +13,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Loader2,
+  Plus,
   RefreshCcw,
   TabletsIcon
 } from 'lucide-react'
@@ -83,6 +84,12 @@ const dataList = [
     id: 2,
     label: 'Switch',
     icon: <RefreshCcw className="mr-2" size={18} />,
+    color: 'teal'
+  },
+  {
+    id: 3,
+    label: 'Add',
+    icon: <Plus className="mr-2" size={18} />,
     color: 'teal'
   }
 ]
@@ -160,7 +167,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     }))
   }, [data, regimenLine])
 
-  const [addArtPrescription, { isLoading, data: addPrescriptionData }] = useAddArtPrescriptionMutation()
+  const [addArtPrescription, { isLoading: isLoadingArtPrescription, data: addArtPrescriptionData }] = useAddArtPrescriptionMutation()
 
   const { data: prescriptionDatam, isLoading: isLoadingPrescription, isError: isErrorPrescription } = useGetPrescriptionDetailQuery(patientID)
 
@@ -193,14 +200,18 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     isStandard: isStandardRegimen
   }
 
+  async function handleSubmitART () {
+    return await addArtPrescription(inputValues)
+  }
+
   const [tab, setTab] = useState(1)
 
   useEffect(() => {
-    if (addPrescriptionData) {
+    if (addArtPrescriptionData) {
       send()
     }
     // handleNext()
-  }, [addPrescriptionData, send])
+  }, [addArtPrescriptionData, send])
 
   const prescriptionInputValues = useMemo(
     () => [
@@ -209,8 +220,8 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
         frequency,
         noOfPill,
         computedNoOfPills: noOfPill,
-        artPrescriptionID: addPrescriptionData?.id
-          ? addPrescriptionData?.id
+        artPrescriptionID: addArtPrescriptionData?.id
+          ? addArtPrescriptionData?.id
           : recentPrescriptionData?.id,
         refillDate,
         userID: userData?.[0].id,
@@ -219,10 +230,10 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
         appointmentStatusID: statusOptions?.()[0]?.id
       }
     ],
-    [addPrescriptionData?.id, agendaDataOptions, appointmentID, frequency, noOfPill, patientID, recentPrescriptionData?.id, refillDate, statusOptions, userData]
+    [addArtPrescriptionData?.id, agendaDataOptions, appointmentID, frequency, noOfPill, patientID, recentPrescriptionData?.id, refillDate, statusOptions, userData]
   )[0]
 
-  console.log(addPrescriptionData, 'prescriptionInputValues')
+  console.log(addArtPrescriptionData, 'prescriptionInputValues')
 
   return (
     <>
@@ -235,17 +246,21 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
           <CardHeader
             header="Medicine Prescription"
             rightContent={
-              prescriptionData?.regimen && (
+              prescriptionData?.regimen ? (
                 <Badge className="shadow-none">
-                  <p
-                  className='text-[12px]'
-                  >{prescriptionData?.regimen}</p>
+                  <p className="text-[12px]">{prescriptionData?.regimen}</p>
+                </Badge>
+              ) : (
+                <Badge className="shadow-none">
+                  <p className="text-[12px]">
+                    {addArtPrescriptionData?.regimen}
+                  </p>
                 </Badge>
               )
             }
           />
 
-          {prescriptionData || addPrescriptionData ? (
+          {prescriptionData || addArtPrescriptionData ? (
             <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
               {/* <p>{prescriptionData?.regimen}</p> */}
               <div className="w-full flex flex-col space-y-2 relative pb-[60px] ">
@@ -274,13 +289,13 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                     frequency={frequency}
                     setFrequency={setFrequency}
                     refillDate={refillDate}
-                    isLoadingSave={isLoading}
+                    isLoadingSave={prescriptionSaveLoading}
                     setRefillDate={setRefillDate}
                     savePrescription={handleSavePrescription}
                     handleBack={handleBack}
                     handleNext={handleNext}
                     prescriptionData={currentPrescriptionData}
-                    addPrescriptionData={addPrescriptionData}
+                    addPrescriptionData={addPillPrescriptionData}
                   />
                 )}
                 {tab === 2 && (
@@ -288,6 +303,31 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                     regimenOptions={regimenOptions()}
                     reasonOptions={reasonOptions}
                     patientID={patientID}
+                  />
+                )}
+
+                {tab === 3 && (
+                  <InitiateART
+                    handleBack={handleBack}
+                    handleNext={handleNext}
+                    handleSubmit={handleSubmitART}
+                    isLoading={isLoadingArtPrescription}
+                    data={addArtPrescriptionData}
+                    art={regimenOptions()}
+                    artRegimen={artRegimen}
+                    isNonStandardRegimen={isNonStandardRegimen}
+                    isStandardRegimen={isStandardRegimen}
+                    nonStandardArtRegimen={nonStandardArtRegimen}
+                    regimenLine={regimenLine}
+                    setArtRegimen={setArtRegimen}
+                    setIsNonStandardRegimen={setIsNonStandardRegimen}
+                    setIsStandardRegimen={setIsStandardRegimen}
+                    setNonStandardArtRegimen={setNonStandardArtRegimen}
+                    setRegimenLine={setRegimenLine}
+                    setStartDate={setStartDate}
+                    startDate={startDate}
+
+                    //
                   />
                 )}
               </div>
@@ -302,6 +342,11 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
               {/*  */}
 
               <InitiateART
+                handleBack={handleBack}
+                handleNext={handleNext}
+                handleSubmit={handleSubmitART}
+                isLoading={isLoadingArtPrescription}
+                data={addArtPrescriptionData}
                 art={regimenOptions()}
                 artRegimen={artRegimen}
                 isNonStandardRegimen={isNonStandardRegimen}
@@ -316,7 +361,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                 setStartDate={setStartDate}
                 startDate={startDate}
               />
-              <div className="flex justify-end space-x-4 mt-4">
+              {/* <div className="flex justify-end space-x-4 mt-4">
                 <Button
                   onClick={() => {
                     handleBack()
@@ -338,7 +383,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
                   )}
                   Save
                 </Button>
-              </div>
+              </div> */}
             </div>
           )}
         </div>

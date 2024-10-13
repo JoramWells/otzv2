@@ -47,6 +47,8 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
     >
       {categoryList.map((item) => (
         <Button
+        type='button'
+        size={'sm'}
           key={item.id}
           className={`shadow-none bg-slate-50 rounded-full text-slate-400 font-semibold 
           ${

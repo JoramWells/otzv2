@@ -5,13 +5,12 @@ import { CustomTable } from '../../_components/table/CustomTable'
 // import { columns } from './columns'
 import CustomTab from '@/components/tab/CustomTab'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { type ExtendedAdherenceAttributes } from './morningColumn'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 // import { checkTime } from '@/utils/isRightTimeForDrugs'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { usePharmacyContext } from '@/context/PharmacyContext'
-import { eveningColumn, morningColumn } from './column'
+import { eveningColumn, type ExtendedAdherenceAttributes, morningColumn } from './column'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -85,6 +84,8 @@ const AppointmentPage = () => {
     },
     [pathname, router, searchParams]
   )
+
+  console.log(adherenceData, 'poli')
 
   useEffect(() => {
     if (tab === null) {

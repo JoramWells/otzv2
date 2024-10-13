@@ -9,6 +9,7 @@ import { useGetAllArticlesCategoryQuery } from '@/api/articles/articlesCategory.
 import { useGetAllChaptersQuery } from '@/api/articles/chapters.api'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
+import CustomTab from '@/components/tab/CustomTab'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -70,6 +71,7 @@ const ArticlesPage = () => {
   const [chapterID, setChapterID] = useState('')
   const [file, setFile] = useState<File | undefined>()
   const [isLoadingArticleSave, setIsLoadingArticleSave] = useState<boolean>(false)
+  const [value, setValue] = useState<string | null>('article')
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -143,7 +145,10 @@ const ArticlesPage = () => {
         >
           Articles Category
         </p>
-        <Button className="bg-teal-600 font-bold shadow-none hover:bg-teal-700">
+        <Button
+          size={'sm'}
+          className="bg-teal-600 font-bold shadow-none hover:bg-teal-700"
+        >
           <PlusCircle className="mr-2" size={18} />
           <Link href={'/articles/add-article-category'}>
             Add Articles Category
@@ -183,34 +188,53 @@ const ArticlesPage = () => {
               onChange={setChapterID}
               data={chapterOptions()}
             />
-            <div>
-              <div className="flex space-x-2 mb-2 border w-1/4 ">
-                {['Article', 'Video'].map((item) => (
-                  <Button className="rounded-full flex-1" variant={'outline'}
-                  key={item}
+            <CustomTab
+              setValue={setValue}
+              value={value}
+              categoryList={[
+                {
+                  id: 1,
+                  label: 'Article'
+                },
+                {
+                  id: 2,
+                  label: 'Video'
+                }
+              ]}
+            />
+
+            {value === 'article' && (
+              <div>
+                <div className="h-[250px] ">
+                  <ReactQuill
+                    theme="snow"
+                    value={content}
+                    onChange={setContent}
+                    className="rounded-xl h-[200px] "
+                  />
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <label
+                    htmlFor=""
+                    className="text-slate-700 text-[14px] font-bold "
                   >
-                    {item}
-                  </Button>
-                ))}
-
+                    Thumbnail Image
+                  </label>
+                  <Input
+                    className=""
+                    type="file"
+                    name="file"
+                    // value={file}
+                    onChange={(e) => {
+                      setFile(e.target.files?.[0])
+                    }}
+                  />
+                </div>
               </div>
-              <div className="h-[250px] ">
-                <ReactQuill
-                  theme="snow"
-                  value={content}
-                  onChange={setContent}
-                  className="rounded-xl h-[200px] "
-                />
-              </div>
-            </div>
+            )}
 
-            <div className="flex flex-col space-y-2">
-              <label
-                htmlFor=""
-                className="text-slate-700 text-[14px] font-bold "
-              >
-                Thumbnail Image
-              </label>
+            {value === 'video' && (
               <Input
                 className=""
                 type="file"
@@ -220,7 +244,7 @@ const ArticlesPage = () => {
                   setFile(e.target.files?.[0])
                 }}
               />
-            </div>
+            )}
 
             {/*  */}
             <Button

@@ -54,7 +54,7 @@ const ArticlePage = ({ params }: { params: any }) => {
   useEffect(() => {
     if (data) {
       const aBook = data[0]
-      setBook(aBook.Book)
+      setBook(aBook?.Book)
       // setBook()
     }
   }, [data])

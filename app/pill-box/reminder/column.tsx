@@ -12,26 +12,22 @@ import {
 } from '@/api/treatmentplan/uptake.api'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
-import { type ExtendedAdherenceAttributes } from './morningColumn'
-import { Loader2, Trash2 } from 'lucide-react'
+import { ArrowRight, Loader2, Trash2 } from 'lucide-react'
+import { type AdherenceAttributes } from 'otz-types'
 // import { FaEdit } from 'react-icons/fa'
 
-// {
-//   header: 'Name',
-//   footer: props => props.column.id,
-//   columns: [
-//     {
-//       accessorKey: 'firstName',
-//       footer: props => props.column.id,
-//     },
-//     {
-//       accessorFn: row => row.lastName,
-//       id: 'lastName',
-//       header: () => <span>Last Name</span>,
-//       footer: props => props.column.id,
-//     },
-//   ],
-// },
+export interface ExtendedAdherenceAttributes extends AdherenceAttributes {
+  id: string
+  TimeAndWork?: {
+    morningMedicineTime: string
+    eveningMedicineTime: string
+    Patient: {
+      firstName: string
+      middleName: string
+    }
+  }
+  // render?: (props: any) => React.ReactNode
+}
 
 export interface FullNameProps {
   firstName?: string
@@ -262,21 +258,27 @@ export const morningColumn = (handleDelete: (id: string) => void): Array<ColumnD
       const [deletePillDailyUptake, { isLoading }] =
         useDeletePillDailyUptakeMutation()
       return (
-        <div className="hover:bg-red-200 hover:text-red-200 h-7 w-7 rounded-full flex items-center justify-center">
-          {isLoading
-            ? (
-            <Loader2 size={16} />
-              )
-            : (
-            <Trash2
-              size={16}
-              className="hover:cursor-pointer text-slate-500 hover:text-red-500"
-              onClick={async () => {
-                handleDelete(row.original.id)
-                await deletePillDailyUptake(row.original.id)
-              }}
-            />
-              )}
+        <div className="flex flex-row space-x-2">
+          <div className="hover:bg-red-200 hover:text-red-200 h-7 w-7 rounded-full flex items-center justify-center">
+            {isLoading
+              ? (
+              <Loader2 size={16} />
+                )
+              : (
+              <Trash2
+                size={16}
+                className="hover:cursor-pointer text-slate-500 hover:text-red-500"
+                onClick={async () => {
+                  handleDelete(row.original.id)
+                  await deletePillDailyUptake(row.original.id)
+                }}
+              />
+                )}
+            {/*  */}
+          </div>
+          <div className="hover:bg-blue-200 hover:text-blue-200 h-7 w-7 rounded-full flex items-center justify-center">
+            <ArrowRight size={16} className="hover:cursor-pointer text-slate-500 hover:text-blue-500" />
+          </div>
         </div>
       )
     }
