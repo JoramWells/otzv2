@@ -105,7 +105,7 @@ export const eveningColumn = (handleDelete: (id: string) => void): Array<ColumnD
           name={`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}</p>
+          <p className="capitalize font-semibold text-[12px]">{`${row.original.TimeAndWork?.Patient?.firstName} ${row.original.TimeAndWork?.Patient?.middleName}`}</p>
         </div>
       </div>
     )
@@ -160,24 +160,39 @@ export const eveningColumn = (handleDelete: (id: string) => void): Array<ColumnD
     accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => {
+      const router = useRouter()
+
       const [deletePillDailyUptake, { isLoading }] =
         useDeletePillDailyUptakeMutation()
       return (
-        <div className="hover:bg-red-200 hover:text-red-200 h-7 w-7 rounded-full flex items-center justify-center">
-          {isLoading
-            ? (
-            <Loader2 size={16} />
-              )
-            : (
-            <Trash2
+        <div className="flex flex-row space-x-2">
+          <div className="hover:bg-red-200 hover:text-red-200 h-7 w-7 rounded-full flex items-center justify-center">
+            {isLoading
+              ? (
+              <Loader2 size={16} />
+                )
+              : (
+              <Trash2
+                size={16}
+                className="hover:cursor-pointer text-slate-500 hover:text-red-500"
+                onClick={async () => {
+                  handleDelete(row.original.id)
+                  await deletePillDailyUptake(row.original.id)
+                }}
+              />
+                )}
+          </div>
+          <div
+            onClick={() => {
+              router.push(`/pill-box/reminder/${row.original.id}`)
+            }}
+            className="hover:bg-blue-200 hover:text-blue-200 h-7 w-7 rounded-full flex items-center justify-center"
+          >
+            <ArrowRight
               size={16}
-              className="hover:cursor-pointer text-slate-500 hover:text-red-500"
-              onClick={async () => {
-                handleDelete(row.original.id)
-                await deletePillDailyUptake(row.original.id)
-              }}
+              className="hover:cursor-pointer text-slate-500 hover:text-blue-500"
             />
-              )}
+          </div>
         </div>
       )
     }
