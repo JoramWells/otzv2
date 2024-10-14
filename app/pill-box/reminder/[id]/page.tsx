@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
-import { useUpdateScheduleMutation } from '@/api/treatmentplan/timeAndWork.api'
+import { useDeleteTimeAndWorkMutation, useUpdateScheduleMutation } from '@/api/treatmentplan/timeAndWork.api'
 import { useGetPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomTimeInput2 from '@/components/forms/CustomTimeInput2'
@@ -33,12 +33,13 @@ const PillBoxPage = ({ params }: { params: any }) => {
   const { id } = params
   const [morningMedicineTime, setMorningTime] = useState<string | undefined>()
   const [eveningMedicineTime, setEveningTime] = useState<string | undefined>()
-
+  const [timeAndWorkID, setTimeAndWorkID] = useState<string>()
   const [updateSchedule, { isLoading }] = useUpdateScheduleMutation()
 
   const { data } = useGetPillDailyUptakeQuery(id as string)
   useEffect(() => {
     if (data) {
+      setTimeAndWorkID(data.TimeAndWork?.id)
       setEveningTime(data.TimeAndWork?.eveningMedicineTime)
       setMorningTime(data.TimeAndWork?.morningMedicineTime)
     }
@@ -48,13 +49,15 @@ const PillBoxPage = ({ params }: { params: any }) => {
   const inputValues = useMemo(
     () => [
       {
-        id: data?.TimeAndWork?.id,
+        id: timeAndWorkID,
         morningMedicineTime,
         eveningMedicineTime
       }
     ],
-    [data?.TimeAndWork?.id, morningMedicineTime, eveningMedicineTime]
+    [timeAndWorkID, morningMedicineTime, eveningMedicineTime]
   )[0]
+
+  const [deleteTimeAndWork, { isLoading: isLoadingDelete }] = useDeleteTimeAndWorkMutation()
 
   return (
     <div>
@@ -90,7 +93,19 @@ const PillBoxPage = ({ params }: { params: any }) => {
                   </Button>
                 </div>
               </CaseManagerDialog>
-              <Trash2 size={16} className="text-red-500" />
+              <Button
+              size={'sm'}
+              variant={'ghost'}
+                onClick={async () => await deleteTimeAndWork(timeAndWorkID)}
+              >
+                {isLoadingDelete
+                  ? (
+                  <Loader2 className="animate-spin" size={16} />
+                    )
+                  : (
+                  <Trash2 size={16} className="text-red-500" />
+                    )}
+              </Button>
             </div>
           </div>
           <div className="p-2">

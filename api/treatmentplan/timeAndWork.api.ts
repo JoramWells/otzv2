@@ -67,7 +67,7 @@ export const timeAndWorkApi = createApi({
     deleteTimeAndWork: builder.mutation({
       query (id) {
         return {
-          url: `delete${id}`,
+          url: `delete/${id}`,
           method: 'DELETE'
         }
       }
@@ -82,5 +82,5 @@ export const {
   useGetTimeAndWorkQuery,
   useUpdateTimeAndWorkMorningScheduleMutation,
   useUpdateTimeAndWorkEveningScheduleMutation,
-  useUpdateScheduleMutation
+  useUpdateScheduleMutation, useDeleteTimeAndWorkMutation
 } = timeAndWorkApi
