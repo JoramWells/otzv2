@@ -14,11 +14,13 @@ import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 import { ArrowRight, Loader2, Trash2 } from 'lucide-react'
 import { type AdherenceAttributes } from 'otz-types'
+import { useRouter } from 'next/navigation'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface ExtendedAdherenceAttributes extends AdherenceAttributes {
   id: string
   TimeAndWork?: {
+    id: string
     morningMedicineTime: string
     eveningMedicineTime: string
     Patient: {
@@ -255,6 +257,7 @@ export const morningColumn = (handleDelete: (id: string) => void): Array<ColumnD
     accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => {
+      const router = useRouter()
       const [deletePillDailyUptake, { isLoading }] =
         useDeletePillDailyUptakeMutation()
       return (
@@ -276,7 +279,9 @@ export const morningColumn = (handleDelete: (id: string) => void): Array<ColumnD
                 )}
             {/*  */}
           </div>
-          <div className="hover:bg-blue-200 hover:text-blue-200 h-7 w-7 rounded-full flex items-center justify-center">
+          <div
+          onClick={() => { router.push(`/pill-box/reminder/${row.original.id}`) }}
+          className="hover:bg-blue-200 hover:text-blue-200 h-7 w-7 rounded-full flex items-center justify-center">
             <ArrowRight size={16} className="hover:cursor-pointer text-slate-500 hover:text-blue-500" />
           </div>
         </div>

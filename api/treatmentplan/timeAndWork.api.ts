@@ -43,6 +43,27 @@ export const timeAndWorkApi = createApi({
         body: patch
       })
     }),
+    updateTimeAndWorkMorningSchedule: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: `/update-morning-schedule/${id}`,
+        method: 'PUT',
+        body: patch
+      })
+    }),
+    updateTimeAndWorkEveningSchedule: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: `/update-evening-schedule/${id}`,
+        method: 'PUT',
+        body: patch
+      })
+    }),
+    updateSchedule: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: `/update-schedule/${id}`,
+        method: 'PUT',
+        body: patch
+      })
+    }),
     deleteTimeAndWork: builder.mutation({
       query (id) {
         return {
@@ -55,6 +76,11 @@ export const timeAndWorkApi = createApi({
 })
 
 export const {
-  useGetAllTimeAndWorkQuery, useAddTimeAndWorkMutation, useGetTimeAndWorkByPatientIDQuery,
-  useGetTimeAndWorkQuery
+  useGetAllTimeAndWorkQuery,
+  useAddTimeAndWorkMutation,
+  useGetTimeAndWorkByPatientIDQuery,
+  useGetTimeAndWorkQuery,
+  useUpdateTimeAndWorkMorningScheduleMutation,
+  useUpdateTimeAndWorkEveningScheduleMutation,
+  useUpdateScheduleMutation
 } = timeAndWorkApi

@@ -35,7 +35,7 @@ export const pillDailyUptakeApi = createApi({
     getPillDailyUptakeCount: builder.query({
       query: () => 'dailyUptakeCount'
     }),
-    getPillDailyUptake: builder.query({
+    getPillDailyUptake: builder.query<ExtendedAdherenceAttributes, string>({
       query: (id) => `detail/${id}`
     }),
     updatePillDailyUptake: builder.mutation({
