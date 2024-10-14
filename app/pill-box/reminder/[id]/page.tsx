@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
 import { useDeleteTimeAndWorkMutation, useUpdateScheduleMutation } from '@/api/treatmentplan/timeAndWork.api'
 import { useGetPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
+import Avatar from '@/components/Avatar'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomTimeInput2 from '@/components/forms/CustomTimeInput2'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 import { Button } from '@/components/ui/button'
-import { Loader2, Pencil, Trash2 } from 'lucide-react'
+import { Delete, Loader2, Pencil, Trash2 } from 'lucide-react'
 import React, { useEffect, useMemo, useState } from 'react'
 
 const dataList2 = [
@@ -31,8 +33,8 @@ const dataList2 = [
 
 const PillBoxPage = ({ params }: { params: any }) => {
   const { id } = params
-  const [morningMedicineTime, setMorningTime] = useState<string | undefined>()
-  const [eveningMedicineTime, setEveningTime] = useState<string | undefined>()
+  const [morningMedicineTime, setMorningTime] = useState<string | undefined | null>()
+  const [eveningMedicineTime, setEveningTime] = useState<string | undefined | null>()
   const [timeAndWorkID, setTimeAndWorkID] = useState<string>()
   const [updateSchedule, { isLoading }] = useUpdateScheduleMutation()
 
@@ -63,25 +65,59 @@ const PillBoxPage = ({ params }: { params: any }) => {
     <div>
       <BreadcrumbComponent dataList={dataList2} />
 
+      <div className="mt-2 bg-white p-2 flex space-x-2 items-center">
+        <Avatar
+          name={`${data?.TimeAndWork?.Patient.firstName} ${data?.TimeAndWork?.Patient.middleName}`}
+        />
+        <p className="font-semibold text-slate-700">
+          {data?.TimeAndWork?.Patient.firstName}{' '}
+          {data?.TimeAndWork?.Patient.middleName}
+        </p>
+      </div>
+
       <div className="p-2 rounded-lg">
         <div className="w-1/2 border border-slate-200 rounded-lg bg-white">
-          <div className="flex flex-row justify-between p-1">
+          <div className="flex flex-row justify-between items-center p-1 border-b rounded-t-lg">
             <div>
-              <h5>Time Configuration</h5>
+              <h5 className="text-[14px] ml-2 font-semibold text-slate-700">
+                Time Configuration
+              </h5>
             </div>
             <div className="flex space-x-2 items-center">
               <CaseManagerDialog label={<Pencil size={16} />}>
                 <div className="p-4 flex flex-col space-y-2">
-                  <CustomTimeInput2
-                    label="Morning Time"
-                    onChange={setMorningTime}
-                    value={morningMedicineTime}
-                  />
-                  <CustomTimeInput2
-                    label="Evening Time"
-                    onChange={setEveningTime}
-                    value={eveningMedicineTime}
-                  />
+                  <div className="flex items-center space-x-2">
+                    <CustomTimeInput2
+                      label="Morning Time"
+                      onChange={setMorningTime}
+                      value={morningMedicineTime!}
+                    />
+
+                    <Button
+                    onClick={() => { setMorningTime(null) }}
+                      size={'sm'}
+                      variant={'ghost'}
+                      className="mt-8 bg-slate-100 hover:bg-slate-200 "
+                    >
+                      <Delete size={18} />
+                    </Button>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <CustomTimeInput2
+                      label="Evening Time"
+                      onChange={setEveningTime}
+                      value={eveningMedicineTime!}
+                    />
+                    <Button
+                    onClick={() => { setEveningTime(null) }}
+                      size={'sm'}
+                      variant={'ghost'}
+                      className="mt-8 bg-slate-100 hover:bg-slate-200 "
+                    >
+                      <Delete size={18} />
+                    </Button>
+                  </div>
                   <Button
                     size={'sm'}
                     onClick={async () => await updateSchedule(inputValues)}
@@ -94,8 +130,8 @@ const PillBoxPage = ({ params }: { params: any }) => {
                 </div>
               </CaseManagerDialog>
               <Button
-              size={'sm'}
-              variant={'ghost'}
+                size={'sm'}
+                variant={'ghost'}
                 onClick={async () => await deleteTimeAndWork(timeAndWorkID)}
               >
                 {isLoadingDelete
@@ -108,16 +144,28 @@ const PillBoxPage = ({ params }: { params: any }) => {
               </Button>
             </div>
           </div>
-          <div className="p-2">
-            <div className="flex justify-between text-[14px]">
-              <p>Morning Medicine Time</p>
-              <p>{data?.TimeAndWork?.morningMedicineTime}</p>
+          <div className="p-4 flex flex-col space-y-4">
+            <div className="flex justify-between text-[12px]  ">
+              <p className="text-slate-700">Morning</p>
+              {morningMedicineTime
+                ? (
+                <p>{morningMedicineTime}</p>
+                  )
+                : (
+                <p>Not available</p>
+                  )}
             </div>
 
             {/*  */}
-            <div className="flex justify-between text-[14px]">
-              <p>Evening Medicine Time</p>
-              <p>{data?.TimeAndWork?.eveningMedicineTime}</p>
+            <div className="flex justify-between text-[12px] ">
+              <p className="text-slate-700">Evening</p>
+              {eveningMedicineTime
+                ? (
+                <p>{eveningMedicineTime}</p>
+                  )
+                : (
+                <p>Not available</p>
+                  )}
             </div>
           </div>
         </div>
