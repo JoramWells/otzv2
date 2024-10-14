@@ -68,11 +68,13 @@ import { homeVisitConfigApi } from '@/api/homevisit/homeVisitConfig.api'
 import { eventTypeApi } from '@/api/appointment/events/eventType'
 import { attendeeApi } from '@/api/appointment/events/attendees'
 import { hospitalApi } from '@/api/hospital/hospital.api'
+import { enhancedAdherenceApi } from '@/api/treatmentplan/enhancedAdherence.api'
 
 export const store = configureStore({
   reducer: {
     [patientsApi.reducerPath]: patientsApi.reducer,
     [nextOfKinApi.reducerPath]: nextOfKinApi.reducer,
+    [enhancedAdherenceApi.reducerPath]: enhancedAdherenceApi.reducer,
     [patientVisitsApi.reducerPath]: patientVisitsApi.reducer,
     [vitalSignsApi.reducerPath]: vitalSignsApi.reducer,
     [artRegimenApi.reducerPath]: artRegimenApi.reducer,
@@ -214,5 +216,6 @@ export const store = configureStore({
       .concat(questionsApi.middleware)
       .concat(eventTypeApi.middleware)
       .concat(attendeeApi.middleware)
+      .concat(enhancedAdherenceApi.middleware)
       .concat(hospitalApi.middleware)
 })

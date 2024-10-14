@@ -38,6 +38,8 @@ const dataList2 = [
 const PrescriptionPage = () => {
   const { data } = useGetAllPrescriptionsQuery()
 
+  console.log(data, 'pdata')
+
   const sortedData = data ? [...data] : []
   sortedData.sort(
     (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()

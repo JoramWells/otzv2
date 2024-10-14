@@ -14,8 +14,10 @@ import { useGetMmasEightByPatientIDQuery } from '@/api/treatmentplan/mmasEight.a
 import EnhancedAdherenceCounsellingForm from '../../_components/EnhancedAdherenceCounsellingForm'
 import { type PrescriptionInterface } from 'otz-types'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
-import { Loader2, Pencil } from 'lucide-react'
+import { Loader2, Pencil, TriangleAlert } from 'lucide-react'
 import CustomSelect from '@/components/forms/CustomSelect'
+import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
+import Avatar from '@/components/Avatar'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -46,33 +48,49 @@ const dataList2 = [
 
 interface AdherenceProps {
   adherence: number
+  Patient?: {
+    firstName: string
+    middleName: string
+  }
+  ARTPrescription?: {
+    regimen: string
+  }
 }
 
 type PrescriptionAdherenceProps = PrescriptionInterface & AdherenceProps
 
 const PrescriptionDetailPage = ({ params }: { params: any }) => {
-  const { prescriptionID } = params
+  const { patientVisitID } = params
   const searchParams = useSearchParams()
   const patientID = searchParams.get('patientID')
-  const [patientAdherence, setPatientAdherence] = useState<PrescriptionAdherenceProps>({
-    id: '',
-    frequency: 0,
-    adherence: 0,
-    computedNoOfPills: 0,
-    noOfPills: 0,
-    expectedNoOfPills: 0,
-    nextRefillDate: new Date(),
-    refillDate: new Date()
-  })
+  const prescriptionID = searchParams.get('prescriptionID')
+  const [patientAdherence, setPatientAdherence] =
+    useState<PrescriptionAdherenceProps>({
+      id: '',
+      frequency: 0,
+      adherence: 0,
+      computedNoOfPills: 0,
+      noOfPills: 0,
+      expectedNoOfPills: 0,
+      nextRefillDate: new Date(),
+      refillDate: new Date(),
+      Patient: {
+        firstName: '',
+        middleName: ''
+      },
+      ARTPrescription: {
+        regimen: ''
+      }
+    })
 
-  const { data } = useGetPrescriptionQuery(prescriptionID)
+  const { data } = useGetPrescriptionQuery(patientVisitID)
 
   const { data: mmas8Data } = useGetMmasEightByPatientIDQuery(patientID)
 
-  console.log(mmas8Data, 'mmas8')
+  console.log(data, 'mmas8')
   useEffect(() => {
     if (data) {
-      const { id, frequency, refillDate, computedNoOfPills, noOfPills, expectedNoOfPills, nextRefillDate }: PrescriptionInterface = data
+      const { id, frequency, refillDate, computedNoOfPills, noOfPills, expectedNoOfPills, nextRefillDate, Patient, ARTPrescription }: PrescriptionAdherenceProps = data
       const adherence = calculateAdherence(
         refillDate,
         computedNoOfPills as unknown as number,
@@ -86,7 +104,10 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
         noOfPills,
         expectedNoOfPills,
         nextRefillDate,
-        refillDate
+        refillDate,
+        Patient,
+        ARTPrescription
+
       })
     }
   }, [data])
@@ -102,7 +123,9 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
     refillDate,
     nextRefillDate,
     adherence,
-    frequency
+    frequency,
+    Patient,
+    ARTPrescription
   } = patientAdherence
 
   const [updatePrescription, { isLoading }] = useUpdatePrescriptionMutation()
@@ -117,16 +140,23 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
       {/*  */}
       {/* <div>ART details</div> */}
 
-      <div className="flex items-start justify-between p-4 space-x-4">
+      <div className="mt-2 bg-white p-2">
+        <div className="flex items-center space-x-2">
+          <Avatar name={`${Patient?.firstName} ${Patient?.middleName}`} />
+          <p className="text-slate-700 text-[14px] font-semibold capitalize">
+            {Patient?.firstName} {Patient?.middleName}
+          </p>
+        </div>
+      </div>
+
+      <div className="flex items-start justify-between p-2 space-x-2">
         <div className="flex-1 bg-white rounded-lg">
-          <div className="flex justify-between items-center border rounded-t-lg border-slate-200 p-2 bg-slate-100">
-            <h5>Prescription Details</h5>
+          <div className="flex justify-between items-center border rounded-t-lg border-slate-200 p-1 pl-2 pr-2 bg-slate-100">
+            <h5 className="font-semibold text-[14px]">Prescription Details</h5>
             <div className="flex flex-row items-center space-x-1">
               <Badge className="shadow-none rounded-full">Good</Badge>
               <CaseManagerDialog label={<Pencil size={14} />}>
-                <div
-                className='p-4'
-                >
+                <div className="p-4">
                   <CustomSelect
                     label="Frequency"
                     value={frequencyInput as unknown as string}
@@ -143,14 +173,19 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                     ]}
                   />
 
-                  <Button className='mt-2'
-                  size={'sm'}
-                  onClick={async () => await updatePrescription({
-                    id,
-                    frequency: frequencyInput
-                  })}
+                  <Button
+                    className="mt-2"
+                    size={'sm'}
+                    onClick={async () =>
+                      await updatePrescription({
+                        id,
+                        frequency: frequencyInput
+                      })
+                    }
                   >
-                    {isLoading && <Loader2 className='animate-spin mr-2' size={18}/>}
+                    {isLoading && (
+                      <Loader2 className="animate-spin mr-2" size={18} />
+                    )}
                     Save
                   </Button>
                 </div>
@@ -160,27 +195,49 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
           <div className="p-2 flex flex-col">
             <div className="flex  justify-between items-center text-[14px] p-2 ">
               <p>Dispensed</p>
-              <p>{computedNoOfPills}</p>
+              <p className="font-bold text-slate-700">
+                {ARTPrescription?.regimen}
+              </p>
+            </div>
+
+            <hr />
+
+            <div
+              className={`flex  justify-between items-center text-[14px] p-2 rounded-lg ${
+                computedNoOfPills !== expectedNoOfPills &&
+                'bg-red-50 text-red-500'
+              } `}
+            >
+              <div className="flex items-center space-x-2">
+                {computedNoOfPills !== expectedNoOfPills && (
+                  <TriangleAlert size={14} />
+                )}
+                Taken
+              </div>
+              <p className="font-bold">
+                {computedNoOfPills} OF {noOfPills}
+              </p>
             </div>
 
             <hr />
 
             <div className="flex  justify-between items-center text-[14px] p-2 ">
               <p>Frequency</p>
-              <p>{frequency}</p>
+              <div
+                className="bg-slate-50 border border-slate-200 rounded-full h-6 w-6 flex items-center font-semibold justify-center text-slate-500 text-[12px] shadow-none
+              "
+              >
+                {frequency}
+              </div>
             </div>
 
-            <hr />
-
-            <div className=" flex justify-between text-[14px] items-center p-2">
-              <p>Prescribed No Of Pills</p>
-              <p>{noOfPills}</p>
-            </div>
             <hr />
 
             <div
               className={` flex justify-between items-center text-[14px] p-2 rounded ${
-                expectedNoOfPills && expectedNoOfPills < 0 && 'bg-red-50 font-bold text-red-500'
+                expectedNoOfPills &&
+                expectedNoOfPills < 0 &&
+                'bg-red-50 font-bold text-red-500'
               } `}
             >
               <p>Expected No Pills</p>
@@ -191,14 +248,25 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
             <div className=" flex justify-between items-center text-[14px] p-2 ">
               <p>Refilled</p>
-              <p>{moment(refillDate).format('ll')}</p>
+              <div className="flex flex-row">
+                <p>{moment(refillDate).format('ll')}, </p>
+                <p className="text-slate-500">
+                  {' '}
+                  {calculateTimeDuration(refillDate)}
+                </p>
+              </div>
             </div>
 
             <hr />
 
             <div className=" flex justify-between items-center text-[14px] p-2 ">
               <p>Next Refill</p>
-              <p>{moment(nextRefillDate).format('ll')}</p>
+              <div className="flex flex-row">
+                <p>{moment(nextRefillDate).format('ll')}, </p>
+                <span className="text-slate-500">
+                  {calculateTimeDuration(nextRefillDate)}
+                </span>
+              </div>
             </div>
 
             <hr />
@@ -210,11 +278,12 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
           </div>
         </div>
 
-            <EnhancedAdherenceCounsellingForm
-              score={mmas8Data?.totalScores}
-              adherence={patientAdherence?.adherence}
-            />
-
+        <EnhancedAdherenceCounsellingForm
+          score={mmas8Data?.totalScores}
+          adherence={patientAdherence?.adherence}
+          prescriptionID={prescriptionID}
+          nextAppointmentDate={nextRefillDate}
+        />
       </div>
     </div>
   )

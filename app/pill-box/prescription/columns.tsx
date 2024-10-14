@@ -117,7 +117,7 @@ export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>
     header: 'Action',
     cell: ({ row }) => (
       <Link
-        href={`/pill-box/prescription-detail/${row.original.patientVisitID}?patientID=${row.original?.Patient?.id} `}
+        href={`/pill-box/prescription-detail/${row.original.patientVisitID}?patientID=${row.original?.Patient?.id}&prescriptionID=${row.original.id} `}
         className='text-[12px] text-blue-500'
       >
         Action
