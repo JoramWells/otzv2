@@ -87,24 +87,20 @@ const Layout = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <div className="flex flex-row">
-      <ChakraProvider>
+    <ChakraProvider>
+      <div className="flex flex-row">
         <Sidebar isSearchable={false}>
           <SidebarListItemsComponent dataList={DL} />
         </Sidebar>
-        <div
-          className={
-            'flex flex-col flex-1 h-100vh overflow-y-auto bg-red-50'
-          }
-        >
+        <div className={' flex-1 h-screen overflow-y-auto  bg-slate-50'}>
           {/* <Navbar /> */}
 
           {children}
-          <Toaster/>
+          <Toaster />
         </div>
         {/* <Footer /> */}
-      </ChakraProvider>
-    </div>
+      </div>
+    </ChakraProvider>
   )
 }
 

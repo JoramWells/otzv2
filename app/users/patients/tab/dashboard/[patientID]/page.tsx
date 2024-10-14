@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/quotes */
@@ -33,6 +34,8 @@ import { useGetUserLocationQuery } from '@/api/location/userLocation.api'
 import MapComponent2 from '@/app/_components/map/MapComponent2'
 import { useToast } from '@/components/ui/use-toast'
 import ArtCard from './_components/ArtCard'
+import { useGetPatientSessionLogQuery } from '@/api/patient/patientSessionLogs.api'
+import PatientSessionLogsChart from '@/components/Recharts/PatientSessionLogsChart'
 
 export interface InputTabProps {
   id: number
@@ -48,7 +51,7 @@ const PatientDetails = ({ params }: any) => {
   const { data: userLocationData, isLoading: isLoadingUserLocationData, isError: isErrorUserLocation } = useGetUserLocationQuery(patientID)
   const { data: timeData } = useGetTimeAndWorkByPatientIDQuery(patientID)
   const [addPatientVisit, { isLoading, data: visitData }] = useAddPatientVisitMutation()
-
+  const { data: sessionData } = useGetPatientSessionLogQuery(patientID)
   const { data: priorityAppointment } = useGetPriorityAppointmentDetailQuery(patientID)
 
   const { data: prescriptionData } = useGetArtPrescriptionQuery(patientID)
@@ -97,8 +100,6 @@ const PatientDetails = ({ params }: any) => {
     }
 
     if (visitData) {
-      console.log(visitData, "visitData")
-
       send()
       redirect(
         `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
@@ -106,8 +107,10 @@ const PatientDetails = ({ params }: any) => {
     }
   }, [visitData, patientID, vsData, session, send])
 
+  // console.log(sessionData, "sessionDa")
+
   return (
-    <>
+    <div>
       <div className="p-2 w-full justify-between flex items-center bg-white">
         <div className="z-20">
           {isLoadingPatientData ? (
@@ -251,7 +254,13 @@ const PatientDetails = ({ params }: any) => {
           )}
         </div>
       </div>
-    </>
+
+      <div>
+        <PatientSessionLogsChart
+        data={sessionData || []}
+        />
+      </div>
+    </div>
   )
 }
 

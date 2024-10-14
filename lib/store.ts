@@ -69,6 +69,7 @@ import { eventTypeApi } from '@/api/appointment/events/eventType'
 import { attendeeApi } from '@/api/appointment/events/attendees'
 import { hospitalApi } from '@/api/hospital/hospital.api'
 import { enhancedAdherenceApi } from '@/api/treatmentplan/enhancedAdherence.api'
+import { patientSessionLogsApi } from '@/api/patient/patientSessionLogs.api'
 
 export const store = configureStore({
   reducer: {
@@ -119,6 +120,7 @@ export const store = configureStore({
     [chatMessageApi.reducerPath]: chatMessageApi.reducer,
     [caseManagerApi.reducerPath]: caseManagerApi.reducer,
     [prescriptionApi.reducerPath]: prescriptionApi.reducer,
+    [patientSessionLogsApi.reducerPath]: patientSessionLogsApi.reducer,
     [patientNotificationApi.reducerPath]: patientNotificationApi.reducer,
     [messageTextReplyApi.reducerPath]: messageTextReplyApi.reducer,
     [articlesCategoryApi.reducerPath]: articlesCategoryApi.reducer,
@@ -215,6 +217,7 @@ export const store = configureStore({
       .concat(homeVisitConfigApi.middleware)
       .concat(questionsApi.middleware)
       .concat(eventTypeApi.middleware)
+      .concat(patientSessionLogsApi.middleware)
       .concat(attendeeApi.middleware)
       .concat(enhancedAdherenceApi.middleware)
       .concat(hospitalApi.middleware)
