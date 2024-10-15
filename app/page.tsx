@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { Search } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MenuSelect } from './_components/MenuSelect'
 import { Input } from '@/components/ui/input'
@@ -291,18 +292,25 @@ const itemList: ItemListProps[] = [
 
 export default function Home () {
   const { data: session, status } = useSession()
+  const [user, setUser] = useState<UserInterface>()
   const router = useRouter()
   useEffect(() => {
     if (status === 'loading') {
       return
     }
+
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+
     if (status === 'unauthenticated') {
     // setTimeout(() => {
     //   router.push('/login')
     // }, 2000)
       router.push('/login')
     }
-  }, [status, router])
+  }, [status, router, session])
   if (session != null) {
     return (
       <>
@@ -311,7 +319,7 @@ export default function Home () {
             <nav
               className="flex justify-between
         bg-white
-        border-slate-200 p-4 w-full"
+        border-slate-200 p-1 pl-4 pr-4 w-full"
             >
               <Image
                 src={'/img/logo1.svg'}
@@ -323,10 +331,7 @@ export default function Home () {
                 // quality={100}
               />
 
-              <UserAccount
-              user={session?.user as UserInterface }
-              />
-
+              <UserAccount user={user as UserInterface} />
             </nav>
           </Suspense>
 
@@ -335,9 +340,16 @@ export default function Home () {
             <div className="flex flex-col justify-center items-center w-full">
               <Suspense fallback={<Skeleton className="w-3/4 p-2" />}>
                 <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
-                  <h3 className="text-center text-lg lg:text-lg min-[1920px]:text-sm font-bold text-teal-600">
-                    Welcome to CarePlus +
-                  </h3>
+                  <div className="  text-teal-600 pl-4">
+                    <p className="">
+                      Hello <span
+                      className='font-bold underline'
+                      >{user?.firstName}</span>,{' '}
+                    </p>
+                    <p className="text-[14px]">
+                      Welcome to CarePlus +
+                    </p>
+                  </div>
 
                   <div
                     className="w-[300px] flex flex-row items-center
@@ -347,7 +359,10 @@ export default function Home () {
                       className="shadow-none rounded-full p-4 h-8 bg-slate-50 border-none"
                       placeholder="Search.."
                     />
-                    <Button className="bg-slate-50 rounded-full hover:bg-slate-50 shadow-none" size={'sm'} >
+                    <Button
+                      className="bg-slate-50 rounded-full hover:bg-slate-50 shadow-none"
+                      size={'sm'}
+                    >
                       <Search className="text-slate-500" size={18} />
                     </Button>
                   </div>
@@ -363,7 +378,9 @@ export default function Home () {
                       key={item.id}
                       tabIndex={0}
                       className="border-slate-200 p-4 rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 hover:shadow-lg"
-          onClick={() => { router.push(item.link) }}
+                      onClick={() => {
+                        router.push(item.link)
+                      }}
                     >
                       <div className="w-full flex justify-end">
                         <MenuSelect dataList={item.listItem} />

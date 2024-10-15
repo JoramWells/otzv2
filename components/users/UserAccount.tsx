@@ -26,7 +26,7 @@ export function UserAccount ({ user }: { user: UserInterface }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="ml-auto">
+        <Button variant="outline" className="ml-auto shadow-none">
           <UserCircle className="" size={18} />
           <ChevronDownIcon className="ml-2 h-4 w-4" />
         </Button>

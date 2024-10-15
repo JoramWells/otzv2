@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
-interface UserProps {
-  firstName: string
-}
+import { type UserInterface } from 'otz-types'
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -12,7 +8,7 @@ export const userApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/users`
   }),
   endpoints: (builder) => ({
-    getAllUsers: builder.query<any, void>({
+    getAllUsers: builder.query<UserInterface[], void>({
       query: () => 'fetchAll'
     }),
     addUser: builder.mutation({
@@ -25,7 +21,7 @@ export const userApi = createApi({
     login: builder.mutation({
       query: (email) => `login/${email}`
     }),
-    getUser: builder.query({
+    getUser: builder.query<UserInterface | null, string>({
       query: (id) => `detail/${id}`
     }),
     updateUser: builder.mutation({

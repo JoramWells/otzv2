@@ -21,12 +21,12 @@ const dataList = [
   {
     id: '1',
     label: 'home',
-    link: ''
+    link: '/'
   },
   {
     id: '2',
     label: 'users',
-    link: 'users'
+    link: '/'
   }
 ]
 
@@ -41,33 +41,34 @@ const Users = () => {
   }
 
   return (
-      <div className="p-4">
-        <BreadcrumbComponent dataList={dataList} />
-        <div
-        className='flex flex-row justify-between items-center p-1'
-        >
-          <div className="flex flex-row gap-x-2 items-center mb-4">
-            <p
-              className="text-lg text-slate-700
+    <>
+      <BreadcrumbComponent dataList={dataList} />
+      <div className="flex flex-row justify-between items-center p-2 bg-white mt-2 mb-2">
+        <div className="flex flex-row gap-x-2 items-center">
+          <p
+            className=" text-slate-700
           font-semibold
           "
-            >
-              Patients
-            </p>
-
-          </div>
-          <Button
-          // size={'sm'}
-          // colorScheme='teal'
+          >
+            Users
+          </p>
+        </div>
+        <Button
+          size={'sm'}
+          className="shadow-none"
           variant={'outline'}
           onClick={handleClick}
-          >New</Button>
-        </div>
-
-        <CustomTable columns={columns} data={data ?? []}
-        isSearch={false}
-        />
+        >
+          New
+        </Button>
       </div>
+
+      <div className="p-2 ">
+        <div className="bg-white p-2 rounded-lg">
+          <CustomTable columns={columns} data={data ?? []} isSearch={false} />
+        </div>
+      </div>
+    </>
   )
 }
 

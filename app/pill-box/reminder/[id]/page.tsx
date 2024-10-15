@@ -46,7 +46,6 @@ const PillBoxPage = ({ params }: { params: any }) => {
       setMorningTime(data.TimeAndWork?.morningMedicineTime)
     }
   }, [data])
-  console.log(data, 'datam')
 
   const inputValues = useMemo(
     () => [
