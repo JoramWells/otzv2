@@ -43,7 +43,7 @@ const UserDetailPage = ({ params }: { params: any }) => {
       <div className="p-4">
         <Button
           size={'sm'}
-          onClick={async () => await addPatient({ ...user, role: 'clinician', sex: 'M' })}
+          onClick={async () => await addPatient({ ...user, role: 'clinician', sex: 'M', userID: user?.id })}
         >
           {isLoading && <Loader2 className='animate-spin mr-2' size={16} />}
           Create User

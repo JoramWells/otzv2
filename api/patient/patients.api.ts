@@ -60,6 +60,9 @@ export const patientsApi = createApi({
     getPatient: builder.query<PatientAttributes, string>({
       query: (id) => `detail/${id}`
     }),
+    getPatientByUserID: builder.query<PatientAttributes, string>({
+      query: (id) => `user-patient-detail/${id}`
+    }),
     getImportantPatients: builder.query<PatientAttributes[], any>({
       query: (params) => {
         if (params) {
@@ -97,5 +100,6 @@ export const patientsApi = createApi({
 
 export const {
   useGetAllPatientsQuery, useUpdatePatientMutation, useGetAllPMTCTPatientsQuery, useGetAllEligibleOTZPatientsQuery,
-  useDeletePatientMutation, useAddPatientMutation, useGetPatientQuery, useMarkPatientAsImportantMutation, useGetImportantPatientsQuery
+  useDeletePatientMutation, useAddPatientMutation, useGetPatientQuery, useMarkPatientAsImportantMutation, useGetImportantPatientsQuery,
+  useGetPatientByUserIDQuery
 } = patientsApi

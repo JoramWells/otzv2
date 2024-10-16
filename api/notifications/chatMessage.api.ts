@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const chatMessageApi = createApi({
   reducerPath: 'chatMessageApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/chat-messages`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/notify/messages`
   }),
   endpoints: (builder) => ({
     getAllChatMessages: builder.query<any, void>({

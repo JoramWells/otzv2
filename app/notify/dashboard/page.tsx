@@ -105,7 +105,7 @@ const NotifyPage = () => {
             Scheduled the following appointments
           </p>
           <div className="flex justify-between space-x-4 bg-white p-4">
-            <WeeklyAppointmentBarChart />
+            {/* <WeeklyAppointmentBarChart /> */}
 
           </div>
         </div>

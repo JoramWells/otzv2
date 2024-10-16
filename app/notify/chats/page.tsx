@@ -1,113 +1,117 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
 
-import { useAddChatsMutation, useGetChatQuery } from '@/api/notifications/chat.api'
-import { useGetChatMessageQuery } from '@/api/notifications/chatMessage.api'
-import { useGetAllUsersQuery } from '@/api/users/users.api'
-import { Button } from '@/components/ui/button'
-import { Loader2 } from 'lucide-react'
+import { useGetPatientByUserIDQuery } from '@/api/patient/patients.api'
+
 // import { type Session } from 'next-auth'
 import { useSession } from 'next-auth/react'
-import { useCallback, useState } from 'react'
-
-// const getMessages = async () => {
-//   try {
-//     const response = await fetch('http://localhost:5005/chat-messages')
-//     console.log(response)
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
-
-interface ItemProps {
-  id: string
-  firstName: string
-}
+import { type MessagesAttributes } from 'otz-types'
+import { useEffect, useState } from 'react'
+import io from 'socket.io-client'
+import { v4 as uuidv4 } from 'uuid'
+import ChatList from '../components/ChatList'
+import MessageArea from '../components/MessageArea'
+import ChatInput from '../components/ChatInput'
+import { useChatSocket } from '@/context/ChatContext'
 
 export default function Page () {
-  const [currentChat, setCurrentChat] = useState('')
-  const [addChats, { isLoading }] = useAddChatsMutation()
-  // const {} = useGetChatQuery()
+  const [recentChats, setRecentChats] = useState<MessagesAttributes[]>([])
+  const [text, setText] = useState('')
+  const [senderID, setSenderID] = useState()
+
+  const { chats, messages, activeChat, setActiveChat } = useChatSocket()
+
   const { data: session } = useSession()
 
   const userID = session?.user?.id
+  const { data: patientData } = useGetPatientByUserIDQuery(userID)
 
-  const { data: usersData } = useGetAllUsersQuery()
+  // const { data: usersData } = useGetAllUsersQuery()
 
-  const { data: usersChat } = useGetChatQuery(session?.user?.id)
+  useEffect(() => {
+    if (patientData) {
+      setSenderID(patientData.id)
+    }
+  }, [patientData])
+  const sendChat = async (senderID: string) => {
+    const newSocket = io(`${process.env.EXPO_PUBLIC_IP_ADDR}`, {
+      path: '/api/notify/socket.io',
+      transports: ['websocket']
+    })
 
-  const { data: messageData } = useGetChatMessageQuery(userID)
+    // logged in user is the senderID --> userID <===> senderID
+    // patientID is the active chat ID/ the receiver === currentChat?.receiver?.id
 
-  const pChats = useCallback(() => {
-    return usersData?.filter((user: any) => {
-      if (userID && userID === user.id) return false
+    const message = {
+      text,
+      senderID: userID,
+      patientID: activeChat?.receiver?.id,
+      id: uuidv4(),
+      chatID: activeChat?.chat?.id
+      // recentChatID,
+    }
 
-      const isChatCreated = usersChat?.some((chat: any) => {
-        const xcf = chat.members[0] === user.id || chat.members[1] === user.id
+    setRecentChats((prev) => [...prev, message])
 
-        return xcf
-      })
+    newSocket.emit('sendMessage', message)
+    newSocket.emit('newChat', message)
 
-      return isChatCreated
-    }) || []
-  }, [usersData, userID, usersChat])
+    // console.log(chatID, 'lpiou')
 
-  // const createChats = useCallback((id1, id2) => {
-  //   const respo
-  // }, [])
+    // console.log(messageData,'klip')
+    // await addChats({
+    //   id1: patientID,
+    //   id2: receiverID,
+    //   text,
+    // });
 
-  // const updateCurrentChat = useCallback((id: any) => {
-  //   const { data } = useGetChatMessageQuery(id)
-  //   setCurrentChat(data)
-  //   console.log(currentChat, 'io')
-  // }, [])
+    //   if(messageData?.length === 0 || messageData?.length === undefined){
+    //       await addChats({
+    //         id1:patientID,
+    //         id2:receiverID,
+    //         text,
+    //       });
 
-  // useEffect(async () => {
-  //   await getMessages()
-  //   pChats()
-  //   // filterUsers()
-  // }, [pChats])
+    //  console.log('new mess cat!!')
+    //   }else{
+    //   console.log('new mess!!', messageData?.length)
 
-  console.log(usersChat, 'chats')
+    //   }
+
+    //
+  }
+
+  // console.log(usersChat, 'chats')
+
+  // useEffect(() => {
+  //   (async () => {
+  //     if (currentChat) {
+  //       const data = await fetchMessage(currentChat?.chat?.id)
+  //       setMessages(data)
+  //     }
+  //   })()
+  // }, [currentChat])
   return (
-    <div className="p-4 mt-14">
-      <div className="flex flex-row space-x-2">
-        {userID}
-        {usersData?.map((item: any) => (
-          <div key={item.id}>
-            <Button
-              onClick={() =>
-                addChats({
-                  id1: userID,
-                  id2: item.id
-                })
-              }
-            >
-              {isLoading && <Loader2 className="mr-2 animate-spin" />}
-              {item.firstName}
-            </Button>
-          </div>
-        ))}
-      </div>
+    <div className="p-4 bg-white">
+      <div className="flex flex-row h-screen">
+        <ChatList data={chats} handleChatChange={setActiveChat} />
 
-      {/*  */}
-      <div className="border p-4 border-slate-200
-      w-1/3 rounded-lg
-      ">
-        <p
-        className='font-bold text-xl'
-        >User Chats</p>
+        {/*  */}
 
-        {pChats()?.map((item: ItemProps) => (
-          <div key={item.id}
-          onClick={() => { setCurrentChat(item.id) }}
-          >{item.firstName}</div>
-        ))}
+        <div className="w-3/4 flex flex-col h-screen">
+          <MessageArea data={messages} />
+          <ChatInput
+            chatID={activeChat?.chat?.id}
+            patientID={activeChat?.receiver?.id}
+            senderID={senderID}
+            text={text}
+            setText={setText}
+          />
+        </div>
       </div>
-      <div>{messageData ? 'Available' : 'No Text'}</div>
-      <div>{currentChat}</div>
     </div>
   )
 }
