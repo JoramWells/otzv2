@@ -65,12 +65,12 @@ export const ChatContextProvider = ({ children }: InputProps) => {
   const { data: chatsData } = useGetChatQuery(patientData?.id)
 
   useEffect(() => {
-    (async () => {
-      if (activeChat) {
-        const data = await fetchMessage(activeChat?.chat?.id)
-        setMessages(data)
-      }
-    })()
+    // (async () => {
+    if (activeChat) {
+      const data = fetchMessage(activeChat?.chat?.id)
+      setMessages(data)
+    }
+    // })()
   }, [activeChat])
 
   useEffect(() => {
