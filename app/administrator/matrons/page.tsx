@@ -48,7 +48,7 @@ const Users = () => {
           >New</Button>
         </div>
 
-        <CustomTable columns={columns} data={data ?? []} />
+        {/* <CustomTable columns={columns} data={data ?? []} /> */}
       </div>
   )
 }
