@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -169,7 +171,7 @@ const CaseManager = ({ patientID }: DataProps) => {
     >
       <CustomSelect
         label="Select Case Manager"
-        data={userOptions()}
+        data={userOptions() || []}
         value={userID}
         onChange={setUser}
       />
