@@ -134,7 +134,7 @@ const EditAppointment = ({ params }: any) => {
         >
           <CustomSelect
             label="Requested By"
-            data={usersOption()}
+            data={usersOption() || []}
             value={userID}
             onChange={setUserID}
           />
