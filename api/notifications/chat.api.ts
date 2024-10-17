@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { type ChatsInterface } from '@/context/ChatContext'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const chatApi = createApi({
@@ -17,7 +18,7 @@ export const chatApi = createApi({
         body: newUser
       })
     }),
-    getChat: builder.query({
+    getChat: builder.query<ChatsInterface[] | undefined, string>({
       query: (id) => `detail/${id}`
     }),
     updateChat: builder.mutation({

@@ -1,14 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useAddChatMessagesMutation } from '@/api/notifications/chatMessage.api'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Loader2 } from 'lucide-react'
-import React from 'react'
+import React, { type Dispatch, type SetStateAction } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import io from 'socket.io-client'
 import { useChatSocket } from '@/context/ChatContext'
 
-const ChatInput = ({ text, setText, patientID, senderID, chatID }) => {
+interface ChatInputProps {
+  text: string
+  patientID: string | undefined
+  senderID: string
+  chatID: string | undefined
+  setText: Dispatch<SetStateAction<string>>
+}
+
+const ChatInput = ({ text, setText, patientID, senderID, chatID }: ChatInputProps) => {
   const [addChatMessages, { isLoading: isLoadingMessageChat, error }] =
     useAddChatMessagesMutation()
 
@@ -32,13 +40,13 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID }) => {
 
     socket?.emit('sendMessage', message)
     socket?.emit('newChat', message)
+    setText('')
     // await addChatMessages(message)
-    console.log('hey')
   }
 
   return (
       <div className="flex items-center p-2 space-x-2">
-        <Textarea value={text} onChange={(e) => setText(e.target.value)} />
+        <Textarea value={text} onChange={(e) => { setText(e.target.value) }} />
         <Button
           onClick={handleSubmit}
         >

@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useGetChatQuery } from '@/api/notifications/chat.api'
 import { useGetPatientByUserIDQuery } from '@/api/patient/patients.api'
-import axios from 'axios'
+import axios, { type AxiosResponse } from 'axios'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { type ChatAttributes, type MessagesAttributes, type PatientAttributes } from 'otz-types'
+import { type MessagesAttributes, type PatientAttributes } from 'otz-types'
 import { type Dispatch, type ReactNode, type SetStateAction, createContext, useContext, useEffect, useState } from 'react'
 import io, { type Socket } from 'socket.io-client'
 
@@ -12,35 +13,45 @@ interface InputProps {
   children: ReactNode
 }
 
+export interface ChatsInterface {
+  id: string
+  chat: {
+    id: string
+    Messages: Array<{
+      createdAt: string
+      text: string
+    }>
+  }
+  receiver: {
+    id: string | undefined
+    firstName: string
+    secondName: string
+  }
+}
+
 export interface AppContext {
   socket: Socket | undefined
-  expoPushToken: string | undefined
-  user: PatientAttributes | undefined
-  patientID: string | undefined
-  activeChat: string | undefined
-  setActiveChat: Dispatch<SetStateAction<string[] | null | undefined>>
-  messages: MessagesAttributes | undefined
+  activeChat: ChatsInterface | undefined
+  setActiveChat: Dispatch<SetStateAction<ChatsInterface | undefined>>
+  messages: MessagesAttributes[] | undefined
 
-  chats: ChatAttributes[]
+  chats: ChatsInterface[]
 }
 
 const initialState: AppContext = {
   socket: undefined,
-  user: undefined,
   activeChat: undefined,
   messages: undefined,
   setActiveChat: () => {},
-  chats: [],
-  expoPushToken: undefined,
-  patientID: ''
+  chats: []
 }
 
-const fetchMessage = async (id: string) => {
+const fetchMessage = async (id: string): Promise<MessagesAttributes[] | undefined> => {
   try {
-    const { data } = await axios.get(
+    const response: AxiosResponse<MessagesAttributes[]> = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/api/notify/messages/detail/${id}`
     )
-    return data
+    return response.data
   } catch (error) {
     console.log(error)
   }
@@ -49,32 +60,32 @@ const fetchMessage = async (id: string) => {
 export const ChatContext = createContext(initialState)
 
 export const ChatContextProvider = ({ children }: InputProps) => {
-  const [chats, setChats] = useState<ChatAttributes[]>([])
+  const [chats, setChats] = useState<ChatsInterface[]>([])
   const [isUserChatsLoading, setIsUserChatsLoading] = useState(false)
   const [userChatsError, setUserChatsError] = useState(null)
   const { data: session, status } = useSession()
-  const [activeChat, setActiveChat] = useState()
-  const [messages, setMessages] = useState()
+  const [activeChat, setActiveChat] = useState<ChatsInterface | undefined>()
+  const [messages, setMessages] = useState<MessagesAttributes[]>()
   const [socket, setSocket] = useState<Socket>()
 
   const router = useRouter()
   const userID = session?.user?.id
 
-  const { data: patientData } = useGetPatientByUserIDQuery(userID)
+  const { data: patientData } = useGetPatientByUserIDQuery(userID as string)
 
-  const { data: chatsData } = useGetChatQuery(patientData?.id)
+  const { data: chatsData } = useGetChatQuery(patientData?.id as string)
 
   useEffect(() => {
-    // (async () => {
-    if (activeChat) {
-      const data = fetchMessage(activeChat?.chat?.id)
-      setMessages(data)
-    }
-    // })()
+    void (async () => {
+      if (activeChat != null) {
+        const data = await fetchMessage(activeChat?.chat?.id)
+        setMessages(data)
+      }
+    })()
   }, [activeChat])
 
   useEffect(() => {
-    if (chatsData) {
+    if (chatsData != null) {
       setChats(chatsData)
     }
   }, [chatsData])
@@ -108,14 +119,14 @@ export const ChatContextProvider = ({ children }: InputProps) => {
                 ...prevChat,
                 chat: {
                   ...prevChat.chat,
-                  Messages: [{ createdAt: new Date(), text: recentChat.text }]
+                  Messages: [{ createdAt: new Date().toISOString(), text: recentChat.text }]
                 }
               }
             : prevChat
         )
       )
 
-      setMessages(prev => [...prev, recentChat])
+      setMessages(prev => [...(prev ?? []), recentChat])
     })
     return () => {
       newSocket.off('getNewChats')
@@ -132,9 +143,9 @@ export const ChatContextProvider = ({ children }: InputProps) => {
         activeChat,
         messages,
         socket,
-        setActiveChat,
-        isUserChatsLoading,
-        userChatsError
+        setActiveChat
+        // isUserChatsLoading,
+        // userChatsError
       }}
     >
       {children}

@@ -1,12 +1,16 @@
+import { type ChatsInterface } from '@/context/ChatContext'
 import React from 'react'
 
-const ChatList = ({ data, handleChatChange }) => {
+const ChatList = ({ data, handleChatChange }: { data: ChatsInterface[]
+  handleChatChange: (item: ChatsInterface) => void
+
+}) => {
   return (
     <div className="w-1/4 border border-r border-slate-300">
       {data?.map((item, idx) => (
         <div
         className='border-slate-200 rounded-lg hover:bg-slate-200  cursor-pointer p-2 pl-4 pr-4'
-        key={idx} onClick={() => handleChatChange(item)}>
+        key={idx} onClick={() => { handleChatChange(item) }}>
           <p
           className='font-bold text-[14px]'
           >{item?.receiver?.firstName}</p>
