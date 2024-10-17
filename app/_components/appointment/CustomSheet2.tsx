@@ -118,7 +118,7 @@ const CustomSheet2 = ({ data }: DataProps) => {
         <div className="flex flex-col space-y-4 mt-6">
           <CustomSelect
             label="Case Manager"
-            data={caseManagerOptions()}
+            data={caseManagerOptions() || []}
             value={userName}
             onChange={setUsername}
           />
