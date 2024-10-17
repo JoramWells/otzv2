@@ -48,7 +48,6 @@ const categoryList = [
 const LabPage = () => {
   // const datax = await getPatients()
   const { data } = useGetAllInternalLabRequestsQuery()
-  console.log(data, 'dtc')
   const [value, setValue] = useState<number>(1)
 
   return (

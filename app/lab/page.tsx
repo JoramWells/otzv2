@@ -10,7 +10,6 @@ import { columns } from './columns'
 const LabPage = () => {
   // const datax = await getPatients()
   const { data } = useGetAllInternalLabRequestsQuery()
-  console.log(data, 'dtc')
 
   return (
       <div className="p-5">
