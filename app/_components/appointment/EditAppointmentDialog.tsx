@@ -80,7 +80,7 @@ const EditAppointmentDialog = ({ patientID }: DataProps) => {
 
         <CustomSelect
           label="Requested By"
-          data={usersOption()}
+          data={usersOption() || []}
           value={userID}
           onChange={setUserID}
         />
