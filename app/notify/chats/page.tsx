@@ -18,20 +18,32 @@ import { useChatSocket } from '@/context/ChatContext'
 export default function Page () {
   const [text, setText] = useState('')
   const [senderID, setSenderID] = useState<string>()
+  const [avatar, setAvatar] = useState('')
+  const [userName, setUserName] = useState()
 
   const { chats, messages, activeChat, setActiveChat } = useChatSocket()
 
   const { data: session } = useSession()
 
   const userID = session?.user?.id
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+
+      setUserName(`${user.firstName} ${user.middleName}`)
+    }
+  }, [session])
   const { data: patientData } = useGetPatientByUserIDQuery(userID as string)
   const lastMessageRef = useRef(null)
+
+  console.log(patientData, 'patientData')
 
   // const { data: usersData } = useGetAllUsersQuery()
 
   useEffect(() => {
     if (patientData) {
       setSenderID(patientData.id)
+      setAvatar(patientData?.avatar)
     }
   }, [patientData])
 
@@ -47,6 +59,8 @@ export default function Page () {
           lastMessageRef={lastMessageRef}
           />
           <ChatInput
+          userName={userName}
+          avata={avatar}
             chatID={activeChat?.chat?.id}
             patientID={activeChat?.receiver?.id}
             senderID={senderID as unknown as string}
