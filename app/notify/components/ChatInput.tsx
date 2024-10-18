@@ -15,12 +15,12 @@ interface ChatInputProps {
   patientID: string | undefined
   senderID: string
   chatID: string | undefined
-  avatar: string | undefined
+  // avatar: string | undefined
   userName: string | undefined
   setText: Dispatch<SetStateAction<string>>
 }
 
-const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avatar }: ChatInputProps) => {
+const ChatInput = ({ text, setText, patientID, senderID, chatID, userName }: ChatInputProps) => {
   const [addChatMessages, { isLoading: isLoadingMessageChat, error }] =
     useAddChatMessagesMutation()
 
@@ -34,7 +34,7 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avata
     // })
 
     const message = {
-      avatar: avatar ?? 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fmedia-placeholder&psig=AOvVaw29z6m69F8wFru23cBQeqJL&ust=1729320249080000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLi80Yuql4kDFQAAAAAdAAAAABAJ',
+      // avatar: avatar ?? 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fmedia-placeholder&psig=AOvVaw29z6m69F8wFru23cBQeqJL&ust=1729320249080000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLi80Yuql4kDFQAAAAAdAAAAABAJ',
       text,
       senderID,
       patientID,
