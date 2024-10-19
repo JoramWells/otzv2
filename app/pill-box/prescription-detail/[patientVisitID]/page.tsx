@@ -18,6 +18,8 @@ import { Loader2, Pencil, TriangleAlert } from 'lucide-react'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import Avatar from '@/components/Avatar'
+import CustomTab from '@/components/tab/CustomTab'
+import UpdateTimeAndWork from '../../_components/UpdateTimeAndWork'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -47,7 +49,7 @@ const dataList2 = [
 ]
 
 interface AdherenceProps {
-  adherence: number
+  adherence?: number
   Patient?: {
     firstName: string
     middleName: string
@@ -83,7 +85,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
       }
     })
 
-  const { data } = useGetPrescriptionQuery(patientVisitID)
+  const { data } = useGetPrescriptionQuery(patientVisitID as string)
 
   const { data: mmas8Data } = useGetMmasEightByPatientIDQuery(patientID)
 
@@ -131,6 +133,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
   const [updatePrescription, { isLoading }] = useUpdatePrescriptionMutation()
 
   const [frequencyInput, setFrequencyInput] = useState()
+  const [tabValue, setTabValue] = useState('prescription')
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -156,38 +159,66 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
             <div className="flex flex-row items-center space-x-1">
               <Badge className="shadow-none rounded-full">Good</Badge>
               <CaseManagerDialog label={<Pencil size={14} />}>
-                <div className="p-4">
-                  <CustomSelect
-                    label="Frequency"
-                    value={frequencyInput as unknown as string}
-                    onChange={setFrequencyInput}
-                    data={[
+                <div className="p-4 overflow-y-auto">
+                  <CustomTab
+                    setValue={setTabValue}
+                    value={tabValue}
+                    categoryList={[
                       {
-                        id: '1',
-                        label: 'OD'
+                        id: 1,
+                        label: 'Prescription'
                       },
                       {
-                        id: '2',
-                        label: 'BD'
+                        id: 2,
+                        label: 'Time And Work'
                       }
                     ]}
                   />
+                  {tabValue === 'prescription' && (
+                    <>
+                      <CustomSelect
+                        label="Frequency"
+                        value={frequencyInput as unknown as string}
+                        onChange={setFrequencyInput}
+                        data={[
+                          {
+                            id: '1',
+                            label: 'OD'
+                          },
+                          {
+                            id: '2',
+                            label: 'BD'
+                          }
+                        ]}
+                      />
 
-                  <Button
-                    className="mt-2"
-                    size={'sm'}
-                    onClick={async () =>
-                      await updatePrescription({
-                        id,
-                        frequency: frequencyInput
-                      })
-                    }
-                  >
-                    {isLoading && (
-                      <Loader2 className="animate-spin mr-2" size={18} />
-                    )}
-                    Save
-                  </Button>
+                      <Button
+                        className="mt-2"
+                        size={'sm'}
+                        onClick={async () =>
+                          await updatePrescription({
+                            id,
+                            frequency: frequencyInput
+                          })
+                        }
+                      >
+                        {isLoading && (
+                          <Loader2 className="animate-spin mr-2" size={18} />
+                        )}
+                        Save
+                      </Button>
+                    </>
+                  )}
+
+                  {tabValue === 'time and work' && (
+                    <>
+                      <UpdateTimeAndWork
+                        frequency={frequencyInput as unknown as number}
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        patientID={patientID!}
+                      />
+                    </>
+                  )}
                 </div>
               </CaseManagerDialog>
             </div>
@@ -280,7 +311,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
         <EnhancedAdherenceCounsellingForm
           score={mmas8Data?.totalScores}
-          adherence={patientAdherence?.adherence}
+          adherence={patientAdherence?.adherence as unknown as number}
           prescriptionID={prescriptionID}
           nextAppointmentDate={nextRefillDate}
         />

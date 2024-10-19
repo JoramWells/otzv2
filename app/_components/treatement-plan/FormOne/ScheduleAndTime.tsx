@@ -1,7 +1,6 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomTimeInput2 from '@/components/forms/CustomTimeInput2'
 import { Button } from '@/components/ui/button'
@@ -13,6 +12,7 @@ export interface ScheduleAndTimeProps {
   morningWeekendPlace: string
   setMorningPlace: (val: string) => void
   setMorningPlaceWeekend: (val: string) => void
+  frequency: number
   eveningPlace: string
   eveningWeekendPlace: string
   setEveningPlace: (val: string) => void
@@ -25,10 +25,8 @@ export interface ScheduleAndTimeProps {
   setMorningTimeWeekend: (val: string) => void
   eveningTimeWeekend: string
   setEveningTimeWeekend: (val: string) => void
-  appointmentID: string | null
 }
 const ScheduleAndTime = ({
-  appointmentID,
   morningPlace,
   morningWeekendPlace,
   setMorningPlace,
@@ -37,7 +35,7 @@ const ScheduleAndTime = ({
   eveningWeekendPlace,
   setEveningPlace,
   setEveningPlaceWeekend,
-
+  frequency,
   morningTime,
   setMorningTime,
   eveningTime,
@@ -47,7 +45,6 @@ const ScheduleAndTime = ({
   eveningTimeWeekend,
   setEveningTimeWeekend
 }: ScheduleAndTimeProps) => {
-  const { data: prescriptionDatam } = useGetPrescriptionQuery(appointmentID)
   const [tabValue, setTabValue] = useState('Morning')
 
   return (
@@ -58,7 +55,7 @@ const ScheduleAndTime = ({
           medicine?
         </p>
         {/*  */}
-        {prescriptionDatam?.frequency === 1 ? (
+        {frequency === 1 ? (
           <div>
             <div className="pb-2 flex space-x-2">
               {['Morning', 'Evening'].map((item) => (
@@ -197,7 +194,7 @@ const ScheduleAndTime = ({
             />
           </div>
 
-          {prescriptionDatam?.frequency === 2 && (
+          {frequency === 2 && (
             <div className="flex flex-row gap-x-6">
               <div className="w-1/4">
                 <CustomTimeInput2

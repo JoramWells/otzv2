@@ -18,7 +18,7 @@ export const prescriptionApi = createApi({
         body: newUser
       })
     }),
-    getPrescription: builder.query({
+    getPrescription: builder.query<PrescriptionInterface, string>({
       query: (id) => `detail/${id}`
     }),
     getPrescriptionDetail: builder.query<PrescriptionInterface | undefined, string>({

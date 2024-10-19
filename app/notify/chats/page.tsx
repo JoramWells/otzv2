@@ -10,7 +10,7 @@ import { useGetPatientByUserIDQuery } from '@/api/patient/patients.api'
 
 // import { type Session } from 'next-auth'
 import { useSession } from 'next-auth/react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ChatList from '../components/ChatList'
 import MessageArea from '../components/MessageArea'
 import ChatInput from '../components/ChatInput'
@@ -41,12 +41,12 @@ export default function Page () {
 
   // const { data: usersData } = useGetAllUsersQuery()
 
-  // useEffect(() => {
-  //   if (patientData) {
-  //     setSenderID(patientData.id)
-  //     setAvatar(patientData?.avatar)
-  //   }
-  // }, [patientData])
+  useEffect(() => {
+    if (patientData) {
+      setSenderID(patientData.id)
+      setAvatar(patientData?.avatar)
+    }
+  }, [patientData])
 
   return (
     <div className="p-4 bg-white">
@@ -61,7 +61,7 @@ export default function Page () {
           />
           <ChatInput
           userName={userName}
-          // avata={avatar}
+          avata={avatar}
             chatID={activeChat?.chat?.id}
             patientID={activeChat?.receiver?.id}
             senderID={senderID as unknown as string}

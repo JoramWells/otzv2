@@ -26,7 +26,7 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName }: Cha
 
   const { socket } = useChatSocket()
 
-  //   console.log(error, 'errorx')
+  console.log(error, 'errorx')
   const handleSubmit = async () => {
     // const newSocket = io(`${process.env.EXPO_PUBLIC_IP_ADDR}`, {
     //   path: '/api/notify/socket.io',
@@ -47,7 +47,7 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName }: Cha
     socket?.emit('sendMessage', message)
     socket?.emit('newChat', message)
     setText('')
-    // await addChatMessages(message)
+    await addChatMessages(message)
   }
 
   // const handleImageUpload = (e) => {
