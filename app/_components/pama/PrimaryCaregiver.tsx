@@ -12,6 +12,7 @@ import { type MomentInput } from 'moment'
 import { Info } from 'lucide-react'
 import ViralLoadStatusComponent from './ViralLoadStatusComponent'
 import ArtRegimenPrescriptionStatusComponent from './ArtRegimenPrescriptionStatusComponent'
+import { type PrescriptionInterface } from 'otz-types'
 // import { useRouter } from 'next/router'
 
 interface InputProps {
@@ -26,16 +27,8 @@ export interface VLDataProps {
   isVLValid: boolean
 }
 
-export interface PrescriptionProps {
-  id: string
-  refillDate: MomentInput
-  ART: {
-    artName: string
-  }
-}
-
-const getArtPrescription = async (id: string): Promise<[PrescriptionProps, VLDataProps]> => {
-  const prescriptionResponse = await axios.get<PrescriptionProps>(`${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription/detail/${id}`)
+const getArtPrescription = async (id: string): Promise<[PrescriptionInterface, VLDataProps]> => {
+  const prescriptionResponse = await axios.get<PrescriptionInterface>(`${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription/detail/${id}`)
   const vlResponse = await axios.get<VLDataProps>(`${process.env.NEXT_PUBLIC_API_URL}/api/lab/viral-load-tests/detail/${id}`)
   return [prescriptionResponse.data, vlResponse.data]
 }
@@ -43,7 +36,7 @@ const getArtPrescription = async (id: string): Promise<[PrescriptionProps, VLDat
 export interface PrimaryCaregiverProps {
   setPrimaryCaregiverID: (val: string) => void
   setPrimaryCaregiverVLStatus: (val: VLDataProps) => void
-  setPrimaryCaregiverPrescriptionStatus: (val: PrescriptionProps) => void
+  setPrimaryCaregiverPrescriptionStatus: (val: PrescriptionInterface) => void
 }
 
 const PrimaryCareGiver = ({
@@ -60,7 +53,7 @@ const PrimaryCareGiver = ({
   const [currentRegimenLine, setCurrentRegimenLine] = useState('')
   const [caregiverID, setCaregiverID] = useState<InputProps | null>(null)
   const [prescriptionData, setPrescriptionData] =
-    useState<PrescriptionProps | null>(null)
+    useState<PrescriptionInterface | undefined>()
   const [vlData, setVLData] = useState<VLDataProps | null>(null)
 
   const handleChange = useCallback(
@@ -115,6 +108,7 @@ const PrimaryCareGiver = ({
 
       <ArtRegimenPrescriptionStatusComponent
         artPrescriptionData={prescriptionData}
+        regimen=''
       />
 
       <CustomSelect

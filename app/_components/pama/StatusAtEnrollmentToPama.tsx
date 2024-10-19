@@ -8,10 +8,11 @@ import { useEffect } from 'react'
 import CustomInput from '../../../components/forms/CustomInput'
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
-import { type PrescriptionProps, type VLDataProps } from './PrimaryCaregiver'
+import { type VLDataProps } from './PrimaryCaregiver'
 import ViralLoadStatusComponent from './ViralLoadStatusComponent'
 import ArtRegimenPrescriptionStatusComponent from './ArtRegimenPrescriptionStatusComponent'
 import { useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
+import { type PrescriptionInterface } from 'otz-types'
 // import { useRouter } from 'next/router'
 
 export interface StatusAtEnrollmentToPAMAProps {
@@ -19,7 +20,7 @@ export interface StatusAtEnrollmentToPAMAProps {
   dateOfEnrollmentToOTZ: string
   setDateOfEnrollmentToOTZ: (val: string) => void
   setChildVLStatus: (val: VLDataProps) => void
-  setChildPrescriptionStatus: (val: PrescriptionProps) => void
+  setChildPrescriptionStatus: (val: PrescriptionInterface) => void
 }
 
 const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setChildVLStatus, setChildPrescriptionStatus, setDateOfEnrollmentToOTZ }: StatusAtEnrollmentToPAMAProps) => {
@@ -48,7 +49,7 @@ const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setChildVL
         ART: {
           artName: artPrescriptionData?.regimen
         }
-      })
+      } as any)
     }
   }, [vlData, prescriptionData, setChildPrescriptionStatus, setChildVLStatus, artPrescriptionData?.regimen])
 

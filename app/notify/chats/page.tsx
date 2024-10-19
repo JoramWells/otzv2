@@ -19,7 +19,7 @@ import { useChatSocket } from '@/context/ChatContext'
 export default function Page () {
   const [text, setText] = useState('')
   const [senderID, setSenderID] = useState<string>()
-  const [avatar, setAvatar] = useState('')
+  const [avatar, setAvatar] = useState<string>()
   const [userName, setUserName] = useState()
 
   const { chats, messages, activeChat, setActiveChat } = useChatSocket()
@@ -61,7 +61,7 @@ export default function Page () {
           />
           <ChatInput
           userName={userName}
-          avata={avatar}
+          avatar={avatar}
             chatID={activeChat?.chat?.id}
             patientID={activeChat?.receiver?.id}
             senderID={senderID as unknown as string}
