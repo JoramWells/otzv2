@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -171,7 +172,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
 
   const { data: prescriptionDatam, isLoading: isLoadingPrescription, isError: isErrorPrescription } = useGetPrescriptionDetailQuery(patientID)
 
-  const { data: currentPrescriptionData } = useGetPrescriptionQuery(appointmentID)
+  const { data: currentPrescriptionData } = useGetPrescriptionQuery(appointmentID as string)
 
   async function handleSavePrescription () {
     return await addPrescription(prescriptionInputValues)
