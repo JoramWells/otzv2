@@ -5,7 +5,7 @@
 import { useState } from 'react'
 
 import StatusAtEnrollmentToPAMA from '@/app/_components/pama/StatusAtEnrollmentToPama'
-import PrimaryCareGiver, { type PrescriptionProps, type VLDataProps } from '@/app/_components/pama/PrimaryCaregiver'
+import PrimaryCareGiver, { type VLDataProps } from '@/app/_components/pama/PrimaryCaregiver'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAddPAMAEnrollmentMutation } from '@/api/enrollment/pamaEnrollment.api'
