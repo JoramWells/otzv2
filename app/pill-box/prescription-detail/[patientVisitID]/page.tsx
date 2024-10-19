@@ -213,7 +213,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                   {tabValue === 'time and work' && (
                     <>
                       <UpdateTimeAndWork
-                        frequency={frequencyInput as unknown as number}
+                        frequency={frequency as unknown as number}
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         patientID={patientID!}
                       />
