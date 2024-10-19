@@ -11,6 +11,7 @@ import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import { type PrescriptionProps, type VLDataProps } from './PrimaryCaregiver'
 import ViralLoadStatusComponent from './ViralLoadStatusComponent'
 import ArtRegimenPrescriptionStatusComponent from './ArtRegimenPrescriptionStatusComponent'
+import { useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 // import { useRouter } from 'next/router'
 
 export interface StatusAtEnrollmentToPAMAProps {
@@ -27,6 +28,7 @@ const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setChildVL
 
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
   const { data: prescriptionData } = useGetPrescriptionQuery(patientID)
+  const { data: artPrescriptionData } = useGetArtPrescriptionQuery(patientID)
 
   useEffect(() => {
     if (vlData) {
@@ -40,14 +42,15 @@ const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setChildVL
 
     if (prescriptionData) {
       setChildPrescriptionStatus({
-        id: prescriptionData.id,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/non-nullable-type-assertion-style
+        id: prescriptionData?.id as string,
         refillDate: prescriptionData.refillDate,
         ART: {
-          artName: prescriptionData.artName
+          artName: artPrescriptionData?.regimen
         }
       })
     }
-  }, [vlData, prescriptionData, setChildPrescriptionStatus, setChildVLStatus])
+  }, [vlData, prescriptionData, setChildPrescriptionStatus, setChildVLStatus, artPrescriptionData?.regimen])
 
   console.log(prescriptionData, 'pData')
 
@@ -60,7 +63,9 @@ const StatusAtEnrollmentToPAMA = ({ patientID, dateOfEnrollmentToOTZ, setChildVL
 
       {/*  */}
       <ViralLoadStatusComponent viralLoadData={vlData} />
-      <ArtRegimenPrescriptionStatusComponent artPrescriptionData={prescriptionData} />
+      <ArtRegimenPrescriptionStatusComponent
+      regimen={artPrescriptionData?.regimen}
+      artPrescriptionData={prescriptionData} />
 
       <CustomInput
         label="Select Date of Enrollment"

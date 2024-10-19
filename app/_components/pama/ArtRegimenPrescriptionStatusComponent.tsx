@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import moment from 'moment'
-import { type PrescriptionProps } from './PrimaryCaregiver'
+import { type PrescriptionInterface } from 'otz-types'
 
 interface ArtPrescription {
-  artPrescriptionData: PrescriptionProps | null
+  artPrescriptionData: PrescriptionInterface | undefined
+  regimen: string
 }
 
 const ArtRegimenPrescriptionStatusComponent = ({
-  artPrescriptionData
+  artPrescriptionData, regimen
 }: ArtPrescription) => {
   return (
     <div className="w-full flex flex-col space-y-2">
@@ -18,7 +19,7 @@ const ArtRegimenPrescriptionStatusComponent = ({
           <div className="flex justify-between hover:cursor-pointer hover:bg-slate-50 rounded-lg p-1">
             <p className="text-slate-500 text-[14px] ">Current ART Regimen</p>
             <p className="font-bold text-slate-700">
-              {artPrescriptionData?.ART?.artName}
+              {regimen}
             </p>
           </div>
           <div className="flex justify-between hover:cursor-pointer hover:bg-slate-50 rounded-lg p-1">
