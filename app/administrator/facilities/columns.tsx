@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import { type ColumnDef } from '@tanstack/react-table'
+import { Pencil } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface LocationProps {
@@ -35,6 +37,19 @@ export const columns: Array<ColumnDef<LocationProps>> = [
   {
     accessorKey: 'location',
     header: 'Location',
-    cell: ({ row }) => <p className="text-[14px]">{row.original?.location?.county}</p>
+    cell: ({ row }) => (
+      <p className="text-[14px]">{row.original?.location?.county}</p>
+    )
+  },
+  {
+    accessorKey: 'action',
+    header: '',
+    cell: ({ row }) => (
+      <CaseManagerDialog
+      label={<Pencil size={18} />}
+      >
+<p>local</p>
+      </CaseManagerDialog>
+    )
   }
 ]

@@ -21,6 +21,7 @@ import { z, type ZodType } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { useAddHospitalsMutation } from '@/api/hospital/hospital.api'
+import { Loader2 } from 'lucide-react'
 export interface WardProps {
   ward: SingleValue<SelectOption>
 }
@@ -139,7 +140,7 @@ const AddFacility = () => {
   const onSubmit = async (data: any) => {
     const { county, subCounty, ward, ...rest } = data
     await addHospitals({
-      ...data,
+      ...rest,
       location: {
         county,
         subCounty,
@@ -210,7 +211,10 @@ const AddFacility = () => {
                 data={wardOptions()}
                 name="ward"
               />
-              <Button>Save</Button>
+              {isLoading && <Loader2 size={16} className='animate-spin mr-2'/>}
+              <Button
+              disabled={isLoading}
+              >Save</Button>
             </form>
           </FormProvider>
         </div>
