@@ -20,6 +20,7 @@ export interface ChatsInterface {
     Messages: Array<{
       createdAt: string
       text: string
+      type: string
     }>
   }
   receiver: {
@@ -119,7 +120,8 @@ export const ChatContextProvider = ({ children }: InputProps) => {
                 ...prevChat,
                 chat: {
                   ...prevChat.chat,
-                  Messages: [{ createdAt: new Date().toISOString(), text: recentChat.text }]
+                  // Messages: [{ createdAt: new Date().toISOString(), text: recentChat }]
+                  Messages: [{ createdAt: new Date().toISOString(), type: recentChat.type, text: recentChat.text }]
                 }
               }
             : prevChat

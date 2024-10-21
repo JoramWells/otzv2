@@ -6,12 +6,16 @@ import { useAddChatMessagesMutation } from '@/api/notifications/chatMessage.api'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Loader2 } from 'lucide-react'
-import React, { type Dispatch, type SetStateAction } from 'react'
+import React, { useState, type Dispatch, type SetStateAction } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useChatSocket } from '@/context/ChatContext'
+import axios from 'axios'
 
 interface ChatInputProps {
-  text: string
+  text: { type: string
+    content: string
+
+  }
   patientID: string | undefined
   senderID: string
   chatID: string | undefined
@@ -20,10 +24,12 @@ interface ChatInputProps {
   setText: Dispatch<SetStateAction<string>>
 }
 
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/notify/messages/add`
+
 const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avatar }: ChatInputProps) => {
   const [addChatMessages, { isLoading: isLoadingMessageChat, error }] =
     useAddChatMessagesMutation()
-
+  const [file, setFile] = useState()
   const { socket } = useChatSocket()
 
   console.log(error, 'errorx')
@@ -35,7 +41,9 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avata
 
     const message = {
       avatar: avatar ?? 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fmedia-placeholder&psig=AOvVaw29z6m69F8wFru23cBQeqJL&ust=1729320249080000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLi80Yuql4kDFQAAAAAdAAAAABAJ',
-      text,
+      text: text.content,
+      src: text.src,
+      type: text.type,
       senderID,
       patientID,
       id: uuidv4(),
@@ -46,25 +54,42 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avata
 
     socket?.emit('sendMessage', message)
     socket?.emit('newChat', message)
-    setText('')
-    await addChatMessages(message)
+    setText({ type: 'image', content: '' })
+
+    const formData = new FormData()
+    formData.append('image', file)
+    formData.append('type', text.type)
+    formData.append('text', text.content)
+    formData.append('senderID', senderID)
+    formData.append('chatID', chatID)
+    formData.append('id', uuidv4())
+    // await addChatMessages(message)
+    await axios.post(URL, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 
-  // const handleImageUpload = (e) => {
-  //   const file = e.target.files[0]
-  //   if (file) {
-  //     const reader = new FileReader()
-  //     reader.onload = () => {
-  //       const imageData = reader.result
-  //     }
-  //     reader.readAsDataURL(file)
-  //   }
-  // }
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0]
+    setFile(file)
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const imageData = reader.result
+        setText({ type: 'image', content: '', src: imageData })
+      }
+      setText({ type: 'text', content: '' })
+
+      reader.readAsDataURL(file)
+    }
+  }
 
   return (
       <div className="flex items-center p-2 space-x-2">
-        <Textarea value={text} onChange={(e) => { setText(e.target.value) }} />
-        {/* <input type='file' onChange={handleImageUpload} /> */}
+        <Textarea value={text.content} onChange={(e) => { setText({ type: 'text', content: e.target.value }) }} />
+        <input type='file' name='file' onChange={handleImageUpload} />
         <Button
           onClick={handleSubmit}
         >

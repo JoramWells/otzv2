@@ -16,8 +16,13 @@ import MessageArea from '../components/MessageArea'
 import ChatInput from '../components/ChatInput'
 import { useChatSocket } from '@/context/ChatContext'
 
+interface ChatInputProps {
+  type: string
+  content: string
+}
+
 export default function Page () {
-  const [text, setText] = useState('')
+  const [text, setText] = useState<ChatInputProps>({ type: 'text', content: '' })
   const [senderID, setSenderID] = useState<string>()
   const [avatar, setAvatar] = useState<string>()
   const [userName, setUserName] = useState()
