@@ -1,10 +1,17 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { useUpdateHospitalMutation } from '@/api/hospital/hospital.api'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
+import CustomInput from '@/components/forms/CustomInput'
+import { Button } from '@/components/ui/button'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Pencil } from 'lucide-react'
+import { Loader2, Pencil } from 'lucide-react'
+import { useState } from 'react'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface LocationProps {
+  id?: string
   hospitalName: string
 
   mflCode: string
@@ -44,12 +51,33 @@ export const columns: Array<ColumnDef<LocationProps>> = [
   {
     accessorKey: 'action',
     header: '',
-    cell: ({ row }) => (
-      <CaseManagerDialog
-      label={<Pencil size={18} />}
-      >
-<p>local</p>
-      </CaseManagerDialog>
-    )
+    cell: ({ row }) => {
+      const [hospitalName, setHospitalName] = useState(row.original.hospitalName)
+      const [updateHospital, { isLoading }] = useUpdateHospitalMutation()
+      return (
+        <CaseManagerDialog
+        label={<Pencil size={18} />}
+        >
+<div
+className='p-4 flex-col space-y-2'
+>
+<CustomInput
+  label='Facility name'
+  value={hospitalName}
+  onChange={setHospitalName}
+  />
+  <Button
+  onClick={async () => await updateHospital({
+    id: row.original.id,
+    hospitalName
+  })}
+  >
+    {isLoading && <Loader2 className='animate-spin mr-2' size={16} />}
+    Update
+    </Button>
+</div>
+        </CaseManagerDialog>
+      )
+    }
   }
 ]
