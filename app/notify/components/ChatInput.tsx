@@ -6,22 +6,20 @@ import { useAddChatMessagesMutation } from '@/api/notifications/chatMessage.api'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Loader2 } from 'lucide-react'
-import React, { useState, type Dispatch, type SetStateAction } from 'react'
+import React, { type FormEvent, useState, type Dispatch, type SetStateAction } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useChatSocket } from '@/context/ChatContext'
 import axios from 'axios'
+import { type TextChatInputProps } from '../chats/page'
 
 interface ChatInputProps {
-  text: { type: string
-    content: string
-
-  }
+  text: TextChatInputProps
   patientID: string | undefined
   senderID: string
-  chatID: string | undefined
+  chatID: string
   avatar: string | undefined
   userName: string | undefined
-  setText: Dispatch<SetStateAction<string>>
+  setText: Dispatch<SetStateAction<TextChatInputProps>>
 }
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/notify/messages/add`
@@ -29,7 +27,7 @@ const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/notify/messages/add`
 const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avatar }: ChatInputProps) => {
   const [addChatMessages, { isLoading: isLoadingMessageChat, error }] =
     useAddChatMessagesMutation()
-  const [file, setFile] = useState()
+  const [file, setFile] = useState<File | undefined>()
   const { socket } = useChatSocket()
 
   console.log(error, 'errorx')
@@ -42,7 +40,7 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avata
     const message = {
       avatar: avatar ?? 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fmedia-placeholder&psig=AOvVaw29z6m69F8wFru23cBQeqJL&ust=1729320249080000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLi80Yuql4kDFQAAAAAdAAAAABAJ',
       text: text.content,
-      src: text.src,
+      src: text?.src,
       type: text.type,
       senderID,
       patientID,
@@ -57,7 +55,9 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avata
     setText({ type: 'image', content: '' })
 
     const formData = new FormData()
-    formData.append('image', file)
+
+    formData.append('image', file ?? '')
+
     formData.append('type', text.type)
     formData.append('text', text.content)
     formData.append('senderID', senderID)
@@ -71,14 +71,12 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avata
     })
   }
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0]
-    setFile(file)
+  const handleImageUpload = (e: FormEvent<HTMLFormElement>) => {
     if (file) {
       const reader = new FileReader()
       reader.onload = () => {
         const imageData = reader.result
-        setText({ type: 'image', content: '', src: imageData })
+        setText({ type: 'image', content: '', src: imageData as string })
       }
       setText({ type: 'text', content: '' })
 
@@ -89,7 +87,7 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avata
   return (
       <div className="flex items-center p-2 space-x-2">
         <Textarea value={text.content} onChange={(e) => { setText({ type: 'text', content: e.target.value }) }} />
-        <input type='file' name='file' onChange={handleImageUpload} />
+        <input type='file' name='file' onChange={e => { setFile(e.target.files?.[0]) }} />
         <Button
           onClick={handleSubmit}
         >

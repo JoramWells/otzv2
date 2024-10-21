@@ -16,13 +16,14 @@ import MessageArea from '../components/MessageArea'
 import ChatInput from '../components/ChatInput'
 import { useChatSocket } from '@/context/ChatContext'
 
-interface ChatInputProps {
+export interface TextChatInputProps {
   type: string
   content: string
+  src?: string | null
 }
 
 export default function Page () {
-  const [text, setText] = useState<ChatInputProps>({ type: 'text', content: '' })
+  const [text, setText] = useState<TextChatInputProps>({ type: 'text', content: '', src: null })
   const [senderID, setSenderID] = useState<string>()
   const [avatar, setAvatar] = useState<string>()
   const [userName, setUserName] = useState()
@@ -67,7 +68,7 @@ export default function Page () {
           <ChatInput
           userName={userName}
           avatar={avatar}
-            chatID={activeChat?.chat?.id}
+            chatID={activeChat?.chat?.id as string}
             patientID={activeChat?.receiver?.id}
             senderID={senderID as unknown as string}
             text={text}
