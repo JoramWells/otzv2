@@ -29,7 +29,7 @@ export const columns: Array<ColumnDef<LocationProps>> = [
     cell: ({ row }) => (
       <div
         className="flex flex-row gap-x-3 items-center
-      pt-1.5 pb-1.5 text-[14px]
+      pt-1.5 pb-1.5 text-[12px]
       "
       >
         {row.original?.hospitalName}
@@ -39,13 +39,13 @@ export const columns: Array<ColumnDef<LocationProps>> = [
   {
     accessorKey: 'mflCode',
     header: 'MFL Code.',
-    cell: ({ row }) => <p className="text-[14px]">{row.original?.mflCode}</p>
+    cell: ({ row }) => <p className="text-[12px]">{row.original?.mflCode}</p>
   },
   {
     accessorKey: 'location',
     header: 'Location',
     cell: ({ row }) => (
-      <p className="text-[14px]">{row.original?.location?.county}</p>
+      <p className="text-[12px]">{row.original?.location?.county}</p>
     )
   },
   {
@@ -53,29 +53,39 @@ export const columns: Array<ColumnDef<LocationProps>> = [
     header: '',
     cell: ({ row }) => {
       const [hospitalName, setHospitalName] = useState(row.original.hospitalName)
+      const [mflCode, setMFLCode] = useState(row.original.mflCode)
       const [updateHospital, { isLoading }] = useUpdateHospitalMutation()
       return (
         <CaseManagerDialog
-        label={<Pencil size={18} />}
+          label={<Pencil size={16} className="text-slate-500" />}
         >
-<div
-className='p-4 flex-col space-y-2'
->
-<CustomInput
-  label='Facility name'
-  value={hospitalName}
-  onChange={setHospitalName}
-  />
-  <Button
-  onClick={async () => await updateHospital({
-    id: row.original.id,
-    hospitalName
-  })}
-  >
-    {isLoading && <Loader2 className='animate-spin mr-2' size={16} />}
-    Update
-    </Button>
-</div>
+          <div className="p-4 flex-col space-y-2">
+            <p>Edit Facility Name</p>
+            <CustomInput
+              label="Facility name"
+              value={hospitalName}
+              onChange={setHospitalName}
+            />
+            {/*  */}
+            <CustomInput
+              label="MFL Code"
+              value={mflCode}
+              onChange={setMFLCode}
+            />
+            <Button
+              onClick={async () =>
+                await updateHospital({
+                  id: row.original.id,
+                  hospitalName,
+                  mflCode
+                })
+              }
+              size={'sm'}
+            >
+              {isLoading && <Loader2 className="animate-spin mr-2" size={16} />}
+              Update
+            </Button>
+          </div>
         </CaseManagerDialog>
       )
     }

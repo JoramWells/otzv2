@@ -51,7 +51,7 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avata
     }
 
     socket?.emit('sendMessage', message)
-    socket?.emit('newChat', message)
+    // socket?.emit('newChat', message)
     setText({ type: 'image', content: '' })
 
     const formData = new FormData()
@@ -64,11 +64,11 @@ const ChatInput = ({ text, setText, patientID, senderID, chatID, userName, avata
     formData.append('chatID', chatID)
     formData.append('id', uuidv4())
     // await addChatMessages(message)
-    await axios.post(URL, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    // await axios.post(URL, formData, {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data'
+    //   }
+    // })
   }
 
   const handleImageUpload = (e: FormEvent<HTMLFormElement>) => {

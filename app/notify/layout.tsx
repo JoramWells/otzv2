@@ -13,6 +13,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { ChatContextProvider } from '@/context/ChatContext'
+import { UserProvider } from '@/context/UserContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -66,14 +67,16 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
       <Provider store={store}>
         <ChatContextProvider>
           <SidebarProvider>
-            <div className="flex flex-row bg-slate-50">
-              <Sidebar>
-                <SidebarListItemsComponent dataList={DL} />
-              </Sidebar>
-              <div className="flex flex-col flex-1 h-screen overflow-y-auto">
-                {children}
+            <UserProvider>
+              <div className="flex flex-row bg-slate-50">
+                <Sidebar>
+                  <SidebarListItemsComponent dataList={DL} />
+                </Sidebar>
+                <div className="flex flex-col flex-1 h-screen overflow-y-auto">
+                  {children}
+                </div>
               </div>
-            </div>
+            </UserProvider>
           </SidebarProvider>
         </ChatContextProvider>
       </Provider>

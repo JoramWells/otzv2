@@ -43,8 +43,6 @@ export default function Page () {
   const { data: patientData } = useGetPatientByUserIDQuery(userID as string)
   const lastMessageRef = useRef(null)
 
-  console.log(patientData, 'patientData')
-
   // const { data: usersData } = useGetAllUsersQuery()
 
   useEffect(() => {

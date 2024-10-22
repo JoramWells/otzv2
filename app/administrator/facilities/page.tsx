@@ -34,20 +34,19 @@ const Facilities = () => {
     <div>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="p-2">
-        <div
-        className='flex justify-end w-full'
+      <div className="flex justify-between items-center w-full bg-white p-2 mt-2 ">
+        <p className="font-semibold">CHAK Facilities <span className='text-slate-500 text-[14px]' >({data?.length})</span> </p>
+        <Button
+          onClick={() => {
+            router.push('/administrator/add-facility')
+          }}
+          size={'sm'}
         >
-          <Button
-            onClick={() => {
-              router.push('/administrator/add-facility')
-            }}
-            size={'sm'}
-          >
-            New
-          </Button>
-        </div>
-        <div className="bg-white w-full p-4 rounded-lg mt-2">
+          New
+        </Button>
+      </div>
+      <div className="p-2 pt-0">
+        <div className="bg-white w-full p-2 rounded-lg mt-2">
           <CustomTable
             isSearch={false}
             columns={columns}

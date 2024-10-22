@@ -18,6 +18,7 @@ import { useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import Footer from '@/components/Footer'
 import { Toaster } from '@/components/ui/toaster'
+import { UserProvider } from '@/context/UserContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -100,18 +101,20 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
       <Provider store={store}>
         <ChakraProvider>
           <SidebarProvider>
-            <div className="flex flex-row">
-              <Sidebar>
-                <SidebarListItemsComponent dataList={DL} />
-              </Sidebar>
-              <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
-                {/* <Navbar /> */}
+            <UserProvider>
+              <div className="flex flex-row">
+                <Sidebar>
+                  <SidebarListItemsComponent dataList={DL} />
+                </Sidebar>
+                <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
+                  {/* <Navbar /> */}
 
-                {children}
-                <Footer />
+                  {children}
+                  <Footer />
+                </div>
+                <Toaster />
               </div>
-              <Toaster />
-            </div>
+            </UserProvider>
           </SidebarProvider>
         </ChakraProvider>
       </Provider>
