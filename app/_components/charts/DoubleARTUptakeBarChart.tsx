@@ -34,12 +34,12 @@ const DoubleARTUptakeBarChart = ({
 
   return (
     <div
-      className="h-[300px] flex-1 rounded-lg p-2 border border-slate-100
+      className="h-[290px] flex-1 rounded-lg p-2 bg-white
   "
     >
-      <div className="ml-2 mt-2">
+      {/* <div className="ml-2">
         <h3 className="font-semibold text-slate-700">Daily Duration</h3>
-      </div>
+      </div> */}
       <Bar
         data={data}
         height={200}

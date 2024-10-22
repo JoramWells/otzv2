@@ -57,8 +57,8 @@ const HorizontalLineChart = ({ data, isLoading }: { data: ARTPrescriptionInterfa
     return <Skeleton className='max-h-[350px] flex-1 rounded-lg'/>
   }
   return (
-      <div className="w-full flex-1 border p-2 rounded-lg border-slate-100 ">
-        <div className="ml-2 mt-2">
+      <div className="w-full flex-1 p-2 rounded-lg border-slate-100 bg-white ">
+        <div className="ml-1 ">
           <h3 className="font-semibold text-slate-700">Regimen Line Count</h3>
         </div>
         <ChartContainer

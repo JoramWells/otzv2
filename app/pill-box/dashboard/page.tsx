@@ -1,25 +1,17 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
 import { History, Pin, Users } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useGetAllTimeAndWorkQuery } from '@/api/treatmentplan/timeAndWork.api'
-import { useGetPillDailyUptakeCountQuery } from '@/api/treatmentplan/uptake.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { useGetAllPrescriptionsQuery, useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
-import ARTLineChart from '@/components/Recharts/ARTLineChart'
 import { useGetAllArtPrescriptionQuery } from '@/api/art/artPrescription.api'
-import HorizontalLineChart from '@/components/Recharts/HorizontalLineChart'
 import { type ARTPrescriptionInterface, type PrescriptionInterface } from 'otz-types'
-import RadarARTChart from '@/components/Recharts/RadarARTChart'
 import { useCallback, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { importantPatientColumn } from '@/app/users/patients/_components/columns'
 import { importantPrescription } from '../prescription/columns'
 import { usePharmacyContext } from '@/context/PharmacyContext'
 
@@ -27,7 +19,25 @@ const DoubleARTUptakeBarChart = dynamic(
   async () => await import('../../_components/charts/DoubleARTUptakeBarChart'),
   {
     ssr: false,
-    loading: () => <Skeleton className="h-[350px] md:w-[500px] rounded" />
+    loading: () => <Skeleton className="h-[250px] flex-1 rounded" />
+  }
+)
+
+//
+const HorizontalLineChart = dynamic(
+  async () => await import('@/components/Recharts/HorizontalLineChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[250px] flex-1 rounded" />
+  }
+)
+
+//
+const RadarARTChart = dynamic(
+  async () => await import('@/components/Recharts/RadarARTChart'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[250px] flex-1 rounded" />
   }
 )
 
@@ -52,22 +62,7 @@ const dataList2 = [
   }
 ]
 
-interface DataPops {
-  id: number
-  year: number
-  userGain: number
-  userLost: number
-}
-
 const NotifyPage = () => {
-  const router = useRouter()
-
-  const { data } = useGetAllTimeAndWorkQuery(
-    {
-      medicationsDue: true
-    }
-  )
-
   const { uptakeCount } = usePharmacyContext()
 
   const { data: facilityData } = useGetFacilityAdherenceQuery()
@@ -98,8 +93,6 @@ const NotifyPage = () => {
    const tempData = prescriptionData ? [...prescriptionData] : []
    return tempData.filter((item: ModifiedPrescriptionInterface) => item?.Patient?.isImportant)
  }, [prescriptionData])()
-
- console.log(recentPrescription, 'pdatax')
 
  const { data: artPrescriptionData, isLoading: loadingArtPrescription } = useGetAllArtPrescriptionQuery()
 
@@ -133,7 +126,7 @@ const NotifyPage = () => {
  const [value, setValue] = useState(1)
 
  return (
-    <div className="w-full  bg-slate-50">
+    <>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="grid w-full grid-cols-1 gap-2 lg:grid-cols-4 p-2 md:grid-cols-2">
@@ -156,7 +149,7 @@ const NotifyPage = () => {
           </div>
         ))}
       </div>
-        <div className="flex flex-row items-start w-full space-x-4 bg-white p-4 ">
+        <div className="flex flex-row justify-between items-start w-full space-x-2 p-2 pt-0 ">
           <DoubleARTUptakeBarChart
             morningTrueCount={uptakeCount.morningTrue}
             morningFalseCount={uptakeCount.morningFalse}
@@ -178,8 +171,8 @@ const NotifyPage = () => {
         </div>
 
       {/*  */}
-      <div className="p-2 bg-white mt-2">
-        <div className="flex flex-row space-x-2 mb-2">
+      <div className="p-2 pt-0 ">
+        <div className=" rounded-lg flex flex-row space-x-2 mb-2 p-2 bg-white">
           {[
             {
               id: 1,
@@ -201,6 +194,7 @@ const NotifyPage = () => {
                         'border-b-2 border-teal-600 text-teal-600'
                       }
                       `}
+                      size={'sm'}
             >
               {item.icon}
               {item.label}
@@ -208,7 +202,7 @@ const NotifyPage = () => {
           ))}
         </div>
         <div
-        className='p-2'
+        className='p-2 bg-white pt-0'
         >
           {value === 1 && (
             <CustomTable
@@ -228,7 +222,7 @@ const NotifyPage = () => {
           )}
         </div>
       </div>
-    </div>
+    </>
  )
 }
 

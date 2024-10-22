@@ -11,6 +11,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { usePharmacyContext } from '@/context/PharmacyContext'
 import { eveningColumn, type ExtendedAdherenceAttributes, morningColumn } from './column'
+import { Badge } from '@/components/ui/badge'
+import { BadgeCheck, CircleX } from 'lucide-react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -85,8 +87,6 @@ const AppointmentPage = () => {
     [pathname, router, searchParams]
   )
 
-  console.log(adherenceData, 'poli')
-
   useEffect(() => {
     if (tab === null) {
       updateQueryParams('morning')
@@ -133,9 +133,7 @@ const AppointmentPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
 
       {/* {currentTime.format("HH:mm:ss")} */}
-      <div
-      className='mt-2'
-      >
+      <div className="mt-2">
         <CustomTab
           categoryList={categoryList}
           value={value}
@@ -147,19 +145,73 @@ const AppointmentPage = () => {
         <div className="bg-white p-4 rounded-lg">
           {/*  */}
           {value === 'morning' && (
-            <CustomTable
-              columns={morningColumn(handleDeleteColumn)}
-              data={morningData ?? []}
-              isSearch={false}
-            />
+            <>
+              <p className="text-slate-700 text-[14px] mb-1 font-semibold capitalize ">
+                Active morning prescription
+              </p>
+              <div className="flex space-x-2">
+                <Badge className="bg-teal-100 text-teal-600 rounded-lg shadow-none mb-2 hover:bg-teal-200">
+                  <BadgeCheck size={16} className="mr-1 " />
+                  <p>
+                    Success{' '}
+                    {morningData?.filter((item) => item.morningStatus)?.length}
+                  </p>
+                </Badge>
+
+                {/*  */}
+                <Badge className="bg-red-100 text-red-600 rounded-lg shadow-none mb-2 hover:bg-red-200">
+                  <CircleX size={16} className="mr-1 " />
+                  <p>
+                    Fail{' '}
+                    {
+                      morningData?.filter(
+                        (item) => item.morningStatus === false
+                      )?.length
+                    }
+                  </p>
+                </Badge>
+              </div>
+              <CustomTable
+                columns={morningColumn(handleDeleteColumn)}
+                data={morningData ?? []}
+                isSearch={false}
+              />
+            </>
           )}
           {/*  */}
           {value === 'evening' && (
-            <CustomTable
-              columns={eveningColumn(handleDeleteColumn)}
-              data={eveningData ?? []}
-              isSearch={false}
-            />
+            <>
+              <p className="text-slate-700 text-[14px] mb-1 font-semibold capitalize ">
+                Active Evening prescription
+              </p>
+              <div className="flex space-x-2">
+                <Badge className="bg-teal-100 text-teal-600 rounded-lg shadow-none mb-2 hover:bg-teal-200">
+                  <BadgeCheck size={16} className="mr-1 " />
+                  <p>
+                    Success{' '}
+                    {eveningData?.filter((item) => item.eveningStatus)?.length}
+                  </p>
+                </Badge>
+
+                {/*  */}
+                <Badge className="bg-red-100 text-red-600 rounded-lg shadow-none mb-2 hover:bg-red-200">
+                  <CircleX size={16} className="mr-1 " />
+                  <p>
+                    Fail{' '}
+                    {
+                      eveningData?.filter(
+                        (item) => item.eveningStatus === false
+                      )?.length
+                    }
+                  </p>
+                </Badge>
+              </div>
+              <CustomTable
+                columns={eveningColumn(handleDeleteColumn)}
+                data={eveningData ?? []}
+                isSearch={false}
+              />
+            </>
           )}
         </div>
       </div>
