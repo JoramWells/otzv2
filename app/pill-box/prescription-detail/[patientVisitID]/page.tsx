@@ -124,7 +124,6 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
     expectedNoOfPills,
     refillDate,
     nextRefillDate,
-    adherence,
     frequency,
     Patient,
     ARTPrescription
@@ -304,7 +303,14 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
             <div className=" flex justify-between items-center text-[14px] p-2 ">
               <p>Adherence Rate</p>
-              <p>{adherence} %</p>
+              <p>
+                {(computedNoOfPills &&
+                  expectedNoOfPills) &&
+                  Math.floor(
+                    (computedNoOfPills / (noOfPills - expectedNoOfPills)) * 100
+                  )}
+                %
+              </p>
             </div>
           </div>
         </div>

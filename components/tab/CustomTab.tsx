@@ -47,30 +47,29 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
     >
       {categoryList.map((item) => (
         <Button
-        type='button'
-        size={'sm'}
+          type="button"
+          size={'sm'}
           key={item.id}
-          className={`shadow-none bg-slate-50 rounded-full text-slate-400 font-semibold 
+          className={`shadow-none bg-slate-50 border border-slate-200 rounded-full text-slate-400 font-semibold 
           ${
             isChecked(item.label.toLowerCase()) &&
-            'text-teal-600 font-semibold bg-teal-50'
+            'text-teal-600 font-semibold bg-teal-50 border-teal-200'
           } hover:bg-slate-100
           `}
           onClick={() => {
             handleClick(item.label.toLowerCase())
           }}
         >
-          <span
-          className='text-[12px]'
-          >{item.label}</span>
+          <span className="text-[12px]">{item.label}</span>
           {/* <Badge
             className={`ml-2 text-[12px] shadow-none ${
               isChecked(item.label.toLowerCase()) && 'bg-white'
             } `}
           > */}
-          <span
-          className='ml-2 text-[12px] '
-          >{item.count}</span>
+          {(item.count != null) && (
+            <span className="ml-2 text-[12px] ">{item.count}</span>
+          )}
+
           {/* </Badge> */}
         </Button>
       ))}

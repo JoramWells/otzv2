@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type PrescriptionInterface } from 'otz-types'
@@ -8,8 +9,16 @@ export const prescriptionApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription`
   }),
   endpoints: (builder) => ({
-    getAllPrescriptions: builder.query<PrescriptionInterface[], void>({
-      query: () => 'fetchAll'
+    getAllPrescriptions: builder.query<PrescriptionInterface[], { mode: string | undefined }>({
+      query: (params) => {
+        if (params) {
+          const { mode } = params
+          let queryString = ''
+          queryString += `mode=${mode}`
+          return `/fetchAll?${queryString}`
+        }
+        return 'fetchAll'
+      }
     }),
     addPrescription: builder.mutation({
       query: (newUser) => ({

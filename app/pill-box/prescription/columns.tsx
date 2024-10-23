@@ -6,8 +6,10 @@ import moment from 'moment'
 import Avatar from '@/components/Avatar'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { useCallback } from 'react'
-import Link from 'next/link'
 import { type PrescriptionInterface } from 'otz-types'
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { ArrowRight } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -114,15 +116,27 @@ export const columns: Array<ColumnDef<PrescriptionProps & PrescriptionInterface>
   },
   {
     accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => (
-      <Link
-        href={`/pill-box/prescription-detail/${row.original.patientVisitID}?patientID=${row.original?.Patient?.id}&prescriptionID=${row.original.id} `}
-        className='text-[12px] text-blue-500'
-      >
-        Action
-      </Link>
-    )
+    header: '',
+    cell: ({ row }) => {
+      const router = useRouter()
+      return (
+        <>
+          <Button
+            className="rounded-full shadow-none p-2 hover:bg-blue-50"
+            size={'sm'}
+            variant={'outline'}
+            onClick={() => {
+              router.push(
+                `/pill-box/prescription-detail/${row.original.patientVisitID}?patientID=${row.original?.Patient?.id}&prescriptionID=${row.original.id} `
+              )
+            }
+            }
+          >
+            <ArrowRight className="text-blue-500 " size={16} />
+          </Button>
+        </>
+      )
+    }
   }
 ]
 

@@ -8,6 +8,8 @@ import useNotification from '@/hooks/useNotification'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
+import CustomTab from '@/components/tab/CustomTab'
+import { useState } from 'react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -36,9 +38,9 @@ const dataList2 = [
 ]
 
 const PrescriptionPage = () => {
-  const { data } = useGetAllPrescriptionsQuery()
-
-  console.log(data, 'pdata')
+  const { data } = useGetAllPrescriptionsQuery({
+    mode: undefined
+  })
 
   const sortedData = data ? [...data] : []
   sortedData.sort(
@@ -64,15 +66,55 @@ const PrescriptionPage = () => {
   //   }
   // }, [data, showNotification])
 
+  // active prescriptions
+  const activeData = sortedData?.filter(item => item.expectedNoOfPills && item.expectedNoOfPills > 0)
+  const nonActive = sortedData?.filter(item => item.expectedNoOfPills && item.expectedNoOfPills < 0)
+
+  const [tabValue, setTabValue] = useState('all')
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="p-2">
-        <div
-        className='bg-white rounded-lg p-2'
-        >
-          <CustomTable columns={columns} data={sortedData || []} />
+        <div className="bg-white rounded-lg p-4">
+          <p className="font-semibold">
+            Current Prescriptions{' '}
+            <span className="text-slate-500 text-[14px] ">
+              ({sortedData?.length || 0})
+            </span>
+          </p>
+          <CustomTab
+            value={tabValue}
+            setValue={setTabValue}
+            categoryList={[
+              {
+                id: 1,
+                label: 'All',
+                count: sortedData?.length
+              },
+              {
+                id: 2,
+                label: 'Active',
+                count: activeData?.length
+              },
+              {
+                id: 3,
+                label: 'Not Active',
+                count: nonActive?.length
+              }
+            ]}
+          />
+<div className='mb-2' />
+          {tabValue === 'all' && (
+            <CustomTable columns={columns} data={sortedData || []} />
+          )}
+          {tabValue === 'active' && (
+            <CustomTable columns={columns} data={activeData || []} />
+          )}
+          {tabValue === 'not active' && (
+            <CustomTable columns={columns} data={nonActive || []} />
+          )}
         </div>
       </div>
     </>

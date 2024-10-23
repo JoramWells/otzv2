@@ -42,9 +42,9 @@ const DL: SidebarListItemsProps[] = [
     icon: <BellDot size={17} />
   },
   {
-    id: '4',
-    label: 'Treatment Failure',
-    link: '/pill-box/treatment-failure',
+    id: '6',
+    label: 'Reports',
+    link: '/pill-box/reports',
     icon: <BookCopy size={17} />
   }
 ]
