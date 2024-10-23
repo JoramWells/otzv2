@@ -109,27 +109,40 @@ export const ChatContextProvider = ({ children }: InputProps) => {
       // transports: ['websocket']
     })
 
-    //
-    setSocket(newSocket)
-    //
-    newSocket.on('getNewChats', (recentChat) => {
-      setChats((prevChats) =>
-        prevChats.map((prevChat) =>
-          prevChat?.chat?.id === recentChat.chatID?.trim()
-            ? {
-                ...prevChat,
-                chat: {
-                  ...prevChat.chat,
-                  // Messages: [{ createdAt: new Date().toISOString(), text: recentChat }]
-                  Messages: [{ createdAt: new Date().toISOString(), type: recentChat.type, text: recentChat.text }]
+    newSocket.on('connect', () => {
+      setSocket(newSocket)
+      newSocket.on('getNewChats', (recentChat) => {
+        setChats((prevChats) =>
+          prevChats.map((prevChat) =>
+            prevChat?.chat?.id === recentChat.chatID?.trim()
+              ? {
+                  ...prevChat,
+                  chat: {
+                    ...prevChat.chat,
+                    // Messages: [{ createdAt: new Date().toISOString(), text: recentChat }]
+                    Messages: [
+                      {
+                        createdAt: new Date().toISOString(),
+                        type: recentChat.type,
+                        text: recentChat.text
+                      }
+                    ]
+                  }
                 }
-              }
-            : prevChat
+              : prevChat
+          )
         )
-      )
 
-      setMessages(prev => [...(prev ?? []), recentChat])
+        setMessages((prev) => [...(prev ?? []), recentChat])
+      })
     })
+
+    //
+    newSocket.on('connection_error', err => {
+      console.log(err)
+    })
+    //
+
     return () => {
       newSocket.off('getNewChats')
       newSocket.disconnect()

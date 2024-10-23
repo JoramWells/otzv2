@@ -1,5 +1,6 @@
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/column'
+import useNotification from '@/hooks/useNotification'
 import { checkTimeOfDay } from '@/utils/checkTimeOfDay'
 // import { useSession } from 'next-auth/react'
 import { createContext, type Dispatch, type SetStateAction, useContext, useEffect, useState, type ReactNode } from 'react'
@@ -73,6 +74,8 @@ export const PharmacyProvider = ({ children }: { children: ReactNode }) => {
   //   Get session of already registered user
   //   const { data: session } = useSession()
 
+  const showNotification = useNotification()
+
   useEffect(() => {
     if (data != null) {
       setAdherenceData(data)
@@ -89,42 +92,56 @@ export const PharmacyProvider = ({ children }: { children: ReactNode }) => {
     //   transports: ['websocket']
     })
 
-    const timeOfDay = checkTimeOfDay().toLowerCase()
-    console.log(timeOfDay, 'kop')
-    // if (session != null) {
-    // newSocket.emit('getPharmacyNotifications', user)
-    newSocket.on('newPharmacyNotifications', (data: ExtendedAdherenceAttributes) => {
-      const { id, morningStatus, eveningStatus } = data
-      if (adherenceData != null && morningStatus !== undefined && eveningStatus !== undefined) {
-        // setUptakeData(patientsDueMorning)
-        if (timeOfDay === 'morning') {
-          const updatedData = updatePillStatus(
-            adherenceData,
-            id,
-            timeOfDay,
-            morningStatus
-          )
-          setAdherenceData(updatedData)
-        } else if (timeOfDay === 'evening') {
-          const updatedData = updatePillStatus(
-            adherenceData,
-            id,
-            timeOfDay,
-            eveningStatus
-          )
-          setAdherenceData(updatedData)
-          setUptakeCount(countStatus(updatedData as ExtendedAdherenceAttributes[]))
-          console.log(updatedData, 'uio')
-        } else {
-          const updatedData = updatePillStatus(
-            adherenceData,
-            id,
-            'evening',
-            morningStatus
-          )
-          setAdherenceData(updatedData)
+    newSocket.on('connect', () => {
+      //
+      const timeOfDay = checkTimeOfDay().toLowerCase()
+      // if (session != null) {
+      // newSocket.emit('getPharmacyNotifications', user)
+      newSocket.on(
+        'newPharmacyNotifications',
+        (data: ExtendedAdherenceAttributes) => {
+          const { id, morningStatus, eveningStatus } = data
+          //
+          showNotification(data.userName, id)
+          //
+          if (
+            adherenceData != null &&
+            morningStatus !== undefined &&
+            eveningStatus !== undefined
+          ) {
+            // setUptakeData(patientsDueMorning)
+            if (timeOfDay === 'morning') {
+              const updatedData = updatePillStatus(
+                adherenceData,
+                id,
+                timeOfDay,
+                morningStatus
+              )
+              setAdherenceData(updatedData)
+              console.log(data, 'uio')
+            } else if (timeOfDay === 'evening') {
+              const updatedData = updatePillStatus(
+                adherenceData,
+                id,
+                timeOfDay,
+                eveningStatus
+              )
+              setAdherenceData(updatedData)
+              setUptakeCount(
+                countStatus(updatedData as ExtendedAdherenceAttributes[])
+              )
+            } else {
+              const updatedData = updatePillStatus(
+                adherenceData,
+                id,
+                'evening',
+                morningStatus
+              )
+              setAdherenceData(updatedData)
+            }
+          }
         }
-      }
+      )
     })
 
     newSocket.on('connect_error', (err) => {
@@ -136,7 +153,7 @@ export const PharmacyProvider = ({ children }: { children: ReactNode }) => {
       newSocket.off('getPharmacyNotifications')
       newSocket.disconnect()
     }
-  }, [adherenceData])
+  }, [adherenceData, showNotification])
 
   return (
     <PharmacyContext.Provider

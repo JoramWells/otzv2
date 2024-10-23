@@ -67,7 +67,9 @@ const NotifyPage = () => {
 
   const { data: facilityData } = useGetFacilityAdherenceQuery()
 
-  const { data: prescriptionData } = useGetAllPrescriptionsQuery()
+  const { data: prescriptionData } = useGetAllPrescriptionsQuery({
+    mode: undefined
+  })
 
  type ModifiedPrescriptionInterface = PrescriptionInterface & {
    Patient?: {

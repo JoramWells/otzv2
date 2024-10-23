@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation'
 
 export interface ExtendedAdherenceAttributes extends AdherenceAttributes {
   id: string
+  userName: string
   TimeAndWork?: {
     id: string
     morningMedicineTime: string

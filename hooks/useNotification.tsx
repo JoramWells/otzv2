@@ -8,12 +8,20 @@ const useNotification = () => {
 
   const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default')
 
-  const showNotification = useCallback(() => {
+  const showNotification = useCallback((patientName: string, id: string) => {
     if (notificationPermission === 'granted') {
-      const notification = new Notification('Hello from appointments', {
-        body: 'Please take your medicines'
+      const notification = new Notification('Pill Confirmation', {
+        body: `${patientName} successfully confirmed`
       })
       //   notificationAudio().play()
+
+      notification.onclick = function (e) {
+        e.preventDefault()
+        window.open(
+          `/pill-box/reminder/${id}`,
+          '_blank'
+        )
+      }
 
       const audio = notificationAudio()
 
