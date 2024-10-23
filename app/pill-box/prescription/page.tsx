@@ -3,7 +3,6 @@
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from './columns'
-import useNotification from '@/hooks/useNotification'
 // import { useGetAllPrescriptionsQuery } from '@/api/pillbox/artPrescription.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
@@ -46,25 +45,6 @@ const PrescriptionPage = () => {
   sortedData.sort(
     (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()
   )
-
-  const showNotification = useNotification()
-
-  // useEffect(() => {
-  // if (data) {
-  // setAppointments(data)
-  // }
-  // const socket: Socket = socketIOClient('http://localhost:5000')
-
-  // socket.on('appointment-updated', (socketData: NotificationProps) => {
-  //   showNotification()
-  // setAppointments(socketData)
-  //   console.log(socketData)
-  // })
-
-  //   return () => {
-  //     socket.disconnect()
-  //   }
-  // }, [data, showNotification])
 
   // active prescriptions
   const activeData = sortedData?.filter(item => item.expectedNoOfPills && item.expectedNoOfPills > 0)
