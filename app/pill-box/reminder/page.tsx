@@ -50,12 +50,11 @@ const AppointmentPage = () => {
 
   const [value, setValue] = useState<string | null>(tab)
   // const [uptakeData, setUptakeData] = useState([])
-  const currentDate = moment().format('YYYY-MM-DD')
 
   const { setAdherenceData } = usePharmacyContext()
 
   const { data: adherenceData } = useGetAllPillDailyUptakeQuery({
-    date: currentDate as unknown as Date
+    date: moment(date).format('YYYY-MM-DD') as unknown as Date
   })
   const morningData = useCallback(() => {
     return adherenceData?.filter((item: ExtendedAdherenceAttributes) => {
@@ -135,7 +134,7 @@ const AppointmentPage = () => {
   //   // return ()=>clearInterval(intervalID)
   // }, [patientsDueMorning]);
 
-  console.log(date, 'dtx')
+  console.log(moment(date).format('YYYY-MM-DD'), 'dtx')
 
   return (
     <>
@@ -150,35 +149,40 @@ const AppointmentPage = () => {
         />
       </div>
       {/*  */}
-      <div className="p-2 flex flex-row justify-between space-x-4">
+      <div className="p-2 flex flex-row justify-between space-x-2">
         <div className="bg-white p-4 rounded-lg flex-1">
           {/*  */}
           {value === 'morning' && (
             <>
-              <p className="text-slate-700 text-[14px] mb-1 font-semibold capitalize ">
-                Active morning prescription
-              </p>
-              <div className="flex space-x-2">
-                <Badge className="bg-teal-100 text-teal-600 rounded-lg shadow-none mb-2 hover:bg-teal-200">
-                  <BadgeCheck size={16} className="mr-1 " />
-                  <p>
-                    Success{' '}
-                    {morningData?.filter((item) => item.morningStatus)?.length}
-                  </p>
-                </Badge>
+              <div className="flex justify-between items-center mb-2">
+                <p className="text-slate-700 text-[16px] font-semibold capitalize ">
+                  Morning prescription
+                </p>
+                <div className="flex space-x-2">
+                  <Badge className="bg-teal-100 text-teal-600 rounded-lg shadow-none mb-2 hover:bg-teal-200">
+                    <BadgeCheck size={16} className="mr-1 " />
+                    <p>
+                      Success{' '}
+                      {
+                        morningData?.filter((item) => item.morningStatus)
+                          ?.length
+                      }
+                    </p>
+                  </Badge>
 
-                {/*  */}
-                <Badge className="bg-red-100 text-red-600 rounded-lg shadow-none mb-2 hover:bg-red-200">
-                  <CircleX size={16} className="mr-1 " />
-                  <p>
-                    Fail{' '}
-                    {
-                      morningData?.filter(
-                        (item) => item.morningStatus === false
-                      )?.length
-                    }
-                  </p>
-                </Badge>
+                  {/*  */}
+                  <Badge className="bg-red-100 text-red-600 rounded-lg shadow-none mb-2 hover:bg-red-200">
+                    <CircleX size={16} className="mr-1 " />
+                    <p>
+                      Fail{' '}
+                      {
+                        morningData?.filter(
+                          (item) => item.morningStatus === false
+                        )?.length
+                      }
+                    </p>
+                  </Badge>
+                </div>
               </div>
               <CustomTable
                 columns={morningColumn(handleDeleteColumn)}
@@ -190,30 +194,35 @@ const AppointmentPage = () => {
           {/*  */}
           {value === 'evening' && (
             <>
-              <p className="text-slate-700 text-[14px] mb-1 font-semibold capitalize ">
-                Active Evening prescription
-              </p>
-              <div className="flex space-x-2">
-                <Badge className="bg-teal-100 text-teal-600 rounded-lg shadow-none mb-2 hover:bg-teal-200">
-                  <BadgeCheck size={16} className="mr-1 " />
-                  <p>
-                    Success{' '}
-                    {eveningData?.filter((item) => item.eveningStatus)?.length}
-                  </p>
-                </Badge>
+              <div className="flex justify-between items-center mb-2">
+                <p className="text-slate-700 text-[16px] font-semibold capitalize ">
+                  Evening prescription
+                </p>
+                <div className="flex space-x-2">
+                  <Badge className="bg-teal-100 text-teal-600 rounded-lg shadow-none mb-2 hover:bg-teal-200">
+                    <BadgeCheck size={16} className="mr-1 " />
+                    <p>
+                      Success{' '}
+                      {
+                        eveningData?.filter((item) => item.eveningStatus)
+                          ?.length
+                      }
+                    </p>
+                  </Badge>
 
-                {/*  */}
-                <Badge className="bg-red-100 text-red-600 rounded-lg shadow-none mb-2 hover:bg-red-200">
-                  <CircleX size={16} className="mr-1 " />
-                  <p>
-                    Fail{' '}
-                    {
-                      eveningData?.filter(
-                        (item) => item.eveningStatus === false
-                      )?.length
-                    }
-                  </p>
-                </Badge>
+                  {/*  */}
+                  <Badge className="bg-red-100 text-red-600 rounded-lg shadow-none mb-2 hover:bg-red-200">
+                    <CircleX size={16} className="mr-1 " />
+                    <p>
+                      Fail{' '}
+                      {
+                        eveningData?.filter(
+                          (item) => item.eveningStatus === false
+                        )?.length
+                      }
+                    </p>
+                  </Badge>
+                </div>
               </div>
               <CustomTable
                 columns={eveningColumn(handleDeleteColumn)}
@@ -223,15 +232,20 @@ const AppointmentPage = () => {
             </>
           )}
         </div>
-        <div
-        className='bg-white'
-        >
+        <div className="bg-white  rounded-lg">
+          <div
+          className='p-2'
+          >
+            <p className="font-semibold text-slate-700 ">
+              Select the dates that you want to view
+            </p>
+          </div>
           <Calendar
             mode="single"
             selected={date}
             onSelect={setDate}
-            disabled={(date) => date <= new Date()}
-            className="max-w-[900px] border rounded-lg"
+            // disabled={(date) => date <= new Date()}
+            className="w-full rounded-lg"
           />
         </div>
       </div>
