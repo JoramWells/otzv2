@@ -65,13 +65,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       })
 
       newSocket.on('connect', () => {
-        newSocket.emit('addNewUser', session.user.id)
+        newSocket.emit('addNewUser', { id: patientData?.id })
         newSocket.on('getOnlineUsers', (res: PatientAttributes[]) => {
           setOnlineUsers(res)
         })
+        setSocket(newSocket)
       })
-
-      setSocket(newSocket)
+      return () => {
+        newSocket.off('addNewUser')
+        newSocket.off('getOnlineUsers')
+        newSocket.disconnect()
+      }
     }
 
     // setSocket(newSocket)

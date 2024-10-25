@@ -13,6 +13,9 @@ import { usePharmacyContext } from '@/context/PharmacyContext'
 import { eveningColumn, type ExtendedAdherenceAttributes, morningColumn } from './column'
 import { Badge } from '@/components/ui/badge'
 import { BadgeCheck, CircleX } from 'lucide-react'
+import { Calendar } from '@/components/ui/calendar'
+import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
+import moment from 'moment'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -43,13 +46,17 @@ const dataList2 = [
 const AppointmentPage = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
+  const [date, setDate] = useState<Date | undefined>(new Date())
+
   const [value, setValue] = useState<string | null>(tab)
   // const [uptakeData, setUptakeData] = useState([])
+  const currentDate = moment().format('YYYY-MM-DD')
 
-  const { adherenceData, setAdherenceData } = usePharmacyContext()
+  const { setAdherenceData } = usePharmacyContext()
 
-  // const isTime = checkTime(patientsDueMorning)?.some(time=>time)
-
+  const { data: adherenceData } = useGetAllPillDailyUptakeQuery({
+    date: currentDate as unknown as Date
+  })
   const morningData = useCallback(() => {
     return adherenceData?.filter((item: ExtendedAdherenceAttributes) => {
       return item.TimeAndWork?.morningMedicineTime !== null
@@ -128,6 +135,8 @@ const AppointmentPage = () => {
   //   // return ()=>clearInterval(intervalID)
   // }, [patientsDueMorning]);
 
+  console.log(date, 'dtx')
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
@@ -141,8 +150,8 @@ const AppointmentPage = () => {
         />
       </div>
       {/*  */}
-      <div className="p-2">
-        <div className="bg-white p-4 rounded-lg">
+      <div className="p-2 flex flex-row justify-between space-x-4">
+        <div className="bg-white p-4 rounded-lg flex-1">
           {/*  */}
           {value === 'morning' && (
             <>
@@ -213,6 +222,17 @@ const AppointmentPage = () => {
               />
             </>
           )}
+        </div>
+        <div
+        className='bg-white'
+        >
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            disabled={(date) => date <= new Date()}
+            className="max-w-[900px] border rounded-lg"
+          />
         </div>
       </div>
     </>

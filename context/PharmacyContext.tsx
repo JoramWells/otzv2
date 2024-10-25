@@ -2,6 +2,7 @@ import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/column'
 import useNotification from '@/hooks/useNotification'
 import { checkTimeOfDay } from '@/utils/checkTimeOfDay'
+import moment from 'moment'
 // import { useSession } from 'next-auth/react'
 import { createContext, type Dispatch, type SetStateAction, useContext, useEffect, useState, type ReactNode } from 'react'
 import io from 'socket.io-client'
@@ -69,7 +70,10 @@ function countStatus (data: ExtendedAdherenceAttributes[]) {
 export const PharmacyProvider = ({ children }: { children: ReactNode }) => {
   const [adherenceData, setAdherenceData] = useState<ExtendedAdherenceAttributes[] | null>()
   const [uptakeCount, setUptakeCount] = useState<UptakeCountInterface>(defaultUptakeCount)
-  const { data } = useGetAllPillDailyUptakeQuery()
+  const currentDate = moment().format('YYYY-MM-DD')
+  const { data } = useGetAllPillDailyUptakeQuery({
+    date: currentDate as unknown as Date
+  })
 
   //   Get session of already registered user
   //   const { data: session } = useSession()

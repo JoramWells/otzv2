@@ -111,7 +111,10 @@ export const ChatContextProvider = ({ children }: InputProps) => {
 
     newSocket.on('connect', () => {
       setSocket(newSocket)
-      newSocket.on('getNewChats', (recentChat) => {
+
+      //
+      newSocket.on('getMessage', (recentChat) => {
+        console.log(recentChat, 'recentChat')
         setChats((prevChats) =>
           prevChats.map((prevChat) =>
             prevChat?.chat?.id === recentChat.chatID?.trim()
@@ -136,6 +139,32 @@ export const ChatContextProvider = ({ children }: InputProps) => {
         setMessages((prev) => [...(prev ?? []), recentChat])
       })
     })
+    newSocket.on('getNewChats', (recentChat) => {
+      console.log(recentChat, 'recentChat')
+
+      setChats((prevChats) =>
+        prevChats.map((prevChat) =>
+          prevChat?.chat?.id === recentChat.chatID?.trim()
+            ? {
+                ...prevChat,
+                chat: {
+                  ...prevChat.chat,
+                  // Messages: [{ createdAt: new Date().toISOString(), text: recentChat }]
+                  Messages: [
+                    {
+                      createdAt: new Date().toISOString(),
+                      type: recentChat.type,
+                      text: recentChat.text
+                    }
+                  ]
+                }
+              }
+            : prevChat
+        )
+      )
+
+      setMessages((prev) => [...(prev ?? []), recentChat])
+    })
 
     //
     newSocket.on('connection_error', err => {
@@ -145,6 +174,7 @@ export const ChatContextProvider = ({ children }: InputProps) => {
 
     return () => {
       newSocket.off('getNewChats')
+      newSocket.off('getMessage')
       newSocket.disconnect()
     }
   }, [])

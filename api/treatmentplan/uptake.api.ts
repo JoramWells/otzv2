@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/column'
@@ -13,14 +14,14 @@ export const pillDailyUptakeApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/daily-uptake`
   }),
   endpoints: (builder) => ({
-    getAllPillDailyUptake: builder.query<ExtendedAdherenceAttributes[], void>({
+    getAllPillDailyUptake: builder.query<ExtendedAdherenceAttributes[], { date: Date }>({
       query: (params) => {
-        // if (params) {
-        //   const { patientsDueMorning } = params
-        //   let queryString = ''
-        //   queryString += `patientsDueMorning=${patientsDueMorning}`
-        //   return `/fetchAll?${queryString}`
-        // }
+        if (params) {
+          const { date } = params
+          let queryString = ''
+          queryString += `date=${date}`
+          return `/fetchAll?${queryString}`
+        }
         return 'fetchAll'
       }
     }),
