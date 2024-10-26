@@ -150,7 +150,6 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
   const calculateExpectedNoOfPills = useCallback(() => {
     const duration = moment(refillDate).diff(moment(), 'days')
     const usedPills = duration * frequencyInput
-    console.log(usedPills, duration, 'duration usedPills')
     return noOfPill - usedPills
   }, [frequencyInput, noOfPill, refillDate])
 

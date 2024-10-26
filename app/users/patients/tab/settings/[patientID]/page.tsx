@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDeletePatientMutation, useGetPatientQuery, useUpdatePatientMutation } from '@/api/patient/patients.api'
 import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 import CustomSelect from '@/components/forms/CustomSelect'
+import moment from 'moment'
+import { useGetAllHospitalsQuery } from '@/api/hospital/hospital.api'
 
 const dataList2 = [
   {
@@ -54,8 +56,11 @@ const ProfileSettings = ({ params }: { params: any }) => {
   const [phoneNo, setPhoneNo] = useState<string | undefined>('')
   const [firstName, setFirstName] = useState<string | undefined>('')
   const [middleName, setMiddleName] = useState<string | undefined>('')
+  const [dateConfirmedPositive, setDateConfirmedPositive] = useState<Date | string | undefined>()
+  const [dob, setDOB] = useState<Date | string | undefined>()
   const [lastName, setLastName] = useState<string | undefined>('')
   const [populationType, setPopulationType] = useState<string | undefined>('')
+  const [hospitalID, setHospitalID] = useState<string>()
   const [role, setRole] = useState('')
   const { patientID } = params
 
@@ -64,6 +69,15 @@ const ProfileSettings = ({ params }: { params: any }) => {
 
   const [deletePatient, { isLoading: isLoadingDeletePatient }] = useDeletePatientMutation()
 
+  const { data: hospitalsData } = useGetAllHospitalsQuery()
+
+  const hospitalOptions = useCallback(() => {
+    return hospitalsData?.map((item: any) => ({
+      id: item?.id,
+      label: item?.hospitalName
+    }))
+  }, [hospitalsData])
+
   useEffect(() => {
     if (patientProfileData) {
       setPhoneNo(patientProfileData.phoneNo)
@@ -71,7 +85,10 @@ const ProfileSettings = ({ params }: { params: any }) => {
       setMiddleName(patientProfileData.middleName)
       setLastName(patientProfileData.lastName)
       setRole(patientProfileData.role)
+      setHospitalID(patientProfileData.hospitalID)
       setPopulationType(patientProfileData.populationType)
+      setDOB(moment(patientProfileData.dob).format('YYYY-MM-DD'))
+      setDateConfirmedPositive(moment(patientProfileData.dateConfirmedPositive).format('YYYY-MM-DD'))
     }
   }, [patientProfileData])
 
@@ -82,10 +99,44 @@ const ProfileSettings = ({ params }: { params: any }) => {
     lastName,
     phoneNo,
     role,
-    populationType
+    populationType,
+    dob,
+    dateConfirmedPositive,
+    hospitalID
   }
 
-  console.log(patientProfileData, 'patientProfileData')
+  const kpData = [
+    {
+      id: 'Fisher Folk',
+      label: 'Fisher Folk'
+    },
+    {
+      id: 'FSW',
+      label: 'FSW'
+    },
+    {
+      id: 'General Population',
+      label: 'General Population'
+    },
+    {
+      id: 'MsM',
+      label: 'MsM'
+    },
+    {
+      id: 'PWID',
+      label: 'PWID'
+    },
+
+    {
+      id: 'Truck Drivers',
+      label: 'Truck Drivers'
+    },
+
+    {
+      id: 'TG',
+      label: 'TG'
+    }
+  ]
 
   return (
     <>
@@ -110,6 +161,10 @@ const ProfileSettings = ({ params }: { params: any }) => {
             onChange={setLastName}
           />
 
+          <CustomInput label="Date of Birth"
+          type='date'
+           value={dob as unknown as string} onChange={setDOB} />
+
           <CustomInput label="Phone" value={phoneNo!} onChange={setPhoneNo} />
 
           {/*  */}
@@ -126,38 +181,22 @@ const ProfileSettings = ({ params }: { params: any }) => {
             label="Key Population"
             value={populationType as string}
             onChange={setPopulationType}
-            data={[
-              {
-                id: 'Fisher Folk',
-                label: 'Fisher Folk'
-              },
-              {
-                id: 'FSW',
-                label: 'FSW'
-              },
-              {
-                id: 'General Population',
-                label: 'General Population'
-              },
-              {
-                id: 'MsM',
-                label: 'MsM'
-              },
-              {
-                id: 'PWID',
-                label: 'PWID'
-              },
+            data={kpData}
+          />
 
-              {
-                id: 'Truck Drivers',
-                label: 'Truck Drivers'
-              },
+          <CustomInput
+            label="Date confirmed positive"
+            type='date'
+            value={dateConfirmedPositive as unknown as string}
+            onChange={setDateConfirmedPositive}
+          />
 
-              {
-                id: 'TG',
-                label: 'TG'
-              }
-            ]}
+          <CustomSelect
+          label='Select hospital name'
+          onChange={setHospitalID}
+          value={hospitalID as string}
+          data={hospitalOptions()}
+
           />
 
           <div className="flex pt-4 space-x-4 justify-end border-t mt-2">
