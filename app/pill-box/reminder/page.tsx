@@ -237,7 +237,7 @@ const AppointmentPage = () => {
           className='p-2'
           >
             <p className="font-semibold text-slate-700 ">
-              Select the dates that you want to view
+              Select the date
             </p>
           </div>
           <Calendar
