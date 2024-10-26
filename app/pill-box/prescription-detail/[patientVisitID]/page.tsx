@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { useGetPrescriptionQuery, useUpdatePrescriptionMutation } from '@/api/pillbox/prescription.api'
 import { calculateAdherence } from '@/utils/calculateAdherence'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
@@ -20,6 +21,7 @@ import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import Avatar from '@/components/Avatar'
 import CustomTab from '@/components/tab/CustomTab'
 import UpdateTimeAndWork from '../../_components/UpdateTimeAndWork'
+import CustomInput from '@/components/forms/CustomInput'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -89,7 +91,6 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
   const { data: mmas8Data } = useGetMmasEightByPatientIDQuery(patientID)
 
-  console.log(data, 'mmas8')
   useEffect(() => {
     if (data) {
       const { id, frequency, refillDate, computedNoOfPills, noOfPills, expectedNoOfPills, nextRefillDate, Patient, ARTPrescription }: PrescriptionAdherenceProps = data
@@ -114,25 +115,75 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
     }
   }, [data])
 
-  console.log(data)
-
   // const [value, setValue] = useState(1)
   const {
     id,
     computedNoOfPills,
     noOfPills,
-    expectedNoOfPills,
-    refillDate,
-    nextRefillDate,
+    expectedNoOfPills: exNofPills,
     frequency,
     Patient,
     ARTPrescription
   } = patientAdherence
 
   const [updatePrescription, { isLoading }] = useUpdatePrescriptionMutation()
+  const [refillDate, setRefillDate] = useState<string>(
+    new Date().toISOString().split('T')[0]
+  )
+  const [expectedNoOfPill, setExpectedNoOfPills] = useState<number>(0)
 
-  const [frequencyInput, setFrequencyInput] = useState()
+  const [nextRefillDate, setNextRefillDate] = useState<string>(
+    new Date().toISOString().split('T')[0]
+  )
+
+  //
+  const [noOfPill, setNoOfPills] = useState<number>(0)
+  const [frequencyInput, setFrequencyInput] = useState(frequency)
+
+  const duration = noOfPill / frequencyInput
+
+  const addDaysFunc = useCallback((date: Date) => {
+    const currentDate = moment(date)
+    return currentDate.add(duration, 'days')
+  }, [duration])
+
+  const calculateExpectedNoOfPills = useCallback(() => {
+    const duration = moment(refillDate).diff(moment(), 'days')
+    const usedPills = duration * frequencyInput
+    console.log(usedPills, duration, 'duration usedPills')
+    return noOfPill - usedPills
+  }, [frequencyInput, noOfPill, refillDate])
+
+  console.log(calculateExpectedNoOfPills(), 'currentDateAddDaysFunc')
+
+  useEffect(() => {
+    // calculate next refill date
+
+    setFrequencyInput(`${patientAdherence.frequency}` as unknown as number)
+    setNoOfPills(patientAdherence.noOfPills)
+    setExpectedNoOfPills(patientAdherence.expectedNoOfPills as number)
+    setRefillDate(
+      new Date(patientAdherence.refillDate).toISOString().split('T')[0]
+    )
+    setNextRefillDate(addDaysFunc(patientAdherence.refillDate).format('YYYY-MM-DD'))
+  }, [addDaysFunc, exNofPills, frequency, noOfPills, patientAdherence.expectedNoOfPills, patientAdherence.frequency, patientAdherence.nextRefillDate, patientAdherence.noOfPills, patientAdherence.refillDate])
+
   const [tabValue, setTabValue] = useState('prescription')
+
+  //
+  const inputValues = useMemo(() => [
+    {
+      id,
+      frequency: frequencyInput,
+      noOfPills,
+      expectedNoOfPills: calculateExpectedNoOfPills(),
+      nextRefillDate: addDaysFunc(refillDate as unknown as Date).format('YYYY-MM-DD'),
+      refillDate
+    }
+  ], [addDaysFunc, calculateExpectedNoOfPills, frequencyInput, id, noOfPills, refillDate])[0]
+
+  //
+
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -174,7 +225,9 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                     ]}
                   />
                   {tabValue === 'prescription' && (
-                    <>
+                    <div
+                    className='flex flex-col space-y-4'
+                    >
                       <CustomSelect
                         label="Frequency"
                         value={frequencyInput as unknown as string}
@@ -190,15 +243,33 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                           }
                         ]}
                       />
+                      <CustomInput
+                        label="Refill Date"
+                        type="date"
+                        onChange={setRefillDate}
+                        value={refillDate}
+                      />
+
+                                    <CustomInput
+                        label="Number of Pills"
+                        type="number"
+                        onChange={setNoOfPills}
+                        value={noOfPill}
+                      />
+
+                      <CustomInput
+                        label="Expected Number of Pills"
+                        type="number"
+                        onChange={setExpectedNoOfPills}
+                        value={expectedNoOfPill}
+                      />
 
                       <Button
                         className="mt-2"
                         size={'sm'}
+                        disabled={isLoading}
                         onClick={async () =>
-                          await updatePrescription({
-                            id,
-                            frequency: frequencyInput
-                          })
+                          await updatePrescription(inputValues)
                         }
                       >
                         {isLoading && (
@@ -206,7 +277,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
                         )}
                         Save
                       </Button>
-                    </>
+                    </div>
                   )}
 
                   {tabValue === 'time and work' && (
@@ -234,12 +305,12 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
             <div
               className={`flex  justify-between items-center text-[14px] p-2 rounded-lg ${
-                computedNoOfPills !== expectedNoOfPills &&
+                computedNoOfPills !== expectedNoOfPill &&
                 'bg-red-50 text-red-500'
               } `}
             >
               <div className="flex items-center space-x-2">
-                {computedNoOfPills !== expectedNoOfPills && (
+                {computedNoOfPills !== expectedNoOfPill && (
                   <TriangleAlert size={14} />
                 )}
                 Taken
@@ -265,13 +336,13 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
             <div
               className={` flex justify-between items-center text-[14px] p-2 rounded ${
-                expectedNoOfPills &&
-                expectedNoOfPills < 0 &&
+                expectedNoOfPill &&
+                expectedNoOfPill < 0 &&
                 'bg-red-50 font-bold text-red-500'
               } `}
             >
               <p>Expected No Pills</p>
-              <p>{expectedNoOfPills}</p>
+              <p>{expectedNoOfPill}</p>
             </div>
 
             <hr />
@@ -304,10 +375,10 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
             <div className=" flex justify-between items-center text-[14px] p-2 ">
               <p>Adherence Rate</p>
               <p>
-                {(computedNoOfPills &&
-                  expectedNoOfPills) &&
+                {computedNoOfPills &&
+                  expectedNoOfPill &&
                   Math.floor(
-                    (computedNoOfPills / (noOfPills - expectedNoOfPills)) * 100
+                    (computedNoOfPills / (noOfPills - expectedNoOfPill)) * 100
                   )}
                 %
               </p>
@@ -319,7 +390,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
           score={mmas8Data?.totalScores}
           adherence={patientAdherence?.adherence as unknown as number}
           prescriptionID={prescriptionID}
-          nextAppointmentDate={nextRefillDate}
+          nextAppointmentDate={nextRefillDate as unknown as Date}
         />
       </div>
     </div>
