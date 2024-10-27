@@ -9,6 +9,9 @@ import { useAddChildCaregiverReadinessMutation } from '@/api/treatmentplan/parti
 import { useEffect, useState } from 'react'
 import Progress from '@/components/Progress'
 
+const customRound = (value: number) => {
+  return Math.floor(value / 5) * 5
+}
 export interface TaskTwoProps {
   patientID: string
   patientVisitID: string
@@ -92,7 +95,7 @@ const TaskTwo = ({
     const bValues = Object.values(obj).filter(item => item).length
 
     const percentag = (bValues / Object?.keys(obj).length) * 100
-    setPercentage(percentag)
+    setPercentage(customRound(percentag))
   }, [isAssessedCaregiverReadinessToDisclose, isCaregiverCommunicatedToChild, isChildKnowsMedicineAndIllness, isChildSchoolEngagement, isConsistentSocialSupport, isFreeChildCaregiverFromSevereIllness, isInterestInEnvironmentAndPlaying, isSecuredPatientInfo])
 
   return (

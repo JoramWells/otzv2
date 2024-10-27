@@ -11,6 +11,9 @@ import { ChevronsLeft, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAddDisclosureEligibilityMutation } from '@/api/treatmentplan/partial/disclosureEligibility.api'
 
+const customRound = (value: number) => {
+  return Math.floor(value / 5) * 5
+}
 export interface TaskOneProps {
   isCorrectAge: boolean
   setIsCorrectAge: (age: boolean) => void
@@ -57,7 +60,7 @@ const TaskOne = ({
     const trueCount = booleanValues?.filter((item) => item).length
     console.log(booleanValues, 'booleanValues')
     const percentag = (trueCount / Object?.keys(booleanValues).length) * 100
-    setPercentage(percentag)
+    setPercentage(customRound(percentag))
   }, [isCorrectAge, isKnowledgeable, isWillingToDisclose])
 
   const [
