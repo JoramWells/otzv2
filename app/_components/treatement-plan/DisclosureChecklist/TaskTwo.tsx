@@ -78,7 +78,7 @@ const TaskTwo = ({
     useAddChildCaregiverReadinessMutation()
 
   useEffect(() => {
-    const bValues = Object.entries({
+    const obj = {
       isFreeChildCaregiverFromSevereIllness,
       isConsistentSocialSupport,
       isInterestInEnvironmentAndPlaying,
@@ -87,15 +87,12 @@ const TaskTwo = ({
       isSecuredPatientInfo,
       isAssessedCaregiverReadinessToDisclose,
       isChildSchoolEngagement
-    }).map(item => item).length
+    }
 
-    const percentag = (bValues / Object?.keys(bValues).length) * 100
+    const bValues = Object.values(obj).filter(item => item).length
+
+    const percentag = (bValues / Object?.keys(obj).length) * 100
     setPercentage(percentag)
-
-    setPercentage(bValues)
-
-    console.log(bValues, 'bvaluex')
-    console.log('guinea')
   }, [isAssessedCaregiverReadinessToDisclose, isCaregiverCommunicatedToChild, isChildKnowsMedicineAndIllness, isChildSchoolEngagement, isConsistentSocialSupport, isFreeChildCaregiverFromSevereIllness, isInterestInEnvironmentAndPlaying, isSecuredPatientInfo])
 
   return (
@@ -103,7 +100,7 @@ const TaskTwo = ({
       <div className="p-4 flex-1 bg-white">
         <div className="flex flex-1 flex-col border border-slate-200 bg-white rounded-lg ">
           <div className="border-b border-slate-200 p-2 flex flex-row justify-between items-center">
-            <p className="capitalize font-semibold">
+            <p className="capitalize font-bold text-[14px]">
               Task 2: Assess child and caregiver for readiness.
             </p>
             <Progress percentage={percentage} />
