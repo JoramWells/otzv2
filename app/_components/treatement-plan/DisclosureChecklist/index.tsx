@@ -12,7 +12,7 @@ import { ChevronsLeft, Loader2 } from 'lucide-react'
 import { useAddDisclosureEligibilityMutation, useGetDisclosureEligibilityQuery } from '@/api/treatmentplan/partial/disclosureEligibility.api'
 import CardHeader from '@/app/users/patients/tab/steps/_components/CardHeader'
 import { useRouter } from 'next/navigation'
-import Progress from '@/components/Progress'
+import { useGetChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 
 interface AddTriageProps {
   handleNext: () => void
@@ -23,21 +23,57 @@ interface AddTriageProps {
 };
 
 const DisclosureChecklist = ({ age, handleBack, handleNext, patientID, appointmentID }: AddTriageProps) => {
-  const [isCorrectAge, setIsCorrectAge]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isFreeChildCaregiverFromSevereIllness, setIsFreeChildCaregiverFromSevereIllness]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isConsistentSocialSupport, setIsConsistentSocialSupport]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isCorrectAge, setIsCorrectAge]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [
+    isFreeChildCaregiverFromSevereIllness,
+    setIsFreeChildCaregiverFromSevereIllness
+  ]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isConsistentSocialSupport, setIsConsistentSocialSupport]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
   const [taskOneComments, setTaskOneComments] = useState('')
-  const [isInterestInEnvironmentAndPlaying, setIsInterestInEnvironmentAndPlaying]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isChildKnowsMedicineAndIllness, setIsChildKnowsMedicineAndIllness]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isChildSchoolEngagement, setIsChildSchoolEngagement]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isAssessedCaregiverReadinessToDisclose, setIsAssessedCaregiverReadinessToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isCaregiverCommunicatedToChild, setIsCaregiverCommunicatedToChild]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isSecuredPatientInfo, setIsSecuredPatientInfo]: [ boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [
+    isInterestInEnvironmentAndPlaying,
+    setIsInterestInEnvironmentAndPlaying
+  ]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isChildKnowsMedicineAndIllness, setIsChildKnowsMedicineAndIllness]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isChildSchoolEngagement, setIsChildSchoolEngagement]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [
+    isAssessedCaregiverReadinessToDisclose,
+    setIsAssessedCaregiverReadinessToDisclose
+  ]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isCaregiverCommunicatedToChild, setIsCaregiverCommunicatedToChild]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isSecuredPatientInfo, setIsSecuredPatientInfo]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
   const [taskTwoComments, setTaskTwoComments] = useState('')
+  const [percentage, setPercentage] = useState(0)
+
+  //
 
   // task three
-  const [isKnowledgeable, setIsKnowledgeable]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
-  const [isWillingToDisclose, setIsWillingToDisclose]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isKnowledgeable, setIsKnowledgeable]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isWillingToDisclose, setIsWillingToDisclose]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
 
   const childCaregiverReadinessInput = {
     // taskone
@@ -60,6 +96,12 @@ const DisclosureChecklist = ({ age, handleBack, handleNext, patientID, appointme
     }
   }, [age])
 
+  //
+  //
+  const customRound = () => {
+    return percentage - (percentage % 10)
+  }
+
   const disclosureEligibilityInputs = {
     // four
     isCorrectAge,
@@ -68,8 +110,9 @@ const DisclosureChecklist = ({ age, handleBack, handleNext, patientID, appointme
     taskOneComments
 
     //
-
   }
+
+  //
 
   const submitData = {
     patientVisitID: appointmentID,
@@ -78,10 +121,44 @@ const DisclosureChecklist = ({ age, handleBack, handleNext, patientID, appointme
     ...disclosureEligibilityInputs
   }
 
-  const [addDisclosureEligibility, { isLoading: isLoadingAddDisclosure, data: isSaveData }] = useAddDisclosureEligibilityMutation()
+  const [
+    addDisclosureEligibility,
+    { isLoading: isLoadingAddDisclosure, data: isSaveData }
+  ] = useAddDisclosureEligibilityMutation()
 
   const { data: disclosureData } = useGetDisclosureEligibilityQuery(patientID)
   console.log(disclosureData, 'dataDisclosurex')
+  //
+  useEffect(() => {
+    const booleanValues = Object?.entries({
+      isCorrectAge,
+      isKnowledgeable,
+      isWillingToDisclose
+    })
+      ?.filter(
+        ([key]) =>
+          key !== 'id' &&
+          key !== 'patientID' &&
+          key !== 'updatedAt' &&
+          key !== 'createdAt' &&
+          key !== 'taskOneComments' &&
+          key !== 'patientVisitID'
+      )
+      ?.map(([_, value]) => value)
+    const trueCount = booleanValues?.filter((item) => item).length
+    console.log(booleanValues, 'booleanValues')
+    const percentag = (trueCount / Object?.keys(booleanValues).length) * 100
+    setPercentage(percentag)
+  }, [disclosureData, isCorrectAge, isKnowledgeable, isWillingToDisclose])
+  const { data: childCareGiveReadinessData } = useGetChildCaregiverReadinessQuery(patientID)
+  console.log(childCareGiveReadinessData, 'childCareGiveReadinessData')
+  useEffect(() => {
+    if (childCareGiveReadinessData) {
+      setIsFreeChildCaregiverFromSevereIllness(
+        childCareGiveReadinessData.isFreeFromSevereIllness
+      )
+    }
+  }, [childCareGiveReadinessData])
 
   useEffect(() => {
     if (disclosureData) {
@@ -144,29 +221,29 @@ const DisclosureChecklist = ({ age, handleBack, handleNext, patientID, appointme
             <Button
               className="shadow-none  text-slate-500
                "
-               size={'sm'}
-               variant={'outline'}
+              size={'sm'}
+              variant={'outline'}
               onClick={() => {
                 handleBack()
               }}
             >
-              <ChevronsLeft className='mr-2' size={18} />
+              <ChevronsLeft className="mr-2" size={18} />
               Prev
             </Button>
 
-              <Button
-                className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
-                size={'sm'}
-                onClick={() => {
-                  addDisclosureEligibility(submitData)
-                }}
-                disabled={isLoadingAddDisclosure}
-              >
-                {isLoadingAddDisclosure && (
-                  <Loader2 className="animate-spin mr-2" size={18} />
-                )}
-                Complete
-              </Button>
+            <Button
+              className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
+              size={'sm'}
+              onClick={() => {
+                addDisclosureEligibility(submitData)
+              }}
+              disabled={isLoadingAddDisclosure}
+            >
+              {isLoadingAddDisclosure && (
+                <Loader2 className="animate-spin mr-2" size={18} />
+              )}
+              Complete
+            </Button>
           </div>
         </div>
       </div>

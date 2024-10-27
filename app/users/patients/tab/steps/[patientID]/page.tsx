@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-import { Suspense, useCallback, useEffect, useState } from 'react'
+import { type Dispatch, type SetStateAction, Suspense, useCallback, useEffect, useState } from 'react'
 // import FamilyPanning from '../_components/steps/FamilyPanning'
 import MMASForm from '@/app/_components/treatement-plan/MMAS'
 import DisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist'
@@ -17,6 +18,9 @@ import { calculateAge } from '@/utils/calculateAge'
 import FullDisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist/Full'
 import LabTests from '../_components/LabTests'
 import CustomStepper from '../_components/CustomStepper'
+import TaskOne from '@/app/_components/treatement-plan/DisclosureChecklist/TaskOne'
+import TaskTwo from '@/app/_components/treatement-plan/DisclosureChecklist/TaskTwo'
+import { useGetChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -70,6 +74,59 @@ const StepsPage = ({ params }: any) => {
   const router = useRouter()
   const pathname = usePathname()
   const tab = searchParams.get('step')
+  const [isCorrectAge, setIsCorrectAge]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+
+  const [isWillingToDisclose, setIsWillingToDisclose]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+
+  const [isKnowledgeable, setIsKnowledgeable]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+
+  const [taskOneComments, setTaskOneComments] = useState('')
+
+  //
+  const [
+    isFreeChildCaregiverFromSevereIllness,
+    setIsFreeChildCaregiverFromSevereIllness
+  ]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+
+  const [isConsistentSocialSupport, setIsConsistentSocialSupport]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [
+    isInterestInEnvironmentAndPlaying,
+    setIsInterestInEnvironmentAndPlaying
+  ]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isChildKnowsMedicineAndIllness, setIsChildKnowsMedicineAndIllness]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isChildSchoolEngagement, setIsChildSchoolEngagement]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [
+    isAssessedCaregiverReadinessToDisclose,
+    setIsAssessedCaregiverReadinessToDisclose
+  ]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isCaregiverCommunicatedToChild, setIsCaregiverCommunicatedToChild]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+
+  const [isSecuredPatientInfo, setIsSecuredPatientInfo]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [taskTwoComments, setTaskTwoComments] = useState('')
 
   const { data: personalData, isLoading: isLoadingPersonalData } = useGetPatientQuery(patientID)
 
@@ -138,10 +195,46 @@ const StepsPage = ({ params }: any) => {
   ]
 
   if (age >= 5 && age <= 8) {
-    steps.push({ title: 'Disclosure', description: 'Partial Disclosure' })
+    steps.push({ title: 'P.Disclosure', description: 'Task One' })
+    steps.push({ title: 'P.Disclosure', description: 'Task Two' })
   } else if (age >= 9 && age <= 12) {
     steps.push({ title: 'Disclosure', description: 'Full Disclosure' })
   }
+
+  const { data: childCareGiveReadinessData } =
+      useGetChildCaregiverReadinessQuery(patientID)
+  console.log(childCareGiveReadinessData, 'childCareGiveReadinessData')
+  useEffect(() => {
+    if (childCareGiveReadinessData) {
+      setIsFreeChildCaregiverFromSevereIllness(
+        childCareGiveReadinessData.isFreeChildCaregiverFromSevereIllness
+      )
+      setIsConsistentSocialSupport(
+        childCareGiveReadinessData.isConsistentSocialSupport
+      )
+      //
+      setIsInterestInEnvironmentAndPlaying(
+        childCareGiveReadinessData.isInterestInEnvironmentAndPlaying
+      )
+      //
+      setIsChildKnowsMedicineAndIllness(
+        childCareGiveReadinessData.isChildKnowsMedicineAndIllness
+      )
+      setIsChildSchoolEngagement(
+        childCareGiveReadinessData.isChildSchoolEngagement
+      )
+
+      //
+      setIsCaregiverCommunicatedToChild(
+        childCareGiveReadinessData.isCaregiverCommunicatedToChild
+      )
+      setIsSecuredPatientInfo(childCareGiveReadinessData.isSecuredPatientInfo)
+
+      setIsAssessedCaregiverReadinessToDisclose(
+        childCareGiveReadinessData.isAssessedCaregiverReadinessToDisclose
+      )
+    }
+  }, [childCareGiveReadinessData])
 
   return (
     <>
@@ -231,6 +324,74 @@ const StepsPage = ({ params }: any) => {
               />
             )}
             {tab === '6' && activeStep === 6 && age >= 5 && age <= 8 && (
+              <TaskOne
+                isCorrectAge={isCorrectAge}
+                setIsCorrectAge={setIsCorrectAge}
+                isWillingToDisclose={isWillingToDisclose}
+                setIsWillingToDisclose={setIsWillingToDisclose}
+                isKnowledgeable={isKnowledgeable}
+                setIsKnowledgeable={setIsKnowledgeable}
+                taskOneComments={taskOneComments}
+                setTaskOneComments={setTaskOneComments}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
+
+            {/*  */}
+            {tab === '7' && activeStep === 7 && age >= 5 && age <= 8 && (
+              <TaskTwo
+                isFreeChildCaregiverFromSevereIllness={
+                  isFreeChildCaregiverFromSevereIllness
+                }
+                setIsFreeFromSevereIllness={
+                  setIsFreeChildCaregiverFromSevereIllness
+                }
+                isConsistentSocialSupport={isConsistentSocialSupport}
+                setIsConsistentSocialSupport={setIsConsistentSocialSupport}
+                isInterestInEnvironmentAndPlaying={
+                  isInterestInEnvironmentAndPlaying
+                }
+                setIsInterestInEnvironmentAndPlaying={
+                  setIsInterestInEnvironmentAndPlaying
+                }
+                isAssessedCaregiverReadinessToDisclose={
+                  isAssessedCaregiverReadinessToDisclose
+                }
+                setIsAssessedCaregiverReadinessToDisclose={
+                  setIsAssessedCaregiverReadinessToDisclose
+                }
+                isChildKnowsMedicineAndIllness={isChildKnowsMedicineAndIllness}
+                setIsChildKnowsMedicineAndIllness={
+                  setIsChildKnowsMedicineAndIllness
+                }
+                isChildSchoolEngagement={isChildSchoolEngagement}
+                setIsChildSchoolEngagement={setIsChildSchoolEngagement}
+                isCaregiverCommunicatedToChild={isCaregiverCommunicatedToChild}
+                setIsCaregiverCommunicatedToChild={
+                  setIsCaregiverCommunicatedToChild
+                }
+                isSecuredPatientInfo={isSecuredPatientInfo}
+                setIsSecuredPatientInfo={setIsSecuredPatientInfo}
+                taskTwoComments={taskTwoComments}
+                setTaskTwoComments={setTaskTwoComments}
+                patientID={patientID}
+                patientVisitID={appointmentID as string}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                handleBack={() => {
+                  handleBack()
+                }}
+              />
+            )}
+
+            {/*  */}
+            {tab === '7' && activeStep === 6 && age >= 5 && age <= 8 && (
               <DisclosureChecklist
                 appointmentID={appointmentID}
                 patientID={patientID}

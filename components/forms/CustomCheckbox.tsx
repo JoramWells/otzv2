@@ -16,6 +16,7 @@ const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) 
         onCheckedChange={(checked: boolean) => {
           onChange(checked)
         }}
+        className='shadow-none'
         // className="mt-1"
         // pt={1}
       />
