@@ -8,20 +8,21 @@ import { type Dispatch, type SetStateAction, useState, useEffect } from 'react'
 import TaskOne from './TaskOne'
 import TaskTwo from './TaskTwo'
 import { Button } from '@/components/ui/button'
-import { useAddDisclosureChecklistMutation, useGetDisclosureChecklistQuery } from '@/api/treatmentplan/disclosureChecklist.api'
 import { ChevronsLeft, Loader2 } from 'lucide-react'
 import { useAddDisclosureEligibilityMutation, useGetDisclosureEligibilityQuery } from '@/api/treatmentplan/partial/disclosureEligibility.api'
 import CardHeader from '@/app/users/patients/tab/steps/_components/CardHeader'
 import { useRouter } from 'next/navigation'
+import Progress from '@/components/Progress'
 
 interface AddTriageProps {
   handleNext: () => void
   handleBack: () => void
   patientID: string
   appointmentID: string | null
+  age?: number
 };
 
-const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID }: AddTriageProps) => {
+const DisclosureChecklist = ({ age, handleBack, handleNext, patientID, appointmentID }: AddTriageProps) => {
   const [isCorrectAge, setIsCorrectAge]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isFreeChildCaregiverFromSevereIllness, setIsFreeChildCaregiverFromSevereIllness]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
   const [isConsistentSocialSupport, setIsConsistentSocialSupport]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
@@ -52,6 +53,13 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
     taskTwoComments
   }
 
+  useEffect(() => {
+    if (age) {
+      const isAge = !!(age && age > 6 && age < 10)
+      setIsCorrectAge(isAge)
+    }
+  }, [age])
+
   const disclosureEligibilityInputs = {
     // four
     isCorrectAge,
@@ -72,17 +80,26 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
 
   const [addDisclosureEligibility, { isLoading: isLoadingAddDisclosure, data: isSaveData }] = useAddDisclosureEligibilityMutation()
 
-  const { data: disclosureData } = useGetDisclosureEligibilityQuery(appointmentID)
-  console.log(disclosureData, 'dataDisclosure')
-  const router = useRouter()
+  const { data: disclosureData } = useGetDisclosureEligibilityQuery(patientID)
+  console.log(disclosureData, 'dataDisclosurex')
 
   useEffect(() => {
-    if (isSaveData) {
-      router.push(
-        `/users/patients/tab/dashboard/${patientID}`
-      )
+    if (disclosureData) {
+      setIsCorrectAge(disclosureData.isCorrectAge)
+      setIsKnowledgeable(disclosureData.isKnowledgeable)
+      setIsWillingToDisclose(disclosureData.isWillingToDisclose)
     }
-  }, [isSaveData, patientID, router])
+  }, [disclosureData])
+
+  const router = useRouter()
+
+  // useEffect(() => {
+  //   if (isSaveData) {
+  //     router.push(
+  //       `/users/patients/tab/dashboard/${patientID}`
+  //     )
+  //   }
+  // }, [isSaveData, patientID, router])
 
   return (
     <div className="flex flex-row justify-between space-x-4 w-full items-start">
@@ -127,6 +144,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
             <Button
               className="shadow-none  text-slate-500
                "
+               size={'sm'}
                variant={'outline'}
               onClick={() => {
                 handleBack()
@@ -138,6 +156,7 @@ const DisclosureChecklist = ({ handleBack, handleNext, patientID, appointmentID 
 
               <Button
                 className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
+                size={'sm'}
                 onClick={() => {
                   addDisclosureEligibility(submitData)
                 }}

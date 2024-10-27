@@ -234,6 +234,7 @@ const StepsPage = ({ params }: any) => {
               <DisclosureChecklist
                 appointmentID={appointmentID}
                 patientID={patientID}
+                age={calculateAge(personalData?.dob)}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}

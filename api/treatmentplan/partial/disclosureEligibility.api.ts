@@ -1,4 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type ChildDisclosureEligibilityAttributes, type PartialDisclosureAttributes } from 'otz-types'
+export type PartialDisclosureInterface = ChildDisclosureEligibilityAttributes & PartialDisclosureAttributes
 
 export const disclosureEligibilityApi = createApi({
   reducerPath: 'disclosureEligibilityApi',
@@ -16,7 +18,7 @@ export const disclosureEligibilityApi = createApi({
         body: response
       })
     }),
-    getDisclosureEligibility: builder.query({
+    getDisclosureEligibility: builder.query<PartialDisclosureInterface, string>({
       query: (id) => `detail/${id}`
     }),
     getAllDisclosureEligibilityByVisitId: builder.query({
