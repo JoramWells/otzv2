@@ -7,7 +7,6 @@ import dynamic from 'next/dynamic'
 import { type Dispatch, type SetStateAction, Suspense, useCallback, useEffect, useState } from 'react'
 // import FamilyPanning from '../_components/steps/FamilyPanning'
 import MMASForm from '@/app/_components/treatement-plan/MMAS'
-import DisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist'
 import FormOne from '@/app/_components/treatement-plan/FormOne'
 import AddTriage from '../_components/AddTriage'
 import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
@@ -381,21 +380,6 @@ const StepsPage = ({ params }: any) => {
                 setTaskTwoComments={setTaskTwoComments}
                 patientID={patientID}
                 patientVisitID={appointmentID as string}
-                handleNext={() => {
-                  handleNext(activeStep)
-                }}
-                handleBack={() => {
-                  handleBack()
-                }}
-              />
-            )}
-
-            {/*  */}
-            {tab === '7' && activeStep === 6 && age >= 5 && age <= 8 && (
-              <DisclosureChecklist
-                appointmentID={appointmentID}
-                patientID={patientID}
-                age={calculateAge(personalData?.dob)}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}

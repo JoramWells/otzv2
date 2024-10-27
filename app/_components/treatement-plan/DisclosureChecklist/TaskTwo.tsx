@@ -6,6 +6,8 @@ import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
 import { Button } from '@/components/ui/button'
 import { ChevronsLeft, Loader2 } from 'lucide-react'
 import { useAddChildCaregiverReadinessMutation } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
+import { useEffect, useState } from 'react'
+import Progress from '@/components/Progress'
 
 export interface TaskTwoProps {
   patientID: string
@@ -56,6 +58,8 @@ const TaskTwo = ({
   isChildSchoolEngagement,
   patientVisitID
 }: TaskTwoProps) => {
+  const [percentage, setPercentage] = useState(0)
+
   const inputValues = {
     isFreeChildCaregiverFromSevereIllness,
     isConsistentSocialSupport,
@@ -72,14 +76,37 @@ const TaskTwo = ({
   }
   const [addChildCaregiverReadiness, { isLoading }] =
     useAddChildCaregiverReadinessMutation()
+
+  useEffect(() => {
+    const bValues = Object.entries({
+      isFreeChildCaregiverFromSevereIllness,
+      isConsistentSocialSupport,
+      isInterestInEnvironmentAndPlaying,
+      isChildKnowsMedicineAndIllness,
+      isCaregiverCommunicatedToChild,
+      isSecuredPatientInfo,
+      isAssessedCaregiverReadinessToDisclose,
+      isChildSchoolEngagement
+    }).map(item => item).length
+
+    const percentag = (bValues / Object?.keys(bValues).length) * 100
+    setPercentage(percentag)
+
+    setPercentage(bValues)
+
+    console.log(bValues, 'bvaluex')
+    console.log('guinea')
+  }, [isAssessedCaregiverReadinessToDisclose, isCaregiverCommunicatedToChild, isChildKnowsMedicineAndIllness, isChildSchoolEngagement, isConsistentSocialSupport, isFreeChildCaregiverFromSevereIllness, isInterestInEnvironmentAndPlaying, isSecuredPatientInfo])
+
   return (
     <div className="flex flex-row justify-between space-x-2 w-full items-start">
       <div className="p-4 flex-1 bg-white">
         <div className="flex flex-1 flex-col border border-slate-200 bg-white rounded-lg ">
-          <div className="border-b border-slate-200 p-2">
+          <div className="border-b border-slate-200 p-2 flex flex-row justify-between items-center">
             <p className="capitalize font-semibold">
               Task 2: Assess child and caregiver for readiness.
             </p>
+            <Progress percentage={percentage} />
           </div>
           <CustomCheckbox
             label="Child/ caregiver free from severe
