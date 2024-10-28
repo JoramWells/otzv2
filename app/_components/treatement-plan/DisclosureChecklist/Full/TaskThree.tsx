@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable import/no-extraneous-dependencies */
 
@@ -68,7 +69,7 @@ const TaskThree = ({
 }: TaskThreeProps) => {
   const [percentage, setPercentage] = useState(0)
 
-  const [addExecuteDisclosure, { isLoading }] = useAddExecuteDisclosureMutation()
+  const [addExecuteDisclosure, { isLoading, data }] = useAddExecuteDisclosureMutation()
   const taskThreeInputValues = {
     isReassuredCaregiver,
     isAssessedChildCaregiverComfort,
@@ -82,6 +83,14 @@ const TaskThree = ({
     patientID,
     patientVisitID
   }
+
+  //
+  useEffect(() => {
+    if (data) {
+      // router.push(`/users/patients/tab/dashboard/${patientID}`)
+      handleNext()
+    }
+  }, [handleNext, data])
 
   useEffect(() => {
     const obj = {

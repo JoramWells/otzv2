@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -7,14 +8,17 @@ import Progress from '@/components/Progress'
 import CustomCheckbox from '../../../../components/forms/CustomCheckbox'
 import CustomInput from '../../../../components/forms/CustomInput'
 import { useEffect, useState } from 'react'
-import { ChevronsLeft, Loader2 } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAddDisclosureEligibilityMutation } from '@/api/treatmentplan/partial/disclosureEligibility.api'
+import { useRouter } from 'next/navigation'
 
 const customRound = (value: number) => {
   return Math.floor(value / 5) * 5
 }
 export interface TaskOneProps {
+  patientID: string
+  patientVisitID: string
   isCorrectAge: boolean
   setIsCorrectAge: (age: boolean) => void
   isWillingToDisclose: boolean
@@ -37,7 +41,10 @@ const TaskOne = ({
   taskOneComments,
   setTaskOneComments,
   handleBack,
-  handleNext
+  handleNext,
+
+  patientID,
+  patientVisitID
 }: TaskOneProps) => {
   const [percentage, setPercentage] = useState(0)
 
@@ -72,8 +79,19 @@ const TaskOne = ({
     isCorrectAge,
     isWillingToDisclose,
     isKnowledgeable,
-    taskOneComments
+    taskOneComments,
+    patientID,
+    patientVisitID
   }
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (isSaveData) {
+      // router.push(`/users/patients/tab/dashboard/${patientID}`)
+      handleNext()
+    }
+  }, [handleNext, isSaveData])
 
   return (
     <div className="flex flex-row justify-between space-x-2 w-full items-start">
@@ -136,7 +154,19 @@ const TaskOne = ({
             {isLoadingAddDisclosure && (
               <Loader2 className="animate-spin mr-2" size={18} />
             )}
+            Save
+          </Button>
+
+          <Button
+            size={'sm'}
+            // className="bg-slate-200 text-slate-500 hover:bg-slate-100 "
+            variant={'outline'}
+            onClick={() => {
+              handleNext()
+            }}
+          >
             Next
+            <ChevronsRight className="ml-2" size={18} />
           </Button>
         </div>
       </div>

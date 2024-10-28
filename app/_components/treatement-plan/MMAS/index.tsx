@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-floating-promises */
@@ -203,26 +204,25 @@ const MMASForm = ({
             onClick={() => {
               handleBack()
             }}
+            size={'sm'}
           >
             <ChevronsLeft className="mr-2" size={18} />
             Back
           </Button>
-          {formData || savedData || mmas8Data
-            ? (
+          {formData || savedData || mmas8Data ? (
             <Button
               className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
               onClick={() => {
                 handleNext()
               }}
+              size={'sm'}
             >
               Next
               <ChevronsRight className="ml-2" size={18} />
             </Button>
-              )
-            : (
+          ) : (
             <div>
-              {isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter
-                ? (
+              {isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter ? (
                 <Button
                   className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
                   onClick={() => {
@@ -232,6 +232,7 @@ const MMASForm = ({
                     //   router.push(`/users/patients/tab/dashboard/${patientID}`)
                     // }
                   }}
+                  size={'sm'}
                   disabled={isLoading8}
                 >
                   {isLoading8 && (
@@ -239,8 +240,7 @@ const MMASForm = ({
                   )}
                   {activeStep === stepsLength ? 'Complete' : 'Save'}
                 </Button>
-                  )
-                : (
+              ) : (
                 <Button
                   className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
                   onClick={() => {
@@ -250,6 +250,7 @@ const MMASForm = ({
                     //   router.push(`/users/patients/tab/dashboard/${patientID}`)
                     // }
                   }}
+                  size={'sm'}
                   disabled={isLoading}
                 >
                   {isLoading && (
@@ -257,9 +258,9 @@ const MMASForm = ({
                   )}
                   {activeStep === stepsLength ? 'Complete' : 'Save'}
                 </Button>
-                  )}
-            </div>
               )}
+            </div>
+          )}
         </div>
       </div>
       <div className="w-1/3 bg-white rounded-lg p-4 flex items-start flex-grow-0">

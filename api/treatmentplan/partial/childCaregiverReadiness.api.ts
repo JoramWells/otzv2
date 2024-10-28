@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type ChildCaregiverReadinessAttributes } from 'otz-types'
 
 export const childCaregiverReadinessApi = createApi({
   reducerPath: 'childCaregiverReadinessApi',
@@ -16,7 +17,7 @@ export const childCaregiverReadinessApi = createApi({
         body: response
       })
     }),
-    getChildCaregiverReadiness: builder.query({
+    getChildCaregiverReadiness: builder.query<ChildCaregiverReadinessAttributes, string>({
       query: (id) => `detail/${id}`
     }),
     getAllChildCaregiverReadinessByVisitId: builder.query({

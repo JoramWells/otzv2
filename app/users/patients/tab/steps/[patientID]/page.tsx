@@ -270,32 +270,41 @@ const StepsPage = ({ params }: any) => {
       useGetChildCaregiverReadinessQuery(patientID)
   useEffect(() => {
     if (childCareGiveReadinessData) {
+      const {
+        isAssessedCaregiverReadinessToDisclose,
+        isCaregiverCommunicatedToChild,
+        isChildKnowsMedicineAndIllness,
+        isChildSchoolEngagement,
+        isConsistentSocialSupport,
+        isFreeChildCaregiverFromSevereIllness,
+        isInterestInEnvironmentAndPlaying,
+        isSecuredPatientInfo
+
+      } = childCareGiveReadinessData
       setIsFreeChildCaregiverFromSevereIllness(
-        childCareGiveReadinessData.isFreeChildCaregiverFromSevereIllness
+        isFreeChildCaregiverFromSevereIllness
       )
-      setIsConsistentSocialSupport(
-        childCareGiveReadinessData.isConsistentSocialSupport
-      )
+      setIsConsistentSocialSupport(isConsistentSocialSupport)
       //
       setIsInterestInEnvironmentAndPlaying(
-        childCareGiveReadinessData.isInterestInEnvironmentAndPlaying
+        isInterestInEnvironmentAndPlaying
       )
       //
       setIsChildKnowsMedicineAndIllness(
-        childCareGiveReadinessData.isChildKnowsMedicineAndIllness
+        isChildKnowsMedicineAndIllness
       )
       setIsChildSchoolEngagement(
-        childCareGiveReadinessData.isChildSchoolEngagement
+        isChildSchoolEngagement
       )
 
       //
       setIsCaregiverCommunicatedToChild(
-        childCareGiveReadinessData.isCaregiverCommunicatedToChild
+        isCaregiverCommunicatedToChild
       )
-      setIsSecuredPatientInfo(childCareGiveReadinessData.isSecuredPatientInfo)
+      setIsSecuredPatientInfo(isSecuredPatientInfo)
 
       setIsAssessedCaregiverReadinessToDisclose(
-        childCareGiveReadinessData.isAssessedCaregiverReadinessToDisclose
+        isAssessedCaregiverReadinessToDisclose
       )
     }
   }, [childCareGiveReadinessData])
@@ -437,6 +446,8 @@ const StepsPage = ({ params }: any) => {
                 setIsKnowledgeable={setIsKnowledgeable}
                 taskOneComments={taskOneComments}
                 setTaskOneComments={setTaskOneComments}
+                patientID={patientID}
+                patientVisitID={appointmentID as string}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}

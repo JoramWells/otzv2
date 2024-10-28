@@ -1,10 +1,18 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { useAddPostDisclosureMutation } from '@/api/treatmentplan/full/postDisclosure.api'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
+import Progress from '@/components/Progress'
 import { Button } from '@/components/ui/button'
 import { ChevronsLeft, Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+const customRound = (value: number) => {
+  return Math.floor(value / 5) * 5
+}
 
 export interface TaskFourProps {
   isPeerRelationshipAssessed: boolean
@@ -54,7 +62,9 @@ const TaskFour = ({
   finalComments,
   setFinalComments
 }: TaskFourProps) => {
-  const [addPostDisclosure, { isLoading }] = useAddPostDisclosureMutation()
+  const [addPostDisclosure, { isLoading, data }] = useAddPostDisclosureMutation()
+  const [percentage, setPercentage] = useState(0)
+
   const inputValues = {
     isPeerRelationshipAssessed,
     isAssessedChildEngagement,
@@ -66,14 +76,43 @@ const TaskFour = ({
     patientID,
     patientVisitID
   }
+
+  const router = useRouter()
+
+  useEffect(() => {
+    const obj = {
+      isPeerRelationshipAssessed,
+      isAssessedChildEngagement,
+      isChildQuestionsAllowed,
+      isAddressedNegativeSelfImage,
+      isAssessedMoodiness,
+      isReferredForPsychiatric,
+      isGivenAppropriateInfo,
+      patientID,
+      patientVisitID
+    }
+
+    const bValues = Object.values(obj).filter((item) => item).length
+
+    const percentag = (bValues / Object?.keys(obj).length) * 100
+    setPercentage(customRound(percentag))
+  }, [isAddressedNegativeSelfImage, isAssessedChildEngagement, isAssessedMoodiness, isChildQuestionsAllowed, isGivenAppropriateInfo, isPeerRelationshipAssessed, isReferredForPsychiatric, patientID, patientVisitID])
+
+  useEffect(() => {
+    if (data) {
+      router.push(`/users/patients/tab/dashboard/${patientID}`)
+    }
+  }, [handleNext, data, router, patientID])
+
   return (
     <div className="flex flex-row justify-between space-x-2 w-full items-start">
       <div className="p-4 flex-1 bg-white">
         <div className="flex flex-col border border-slate-200 rounded-lg ">
-          <div className="border-b border-slate-200 p-2">
-            <p className="capitalize font-semibold">
+          <div className="border-b border-slate-200 p-2 flex items-center justify-between">
+            <p className="capitalize font-semibold text-[14px] ">
               Task 4 : Post Disclosure Assessment
             </p>
+            <Progress percentage={percentage} />
           </div>
           <CustomCheckbox
             label="Assessed family, social and peer relationship and support after disclose?"

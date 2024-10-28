@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable import/no-extraneous-dependencies */
 
@@ -8,6 +9,7 @@ import { ChevronsLeft, Loader2 } from 'lucide-react'
 import { useAddChildCaregiverReadinessMutation } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 import { useEffect, useState } from 'react'
 import Progress from '@/components/Progress'
+import { useRouter } from 'next/navigation'
 
 const customRound = (value: number) => {
   return Math.floor(value / 5) * 5
@@ -77,8 +79,17 @@ const TaskTwo = ({
     patientVisitID,
     setIsCaregiverCommunicatedToChild
   }
-  const [addChildCaregiverReadiness, { isLoading }] =
+  const [addChildCaregiverReadiness, { isLoading, data: readinessData }] =
     useAddChildCaregiverReadinessMutation()
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (readinessData) {
+      router.push(`/users/patients/tab/dashboard/${patientID}`)
+      // handleNext();
+    }
+  }, [handleNext, patientID, readinessData, router])
 
   useEffect(() => {
     const obj = {
