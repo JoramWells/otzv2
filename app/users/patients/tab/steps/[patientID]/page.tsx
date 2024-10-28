@@ -14,12 +14,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useGetMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { calculateAge } from '@/utils/calculateAge'
-import FullDisclosureChecklist from '@/app/_components/treatement-plan/DisclosureChecklist/Full'
 import LabTests from '../_components/LabTests'
 import CustomStepper from '../_components/CustomStepper'
 import TaskOne from '@/app/_components/treatement-plan/DisclosureChecklist/TaskOne'
 import TaskTwo from '@/app/_components/treatement-plan/DisclosureChecklist/TaskTwo'
 import { useGetChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
+import TaskThree from '@/app/_components/treatement-plan/DisclosureChecklist/Full/TaskThree'
+import { useGetExecuteDisclosureQuery } from '@/api/treatmentplan/full/executeDisclosure.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -127,6 +128,51 @@ const StepsPage = ({ params }: any) => {
   ] = useState(false)
   const [taskTwoComments, setTaskTwoComments] = useState('')
 
+  // Task Three
+
+  const [isAssessedChildSafety, setIsAssessedChildSafety]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isAssessedEnvironmentAndTiming, setIsAssessedEnvironmentAndTiming]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [
+    isSupportedCaregiverChildToDisclose,
+    setIsSupportedCaregiverChildToDisclose
+  ]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isReassuredCaregiver, setIsReassuredCaregiver]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isAssessedChildCaregiverComfort, setIsAssessedChildCaregiverComfort]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isInvitedChildQuestions, setIsInvitedChildQuestions]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isObservedImmediateReactions, setIsObservedImmediateReactions]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isReviewedBenefitsOfDisclosure, setIsReviewedBenefitsOfDisclosure]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isExplainedCareOptions, setIsExplainedCareOptions]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isConcludedSessionReassured, setIsConcludedSessionReassured]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+
+  const [taskThreeComments, setTaskThreeComments] = useState('')
+
   const { data: personalData, isLoading: isLoadingPersonalData } = useGetPatientQuery(patientID)
 
   const { data: vsData } = useGetVitalSignQuery(appointmentID)
@@ -202,7 +248,6 @@ const StepsPage = ({ params }: any) => {
 
   const { data: childCareGiveReadinessData } =
       useGetChildCaregiverReadinessQuery(patientID)
-  console.log(childCareGiveReadinessData, 'childCareGiveReadinessData')
   useEffect(() => {
     if (childCareGiveReadinessData) {
       setIsFreeChildCaregiverFromSevereIllness(
@@ -234,6 +279,23 @@ const StepsPage = ({ params }: any) => {
       )
     }
   }, [childCareGiveReadinessData])
+
+  const { data: executeDisclosureData } = useGetExecuteDisclosureQuery(patientID)
+
+  useEffect(() => {
+    if (executeDisclosureData) {
+      const { isAssessedChildCaregiverComfort, isAssessedEnvironmentAndTiming, isConcludedSessionReassured, isExplainedCareOptions, isInvitedChildQuestions, isObservedImmediateReactions, isReassuredCaregiver, isReviewedBenefitsOfDisclosure, isSupportedCaregiverChildToDisclose } = executeDisclosureData
+      setIsAssessedChildCaregiverComfort(isAssessedChildCaregiverComfort)
+      setIsAssessedEnvironmentAndTiming(isAssessedEnvironmentAndTiming)
+      setIsConcludedSessionReassured(isConcludedSessionReassured)
+      setIsExplainedCareOptions(isExplainedCareOptions)
+      setIsInvitedChildQuestions(isInvitedChildQuestions)
+      setIsObservedImmediateReactions(isObservedImmediateReactions)
+      setIsReassuredCaregiver(isReassuredCaregiver)
+      setIsReviewedBenefitsOfDisclosure(isReviewedBenefitsOfDisclosure as boolean)
+      setIsSupportedCaregiverChildToDisclose(isSupportedCaregiverChildToDisclose as boolean)
+    }
+  }, [executeDisclosureData])
 
   return (
     <>
@@ -391,15 +453,51 @@ const StepsPage = ({ params }: any) => {
 
             {/*  */}
             {tab === '6' && activeStep === 6 && age >= 9 && age <= 12 && (
-              <FullDisclosureChecklist
-                appointmentID={appointmentID}
-                patientID={patientID}
+              <TaskThree
+                isReassuredCaregiver={isReassuredCaregiver}
+                setIsReassuredCaregiver={setIsReassuredCaregiver}
+                isAssessedChildCaregiverComfort={
+                  isAssessedChildCaregiverComfort
+                }
+                setIsAssessedChildCaregiverComfort={
+                  setIsAssessedChildCaregiverComfort
+                }
+                isAssessedChildSafety={isAssessedChildSafety}
+                setIsAssessedChildSafety={setIsAssessedChildSafety}
+                isSupportedCaregiverChildToDisclose={
+                  isSupportedCaregiverChildToDisclose
+                }
+                setIsSupportedCaregiverChildToDisclose={
+                  setIsSupportedCaregiverChildToDisclose
+                }
+                isAssessedEnvironmentAndTiming={isAssessedEnvironmentAndTiming}
+                setIsAssessedEnvironmentAndTiming={
+                  setIsAssessedEnvironmentAndTiming
+                }
+                isObservedImmediateReactions={isObservedImmediateReactions}
+                setIsObservedImmediateReactions={
+                  setIsObservedImmediateReactions
+                }
+                isInvitedChildQuestions={isInvitedChildQuestions}
+                setIsInvitedChildQuestions={setIsInvitedChildQuestions}
+                isReviewedBenefitsOfDisclosure={isReviewedBenefitsOfDisclosure}
+                setIsReviewedBenefitsOfDisclosure={
+                  setIsReviewedBenefitsOfDisclosure
+                }
+                isExplainedCareOptions={isExplainedCareOptions}
+                setIsExplainedCareOptions={setIsExplainedCareOptions}
+                isConcludedSessionReassured={isConcludedSessionReassured}
+                setIsConcludedSessionReassured={setIsConcludedSessionReassured}
+                taskThreeComments={taskThreeComments}
+                setTaskThreeComments={setTaskThreeComments}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}
                 handleBack={() => {
                   handleBack()
                 }}
+                patientVisitID={appointmentID as string}
+                patientID={patientID}
               />
             )}
           </div>
