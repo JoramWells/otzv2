@@ -1,118 +1,146 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable import/no-extraneous-dependencies */
 
+import { useAddPostDisclosureMutation } from '@/api/treatmentplan/full/postDisclosure.api'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
+import { Button } from '@/components/ui/button'
+import { ChevronsLeft, Loader2 } from 'lucide-react'
 
 export interface TaskFourProps {
   isPeerRelationshipAssessed: boolean
   setIsPeerRelationshipAssessed: (val: boolean) => void
-  isChildActivityAssessed: boolean
-  setIsChildActivityAssessed: (val: boolean) => void
+  isAssessedChildEngagement: boolean
+  setIsAssessedChildEngagement: (val: boolean) => void
   isChildQuestionsAllowed: boolean
   setIsChildQuestionsAllowed: (val: boolean) => void
-  isAddressedNegativeImage: boolean
+  isAddressedNegativeSelfImage: boolean
   setIsAddressedNegativeImage: (val: boolean) => void
   isAssessedMoodiness: boolean
   setIsAssessedMoodiness: (val: boolean) => void
-  isReferredForPhysic: boolean
+  isReferredForPsychiatric: boolean
   setIsReferredForPhysic: (val: boolean) => void
-  isGivenInfo: boolean
-  setIsGivenInfo: (val: boolean) => void
+  isGivenAppropriateInfo: boolean
+  setIsGivenAppropriateInfo: (val: boolean) => void
   taskFourComments: string
   setTaskFourComments: (val: string) => void
   finalComments: string
   setFinalComments: (val: string) => void
+  handleNext: () => void
+  handleBack: () => void
+  patientID: string
+  patientVisitID: string
 }
 const TaskFour = ({
   isPeerRelationshipAssessed,
   setIsPeerRelationshipAssessed,
-  isChildActivityAssessed,
-  setIsChildActivityAssessed,
+  isAssessedChildEngagement,
+  setIsAssessedChildEngagement,
   isChildQuestionsAllowed,
   setIsChildQuestionsAllowed,
-  isAddressedNegativeImage,
+  isAddressedNegativeSelfImage,
   setIsAddressedNegativeImage,
   isAssessedMoodiness,
   setIsAssessedMoodiness,
-  isReferredForPhysic,
+  isReferredForPsychiatric,
   setIsReferredForPhysic,
-  isGivenInfo,
-  setIsGivenInfo,
+  isGivenAppropriateInfo,
+  setIsGivenAppropriateInfo,
+  handleBack,
+  handleNext,
+  patientID,
+  patientVisitID,
   taskFourComments,
   setTaskFourComments,
   finalComments,
   setFinalComments
-}: TaskFourProps) => (
-  <div className="flex flex-col border border-slate-200 rounded-lg ">
-    <div className="border-b border-slate-200 p-2">
-      <p className="capitalize font-semibold">
-        Task 4 : Post Disclosure Assessment
-      </p>
-    </div>
-    <CustomCheckbox
-      label="Assessed family, social and peer relationship and support after disclose?"
-      value={isPeerRelationshipAssessed}
-      onChange={setIsPeerRelationshipAssessed}
-    />
-    <hr />
+}: TaskFourProps) => {
+  const [addPostDisclosure, { isLoading }] = useAddPostDisclosureMutation()
+  const inputValues = {
+    isPeerRelationshipAssessed,
+    isAssessedChildEngagement,
+    isChildQuestionsAllowed,
+    isAddressedNegativeSelfImage,
+    isAssessedMoodiness,
+    isReferredForPsychiatric,
+    isGivenAppropriateInfo,
+    patientID,
+    patientVisitID
+  }
+  return (
+    <div className="flex flex-row justify-between space-x-2 w-full items-start">
+      <div className="p-4 flex-1 bg-white">
+        <div className="flex flex-col border border-slate-200 rounded-lg ">
+          <div className="border-b border-slate-200 p-2">
+            <p className="capitalize font-semibold">
+              Task 4 : Post Disclosure Assessment
+            </p>
+          </div>
+          <CustomCheckbox
+            label="Assessed family, social and peer relationship and support after disclose?"
+            value={isPeerRelationshipAssessed}
+            onChange={setIsPeerRelationshipAssessed}
+          />
+          <hr />
 
-    {/*  */}
-    <CustomCheckbox
-      label="Assessed the child interest and engagement in children activities like playing?"
-      value={isChildActivityAssessed}
-      onChange={setIsChildActivityAssessed}
-    />
+          {/*  */}
+          <CustomCheckbox
+            label="Assessed the child interest and engagement in children activities like playing?"
+            value={isAssessedChildEngagement}
+            onChange={setIsAssessedChildEngagement}
+          />
 
-    {/*  */}
-    <CustomCheckbox
-      label="Allowed questions from the child and assessed self-perception and outlook?"
-      value={isChildQuestionsAllowed}
-      onChange={setIsChildQuestionsAllowed}
-    />
-    <hr />
+          {/*  */}
+          <CustomCheckbox
+            label="Allowed questions from the child and assessed self-perception and outlook?"
+            value={isChildQuestionsAllowed}
+            onChange={setIsChildQuestionsAllowed}
+          />
+          <hr />
 
-    {/*  */}
-    <CustomCheckbox
-      label="Addressed negative body or self-image issues?"
-      value={isAddressedNegativeImage}
-      onChange={setIsAddressedNegativeImage}
-    />
-    <hr />
+          {/*  */}
+          <CustomCheckbox
+            label="Addressed negative body or self-image issues?"
+            value={isAddressedNegativeSelfImage}
+            onChange={setIsAddressedNegativeImage}
+          />
+          <hr />
 
-    {/*  */}
-    <CustomCheckbox
-      label="Have you assessed the child for moodiness and negative behaviors?"
-      value={isAssessedMoodiness}
-      onChange={setIsAssessedMoodiness}
-    />
-    <hr />
+          {/*  */}
+          <CustomCheckbox
+            label="Have you assessed the child for moodiness and negative behaviors?"
+            value={isAssessedMoodiness}
+            onChange={setIsAssessedMoodiness}
+          />
+          <hr />
 
-    {/*  */}
-    <CustomCheckbox
-      label="Referred appropriately for psychiatrical and other
+          {/*  */}
+          <CustomCheckbox
+            label="Referred appropriately for psychiatrical and other
           complications developed post disclosure if indicated?"
-      value={isReferredForPhysic}
-      onChange={setIsReferredForPhysic}
-    />
-    <hr />
+            value={isReferredForPsychiatric}
+            onChange={setIsReferredForPhysic}
+          />
+          <hr />
 
-    {/*  */}
-    <CustomCheckbox
-      label="Given age appropriate adherence information?"
-      value={isGivenInfo}
-      onChange={setIsGivenInfo}
-    />
-    <hr />
+          {/*  */}
+          <CustomCheckbox
+            label="Given age appropriate adherence information?"
+            value={isGivenAppropriateInfo}
+            onChange={setIsGivenAppropriateInfo}
+          />
+          <hr />
 
-    <p
-      style={{
-        color: '#434343',
-        fontSize: '16px'
-      }}
-      className="ml-6"
-    >
-      How ofter do you find difficulty remembering to take all your medications
-    </p>
-    {/*
+          <p
+            style={{
+              color: '#434343',
+              fontSize: '16px'
+            }}
+            className="ml-6"
+          >
+            How ofter do you find difficulty remembering to take all your
+            medications
+          </p>
+          {/*
     <Select
       style={{
         width: '100%',
@@ -123,7 +151,37 @@ const TaskFour = ({
     >
       <Select.Option>Rarely</Select.Option>
     </Select> */}
-  </div>
-)
+          <div className="flex justify-end w-full space-x-4 items-center mt-2">
+            <Button
+              className="shadow-none  text-slate-500
+               "
+              size={'sm'}
+              variant={'outline'}
+              onClick={() => {
+                handleBack()
+              }}
+            >
+              <ChevronsLeft className="mr-2" size={18} />
+              Prev
+            </Button>
+
+            <Button
+              className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
+              size={'sm'}
+              onClick={() => {
+                addPostDisclosure(inputValues)
+              }}
+              disabled={isLoading}
+            >
+              {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
+              Save
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="w-1/3 p-4 bg-white">Recent Disclosure</div>
+    </div>
+  )
+}
 
 export default TaskFour

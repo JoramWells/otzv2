@@ -71,6 +71,7 @@ import { hospitalApi } from '@/api/hospital/hospital.api'
 import { enhancedAdherenceApi } from '@/api/treatmentplan/enhancedAdherence.api'
 import { patientSessionLogsApi } from '@/api/patient/patientSessionLogs.api'
 import { executeDisclosureApi } from '@/api/treatmentplan/full/executeDisclosure.api'
+import { postDisclosureApi } from '@/api/treatmentplan/full/postDisclosure.api'
 
 export const store = configureStore({
   reducer: {
@@ -146,6 +147,7 @@ export const store = configureStore({
     [eventTypeApi.reducerPath]: eventTypeApi.reducer,
     [attendeeApi.reducerPath]: attendeeApi.reducer,
     [executeDisclosureApi.reducerPath]: executeDisclosureApi.reducer,
+    [postDisclosureApi.reducerPath]: postDisclosureApi.reducer,
     [hospitalApi.reducerPath]: hospitalApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
@@ -223,5 +225,6 @@ export const store = configureStore({
       .concat(attendeeApi.middleware)
       .concat(enhancedAdherenceApi.middleware)
       .concat(executeDisclosureApi.middleware)
+      .concat(postDisclosureApi.middleware)
       .concat(hospitalApi.middleware)
 })

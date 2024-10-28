@@ -21,6 +21,8 @@ import TaskTwo from '@/app/_components/treatement-plan/DisclosureChecklist/TaskT
 import { useGetChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 import TaskThree from '@/app/_components/treatement-plan/DisclosureChecklist/Full/TaskThree'
 import { useGetExecuteDisclosureQuery } from '@/api/treatmentplan/full/executeDisclosure.api'
+import TaskFour from '@/app/_components/treatement-plan/DisclosureChecklist/Full/TaskFour'
+import { useGetPostDisclosureQuery } from '@/api/treatmentplan/full/postDisclosure.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -173,6 +175,23 @@ const StepsPage = ({ params }: any) => {
 
   const [taskThreeComments, setTaskThreeComments] = useState('')
 
+  // task four
+  const [isPeerRelationshipAssessed, setIsPeerRelationshipAssessed]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isAssessedChildEngagement, setIsAssessedChildEngagement]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isChildQuestionsAllowed, setIsChildQuestionsAllowed]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isAddressedNegativeSelfImage, setIsAddressedNegativeImage]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isAssessedMoodiness, setIsAssessedMoodiness]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [isReferredForPsychiatric, setIsReferredForPhysic]: [
+    boolean,
+    Dispatch<SetStateAction<boolean>>
+  ] = useState(false)
+  const [isGivenAppropriateInfo, setIsGivenAppropriateInfo]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false)
+  const [taskFourComments, setTaskFourComments] = useState('')
+  const [finalComments, setFinalComments] = useState('')
+
   const { data: personalData, isLoading: isLoadingPersonalData } = useGetPatientQuery(patientID)
 
   const { data: vsData } = useGetVitalSignQuery(appointmentID)
@@ -243,7 +262,8 @@ const StepsPage = ({ params }: any) => {
     steps.push({ title: 'P.Disclosure', description: 'Task One' })
     steps.push({ title: 'P.Disclosure', description: 'Task Two' })
   } else if (age >= 9 && age <= 12) {
-    steps.push({ title: 'Disclosure', description: 'Full Disclosure' })
+    steps.push({ title: 'F.Disclosure', description: 'Task Three' })
+    steps.push({ title: 'F.Disclosure', description: 'Task Four' })
   }
 
   const { data: childCareGiveReadinessData } =
@@ -296,6 +316,29 @@ const StepsPage = ({ params }: any) => {
       setIsSupportedCaregiverChildToDisclose(isSupportedCaregiverChildToDisclose as boolean)
     }
   }, [executeDisclosureData])
+
+  const { data: postDisclosureData } = useGetPostDisclosureQuery(patientID)
+
+  useEffect(() => {
+    if (postDisclosureData) {
+      const {
+        isAddressedNegativeSelfImage,
+        isAssessedChildEngagement,
+        isAssessedMoodiness,
+        isPeerRelationshipAssessed,
+        isChildQuestionsAllowed,
+        isGivenAppropriateInfo,
+        isReferredForPsychiatric
+      } = postDisclosureData
+      setIsAddressedNegativeImage(isAddressedNegativeSelfImage)
+      setIsAssessedChildEngagement(isAssessedChildEngagement)
+      setIsAssessedMoodiness(isAssessedMoodiness)
+      setIsPeerRelationshipAssessed(isPeerRelationshipAssessed)
+      setIsChildQuestionsAllowed(isChildQuestionsAllowed)
+      setIsReferredForPhysic(isReferredForPsychiatric)
+      setIsGivenAppropriateInfo(isGivenAppropriateInfo)
+    }
+  }, [postDisclosureData])
 
   return (
     <>
@@ -490,6 +533,38 @@ const StepsPage = ({ params }: any) => {
                 setIsConcludedSessionReassured={setIsConcludedSessionReassured}
                 taskThreeComments={taskThreeComments}
                 setTaskThreeComments={setTaskThreeComments}
+                handleNext={() => {
+                  handleNext(activeStep)
+                }}
+                handleBack={() => {
+                  handleBack()
+                }}
+                patientVisitID={appointmentID as string}
+                patientID={patientID}
+              />
+            )}
+
+            {/*  */}
+            {tab === '7' && activeStep === 7 && age >= 9 && age <= 12 && (
+              <TaskFour
+                isPeerRelationshipAssessed={isPeerRelationshipAssessed}
+                setIsPeerRelationshipAssessed={setIsPeerRelationshipAssessed}
+                isAssessedChildEngagement={isAssessedChildEngagement}
+                setIsAssessedChildEngagement={setIsAssessedChildEngagement}
+                isChildQuestionsAllowed={isChildQuestionsAllowed}
+                setIsChildQuestionsAllowed={setIsChildQuestionsAllowed}
+                isAddressedNegativeSelfImage={isAddressedNegativeSelfImage}
+                setIsAddressedNegativeImage={setIsAddressedNegativeImage}
+                isAssessedMoodiness={isAssessedMoodiness}
+                setIsAssessedMoodiness={setIsAssessedMoodiness}
+                isReferredForPsychiatric={isReferredForPsychiatric}
+                setIsReferredForPhysic={setIsReferredForPhysic}
+                isGivenAppropriateInfo={isGivenAppropriateInfo}
+                setIsGivenAppropriateInfo={setIsGivenAppropriateInfo}
+                taskFourComments={taskFourComments}
+                setTaskFourComments={setTaskFourComments}
+                finalComments={finalComments}
+                setFinalComments={setFinalComments}
                 handleNext={() => {
                   handleNext(activeStep)
                 }}
