@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { History, Pin, Users } from 'lucide-react'
+import { History, Pin } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { useGetAllPrescriptionsQuery, useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { importantPrescription } from '../prescription/columns'
 import { usePharmacyContext } from '@/context/PharmacyContext'
+import AdherenceRate from '@/components/Recharts/AdherenceRate'
 
 const DoubleARTUptakeBarChart = dynamic(
   async () => await import('../../_components/charts/DoubleARTUptakeBarChart'),
@@ -67,6 +68,8 @@ const NotifyPage = () => {
 
   const { data: facilityData } = useGetFacilityAdherenceQuery()
 
+  console.log(facilityData, 'facilityAdherence')
+
   const { data: prescriptionData } = useGetAllPrescriptionsQuery({
     mode: undefined
   })
@@ -98,59 +101,13 @@ const NotifyPage = () => {
 
  const { data: artPrescriptionData, isLoading: loadingArtPrescription } = useGetAllArtPrescriptionQuery()
 
- const dataList = [
-   {
-     id: '1',
-     label: 'On ART',
-     count: 50,
-     link: '/'
-   },
-   {
-     id: '2',
-     label: 'On TB',
-     count: 20,
-     link: '/'
-   },
-   {
-     id: '3',
-     label: 'On Anti-TB',
-     count: 13,
-     link: '/'
-   },
-   {
-     id: '4',
-     label: 'Adherence',
-     count: facilityData || 0,
-     link: '/'
-   }
- ]
-
  const [value, setValue] = useState(1)
 
  return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="grid w-full grid-cols-1 gap-2 lg:grid-cols-4 p-2 md:grid-cols-2">
-        {dataList.map((item, idx) => (
-          <div
-            key={idx}
-            className="rounded-lg p-5 bg-white
-             h-[100px] flex flex-col hover:cursor-pointer hover:shadow-sm
-      "
-            // onClick={() => router.push('/notify/appointment')}
-          >
-            <div className="flex flex-row items-center justify-between">
-              <h4 className="">{item.label}</h4>
-              <Users size={15} />
-            </div>
-            <p className="text-lg font-extrabold">
-              {item.label === 'Adherence' ? `${item.count} %` : item.count}
-            </p>
-            <p className="text-slate-500 text-[12px]">Since last month</p>
-          </div>
-        ))}
-      </div>
+      <AdherenceRate data={facilityData} />
         <div className="flex flex-row justify-between items-start w-full space-x-2 p-2 pt-0 ">
           <DoubleARTUptakeBarChart
             morningTrueCount={uptakeCount.morningTrue}

@@ -6,7 +6,7 @@ import { useAddExecuteDisclosureMutation } from '@/api/treatmentplan/full/execut
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import Progress from '@/components/Progress'
 import { Button } from '@/components/ui/button'
-import { ChevronsLeft, Loader2 } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 const customRound = (value: number) => {
@@ -241,6 +241,18 @@ const TaskThree = ({
           >
             {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
             Save
+          </Button>
+          <Button
+            className="shadow-none  text-slate-500
+               "
+            size={'sm'}
+            variant={'outline'}
+            onClick={() => {
+              handleNext()
+            }}
+          >
+            Skip
+            <ChevronsRight className="ml-2" size={18} />
           </Button>
         </div>
       </div>
