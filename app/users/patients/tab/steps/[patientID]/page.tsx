@@ -23,6 +23,7 @@ import TaskThree from '@/app/_components/treatement-plan/DisclosureChecklist/Ful
 import { useGetExecuteDisclosureQuery } from '@/api/treatmentplan/full/executeDisclosure.api'
 import TaskFour from '@/app/_components/treatement-plan/DisclosureChecklist/Full/TaskFour'
 import { useGetPostDisclosureQuery } from '@/api/treatmentplan/full/postDisclosure.api'
+import { useGetDisclosureEligibilityQuery } from '@/api/treatmentplan/partial/disclosureEligibility.api'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -266,6 +267,17 @@ const StepsPage = ({ params }: any) => {
     steps.push({ title: 'F.Disclosure', description: 'Task Four' })
   }
 
+  const { data: disclosureEligibilityData } = useGetDisclosureEligibilityQuery(patientID)
+
+  useEffect(() => {
+    if (disclosureEligibilityData) {
+      const { isCorrectAge, isKnowledgeable, isWillingToDisclose } = disclosureEligibilityData
+      setIsCorrectAge(isCorrectAge)
+      setIsKnowledgeable(isKnowledgeable)
+      setIsWillingToDisclose(isWillingToDisclose)
+    }
+  }, [disclosureEligibilityData])
+
   const { data: childCareGiveReadinessData } =
       useGetChildCaregiverReadinessQuery(patientID)
   useEffect(() => {
@@ -348,6 +360,8 @@ const StepsPage = ({ params }: any) => {
       setIsGivenAppropriateInfo(isGivenAppropriateInfo)
     }
   }, [postDisclosureData])
+
+  console.log(disclosureEligibilityData, 'postDisclosure')
 
   return (
     <>
