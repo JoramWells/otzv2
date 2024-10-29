@@ -68,8 +68,6 @@ const NotifyPage = () => {
 
   const { data: facilityData } = useGetFacilityAdherenceQuery()
 
-  console.log(facilityData, 'facilityAdherence')
-
   const { data: prescriptionData } = useGetAllPrescriptionsQuery({
     mode: undefined
   })
@@ -81,7 +79,6 @@ const NotifyPage = () => {
      isImportant: boolean
    }
  }
- console.log(prescriptionData, 'prescriptionData')
 
  const filteredArray: PrescriptionInterface[] = prescriptionData
    ? [...prescriptionData]

@@ -23,22 +23,27 @@ export const description = 'A line chart'
 const chartConfig = {
   desktop: {
     label: 'Desktop',
-    color: 'hsl(var(--chart-2))'
+    color: 'hsl(var(--chart-3))'
   }
 } satisfies ChartConfig
 
-function AdherenceRate ({ data }: { data: Array<{ adherenceRate: string, date: string }> }) {
-  const chartData = data?.map((item) => ({
-    desktop: item.adherenceRate,
-    month: new Date(item.date)
-  }))
+function AdherenceRate ({ data = [] }: { data: Array<{ adherenceRate: string, date: string }> }) {
+  const chartData = [...data] // Create a shallow copy of the array
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) // Sort the copied array
+    .map((item) => ({
+      desktop: item.adherenceRate,
+      month: new Date(item.date)
+    }))
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 mt-2 mb-2 bg-white p-4">
+        <p className='mb-2 font-semibold text-slate-700' >Adherence Rates</p>
+
       <ChartContainer
         config={chartConfig}
-        className="aspect-auto p-6  h-[200px] w-full bg-white rounded-lg"
+        className="aspect-auto h-[200px] w-full  rounded-lg"
       >
+
         <LineChart
           accessibilityLayer
           data={chartData}
