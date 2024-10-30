@@ -1,5 +1,15 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type ChildCaregiverReadinessAttributes } from 'otz-types'
+
+export type ChildCaregiverReadinessProps = ChildCaregiverReadinessAttributes & {
+  Patient: {
+    firstName: string
+    middleName: string
+    avatar: string | null
+  }
+  createdAt: string
+}
 
 export const childCaregiverReadinessApi = createApi({
   reducerPath: 'childCaregiverReadinessApi',
@@ -7,7 +17,7 @@ export const childCaregiverReadinessApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/child-readiness`
   }),
   endpoints: (builder) => ({
-    getAllChildCaregiverReadiness: builder.query({
+    getAllChildCaregiverReadiness: builder.query<ChildCaregiverReadinessProps[], void>({
       query: () => 'fetchAll'
     }),
     addChildCaregiverReadiness: builder.mutation({
@@ -17,7 +27,7 @@ export const childCaregiverReadinessApi = createApi({
         body: response
       })
     }),
-    getChildCaregiverReadiness: builder.query<ChildCaregiverReadinessAttributes, string>({
+    getChildCaregiverReadiness: builder.query<ChildCaregiverReadinessProps, string>({
       query: (id) => `detail/${id}`
     }),
     getAllChildCaregiverReadinessByVisitId: builder.query({

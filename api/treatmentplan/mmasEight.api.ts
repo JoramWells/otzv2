@@ -1,5 +1,15 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type MMASEightAttributes } from 'otz-types'
+
+export type MMASEightInterface = MMASEightAttributes & {
+  Patient: {
+    avatar: string
+    id: string
+    firstName: string
+    middleName: string
+  }
+}
 
 export const mmasEightApi = createApi({
   reducerPath: 'mmasEightApi',
@@ -7,7 +17,7 @@ export const mmasEightApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/mmas-8`
   }),
   endpoints: (builder) => ({
-    getAllMmasEight: builder.query({
+    getAllMmasEight: builder.query<MMASEightInterface[], void>({
       query: () => 'fetchAll'
     }),
     addMmasEight: builder.mutation({
@@ -17,7 +27,7 @@ export const mmasEightApi = createApi({
         body: newUser
       })
     }),
-    getMmasEight: builder.query<MMASEightAttributes | undefined, string>({
+    getMmasEight: builder.query<MMASEightInterface | undefined, string>({
       query: (id) => `detail/${id}`
     }),
     getMmasEightByPatientID: builder.query({

@@ -31,7 +31,7 @@ const data = [
     label: 'Disclosure Checklist',
     description:
       'This file assess whether the patient is ready for disclosure.',
-    link: '/users/reports/triage'
+    link: '/users/reports/disclosure-checklist'
   },
   {
     id: 1,

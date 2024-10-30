@@ -12,9 +12,11 @@ import {
 import { type ReactNode } from 'react'
 interface DataProps {
   children: ReactNode
+  label: ReactNode
+  title: string
 }
 
-const CustomSheet = ({ children }: DataProps) => {
+const CustomSheet = ({ children, label, title }: DataProps) => {
   //
 
   //
@@ -22,13 +24,16 @@ const CustomSheet = ({ children }: DataProps) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
+        <Button variant="outline"
+        size={'sm'}
+        className='shadow-none'
+        >{label}</Button>
       </SheetTrigger>
       <SheetContent
       className='max-w-[1500px]'
       >
         <SheetHeader>
-          <SheetTitle>Edit Appointment</SheetTitle>
+          <SheetTitle>{title}</SheetTitle>
           {/* <SheetDescription>
             Make changes to your profile here. Click save when youre done.
           </SheetDescription> */}

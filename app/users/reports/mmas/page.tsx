@@ -6,7 +6,8 @@ import CustomTab from '@/components/tab/CustomTab'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
-import { columns } from './columns'
+import { columns, mmas8columns } from './columns'
+import { useGetAllMmasEightQuery } from '@/api/treatmentplan/mmasEight.api'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -41,7 +42,8 @@ const categoryListData = [
 const MMASPage = () => {
   const [tabValue, setTabValue] = useState('mmas-4')
   const { data } = useGetAllMmasFourQuery()
-  console.log(data)
+  const { data: mmasEightData } = useGetAllMmasEightQuery()
+  console.log(mmasEightData)
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -53,16 +55,25 @@ const MMASPage = () => {
 
       {/*  */}
       <div className="p-4">
-        <div
-        className='bg-white rounded-lg p-2'
-        >
-          <CustomTable
-            columns={columns}
-            data={data ?? []}
-            // isLoading={isLoading}
-            // filter={<FilterComponent />}
-            // isSearch
-          />
+        <div className="bg-white rounded-lg p-2">
+          {tabValue === 'mmas-4' && (
+            <CustomTable
+              columns={columns}
+              data={data ?? []}
+              // isLoading={isLoading}
+              // filter={<FilterComponent />}
+              // isSearch
+            />
+          )}
+          {tabValue === 'mmas-8' && (
+            <CustomTable
+              columns={mmas8columns}
+              data={mmasEightData ?? []}
+              // isLoading={isLoading}
+              // filter={<FilterComponent />}
+              // isSearch
+            />
+          )}
         </div>
       </div>
     </div>
