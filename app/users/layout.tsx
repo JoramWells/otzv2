@@ -49,7 +49,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '5',
     label: 'Reports',
-    link: 'viratrack/reports',
+    link: '/users/reports',
     icon: <BookCopy size={17} />
   }
 ]

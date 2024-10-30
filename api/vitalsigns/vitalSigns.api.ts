@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { type VitalSignsInterface } from '@/app/users/reports/triage/columns'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const vitalSignsApi = createApi({
@@ -6,7 +8,7 @@ export const vitalSignsApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/lab/vital-sign`
   }),
   endpoints: (builder) => ({
-    getAllVitalSigns: builder.query({
+    getAllVitalSigns: builder.query<VitalSignsInterface[], void>({
       query: () => 'fetchAll'
     }),
     addVitalSign: builder.mutation({
