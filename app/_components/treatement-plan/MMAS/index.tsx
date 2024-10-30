@@ -11,17 +11,18 @@ import MmasEight from './MMASEight'
 import { useAddMmasMutation, useGetMmasQuery } from '@/api/treatmentplan/mmas.api'
 import { Button } from '@/components/ui/button'
 import { ChevronsLeft, ChevronsRight, InfoIcon, Loader2 } from 'lucide-react'
-import { useAddMmasFourMutation, useGetMmasFourByPatientIDQuery } from '@/api/treatmentplan/mmasFour.api'
-import { useAddMmasEightMutation } from '@/api/treatmentplan/mmasEight.api'
+import { useAddMmasFourMutation, useGetMmasFourByPatientIDQuery, useGetMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
+import { useAddMmasEightMutation, useGetMmasEightQuery } from '@/api/treatmentplan/mmasEight.api'
 import CardHeader from '@/app/users/patients/tab/steps/_components/CardHeader'
-import { steps } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import { type MMASFourAttributes } from 'otz-types'
+import { useToast } from '@/components/ui/use-toast'
 
 interface DataProps {
   isForget: boolean
   isCareless: boolean
-  isQuitWorse: boolean
-  isQuitBetter: boolean
+  isQuitFeelWorse: boolean
+  isQuitFeelBetter: boolean
   isTookYesterday: boolean
   isQuitControl: boolean
   isUnderPressure: boolean
@@ -31,7 +32,6 @@ interface MMASProps {
   handleBack: () => void
   patientID: string
   appointmentID: string | null
-  formData: DataProps
   stepsLength: number
 };
 
@@ -40,7 +40,7 @@ const MMASForm = ({
   handleNext,
   handleBack,
   appointmentID,
-  formData, stepsLength
+  stepsLength
 }: MMASProps) => {
   const [isForget, setIsForget]: [boolean, Dispatch<SetStateAction<boolean>>] =
     useState(false)
@@ -48,11 +48,11 @@ const MMASForm = ({
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
-  const [isQuitFeelWorse, setIsQuitWorse]: [
+  const [isQuitFeelWorse, setIsQuitFeelWorse]: [
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
-  const [isQuitFeelBetter, setIsQuitBetter]: [
+  const [isQuitFeelBetter, setIsQuitFeelBetter]: [
     boolean,
     Dispatch<SetStateAction<boolean>>
   ] = useState(false)
@@ -83,6 +83,8 @@ const MMASForm = ({
   const [mmassFourScore, setMMASFourScore] = useState(0)
   const [mmassEightScore, setMMASEightScore] = useState(0)
 
+  const { toast } = useToast()
+
   const inputValues = {
     isTookMedYesterday,
     isQuitOutControl,
@@ -110,24 +112,23 @@ const MMASForm = ({
   const [addMmasFour, { isLoading, data: savedData }] = useAddMmasFourMutation()
   const [addMmasEight, { isLoading: isLoading8, data: mmas8Data }] = useAddMmasEightMutation()
 
-  const { data: recentMMMASFourData } =
-      useGetMmasFourByPatientIDQuery(patientID)
-
-  console.log(recentMMMASFourData, 'mmasFour')
+  const { data: mmasData } = useGetMmasFourQuery(appointmentID as unknown as string)
+  const { data: mmas8DataRecent } = useGetMmasEightQuery(appointmentID as unknown as string)
 
   const activeStep = 5
 
-  useEffect(() => {
-    if (formData) {
-      setIsForget(formData.isForget)
-      setIsCareless(formData.isCareless)
-      setIsQuitWorse(formData.isQuitWorse)
-      setIsQuitBetter(formData.isQuitBetter)
-      setIsTookYesterday(formData.isTookYesterday)
-      setIsQuitControl(formData.isQuitControl)
-      setIsUnderPressure(formData.isUnderPressure)
-    }
+  const send = useCallback(
+    (message: string) =>
+      toast({
+        // variant:'success',
+        title: 'Completed',
+        description: message
+        // action: <ToastAction altText="Saved">Undo</ToastAction>
+      }),
+    [toast]
+  )
 
+  useEffect(() => {
     const booleanStates = [isForget, isCareless, isQuitFeelWorse, isQuitFeelBetter]
     const newScore = booleanStates.reduce(
       (total, state) => total + (state ? 1 : 0),
@@ -145,16 +146,26 @@ const MMASForm = ({
     )
 
     setMMASEightScore(new8Score + mmassFourScore)
-  }, [formData, isAllTime, isCareless, isForget, isNever, isOnce, isQuitFeelBetter, isQuitFeelWorse, isQuitOutControl, isSometimes, isTookMedYesterday, isUnderPressure, isUsually, mmassFourScore])
+  }, [isAllTime, isCareless, isForget, isNever, isOnce, isQuitFeelBetter, isQuitFeelWorse, isQuitOutControl, isSometimes, isTookMedYesterday, isUnderPressure, isUsually, mmasData, mmassFourScore])
 
   const router = useRouter()
 
   useEffect(() => {
+    if (savedData) {
+      send('MMAS 4 saved successfully')
+    }
+    if (mmas8Data) {
+      send('MMAS 8 saved successfully')
+    }
+  }, [mmas8Data, savedData, send])
+
+  useEffect(() => {
     if (activeStep === stepsLength && (mmas8Data || savedData)) {
+      send('MMAS 8 saved successfully')
       router.push(`/users/patients/tab/dashboard/${patientID}`)
     }
     // handleNext()
-  }, [handleNext, mmas8Data, patientID, router, savedData, stepsLength])
+  }, [handleNext, mmas8Data, patientID, router, savedData, send, stepsLength])
 
   return (
     <>
@@ -167,10 +178,11 @@ const MMASForm = ({
             setIsForget={setIsForget}
             isCareless={isCareless}
             setIsCareless={setIsCareless}
-            isQuitWorse={isQuitFeelWorse}
-            setIsQuitWorse={setIsQuitWorse}
-            isQuitBetter={isQuitFeelBetter}
-            setIsQuitBetter={setIsQuitBetter}
+            isQuitFeelWorse={isQuitFeelWorse}
+            setIsQuitFeelWorse={setIsQuitFeelWorse}
+            isQuitFeelBetter={isQuitFeelBetter}
+            setIsQuitFeelBetter={setIsQuitFeelBetter}
+            data={mmasData}
           />
 
           {(isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter) && (
@@ -194,6 +206,7 @@ const MMASForm = ({
               setIsOnce={setIsOnce}
               setIsSometimes={setIsSometimes}
               setIsUsually={setIsUsually}
+              data={mmas8DataRecent}
             />
           )}
         </div>
@@ -209,58 +222,56 @@ const MMASForm = ({
             <ChevronsLeft className="mr-2" size={18} />
             Back
           </Button>
-          {formData || savedData || mmas8Data ? (
-            <Button
-              className="bg-slate-200 text-black shadow-none hover:bg-slate-100"
-              onClick={() => {
-                handleNext()
-              }}
-              size={'sm'}
-            >
-              Next
-              <ChevronsRight className="ml-2" size={18} />
-            </Button>
-          ) : (
-            <div>
-              {isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter ? (
-                <Button
-                  className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
-                  onClick={() => {
-                    // handleSave(addMmasEight, inputValuesEight, mmas8Data)
-                    addMmasEight(inputValuesEight)
-                    // if (activeStep === stepsLength && mmas8Data) {
-                    //   router.push(`/users/patients/tab/dashboard/${patientID}`)
-                    // }
-                  }}
-                  size={'sm'}
-                  disabled={isLoading8}
-                >
-                  {isLoading8 && (
-                    <Loader2 className="animate-spin mr-2" size={18} />
-                  )}
-                  {activeStep === stepsLength ? 'Complete' : 'Save'}
-                </Button>
-              ) : (
-                <Button
-                  className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
-                  onClick={() => {
-                    // handleSave(addMmasFour, inputValuesFour, savedData)
-                    addMmasFour(inputValuesFour)
-                    // if (activeStep === stepsLength && savedData) {
-                    //   router.push(`/users/patients/tab/dashboard/${patientID}`)
-                    // }
-                  }}
-                  size={'sm'}
-                  disabled={isLoading}
-                >
-                  {isLoading && (
-                    <Loader2 className="animate-spin mr-2" size={18} />
-                  )}
-                  {activeStep === stepsLength ? 'Complete' : 'Save'}
-                </Button>
-              )}
-            </div>
-          )}
+          <div>
+            {isForget || isCareless || isQuitFeelWorse || isQuitFeelBetter ? (
+              <Button
+                className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
+                onClick={() => {
+                  // handleSave(addMmasEight, inputValuesEight, mmas8Data)
+                  addMmasEight(inputValuesEight)
+                  // if (activeStep === stepsLength && mmas8Data) {
+                  //   router.push(`/users/patients/tab/dashboard/${patientID}`)
+                  // }
+                }}
+                size={'sm'}
+                disabled={isLoading8}
+              >
+                {isLoading8 && (
+                  <Loader2 className="animate-spin mr-2" size={18} />
+                )}
+                {activeStep === stepsLength ? 'Complete' : 'Save'}
+              </Button>
+            ) : (
+              <Button
+                className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
+                onClick={() => {
+                  // handleSave(addMmasFour, inputValuesFour, savedData)
+                  addMmasFour(inputValuesFour)
+                  // if (activeStep === stepsLength && savedData) {
+                  //   router.push(`/users/patients/tab/dashboard/${patientID}`)
+                  // }
+                }}
+                size={'sm'}
+                disabled={isLoading}
+              >
+                {isLoading && (
+                  <Loader2 className="animate-spin mr-2" size={18} />
+                )}
+                {activeStep === stepsLength ? 'Complete' : 'Save'}
+              </Button>
+            )}
+          </div>
+          <Button
+            className=""
+            onClick={() => {
+              handleNext()
+            }}
+            variant={'outline'}
+            size={'sm'}
+          >
+            Next
+            <ChevronsRight className="ml-2" size={18} />
+          </Button>
         </div>
       </div>
       <div className="w-1/3 bg-white rounded-lg p-4 flex items-start flex-grow-0">

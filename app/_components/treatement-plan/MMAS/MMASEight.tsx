@@ -2,6 +2,8 @@
 
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import { Badge } from '@/components/ui/badge'
+import { type MMASEightAttributes } from 'otz-types'
+import { useEffect } from 'react'
 
 export interface MMASEightProps {
   isTookYesterday: boolean
@@ -23,6 +25,7 @@ export interface MMASEightProps {
   isAllTime: boolean
   mmassEightScore: number
   setIsAllTime: (remb: boolean) => void
+  data: MMASEightAttributes | undefined
 }
 const MmasEight = ({
   mmassEightScore,
@@ -43,7 +46,8 @@ const MmasEight = ({
   setIsNever,
   setIsOnce,
   setIsSometimes,
-  setIsUsually
+  setIsUsually,
+  data
 }: MMASEightProps) => {
   const handleFrequencyChange = (setter: (val: boolean) => void) => (value: boolean) => {
     setIsAllTime(false)
@@ -53,6 +57,18 @@ const MmasEight = ({
     setIsUsually(false)
     setter(value)
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (data) {
+      const { difficultyRemembering, isQuitOutControl, isTookMedYesterday, isUnderPressure } = data
+      setIsDifficultyRemembering(difficultyRemembering as unknown as boolean)
+      setIsQuitControl(isQuitOutControl)
+      setIsTookYesterday(isTookMedYesterday)
+      setIsUnderPressure(isUnderPressure)
+    }
+  }, [data, setIsDifficultyRemembering, setIsQuitControl, setIsTookYesterday, setIsUnderPressure])
+
   return (
     <div className="bg-white rounded-lg border border-slate-200">
       <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2">

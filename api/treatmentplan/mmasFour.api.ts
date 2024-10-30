@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type MMASFourAttributes } from 'otz-types'
 
 export const mmasFourApi = createApi({
   reducerPath: 'mmasFourApi',
@@ -16,7 +17,7 @@ export const mmasFourApi = createApi({
         body: newUser
       })
     }),
-    getMmasFour: builder.query({
+    getMmasFour: builder.query<MMASFourAttributes | undefined, string>({
       query: (id) => `detail/${id}`
     }),
     getMmasFourByPatientID: builder.query({

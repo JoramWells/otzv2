@@ -11,7 +11,6 @@ import FormOne from '@/app/_components/treatement-plan/FormOne'
 import AddTriage from '../_components/AddTriage'
 import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useGetMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { calculateAge } from '@/utils/calculateAge'
 import LabTests from '../_components/LabTests'
@@ -196,7 +195,6 @@ const StepsPage = ({ params }: any) => {
   const { data: personalData, isLoading: isLoadingPersonalData } = useGetPatientQuery(patientID)
 
   const { data: vsData } = useGetVitalSignQuery(appointmentID)
-  const { data: mmasData } = useGetMmasFourQuery(appointmentID)
 
   const updateQueryParams = useCallback((newStep: number) => {
     const newSearchParams = new URLSearchParams(searchParams)
@@ -361,8 +359,6 @@ const StepsPage = ({ params }: any) => {
     }
   }, [postDisclosureData])
 
-  console.log(disclosureEligibilityData, 'postDisclosure')
-
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
@@ -438,7 +434,6 @@ const StepsPage = ({ params }: any) => {
 
             {tab === '5' && activeStep === 5 && (
               <MMASForm
-                formData={mmasData}
                 appointmentID={appointmentID}
                 patientID={patientID}
                 handleNext={() => {
