@@ -52,13 +52,19 @@ const MMASPage = () => {
       />
 
       {/*  */}
-      <CustomTable
-        columns={columns}
-        data={data ?? []}
-        // isLoading={isLoading}
-        // filter={<FilterComponent />}
-        // isSearch
-      />
+      <div className="p-4">
+        <div
+        className='bg-white rounded-lg p-2'
+        >
+          <CustomTable
+            columns={columns}
+            data={data ?? []}
+            // isLoading={isLoading}
+            // filter={<FilterComponent />}
+            // isSearch
+          />
+        </div>
+      </div>
     </div>
   )
 }

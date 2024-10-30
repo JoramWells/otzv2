@@ -94,12 +94,12 @@ export const columns: Array<ColumnDef<MMASInterface>> = [
     cell: ({ row }) => (
       <>
         {row.original?.isCareless ? (
-          <Badge className="bg-emerald-100 text-emerald-500 shadow-none hover:bg-emerald-200">
+          <Badge className="bg-emerald-50 text-emerald-500 shadow-none hover:bg-emerald-200">
             <BadgeCheck size={16} />
             <p className="ml-2">Yes</p>
           </Badge>
         ) : (
-          <Badge className="bg-red-100 text-red-500 shadow-none hover:bg-red-200">
+          <Badge className="bg-red-50 text-red-500 shadow-none hover:bg-red-200">
             <XCircle size={16} />
             <p className="ml-2">No</p>
           </Badge>
@@ -113,12 +113,12 @@ export const columns: Array<ColumnDef<MMASInterface>> = [
     cell: ({ row }) => (
       <>
         {row.original?.isForget ? (
-          <Badge className="bg-emerald-100 text-emerald-500 shadow-none hover:bg-emerald-200">
+          <Badge className="bg-emerald-50 text-emerald-500 shadow-none hover:bg-emerald-200">
             <BadgeCheck size={16} />
             <p className="ml-2">Yes</p>
           </Badge>
         ) : (
-          <Badge className="bg-red-100 text-red-500 shadow-none hover:bg-red-200">
+          <Badge className="bg-red-50 text-red-500 shadow-none hover:bg-red-200">
             <XCircle size={16} />
             <p className="ml-2">No</p>
           </Badge>
@@ -132,12 +132,12 @@ export const columns: Array<ColumnDef<MMASInterface>> = [
     cell: ({ row }) => (
       <>
         {row.original?.isQuitFeelBetter ? (
-          <Badge className="bg-emerald-100 text-emerald-500 shadow-none hover:bg-emerald-200">
+          <Badge className="bg-emerald-50 text-emerald-500 shadow-none hover:bg-emerald-200">
             <BadgeCheck size={16} />
             <p className="ml-2">Yes</p>
           </Badge>
         ) : (
-          <Badge className="bg-red-100 text-red-500 shadow-none hover:bg-red-200">
+          <Badge className="bg-red-50 text-red-500 shadow-none hover:bg-red-200">
             <XCircle size={16} />
             <p className="ml-2">No</p>
           </Badge>
@@ -151,12 +151,12 @@ export const columns: Array<ColumnDef<MMASInterface>> = [
     cell: ({ row }) => (
       <>
         {row.original?.isQuitFeelWorse ? (
-          <Badge className="bg-emerald-100 text-emerald-500 shadow-none hover:bg-emerald-200">
+          <Badge className="bg-emerald-50 text-emerald-500 shadow-none hover:bg-emerald-200">
             <BadgeCheck size={16} />
             <p className="ml-2">Yes</p>
           </Badge>
         ) : (
-          <Badge className="bg-red-100 text-red-500 shadow-none hover:bg-red-200">
+          <Badge className="bg-red-50 text-red-500 shadow-none hover:bg-red-200">
             <XCircle size={16} />
             <p className="ml-2">No</p>
           </Badge>
