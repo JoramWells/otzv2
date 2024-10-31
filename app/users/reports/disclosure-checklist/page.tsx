@@ -31,19 +31,28 @@ const DisclosureChecklist = () => {
     <div>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div
-      className='p-4'
-      >
+      <div className="p-4">
         <div className="flex flex-row space-x-2">
-          {['Partial', 'Full'].map((item) => (
+          {[
+            {
+              id: 1,
+              label: 'Partial',
+              link: '/users/reports/disclosure-checklist/partial'
+            },
+            {
+              id: 2,
+              label: 'Full',
+              link: '/users/reports/disclosure-checklist/full'
+            }
+          ].map((item) => (
             <div
-              key={item}
+              key={item.id}
               onClick={() => {
-                router.push('/users/reports/disclosure-checklist/partial')
+                router.push(item.link)
               }}
               className="border flex-1 p-4 rounded-lg bg-white border-slate-200"
             >
-              {item}
+              {item.label}
             </div>
           ))}
         </div>

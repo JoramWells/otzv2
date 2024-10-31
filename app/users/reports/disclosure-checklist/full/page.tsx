@@ -1,13 +1,14 @@
 'use client'
 
-import { useGetAllChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 import CustomTab from '@/components/tab/CustomTab'
 import React, { useState } from 'react'
-import { columns, disclosureColumn } from './columns'
+import { columns, executeDisclosureColumn, postDisclosureColumns } from './columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useGetAllDisclosureEligibilityQuery } from '@/api/treatmentplan/partial/disclosureEligibility.api'
+import { useGetAllExecuteDisclosureQuery } from '@/api/treatmentplan/full/executeDisclosure.api'
+import { useGetAllPostDisclosureQuery } from '@/api/treatmentplan/full/postDisclosure.api'
+
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -29,23 +30,23 @@ const dataList2 = [
   }
 ]
 
-const PartialPage = () => {
-  const [tabValue, setTabValue] = useState('child/caregiver readiness')
+const FullPage = () => {
+  const [tabValue, setTabValue] = useState('execute disclosure')
 
-  const { data } = useGetAllChildCaregiverReadinessQuery()
+  const { data } = useGetAllPostDisclosureQuery()
 
-  const { data: disclosureData } = useGetAllDisclosureEligibilityQuery()
-  console.log(disclosureData)
+  const { data: executeDisclosureData } = useGetAllExecuteDisclosureQuery()
+  console.log(executeDisclosureData)
 
   const categoryListData = [
     {
       id: 2,
-      label: 'Disclosure Eligibility',
-      count: disclosureData?.length
+      label: 'Execute Disclosure',
+      count: executeDisclosureData?.length
     },
     {
       id: 1,
-      label: 'Child/Caregiver Readiness',
+      label: 'Post Disclosure',
       count: data?.length
     }
   ]
@@ -55,11 +56,9 @@ const PartialPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="mt-2 mb-2 p-4 bg-white">
-        <p className="font-bold text-slate-800 text-[14px] ">
-          Partial Disclosure
-        </p>
+        <p className="font-bold text-slate-800 text-[14px] ">Full Disclosure</p>
         <p className="text-slate-500 text-[12px] ">
-          A summary List of all the patients undergoing partial disclosure
+          A summary List of all the patients undergoing full disclosure
         </p>
       </div>
 
@@ -70,26 +69,26 @@ const PartialPage = () => {
       />
       <div className="p-2">
         <div className="p-2 rounded-lg bg-white">
-          {tabValue === 'child/caregiver readiness' && (
+          {tabValue === 'execute disclosure' && (
             <CustomTable
-              columns={columns}
-              data={data ?? []}
+              columns={executeDisclosureColumn}
+              data={executeDisclosureData ?? []}
               // isLoading={isLoading}
               // filter={<FilterComponent />}
               isSearch={false}
             />
           )}
-          {tabValue === 'disclosure eligibility' && (
+          {tabValue === 'post disclosure' && (
             <>
-              <div className='mb-2' >
-                <p className='font-bold text-[14px]' >Disclosure Eligibility</p>
-                <p
-                className='text-[12px] text-slate-500 '
-                >Refers to a list of patients between the ages 6 and 10</p>
+              <div className="mb-2">
+                <p className="font-bold text-[14px]">Disclosure Eligibility</p>
+                <p className="text-[12px] text-slate-500 ">
+                  Refers to a list of patients between the ages 6 and 10
+                </p>
               </div>
               <CustomTable
-                columns={disclosureColumn}
-                data={disclosureData ?? []}
+                columns={postDisclosureColumns}
+                data={data ?? []}
                 // isLoading={isLoading}
                 // filter={<FilterComponent />}
                 isSearch={false}
@@ -102,4 +101,4 @@ const PartialPage = () => {
   )
 }
 
-export default PartialPage
+export default FullPage

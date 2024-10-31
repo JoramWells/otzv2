@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type ExecuteDisclosureAttributes } from 'otz-types'
+
+export type ExecuteDisclosureInputProps = ExecuteDisclosureAttributes & {
+  Patient: { firstName: string, middleName: string, avatar: string | null }
+  createdAt: string
+}
 
 export const executeDisclosureApi = createApi({
   reducerPath: 'executeDisclosureApi',
@@ -7,7 +13,7 @@ export const executeDisclosureApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/execute-disclosure`
   }),
   endpoints: (builder) => ({
-    getAllExecuteDisclosure: builder.query({
+    getAllExecuteDisclosure: builder.query<ExecuteDisclosureInputProps[], void>({
       query: () => 'fetchAll'
     }),
     addExecuteDisclosure: builder.mutation({

@@ -1,5 +1,15 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type PostDisclosureAttributes } from 'otz-types'
+
+export type PostDisclosureInputProps = PostDisclosureAttributes & {
+  Patient: { firstName: string
+    middleName: string
+    avatar: string | null
+
+  }
+  createdAt: string
+}
 
 export const postDisclosureApi = createApi({
   reducerPath: 'postDisclosureApi',
@@ -7,7 +17,7 @@ export const postDisclosureApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/post-disclosure`
   }),
   endpoints: (builder) => ({
-    getAllPostDisclosure: builder.query({
+    getAllPostDisclosure: builder.query<PostDisclosureInputProps[], void>({
       query: () => 'fetchAll'
     }),
     addPostDisclosure: builder.mutation({
