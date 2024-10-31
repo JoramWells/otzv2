@@ -5,16 +5,15 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 // import { Button } from '@/components/ui/button'
 
-import { type MMASEightInterface } from '@/api/treatmentplan/mmasEight.api'
 import { type ChildCaregiverReadinessProps } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
+import { type ChildDisclosureEligibilityProps } from '@/api/treatmentplan/partial/disclosureEligibility.api'
 import Avatar from '@/components/Avatar'
 import CustomSheet from '@/components/nav/CustomSheet'
 import Progress from '@/components/Progress'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { type ColumnDef } from '@tanstack/react-table'
-import { ArrowRight, BadgeCheck, MessageSquareOff, XCircle } from 'lucide-react'
+import { ArrowRight, Check, MessageSquareOff, XIcon } from 'lucide-react'
 import moment from 'moment'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -88,7 +87,7 @@ export const columns: Array<ColumnDef<ChildCaregiverReadinessProps>> = [
             <Avatar name={`${firstName} ${middleName}`} />
           )}
           <Link
-            className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
+            className="capitalize  text-blue-500 font-semibold  hover:cursor-pointer hover:underline "
             href={'/users/patients/tab/dashboard/'}
           >{`${firstName} ${middleName}`}</Link>
         </div>
@@ -162,66 +161,192 @@ export const columns: Array<ColumnDef<ChildCaregiverReadinessProps>> = [
   {
     accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => (
-      <div>
-        <CustomSheet
-          title="Child caregiver readiness"
-          label={<ArrowRight size={16} />}
-        >
-          <div className="flex flex-col space-y-2">
-            <p className="text-[12px]">
-              Child/ caregiver free from severe physical illness, trauma,
-              psychological illness or psychiatric illness?
-            </p>
-            <p className="text-[12px]">
-              Child has consistent family, peer or social support?
-            </p>
-            <p className="text-[12px]">
-              Child demonstrates interest in the environment and playing
-              activities?
-            </p>
-            <p className="text-[12px]">
-              Assessed what the child already knows about the medicines and
-              illness and addressed needs and concerns?
-            </p>
-            <p className="text-[12px]">
-              Assessed functional school engagement by the child consistent,
-              attendance, interacts well with the school community, able to
-              freely discuss school activities?
-            </p>
+    cell: ({ row }) => {
+      const {
+        isFreeChildCaregiverFromSevereIllness, isConsistentSocialSupport, isInterestInEnvironmentAndPlaying,
+        isChildKnowsMedicineAndIllness, isChildSchoolEngagement, isAssessedCaregiverReadinessToDisclose, isCaregiverCommunicatedToChild,
+        isSecuredPatientInfo
+      } = row.original
+      return (
+          <CustomSheet
+            title="Child caregiver readiness"
+            label={<ArrowRight size={16} />}
+          >
+            <div className="flex flex-col space-y-2 overflow-y-auto">
+              {isFreeChildCaregiverFromSevereIllness ? (
+                <div className="flex flex-row space-x-2 text-emerald-500 border border-emerald-200 bg-slate-100 rounded-lg p-2">
+                  <Check size={16} />
+                  <p className="text-[12px]  ">
+                    Child/ caregiver free from severe physical illness, trauma,
+                    psychological illness or psychiatric illness?
+                  </p>
+                </div>
+              ) : (
+                <div className="p-2 rounded-lg border bg-slate-50 flex flex-row space-x-2 text-slate-500 ">
+                  <XIcon size={16} />
 
-            <p className="text-[12px]">
-              Assessed caregiver readiness for disclosure to the child?
-            </p>
-            <p className="text-[12px]">
-              Assessed what the caregiver has communicated to the child?
-            </p>
+                  <p className="text-[12px]">
+                    Child/ caregiver free from severe physical illness, trauma,
+                    psychological illness or psychiatric illness?
+                  </p>
+                </div>
+              )}
 
-            <p className="text-[12px]">
-              Discussed management of confidentiality of information regarding
-              one health with the child and caregiver?
-            </p>
-            <div>
-              <p className='font-semibold text-slate-700' >Comments</p>
-              <Textarea className='shadow-none'
-              placeholder='Enter comments'
-               />
+              {/*  */}
+              {isConsistentSocialSupport ? (
+                <div className="flex flex-row space-x-2 text-emerald-500 border border-emerald-200 bg-slate-100 rounded-lg p-2">
+                  <Check size={16} />
+                  <p className="text-[12px]  ">
+                    Child has consistent family, peer or social support?
+                  </p>
+                </div>
+              ) : (
+                <div className="p-2 rounded-lg border bg-slate-50 flex flex-row space-x-2 text-slate-500 ">
+                  <XIcon size={16} />
+
+                  <p className="text-[12px]">
+                    Child has consistent family, peer or social support?
+                  </p>
+                </div>
+              )}
+
+              {/*  */}
+              {isInterestInEnvironmentAndPlaying ? (
+                <div className="flex flex-row space-x-2 text-emerald-500 border border-emerald-200 bg-slate-100 rounded-lg p-2">
+                  <Check size={16} />
+                  <p className="text-[12px]  ">
+                    Child demonstrates interest in the environment and playing
+                    activities?
+                  </p>
+                </div>
+              ) : (
+                <div className="p-2 rounded-lg border bg-slate-50 flex flex-row space-x-2 text-slate-500 ">
+                  <XIcon size={16} />
+
+                  <p className="text-[12px]">
+                    Child demonstrates interest in the environment and playing
+                    activities?
+                  </p>
+                </div>
+              )}
+
+              {/*  */}
+              {isChildKnowsMedicineAndIllness ? (
+                <div className="flex flex-row space-x-2 text-emerald-500 border border-emerald-200 bg-slate-100 rounded-lg p-2">
+                  <Check size={16} />
+                  <p className="text-[12px]  ">
+                    Assessed what the child already knows about the medicines
+                    and illness and addressed needs and concerns?
+                  </p>
+                </div>
+              ) : (
+                <div className="p-2 rounded-lg border bg-slate-50 flex flex-row space-x-2 text-slate-500 ">
+                  <XIcon size={16} />
+
+                  <p className="text-[12px]">
+                    Assessed what the child already knows about the medicines
+                    and illness and addressed needs and concerns?
+                  </p>
+                </div>
+              )}
+
+              {/*  */}
+              {isChildSchoolEngagement ? (
+                <div className="flex flex-row space-x-2 text-emerald-500 border border-emerald-200 bg-slate-100 rounded-lg p-2">
+                  <Check size={16} />
+                  <p className="text-[12px]  ">
+                    Assessed functional school engagement by the child
+                    consistent, attendance, interacts well with the school
+                    community, able to freely discuss school activities?
+                  </p>
+                </div>
+              ) : (
+                <div className="p-2 rounded-lg border bg-slate-50 flex flex-row space-x-2 text-slate-500 ">
+                  <XIcon size={16} />
+
+                  <p className="text-[12px]">
+                    Assessed functional school engagement by the child
+                    consistent, attendance, interacts well with the school
+                    community, able to freely discuss school activities?
+                  </p>
+                </div>
+              )}
+
+              {/*  */}
+              {isAssessedCaregiverReadinessToDisclose ? (
+                <div className="flex flex-row space-x-2 text-emerald-500 border border-emerald-200 bg-slate-100 rounded-lg p-2">
+                  <Check size={16} />
+                  <p className="text-[12px]  ">
+                    Assessed caregiver readiness for disclosure to the child?
+                  </p>
+                </div>
+              ) : (
+                <div className="p-2 rounded-lg border bg-slate-50 flex flex-row space-x-2 text-slate-500 ">
+                  <XIcon size={16} />
+
+                  <p className="text-[12px]">
+                    Assessed caregiver readiness for disclosure to the child?
+                  </p>
+                </div>
+              )}
+
+              {/*  */}
+              {isCaregiverCommunicatedToChild ? (
+                <div className="flex flex-row space-x-2 text-emerald-500 border border-emerald-200 bg-slate-100 rounded-lg p-2">
+                  <Check size={16} />
+                  <p className="text-[12px]  ">
+                    Assessed what the caregiver has communicated to the child?
+                  </p>
+                </div>
+              ) : (
+                <div className="p-2 rounded-lg border bg-slate-50 flex flex-row space-x-2 text-slate-500 ">
+                  <XIcon size={16} />
+
+                  <p className="text-[12px]">
+                    Assessed what the caregiver has communicated to the child?
+                  </p>
+                </div>
+              )}
+
+              {/*  */}
+              {isSecuredPatientInfo ? (
+                <div className="flex flex-row space-x-2 text-emerald-500 border border-emerald-200 bg-slate-100 rounded-lg p-2">
+                  <Check size={16} />
+                  <p className="text-[12px]  ">
+                    Discussed management of confidentiality of information
+                    regarding one health with the child and caregiver?
+                  </p>
+                </div>
+              ) : (
+                <div className="p-2 rounded-lg border bg-slate-50 flex flex-row space-x-2 text-slate-500 ">
+                  <XIcon size={16} />
+
+                  <p className="text-[12px]">
+                    Discussed management of confidentiality of information
+                    regarding one health with the child and caregiver?
+                  </p>
+                </div>
+              )}
+
+              <div className="p-2">
+                <p className="font-semibold text-slate-700">Comments</p>
+                <Textarea
+                  className="shadow-none"
+                  placeholder="Enter comments"
+                />
+              </div>
+              <Button className="mr-2 ml-2" size={'sm'}>
+                Save
+              </Button>
             </div>
-            <Button
-            className=''
-            size={'sm'}
-            >
-              Save
-            </Button>
-          </div>
-        </CustomSheet>
-      </div>
-    )
+          </CustomSheet>
+      )
+    }
   }
 ]
 
 //
-export const mmas8columns: Array<ColumnDef<MMASEightInterface>> = [
+export const disclosureColumn: Array<ColumnDef<ChildDisclosureEligibilityProps>> = [
   {
     accessorKey: 'firstName',
     header: 'Name',
@@ -264,88 +389,44 @@ export const mmas8columns: Array<ColumnDef<MMASEightInterface>> = [
     }
   },
   {
-    accessorKey: 'isUnderPressure',
-    header: 'Under Pressure',
-    cell: ({ row }) => (
-      <>
-        {row.original?.isUnderPressure ? (
-          <Badge className="bg-emerald-50 text-emerald-500 shadow-none hover:bg-emerald-200">
-            <BadgeCheck size={16} />
-            <p className="ml-2">Yes</p>
-          </Badge>
-        ) : (
-          <Badge className="bg-red-50 text-red-500 shadow-none hover:bg-red-200">
-            <XCircle size={16} />
-            <p className="ml-2">No</p>
-          </Badge>
-        )}
-      </>
-    )
-  },
-  {
-    accessorKey: 'difficultyRemembering',
-    header: 'Difficulty Remembering',
-    cell: ({ row }) => (
-      <>
-        {row.original?.difficultyRemembering ? (
-          <Badge className="bg-emerald-50 text-emerald-500 shadow-none hover:bg-emerald-200">
-            <BadgeCheck size={16} />
-            <p className="ml-2">Yes</p>
-          </Badge>
-        ) : (
-          <Badge className="bg-red-50 text-red-500 shadow-none hover:bg-red-200">
-            <XCircle size={16} />
-            <p className="ml-2">No</p>
-          </Badge>
-        )}
-      </>
-    )
-  },
-  {
-    accessorKey: 'isTookMedYesterday',
-    header: 'Took Yesterday',
-    cell: ({ row }) => (
-      <>
-        {row.original?.isTookMedYesterday ? (
-          <Badge className="bg-emerald-50 text-emerald-500 shadow-none hover:bg-emerald-200">
-            <BadgeCheck size={16} />
-            <p className="ml-2">Yes</p>
-          </Badge>
-        ) : (
-          <Badge className="bg-red-50 text-red-500 shadow-none hover:bg-red-200">
-            <XCircle size={16} />
-            <p className="ml-2">No</p>
-          </Badge>
-        )}
-      </>
-    )
-  },
-  {
-    accessorKey: 'isQuitOutControl',
-    header: 'Quit/Control',
-    cell: ({ row }) => (
-      <>
-        {row.original?.isQuitOutControl ? (
-          <Badge className="bg-emerald-50 text-emerald-500 shadow-none hover:bg-emerald-200">
-            <BadgeCheck size={16} />
-            <p className="ml-2">Yes</p>
-          </Badge>
-        ) : (
-          <Badge className="bg-red-50 text-red-500 shadow-none hover:bg-red-200">
-            <XCircle size={16} />
-            <p className="ml-2">No</p>
-          </Badge>
-        )}
-      </>
-    )
-  },
-  {
-    accessorKey: 'totalScores',
-    header: 'Total Score',
+    accessorKey: 'score',
+    header: 'Progress',
     cell: ({ row }) => {
-      const { totalScores } = row.original
+      const customRound = (value: number) => {
+        return Math.floor(value / 5) * 5
+      }
+      const { isCorrectAge, isKnowledgeable, isWillingToDisclose } =
+        row.original
+      const obj = {
+        isCorrectAge,
+        isKnowledgeable,
+        isWillingToDisclose
+      }
 
-      return <p className="text-[12px]">{totalScores}</p>
+      const bValues = Object.values(obj).filter((item) => item).length
+      const percentag = (bValues / Object?.keys(obj).length) * 100
+
+      return <Progress percentage={customRound(percentag)} />
     }
+  },
+
+  {
+    accessorKey: 'updatedAt',
+    header: 'Updated',
+    cell: ({ row }) => (
+      <div className="text-[12px] text-slate-500">
+        {moment(row.original.createdAt).calendar()}
+      </div>
+    )
+  },
+  {
+    accessorKey: 'action',
+    header: 'Action',
+    cell: () => <CustomSheet
+    title='Disclosure Eligibility'
+    label={<ArrowRight size={16} />}
+    >
+      <div>hello</div>
+    </CustomSheet>
   }
 ]

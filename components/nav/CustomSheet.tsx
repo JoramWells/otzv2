@@ -30,7 +30,7 @@ const CustomSheet = ({ children, label, title }: DataProps) => {
         >{label}</Button>
       </SheetTrigger>
       <SheetContent
-      className='max-w-[1500px]'
+      className='max-w-[1500px] overflow-y-auto'
       >
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>

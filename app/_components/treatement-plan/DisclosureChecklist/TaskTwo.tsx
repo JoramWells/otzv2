@@ -35,8 +35,8 @@ export interface TaskTwoProps {
   setIsSecuredPatientInfo: (val: boolean) => void
   taskTwoComments: string
   setTaskTwoComments: (val: string) => void
-  handleNext: () => void
-  handleBack: () => void
+  handleNext?: () => void
+  handleBack?: () => void
 }
 const TaskTwo = ({
   isFreeChildCaregiverFromSevereIllness,
@@ -196,18 +196,20 @@ const TaskTwo = ({
           </div>
         </div>
         <div className="flex justify-end w-full space-x-4 items-center mt-2">
-          <Button
-            className="shadow-none  text-slate-500
+          {handleBack && (
+            <Button
+              className="shadow-none  text-slate-500
                "
-            size={'sm'}
-            variant={'outline'}
-            onClick={() => {
-              handleBack()
-            }}
-          >
-            <ChevronsLeft className="mr-2" size={18} />
-            Prev
-          </Button>
+              size={'sm'}
+              variant={'outline'}
+              onClick={() => {
+                handleBack()
+              }}
+            >
+              <ChevronsLeft className="mr-2" size={18} />
+              Prev
+            </Button>
+          )}
 
           <Button
             className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
@@ -222,7 +224,9 @@ const TaskTwo = ({
           </Button>
         </div>
       </div>
-      <div className="w-1/3 p-4 bg-white">Recent Disclosure</div>
+      {handleBack && (
+        <div className="w-1/3 p-4 bg-white">Recent Disclosure</div>
+      )}
     </div>
   )
 }

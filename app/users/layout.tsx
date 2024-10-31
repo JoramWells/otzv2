@@ -74,28 +74,29 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   if (session != null) {
     if (
       pathname === `/users/patients/tab/dashboard/${patientID}` ||
-        pathname === `/users/patients/tab/appointments/${patientID}` ||
-        pathname === `/users/patients/tab/caregivers/${patientID}` ||
-        pathname === `/users/patients/tab/casemanagers/${patientID}` ||
-        pathname === `/users/patients/tab/homevisit/${patientID}` ||
-        pathname === `/users/patients/tab/lab/${patientID}` ||
-        pathname === `/users/patients/tab/pharmacy/${patientID}` ||
-        pathname === `/users/patients/tab/medication/${patientID}` ||
-        pathname === `/users/patients/tab/messages/${patientID}` ||
-        pathname === `/users/patients/tab/settings/${patientID}` ||
-        pathname === `/users/patients/tab/visits/${patientID}` ||
-        pathname === `/users/patients/tab/visit-detail/${patientID}` ||
-        pathname === `/users/patients/tab/visit-detail/triage/${patientID}` ||
-        pathname === `/users/patients/tab/visit-detail/mmas/${patientID}` ||
-        pathname ===
-          `/users/patients/tab/visit-detail/time-schedule/${patientID}` ||
-        pathname === `/users/patients/tab/steps/${patientID}`
+      pathname === `/users/patients/tab/appointments/${patientID}` ||
+      pathname === `/users/patients/tab/caregivers/${patientID}` ||
+      pathname === `/users/patients/tab/casemanagers/${patientID}` ||
+      pathname === `/users/patients/tab/homevisit/${patientID}` ||
+      pathname === `/users/patients/tab/lab/${patientID}` ||
+      pathname === `/users/patients/tab/pharmacy/${patientID}` ||
+      pathname === `/users/patients/tab/medication/${patientID}` ||
+      pathname === `/users/patients/tab/messages/${patientID}` ||
+      pathname === `/users/patients/tab/settings/${patientID}` ||
+      pathname === `/users/patients/tab/visits/${patientID}` ||
+      pathname === `/users/patients/tab/visit-detail/${patientID}` ||
+      pathname === `/users/patients/tab/visit-detail/triage/${patientID}` ||
+      pathname === `/users/patients/tab/visit-detail/mmas/${patientID}` ||
+      pathname ===
+        `/users/patients/tab/visit-detail/time-schedule/${patientID}` ||
+      pathname === `/users/patients/tab/steps/${patientID}` ||
+      pathname === `/users/patients/tab/settings/disclosure/${patientID}`
     ) {
       return (
-          <Provider store={store}>
-            <SidebarProvider>{children}</SidebarProvider>
-            <Toaster/>
-          </Provider>
+        <Provider store={store}>
+          <SidebarProvider>{children}</SidebarProvider>
+          <Toaster />
+        </Provider>
       )
     }
     return (

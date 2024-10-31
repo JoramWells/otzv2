@@ -27,8 +27,8 @@ export interface TaskOneProps {
   setIsKnowledgeable: (know: boolean) => void
   taskOneComments: string
   setTaskOneComments: (comments: string) => void
-  handleNext: () => void
-  handleBack: () => void
+  handleNext?: () => void
+  handleBack?: () => void
 }
 
 const TaskOne = ({
@@ -89,7 +89,9 @@ const TaskOne = ({
   useEffect(() => {
     if (isSaveData) {
       // router.push(`/users/patients/tab/dashboard/${patientID}`)
-      handleNext()
+      if (handleNext) {
+        handleNext()
+      }
     }
   }, [handleNext, isSaveData])
 
@@ -130,18 +132,20 @@ const TaskOne = ({
           </div>
         </div>
         <div className="flex justify-end w-full space-x-4 items-center mt-2">
-          <Button
-            className="shadow-none  text-slate-500
+          {handleBack && (
+            <Button
+              className="shadow-none  text-slate-500
                "
-            size={'sm'}
-            variant={'outline'}
-            onClick={() => {
-              handleBack()
-            }}
-          >
-            <ChevronsLeft className="mr-2" size={18} />
-            Prev
-          </Button>
+              size={'sm'}
+              variant={'outline'}
+              onClick={() => {
+                handleBack()
+              }}
+            >
+              <ChevronsLeft className="mr-2" size={18} />
+              Prev
+            </Button>
+          )}
 
           <Button
             className="bg-teal-600 text-white shadow-none hover:bg-teal-500"
@@ -157,20 +161,24 @@ const TaskOne = ({
             Save
           </Button>
 
-          <Button
-            size={'sm'}
-            // className="bg-slate-200 text-slate-500 hover:bg-slate-100 "
-            variant={'outline'}
-            onClick={() => {
-              handleNext()
-            }}
-          >
-            Next
-            <ChevronsRight className="ml-2" size={18} />
-          </Button>
+          {handleNext && (
+            <Button
+              size={'sm'}
+              // className="bg-slate-200 text-slate-500 hover:bg-slate-100 "
+              variant={'outline'}
+              onClick={() => {
+                handleNext()
+              }}
+            >
+              Next
+              <ChevronsRight className="ml-2" size={18} />
+            </Button>
+          )}
         </div>
       </div>
-      <div className="w-1/3 p-4 bg-white">Recent Disclosure</div>
+      {handleNext && (
+        <div className="w-1/3 p-4 bg-white">Recent Disclosure</div>
+      )}
     </div>
   )
 }

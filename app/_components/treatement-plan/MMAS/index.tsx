@@ -153,6 +153,7 @@ const MMASForm = ({
   useEffect(() => {
     if (savedData) {
       send('MMAS 4 saved successfully')
+      console.log('MMAS 4 saved successfully')
     }
     if (mmas8Data) {
       send('MMAS 8 saved successfully')

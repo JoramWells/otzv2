@@ -15,9 +15,9 @@ import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
 import { useGetVitalSignByPatientIDQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { Button } from '@/components/ui/button'
 import { secondaryColor } from '@/constants/color'
-import { ArrowRight, InfoIcon, Loader2, MapPinOff } from 'lucide-react'
+import { ArrowRight, FileUser, InfoIcon, Loader2, MapPinOff } from 'lucide-react'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useGetTimeAndWorkByPatientIDQuery } from '@/api/treatmentplan/timeAndWork.api'
@@ -36,6 +36,7 @@ import { useToast } from '@/components/ui/use-toast'
 import ArtCard from './_components/ArtCard'
 import { useGetPatientSessionLogQuery } from '@/api/patient/patientSessionLogs.api'
 import PatientSessionLogsChart from '@/components/Recharts/PatientSessionLogsChart'
+import { useGetChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 
 export interface InputTabProps {
   id: number
@@ -81,7 +82,9 @@ const PatientDetails = ({ params }: any) => {
     [toast]
   )
 
-  const handleStartVisit = async () => {
+  const router = useRouter()
+
+  const handleStartVisit = useCallback(async (path: string) => {
     const newVisitID = uuidv4()
     const inputValues = {
       patientID,
@@ -89,7 +92,9 @@ const PatientDetails = ({ params }: any) => {
       id: newVisitID
     }
     await addPatientVisit(inputValues)
-  }
+
+    router.push(`${path}${newVisitID}`)
+  }, [addPatientVisit, patientID, router, userID])
 
   const { data: vsData } = useGetVitalSignByPatientIDQuery(patientID)
 
@@ -99,15 +104,16 @@ const PatientDetails = ({ params }: any) => {
       setUserID(user?.id)
     }
 
-    if (visitData) {
-      send()
-      redirect(
-        `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
-      )
-    }
-  }, [visitData, patientID, vsData, session, send])
+    // if (visitData) {
+    //   send()
+    //   redirect(
+    //     `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
+    //   )
+    // }
+  }, [session])
 
-  // console.log(sessionData, "sessionDa")
+  const { data: childCareGiveReadinessData, isLoading: isLoadingCareData } =
+      useGetChildCaregiverReadinessQuery(patientID)
 
   return (
     <div>
@@ -141,19 +147,18 @@ const PatientDetails = ({ params }: any) => {
             <Button
               disabled={isLoading}
               onClick={async () => {
-                await handleStartVisit()
+                await handleStartVisit(
+                  `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
+                )
               }}
               className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold flex items-center justify-center"
               size={"sm"}
             >
-              {isLoading && (
-                <Loader2 className="mr-2 animate-spin" size={16} />
-              )}
-                <>
-                  New Visit
-                  <ArrowRight size={16} className="ml-2" />
-                </>
-
+              {isLoading && <Loader2 className="mr-2 animate-spin" size={16} />}
+              <>
+                New Visit
+                <ArrowRight size={16} className="ml-2" />
+              </>
             </Button>
             {/* <StartVisitDropdown
               appointmentList={priorityAppointment}
@@ -162,6 +167,39 @@ const PatientDetails = ({ params }: any) => {
           </div>
         </div>
       </div>
+
+      {!childCareGiveReadinessData && !isLoadingCareData && (
+        <div
+          className="m-2 p-4 mb-0 rounded-lg border border-slate-200 bg-white flex flex-row justify-between
+      items-center
+      "
+        >
+          <div className=" flex flex-row items-center space-x-4">
+            <FileUser className="text-slate-700" />
+            <div>
+              <p className="font-semibold text-slate-700 text-[16px]">
+                This patient has no partial disclosure
+              </p>
+              <p className="text-[12px] text-slate-500">
+                Partial disclosure is conducted between the ages 6 and 10.
+                Review to make sure that this patient has a complete disclosure.
+              </p>
+            </div>
+          </div>
+          <Button
+            onClick={async () => {
+              await handleStartVisit(
+                `/users/patients/tab/settings/disclosure/${patientID}?appointmentID=`
+              )
+            }}
+            size={"sm"}
+            variant={"outline"}
+            className="shadow-none"
+          >
+            Add Partial Disclosure
+          </Button>
+        </div>
+      )}
 
       <div className="grid w-full grid-cols-1 gap-2 lg:grid-cols-4 p-2 md:grid-cols-2">
         {data && (
@@ -240,7 +278,7 @@ const PatientDetails = ({ params }: any) => {
         <div className="w-1/2 h-[300px] bg-white p-2 rounded-lg">
           <WeightHeightLineChart patientID={patientID} />
         </div>
-        <div className='bg-white flex justify-center items-center p-2'>
+        <div className="bg-white flex justify-center items-center p-2">
           {isLoadingUserLocationData ? (
             <Skeleton className="w-[350px] h-[200px]" />
           ) : isErrorUserLocation ? (
@@ -256,9 +294,7 @@ const PatientDetails = ({ params }: any) => {
       </div>
 
       <div>
-        <PatientSessionLogsChart
-        data={sessionData || []}
-        />
+        <PatientSessionLogsChart data={sessionData || []} />
       </div>
     </div>
   )
