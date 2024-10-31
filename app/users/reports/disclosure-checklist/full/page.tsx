@@ -2,12 +2,12 @@
 
 import CustomTab from '@/components/tab/CustomTab'
 import React, { useState } from 'react'
-import { columns, executeDisclosureColumn, postDisclosureColumns } from './columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGetAllExecuteDisclosureQuery } from '@/api/treatmentplan/full/executeDisclosure.api'
 import { useGetAllPostDisclosureQuery } from '@/api/treatmentplan/full/postDisclosure.api'
+import { executeDisclosureColumn, postDisclosureColumns } from './columns'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -70,20 +70,28 @@ const FullPage = () => {
       <div className="p-2">
         <div className="p-2 rounded-lg bg-white">
           {tabValue === 'execute disclosure' && (
-            <CustomTable
-              columns={executeDisclosureColumn}
-              data={executeDisclosureData ?? []}
-              // isLoading={isLoading}
-              // filter={<FilterComponent />}
-              isSearch={false}
-            />
+            <>
+              <div className="mb-2">
+                <p className="font-bold text-[14px]">Execute Disclosure</p>
+                <p className="text-[12px] text-slate-500 ">
+                  A complete list of patient undergoing the full disclosure test.
+                </p>
+              </div>
+              <CustomTable
+                columns={executeDisclosureColumn}
+                data={executeDisclosureData ?? []}
+                // isLoading={isLoading}
+                // filter={<FilterComponent />}
+                isSearch={false}
+              />
+            </>
           )}
           {tabValue === 'post disclosure' && (
             <>
               <div className="mb-2">
-                <p className="font-bold text-[14px]">Disclosure Eligibility</p>
+                <p className="font-bold text-[14px]">Post Disclosure</p>
                 <p className="text-[12px] text-slate-500 ">
-                  Refers to a list of patients between the ages 6 and 10
+                  A set of assessment for complete patient disclosure.
                 </p>
               </div>
               <CustomTable

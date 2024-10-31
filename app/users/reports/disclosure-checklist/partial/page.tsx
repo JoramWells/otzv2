@@ -71,21 +71,29 @@ const PartialPage = () => {
       <div className="p-2">
         <div className="p-2 rounded-lg bg-white">
           {tabValue === 'child/caregiver readiness' && (
-            <CustomTable
-              columns={columns}
-              data={data ?? []}
-              // isLoading={isLoading}
-              // filter={<FilterComponent />}
-              isSearch={false}
-            />
+            <>
+              <div className="mb-2">
+                <p className="font-bold text-[14px]">Child/Caregiver Readiness</p>
+                <p className="text-[12px] text-slate-500 ">
+                  A list of clients whose status needs disclosing.
+                </p>
+              </div>
+              <CustomTable
+                columns={columns}
+                data={data ?? []}
+                // isLoading={isLoading}
+                // filter={<FilterComponent />}
+                isSearch={false}
+              />
+            </>
           )}
           {tabValue === 'disclosure eligibility' && (
             <>
-              <div className='mb-2' >
-                <p className='font-bold text-[14px]' >Disclosure Eligibility</p>
-                <p
-                className='text-[12px] text-slate-500 '
-                >Refers to a list of patients between the ages 6 and 10</p>
+              <div className="mb-2">
+                <p className="font-bold text-[14px]">Disclosure Eligibility</p>
+                <p className="text-[12px] text-slate-500 ">
+                  Refers to a list of patients between the ages 6 and 10
+                </p>
               </div>
               <CustomTable
                 columns={disclosureColumn}
