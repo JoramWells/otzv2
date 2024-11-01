@@ -148,7 +148,7 @@ const PatientDetails = ({ params }: any) => {
               disabled={isLoading}
               onClick={async () => {
                 await handleStartVisit(
-                  `/users/patients/tab/steps/${patientID}?appointmentID=${visitData.id}`
+                  `/users/patients/tab/steps/${patientID}?appointmentID=`
                 )
               }}
               className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold flex items-center justify-center"
@@ -177,7 +177,7 @@ const PatientDetails = ({ params }: any) => {
           <div className=" flex flex-row items-center space-x-4">
             <FileUser className="text-slate-700" />
             <div>
-              <p className="font-semibold text-slate-700 text-[16px]">
+              <p className="font-semibold text-slate-700 text-[14px]">
                 This patient has no partial disclosure
               </p>
               <p className="text-[12px] text-slate-500">
