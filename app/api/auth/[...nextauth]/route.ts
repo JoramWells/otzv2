@@ -5,45 +5,48 @@ import axios from 'axios'
 
 const handler = NextAuth({
   session: {
-    strategy: 'jwt'
+    strategy: "jwt",
+    maxAge: 3 * 60 * 60
   },
   providers: [
     CredentialsProvider({
       credentials: {
-        email: {label:'email', type:'text'},
-        password: {label:'password', type:'password'}
+        email: { label: "email", type: "text" },
+        password: { label: "password", type: "password" },
+        hospitalID: { label: "hospitalID", type: "hospitalID" },
       },
-      async authorize (credentials, req) {
+      async authorize(credentials, req) {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/api/users/users/login`,
           {
             firstName: credentials?.email,
             password: credentials?.password,
+            hospitalID: credentials?.hospitalID,
           }
         );
         if (response) {
-          return response.data
+          return response.data;
         }
         // .catch(err => { console.log(err) })
-        return null
-      }
-    })
+        return null;
+      },
+    }),
   ],
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        token.data = user
+        token.data = user;
       }
-      return token
+      return token;
     },
     session: async ({ session, token }) => {
       if (token.data) {
-        session.user = token.data
+        session.user = token.data;
       }
-      return session
-    }
+      return session;
+    },
   },
-  secret: process.env.NEXT_AUTH_SECRET
-})
+  secret: process.env.NEXT_AUTH_SECRET,
+});
 
 export { handler as GET, handler as POST }

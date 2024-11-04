@@ -1,4 +1,4 @@
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
+import { TriangleAlert } from 'lucide-react'
 import React from 'react'
 
 interface FormErrorProps {
@@ -8,9 +8,9 @@ interface FormErrorProps {
 const FormError = ({ message }: FormErrorProps) => {
   return (
     <div className="p-2 bg-red-50 rounded-lg text-red-500 flex flex-row space-x-2 items-center">
-      <ExclamationTriangleIcon />
+      <TriangleAlert size={16} />
       <p
-      className='font-semibold'
+      className='text-[14px]'
       >{message}</p>
     </div>
   )
