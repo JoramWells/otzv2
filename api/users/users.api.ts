@@ -26,7 +26,7 @@ export const userApi = createApi({
     }),
     updateUser: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `update${id}`,
+        url: `edit/${id}`,
         method: 'PUT',
         body: patch
       })
@@ -34,7 +34,7 @@ export const userApi = createApi({
     deleteUser: builder.mutation({
       query (id) {
         return {
-          url: `delete${id}`,
+          url: `delete/${id}`,
           method: 'DELETE'
         }
       }
@@ -42,4 +42,7 @@ export const userApi = createApi({
   })
 })
 
-export const { useGetAllUsersQuery, useAddUserMutation, useGetUserQuery, useLoginMutation } = userApi
+export const {
+  useGetAllUsersQuery, useAddUserMutation, useGetUserQuery, useLoginMutation,
+  useUpdateUserMutation, useDeleteUserMutation
+} = userApi

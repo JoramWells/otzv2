@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -28,6 +29,8 @@ import Link from 'next/link'
 import { linelistColumn } from './columns'
 import { Upload } from 'lucide-react'
 import DragNDrop from '@/components/DragNDrop'
+import { useSession } from 'next-auth/react'
+import { type UserInterface } from 'otz-types'
 //
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -69,14 +72,16 @@ const ETL = () => {
   const [progress, setProgress] = useState(0)
   const [csvArray, setCSVArray] = useState<CsvRow[]>([])
   const [error, setError] = useState<string | null>(null)
+  const { data: session } = useSession()
+  console.log(session, 'sessionx')
 
   const [headers, setHeaders] = useState<string[]>([])
 
   const { data } = useGetAllETLQuery()
-  console.log(data, 'etl data')
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const filex = e.target?.files?.[0]
+    setFile(filex)
     if (filex) {
       Papa.parse(filex, {
         header: true,
@@ -106,8 +111,12 @@ const ETL = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData()
-    if (file != null) {
+    if (file != null && session !== null) {
+      const { user } = session
+      const user2 = user as UserInterface
       formData.append('file', file)
+      formData.append('hospitalID', user2.hospitalID as string)
+      formData.append('userID', user2.id!)
     }
     formData.append('file', '')
     try {
