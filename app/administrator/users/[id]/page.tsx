@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -103,18 +104,18 @@ const UserDetailPage = ({ params }: { params: any }) => {
       <div className="w-1/2 p-4 flex flex-col space-y-4 bg-white rounded-lg">
         <CustomInput
           label="First Name"
-          value={firstName!}
+          value={firstName as string}
           onChange={setFirstName}
         />
 
         <CustomInput
           label="Second Name"
-          value={middleName!}
+          value={middleName as string}
           onChange={setMiddleName}
         />
         <CustomInput
           label="Last Name"
-          value={lastName!}
+          value={lastName as string}
           onChange={setLastName}
         />
 
@@ -125,7 +126,11 @@ const UserDetailPage = ({ params }: { params: any }) => {
           onChange={setDOB}
         />
 
-        <CustomInput label="Phone" value={phoneNo!} onChange={setPhoneNo} />
+        <CustomInput
+          label="Phone"
+          value={phoneNo as string}
+          onChange={setPhoneNo}
+        />
 
         {/*  */}
         {/* <SelectYears setValue={setRole} value={role} /> */}
@@ -147,7 +152,7 @@ const UserDetailPage = ({ params }: { params: any }) => {
         <CustomSelect
           label="Select hospital name"
           onChange={setHospitalID}
-          value={hospitalID!}
+          value={hospitalID as string}
           data={hospitalOptions()}
         />
 
@@ -168,7 +173,9 @@ const UserDetailPage = ({ params }: { params: any }) => {
             onClick={async () => await updateUser(inputValues)}
             size={'sm'}
           >
-            {isLoadingAddUser && <Loader2 className="animate-spin mr-2" size={15} />}
+            {isLoadingAddUser && (
+              <Loader2 className="animate-spin mr-2" size={15} />
+            )}
             Save
           </Button>
         </div>

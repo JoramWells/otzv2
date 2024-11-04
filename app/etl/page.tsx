@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -116,7 +117,7 @@ const ETL = () => {
       const user2 = user as UserInterface
       formData.append('file', file)
       formData.append('hospitalID', user2.hospitalID as string)
-      formData.append('userID', user2.id!)
+      formData.append('userID', user2.id as string)
     }
     formData.append('file', '')
     try {
