@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -37,7 +38,7 @@ const UserDetailPage = ({ params }: { params: any }) => {
   const [dob, setDOB] = useState<Date | string | undefined>()
   const [lastName, setLastName] = useState<string | undefined>('')
   const [populationType, setPopulationType] = useState<string | undefined>('')
-  const [hospitalID, setHospitalID] = useState<string>()
+  const [hospitalID, setHospitalID] = useState<string | undefined>()
   const [role, setRole] = useState('')
 
   const inputValues = {
@@ -76,7 +77,7 @@ const UserDetailPage = ({ params }: { params: any }) => {
       setFirstName(userData.firstName)
       setMiddleName(userData.middleName)
       setLastName(userData.lastName)
-      setHospitalID(userData.hospitalID)
+      setHospitalID(userData.hospitalID as string)
       setDOB(moment(userData.dob).format('YYYY-MM-DD'))
     }
   }, [userData])
