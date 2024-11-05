@@ -34,7 +34,7 @@ import {
 } from '@tanstack/react-table'
 import { BookOpen, ChevronsLeft, ChevronsRight, FileDown } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { type ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import { type ReactNode, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
 
 export interface CustomTableProps<TData, TValue> {
@@ -109,7 +109,9 @@ export function CustomTable<TData, TValue> ({
   }, [page, table, updateQueryParams])
 
   return (
-    <div className="w-full">
+    <Suspense
+    fallback={<div>Loading...</div>}
+    >
       {isSearch && (
         <div
           className="flex flex-row justify-between items-center
@@ -285,6 +287,6 @@ export function CustomTable<TData, TValue> ({
           </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
