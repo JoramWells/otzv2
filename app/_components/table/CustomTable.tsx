@@ -33,7 +33,8 @@ import {
   type ColumnResizeMode
 } from '@tanstack/react-table'
 import { BookOpen, ChevronsLeft, ChevronsRight, FileDown } from 'lucide-react'
-import { type ReactNode, useMemo, useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { type ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
 
 export interface CustomTableProps<TData, TValue> {
@@ -56,6 +57,8 @@ export function CustomTable<TData, TValue> ({
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange')
+
+  const [pageNo, setPageNo] = useState(0)
 
   const defaultColumn = useMemo(() => ({
     minWidth: 30,
@@ -83,6 +86,27 @@ export function CustomTable<TData, TValue> ({
       columnFilters
     }
   })
+  const pageParams = useSearchParams()
+  const page = pageParams.get('page')
+  const pathname = usePathname()
+  const router = useRouter()
+
+  const updateQueryParams = useCallback(
+    (newStep: number) => {
+      const newPageParams = new URLSearchParams(pageParams)
+      newPageParams.set('page', newStep as unknown as string)
+      router.replace(`${pathname}?${newPageParams.toString()}`)
+    },
+    [pathname, router, pageParams]
+  )
+  useEffect(() => {
+    const { pageIndex } = table.getState().pagination
+    if (page === null) {
+      updateQueryParams(pageIndex + 1)
+    }
+    setPageNo(pageIndex + 1)
+    table.setPageIndex(Number(page) - 1)
+  }, [page, table, updateQueryParams])
 
   return (
     <div className="w-full">
@@ -237,6 +261,7 @@ export function CustomTable<TData, TValue> ({
             <Button
               onClick={() => {
                 table.previousPage()
+                updateQueryParams(pageNo - 1)
               }}
               disabled={!table.getCanPreviousPage()}
               size={'sm'}
@@ -249,6 +274,7 @@ export function CustomTable<TData, TValue> ({
               className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
               onClick={() => {
                 table.nextPage()
+                updateQueryParams(pageNo + 1)
               }}
               disabled={!table.getCanNextPage()}
               size={'sm'}

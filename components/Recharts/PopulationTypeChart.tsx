@@ -35,7 +35,7 @@ const PopulationTypeChart = ({ data }: { data: PatientAttributes[] }) => {
     }))
 
     const kpData = cleanedData.filter(item => {
-      return item.populationType !== 'General Population'
+      return item.populationType.length > 0
     })
 
     return kpData?.reduce<CountMap>((acc, curr) => {
