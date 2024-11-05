@@ -78,6 +78,8 @@ export function CustomTable<TData, TValue> ({
     getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility,
+    enableSorting: true,
+    manualSorting: true,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
@@ -109,9 +111,7 @@ export function CustomTable<TData, TValue> ({
   }, [page, table, updateQueryParams])
 
   return (
-    <Suspense
-    fallback={<div>Loading...</div>}
-    >
+    <Suspense fallback={<div>Loading...</div>}>
       {isSearch && (
         <div
           className="flex flex-row justify-between items-center
@@ -146,8 +146,11 @@ export function CustomTable<TData, TValue> ({
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="ml-auto shadow-none" size={'sm'}
-                 >
+                <Button
+                  variant="ghost"
+                  className="ml-auto shadow-none"
+                  size={'sm'}
+                >
                   Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -205,9 +208,10 @@ export function CustomTable<TData, TValue> ({
                     <div
                       className={` absolute right-0 bg-black cursor-col-resize select-none touch-none ${
                         header.column.getIsResizing() ? 'bg-blue-500' : ''
-                      } `}
+                      } ${header.column.getCanSort() ? 'cursor-pointer' : ''} `}
                       onMouseDown={header.getResizeHandler()}
                       onTouchStart={header.getResizeHandler()}
+                      onClick={() => header.column.getToggleSortingHandler()}
                       style={{
                         transform:
                           columnResizeMode === 'onEnd' &&
@@ -217,7 +221,6 @@ export function CustomTable<TData, TValue> ({
                               }px)`
                             : ''
                       }}
-
                     />
                   </TableHead>
                 ))}

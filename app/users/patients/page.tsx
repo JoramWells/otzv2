@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import { type PatientAttributes } from 'otz-types'
+import { calculateAge } from '@/utils/calculateAge'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -82,6 +83,8 @@ const Patients = () => {
     (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()
   )
 
+  const otzPatients = filteredArray.filter(item => calculateAge(item.dob) < 25)
+
   // console.log(data, 'dtx')
 
   const router = useRouter()
@@ -111,7 +114,7 @@ const Patients = () => {
         <div className="bg-white w-full p-4 rounded-lg mt-2">
           <CustomTable
             columns={patientColumns}
-            data={filteredArray || []}
+            data={otzPatients || []}
             isLoading={isLoading}
             filter={<FilterComponent />}
             // isSearch

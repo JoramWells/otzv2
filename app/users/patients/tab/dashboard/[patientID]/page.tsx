@@ -37,6 +37,7 @@ import ArtCard from './_components/ArtCard'
 import { useGetPatientSessionLogQuery } from '@/api/patient/patientSessionLogs.api'
 import PatientSessionLogsChart from '@/components/Recharts/PatientSessionLogsChart'
 import { useGetChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
+import { calculateAge } from '@/utils/calculateAge'
 
 export interface InputTabProps {
   id: number
@@ -115,6 +116,14 @@ const PatientDetails = ({ params }: any) => {
   const { data: childCareGiveReadinessData, isLoading: isLoadingCareData } =
       useGetChildCaregiverReadinessQuery(patientID)
 
+  const [age, setAge] = useState<number>(0)
+
+  useEffect(() => {
+    if (patientData) {
+      setAge(calculateAge(patientData.dob))
+    }
+  }, [patientData])
+
   return (
     <div>
       <div className="p-2 w-full justify-between flex items-center bg-white">
@@ -168,37 +177,42 @@ const PatientDetails = ({ params }: any) => {
         </div>
       </div>
 
-      {!childCareGiveReadinessData && !isLoadingCareData && (
-        <div
-          className="m-2 p-4 mb-0 rounded-lg border border-slate-200 bg-white flex flex-row justify-between
+      {!childCareGiveReadinessData &&
+        !isLoadingCareData &&
+        (age >= 9 &&
+        age <=
+          12) && (
+            <div
+              className="m-2 p-4 mb-0 rounded-lg border border-slate-200 bg-white flex flex-row justify-between
       items-center
       "
-        >
-          <div className=" flex flex-row items-center space-x-4">
-            <FileUser className="text-slate-700" />
-            <div>
-              <p className="font-semibold text-slate-700 text-[14px]">
-                This patient has no partial disclosure
-              </p>
-              <p className="text-[12px] text-slate-500">
-                Partial disclosure is conducted between the ages 6 and 10.
-                Review to make sure that this patient has a complete disclosure.
-              </p>
+            >
+              <div className=" flex flex-row items-center space-x-4">
+                <FileUser className="text-slate-700" />
+                <div>
+                  <p className="font-semibold text-slate-700 text-[14px]">
+                    This patient has no partial disclosure
+                  </p>
+                  <p className="text-[12px] text-slate-500">
+                    Partial disclosure is conducted between the ages 6 and 10.
+                    Review to make sure that this patient has a complete
+                    disclosure.
+                  </p>
+                </div>
+              </div>
+              <Button
+                onClick={async () => {
+                  await handleStartVisit(
+                    `/users/patients/tab/settings/disclosure/${patientID}?appointmentID=`
+                  )
+                }}
+                size={"sm"}
+                variant={"outline"}
+                className="shadow-none"
+              >
+                Add Partial Disclosure
+              </Button>
             </div>
-          </div>
-          <Button
-            onClick={async () => {
-              await handleStartVisit(
-                `/users/patients/tab/settings/disclosure/${patientID}?appointmentID=`
-              )
-            }}
-            size={"sm"}
-            variant={"outline"}
-            className="shadow-none"
-          >
-            Add Partial Disclosure
-          </Button>
-        </div>
       )}
 
       <div className="grid w-full grid-cols-1 gap-2 lg:grid-cols-4 p-2 md:grid-cols-2">
