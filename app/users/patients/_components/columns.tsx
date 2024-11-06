@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -8,7 +9,7 @@ import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Edit, Ellipsis, Pin, TrashIcon } from 'lucide-react'
+import { Edit, Ellipsis, TrashIcon } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
@@ -20,9 +21,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { useMarkPatientAsImportantMutation } from '@/api/patient/patients.api'
 import { type PatientAttributes } from 'otz-types'
 import Image from 'next/image'
+import { type ExtendedImportantPatientInterface, useAddImportantPatientMutation } from '@/api/patient/importantPatients.api'
+import { useSession } from 'next-auth/react'
 //
 interface AppointmentProps {
   id: any
@@ -337,17 +339,20 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => (
-      <DropDownComponent
-        id={row.original.id!}
-        isImportant={row.original.isImportant!}
-      />
-    )
+    cell: ({ row }) => {
+      const { data: session } = useSession()
+      return (
+        <DropDownComponent
+          id={row.original.id!}
+          userID={session?.user.id}
+        />
+      )
+    }
   }
 ]
 
-const DropDownComponent = ({ id, isImportant }: { id: string, isImportant: boolean }) => {
-  const [markPatientAsImportant] = useMarkPatientAsImportantMutation()
+const DropDownComponent = ({ id, userID }: { id: string, userID?: string }) => {
+  const [addImportantPatient] = useAddImportantPatientMutation()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -358,23 +363,25 @@ const DropDownComponent = ({ id, isImportant }: { id: string, isImportant: boole
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
           onClick={async () =>
-            await markPatientAsImportant({
-              id,
-              isImportant: !isImportant
+            await addImportantPatient({
+              patientID: id,
+              userID
             })
           }
         >
-          <div className="flex justify-between items-center w-full">
-            {isImportant
-              ? <p
-            className='text-yellow-500'
-            >Unpin</p>
-              : <p>Pin</p>}
+          <p>Pin</p>
+
+          {/* <div className="flex justify-between items-center w-full">
+            {isImportant ? (
+              <p className="text-yellow-500">Unpin</p>
+            ) : (
+              <p>Pin</p>
+            )}
             <Pin
               size={18}
-              className={`text-slate-500 ${isImportant && 'text-yellow-500'} `}
+              className={`text-slate-500 ${isImportant && "text-yellow-500"} `}
             />
-          </div>
+          </div> */}
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem>
           <div className="flex justify-between items-center w-full">
@@ -464,7 +471,7 @@ export const patientVisitColumns: Array<ColumnDef<PatientProps>> = [
   }
 ]
 
-export const importantPatientColumn: Array<ColumnDef<PatientAttributes>> = [
+export const importantPatientColumn: Array<ColumnDef<ExtendedImportantPatientInterface>> = [
   {
     accessorKey: 'firstName',
     header: 'Name',
@@ -477,26 +484,26 @@ export const importantPatientColumn: Array<ColumnDef<PatientAttributes>> = [
         <Avatar
           size={'xs'}
           className="font-bold"
-          name={`${row.original?.firstName} ${row.original?.middleName}`}
+          name={`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}
         />
         <Link
           className="capitalize font-semibold text-slate-700 text-[12px] "
           href={`/users/patients/tab/dashboard/${row.original.id}`}
-        >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
+        >{`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}</Link>
       </div>
     )
   },
-  {
-    accessorKey: 'sex',
-    header: 'Sex',
-    cell: ({ row }) => <p
-    className='text-[12px]'
-    >{row.original.sex}</p>
-  },
+  // {
+  //   accessorKey: 'sex',
+  //   header: 'Sex',
+  //   cell: ({ row }) => <p
+  //   className='text-[12px]'
+  //   >{row.original.sex}</p>
+  // },
   {
     accessorKey: 'dob',
     header: 'Age',
-    cell: ({ row }) => <p>{calculateAge(row.original?.dob)}</p>,
+    cell: ({ row }) => <p>{calculateAge(row.original?.Patient.dob)}</p>,
     enableSorting: true
   },
   {
@@ -506,9 +513,9 @@ export const importantPatientColumn: Array<ColumnDef<PatientAttributes>> = [
       <div
       className='text-[12px]'
       >
-        {row.original.phoneNo
+        {row.original.Patient.phoneNo
           ? (
-              row.original.phoneNo
+              row.original.Patient.phoneNo
             )
           : (
           <Badge

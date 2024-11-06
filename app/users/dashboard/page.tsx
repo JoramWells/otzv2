@@ -7,7 +7,7 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { useGetAllPatientsQuery, useGetImportantPatientsQuery } from '@/api/patient/patients.api'
+import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { calculateAgeRange } from '@/utils/calculateAgeRange'
 import { useMemo, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -20,6 +20,8 @@ import { importantPatientColumn } from '../patients/_components/columns'
 import { Button } from '@/components/ui/button'
 import { type PatientAttributes } from 'otz-types'
 import { calculateAge } from '@/utils/calculateAge'
+import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
+import { useSession } from 'next-auth/react'
 
 // const UserDashboardCard = dynamic(
 //   async () => await import('@/app/_components/UserDasboard'),
@@ -60,7 +62,7 @@ const NotifyPage = () => {
       new Date(a.createdAt as unknown as string).getTime()
   )
 
-  const recentPatients = filteredArray?.slice(0, 3)
+  // const recentPatients = filteredArray?.slice(0, 3)
 
   const dataList2 = [
     {
@@ -104,10 +106,11 @@ const NotifyPage = () => {
 
   uniqueYears.sort((a: number, b: number) => a - b)
 
-  const { data: importantPatients } = useGetImportantPatientsQuery({
-    limit: 5
-  })
+  const { data: session } = useSession()
+
+  const { data: importantPatients } = useGetImportantPatientQuery(session?.user.id as string)
   const [value, setValue] = useState(1)
+  console.log(importantPatients)
 
   return (
     <>
@@ -152,14 +155,14 @@ const NotifyPage = () => {
               />
             )}
 
-            {/*  */}
+{/*
             {value === 2 && (
               <CustomTable
                 isSearch={false}
                 data={recentPatients || []}
                 columns={importantPatientColumn}
               />
-            )}
+            )} */}
           </div>
         </div>
         {/*  */}
