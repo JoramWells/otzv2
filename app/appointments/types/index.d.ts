@@ -1,8 +1,7 @@
+import { type PatientAttributes } from 'otz-types'
+
 declare interface AppointmentProps {
-  Patient: {
-    firstName?: string
-    middleName?: string
-  }
+  Patient: PatientAttributes
   appointmentDate: MomentInput
   appointmentTime: MomentInput
   rescheduledDate: MomentInput
@@ -12,7 +11,8 @@ declare interface AppointmentProps {
     agendaDescription: string
   }
   AppointmentStatus: {
-    statusDescription: string
+    statusDescription: 'Pending' | 'Upcoming' | 'Completed' | 'Rescheduled' | 'Cancelled'
+
   }
   createdAt: Date
   updatedAt: Date

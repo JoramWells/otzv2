@@ -6,6 +6,8 @@ import { CustomTable } from '../table/CustomTable'
 import { columns } from '@/app/appointments/columns'
 import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { calculateAge } from '@/utils/calculateAge'
+import { type AppointmentProps } from '@/app/appointments/types'
 
 const AppointmentHomepage = () => {
   const searchParams = useSearchParams()
@@ -19,13 +21,15 @@ const AppointmentHomepage = () => {
     date: '2022-01-01'
   })
 
-  const sortedAppointment: AppointmentProps[] = useMemo(() => (data ? [...data] : []), [data])
+  let sortedAppointment: AppointmentProps[] = useMemo(() => (data ? [...data] : []), [data])
 
   // const memSorted = useCallback(() => {}, [])
 
   sortedAppointment.sort(
     (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
   )
+
+  sortedAppointment = sortedAppointment.filter(item => calculateAge(item.Patient.dob) < 25)
 
   const missedAppointment = useCallback(() => {
     return sortedAppointment?.filter((item: any) =>
@@ -43,6 +47,8 @@ const AppointmentHomepage = () => {
         .includes('Rescheduled'.toLowerCase())
     )
   }, [sortedAppointment])
+
+  console.log(sortedAppointment, 'appointment')
 
   //
   const pendingAppointment = useCallback(() => {
@@ -137,7 +143,7 @@ const AppointmentHomepage = () => {
             {value === 'pending' && (
               <CustomTable
                 columns={columns}
-                data={pendingAppointment() || []}
+                data={pendingAppointment() ?? []}
               />
             )}
 

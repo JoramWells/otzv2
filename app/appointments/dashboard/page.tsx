@@ -13,6 +13,7 @@ import { useCallback, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { pinnedColumns } from '../columns'
+import { calculateAge } from '@/utils/calculateAge'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -37,10 +38,11 @@ const dataList2 = [
 const NotifyPage = () => {
   const [value, setValue] = useState('all')
 
-  const { data: weeklyData } = useGetAllAppointmentsQuery({
+  let { data: weeklyData } = useGetAllAppointmentsQuery({
     date: '2022-01-01',
     mode: value
   })
+  weeklyData = weeklyData?.filter(item => calculateAge(item.Patient.dob) < 25)
 
   const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
 
@@ -89,8 +91,8 @@ const NotifyPage = () => {
             </div>
           </div>
           <div className="flex space-x-2 bg-slate-50 p-2">
-            <AppointmentBarChart data={weeklyData} />
-            <AppointmentPieChart data={weeklyData} />
+            <AppointmentBarChart data={weeklyData ?? []} />
+            <AppointmentPieChart data={weeklyData ?? []} />
 
           </div>
         <div className="bg-white p-4">

@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic'
 import { useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
 import CustomTab from '@/components/tab/CustomTab'
 import { useState } from 'react'
+import { calculateAge } from '@/utils/calculateAge'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -41,10 +42,13 @@ const PrescriptionPage = () => {
     mode: undefined
   })
 
-  const sortedData = data ? [...data] : []
+  let sortedData = data ? [...data] : []
+  sortedData = sortedData.filter(item => calculateAge(item.Patient.dob) < 25)
   sortedData.sort(
     (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()
   )
+
+  console.log(sortedData, 'sortedData')
 
   // active prescriptions
   const activeData = sortedData?.filter(item => item.expectedNoOfPills && item.expectedNoOfPills > 0)

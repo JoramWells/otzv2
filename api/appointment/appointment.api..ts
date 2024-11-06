@@ -1,14 +1,20 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { type AppointmentProps } from '@/app/appointments/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type AppointmentAttributes } from 'otz-types'
 
-interface AppointmentProps {
+interface AppointmentTypeProps {
   date?: string
   mode?: string
 }
 
 export type AppointmentInputProps = AppointmentAttributes & {
+  Patient: {
+    firstName?: string
+    middleName?: string
+    dob?: string
+  }
   AppointmentAgenda: {
     agendaDescription: string
   }
@@ -23,18 +29,20 @@ export const appointmentApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/appointments`
   }),
   endpoints: (builder) => ({
-    getAllAppointments: builder.query<any, AppointmentProps>({
-      query: (params) => {
-        if (params) {
-          const { date, mode } = params
-          let queryString = ''
-          queryString += `date=${date}`
-          queryString += `&mode=${mode}`
-          return `/fetchAll?${queryString}`
+    getAllAppointments: builder.query<AppointmentProps[], AppointmentTypeProps>(
+      {
+        query: (params) => {
+          if (params) {
+            const { date, mode } = params
+            let queryString = ''
+            queryString += `date=${date}`
+            queryString += `&mode=${mode}`
+            return `/fetchAll?${queryString}`
+          }
+          return '/fetchAll'
         }
-        return '/fetchAll'
       }
-    }),
+    ),
     getAllWeeklyAppointments: builder.query<any, void>({
       query: () => 'fetchAllWeekly'
     }),
@@ -64,7 +72,6 @@ export const appointmentApi = createApi({
         }
         return `recent-appointment/${id}`
       }
-
     }),
     getAllPriorityAppointments: builder.query<any, void>({
       query: () => 'priorityAppointments'

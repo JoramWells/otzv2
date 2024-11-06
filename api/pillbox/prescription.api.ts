@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { type PrescriptionInterface } from 'otz-types'
+import { type PatientAttributes, type PrescriptionInterface } from 'otz-types'
+
+export type ExtendedPrescriptionInterface = PrescriptionInterface & { Patient: PatientAttributes }
 
 export const prescriptionApi = createApi({
   reducerPath: 'prescriptionApi',
@@ -9,7 +11,7 @@ export const prescriptionApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription`
   }),
   endpoints: (builder) => ({
-    getAllPrescriptions: builder.query<PrescriptionInterface[], { mode: string | undefined }>({
+    getAllPrescriptions: builder.query<ExtendedPrescriptionInterface[], { mode: string | undefined }>({
       query: (params) => {
         if (params) {
           const { mode } = params
