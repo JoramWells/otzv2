@@ -6,7 +6,7 @@
 import { History, Pin } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-import { useGetAllPrescriptionsQuery, useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
+import { type ExtendedPrescriptionInterface, useGetAllPrescriptionsQuery, useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
 import { useGetAllArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 import { type ARTPrescriptionInterface, type PrescriptionInterface } from 'otz-types'
 import { useCallback, useState } from 'react'
@@ -72,35 +72,29 @@ const NotifyPage = () => {
     mode: undefined
   })
 
- type ModifiedPrescriptionInterface = PrescriptionInterface & {
-   Patient?: {
-     firstName: string
-     secondName: string
-     isImportant: boolean
-   }
- }
-
- const filteredArray: PrescriptionInterface[] = prescriptionData
-   ? [...prescriptionData]
-   : []
- filteredArray.sort(
-   (a, b) =>
-     new Date(b.createdAt as unknown as string).getTime() -
+  const filteredArray: PrescriptionInterface[] = prescriptionData
+    ? [...prescriptionData]
+    : []
+  filteredArray.sort(
+    (a, b) =>
+      new Date(b.createdAt as unknown as string).getTime() -
         new Date(a.createdAt as unknown as string).getTime()
- )
+  )
 
- const recentPrescription = filteredArray?.slice(0, 3)
+  const recentPrescription = filteredArray?.slice(0, 3)
 
- const filterPrescriptionData = useCallback(() => {
-   const tempData = prescriptionData ? [...prescriptionData] : []
-   return tempData.filter((item: ModifiedPrescriptionInterface) => item?.Patient?.isImportant)
- }, [prescriptionData])()
+  const filterPrescriptionData = useCallback(() => {
+    const tempData = prescriptionData ? [...prescriptionData] : []
+    return tempData.filter(
+      (item: ExtendedPrescriptionInterface) => item?.Patient?.isImportant
+    )
+  }, [prescriptionData])()
 
- const { data: artPrescriptionData, isLoading: loadingArtPrescription } = useGetAllArtPrescriptionQuery()
+  const { data: artPrescriptionData, isLoading: loadingArtPrescription } = useGetAllArtPrescriptionQuery()
 
- const [value, setValue] = useState(1)
+  const [value, setValue] = useState(1)
 
- return (
+  return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
@@ -179,7 +173,7 @@ const NotifyPage = () => {
         </div>
       </div>
     </>
- )
+  )
 }
 
 export default NotifyPage
