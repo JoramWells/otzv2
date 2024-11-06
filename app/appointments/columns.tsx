@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
+import { type AppointmentProps } from './types'
 // import { FaEdit } from 'react-icons/fa'
 
 const days = [
@@ -108,7 +109,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
     cell: ({ row }) => {
       const appointmentStatus =
         row.original.AppointmentStatus?.statusDescription
-      if (appointmentStatus === 'Missed') {
+      if (appointmentStatus === 'Missed' as string) {
         return (
           <Badge
             // colorScheme="red"
@@ -328,7 +329,7 @@ export const pinnedColumns: Array<ColumnDef<AppointmentProps>> = [
     cell: ({ row }) => {
       const appointmentStatus =
         row.original.AppointmentStatus?.statusDescription
-      if (appointmentStatus === 'Missed') {
+      if (appointmentStatus === 'Missed' as string) {
         return (
           <Badge
             // colorScheme="red"

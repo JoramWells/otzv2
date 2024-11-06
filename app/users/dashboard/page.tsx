@@ -19,6 +19,7 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import { importantPatientColumn } from '../patients/_components/columns'
 import { Button } from '@/components/ui/button'
 import { type PatientAttributes } from 'otz-types'
+import { calculateAge } from '@/utils/calculateAge'
 
 // const UserDashboardCard = dynamic(
 //   async () => await import('@/app/_components/UserDasboard'),
@@ -47,7 +48,9 @@ const PieChart = dynamic(
 )
 
 const NotifyPage = () => {
-  const { data } = useGetAllPatientsQuery()
+  let { data } = useGetAllPatientsQuery()
+
+  data = data?.filter(item => calculateAge(item.dob) < 25)
 
   // const dataList: UserDashboardCardDataListProps[] =
   const filteredArray: PatientAttributes[] = data ? [...data] : []
