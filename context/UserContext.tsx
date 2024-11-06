@@ -60,11 +60,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         path: '/api/users/socket.io',
         transports: ['websocket'],
         query: {
-          patientID: patientData?.id
+          patientID: patientData?.id,
+          userID: session.user.id
         }
       })
 
       newSocket.on('connect', () => {
+        newSocket.emit('addNewAdminUser', { id: patientData?.id })
         newSocket.emit('addNewUser', { id: patientData?.id })
         newSocket.on('getOnlineUsers', (res: PatientAttributes[]) => {
           setOnlineUsers(res)
@@ -73,6 +75,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       })
       return () => {
         newSocket.off('addNewUser')
+        newSocket.off('addNewAdminUser')
         newSocket.off('getOnlineUsers')
         newSocket.disconnect()
       }

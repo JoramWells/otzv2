@@ -17,6 +17,7 @@ import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import { type PatientAttributes } from 'otz-types'
 import { calculateAge } from '@/utils/calculateAge'
+import CustomTab from '@/components/tab/CustomTab'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -85,18 +86,60 @@ const Patients = () => {
 
   const otzPatients = filteredArray.filter(item => calculateAge(item.dob) < 25)
 
+  const zeroToNine = otzPatients.filter((item) => calculateAge(item.dob) < 9)
+  const tenToFourteen = otzPatients.filter(
+    (item) => calculateAge(item.dob) > 10 && calculateAge(item.dob) <
+ 14)
+
+  const fifteenToNineteen = otzPatients.filter(
+    (item) => calculateAge(item.dob) > 15 && calculateAge(item.dob) < 19
+  )
+
+  const twentyPlus = otzPatients.filter(
+    (item) => calculateAge(item.dob) > 20
+  )
+
   // console.log(data, 'dtx')
 
   const router = useRouter()
 
+  const categoryList = [
+    {
+      id: 0,
+      label: 'All'
+    },
+    {
+      id: 1,
+      label: '0-9'
+    },
+    {
+      id: 2,
+      label: '10-14'
+    },
+    {
+      id: 3,
+      label: '15-19'
+    },
+    {
+      id: 4,
+      label: '20+'
+    }
+  ]
+
+  const [tabValue, setTabValue] = useState('all')
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="flex flex-row justify-between items-center bg-white p-2 pl-4 pr-4 mt-2">
+      <div className="flex flex-row justify-between items-center bg-white  mt-2 pr-2">
         <div>
-          <h3 className="font-bold text-slate-700">Patients</h3>
+          <p className="mt-2 ml-2 text-[14px] font-semibold">Age Ranges</p>
+          <CustomTab
+            categoryList={categoryList}
+            setValue={setTabValue}
+            value={tabValue}
+          />
         </div>
-
         <Button
           className="bg-teal-600 hover:bg-teal-700
         font-bold shadow-none
@@ -111,15 +154,101 @@ const Patients = () => {
         </Button>
       </div>
 
-        <div className="bg-white w-full p-4 rounded-lg mt-2">
-          <CustomTable
-            columns={patientColumns}
-            data={otzPatients || []}
-            isLoading={isLoading}
-            filter={<FilterComponent />}
-            // isSearch
-          />
-        </div>
+      <div className="w-full p-2 pt-0 rounded-lg mt-2">
+        {tabValue === 'all' && (
+          <div className="p-2 bg-white rounded-lg">
+            <div className="mb-2">
+              <p className="font-semibold text-[14px] ">All Patients</p>
+              <p className="text-[12px] text-slate-500">
+                A list of patient 0 between 25 years and above.
+              </p>
+            </div>
+            <CustomTable
+              columns={patientColumns}
+              data={otzPatients || []}
+              isLoading={isLoading}
+              filter={<FilterComponent />}
+              // isSearch
+            />
+          </div>
+        )}
+
+        {/*  */}
+        {tabValue === '0-9' && (
+          <div className="p-2 bg-white rounded-lg">
+            <div className="mb-2">
+              <p className="font-semibold text-[14px] ">0 years -- 9 years</p>
+              <p className="text-[12px] text-slate-500">
+                A list of patient 0 between 9 years and above.
+              </p>
+            </div>
+            <CustomTable
+              columns={patientColumns}
+              data={zeroToNine || []}
+              isLoading={isLoading}
+              filter={<FilterComponent />}
+              // isSearch
+            />
+          </div>
+        )}
+
+        {/*  */}
+        {tabValue === '10-14' && (
+          <div className="p-2 bg-white rounded-lg">
+            <div className="mb-2">
+              <p className="font-semibold text-[14px] ">10 years -- 14 years</p>
+              <p className="text-[12px] text-slate-500">
+                A list of patient 10 between 14 years and above.
+              </p>
+            </div>
+            <CustomTable
+              columns={patientColumns}
+              data={tenToFourteen || []}
+              isLoading={isLoading}
+              filter={<FilterComponent />}
+              // isSearch
+            />
+          </div>
+        )}
+
+        {/*  */}
+        {tabValue === '15-19' && (
+          <div className="p-2 bg-white rounded-lg">
+            <div className="mb-2">
+              <p className="font-semibold text-[14px] ">15 years -- 19 years</p>
+              <p className="text-[12px] text-slate-500">
+                A list of patient 15 between 19 years and above.
+              </p>
+            </div>
+            <CustomTable
+              columns={patientColumns}
+              data={fifteenToNineteen || []}
+              isLoading={isLoading}
+              filter={<FilterComponent />}
+              // isSearch
+            />
+          </div>
+        )}
+
+        {/*  */}
+        {tabValue === '20+' && (
+          <div className="p-2 bg-white rounded-lg">
+            <div className="mb-2">
+              <p className="font-semibold text-[14px] ">20 years +</p>
+              <p className="text-[12px] text-slate-500">
+                A list of patient 20 years and above.
+              </p>
+            </div>
+            <CustomTable
+              columns={patientColumns}
+              data={twentyPlus || []}
+              isLoading={isLoading}
+              filter={<FilterComponent />}
+              // isSearch
+            />
+          </div>
+        )}
+      </div>
     </>
   )
 }
