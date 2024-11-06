@@ -13,6 +13,7 @@ import {
   ChartTooltipContent
 } from '@/components/ui/chart'
 import { useMemo } from 'react'
+import { type AppointmentProps } from '@/app/appointments/types'
 
 type GroupData = Record<string, any>
 
