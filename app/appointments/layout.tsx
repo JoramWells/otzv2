@@ -11,10 +11,11 @@ import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_compo
 import { AlignJustify, CalendarCheck, CalendarDays, ClockIcon, LayoutGrid, PlusIcon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Footer from '@/components/Footer'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { PharmacyProvider } from '@/context/PharmacyContext'
+import io from 'socket.io-client'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -58,6 +59,8 @@ const DL: SidebarListItemsProps[] = [
 const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const moduleParams = useSearchParams()
+  const moduleID = moduleParams.get('moduleID')
 
   useEffect(() => {
     if (status === 'loading') {
@@ -66,7 +69,23 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
     if (status === 'unauthenticated') {
       router.push('/login')
     }
-  }, [status, router])
+    const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`, {
+      path: '/api/appointment/socket.io',
+      transports: ['websocket'],
+      query: {
+        moduleID,
+        userID: session?.user.id
+      }
+    })
+
+    newSocket.on('connect', () => {
+      console.log('Connected to appointment server!')
+    })
+
+    return () => {
+      newSocket.disconnect()
+    }
+  }, [status, router, session?.user.id, moduleID])
 
   if (session != null) {
     return (

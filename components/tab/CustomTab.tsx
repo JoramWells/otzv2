@@ -66,8 +66,12 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
               isChecked(item.label.toLowerCase()) && 'bg-white'
             } `}
           > */}
-          {(item.count != null) && (
-            <span className="ml-2 text-[12px] ">{item.count}</span>
+          {item.count != null && (
+            <div
+            className='border border-slate-100 bg-slate-50 overflow-hidden pl-2 pr-2 pt-0.5 text-center ml-2 pb-0.5 rounded-full flex items-center justify-center flex-row'
+            >
+              <p className="text-[10px] rounded-full ">{item.count}</p>
+            </div>
           )}
 
           {/* </Badge> */}

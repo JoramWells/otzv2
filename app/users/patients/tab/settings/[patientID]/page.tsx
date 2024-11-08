@@ -60,6 +60,7 @@ const ProfileSettings = ({ params }: { params: any }) => {
   const [dob, setDOB] = useState<Date | string | undefined>()
   const [lastName, setLastName] = useState<string | undefined>('')
   const [populationType, setPopulationType] = useState<string | undefined>('')
+  const [password, setPassword] = useState<string | undefined>('')
   const [hospitalID, setHospitalID] = useState<string>()
   const [role, setRole] = useState('')
   const { patientID } = params
@@ -87,6 +88,7 @@ const ProfileSettings = ({ params }: { params: any }) => {
       setRole(patientProfileData.role)
       setHospitalID(patientProfileData.hospitalID)
       setPopulationType(patientProfileData.populationType)
+      setPassword(patientProfileData.password)
       setDOB(moment(patientProfileData.dob).format('YYYY-MM-DD'))
       setDateConfirmedPositive(moment(patientProfileData.dateConfirmedPositive).format('YYYY-MM-DD'))
     }
@@ -102,7 +104,8 @@ const ProfileSettings = ({ params }: { params: any }) => {
     populationType,
     dob,
     dateConfirmedPositive,
-    hospitalID
+    hospitalID,
+    password
   }
 
   const kpData = [
@@ -161,9 +164,12 @@ const ProfileSettings = ({ params }: { params: any }) => {
             onChange={setLastName}
           />
 
-          <CustomInput label="Date of Birth"
-          type='date'
-           value={dob as unknown as string} onChange={setDOB} />
+          <CustomInput
+            label="Date of Birth"
+            type="date"
+            value={dob as unknown as string}
+            onChange={setDOB}
+          />
 
           <CustomInput label="Phone" value={phoneNo!} onChange={setPhoneNo} />
 
@@ -186,17 +192,23 @@ const ProfileSettings = ({ params }: { params: any }) => {
 
           <CustomInput
             label="Date confirmed positive"
-            type='date'
+            type="date"
             value={dateConfirmedPositive as unknown as string}
             onChange={setDateConfirmedPositive}
           />
 
-          <CustomSelect
-          label='Select hospital name'
-          onChange={setHospitalID}
-          value={hospitalID as string}
-          data={hospitalOptions()}
+          <CustomInput
+            label="Password"
+            type="password"
+            value={password as unknown as string}
+            onChange={setPassword}
+          />
 
+          <CustomSelect
+            label="Select hospital name"
+            onChange={setHospitalID}
+            value={hospitalID as string}
+            data={hospitalOptions()}
           />
 
           <div className="flex pt-4 space-x-4 justify-end border-t mt-2">

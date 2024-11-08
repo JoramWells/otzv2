@@ -73,6 +73,12 @@ const DL: SidebarListItemsProps[] = [
     label: 'Facilities',
     link: '/administrator/facilities',
     icon: <Hospital size={15} />
+  },
+  {
+    id: '13',
+    label: 'App Modules',
+    link: '/administrator/app-modules',
+    icon: <Hospital size={15} />
   }
 ]
 

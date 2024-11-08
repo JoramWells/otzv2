@@ -16,6 +16,8 @@ import { useRouter } from 'next/navigation'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { UserAccount } from '@/components/users/UserAccount'
 import { type UserInterface } from 'otz-types'
+import { useGetAllAppModulesQuery } from '@/api/appModules/appModules.api'
+import axios from 'axios'
 
 interface ListItemProps {
   id: string
@@ -290,9 +292,35 @@ const itemList: ItemListProps[] = [
   }
 ]
 
+const fetchData = async () => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/root/app-modules/fetchAll`
+    )
+    return data
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export default function Home () {
   const { data: session, status } = useSession()
   const [user, setUser] = useState<UserInterface>()
+  const [data, setData] = useState([])
+  const [error, setError] = useState()
+
+  useEffect(() => {
+    (async () => {
+      const resp = await fetchData()
+      if (resp) {
+        setData(resp)
+        // console.log(resp, 'response')
+      }
+    })()
+  }, [])
+
+  console.log(data, 'datam')
+
   const router = useRouter()
   useEffect(() => {
     if (status === 'loading') {
@@ -342,13 +370,13 @@ export default function Home () {
                 <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
                   <div className="  text-teal-600 pl-4">
                     <p className="">
-                      Hello <span
-                      className='font-bold underline'
-                      >{user?.firstName}</span>,{' '}
+                      Hello{' '}
+                      <span className="font-bold underline">
+                        {user?.firstName}
+                      </span>
+                      ,{' '}
                     </p>
-                    <p className="text-[14px]">
-                      Welcome to CarePlus +
-                    </p>
+                    <p className="text-[14px]">Welcome to CarePlus +</p>
                   </div>
 
                   <div
@@ -368,8 +396,10 @@ export default function Home () {
                   </div>
                 </div>
               </Suspense>
-              <div className="grid px-4 pt-2 w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
-                {itemList.map((item) => (
+
+              {/*  */}
+              <div className="grid px-2  w-full grid-cols-1 gap-2 lg:grid-cols-4 md:grid-cols-2">
+                {data?.map((item) => (
                   <Suspense
                     key={item.id}
                     fallback={<Skeleton className="h-[120px]" />}
@@ -379,15 +409,15 @@ export default function Home () {
                       tabIndex={0}
                       className="border-slate-200 p-4 rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 hover:shadow-lg"
                       onClick={() => {
-                        router.push(item.link)
+                        router.push(`${item.link}?moduleID=${item.id}`)
                       }}
                     >
-                      <div className="w-full flex justify-end">
+                      {/* <div className="w-full flex justify-end">
                         <MenuSelect dataList={item.listItem} />
-                      </div>
+                      </div> */}
                       <div className="w-full flex flex-row space-x-4 justify-start items-start">
                         <Image
-                          src={item.src}
+                          src={`${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.img}`}
                           alt="img"
                           width={40}
                           height={40}
@@ -404,7 +434,7 @@ export default function Home () {
                             className="font-bold hover:underline"
                             href={item.link}
                           >
-                            {item.label}
+                            {item.title}
                           </Link>
                           <p className="text-slate-500 text-[12px]">
                             {item.description

@@ -106,23 +106,29 @@ const Patients = () => {
   const categoryList = [
     {
       id: 0,
-      label: 'All'
+      label: 'All',
+      count: otzPatients.length
     },
     {
       id: 1,
-      label: '0-9'
+      label: '0-9 years',
+      count: zeroToNine.length
     },
     {
       id: 2,
-      label: '10-14'
+      label: '10-14 years',
+      count:
+      tenToFourteen.length
     },
     {
       id: 3,
-      label: '15-19'
+      label: '15-19 years',
+      count: fifteenToNineteen.length
     },
     {
       id: 4,
-      label: '20+'
+      label: '20+ years',
+      count: twentyPlus.length
     }
   ]
 
@@ -174,7 +180,7 @@ const Patients = () => {
         )}
 
         {/*  */}
-        {tabValue === '0-9' && (
+        {tabValue === '0-9 years' && (
           <div className="p-2 bg-white rounded-lg">
             <div className="mb-2">
               <p className="font-semibold text-[14px] ">0 years -- 9 years</p>
@@ -193,7 +199,7 @@ const Patients = () => {
         )}
 
         {/*  */}
-        {tabValue === '10-14' && (
+        {tabValue === '10-14 years' && (
           <div className="p-2 bg-white rounded-lg">
             <div className="mb-2">
               <p className="font-semibold text-[14px] ">10 years -- 14 years</p>
@@ -212,7 +218,7 @@ const Patients = () => {
         )}
 
         {/*  */}
-        {tabValue === '15-19' && (
+        {tabValue === '15-19 years' && (
           <div className="p-2 bg-white rounded-lg">
             <div className="mb-2">
               <p className="font-semibold text-[14px] ">15 years -- 19 years</p>
@@ -231,7 +237,7 @@ const Patients = () => {
         )}
 
         {/*  */}
-        {tabValue === '20+' && (
+        {tabValue === '20+ years' && (
           <div className="p-2 bg-white rounded-lg">
             <div className="mb-2">
               <p className="font-semibold text-[14px] ">20 years +</p>
