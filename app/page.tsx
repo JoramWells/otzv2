@@ -21,6 +21,8 @@ import axios from 'axios'
 import { type Url } from 'url'
 import { type ExtendedAppModuleSession } from '@/api/appModules/appModuleSession.api'
 import moment from 'moment'
+import Carousel from 'react-multi-carousel'
+import 'react-multi-carousel/lib/styles.css'
 
 interface ListItemProps {
   id: string
@@ -44,6 +46,27 @@ const administrator: AppModuleInterface[] = [{
   img: '/img/admin.png',
   description: 'Manage user registration, medicine, schools...'
 }]
+
+const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 4,
+    partialVisibilityGutter: 40
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+}
 
 const itemList: ItemListProps[] = [
   {
@@ -369,7 +392,7 @@ export default function Home () {
   if (session != null) {
     return (
       <>
-        <div className=" bg-slate-50 h-100vh flex-1 ">
+        <div className=" bg-slate-50 h-screen flex-1 ">
           <Suspense fallback={<Skeleton className="p-4 w-full" />}>
             <nav
               className="flex justify-between
@@ -425,7 +448,7 @@ export default function Home () {
               </Suspense>
 
               {/* recent session data */}
-              { recentSession && recentSession?.length > 0 && (
+              {recentSession && recentSession?.length > 0 && (
                 <div className="w-full">
                   <p className="mb-2 mt-2 ml-2 font-bold">Quick Access</p>
                   <div className="grid px-2  w-full grid-cols-1 gap-2 lg:grid-cols-4 md:grid-cols-2 mb-2 border-b border-slate-200 pb-2">
@@ -495,59 +518,63 @@ export default function Home () {
               {/*  */}
               <div className="w-full mb-2">
                 <p className="mb-2 ml-2 font-bold">All Modules</p>
-                <div className="grid px-2  w-full grid-cols-1 gap-2 lg:grid-cols-4 md:grid-cols-2">
-                  {data?.map((item: AppModuleInterface) => (
-                    <Suspense
-                      key={item.id}
-                      fallback={<Skeleton className="h-[120px]" />}
-                    >
-                      <div
-                        key={item.id}
-                        tabIndex={0}
-                        className="border-slate-200 p-4 rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 hover:shadow-lg"
-                        onClick={() => {
-                          router.push(`${item.link}?moduleID=${item.id}`)
-                        }}
-                      >
-                        {/* <div className="w-full flex justify-end">
+                  <Carousel responsive={responsive}
+                  ssr={true}
+                  keyBoardControl
+                  renderButtonGroupOutside
+                  >
+                      {data?.map((item: AppModuleInterface) => (
+                        <Suspense
+                          key={item.id}
+                          fallback={<Skeleton className="h-[120px]" />}
+                        >
+                          <div
+                            key={item.id}
+                            tabIndex={0}
+                            className="border-slate-200 ml-2 mr-2 p-4 rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 hover:shadow-lg"
+                            onClick={() => {
+                              router.push(`${item.link}?moduleID=${item.id}`)
+                            }}
+                          >
+                            {/* <div className="w-full flex justify-end">
                         <MenuSelect dataList={item.listItem} />
                       </div> */}
-                        <div className="w-full flex flex-row space-x-4 justify-start items-start">
-                          <Image
-                            src={
-                              item.id !== '1'
-                                ? `${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.img}`
-                                : (item.img as string)
-                            }
-                            alt="img"
-                            width={40}
-                            height={40}
-                            style={{
-                              width: '40px',
-                              height: '40px',
-                              objectFit: 'contain'
-                            }}
+                            <div className="w-full flex flex-row space-x-4 justify-start items-start">
+                              <Image
+                                src={
+                                  item.id !== '1'
+                                    ? `${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.img}`
+                                    : (item.img as string)
+                                }
+                                alt="img"
+                                width={40}
+                                height={40}
+                                style={{
+                                  width: '40px',
+                                  height: '40px',
+                                  objectFit: 'contain'
+                                }}
 
-                            // quality={100}
-                          />
-                          <div>
-                            <Link
-                              className="font-bold hover:underline"
-                              href={item.link as unknown as Url}
-                            >
-                              {item.title}
-                            </Link>
-                            <p className="text-slate-500 text-[12px]">
-                              {item.description
-                                ? item.description
-                                : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
-                            </p>
+                                // quality={100}
+                              />
+                              <div>
+                                <Link
+                                  className="font-bold hover:underline"
+                                  href={item.link as unknown as Url}
+                                >
+                                  {item.title}
+                                </Link>
+                                <p className="text-slate-500 text-[12px]">
+                                  {item.description
+                                    ? item.description
+                                    : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
+                                </p>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </Suspense>
-                  ))}
-                </div>
+                        </Suspense>
+                      ))}
+                  </Carousel>
               </div>
             </div>
           </main>

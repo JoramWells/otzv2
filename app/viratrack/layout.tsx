@@ -42,7 +42,7 @@ const DL: SidebarListItemsProps[] = [
   }
 ]
 
-const PatientLayout = ({ children }: { children: React.ReactNode }) => {
+const ViratrackLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession()
   const router = useRouter()
   useEffect(() => {
@@ -77,4 +77,4 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   return <AuthenticateLoader />
 }
 
-export default PatientLayout
+export default ViratrackLayout
