@@ -320,8 +320,6 @@ export default function Home () {
     })()
   }, [])
 
-  console.log(data, 'datam')
-
   const router = useRouter()
   useEffect(() => {
     if (status === 'loading') {

@@ -5,7 +5,7 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import CustomTab from '@/components/tab/CustomTab'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-import React, { Suspense, useState } from 'react'
+import React, { useState } from 'react'
 import { columns, mmas8columns } from './columns'
 import { useGetAllMmasEightQuery } from '@/api/treatmentplan/mmasEight.api'
 const BreadcrumbComponent = dynamic(
@@ -43,9 +43,8 @@ const MMASPage = () => {
   const [tabValue, setTabValue] = useState('mmas-4')
   const { data } = useGetAllMmasFourQuery()
   const { data: mmasEightData } = useGetAllMmasEightQuery()
-  console.log(mmasEightData)
   return (
-    <Suspense fallback={<div>Loading..</div>}>
+    <div>
       <BreadcrumbComponent dataList={dataList2} />
       <CustomTab
         categoryList={categoryListData}
@@ -76,7 +75,7 @@ const MMASPage = () => {
           )}
         </div>
       </div>
-    </Suspense>
+    </div>
   )
 }
 

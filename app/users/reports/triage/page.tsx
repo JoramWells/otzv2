@@ -2,14 +2,14 @@
 
 import { useGetAllVitalSignsQuery } from '@/api/vitalsigns/vitalSigns.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import React, { Suspense } from 'react'
+import React from 'react'
 import { columns } from './columns'
 
 const Page = () => {
   const { data } = useGetAllVitalSignsQuery()
   console.log(data, 'userData')
   return (
-    <Suspense fallback={<div>Loading..</div>}>
+    <div>
       <CustomTable
         columns={columns}
         data={data ?? []}
@@ -17,7 +17,7 @@ const Page = () => {
         // filter={<FilterComponent />}
         // isSearch
       />
-    </Suspense>
+    </div>
   )
 }
 

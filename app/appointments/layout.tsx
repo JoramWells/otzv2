@@ -10,7 +10,7 @@ import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { AlignJustify, CalendarCheck, CalendarDays, ClockIcon, LayoutGrid, PlusIcon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
+import { type JSX, Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Footer from '@/components/Footer'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
@@ -110,4 +110,10 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   return <AuthenticateLoader/>
 }
 
-export default PatientLayout
+export default function WrappedPatientLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+  return (
+    <Suspense>
+      <PatientLayout {...props} />
+    </Suspense>
+  )
+}

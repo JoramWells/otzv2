@@ -3,7 +3,7 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
-import React, { Suspense } from 'react'
+import React from 'react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -28,7 +28,7 @@ const dataList2 = [
 const DisclosureChecklist = () => {
   const router = useRouter()
   return (
-    <Suspense fallback={<div>Loading..</div>}>
+    <div>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="p-4">
@@ -57,7 +57,7 @@ const DisclosureChecklist = () => {
           ))}
         </div>
       </div>
-    </Suspense>
+    </div>
   )
 }
 
