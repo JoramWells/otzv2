@@ -110,7 +110,6 @@ const NotifyPage = () => {
 
   const { data: importantPatients } = useGetImportantPatientQuery(session?.user.id as string)
   const [value, setValue] = useState(1)
-  console.log(importantPatients)
 
   return (
     <>

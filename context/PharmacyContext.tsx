@@ -122,7 +122,7 @@ export const PharmacyProvider = ({ children }: { children: ReactNode }) => {
                 morningStatus
               )
               setAdherenceData(updatedData)
-              console.log(data, 'uio')
+              // console.log(data, 'uio')
             } else if (timeOfDay === 'evening') {
               const updatedData = updatePillStatus(
                 adherenceData,

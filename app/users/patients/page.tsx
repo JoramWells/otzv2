@@ -42,7 +42,7 @@ const dataList2 = [
 const FilterComponent = () => {
   const [isMale, setIsMale] = useState(false)
   return (
-    <CaseManagerDialog label={<ListFilter size={18} />}>
+    <CaseManagerDialog label={<ListFilter size={16} />}>
       <p>Select Age Range</p>
       <div>
         <p>Select gender</p>

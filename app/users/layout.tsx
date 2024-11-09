@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 'use client'
 
@@ -12,13 +13,14 @@ import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
-import { useParams, usePathname, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
+import { type JSX, useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import Footer from '@/components/Footer'
 import { Toaster } from '@/components/ui/toaster'
-import { UserProvider } from '@/context/UserContext'
+import { v4 as uuidv4 } from 'uuid'
+import { UserProvider, useUserContext } from '@/context/UserContext'
 import { PharmacyProvider } from '@/context/PharmacyContext'
 
 const DL: SidebarListItemsProps[] = [
@@ -57,11 +59,24 @@ const DL: SidebarListItemsProps[] = [
 const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   const params = useParams()
   const { patientID } = params
-
+  const moduleParams = useSearchParams()
+  const moduleID = moduleParams.get('moduleID')
   const pathname = usePathname()
   const { data: session, status } = useSession()
   const router = useRouter()
+  const { userSocket, setModuleID } = useUserContext()
+
+  // const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`, {
+  //   path: '/api/users/socket.io',
+  //   transports: ['websocket'],
+  //   query: {
+  //     moduleID
+  //     // userID: session?.user.id,
+  //   }
+  // })
+
   useEffect(() => {
+    const appSessionID = uuidv4()
     if (status === 'loading') { return }
     if (status === 'unauthenticated') {
       // setTimeout(() => {
@@ -69,7 +84,24 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
       // }, 2000)
       router.push('/login')
     }
-  }, [status, router])
+
+      setModuleID(moduleID)
+
+      // if (userSocket != null) {
+        console.log(userSocket, 'user socket defined')
+      // }
+    // })
+
+    return () => {
+      userSocket?.emit('disconnectedAppModuleSession', {
+        id: appSessionID,
+        userID: session?.user.id,
+        moduleID
+      })
+      userSocket?.off('appModuleUsage')
+      // userSocket?.off('disconnectedAppModuleSession')
+    }
+  }, [status, router, moduleID, session, userSocket, setModuleID])
 
   if (session != null) {
     if (
@@ -100,10 +132,8 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
       )
     }
     return (
-      <Provider store={store}>
         <ChakraProvider>
           <SidebarProvider>
-            <UserProvider>
               <PharmacyProvider>
                 <div className="flex flex-row">
                   <Sidebar>
@@ -118,10 +148,8 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
                   <Toaster />
                 </div>
               </PharmacyProvider>
-            </UserProvider>
           </SidebarProvider>
         </ChakraProvider>
-      </Provider>
     )
   }
 
@@ -130,4 +158,12 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default PatientLayout
+export default function WrappedPatientLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+  return (
+    <Provider store={store}>
+      <UserProvider>
+        <PatientLayout {...props} />
+      </UserProvider>
+    </Provider>
+  )
+}

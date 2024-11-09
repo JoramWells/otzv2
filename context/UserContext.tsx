@@ -22,13 +22,17 @@ import { useGetPatientByUserIDQuery } from '@/api/patient/patients.api'
 export interface AppContext {
   user: PatientAttributes | undefined
   onlineUsers: PatientAttributes[]
+  userSocket: Socket | undefined
   setUser: Dispatch<SetStateAction<PatientAttributes | undefined>>
+  setModuleID: Dispatch<SetStateAction<string | undefined | null>>
 }
 
 const initialState: AppContext = {
   user: undefined,
+  userSocket: undefined,
   onlineUsers: [],
-  setUser: () => {}
+  setUser: () => {},
+  setModuleID: () => {}
 }
 
 export const UserContext = createContext(initialState)
@@ -36,12 +40,12 @@ export const UserContext = createContext(initialState)
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [socket, setSocket] = useState<Socket>()
   const [onlineUsers, setOnlineUsers] = useState<PatientAttributes[]>([])
   const [user, setUser] = useState<PatientAttributes | undefined>()
   // const [notificationCount, setNotificationCount] = useState(0)
   const { data: patientData } = useGetPatientByUserIDQuery(session?.user.id as string)
-
+  const [userSocket, setUserSocket] = useState<Socket>()
+  const [moduleID, setModuleID] = useState<string | undefined | null>()
   useEffect(() => {
     if (status === 'loading') {
       return
@@ -55,13 +59,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, [status, router])
 
   useEffect(() => {
-    if (session != null && patientData?.id !== undefined) {
+    if (session != null) {
       const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`, {
         path: '/api/users/socket.io',
         transports: ['websocket'],
         query: {
           patientID: patientData?.id,
-          userID: session.user.id
+          userID: session.user.id,
+          moduleID
         }
       })
 
@@ -71,7 +76,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         newSocket.on('getOnlineUsers', (res: PatientAttributes[]) => {
           setOnlineUsers(res)
         })
-        setSocket(newSocket)
+        setUserSocket(newSocket)
+      })
+
+      newSocket.on('connect_error', (err) => {
+        console.log('Error!!', err)
       })
       return () => {
         newSocket.off('addNewUser')
@@ -86,14 +95,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     //
     // if()
-  }, [patientData?.id, session])
+  }, [moduleID, patientData?.id, session])
 
   return (
     <UserContext.Provider
       value={{
         user,
         setUser,
-        onlineUsers
+        onlineUsers,
+        userSocket,
+        setModuleID
       }}
     >
       {children}

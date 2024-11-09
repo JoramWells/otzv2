@@ -63,8 +63,6 @@ const RegisteredPatientsLineChart = ({ data }: { data: PatientAttributes[] }) =>
     return Object.values(countMap)
   }, [data])()
 
-  console.log(prepareData, 'pdata')
-
   return (
     <div className='flex-1' >
       {prepareData?.length > 0 && (
