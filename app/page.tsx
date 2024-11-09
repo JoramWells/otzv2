@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { Search } from 'lucide-react'
+import { Clock, Search } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
@@ -16,9 +16,11 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { UserAccount } from '@/components/users/UserAccount'
-import { type AppModuleInterface, type UserInterface } from 'otz-types'
+import { AppModuleSessionInterface, type AppModuleInterface, type UserInterface } from 'otz-types'
 import axios from 'axios'
 import { type Url } from 'url'
+import { ExtendedAppModuleSession } from '@/api/appModules/appModuleSession.api'
+import moment from 'moment'
 
 interface ListItemProps {
   id: string
@@ -34,6 +36,14 @@ interface ItemListProps {
   link: string
   listItem: ListItemProps[]
 }
+
+const administrator: AppModuleInterface[] = [{
+  id: '1',
+  title: 'Administrator',
+  link: '/administrator/dashboard',
+  img: '/img/admin.png',
+  description: 'Manage user registration, medicine, schools...'
+}]
 
 const itemList: ItemListProps[] = [
   {
@@ -304,17 +314,31 @@ const fetchData = async (): Promise<AppModuleInterface[] | undefined> => {
   }
 }
 
+const fetchRecentData = async (id: string): Promise<ExtendedAppModuleSession[] | undefined> => {
+  try {
+    const { data } = await axios.get<ExtendedAppModuleSession[]>(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/root/app-module-session/detail/${id}`
+    );
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export default function Home () {
   const { data: session, status } = useSession()
   const [user, setUser] = useState<UserInterface>()
   const [data, setData] = useState<AppModuleInterface[]>([])
+  const [recentSession, setRecentSession] = useState<
+    ExtendedAppModuleSession[] | undefined
+  >([]);
   const [error, setError] = useState()
 
   useEffect(() => {
     void (async () => {
       const resp = await fetchData()
       if (resp) {
-        setData(resp)
+        setData(administrator.concat(resp))
         // console.log(resp, 'response')
       }
     })()
@@ -328,7 +352,13 @@ export default function Home () {
 
     if (session) {
       const { user } = session
-      setUser(user as UserInterface)
+      setUser(user as UserInterface);
+      (async () => {
+        const dtm = await fetchRecentData(user?.id as string);
+        setRecentSession(dtm);
+        console.log(dtm, 'dtm')
+      })();
+
     }
 
     if (status === 'unauthenticated') {
@@ -341,7 +371,7 @@ export default function Home () {
   if (session != null) {
     return (
       <>
-        <div className=" bg-slate-50 h-screen flex-1 ">
+        <div className=" bg-slate-50 h-100vh flex-1 ">
           <Suspense fallback={<Skeleton className="p-4 w-full" />}>
             <nav
               className="flex justify-between
@@ -349,11 +379,11 @@ export default function Home () {
         border-slate-200 p-1 pl-4 pr-4 w-full"
             >
               <Image
-                src={'/img/logo1.svg'}
+                src={"/img/logo1.svg"}
                 alt="img"
                 width={0}
                 height={0}
-                style={{ width: '90px', height: 'auto' }}
+                style={{ width: "90px", height: "auto" }}
 
                 // quality={100}
               />
@@ -369,11 +399,11 @@ export default function Home () {
                 <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
                   <div className="  text-teal-600 pl-4">
                     <p className="">
-                      Hello{' '}
+                      Hello{" "}
                       <span className="font-bold underline">
                         {user?.firstName}
                       </span>
-                      ,{' '}
+                      ,{" "}
                     </p>
                     <p className="text-[14px]">Welcome to CarePlus +</p>
                   </div>
@@ -388,7 +418,7 @@ export default function Home () {
                     />
                     <Button
                       className="bg-slate-50 rounded-full hover:bg-slate-50 shadow-none"
-                      size={'sm'}
+                      size={"sm"}
                     >
                       <Search className="text-slate-500" size={18} />
                     </Button>
@@ -396,62 +426,137 @@ export default function Home () {
                 </div>
               </Suspense>
 
-              {/*  */}
-              <div className="grid px-2  w-full grid-cols-1 gap-2 lg:grid-cols-4 md:grid-cols-2">
-                {data?.map((item: AppModuleInterface) => (
-                  <Suspense
-                    key={item.id}
-                    fallback={<Skeleton className="h-[120px]" />}
-                  >
-                    <div
-                      key={item.id}
-                      tabIndex={0}
-                      className="border-slate-200 p-4 rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 hover:shadow-lg"
-                      onClick={() => {
-                        router.push(`${item.link}?moduleID=${item.id}`)
-                      }}
-                    >
-                      {/* <div className="w-full flex justify-end">
+              {/* recent session data */}
+              { recentSession && recentSession?.length > 0 && (
+                <div className="w-full">
+                  <p className="mb-2 mt-2 ml-2 font-bold">Quick Access</p>
+                  <div className="grid px-2  w-full grid-cols-1 gap-2 lg:grid-cols-4 md:grid-cols-2 mb-2 border-b border-slate-200 pb-2">
+                    {recentSession?.map((item: ExtendedAppModuleSession) => (
+                      <Suspense
+                        key={item.id}
+                        fallback={<Skeleton className="h-[120px]" />}
+                      >
+                        <div
+                          key={item.id}
+                          tabIndex={0}
+                          className="border-slate-200 relative p-4 rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 hover:shadow-lg"
+                          onClick={() => {
+                            router.push(
+                              `${item.appModule.link}?moduleID=${item.id}`
+                            );
+                          }}
+                        >
+                          {/* <div className="w-full flex justify-end">
                         <MenuSelect dataList={item.listItem} />
                       </div> */}
-                      <div className="w-full flex flex-row space-x-4 justify-start items-start">
-                        <Image
-                          src={`${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.img}`}
-                          alt="img"
-                          width={40}
-                          height={40}
-                          style={{
-                            width: '40px',
-                            height: '40px',
-                            objectFit: 'contain'
-                          }}
+                          <div className="w-full flex flex-row space-x-4 justify-start items-start">
+                            <Image
+                              src={`${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.appModule.img}`}
+                              alt="img"
+                              width={40}
+                              height={40}
+                              style={{
+                                width: "40px",
+                                height: "40px",
+                                objectFit: "contain",
+                              }}
 
-                          // quality={100}
-                        />
-                        <div>
-                          <Link
-                            className="font-bold hover:underline"
-                            href={item.link as unknown as Url}
-                          >
-                            {item.title}
-                          </Link>
-                          <p className="text-slate-500 text-[12px]">
-                            {item.description
-                              ? item.description
-                              : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
-                          </p>
+                              // quality={100}
+                            />
+                            <div>
+                              <Link
+                                className="font-bold hover:underline"
+                                href={item.appModule.link as unknown as Url}
+                              >
+                                {item.appModule.title}
+                              </Link>
+                              <p className="text-slate-500 text-[12px]">
+                                {item.appModule.description
+                                  ? item.appModule.description
+                                  : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime"}
+                              </p>
+                            </div>
+                            <div
+                              className="absolute bottom-0 right-0 p-2
+                          flex flex-row items-center space-x-2
+                          "
+                            >
+                              <Clock size={16} className="text-slate-500" />
+                              <p className="text-[12px] text-slate-500 ">
+                                {moment(item.disconnectedAt).calendar()}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </Suspense>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/*  */}
+              <div className="w-full mb-2">
+                <p className="mb-2 ml-2 font-bold">All Modules</p>
+                <div className="grid px-2  w-full grid-cols-1 gap-2 lg:grid-cols-4 md:grid-cols-2">
+                  {data?.map((item: AppModuleInterface) => (
+                    <Suspense
+                      key={item.id}
+                      fallback={<Skeleton className="h-[120px]" />}
+                    >
+                      <div
+                        key={item.id}
+                        tabIndex={0}
+                        className="border-slate-200 p-4 rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 hover:shadow-lg"
+                        onClick={() => {
+                          router.push(`${item.link}?moduleID=${item.id}`);
+                        }}
+                      >
+                        {/* <div className="w-full flex justify-end">
+                        <MenuSelect dataList={item.listItem} />
+                      </div> */}
+                        <div className="w-full flex flex-row space-x-4 justify-start items-start">
+                          <Image
+                            src={
+                              item.id !== "1"
+                                ? `${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.img}`
+                                : (item.img as string)
+                            }
+                            alt="img"
+                            width={40}
+                            height={40}
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              objectFit: "contain",
+                            }}
+
+                            // quality={100}
+                          />
+                          <div>
+                            <Link
+                              className="font-bold hover:underline"
+                              href={item.link as unknown as Url}
+                            >
+                              {item.title}
+                            </Link>
+                            <p className="text-slate-500 text-[12px]">
+                              {item.description
+                                ? item.description
+                                : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime"}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Suspense>
-                ))}
+                    </Suspense>
+                  ))}
+                </div>
               </div>
             </div>
           </main>
         </div>
         <Footer />
       </>
-    )
+    );
   }
   return (
    <AuthenticateLoader/>

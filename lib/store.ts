@@ -75,6 +75,7 @@ import { postDisclosureApi } from '@/api/treatmentplan/full/postDisclosure.api'
 import { importantPatientApi } from '@/api/patient/importantPatients.api'
 import { userSessionLogsApi } from '@/api/patient/userSessionLogs.api'
 import { appModulesApi } from '@/api/appModules/appModules.api'
+import { appModuleSessionApi } from '@/api/appModules/appModuleSession.api'
 
 export const store = configureStore({
   reducer: {
@@ -85,6 +86,7 @@ export const store = configureStore({
     [vitalSignsApi.reducerPath]: vitalSignsApi.reducer,
     [artRegimenApi.reducerPath]: artRegimenApi.reducer,
     [appModulesApi.reducerPath]: appModulesApi.reducer,
+    [appModuleSessionApi.reducerPath]: appModuleSessionApi.reducer,
     [artRegimenPhaseApi.reducerPath]: artRegimenPhaseApi.reducer,
     [artRegimenCategoryApi.reducerPath]: artRegimenCategoryApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
@@ -154,12 +156,12 @@ export const store = configureStore({
     [postDisclosureApi.reducerPath]: postDisclosureApi.reducer,
     [importantPatientApi.reducerPath]: importantPatientApi.reducer,
     [userSessionLogsApi.reducerPath]: userSessionLogsApi.reducer,
-    [hospitalApi.reducerPath]: hospitalApi.reducer
+    [hospitalApi.reducerPath]: hospitalApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,
-      serializableCheck: false
+      serializableCheck: false,
     })
       .concat(patientsApi.middleware)
       .concat(nextOfKinApi.middleware)
@@ -193,6 +195,7 @@ export const store = configureStore({
       .concat(viralLoadApi.middleware)
       .concat(artSwitchReasonApi.middleware)
       .concat(appModulesApi.middleware)
+      .concat(appModuleSessionApi.middleware)
       .concat(artRegimenSwitchApi.middleware)
       .concat(internalLabRequestApi.middleware)
       .concat(measuringUnitApi.middleware)
@@ -235,5 +238,5 @@ export const store = configureStore({
       .concat(postDisclosureApi.middleware)
       .concat(importantPatientApi.middleware)
       .concat(userSessionLogsApi.middleware)
-      .concat(hospitalApi.middleware)
-})
+      .concat(hospitalApi.middleware),
+});
