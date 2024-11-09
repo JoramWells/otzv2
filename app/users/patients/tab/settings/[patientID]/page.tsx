@@ -149,18 +149,18 @@ const ProfileSettings = ({ params }: { params: any }) => {
         <div className="w-1/2 p-4 flex flex-col space-y-4 bg-white rounded-lg">
           <CustomInput
             label="First Name"
-            value={firstName!}
+            value={firstName}
             onChange={setFirstName}
           />
 
           <CustomInput
             label="Second Name"
-            value={middleName!}
+            value={middleName}
             onChange={setMiddleName}
           />
           <CustomInput
             label="Last Name"
-            value={lastName!}
+            value={lastName}
             onChange={setLastName}
           />
 
@@ -171,7 +171,7 @@ const ProfileSettings = ({ params }: { params: any }) => {
             onChange={setDOB}
           />
 
-          <CustomInput label="Phone" value={phoneNo!} onChange={setPhoneNo} />
+          <CustomInput label="Phone" value={phoneNo} onChange={setPhoneNo} />
 
           {/*  */}
           {/* <SelectYears setValue={setRole} value={role} /> */}

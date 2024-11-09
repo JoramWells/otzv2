@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
@@ -6,7 +7,7 @@ import './globals.css'
 import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
-import { MenuSelect } from './_components/MenuSelect'
+// import { MenuSelect } from './_components/MenuSelect'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -15,9 +16,9 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { UserAccount } from '@/components/users/UserAccount'
-import { type UserInterface } from 'otz-types'
-import { useGetAllAppModulesQuery } from '@/api/appModules/appModules.api'
+import { type AppModuleInterface, type UserInterface } from 'otz-types'
 import axios from 'axios'
+import { type Url } from 'url'
 
 interface ListItemProps {
   id: string
@@ -292,9 +293,9 @@ const itemList: ItemListProps[] = [
   }
 ]
 
-const fetchData = async () => {
+const fetchData = async (): Promise<AppModuleInterface[] | undefined> => {
   try {
-    const { data } = await axios.get(
+    const { data } = await axios.get<AppModuleInterface[]>(
       `${process.env.NEXT_PUBLIC_API_URL}/api/root/app-modules/fetchAll`
     )
     return data
@@ -306,11 +307,11 @@ const fetchData = async () => {
 export default function Home () {
   const { data: session, status } = useSession()
   const [user, setUser] = useState<UserInterface>()
-  const [data, setData] = useState([])
+  const [data, setData] = useState<AppModuleInterface[]>([])
   const [error, setError] = useState()
 
   useEffect(() => {
-    (async () => {
+    void (async () => {
       const resp = await fetchData()
       if (resp) {
         setData(resp)
@@ -399,7 +400,7 @@ export default function Home () {
 
               {/*  */}
               <div className="grid px-2  w-full grid-cols-1 gap-2 lg:grid-cols-4 md:grid-cols-2">
-                {data?.map((item) => (
+                {data?.map((item: AppModuleInterface) => (
                   <Suspense
                     key={item.id}
                     fallback={<Skeleton className="h-[120px]" />}
@@ -432,7 +433,7 @@ export default function Home () {
                         <div>
                           <Link
                             className="font-bold hover:underline"
-                            href={item.link}
+                            href={item.link as unknown as Url}
                           >
                             {item.title}
                           </Link>
