@@ -19,7 +19,7 @@ import { UserAccount } from '@/components/users/UserAccount'
 import { AppModuleSessionInterface, type AppModuleInterface, type UserInterface } from 'otz-types'
 import axios from 'axios'
 import { type Url } from 'url'
-import { ExtendedAppModuleSession } from '@/api/appModules/appModuleSession.api'
+import { type ExtendedAppModuleSession } from '@/api/appModules/appModuleSession.api'
 import moment from 'moment'
 
 interface ListItemProps {
@@ -318,20 +318,20 @@ const fetchRecentData = async (id: string): Promise<ExtendedAppModuleSession[] |
   try {
     const { data } = await axios.get<ExtendedAppModuleSession[]>(
       `${process.env.NEXT_PUBLIC_API_URL}/api/root/app-module-session/detail/${id}`
-    );
-    return data;
+    )
+    return data
   } catch (e) {
-    console.log(e);
+    console.log(e)
   }
-};
+}
 
 export default function Home () {
   const { data: session, status } = useSession()
   const [user, setUser] = useState<UserInterface>()
   const [data, setData] = useState<AppModuleInterface[]>([])
   const [recentSession, setRecentSession] = useState<
-    ExtendedAppModuleSession[] | undefined
-  >([]);
+  ExtendedAppModuleSession[] | undefined
+  >([])
   const [error, setError] = useState()
 
   useEffect(() => {
@@ -352,13 +352,11 @@ export default function Home () {
 
     if (session) {
       const { user } = session
-      setUser(user as UserInterface);
-      (async () => {
-        const dtm = await fetchRecentData(user?.id as string);
-        setRecentSession(dtm);
-        console.log(dtm, 'dtm')
-      })();
-
+      setUser(user as UserInterface)
+      void (async () => {
+        const dtm = await fetchRecentData(user?.id as string)
+        setRecentSession(dtm)
+      })()
     }
 
     if (status === 'unauthenticated') {
@@ -379,11 +377,11 @@ export default function Home () {
         border-slate-200 p-1 pl-4 pr-4 w-full"
             >
               <Image
-                src={"/img/logo1.svg"}
+                src={'/img/logo1.svg'}
                 alt="img"
                 width={0}
                 height={0}
-                style={{ width: "90px", height: "auto" }}
+                style={{ width: '90px', height: 'auto' }}
 
                 // quality={100}
               />
@@ -399,11 +397,11 @@ export default function Home () {
                 <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mt-2 mb-2 rounded-lg">
                   <div className="  text-teal-600 pl-4">
                     <p className="">
-                      Hello{" "}
+                      Hello{' '}
                       <span className="font-bold underline">
                         {user?.firstName}
                       </span>
-                      ,{" "}
+                      ,{' '}
                     </p>
                     <p className="text-[14px]">Welcome to CarePlus +</p>
                   </div>
@@ -418,7 +416,7 @@ export default function Home () {
                     />
                     <Button
                       className="bg-slate-50 rounded-full hover:bg-slate-50 shadow-none"
-                      size={"sm"}
+                      size={'sm'}
                     >
                       <Search className="text-slate-500" size={18} />
                     </Button>
@@ -443,7 +441,7 @@ export default function Home () {
                           onClick={() => {
                             router.push(
                               `${item.appModule.link}?moduleID=${item.id}`
-                            );
+                            )
                           }}
                         >
                           {/* <div className="w-full flex justify-end">
@@ -456,9 +454,9 @@ export default function Home () {
                               width={40}
                               height={40}
                               style={{
-                                width: "40px",
-                                height: "40px",
-                                objectFit: "contain",
+                                width: '40px',
+                                height: '40px',
+                                objectFit: 'contain'
                               }}
 
                               // quality={100}
@@ -473,7 +471,7 @@ export default function Home () {
                               <p className="text-slate-500 text-[12px]">
                                 {item.appModule.description
                                   ? item.appModule.description
-                                  : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime"}
+                                  : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
                               </p>
                             </div>
                             <div
@@ -508,7 +506,7 @@ export default function Home () {
                         tabIndex={0}
                         className="border-slate-200 p-4 rounded-lg h-[120px] hover:cursor-pointer bg-white shadow-slate-100 hover:shadow-lg"
                         onClick={() => {
-                          router.push(`${item.link}?moduleID=${item.id}`);
+                          router.push(`${item.link}?moduleID=${item.id}`)
                         }}
                       >
                         {/* <div className="w-full flex justify-end">
@@ -517,7 +515,7 @@ export default function Home () {
                         <div className="w-full flex flex-row space-x-4 justify-start items-start">
                           <Image
                             src={
-                              item.id !== "1"
+                              item.id !== '1'
                                 ? `${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.img}`
                                 : (item.img as string)
                             }
@@ -525,9 +523,9 @@ export default function Home () {
                             width={40}
                             height={40}
                             style={{
-                              width: "40px",
-                              height: "40px",
-                              objectFit: "contain",
+                              width: '40px',
+                              height: '40px',
+                              objectFit: 'contain'
                             }}
 
                             // quality={100}
@@ -542,7 +540,7 @@ export default function Home () {
                             <p className="text-slate-500 text-[12px]">
                               {item.description
                                 ? item.description
-                                : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime"}
+                                : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
                             </p>
                           </div>
                         </div>
@@ -556,7 +554,7 @@ export default function Home () {
         </div>
         <Footer />
       </>
-    );
+    )
   }
   return (
    <AuthenticateLoader/>

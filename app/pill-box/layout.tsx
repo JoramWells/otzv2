@@ -11,10 +11,11 @@ import { SidebarProvider } from '@/context/SidebarContext'
 import { BellDot, BookCopy, Kanban, LayoutDashboardIcon, Pill } from 'lucide-react'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { type JSX, Suspense, useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { PharmacyProvider } from '@/context/PharmacyContext'
+import { UserProvider, useUserContext } from '@/context/UserContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -52,6 +53,14 @@ const DL: SidebarListItemsProps[] = [
 const PillLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const { setModuleID } = useUserContext()
+
+  const moduleParams = useSearchParams()
+  const moduleID = moduleParams.get('moduleID')
+
+  useEffect(() => {
+    setModuleID(moduleID)
+  }, [moduleID, setModuleID])
   useEffect(() => {
     if (status === 'loading') {
       return
@@ -63,26 +72,34 @@ const PillLayout = ({ children }: { children: React.ReactNode }) => {
   }, [status, router])
   if (session != null) {
     return (
-      <Provider store={store}>
-        <PharmacyProvider>
-          <SidebarProvider>
-            <div className="flex flex-row">
-              <Sidebar>
-                <SidebarListItemsComponent dataList={DL} />
-              </Sidebar>
-              <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
-                {/* <Navbar /> */}
+          <PharmacyProvider>
+            <SidebarProvider>
+              <div className="flex flex-row">
+                <Sidebar>
+                  <SidebarListItemsComponent dataList={DL} />
+                </Sidebar>
+                <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
+                  {/* <Navbar /> */}
 
-                {children}
+                  {children}
+                </div>
               </div>
-            </div>
-          </SidebarProvider>
-        </PharmacyProvider>
-      </Provider>
+            </SidebarProvider>
+          </PharmacyProvider>
     )
   }
 
   return <AuthenticateLoader/>
 }
 
-export default PillLayout
+export default function WrappedPillLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<div>Loading..</div>}>
+      <Provider store={store} >
+        <UserProvider>
+          <PillLayout {...props} />
+        </UserProvider>
+      </Provider>
+    </Suspense>
+  )
+}

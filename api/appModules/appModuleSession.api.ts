@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { AppModuleInterface, AppModuleSessionInterface } from 'otz-types'
+import { type AppModuleInterface, type AppModuleSessionInterface } from 'otz-types'
 
 export type ExtendedAppModuleSession = AppModuleSessionInterface & {
   appModule: AppModuleInterface
