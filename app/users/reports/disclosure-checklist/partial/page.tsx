@@ -2,7 +2,7 @@
 
 import { useGetAllChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 import CustomTab from '@/components/tab/CustomTab'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { columns, disclosureColumn } from './columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
@@ -51,7 +51,7 @@ const PartialPage = () => {
   ]
 
   return (
-    <div>
+    <Suspense fallback={<div>Loading..</div>}>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="mt-2 mb-2 p-4 bg-white">
@@ -106,7 +106,7 @@ const PartialPage = () => {
           )}
         </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
 

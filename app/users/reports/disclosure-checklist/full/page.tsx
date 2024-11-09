@@ -1,7 +1,7 @@
 'use client'
 
 import CustomTab from '@/components/tab/CustomTab'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -52,7 +52,7 @@ const FullPage = () => {
   ]
 
   return (
-    <div>
+    <Suspense fallback={<div>Loading..</div>}>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="mt-2 mb-2 p-4 bg-white">
@@ -105,7 +105,7 @@ const FullPage = () => {
           )}
         </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
 
