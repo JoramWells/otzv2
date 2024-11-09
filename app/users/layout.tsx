@@ -15,7 +15,7 @@ import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_compo
 import { BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { type JSX, useEffect } from 'react'
+import { type JSX, Suspense, useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import Footer from '@/components/Footer'
 import { Toaster } from '@/components/ui/toaster'
@@ -160,10 +160,14 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
 
 export default function WrappedPatientLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
   return (
-    <Provider store={store}>
-      <UserProvider>
-        <PatientLayout {...props} />
-      </UserProvider>
-    </Provider>
+    <Suspense
+    fallback={<div>Loading...</div>}
+    >
+      <Provider store={store}>
+        <UserProvider>
+          <PatientLayout {...props} />
+        </UserProvider>
+      </Provider>
+    </Suspense>
   )
 }
