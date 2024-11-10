@@ -13,7 +13,7 @@ import {
   ChartTooltipContent
 } from '@/components/ui/chart'
 import { useMemo } from 'react'
-import { type AppointmentProps } from '@/app/appointments/types'
+import { type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
 
 type GroupData = Record<string, any>
 
@@ -28,7 +28,7 @@ const getNextColor = () => {
   return `hsl(var(--chart-${nextColor}))`
 }
 
-export function AppointmentBarChart ({ data }: { data: AppointmentProps[] }) {
+export function AppointmentBarChart ({ data }: { data: ExtendedAppointmentInputProps[] }) {
   const chartConfig = useMemo(() => {
     const config: ChartConfig = {}
     data?.forEach(({ AppointmentAgenda }) => {

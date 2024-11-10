@@ -4,10 +4,9 @@ import CustomTab from '@/components/tab/CustomTab'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { columns } from '@/app/appointments/columns'
-import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
+import { type ExtendedAppointmentInputProps, useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { calculateAge } from '@/utils/calculateAge'
-import { type AppointmentProps } from '@/app/appointments/types'
 
 const AppointmentHomepage = () => {
   const searchParams = useSearchParams()
@@ -21,7 +20,10 @@ const AppointmentHomepage = () => {
     date: '2022-01-01'
   })
 
-  let sortedAppointment: AppointmentProps[] = useMemo(() => (data ? [...data] : []), [data])
+  let sortedAppointment: ExtendedAppointmentInputProps[] = useMemo(
+    () => (data ? [...data] : []),
+    [data]
+  )
 
   // const memSorted = useCallback(() => {}, [])
 

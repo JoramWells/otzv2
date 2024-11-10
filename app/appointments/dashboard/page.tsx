@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
@@ -9,11 +10,13 @@ import dynamic from 'next/dynamic'
 import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
 import { useGetAllAppointmentsQuery, useGetAllPriorityAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { pinnedColumns } from '../columns'
 import { calculateAge } from '@/utils/calculateAge'
+import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
+import { useSession } from 'next-auth/react'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -37,6 +40,7 @@ const dataList2 = [
 
 const NotifyPage = () => {
   const [value, setValue] = useState('all')
+  const { data: session } = useSession()
 
   let { data: weeklyData } = useGetAllAppointmentsQuery({
     date: '2022-01-01',
@@ -45,6 +49,17 @@ const NotifyPage = () => {
   weeklyData = weeklyData?.filter(item => calculateAge(item.Patient.dob) < 25)
 
   const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
+  const { data: importantPatients } = useGetImportantPatientQuery(
+    session?.user.id as string
+  )
+
+  const importantPatientIDs = importantPatients?.map(item => item.patientID)
+
+  const importantPatientAppointment = weeklyData?.filter(appointment =>
+    importantPatientIDs?.includes(appointment.patientID)
+  )
+
+  console.log(importantPatientAppointment, 'important appointments')
 
   const handleSelectChange = (val: string) => {
     setValue(val)
@@ -52,20 +67,13 @@ const NotifyPage = () => {
 
   const [tab, setTab] = useState(1)
 
-  const filterWeeklyData = useCallback(() => {
-    const tempData = weeklyData ? [...weeklyData] : []
-    return tempData.filter(
-      (item) => item?.Patient?.isImportant
-    )
-  }, [weeklyData])()
-
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
           <div className="flex justify-between items-center w-full bg-white p-2 mt-2 ">
               <h2
-                className="font-semibold text-lg capitalize ml-2
+                className="font-semibold capitalize ml-2
         "
               >
                 Appointments
@@ -129,7 +137,7 @@ const NotifyPage = () => {
             {tab === 1 && (
               <CustomTable
                 isSearch={false}
-                data={filterWeeklyData || []}
+                data={importantPatientAppointment ?? []}
                 columns={pinnedColumns}
               />
             )}

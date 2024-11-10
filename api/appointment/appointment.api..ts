@@ -1,25 +1,23 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { type AppointmentProps } from '@/app/appointments/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { type AppointmentAttributes } from 'otz-types'
+import { type AppointmentAgendaAttributes, type PatientAttributes, type AppointmentAttributes } from 'otz-types'
 
 interface AppointmentTypeProps {
   date?: string
   mode?: string
 }
 
-export type AppointmentInputProps = AppointmentAttributes & {
-  Patient: {
-    firstName?: string
-    middleName?: string
-    dob?: string
-  }
-  AppointmentAgenda: {
-    agendaDescription: string
-  }
+export type ExtendedAppointmentInputProps = AppointmentAttributes & {
+  Patient: PatientAttributes
+} & { AppointmentAgenda: AppointmentAgendaAttributes } & {
   AppointmentStatus: {
-    statusDescription: string
+    statusDescription:
+    | 'Pending'
+    | 'Upcoming'
+    | 'Completed'
+    | 'Rescheduled'
+    | 'Cancelled'
   }
 }
 
@@ -29,20 +27,21 @@ export const appointmentApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/appointments`
   }),
   endpoints: (builder) => ({
-    getAllAppointments: builder.query<AppointmentProps[], AppointmentTypeProps>(
-      {
-        query: (params) => {
-          if (params) {
-            const { date, mode } = params
-            let queryString = ''
-            queryString += `date=${date}`
-            queryString += `&mode=${mode}`
-            return `/fetchAll?${queryString}`
-          }
-          return '/fetchAll'
+    getAllAppointments: builder.query<
+    ExtendedAppointmentInputProps[],
+    AppointmentTypeProps
+    >({
+      query: (params) => {
+        if (params) {
+          const { date, mode } = params
+          let queryString = ''
+          queryString += `date=${date}`
+          queryString += `&mode=${mode}`
+          return `/fetchAll?${queryString}`
         }
+        return '/fetchAll'
       }
-    ),
+    }),
     getAllWeeklyAppointments: builder.query<any, void>({
       query: () => 'fetchAllWeekly'
     }),
@@ -53,7 +52,7 @@ export const appointmentApi = createApi({
         body: newUser
       })
     }),
-    getAppointment: builder.query<AppointmentInputProps, string>({
+    getAppointment: builder.query<ExtendedAppointmentInputProps, string>({
       query: (id) => {
         return `detail/${id}`
       }
