@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import CustomTab from '@/components/tab/CustomTab'
@@ -28,7 +29,7 @@ const AppointmentHomepage = () => {
   // const memSorted = useCallback(() => {}, [])
 
   sortedAppointment.sort(
-    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+    (a, b) => new Date(b.updatedAt as Date).getTime() - new Date(a.updatedAt as Date).getTime()
   )
 
   sortedAppointment = sortedAppointment.filter(item => calculateAge(item.Patient.dob) < 25)
