@@ -7,7 +7,7 @@ import Link from 'next/link'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
-import { type AppointmentProps } from './types'
+import { type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
 // import { FaEdit } from 'react-icons/fa'
 
 const days = [
@@ -47,7 +47,7 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<AppointmentProps>> = [
+export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
   {
     accessorKey: 'patient',
     header: 'Name',
@@ -194,7 +194,7 @@ export const columns: Array<ColumnDef<AppointmentProps>> = [
 ]
 
 //
-export const rescheduledColumns: Array<ColumnDef<AppointmentProps>> = [
+export const rescheduledColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
   {
     accessorKey: 'patient',
     header: 'Patient Name',
@@ -274,7 +274,7 @@ export const rescheduledColumns: Array<ColumnDef<AppointmentProps>> = [
           <Badge className="text-[12px] rounded-full shadow-none bg-slate-200 hover:bg-slate-100 text-slate-500 ">
             {
               days.map((item) => item.day)[
-                new Date(row.original.rescheduledDate).getDay()
+                new Date(row.original.rescheduledDate as unknown as Date).getDay()
               ]
             }
           </Badge>
@@ -291,7 +291,7 @@ export const rescheduledColumns: Array<ColumnDef<AppointmentProps>> = [
 
 //
 
-export const pinnedColumns: Array<ColumnDef<AppointmentProps>> = [
+export const pinnedColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
   {
     accessorKey: 'firstName',
     header: 'Name',
