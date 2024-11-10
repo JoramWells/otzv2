@@ -1,18 +1,15 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable react/prop-types */
 import { Chart, type ChartDataset, registerables } from 'chart.js'
 
-import { useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
+import { type ExtendedAppointmentInputProps, useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 // import { type MomentInput } from 'moment'
 import { useCallback } from 'react'
 import { Bar } from 'react-chartjs-2'
 import moment from 'moment'
 import { useGetAllUserAvailabilitiesQuery } from '@/api/users/userAvailability.api'
-
-interface DataProps {
-  appointmentDate: Date
-}
 
 export interface BarChartProps {
   labels: string[]
@@ -47,8 +44,8 @@ const WeeklyAppointmentBarChart = () => {
     const daysOfWeek = filterAvailableWeekDays ? Object.keys(filterAvailableWeekDays) : []
     const appointmentsCountByDay = [0, 0, 0, 0, 0, 0, 0]
 
-    weeklyData?.forEach((appointment: DataProps) => {
-      const appointmentDate = new Date(appointment.appointmentDate)
+    weeklyData?.forEach((appointment: ExtendedAppointmentInputProps) => {
+      const appointmentDate = new Date(appointment.appointmentDate as string)
       const dayOfWeek = appointmentDate.getDay()
       appointmentsCountByDay[dayOfWeek]++
     })
