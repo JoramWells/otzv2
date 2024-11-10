@@ -15,6 +15,8 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import { importantPrescription } from '../prescription/columns'
 import { usePharmacyContext } from '@/context/PharmacyContext'
 import AdherenceRate from '@/components/Recharts/AdherenceRate'
+import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
+import { useSession } from 'next-auth/react'
 
 const DoubleARTUptakeBarChart = dynamic(
   async () => await import('../../_components/charts/DoubleARTUptakeBarChart'),
@@ -82,6 +84,7 @@ const NotifyPage = () => {
   )
 
   const recentPrescription = filteredArray?.slice(0, 3)
+  const { data: session } = useSession()
 
   const filterPrescriptionData = useCallback(() => {
     const tempData = prescriptionData ? [...prescriptionData] : []
@@ -89,6 +92,14 @@ const NotifyPage = () => {
       (item: ExtendedPrescriptionInterface) => item?.Patient?.isImportant
     )
   }, [prescriptionData])()
+  const { data: importantPatients } = useGetImportantPatientQuery(
+    session?.user.id as string
+  )
+  const importantPatientIDs = importantPatients?.map((item) => item.patientID)
+
+  const importantPatientAppointment = filterPrescriptionData?.filter(
+    (appointment) => importantPatientIDs?.includes(appointment.patientID)
+  )
 
   const { data: artPrescriptionData, isLoading: loadingArtPrescription } = useGetAllArtPrescriptionQuery()
 
@@ -99,26 +110,26 @@ const NotifyPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
 
       <AdherenceRate data={facilityData} />
-        <div className="flex flex-row justify-between items-start w-full space-x-2 p-2 pt-0 ">
-          <DoubleARTUptakeBarChart
-            morningTrueCount={uptakeCount.morningTrue}
-            morningFalseCount={uptakeCount.morningFalse}
-            eveningTrueCount={uptakeCount?.eveningTrue}
-            eveningFalseCount={uptakeCount?.eveningFalse}
-          />
+      <div className="flex flex-row justify-between items-start w-full space-x-2 p-2 pt-0 ">
+        <DoubleARTUptakeBarChart
+          morningTrueCount={uptakeCount.morningTrue}
+          morningFalseCount={uptakeCount.morningFalse}
+          eveningTrueCount={uptakeCount?.eveningTrue}
+          eveningFalseCount={uptakeCount?.eveningFalse}
+        />
 
-          {/*  */}
+        {/*  */}
 
-          <HorizontalLineChart
-            data={artPrescriptionData as ARTPrescriptionInterface[]}
-            isLoading={loadingArtPrescription}
-          />
+        <HorizontalLineChart
+          data={artPrescriptionData as ARTPrescriptionInterface[]}
+          isLoading={loadingArtPrescription}
+        />
 
-          {/*  */}
-          <RadarARTChart
-            data={artPrescriptionData as ARTPrescriptionInterface[]}
-          />
-        </div>
+        {/*  */}
+        <RadarARTChart
+          data={artPrescriptionData as ARTPrescriptionInterface[]}
+        />
+      </div>
 
       {/*  */}
       <div className="p-2 pt-0 ">
@@ -144,20 +155,18 @@ const NotifyPage = () => {
                         'border-b-2 border-teal-600 text-teal-600'
                       }
                       `}
-                      size={'sm'}
+              size={'sm'}
             >
               {item.icon}
               {item.label}
             </Button>
           ))}
         </div>
-        <div
-        className='p-2 bg-white pt-0'
-        >
+        <div className="p-2 bg-white pt-0">
           {value === 1 && (
             <CustomTable
               isSearch={false}
-              data={filterPrescriptionData || []}
+              data={importantPatientAppointment || []}
               columns={importantPrescription}
             />
           )}
