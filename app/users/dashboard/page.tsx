@@ -8,13 +8,11 @@
 'use client'
 
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { calculateAgeRange } from '@/utils/calculateAgeRange'
 import { useMemo, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 // import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
 import PopulationTypeChart from '@/components/Recharts/PopulationTypeChart'
-import RegisteredPatientsLineChart from '@/components/Recharts/RegisteredPatientsLineChart'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { importantPatientColumn } from '../patients/_components/columns'
 import { Button } from '@/components/ui/button'
@@ -42,13 +40,13 @@ const BreadcrumbComponent = dynamic(
 
 //
 
-const PieChart = dynamic(
-  async () => await import('../../_components/charts/PieChart'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="w-full h-[300px] md:w-1/4" />
-  }
-)
+// const PieChart = dynamic(
+//   async () => await import('../../_components/charts/PieChart'),
+//   {
+//     ssr: false,
+//     loading: () => <Skeleton className="w-full h-[300px] md:w-1/4" />
+//   }
+// )
 
 const NotifyPage = () => {
   let { data } = useGetAllPatientsQuery()
@@ -78,22 +76,22 @@ const NotifyPage = () => {
     }
   ]
 
-  const ageRanges: Array<[number, number]> = [
-    [0, 9],
-    [10, 19],
-    [20, 24],
-    [25, Infinity]
-  ]
+  // const ageRanges: Array<[number, number]> = [
+  //   [0, 9],
+  //   [10, 19],
+  //   [20, 24],
+  //   [25, Infinity]
+  // ]
 
-  const pieChartData = {
-    labels: ['PAMA', 'OTZ', 'OTZ +', 'Adult'],
-    datasets: [
-      {
-        data: calculateAgeRange(data || [], ageRanges),
-        backgroundColor: ['#d197a4', '#36A2EB', '#FFCE56', '#4BC0C0']
-      }
-    ]
-  }
+  // const pieChartData = {
+  //   labels: ['PAMA', 'OTZ', 'OTZ +', 'Adult'],
+  //   datasets: [
+  //     {
+  //       data: calculateAgeRange(data || [], ageRanges),
+  //       backgroundColor: ['#d197a4', '#36A2EB', '#FFCE56', '#4BC0C0']
+  //     }
+  //   ]
+  // }
 
   const uniqueYears: number[] | any = useMemo(() => {
     return [
