@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type PatientVisitsInterface } from 'otz-types'
 
 interface Post {
   id: number
@@ -23,8 +24,11 @@ export const patientVisitsApi = createApi({
     // }
   }),
   endpoints: (builder) => ({
-    getAllPatientVisits: builder.query<any, void>({
+    getAllPatientVisits: builder.query<PatientVisitsInterface[], void>({
       query: () => 'fetchAll'
+    }),
+    getAllUserPatientCount: builder.query<PatientVisitsInterface[], void>({
+      query: (id) => 'user-patient-count/1'
     }),
     addPatientVisit: builder.mutation({
       query: (newUser) => ({
@@ -59,5 +63,5 @@ export const patientVisitsApi = createApi({
 
 export const {
   useGetAllPatientVisitsQuery, useUpdatePatientVisitMutation, useGetHistoryPatientVisitQuery,
-  useDeletePatientVisitMutation, useAddPatientVisitMutation, useGetPatientVisitQuery
+  useDeletePatientVisitMutation, useAddPatientVisitMutation, useGetPatientVisitQuery, useGetAllUserPatientCountQuery
 } = patientVisitsApi

@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { Users } from 'lucide-react'
 import { type HeaderCategoriesProps } from '@/app/_components/dashboard/HeaderCategories'
+import { UserActivitiesChart } from '@/app/_components/charts/UserActivitiesChart'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -31,24 +32,6 @@ const HeaderCategories = dynamic(
 //
 const PieChart = dynamic(
   async () => await import('@/app/_components/charts/PieChart'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="flex-1 h-[300px] rounded-lg" />
-  }
-)
-
-//
-const BarChart = dynamic(
-  async () => await import('@/app/_components/charts/BarChart'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="flex-1 h-[300px] rounded-lg" />
-  }
-)
-
-//
-const LineChart = dynamic(
-  async () => await import('@/app/_components/charts/LineChart'),
   {
     ssr: false,
     loading: () => <Skeleton className="flex-1 h-[300px] rounded-lg" />
@@ -125,28 +108,6 @@ const Dashboard = () => {
     ]
   }
 
-  //
-  const barCharData = {
-    labels: chartData.map((item: DataPops) => item.year.toString()),
-    datasets: [
-      {
-        label: 'Users Gained',
-        data: chartData.map((item) => item.userGain)
-      }
-    ]
-  }
-
-  //
-  const lineChartData = {
-    labels: chartData.map((item: DataPops) => item.year),
-    datasets: [
-      {
-        label: 'Users Gained',
-        data: chartData.map((item) => item.userGain)
-      }
-    ]
-  }
-
   const listItems: HeaderCategoriesProps[] = [
     {
       id: '1',
@@ -194,8 +155,7 @@ const Dashboard = () => {
         <div className="flex flex-row justify-between space-x-2 mt-2">
           <PieChart data={pieChartData} />
 
-          <BarChart data={barCharData} />
-          <LineChart data={lineChartData} />
+          <UserActivitiesChart />
         </div>
       </div>
     </div>
