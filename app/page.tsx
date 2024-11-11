@@ -174,10 +174,6 @@ export default function Home () {
                 </div>
               </Suspense>
 
-              <Button>
-                Ripple!!
-              </Button>
-
               {/* recent session data */}
               {recentSession && recentSession?.length > 0 && (
                 <div className="w-full ">

@@ -48,7 +48,7 @@ export function UserActivitiesChart () {
         >
           <CartesianGrid vertical={false} />
           <XAxis
-            dataKey="createdAt"
+            dataKey="date"
             tickLine={false}
             axisLine={false}
             tickMargin={8}
