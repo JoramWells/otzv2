@@ -39,29 +39,6 @@ const PieChart = dynamic(
 )
 
 //
-const BarChart = dynamic(
-  async () => await import('@/app/_components/charts/BarChart'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="flex-1 h-[300px] rounded-lg" />
-  }
-)
-
-//
-const LineChart = dynamic(
-  async () => await import('@/app/_components/charts/LineChart'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="flex-1 h-[300px] rounded-lg" />
-  }
-)
-
-interface DataPops {
-  id: number
-  year: number
-  userGain: number
-  userLost: number
-}
 
 const dataList = [
   {
@@ -73,39 +50,6 @@ const dataList = [
     id: '1',
     label: 'Dashboard',
     link: '/administrator/dashboard'
-  }
-]
-
-const chartData: DataPops[] = [
-  {
-    id: 1,
-    year: 2016,
-    userGain: 80000,
-    userLost: 823
-  },
-  {
-    id: 2,
-    year: 2017,
-    userGain: 45677,
-    userLost: 345
-  },
-  {
-    id: 3,
-    year: 2018,
-    userGain: 78888,
-    userLost: 555
-  },
-  {
-    id: 4,
-    year: 2019,
-    userGain: 90000,
-    userLost: 4555
-  },
-  {
-    id: 5,
-    year: 2020,
-    userGain: 4300,
-    userLost: 234
   }
 ]
 
@@ -127,26 +71,26 @@ const Dashboard = () => {
   }
 
   //
-  const barCharData = {
-    labels: chartData.map((item: DataPops) => item.year.toString()),
-    datasets: [
-      {
-        label: 'Users Gained',
-        data: chartData.map((item) => item.userGain)
-      }
-    ]
-  }
+  // const barCharData = {
+  //   labels: chartData.map((item: DataPops) => item.year.toString()),
+  //   datasets: [
+  //     {
+  //       label: 'Users Gained',
+  //       data: chartData.map((item) => item.userGain)
+  //     }
+  //   ]
+  // }
 
   //
-  const lineChartData = {
-    labels: chartData.map((item: DataPops) => item.year),
-    datasets: [
-      {
-        label: 'Users Gained',
-        data: chartData.map((item) => item.userGain)
-      }
-    ]
-  }
+  // const lineChartData = {
+  //   labels: chartData.map((item: DataPops) => item.year),
+  //   datasets: [
+  //     {
+  //       label: 'Users Gained',
+  //       data: chartData.map((item) => item.userGain)
+  //     }
+  //   ]
+  // }
 
   const listItems: HeaderCategoriesProps[] = [
     {
@@ -202,8 +146,8 @@ const Dashboard = () => {
         <div className="flex flex-row justify-between space-x-2 mt-2">
             <PieChart data={pieChartData} />
 
-          <BarChart data={barCharData} />
-          <LineChart data={lineChartData} />
+          {/* <BarChart data={barCharData} />
+          <LineChart data={lineChartData} /> */}
         </div>
       </div>
     </div>
