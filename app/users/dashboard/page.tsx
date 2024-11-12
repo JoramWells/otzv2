@@ -20,7 +20,7 @@ import { type PatientAttributes } from 'otz-types'
 import { calculateAge } from '@/utils/calculateAge'
 import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
 import { useSession } from 'next-auth/react'
-import { UserActivitiesChart } from '@/app/_components/charts/UserActivitiesChart'
+import PatientVisitActivitiesChart from '@/app/_components/charts/PatientVisitActivitiesChart'
 
 // const UserDashboardCard = dynamic(
 //   async () => await import('@/app/_components/UserDasboard'),
@@ -123,7 +123,7 @@ const NotifyPage = () => {
       <div
       className='p-2'
       >
-        <UserActivitiesChart />
+        <PatientVisitActivitiesChart />
       </div>
 
       <div className="flex justify-between pl-2 pr-2 pb-2 space-x-2">
