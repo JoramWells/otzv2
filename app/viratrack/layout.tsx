@@ -12,7 +12,7 @@ import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_compo
 import { BellDot, BookCopy, LayoutDashboardIcon, Pill } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { type JSX, Suspense, useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { UserProvider, useUserContext } from '@/context/UserContext'
 
@@ -84,7 +84,7 @@ const ViratrackLayout = ({ children }: { children: React.ReactNode }) => {
   return <AuthenticateLoader />
 }
 
-export default function WrappedViratrackLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+export default function WrappedViratrackLayout (props: any) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Provider store={store} >
