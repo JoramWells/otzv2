@@ -9,7 +9,13 @@ interface Post {
   name: string
 }
 
-type PostsResponse = Post[]
+export interface UserActivityData {
+  count: string
+  User: {
+    firstName: string
+    middleName: string
+  }
+}
 
 export const patientVisitsApi = createApi({
   reducerPath: 'patientVisitsApi',
@@ -29,6 +35,9 @@ export const patientVisitsApi = createApi({
     }),
     getAllUserPatientCount: builder.query<PatientVisitsInterface[], void>({
       query: (id) => 'user-patient-count/1'
+    }),
+    getAllUserActivitiesCount: builder.query<UserActivityData[], void>({
+      query: (id) => 'user-activities-count/1'
     }),
     addPatientVisit: builder.mutation({
       query: (newUser) => ({
@@ -62,6 +71,6 @@ export const patientVisitsApi = createApi({
 })
 
 export const {
-  useGetAllPatientVisitsQuery, useUpdatePatientVisitMutation, useGetHistoryPatientVisitQuery,
+  useGetAllPatientVisitsQuery, useUpdatePatientVisitMutation, useGetHistoryPatientVisitQuery, useGetAllUserActivitiesCountQuery,
   useDeletePatientVisitMutation, useAddPatientVisitMutation, useGetPatientVisitQuery, useGetAllUserPatientCountQuery
 } = patientVisitsApi

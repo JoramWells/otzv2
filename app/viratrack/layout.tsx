@@ -10,10 +10,11 @@ import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { BellDot, BookCopy, LayoutDashboardIcon, Pill } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
+import { type JSX, Suspense, useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
+import { UserProvider, useUserContext } from '@/context/UserContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -45,6 +46,14 @@ const DL: SidebarListItemsProps[] = [
 const ViratrackLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const { setModuleID } = useUserContext()
+
+  const moduleParams = useSearchParams()
+  const moduleID = moduleParams.get('moduleID')
+
+  useEffect(() => {
+    setModuleID(moduleID)
+  }, [moduleID, setModuleID])
   useEffect(() => {
     if (status === 'loading') {
       return
@@ -58,7 +67,6 @@ const ViratrackLayout = ({ children }: { children: React.ReactNode }) => {
   }, [status, router])
   if (session != null) {
     return (
-    <Provider store={store}>
       <SidebarProvider>
         <div className="flex flex-row">
           <Sidebar>
@@ -71,10 +79,19 @@ const ViratrackLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </SidebarProvider>
-    </Provider>
     )
   }
   return <AuthenticateLoader />
 }
 
-export default ViratrackLayout
+export default function WrappedViratrackLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Provider store={store} >
+        <UserProvider>
+          <ViratrackLayout {...props} />
+        </UserProvider>
+      </Provider>
+    </Suspense>
+  )
+}

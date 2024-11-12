@@ -24,6 +24,7 @@ import moment from 'moment'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
+import { Badge } from '@/components/ui/badge'
 
 interface ListItemProps {
   id: string
@@ -240,9 +241,18 @@ export default function Home () {
                             >
                               <Clock size={16} className="text-slate-500" />
                               <p className="text-[12px] rounded-br-lg text-slate-500 font-semibold ">
-                                {Math.floor(moment.duration(
-                                  moment().diff(moment(item.disconnectedAt).format('YYYY-MM-DD'))
-                                ).asDays())} day ago
+                                {Math.floor(
+                                  moment
+                                    .duration(
+                                      moment().diff(
+                                        moment(item.disconnectedAt).format(
+                                          'YYYY-MM-DD'
+                                        )
+                                      )
+                                    )
+                                    .asDays()
+                                )}{' '}
+                                day ago
                               </p>
                             </div>
                           </div>
@@ -257,8 +267,13 @@ export default function Home () {
               <div className="w-full mb-2">
                 <div className="flex w-full p-4 xl:p-2 justify-between items-center bg-white mb-2  border-b">
                   <div className="flex items-center ml-2 space-x-2 text-slate-700 ">
-                    <LayoutGrid size={16} className="" />
-                    <p className="mb-2 mt-2 ml-2 font-bold ">All Modules</p>
+                    <div className="flex items-center space-x-2">
+                      <LayoutGrid size={16} className="" />
+                      <p className="mb-2 mt-2 ml-2 font-bold ">All Modules</p>
+                        <Badge
+                        className='bg-slate-100 hover:bg-slate-50 shadow-none text-slate-700 border border-slate-200 '
+                        >{data?.length}</Badge>
+                    </div>
                   </div>
                   <div
                     className="w-[300px] flex flex-row items-center

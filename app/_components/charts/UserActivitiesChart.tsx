@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
 
-import * as React from 'react'
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
+import { Pie, PieChart } from 'recharts'
 
 import {
   type ChartConfig,
@@ -9,76 +9,49 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart'
-import { useGetAllUserPatientCountQuery } from '@/api/patient/patientVisits.api'
+import { useGetAllUserActivitiesCountQuery, type UserActivityData } from '@/api/patient/patientVisits.api'
 
-const chartConfig = {
-  views: {
-    label: 'Patient Visits'
-  },
-  count: {
-    label: 'Count',
-    color: 'hsl(var(--chart-2))'
-  }
-
-} satisfies ChartConfig
+interface ChartDataItem {
+  visitors: number
+  browser: string
+  fill: string
+  name?: string
+}
 
 export function UserActivitiesChart () {
-  const { data: dtm } = useGetAllUserPatientCountQuery()
-
-  console.log(dtm, 'data')
+  const { data } = useGetAllUserActivitiesCountQuery()
+  const chartData: ChartDataItem[] =
+    data?.map((item: UserActivityData, index: number) => ({
+      visitors: parseInt(item.count, 10),
+      browser: `${item.User?.firstName} ${item.User?.middleName}`,
+      fill: `hsl(var(--chart-${(index % 5) + 1}))` // Cycle through colors
+    })) ?? []
+  const chartConfig: ChartConfig = chartData.reduce<ChartConfig>(
+    (config, item, index) => {
+      config[item.name as string] = {
+        label: item.name,
+        color: item.fill
+      }
+      return config
+    },
+    {
+      visitors: { label: 'Visitors' }
+    }
+  )
 
   return (
-    <div className="bg-white rounded-lg pb-4 pt-2">
-      <div
-      className='p-2 pt-0'
-      >
-        <p className="font-semibold text-slate-700">Recent Patient Visits</p>
-      </div>
-      <ChartContainer
-        config={chartConfig}
-        className="aspect-auto h-[200px] w-full"
-      >
-        <BarChart
-          accessibilityLayer
-          data={dtm}
-          margin={{
-            left: 12,
-            right: 12
-          }}
+    <div className="w-1/2">
+
+        <ChartContainer
+          config={chartConfig}
+          className="mx-auto aspect-square max-h-[250px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
         >
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="date"
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-            minTickGap={32}
-            tickFormatter={(value) => {
-              const date = new Date(value as Date)
-              return date.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric'
-              })
-            }}
-          />
-          <ChartTooltip
-            content={
-              <ChartTooltipContent
-                className="w-[150px]"
-                nameKey="visits"
-                labelFormatter={(value) => {
-                  return new Date(value as Date).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric'
-                  })
-                }}
-              />
-            }
-          />
-          <Bar dataKey="count" fill={'var(--color-count)'} />
-        </BarChart>
-      </ChartContainer>
+          <PieChart>
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+            <Pie data={chartData} dataKey="visitors" label nameKey="browser" />
+          </PieChart>
+        </ChartContainer>
+
     </div>
   )
 }

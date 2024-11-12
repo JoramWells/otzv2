@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { Users } from 'lucide-react'
 import { type HeaderCategoriesProps } from '@/app/_components/dashboard/HeaderCategories'
+import PatientVisitActivitiesChart from '@/app/_components/charts/PatientVisitActivitiesChart'
 import { UserActivitiesChart } from '@/app/_components/charts/UserActivitiesChart'
 
 //
@@ -121,8 +122,8 @@ const Dashboard = () => {
 
         <div className="flex flex-row justify-between space-x-2 mt-2">
           <PieChart data={pieChartData} />
-
           <UserActivitiesChart />
+          <PatientVisitActivitiesChart />
         </div>
       </div>
     </div>
