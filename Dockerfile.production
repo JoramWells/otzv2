@@ -14,7 +14,7 @@ COPY package*.json ./
 RUN npm cache clean --force
 RUN npm cache clear --force
 
-RUN npm install --frozen-lockfile --legacy-peer-deps
+RUN npm install --frozen-lockfile --legacy-peer-deps --timeout=600000
 
 COPY . .
 
