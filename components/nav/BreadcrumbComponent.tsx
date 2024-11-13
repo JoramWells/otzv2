@@ -18,7 +18,7 @@ interface DataListProps {
 
 export default function BreadcrumbComponent ({ dataList }: DataListProps) {
   return (
-    <Breadcrumb className="p-4 bg-white sticky top-0 z-20 ">
+    <Breadcrumb className="p-4 bg-white  ">
       <BreadcrumbList>
         {dataList.map((item, index) => (
           <Fragment key={item.id}>

@@ -317,7 +317,7 @@ export default function Home () {
                           <div className="bg-white p-1 border border-slate-50 rounded-lg">
                             <Image
                               src={
-                                item.id === '1'
+                                item.id !== '1'
                                   ? `${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.img}`
                                   : (item.img as string)
                               }

@@ -25,12 +25,12 @@ export const appModulesApi = createApi({
         body: newUser
       })
     }),
-    getAppModules: builder.query({
+    getAppModules: builder.query<AppModulesProps, string>({
       query: (id) => `detail/${id}`
     }),
     updateAppModules: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `update${id}`,
+        url: `edit/${id}`,
         method: 'PUT',
         body: patch
       })

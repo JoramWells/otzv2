@@ -1,10 +1,24 @@
 'use client'
 
 import { useGetAllAppModulesQuery } from '@/api/appModules/appModules.api'
+import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Button } from '@/components/ui/button'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { columns } from './columns'
+import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
+const dataList2 = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'Patients',
+    link: '/'
+  }
+]
 
 const AppModulesPage = () => {
   const router = useRouter()
@@ -12,38 +26,26 @@ const AppModulesPage = () => {
   console.log(data)
   return (
     <div>
-      <Button
-        onClick={() => {
-          router.push('/administrator/app-modules/add')
-        }}
+      <div
+      className='relative'
       >
-        Add
-      </Button>
+        <BreadcrumbComponent dataList={dataList2} />
 
-      {data?.map((item) => (
-        <div key={item.id}>
-          {item.title}
-
-          <Image
-            // w={0}
-            alt="im"
-            // placeholder="data:image/..."
-            width={25}
-            height={25}
-            // quality={25}
-            // fill
-            // objectFit='contain'
-            // priority
-            className="rounded-full"
-            src={`${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.img}`}
-            style={{
-              width: '25px',
-              height: '25px',
-              objectFit: 'cover'
-            }}
-          />
+        <Button
+        className='absolute right-2 top-2'
+        size={'sm'}
+          onClick={() => {
+            router.push('/administrator/app-modules/add')
+          }}
+        >
+          Add
+        </Button>
+      </div>
+      <div className="p-2">
+        <div className="bg-white rounded-lg p-4">
+          <CustomTable columns={columns} data={data ?? []} />
         </div>
-      ))}
+      </div>
     </div>
   )
 }

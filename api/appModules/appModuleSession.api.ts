@@ -22,7 +22,7 @@ export const appModuleSessionApi = createApi({
         body: newUser
       })
     }),
-    getAppModuleSession: builder.query({
+    getAppModuleSession: builder.query<ExtendedAppModuleSession, string>({
       query: (id) => `detail/${id}`
     }),
     updateAppModuleSession: builder.mutation({
