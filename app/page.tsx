@@ -136,7 +136,7 @@ export default function Home () {
   if (session != null) {
     return (
       <>
-        <div className=" bg-white h-screen flex-1 ">
+        <div className=" bg-white h-100vh flex-1 ">
           <Suspense fallback={<Skeleton className="p-4 w-full" />}>
             <nav
               className="flex justify-between
@@ -183,7 +183,12 @@ export default function Home () {
                     <p className="mb-2 mt-2 ml-2 font-bold">Quick Access</p>
                   </div>
 
-                  <div className="grid px-2  w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2 mb-2 pb-4">
+                  <Carousel
+                    responsive={responsive}
+                    ssr={true}
+                    keyBoardControl
+                    renderButtonGroupOutside
+                  >
                     {recentSession?.map((item: ExtendedAppModuleSession) => (
                       <Suspense
                         key={item.id}
@@ -193,8 +198,7 @@ export default function Home () {
                           key={item.id}
                           tabIndex={0}
                           className="border-slate-100  hover:border-slate-200 border
-                          transform hover:scale-105 ease-in-out
-                           hover:bg-slate-50 transition duration-300 relative p-4 rounded-lg h-[120px] hover:cursor-pointer shadow-slate-50 shadow filter"
+                           hover:bg-slate-50 transition duration-300 ml-2 mr-2 mb-2 relative p-4 rounded-lg h-[120px] hover:cursor-pointer shadow-slate-50 shadow filter"
                           onClick={() => {
                             router.push(
                               `${item.appModule.link}?moduleID=${item.id}`
@@ -259,7 +263,7 @@ export default function Home () {
                         </div>
                       </Suspense>
                     ))}
-                  </div>
+                  </Carousel>
                 </div>
               )}
 
@@ -270,9 +274,9 @@ export default function Home () {
                     <div className="flex items-center space-x-2">
                       <LayoutGrid size={16} className="" />
                       <p className="mb-2 mt-2 ml-2 font-bold ">All Modules</p>
-                        <Badge
-                        className='bg-slate-100 hover:bg-slate-50 shadow-none text-slate-700 border border-slate-200 '
-                        >{data?.length}</Badge>
+                      <Badge className="bg-slate-100 hover:bg-slate-50 shadow-none text-slate-700 border border-slate-200 ">
+                        {data?.length}
+                      </Badge>
                     </div>
                   </div>
                   <div
@@ -291,12 +295,7 @@ export default function Home () {
                     </Button>
                   </div>
                 </div>
-                <Carousel
-                  responsive={responsive}
-                  ssr={true}
-                  keyBoardControl
-                  renderButtonGroupOutside
-                >
+                <div className="grid px-2  w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2 mb-2 pb-4">
                   {data?.map((item: AppModuleInterface) => (
                     <Suspense
                       key={item.id}
@@ -305,7 +304,9 @@ export default function Home () {
                       <div
                         key={item.id}
                         tabIndex={0}
-                        className="border-slate-100  ml-2 mb-2  hover:border-slate-200 border hover:bg-slate-50 transition duration-300 relative p-4 rounded-lg h-[120px] hover:cursor-pointer shadow-slate-50 shadow filter"
+                        className="border-slate-100  hover:border-slate-200 border
+                                                  transform hover:scale-105 ease-in-out
+                         hover:bg-slate-50 transition duration-300 relative p-4 rounded-lg h-[120px] hover:cursor-pointer shadow-slate-50 shadow filter"
                         onClick={() => {
                           router.push(`${item.link}?moduleID=${item.id}`)
                         }}
@@ -350,7 +351,7 @@ export default function Home () {
                       </div>
                     </Suspense>
                   ))}
-                </Carousel>
+                </div>
               </div>
             </div>
           </main>
