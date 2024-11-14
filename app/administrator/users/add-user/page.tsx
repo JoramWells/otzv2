@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -5,7 +6,7 @@
 'use client'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../../components/forms/CustomInput'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import CustomSelect from '@/components/forms/CustomSelect'
 import { useGetAllCountiesQuery } from '@/api/location/county.api'
 import { useAddUserMutation } from '@/api/users/users.api'
@@ -14,6 +15,7 @@ import { Loader2 } from 'lucide-react'
 import { useGetAllHospitalsQuery } from '@/api/hospital/hospital.api'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useRouter } from 'next/navigation'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -64,8 +66,14 @@ const AddUser = () => {
     // password
   }
 
-  const [addUser, { isLoading }] = useAddUserMutation()
+  const [addUser, { isLoading, data: isSavedData }] = useAddUserMutation()
+  const router = useRouter()
 
+  useEffect(() => {
+    if (isSavedData) {
+      router.push('/administrator/users')
+    }
+  }, [isSavedData, router])
   const { data } = useGetAllCountiesQuery()
   // const { data: subCountyData } = useGetAllSubCountiesQuery()
 
@@ -96,7 +104,7 @@ const AddUser = () => {
             width: '55%'
           }}
         >
-          <h1 className="font-bold">Personal Details</h1>
+          <h1 className="font-bold text-[16px] ">Personal Details</h1>
 
           <div className="flex flex-row gap-x-2">
             <CustomInput
@@ -152,13 +160,13 @@ const AddUser = () => {
         </div>
 
         <div
-          className="border border-gray-200
+          className="border border-gray-200 bg-white
         w-1/3 flex flex-col rounded-lg p-5 gap-y-4 mt-4"
           style={{
             width: '55%'
           }}
         >
-          <h1 className="text-xl">Contact and Location</h1>
+          <h1 className="font-bold text-[16px] ">Contact and Location</h1>
           <CustomInput
             label="Email Address"
             value={email}

@@ -8,7 +8,6 @@ import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import CustomTab from '@/components/tab/CustomTab'
 import { Suspense, useCallback, useState } from 'react'
-import SelectPatientDialog from '../_components/SelectPatientDialog'
 import { useGetAllEligibleOTZPatientsQuery } from '@/api/patient/patients.api'
 import { Button } from '@/components/ui/button'
 
