@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from '../columns'
 import { useMemo, useState } from 'react'
@@ -28,8 +28,6 @@ const dataList2 = [
 ]
 
 const TrackPage = () => {
-  // const datax = await getPatients()
-  const { data } = useGetAllPatientsQuery()
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
@@ -41,7 +39,7 @@ const TrackPage = () => {
         id: 1,
         label: 'All',
         description: 'All patients',
-        count: data?.length
+        count: vlData?.length
       },
       {
         id: 2,
@@ -64,7 +62,7 @@ const TrackPage = () => {
         description: 'Tertiary'
       }
     ],
-    [data?.length]
+    [vlData?.length]
   )
 
   const sortedAppointment: ViralLoadInterface[] = useMemo(

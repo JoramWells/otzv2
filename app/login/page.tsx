@@ -132,6 +132,7 @@ const LoginPage = () => {
           className="bg-teal-600 text-[14px] mt-2 hover:bg-teal-700 font-semibold shadow-none"
           // onClick={() => handleSubmit()}
           type="submit"
+          disabled={isLoading}
         >
           {isLoading && <Loader2 className='animate-spin mr-2' size={16} />}
           Sign In
