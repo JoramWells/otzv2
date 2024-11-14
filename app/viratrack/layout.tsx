@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BellDot, BookCopy, LayoutDashboardIcon, Pill } from 'lucide-react'
+import { LayoutDashboardIcon, Pill } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { Suspense, useEffect } from 'react'
@@ -28,19 +28,19 @@ const DL: SidebarListItemsProps[] = [
     label: 'Vira Track',
     link: '/viratrack/viratrack',
     icon: <Pill size={17} />
-  },
-  {
-    id: '3',
-    label: 'Reminder',
-    link: 'pill-box/reminder?tab=all',
-    icon: <BellDot size={17} />
-  },
-  {
-    id: '4',
-    label: 'Reports',
-    link: 'viratrack/reports',
-    icon: <BookCopy size={17} />
   }
+  // {
+  //   id: '3',
+  //   label: 'Reminder',
+  //   link: 'pill-box/reminder?tab=all',
+  //   icon: <BellDot size={17} />
+  // },
+  // {
+  //   id: '4',
+  //   label: 'Reports',
+  //   link: 'viratrack/reports',
+  //   icon: <BookCopy size={17} />
+  // }
 ]
 
 const ViratrackLayout = ({ children }: { children: React.ReactNode }) => {

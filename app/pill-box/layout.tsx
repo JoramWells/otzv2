@@ -8,7 +8,7 @@ import { Sidebar } from '../../components/sidebar/Sidebar'
 import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
-import { BellDot, BookCopy, Kanban, LayoutDashboardIcon, Pill } from 'lucide-react'
+import { BellDot, LayoutDashboardIcon, Pill } from 'lucide-react'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -25,12 +25,6 @@ const DL: SidebarListItemsProps[] = [
     icon: <LayoutDashboardIcon size={17} />
   },
   {
-    id: '5',
-    label: 'Issues',
-    link: '/pill-box/issues',
-    icon: <Kanban size={17} />
-  },
-  {
     id: '2',
     label: 'Prescription',
     link: '/pill-box/prescription',
@@ -41,12 +35,6 @@ const DL: SidebarListItemsProps[] = [
     label: 'Reminder',
     link: '/pill-box/reminder',
     icon: <BellDot size={17} />
-  },
-  {
-    id: '6',
-    label: 'Reports',
-    link: '/pill-box/reports',
-    icon: <BookCopy size={17} />
   }
 ]
 

@@ -12,7 +12,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BookCopy, HeartHandshake, InspectionPanel, LayoutDashboardIcon, Users } from 'lucide-react'
+import { BookCopy, LayoutDashboardIcon, Users } from 'lucide-react'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { type JSX, Suspense, useEffect } from 'react'
@@ -30,18 +30,18 @@ const DL: SidebarListItemsProps[] = [
     link: '/users/dashboard',
     icon: <LayoutDashboardIcon size={17} />
   },
-  {
-    id: '2',
-    label: 'Caregivers',
-    link: '/users/caregivers',
-    icon: <HeartHandshake size={17} />
-  },
-  {
-    id: '3',
-    label: 'Case Managers',
-    link: '/users/casemanagers',
-    icon: <InspectionPanel size={17} />
-  },
+  // {
+  //   id: '2',
+  //   label: 'Caregivers',
+  //   link: '/users/caregivers',
+  //   icon: <HeartHandshake size={17} />
+  // },
+  // {
+  //   id: '3',
+  //   label: 'Case Managers',
+  //   link: '/users/casemanagers',
+  //   icon: <InspectionPanel size={17} />
+  // },
   {
     id: '4',
     label: 'Patients',
