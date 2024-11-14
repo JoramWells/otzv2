@@ -80,7 +80,6 @@ const EditableCell = ({ value, time, row }: EditableCellProps) => {
     setChecked((prev) => !prev)
     updatePillUptakeEveningStatus(inputValues)
     // onChange(e)
-    console.log(row.original)
   }
 
   return (

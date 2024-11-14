@@ -32,7 +32,6 @@ const dataList = [
 
 const Users = () => {
   const { data } = useGetAllUsersQuery()
-  console.log(data, 'dtc')
 
   const router = useRouter()
   const pathname = usePathname()

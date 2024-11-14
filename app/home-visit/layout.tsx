@@ -13,7 +13,7 @@ import { HeartHandshake, LayoutDashboardIcon } from 'lucide-react'
 import { ChakraProvider } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { type JSX, Suspense, useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import Footer from '@/components/Footer'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { useUserContext } from '@/context/UserContext'
@@ -80,7 +80,7 @@ const HomeVisitLayout = ({ children }: { children: React.ReactNode }) => {
   return (<AuthenticateLoader/>)
 }
 
-export default function WrappedHomeVisitLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+export default function WrappedHomeVisitLayout (props: any) {
   return (
     <Suspense>
       <ChakraProvider>

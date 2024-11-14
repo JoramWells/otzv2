@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
@@ -10,6 +11,31 @@ import { useGetAllCountiesQuery } from '@/api/location/county.api'
 import { useAddUserMutation } from '@/api/users/users.api'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { useGetAllHospitalsQuery } from '@/api/hospital/hospital.api'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+
+//
+const BreadcrumbComponent = dynamic(
+  async () => await import('@/components/nav/BreadcrumbComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none m-0" />
+  }
+)
+
+const dataList = [
+  {
+    id: '1',
+    label: 'home',
+    link: '/'
+  },
+  {
+    id: '2',
+    label: 'users',
+    link: '/'
+  }
+]
 
 const AddUser = () => {
   const [firstName, setFirstName] = useState('')
@@ -22,6 +48,7 @@ const AddUser = () => {
   // const [password, setPassword] = useState('')
   const [phone_no, setPhone_no] = useState('')
   const [email, setEmail] = useState('')
+  const [hospitalID, setHospitalID] = useState<string | undefined>()
 
   const inputValues = {
     firstName,
@@ -32,7 +59,8 @@ const AddUser = () => {
     idNo,
     county,
     email,
-    phone_no
+    phone_no,
+    hospitalID
     // password
   }
 
@@ -47,58 +75,70 @@ const AddUser = () => {
     }))
   }, [data])
 
+  const { data: hospitalsData } = useGetAllHospitalsQuery()
+
+  const hospitalOptions = useCallback(() => {
+    return hospitalsData?.map((item: any) => ({
+      id: item?.id,
+      label: item?.hospitalName
+    }))
+  }, [hospitalsData])
+
   return (
-    <div className="p-3">
-      <div
-        className="border border-gray-200
-        w-1/3 flex flex-col rounded-lg p-5 gap-y-4"
-        style={{
-          width: '55%'
-        }}
-      >
-        <h1 className="text-xl">Personal Details</h1>
+    <div>
+      <BreadcrumbComponent dataList={dataList} />
 
-        <div className="flex flex-row gap-x-2">
-          <CustomInput
-            label="First Name"
-            value={firstName}
-            onChange={setFirstName}
-          />
-          <CustomInput
-            label="Second Name"
-            value={middleName}
-            onChange={setMiddleName}
-          />
-          <CustomInput
-            label="Last Name"
-            value={lastName}
-            onChange={setLastName}
-          />
-        </div>
-        <CustomInput label="DOB" value={dob} onChange={setDOB} type="date" />
-        <CustomSelect
-          label="Select Gender"
-          value={gender}
-          onChange={setGender}
-          data={[
-            {
-              id: '1',
-              label: 'MALE'
-            },
-            {
-              id: '2',
-              label: 'FEMALE'
-            }
-          ]}
-        />
-        <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
-        <CustomInput
-          label="Phone No."
-          value={phone_no}
-          onChange={setPhone_no}
-        />
+      <div className='p-2' >
+        <div
+          className="border border-gray-200 bg-white
+        w-1/3 flex flex-col rounded-lg p-5 gap-y-2"
+          style={{
+            width: '55%'
+          }}
+        >
+          <h1 className="font-bold">Personal Details</h1>
 
-        {/* <CustomSelect
+          <div className="flex flex-row gap-x-2">
+            <CustomInput
+              label="First Name"
+              value={firstName}
+              onChange={setFirstName}
+            />
+            <CustomInput
+              label="Second Name"
+              value={middleName}
+              onChange={setMiddleName}
+            />
+            <CustomInput
+              label="Last Name"
+              value={lastName}
+              onChange={setLastName}
+            />
+          </div>
+          <CustomInput label="DOB" value={dob} onChange={setDOB} type="date" />
+          <CustomSelect
+            label="Select Gender"
+            value={gender}
+            onChange={setGender}
+            data={[
+              {
+                id: '1',
+                label: 'MALE'
+              },
+              {
+                id: '2',
+                label: 'FEMALE'
+              }
+            ]}
+          />
+          <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
+          <CustomInput
+            label="Phone No."
+            value={phone_no}
+            onChange={setPhone_no}
+          />
+
+          {/* <CustomSelect
           label="Select Location"
           data={[
             {
@@ -108,35 +148,46 @@ const AddUser = () => {
           ]}
         /> */}
 
-        {/* <CustomInput label="Password" value={password} onChange={setPassword} /> */}
-      </div>
+          {/* <CustomInput label="Password" value={password} onChange={setPassword} /> */}
+        </div>
 
-      <div
-        className="border border-gray-200
+        <div
+          className="border border-gray-200
         w-1/3 flex flex-col rounded-lg p-5 gap-y-4 mt-4"
-        style={{
-          width: '55%'
-        }}
-      >
-        <h1 className="text-xl">Contact and Location</h1>
-        <CustomInput label="Email Address" value={email} onChange={setEmail} />
-        <CustomSelect
-          label="Select County"
-          value={county}
-          onChange={setCounty}
-          data={countiesOption()}
-        />
-        <Button
-          // colorScheme="teal"
-          // width={'full'}
-          disabled={isLoading}
-          className="bg-teal-600 hover:bg-teal-700"
-          size={'lg'}
-          onClick={() => addUser(inputValues)}
+          style={{
+            width: '55%'
+          }}
         >
-          {isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-          Save
-        </Button>
+          <h1 className="text-xl">Contact and Location</h1>
+          <CustomInput
+            label="Email Address"
+            value={email}
+            onChange={setEmail}
+          />
+          <CustomSelect
+            label="Select County"
+            value={county}
+            onChange={setCounty}
+            data={countiesOption()}
+          />
+          <CustomSelect
+            label="Select hospital name"
+            onChange={setHospitalID}
+            value={hospitalID as string}
+            data={hospitalOptions()}
+          />
+          <Button
+            // colorScheme="teal"
+            // width={'full'}
+            disabled={isLoading}
+            className="bg-teal-600 hover:bg-teal-700"
+            size={'lg'}
+            onClick={() => addUser(inputValues)}
+          >
+            {isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            Save
+          </Button>
+        </div>
       </div>
     </div>
   )
