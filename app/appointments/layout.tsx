@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { AlignJustify, CalendarCheck, CalendarDays, ClockIcon, LayoutGrid, PlusIcon } from 'lucide-react'
+import { CalendarCheck, CalendarDays, ClockIcon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { type JSX, Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -31,28 +31,10 @@ const DL: SidebarListItemsProps[] = [
     icon: <CalendarDays size={17} />
   },
   {
-    id: '3',
-    label: 'Events',
-    link: '/appointments/events',
-    icon: <AlignJustify size={17} />
-  },
-  {
-    id: '4',
-    label: 'Create Appointment',
-    link: '/appointments/add-appointment',
-    icon: <PlusIcon size={17} />
-  },
-  {
     id: '5',
     label: 'Availability',
     link: '/appointments/availability',
     icon: <ClockIcon size={17} />
-  },
-  {
-    id: '6',
-    label: 'Apps',
-    link: '/appointments/apps',
-    icon: <LayoutGrid size={17} />
   }
 ]
 

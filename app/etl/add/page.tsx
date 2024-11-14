@@ -307,9 +307,13 @@ const AddEtlPage = () => {
             <CustomTable columns={columns} data={filteredData || []} />
           </div>
         ) : (
-          <div className="flex items-center h-[200px] border rounded-lg border-dashed">
-            <div>
-              <p>Choose file to upload</p>
+          <div className="flex items-center h-[200px] border rounded-lg border-dashed w-1/2 p-4 justify-center
+          bg-blue-50 border-blue-200
+          ">
+            <div className=''>
+              <p
+              className='font-semibold mb-2'
+              >Choose file to upload</p>
               <Input
                 // label=''
                 type="file"

@@ -28,7 +28,9 @@ export function CaseManagerDialog ({ children, description, label, width }: Data
         </Button>
       </DialogTrigger>
       <DialogContent className={`${width != null && `max-w-[${width}]`} p-0  max-h-[80vh] overflow-hidden overflow-y-auto `}>
-        <DialogHeader>
+        <DialogHeader
+        className='pt-4 pl-4'
+        >
           <DialogTitle>{description}</DialogTitle>
         </DialogHeader>
         {children}

@@ -129,15 +129,13 @@ const Availability = () => {
     }
   }, [availabilityData])
 
-  console.log(availabilityData, 'availableDataset')
-
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="p-4">
+      <div className="p-2">
         <div className="bg-white rounded-lg p-4">
-          <p className="font-bold text-lg">Working Hours</p>
+          <p className="font-bold mb-2">Working Hours</p>
           <div className="bg-white rounded-lg flex space-x-4 ">
             <div className="flex flex-col space-y-4 w-1/2 border border-slate-200 rounded-lg p-4 ">
               {availability.map((item: any, index) => (
@@ -186,13 +184,14 @@ const Availability = () => {
           </div>
 
           {/*  */}
-          <hr className="mt-4 mb-4 " />
+          <hr className="mt-4 mb-2 " />
 
           <Button
-            className="mt-4"
+            className="mt-2"
             onClick={async () => {
               await handleChange()
             }}
+            size={'sm'}
           >
             {(isLoading || isLoadingUpdate) && <Loader2 className="mr-2 animate-spin" size={15} />}
             Save

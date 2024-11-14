@@ -9,13 +9,14 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BookCopy, HeartHandshake, LayoutDashboardIcon } from 'lucide-react'
+import { HeartHandshake, LayoutDashboardIcon } from 'lucide-react'
 import { ChakraProvider } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { type JSX, Suspense, useEffect } from 'react'
 import Footer from '@/components/Footer'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
+import { useUserContext } from '@/context/UserContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -35,18 +36,17 @@ const DL: SidebarListItemsProps[] = [
     label: 'Home-Visit',
     link: '/home-visit',
     icon: <HeartHandshake size={17} />
-  },
-  {
-    id: '4',
-    label: 'Reports',
-    link: 'reports',
-    icon: <BookCopy size={17} />
   }
 ]
 
-const PatientLayout = ({ children }: { children: React.ReactNode }) => {
+const HomeVisitLayout = ({ children }: { children: React.ReactNode }) => {
+  const moduleParams = useSearchParams()
+  const moduleID = moduleParams.get('moduleID')
+
   const { data: session, status } = useSession()
   const router = useRouter()
+  const { setModuleID } = useUserContext()
+
   useEffect(() => {
     if (status === 'loading') {
       return
@@ -57,11 +57,10 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
     // }, 2000)
       router.push('/login')
     }
-  }, [status, router])
+    setModuleID(moduleID)
+  }, [status, router, setModuleID, moduleID])
   if (session != null) {
     return (
-      <ChakraProvider>
-        <Provider store={store}>
           <SidebarProvider>
             <div className="flex flex-row bg-slate-50">
               <Sidebar>
@@ -75,12 +74,20 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
           </SidebarProvider>
-        </Provider>
-      </ChakraProvider>
     )
   }
 
   return (<AuthenticateLoader/>)
 }
 
-export default PatientLayout
+export default function WrappedHomeVisitLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+  return (
+    <Suspense>
+      <ChakraProvider>
+        <Provider store={store}>
+          <HomeVisitLayout {...props} />
+        </Provider>
+      </ChakraProvider>
+    </Suspense>
+  )
+}
