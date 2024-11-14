@@ -79,11 +79,11 @@ const LoginPage = () => {
     <div className="flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-slate-50">
       <div className='mb-4'>
         <Image
-          src={"/img/logo1.svg"}
+          src={'/img/logo1.svg'}
           alt="img"
           width={0}
           height={0}
-          style={{ width: "90px", height: "auto" }}
+          style={{ width: '90px', height: 'auto' }}
           // quality={100}
         />
       </div>
@@ -126,7 +126,7 @@ const LoginPage = () => {
         />
         {error && <FormError message={error} />}
         <Button
-          size={"sm"}
+          size={'sm'}
           className="bg-teal-600 text-[14px] mt-2 hover:bg-teal-700 font-semibold shadow-none"
           // onClick={() => handleSubmit()}
           type="submit"
@@ -137,14 +137,14 @@ const LoginPage = () => {
         </Button>
         <div className="flex flex-col space-y-2">
           <Link
-            href={"/auth/register"}
+            href={'/auth/register'}
             className="text-center text-[12px] text-slate-500"
           >
             Don&apos;t have an account? Contact admin.
           </Link>
           <Link
             target="_blank"
-            href={"https://joramwells.github.io/otz-terms-and-conditions"}
+            href={'https://joramwells.github.io/otz-terms-and-conditions'}
             className="text-center text-blue-500 hover:underline text-[12px] "
           >
             Terms & Conditions
@@ -152,7 +152,7 @@ const LoginPage = () => {
         </div>
       </form>
     </div>
-  );
+  )
 }
 
 export default LoginPage
