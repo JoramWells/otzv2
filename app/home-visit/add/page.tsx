@@ -13,7 +13,7 @@ import { ArrowRight, Info, Loader2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
-import { type PatientAttributes } from 'otz-types'
+import { type UserInterface, type PatientAttributes } from 'otz-types'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import TaskOne from '@/app/_components/home-visit/forms/TaskOne'
@@ -40,10 +40,19 @@ const BreadcrumbComponent = dynamic(
 
 const HomeVisitAdd = () => {
   const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
 
   //
   const userID = session?.user.id
-  const { data: patientData } = useGetAllPatientsQuery()
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
+  const { data: patientData } = useGetAllPatientsQuery({
+    hospitalID: user?.hospitalID as string
+  })
   const [patientID, setPatientID] = useState()
   const patientDataOptions = useCallback(() => {
     return (
