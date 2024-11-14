@@ -11,7 +11,7 @@ const handler = NextAuth({
   providers: [
     CredentialsProvider({
       credentials: {
-        email: { label: "email", type: "text" },
+        firstName: { label: "firstName", type: "text" },
         password: { label: "password", type: "password" },
         hospitalID: { label: "hospitalID", type: "hospitalID" },
       },
@@ -19,7 +19,7 @@ const handler = NextAuth({
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/api/users/users/login`,
           {
-            firstName: credentials?.email,
+            firstName: credentials?.firstName,
             password: credentials?.password,
             hospitalID: credentials?.hospitalID,
           }

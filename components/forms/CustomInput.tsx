@@ -6,8 +6,9 @@ import { Button } from '../ui/button'
 
 const CustomInput = ({ description, label, name, placeholder, value, type = 'text', onChange, defaultValue }: CustomInputProps) => {
   const [isShowPassword, setIsShowPassword] = useState(false)
+
   const togglePassword = () => {
-    setIsShowPassword(!isShowPassword)
+    setIsShowPassword(prev => !prev)
   }
 
   const handleChange = (e: InputEventProps) => {

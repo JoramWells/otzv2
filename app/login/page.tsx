@@ -28,8 +28,6 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | undefined>()
 
-  console.log(error)
-
   const router = useRouter()
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -79,21 +77,21 @@ const LoginPage = () => {
   }, [hospitalsData])
   return (
     <div className="flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-slate-50">
+      <div className='mb-4'>
+        <Image
+          src={"/img/logo1.svg"}
+          alt="img"
+          width={0}
+          height={0}
+          style={{ width: "90px", height: "auto" }}
+          // quality={100}
+        />
+      </div>
+
       <form
         className="flex flex-col w-[500px] p-8 rounded-lg gap-y-4 mx-auto ml-auto bg-white border-t-4 border-teal-500"
         onSubmit={handleSubmit}
       >
-        <div>
-          <Image
-            src={'/img/logo1.svg'}
-            alt="img"
-            width={0}
-            height={0}
-            style={{ width: '90px', height: 'auto', margin: 'auto' }}
-
-            // quality={100}
-          />
-        </div>
         <div>
           <h2 className="text-slate-700 text-[16px]">Sign In</h2>
           <h3 className="text-muted-foreground text-[12px] ">
@@ -128,25 +126,25 @@ const LoginPage = () => {
         />
         {error && <FormError message={error} />}
         <Button
-          size={'sm'}
+          size={"sm"}
           className="bg-teal-600 text-[14px] mt-2 hover:bg-teal-700 font-semibold shadow-none"
           // onClick={() => handleSubmit()}
           type="submit"
           disabled={isLoading}
         >
-          {isLoading && <Loader2 className='animate-spin mr-2' size={16} />}
+          {isLoading && <Loader2 className="animate-spin mr-2" size={16} />}
           Sign In
         </Button>
         <div className="flex flex-col space-y-2">
           <Link
-            href={'/auth/register'}
+            href={"/auth/register"}
             className="text-center text-[12px] text-slate-500"
           >
             Don&apos;t have an account? Contact admin.
           </Link>
           <Link
             target="_blank"
-            href={'https://joramwells.github.io/otz-terms-and-conditions'}
+            href={"https://joramwells.github.io/otz-terms-and-conditions"}
             className="text-center text-blue-500 hover:underline text-[12px] "
           >
             Terms & Conditions
@@ -154,7 +152,7 @@ const LoginPage = () => {
         </div>
       </form>
     </div>
-  )
+  );
 }
 
 export default LoginPage
