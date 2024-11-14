@@ -8,22 +8,22 @@ import { columns } from '@/app/appointments/columns'
 import { type ExtendedAppointmentInputProps, useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { calculateAge } from '@/utils/calculateAge'
-import { UserInterface } from 'otz-types'
+import { type UserInterface } from 'otz-types'
 import { useSession } from 'next-auth/react'
 
 const AppointmentHomepage = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
-    const [user, setUser] = useState<UserInterface>();
+  const [user, setUser] = useState<UserInterface>()
 
-    const { data: session } = useSession();
+  const { data: session } = useSession()
 
-    useEffect(() => {
-      if (session) {
-        const { user } = session;
-        setUser(user as UserInterface);
-      }
-    }, [session]);
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
 
   const [value, setValue] = useState<string | null>(tab)
 

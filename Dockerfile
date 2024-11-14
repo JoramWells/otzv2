@@ -5,11 +5,13 @@ RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+RUN npm i -g pnpm
 
-RUN yarn cache clean --force
+COPY package.json pnpm-lock.yaml ./
 
-RUN yarn install --legacy-peer-deps
+RUN npm cache clean --force
+
+RUN pnpm install
 
 COPY . .
 
