@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -10,6 +11,9 @@ import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { Users } from 'lucide-react'
 import { type HeaderCategoriesProps } from '@/app/_components/dashboard/HeaderCategories'
+import { type UserInterface } from 'otz-types'
+import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 //
 const BreadcrumbComponent = dynamic(
@@ -56,7 +60,20 @@ const dataList = [
 Chart.register(...registerables)
 
 const Dashboard = () => {
-  const { data } = useGetAllPatientsQuery()
+  const [user, setUser] = useState<UserInterface>()
+
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
+
+  const { data } = useGetAllPatientsQuery({
+    hospitalID: user?.hospitalID as string
+  })
 
   const ageRanges: Array<[number, number]> = [[0, 9], [10, 19], [20, 24], [25, Infinity]]
 

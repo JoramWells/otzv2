@@ -21,7 +21,7 @@ export function UserAccount ({ user }: { user: UserInterface }) {
   const router = useRouter()
   const logOut = async () => {
     await signOut()
-    router.push('/')
+    router.push('/login')
   }
   return (
     <DropdownMenu>

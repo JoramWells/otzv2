@@ -6,7 +6,7 @@ import axios from 'axios'
 const handler = NextAuth({
   session: {
     strategy: "jwt",
-    maxAge: 2 * 60 * 60
+    maxAge: 1 * 60 * 60
   },
   providers: [
     CredentialsProvider({

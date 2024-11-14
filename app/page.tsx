@@ -23,7 +23,6 @@ import { type ExtendedAppModuleSession } from '@/api/appModules/appModuleSession
 import moment from 'moment'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
-import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { Badge } from '@/components/ui/badge'
 
 interface ListItemProps {
@@ -111,8 +110,6 @@ export default function Home () {
       }
     })()
   }, [])
-
-  console.log(data, 'dtm')
 
   const filteredData = data?.filter(item => item.isActive)
 
@@ -280,7 +277,7 @@ export default function Home () {
                       <LayoutGrid size={16} className="" />
                       <p className="mb-2 mt-2 ml-2 font-bold ">All Modules</p>
                       <Badge className="bg-slate-100 hover:bg-slate-50 shadow-none text-slate-700 border border-slate-200 ">
-                        {data?.length}
+                        {filteredData?.length}
                       </Badge>
                     </div>
                   </div>
