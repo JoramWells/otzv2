@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable no-void */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
@@ -9,6 +10,7 @@ import React, { type FormEvent, useEffect, useState } from 'react'
 import axios from 'axios'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 import { useGetAppModulesQuery } from '@/api/appModules/appModules.api'
+import { Switch } from '@/components/ui/switch'
 
 const dataList2 = [
   {
@@ -35,12 +37,14 @@ const AddApp = ({ params }: { params: any }) => {
   const [title, setTitle] = useState('')
   const [link, setLink] = useState('')
   const [description, setDescription] = useState('')
+  const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
     if (data != null) {
       setTitle(data.title)
       setLink(data.link)
       setDescription(data.description)
+      setIsActive(data.isActive as boolean)
     }
   }, [data])
 
@@ -52,6 +56,7 @@ const AddApp = ({ params }: { params: any }) => {
     formData.append('title', title)
     formData.append('description', description)
     formData.append('link', link)
+    formData.append('isActive', isActive as unknown as string)
     if (file != null) {
       formData.append('file', file)
     }
@@ -77,13 +82,18 @@ const AddApp = ({ params }: { params: any }) => {
           className="w-1/2 p-4 bg-white rounded-lg flex flex-col space-y-4"
           onSubmit={(e) => void handleSubmit(e)}
         >
-          <CustomInput label="Module Name"
-          name="title"
-          value={title}
-          onChange={setTitle} />
-          <CustomInput label="Link"
-          value={link}
-          name="link" onChange={setLink} />
+          <CustomInput
+            label="Module Name"
+            name="title"
+            value={title}
+            onChange={setTitle}
+          />
+          <CustomInput
+            label="Link"
+            value={link}
+            name="link"
+            onChange={setLink}
+          />
           <Textarea
             placeholder="Enter Description"
             name="description"
@@ -94,10 +104,17 @@ const AddApp = ({ params }: { params: any }) => {
             }}
           />
 
-          {/* <CustomInput
-        label='Description'
-        type='textarea'
-        /> */}
+          <div>
+            <label htmlFor="" className='text-[14px] text-slate-700' >Active</label>
+            <p className='text-[12px] text-slate-500' >An active module is visible by all the users</p>
+            <Switch
+              checked={isActive}
+              onCheckedChange={() => {
+                setIsActive(prev => !prev)
+              }}
+              className="text-teal-600 bg-teal-600 "
+            />
+          </div>
 
           <CustomInput
             label="Select image"

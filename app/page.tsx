@@ -46,7 +46,8 @@ const administrator: AppModuleInterface[] = [{
   title: 'Administrator',
   link: '/administrator/dashboard',
   img: '/img/admin.png',
-  description: 'Manage user registration, medicine, schools...'
+  description: 'Manage user registration, medicine, schools...',
+  isActive: true
 }]
 
 const responsive = {
@@ -110,6 +111,10 @@ export default function Home () {
       }
     })()
   }, [])
+
+  console.log(data, 'dtm')
+
+  const filteredData = data?.filter(item => item.isActive)
 
   const router = useRouter()
   useEffect(() => {
@@ -296,7 +301,7 @@ export default function Home () {
                   </div>
                 </div>
                 <div className="grid px-2  w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2 mb-2 pb-4">
-                  {data?.map((item: AppModuleInterface) => (
+                  {filteredData?.map((item: AppModuleInterface) => (
                     <Suspense
                       key={item.id}
                       fallback={<Skeleton className="h-[120px]" />}

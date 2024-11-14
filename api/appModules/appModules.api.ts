@@ -7,6 +7,7 @@ export interface AppModulesProps {
   description: string
   img: string
   link: string
+  isActive?: boolean
 }
 
 export const appModulesApi = createApi({
