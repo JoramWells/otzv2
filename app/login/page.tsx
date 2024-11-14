@@ -80,7 +80,7 @@ const LoginPage = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-slate-50">
       <form
-        className="flex flex-col w-[500px] p-4 rounded-lg gap-y-4 mx-auto ml-auto bg-white border-t-4 border-teal-500"
+        className="flex flex-col w-[500px] p-8 rounded-lg gap-y-4 mx-auto ml-auto bg-white border-t-4 border-teal-500"
         onSubmit={handleSubmit}
       >
         <div>

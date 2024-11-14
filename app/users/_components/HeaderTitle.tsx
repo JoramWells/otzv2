@@ -1,10 +1,14 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomSelect, { type DataItem } from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { PlusCircleIcon } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { type UserInterface } from 'otz-types'
+import { useCallback, useEffect, useState } from 'react'
 
 interface HeaderTitleProps {
   title: string
@@ -13,8 +17,19 @@ interface HeaderTitleProps {
 }
 
 const HeaderTitle = ({ title, link, label = '' }: HeaderTitleProps) => {
+  const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
+
   const [patientID, setPatientID] = useState('')
-  const { data: patientData } = useGetAllPatientsQuery()
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
+  const { data: patientData } = useGetAllPatientsQuery({
+    hospitalID: user?.hospitalID as string
+  })
   const router = useRouter()
 
   const dataOptions = useCallback(() => {
