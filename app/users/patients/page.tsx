@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
@@ -6,7 +7,7 @@ import { CustomTable } from '../../_components/table/CustomTable'
 // import { Button } from '@/components/ui/button'
 // import { PlusCircle } from 'lucide-react'
 // import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { patientColumns } from './_components/columns'
@@ -15,9 +16,10 @@ import { ListFilter, PlusCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
-import { type PatientAttributes } from 'otz-types'
+import { type UserInterface, type PatientAttributes } from 'otz-types'
 import { calculateAge } from '@/utils/calculateAge'
 import CustomTab from '@/components/tab/CustomTab'
+import { useSession } from 'next-auth/react'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -77,7 +79,20 @@ const FilterComponent = () => {
 
 const Patients = () => {
   // const datax = await getPatients()
-  const { data, isLoading } = useGetAllPatientsQuery()
+
+  const [user, setUser] = useState<UserInterface>()
+
+  const { data: session } = useSession()
+  const { data, isLoading } = useGetAllPatientsQuery({
+    hospitalID: user?.hospitalID as string
+  })
+
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
 
   const filteredArray: PatientAttributes[] = data ? [...data] : []
   filteredArray.sort(

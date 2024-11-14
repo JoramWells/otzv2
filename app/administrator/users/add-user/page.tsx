@@ -39,6 +39,29 @@ const dataList = [
   }
 ]
 
+const roleData = [
+  {
+    id: 'clinician',
+    label: 'Clinician'
+  },
+  {
+    id: 'mentor mother',
+    label: 'Mentor Mother'
+  },
+  {
+    id: 'advocate',
+    label: 'Advocate'
+  },
+  {
+    id: 'nurse',
+    label: 'Nurse'
+  },
+  {
+    id: 'patient',
+    label: 'Patient'
+  }
+]
+
 const AddUser = () => {
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
@@ -48,9 +71,10 @@ const AddUser = () => {
   const [idNo, setIDNo] = useState('')
   const [county, setCounty] = useState('')
   // const [password, setPassword] = useState('')
-  const [phone_no, setPhone_no] = useState('')
+  const [phoneNo, setPhoneNo] = useState('')
   const [email, setEmail] = useState('')
   const [hospitalID, setHospitalID] = useState<string | undefined>()
+  const [role, setRole] = useState('')
 
   const inputValues = {
     firstName,
@@ -61,8 +85,9 @@ const AddUser = () => {
     idNo,
     county,
     email,
-    phone_no,
-    hospitalID
+    phoneNo,
+    hospitalID,
+    role
     // password
   }
 
@@ -96,7 +121,7 @@ const AddUser = () => {
     <div>
       <BreadcrumbComponent dataList={dataList} />
 
-      <div className='p-2' >
+      <div className="p-2">
         <div
           className="border border-gray-200 bg-white
         w-1/3 flex flex-col rounded-lg p-5 gap-y-2"
@@ -142,19 +167,16 @@ const AddUser = () => {
           <CustomInput label="ID No." value={idNo} onChange={setIDNo} />
           <CustomInput
             label="Phone No."
-            value={phone_no}
-            onChange={setPhone_no}
+            value={phoneNo}
+            onChange={setPhoneNo}
           />
 
-          {/* <CustomSelect
-          label="Select Location"
-          data={[
-            {
-              id: useId(),
-              label: 'Nanyuki'
-            }
-          ]}
-        /> */}
+          <CustomSelect
+            label="Role"
+            data={roleData}
+            onChange={setRole}
+            value={role}
+          />
 
           {/* <CustomInput label="Password" value={password} onChange={setPassword} /> */}
         </div>

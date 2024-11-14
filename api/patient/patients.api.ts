@@ -41,8 +41,14 @@ export const patientsApi = createApi({
     // }
   }),
   endpoints: (builder) => ({
-    getAllPatients: builder.query<PatientAttributes[], void>({
-      query: () => 'fetchAll'
+    getAllPatients: builder.query<PatientAttributes[], { hospitalID: string }>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } = params
+          return `/fetchAll?hospitalID=${hospitalID}`
+        }
+        return 'fetchAll'
+      }
     }),
     getAllPMTCTPatients: builder.query<any, void>({
       query: () => 'fetchAllPMTCT'

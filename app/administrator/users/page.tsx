@@ -41,20 +41,13 @@ const Users = () => {
 
   return (
     <>
-      <BreadcrumbComponent dataList={dataList} />
-      <div className="flex flex-row justify-between items-center p-2 bg-white mt-2 mb-2">
-        <div className="flex flex-row gap-x-2 items-center">
-          <p
-            className=" text-slate-700
-          font-semibold
-          "
-          >
-            Users
-          </p>
-        </div>
+      <div
+      className='relative'
+      >
+        <BreadcrumbComponent dataList={dataList} />
         <Button
           size={'sm'}
-          className="shadow-none"
+          className="shadow-none absolute top-2 right-2"
           variant={'outline'}
           onClick={handleClick}
         >

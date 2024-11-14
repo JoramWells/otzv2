@@ -8,7 +8,7 @@
 'use client'
 
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 // import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
@@ -16,7 +16,7 @@ import PopulationTypeChart from '@/components/Recharts/PopulationTypeChart'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { importantPatientColumn } from '../patients/_components/columns'
 import { Button } from '@/components/ui/button'
-import { type PatientAttributes } from 'otz-types'
+import { type UserInterface, type PatientAttributes } from 'otz-types'
 import { calculateAge } from '@/utils/calculateAge'
 import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
 import { useSession } from 'next-auth/react'
@@ -49,7 +49,13 @@ const BreadcrumbComponent = dynamic(
 // )
 
 const NotifyPage = () => {
-  let { data } = useGetAllPatientsQuery()
+  const [user, setUser] = useState<UserInterface>()
+
+  const { data: session } = useSession()
+
+  let { data } = useGetAllPatientsQuery({
+    hospitalID: user?.hospitalID as string
+  })
 
   data = data?.filter(item => calculateAge(item.dob) < 25)
 
@@ -60,6 +66,13 @@ const NotifyPage = () => {
       new Date(b.createdAt as unknown as string).getTime() -
       new Date(a.createdAt as unknown as string).getTime()
   )
+
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
 
   // const recentPatients = filteredArray?.slice(0, 3)
 
@@ -104,8 +117,6 @@ const NotifyPage = () => {
   }, [data])
 
   uniqueYears.sort((a: number, b: number) => a - b)
-
-  const { data: session } = useSession()
 
   const { data: importantPatients } = useGetImportantPatientQuery(session?.user.id as string)
   const [value, setValue] = useState(1)
