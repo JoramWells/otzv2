@@ -83,9 +83,6 @@ const Patients = () => {
   const [user, setUser] = useState<UserInterface>()
 
   const { data: session } = useSession()
-  const { data, isLoading } = useGetAllPatientsQuery({
-    hospitalID: user?.hospitalID as string
-  })
 
   useEffect(() => {
     if (session) {
@@ -93,7 +90,9 @@ const Patients = () => {
       setUser(user as UserInterface)
     }
   }, [session])
-
+  const { data, isLoading } = useGetAllPatientsQuery({
+    hospitalID: user?.hospitalID as string
+  })
   const filteredArray: PatientAttributes[] = data ? [...data] : []
   filteredArray.sort(
     (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()

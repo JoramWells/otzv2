@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 // import { Button } from '@chakra-ui/react'
 import CustomSelect from '@/components/forms/CustomSelect'
 import Select from 'react-select'
@@ -12,7 +13,8 @@ import { type MomentInput } from 'moment'
 import { Info } from 'lucide-react'
 import ViralLoadStatusComponent from './ViralLoadStatusComponent'
 import ArtRegimenPrescriptionStatusComponent from './ArtRegimenPrescriptionStatusComponent'
-import { type PrescriptionInterface } from 'otz-types'
+import { type UserInterface, type PrescriptionInterface } from 'otz-types'
+import { useSession } from 'next-auth/react'
 // import { useRouter } from 'next/router'
 
 interface InputProps {
@@ -44,10 +46,19 @@ const PrimaryCareGiver = ({
   setPrimaryCaregiverPrescriptionStatus,
   setPrimaryCaregiverVLStatus
 }: PrimaryCaregiverProps) => {
-  // const router = useRouter()
-  // const patientID = params.patientID
+  const { data: session } = useSession()
 
-  const { data: caregiverData } = useGetAllPatientsQuery()
+  const [user, setUser] = useState<UserInterface>()
+
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
+  const { data: caregiverData } = useGetAllPatientsQuery({
+    hospitalID: user?.hospitalID as string
+  })
   // const { data: artPrescriptionData } = useGetArtPrescriptionQuery(patientID)
 
   const [currentRegimenLine, setCurrentRegimenLine] = useState('')

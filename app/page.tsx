@@ -141,7 +141,7 @@ export default function Home () {
   if (session != null) {
     return (
       <>
-        <div className=" bg-white h-screen flex-1 ">
+        <div className=" bg-white h-[100vh] flex-1 ">
           <Suspense fallback={<Skeleton className="p-4 w-full" />}>
             <nav
               className="flex justify-between
@@ -360,8 +360,8 @@ export default function Home () {
               </div>
             </div>
           </main>
-          <Footer />
         </div>
+        <Footer />
       </>
     )
   }
