@@ -1,6 +1,3 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js CI
 
 on:
@@ -11,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,16 +16,28 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
-    - name: Install pnpm  
-      run: npm i -g pnpm  
-    - run: pnpm i
-    - run: pnpm run lint
-    - run: pnpm run test
-    - run: pnpm build --if-present
-    # - run: npm test
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm' # Enables pnpm-specific caching
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Cache pnpm store
+        uses: pnpm/action-setup@v2
+        with:
+          version: 'latest'
+          run_install: true  # Runs `pnpm install` automatically and restores cached dependencies
+
+      - name: Run Lint
+        run: pnpm run lint
+
+      - name: Run Tests
+        run: pnpm run test
+
+      - name: Build Project (if present)
+        run: pnpm build --if-present
