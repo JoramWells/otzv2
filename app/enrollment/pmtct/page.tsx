@@ -4,12 +4,8 @@
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-import SelectPatientDialog from '../_components/SelectPatientDialog'
 import { useGetAllPMTCTProfileEnrollmentsQuery } from '@/api/enrollment/pmtctProfileEnrollment.api'
 import { columns } from './columns'
-import { useCallback } from 'react'
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { type PatientAttributes } from 'otz-types'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -36,27 +32,27 @@ const PMTCT = () => {
   // const datax = await getPatients()
   const { data } = useGetAllPMTCTProfileEnrollmentsQuery()
 
-  const { data: patientData } = useGetAllPatientsQuery()
+  // const { data: patientData } = useGetAllPatientsQuery()
 
-  const patientDataOptions = useCallback(() => {
-    return (
-      patientData?.map((item: PatientAttributes) => ({
-        id: item.id,
-        label: item.firstName
-      })) || []
-    )
-  }, [patientData])
+  // const patientDataOptions = useCallback(() => {
+  //   return (
+  //     patientData?.map((item: PatientAttributes) => ({
+  //       id: item.id,
+  //       label: item.firstName
+  //     })) || []
+  //   )
+  // }, [patientData])
 
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="flex justify-end w-full">
-        <SelectPatientDialog
+        {/* <SelectPatientDialog
           label="Create New PMTCT"
           link="/enrollment/enroll-pmtct"
           data={patientDataOptions()}
-        />
+        /> */}
       </div>
 
       <div className="p-4 bg-white rounded-lg mt-4">

@@ -4,10 +4,7 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { columns } from '../otz/columns'
-import SelectPatientDialog from '../_components/SelectPatientDialog'
 import { useGetAllPAMAEnrollmentsQuery } from '@/api/enrollment/pamaEnrollment.api'
-import { useGetAllEligibleOTZPatientsQuery } from '@/api/patient/patients.api'
-import { useCallback } from 'react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -30,25 +27,20 @@ const dataList2 = [
   }
 ]
 
-interface Patient {
-  id: string
-  firstName: string
-}
-
 const OTZ = () => {
   // const datax = await getPatients()
   const { data } = useGetAllPAMAEnrollmentsQuery()
 
-  const { data: patientData } = useGetAllEligibleOTZPatientsQuery()
+  // const { data: patientData } = useGetAllEligibleOTZPatientsQuery()
 
-  const patientDataOptions = useCallback(() => {
-    return (
-      patientData?.map((item: Patient) => ({
-        id: item.id,
-        label: item.firstName
-      })) || []
-    )
-  }, [patientData])
+  // const patientDataOptions = useCallback(() => {
+  //   return (
+  //     patientData?.map((item: Patient) => ({
+  //       id: item.id,
+  //       label: item.firstName
+  //     })) || []
+  //   )
+  // }, [patientData])
 
   return (
     <>
@@ -57,11 +49,11 @@ const OTZ = () => {
       <div className="flex justify-between items-center w-full p-2 bg-white mt-2">
         <p className=" text-slate-700 font-bold">Patients Enrolled in PAMA</p>
 
-        <SelectPatientDialog
+        {/* <SelectPatientDialog
           label="Create New OTZ"
           link="/enrollment/enroll-pama"
           data={patientDataOptions()}
-        />
+        /> */}
       </div>
 
       <div className='w-full p-2' >
