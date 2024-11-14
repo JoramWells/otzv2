@@ -29,6 +29,26 @@ const dataList2 = [
     link: '/dashboard'
   }
 ]
+
+const roleData = [
+  {
+    id: 'clinician',
+    label: 'Clinician'
+  },
+  {
+    id: 'mentor mother',
+    label: 'Mentor Mother'
+  },
+  {
+    id: 'advocate',
+    label: 'Advocate'
+  },
+  {
+    id: 'nurse',
+    label: 'Nurse'
+  }
+]
+
 const UserDetailPage = ({ params }: { params: any }) => {
   const { id } = params
 
@@ -50,7 +70,8 @@ const UserDetailPage = ({ params }: { params: any }) => {
     phoneNo,
     populationType,
     dob,
-    hospitalID
+    hospitalID,
+    role
   }
 
   const { data: hospitalsData } = useGetAllHospitalsQuery()
@@ -133,13 +154,12 @@ const UserDetailPage = ({ params }: { params: any }) => {
         />
 
         {/*  */}
-        {/* <SelectYears setValue={setRole} value={role} /> */}
-        {/* <CustomSelect
+        <CustomSelect
           label="Role"
           data={roleData}
           onChange={setRole}
           value={role}
-        /> */}
+        />
 
         {/*  */}
         {/* <CustomSelect

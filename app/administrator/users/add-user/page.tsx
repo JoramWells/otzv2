@@ -55,10 +55,6 @@ const roleData = [
   {
     id: 'nurse',
     label: 'Nurse'
-  },
-  {
-    id: 'patient',
-    label: 'Patient'
   }
 ]
 
