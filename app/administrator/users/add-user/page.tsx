@@ -41,6 +41,10 @@ const dataList = [
 
 const roleData = [
   {
+    id: 'admin',
+    label: 'Admin'
+  },
+  {
     id: 'clinician',
     label: 'Clinician'
   },

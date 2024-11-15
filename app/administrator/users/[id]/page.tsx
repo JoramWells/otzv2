@@ -46,6 +46,10 @@ const roleData = [
   {
     id: 'nurse',
     label: 'Nurse'
+  },
+  {
+    id: 'admin',
+    label: 'Admin'
   }
 ]
 
@@ -99,6 +103,7 @@ const UserDetailPage = ({ params }: { params: any }) => {
       setFirstName(userData.firstName)
       setMiddleName(userData.middleName)
       setLastName(userData.lastName)
+      setRole(userData.role as unknown as string)
       setHospitalID(userData.hospitalID as string)
       setDOB(moment(userData.dob).format('YYYY-MM-DD'))
     }

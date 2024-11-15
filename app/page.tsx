@@ -24,15 +24,8 @@ import moment from 'moment'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Badge } from '@/components/ui/badge'
+import { type UserRoles } from '@/api/users/users.api'
 
-enum Roles {
-  Admin = 'admin',
-  Advocate = 'advocate',
-}
-
-export interface UserRoles {
-  role: Roles
-}
 interface ListItemProps {
   id: string
   label: string

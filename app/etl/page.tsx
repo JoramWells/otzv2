@@ -71,7 +71,7 @@ const ETL = () => {
   const router = useRouter()
   return (
     <div>
-      <div className="flex justify-between w-full items-center bg-white p-2">
+      <div className="flex justify-between w-full items-center bg-white">
         <BreadcrumbComponent dataList={dataList} />
         <Button
         size={'sm'}
