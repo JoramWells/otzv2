@@ -6,10 +6,12 @@ import { Chart, type ChartDataset, registerables } from 'chart.js'
 
 import { type ExtendedAppointmentInputProps, useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 // import { type MomentInput } from 'moment'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
 import moment from 'moment'
 import { useGetAllUserAvailabilitiesQuery } from '@/api/users/userAvailability.api'
+import { type UserInterface } from 'otz-types'
+import { useSession } from 'next-auth/react'
 
 export interface BarChartProps {
   labels: string[]
@@ -19,10 +21,21 @@ export interface BarChartProps {
 Chart.register(...registerables)
 
 const WeeklyAppointmentBarChart = () => {
+  const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
+
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
+
   const currentDate = moment().format('YYYY-MM-DD')
   const { data: weeklyData } = useGetAllAppointmentsQuery({
     date: currentDate,
-    mode: 'weekly'
+    mode: 'weekly',
+    hospitalID: user?.hospitalID as string
   })
 
   const { data: availabilityData } = useGetAllUserAvailabilitiesQuery()
