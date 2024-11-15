@@ -187,7 +187,7 @@ const Patients = () => {
               columns={patientColumns}
               data={otzPatients || []}
               isLoading={isLoading}
-              filter={<FilterComponent />}
+              // filter={<FilterComponent />}
               // isSearch
             />
           </div>

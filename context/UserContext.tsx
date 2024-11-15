@@ -13,7 +13,7 @@ import {
   useState
 } from 'react'
 
-import { type PatientAttributes } from 'otz-types'
+import { type UserInterface, type PatientAttributes } from 'otz-types'
 import io, { type Socket } from 'socket.io-client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -21,14 +21,17 @@ import { useGetPatientByUserIDQuery } from '@/api/patient/patients.api'
 
 export interface AppContext {
   user: PatientAttributes | undefined
+  authUser: UserInterface | undefined
   onlineUsers: PatientAttributes[]
   userSocket: Socket | undefined
+  // setAuthUser: Dispatch<SetStateAction<UserInterface | undefined>>;
   setUser: Dispatch<SetStateAction<PatientAttributes | undefined>>
   setModuleID: Dispatch<SetStateAction<string | undefined | null>>
 }
 
 const initialState: AppContext = {
   user: undefined,
+  authUser: undefined,
   userSocket: undefined,
   onlineUsers: [],
   setUser: () => {},
@@ -42,6 +45,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter()
   const [onlineUsers, setOnlineUsers] = useState<PatientAttributes[]>([])
   const [user, setUser] = useState<PatientAttributes | undefined>()
+  const [authUser, setAuthUser] = useState<UserInterface | undefined>()
   // const [notificationCount, setNotificationCount] = useState(0)
   const { data: patientData } = useGetPatientByUserIDQuery(session?.user.id as string)
   const [userSocket, setUserSocket] = useState<Socket>()
@@ -60,6 +64,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (session != null) {
+      setAuthUser(session.user as UserInterface)
       const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}`, {
         path: '/api/users/socket.io',
         transports: ['websocket'],
@@ -104,7 +109,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setUser,
         onlineUsers,
         userSocket,
-        setModuleID
+        setModuleID,
+        authUser
       }}
     >
       {children}

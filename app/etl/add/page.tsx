@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -14,6 +15,7 @@ import axios from 'axios'
 import { Loader2, TriangleAlert, X } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/navigation'
 import { type UserInterface } from 'otz-types'
 import Papa, { type ParseMeta } from 'papaparse'
 import React, {
@@ -184,6 +186,8 @@ const AddEtlPage = () => {
     }
   }
 
+  const [responseData, setResponseData] = useState()
+
   //
   const handleSubmit = async () => {
     // e.preventDefault()
@@ -214,11 +218,20 @@ const AddEtlPage = () => {
           }
         }
       )
+      setResponseData(response as any)
       setLoading(false)
     } catch (error) {
       console.log(error)
     }
   }
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (responseData) {
+      router.push('/etl')
+    }
+  }, [responseData, router])
 
   return (
     <>
@@ -304,7 +317,9 @@ const AddEtlPage = () => {
                 </Button>
               </div>
             </div>
-            <CustomTable columns={columns} data={filteredData || []} />
+            <CustomTable
+            isSearch={false}
+            columns={columns} data={filteredData || []} />
           </div>
         ) : (
           <div className="flex items-center h-[200px] border rounded-lg border-dashed w-1/2 p-4 justify-center

@@ -13,6 +13,9 @@ import { useGetAllETLQuery } from '@/api/etl/etl.api'
 import { linelistColumn } from './columns'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import { type UserInterface } from 'otz-types'
+import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 //
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -35,7 +38,19 @@ const dataList = [
 ]
 
 const ETL = () => {
-  const { data } = useGetAllETLQuery()
+  const [user, setUser] = useState<UserInterface>()
+
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
+  const { data } = useGetAllETLQuery({
+    hospitalID: user?.hospitalID as string
+  })
 
   // const handleFilter = (range: DateRange | undefined) => {
   //   const dataFiltered = csvArray.filter((item) => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
@@ -12,8 +13,16 @@ export const etlApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/articles/linelist-csv`
   }),
   endpoints: (builder) => ({
-    getAllETL: builder.query<any, void>({
-      query: () => 'fetchAll'
+    getAllETL: builder.query<any, { hospitalID: string }>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } = params
+          let queryString = ''
+          queryString += `hospitalID=${hospitalID}`
+          return `/fetchAll?${queryString}`
+        }
+        return '/fetchAll'
+      }
     }),
     addETL: builder.mutation<string, void>({
       query: (newUser) => ({
