@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import { type ExtendedAdherenceAttributes } from '@/app/pill-box/reminder/column'
 import useNotification from '@/hooks/useNotification'
 import { checkTimeOfDay } from '@/utils/checkTimeOfDay'
 import moment from 'moment'
+import { useSession } from 'next-auth/react'
+import { type UserInterface } from 'otz-types'
 // import { useSession } from 'next-auth/react'
 import { createContext, type Dispatch, type SetStateAction, useContext, useEffect, useState, type ReactNode } from 'react'
 import io from 'socket.io-client'
@@ -68,15 +72,25 @@ function countStatus (data: ExtendedAdherenceAttributes[]) {
 }
 
 export const PharmacyProvider = ({ children }: { children: ReactNode }) => {
+  const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
+
   const [adherenceData, setAdherenceData] = useState<ExtendedAdherenceAttributes[] | null>()
   const [uptakeCount, setUptakeCount] = useState<UptakeCountInterface>(defaultUptakeCount)
   const currentDate = moment().format('YYYY-MM-DD')
+
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
   const { data } = useGetAllPillDailyUptakeQuery({
-    date: currentDate as unknown as Date
+    date: currentDate as unknown as Date,
+    hospitalID: user?.hospitalID as string
   })
 
   //   Get session of already registered user
-  //   const { data: session } = useSession()
 
   const showNotification = useNotification()
 
