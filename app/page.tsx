@@ -25,6 +25,14 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Badge } from '@/components/ui/badge'
 
+enum Roles {
+  Admin = 'admin',
+  Advocate = 'advocate',
+}
+
+export interface UserRoles {
+  role: Roles
+}
 interface ListItemProps {
   id: string
   label: string
@@ -94,7 +102,7 @@ const fetchRecentData = async (id: string): Promise<ExtendedAppModuleSession[] |
 
 export default function Home () {
   const { data: session, status } = useSession()
-  const [user, setUser] = useState<UserInterface>()
+  const [user, setUser] = useState<UserInterface & UserRoles>()
   const [data, setData] = useState<AppModuleInterface[]>([])
   const [recentSession, setRecentSession] = useState<
   ExtendedAppModuleSession[] | undefined
@@ -105,11 +113,11 @@ export default function Home () {
     void (async () => {
       const resp = await fetchData()
       if (resp) {
-        setData(administrator.concat(resp))
+        setData(user?.role === 'admin' ? administrator.concat(resp) : resp)
         // console.log(resp, 'response')
       }
     })()
-  }, [])
+  }, [user?.role])
 
   const filteredData = data?.filter(item => item.isActive)
 
@@ -121,7 +129,7 @@ export default function Home () {
 
     if (session) {
       const { user } = session
-      setUser(user as UserInterface)
+      setUser(user as UserInterface & UserRoles)
       void (async () => {
         const dtm = await fetchRecentData(user?.id as string)
         setRecentSession(dtm)
