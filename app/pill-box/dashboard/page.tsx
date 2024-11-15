@@ -8,8 +8,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { type ExtendedPrescriptionInterface, useGetAllPrescriptionsQuery, useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
 import { useGetAllArtPrescriptionQuery } from '@/api/art/artPrescription.api'
-import { type ARTPrescriptionInterface, type PrescriptionInterface } from 'otz-types'
-import { useCallback, useState } from 'react'
+import { type UserInterface, type ARTPrescriptionInterface, type PrescriptionInterface } from 'otz-types'
+import { useCallback, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { importantPrescription } from '../prescription/columns'
@@ -66,12 +66,21 @@ const dataList2 = [
 ]
 
 const NotifyPage = () => {
+  const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
   const { uptakeCount } = usePharmacyContext()
 
   const { data: facilityData } = useGetFacilityAdherenceQuery()
 
   const { data: prescriptionData } = useGetAllPrescriptionsQuery({
-    mode: undefined
+    mode: undefined,
+    hospitalID: user?.hospitalID as string
   })
 
   const filteredArray: PrescriptionInterface[] = prescriptionData
@@ -84,7 +93,6 @@ const NotifyPage = () => {
   )
 
   const recentPrescription = filteredArray?.slice(0, 3)
-  const { data: session } = useSession()
 
   const filterPrescriptionData = useCallback(() => {
     const tempData = prescriptionData ? [...prescriptionData] : []
