@@ -43,5 +43,5 @@ jobs:
 
     # - run: npm i --legacy-peer-deps
     - run: pnpm run test
-    - run: pnpm build --if-present
+    - run: pnpm build
     # - run: npm test
