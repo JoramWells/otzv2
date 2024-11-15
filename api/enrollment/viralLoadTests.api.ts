@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
@@ -7,8 +8,17 @@ export const viralLoadApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/lab/viral-load-tests`
   }),
   endpoints: (builder) => ({
-    getAllViralLoadTests: builder.query<any, void>({
-      query: () => 'fetchAll'
+    getAllViralLoadTests: builder.query<any, { hospitalID: string }>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } = params
+          let queryString = ''
+          // queryString += `date=${date}`
+          queryString += `hospitalID=${hospitalID}`
+          return `/fetchAll?${queryString}`
+        }
+        return 'fetchAll'
+      }
     }),
     getAllVlCategories: builder.query<any, void>({
       query: () => 'fetchAllVLCategory'

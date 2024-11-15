@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
@@ -8,8 +9,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
 import CustomTab from '@/components/tab/CustomTab'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { calculateAge } from '@/utils/calculateAge'
+import { useSession } from 'next-auth/react'
+import { type UserInterface } from 'otz-types'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -38,8 +41,17 @@ const dataList2 = [
 ]
 
 const PrescriptionPage = () => {
+  const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
   const { data } = useGetAllPrescriptionsQuery({
-    mode: undefined
+    mode: undefined,
+    hospitalID: user?.hospitalID as string
   })
 
   let sortedData = data ? [...data] : []
@@ -47,8 +59,6 @@ const PrescriptionPage = () => {
   sortedData.sort(
     (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()
   )
-
-  console.log(sortedData, 'sortedData')
 
   // active prescriptions
   const activeData = sortedData?.filter(item => item.expectedNoOfPills && item.expectedNoOfPills > 0)

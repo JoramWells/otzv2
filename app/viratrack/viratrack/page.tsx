@@ -3,12 +3,14 @@
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from '../columns'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 import CustomTab from '../../../components/tab/CustomTab'
 import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
+import { useSession } from 'next-auth/react'
+import { type UserInterface } from 'otz-types'
 
 // interface ItemsProps {
 //   dob: MomentInput
@@ -28,10 +30,20 @@ const dataList2 = [
 ]
 
 const TrackPage = () => {
+  const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
-  const { data: vlData } = useGetAllViralLoadTestsQuery()
+  const { data: vlData } = useGetAllViralLoadTestsQuery({
+    hospitalID: user?.hospitalID as string
+  })
 
   const categoryList = useMemo(
     () => [

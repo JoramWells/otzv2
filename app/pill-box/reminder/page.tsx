@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
@@ -16,6 +17,8 @@ import { BadgeCheck, CircleX } from 'lucide-react'
 import { Calendar } from '@/components/ui/calendar'
 import { useGetAllPillDailyUptakeQuery } from '@/api/treatmentplan/uptake.api'
 import moment from 'moment'
+import { useSession } from 'next-auth/react'
+import { type UserInterface } from 'otz-types'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -44,6 +47,14 @@ const dataList2 = [
 ]
 
 const AppointmentPage = () => {
+  const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [date, setDate] = useState<Date | undefined>(new Date())
@@ -54,7 +65,8 @@ const AppointmentPage = () => {
   const { setAdherenceData } = usePharmacyContext()
 
   const { data: adherenceData } = useGetAllPillDailyUptakeQuery({
-    date: moment(date).format('YYYY-MM-DD') as unknown as Date
+    date: moment(date).format('YYYY-MM-DD') as unknown as Date,
+    hospitalID: user?.hospitalID as string
   })
   const morningData = useCallback(() => {
     return adherenceData?.filter((item: ExtendedAdherenceAttributes) => {

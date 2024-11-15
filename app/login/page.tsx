@@ -22,7 +22,7 @@ import { Loader2 } from 'lucide-react'
 const LoginPage = () => {
   const { data: session, status } = useSession()
 
-  const [email, setEmail] = useState('')
+  const [firstName, setFirstName] = useState('')
   const [password, setPassword] = useState('')
   const [hospitalID, setHospitalID] = useState<string | undefined>()
   const [isLoading, setIsLoading] = useState(false)
@@ -34,7 +34,7 @@ const LoginPage = () => {
     e.preventDefault()
     setIsLoading(true)
     const response = await signIn('credentials', {
-      email,
+      firstName,
       password,
       hospitalID,
       redirect: false
@@ -107,8 +107,8 @@ const LoginPage = () => {
         /> */}
         <CustomInput
           label="Username"
-          value={email}
-          onChange={setEmail}
+          value={firstName}
+          onChange={setFirstName}
           placeholder="Enter username"
         />
         <CustomInput

@@ -11,12 +11,13 @@ export const prescriptionApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription`
   }),
   endpoints: (builder) => ({
-    getAllPrescriptions: builder.query<ExtendedPrescriptionInterface[], { mode: string | undefined }>({
+    getAllPrescriptions: builder.query<ExtendedPrescriptionInterface[], { mode: string | undefined, hospitalID: string }>({
       query: (params) => {
         if (params) {
-          const { mode } = params
+          const { mode, hospitalID } = params
           let queryString = ''
           queryString += `mode=${mode}`
+          queryString += `&hospitalID=${hospitalID}`
           return `/fetchAll?${queryString}`
         }
         return 'fetchAll'

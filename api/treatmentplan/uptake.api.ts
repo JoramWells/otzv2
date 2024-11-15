@@ -14,12 +14,13 @@ export const pillDailyUptakeApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/daily-uptake`
   }),
   endpoints: (builder) => ({
-    getAllPillDailyUptake: builder.query<ExtendedAdherenceAttributes[], { date: Date }>({
+    getAllPillDailyUptake: builder.query<ExtendedAdherenceAttributes[], { date: Date, hospitalID: string }>({
       query: (params) => {
         if (params) {
-          const { date } = params
+          const { date, hospitalID } = params
           let queryString = ''
           queryString += `date=${date}`
+          queryString += `&hospitalID=${hospitalID}`
           return `/fetchAll?${queryString}`
         }
         return 'fetchAll'
