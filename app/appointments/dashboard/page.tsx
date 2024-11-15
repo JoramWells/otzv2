@@ -10,13 +10,14 @@ import dynamic from 'next/dynamic'
 import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
 import { useGetAllAppointmentsQuery, useGetAllPriorityAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { pinnedColumns } from '../columns'
 import { calculateAge } from '@/utils/calculateAge'
 import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
 import { useSession } from 'next-auth/react'
+import { type UserInterface } from 'otz-types'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -41,10 +42,17 @@ const dataList2 = [
 const NotifyPage = () => {
   const [value, setValue] = useState('all')
   const { data: session } = useSession()
-
+  const [user, setUser] = useState<UserInterface>()
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
   let { data: weeklyData } = useGetAllAppointmentsQuery({
     date: '2022-01-01',
-    mode: value
+    mode: value,
+    hospitalID: user?.hospitalID as string
   })
   weeklyData = weeklyData?.filter(item => calculateAge(item.Patient.dob) < 25)
 
