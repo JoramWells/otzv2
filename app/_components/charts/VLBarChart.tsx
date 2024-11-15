@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react/prop-types */
@@ -8,6 +9,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
 import CustomSelect from '../../../components/forms/CustomSelect'
+import { useSession } from 'next-auth/react'
+import { type UserInterface } from 'otz-types'
 
 // interface Props {
 //   data: BarChartProps
@@ -25,7 +28,17 @@ interface vlDataProps {
 Chart.register(...registerables)
 
 const VLBarChart = () => {
-  const { data: vlData } = useGetAllViralLoadTestsQuery()
+  const { data: session } = useSession()
+  const [user, setUser] = useState<UserInterface>()
+  useEffect(() => {
+    if (session) {
+      const { user } = session
+      setUser(user as UserInterface)
+    }
+  }, [session])
+  const { data: vlData } = useGetAllViralLoadTestsQuery({
+    hospitalID: user?.hospitalID as string
+  })
   const [data, setData] = useState([])
   const [value, setValue] = useState<number>(0)
 
