@@ -52,6 +52,13 @@ const ETL = () => {
     hospitalID: user?.hospitalID as string
   })
 
+  const filteredArray = data ? [...data] : []
+  filteredArray.sort(
+    (a, b) =>
+      new Date(b.createdAt as unknown as string).getTime() -
+        new Date(a.createdAt as unknown as string).getTime()
+  )
+
   // const handleFilter = (range: DateRange | undefined) => {
   //   const dataFiltered = csvArray.filter((item) => {
   //     if (range !== undefined) {
@@ -71,11 +78,14 @@ const ETL = () => {
   const router = useRouter()
   return (
     <div>
+      <BreadcrumbComponent dataList={dataList} />
+
       <div className="flex justify-between w-full items-center bg-white">
-        <BreadcrumbComponent dataList={dataList} />
         <Button
-        size={'sm'}
-        onClick={() => { router.push('/etl/add') }}
+          size={'sm'}
+          onClick={() => {
+            router.push('/etl/add')
+          }}
         >
           Add
         </Button>
@@ -85,7 +95,10 @@ const ETL = () => {
         <>
           <div className="p-4">
             <div className="bg-white rounded-lg p-4">
-              <CustomTable columns={linelistColumn} data={data || []} />
+              <CustomTable
+                columns={linelistColumn}
+                data={filteredArray ?? []}
+              />
             </div>
           </div>
         </>

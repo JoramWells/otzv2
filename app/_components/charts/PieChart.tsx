@@ -15,7 +15,7 @@ export interface PieChartProps {
 
 const PieChart = ({ data }: Props) => {
   return (
-    <div className=" rounded-lg h-[300px] w-1/3 bg-white p-2 pb-12">
+    <div className=" rounded-lg h-[300px] flex-1 bg-white p-2 pb-12">
       <div className="flex flex-row items-center justify-between
       pl-4 pr-4 pt-2
       ">

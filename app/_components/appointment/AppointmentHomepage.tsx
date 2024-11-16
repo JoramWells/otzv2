@@ -7,7 +7,6 @@ import { CustomTable } from '../table/CustomTable'
 import { columns } from '@/app/appointments/columns'
 import { type ExtendedAppointmentInputProps, useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { calculateAge } from '@/utils/calculateAge'
 import { type UserInterface } from 'otz-types'
 import { useSession } from 'next-auth/react'
 
@@ -34,7 +33,7 @@ const AppointmentHomepage = () => {
     hospitalID: user?.hospitalID as string
   })
 
-  let sortedAppointment: ExtendedAppointmentInputProps[] = useMemo(
+  const sortedAppointment: ExtendedAppointmentInputProps[] = useMemo(
     () => (data ? [...data] : []),
     [data]
   )
@@ -44,8 +43,6 @@ const AppointmentHomepage = () => {
   sortedAppointment.sort(
     (a, b) => new Date(b.updatedAt as Date).getTime() - new Date(a.updatedAt as Date).getTime()
   )
-
-  sortedAppointment = sortedAppointment.filter(item => calculateAge(item.Patient.dob) < 25)
 
   const missedAppointment = useCallback(() => {
     return sortedAppointment?.filter((item: any) =>

@@ -98,19 +98,19 @@ const Patients = () => {
     (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()
   )
 
-  const otzPatients = filteredArray.filter(item => calculateAge(item.dob) < 25)
+  const otzPatients = filteredArray.filter(item => calculateAge(item.dob) <= 25)
 
-  const zeroToNine = otzPatients.filter((item) => calculateAge(item.dob) < 9)
+  const zeroToNine = otzPatients.filter((item) => calculateAge(item.dob) <= 9)
   const tenToFourteen = otzPatients.filter(
-    (item) => calculateAge(item.dob) > 10 && calculateAge(item.dob) <
+    (item) => calculateAge(item.dob) >= 10 && calculateAge(item.dob) <=
  14)
 
   const fifteenToNineteen = otzPatients.filter(
-    (item) => calculateAge(item.dob) > 15 && calculateAge(item.dob) < 19
+    (item) => calculateAge(item.dob) >= 15 && calculateAge(item.dob) <= 19
   )
 
   const twentyPlus = otzPatients.filter(
-    (item) => calculateAge(item.dob) > 20
+    (item) => calculateAge(item.dob) >= 20
   )
 
   // console.log(data, 'dtx')

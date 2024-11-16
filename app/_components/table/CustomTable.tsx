@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -9,6 +10,7 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent
 } from '@/components/ui/dropdown-menu'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -112,7 +114,7 @@ export function CustomTable<TData, TValue> ({
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      {isSearch && (
+      {isSearch && !isLoading && (
         <div
           className="flex flex-row justify-between items-center
         mb-4
@@ -184,111 +186,145 @@ export function CustomTable<TData, TValue> ({
     rounded-md
     "
       >
-        <Table>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableHeader key={headerGroup.id} className="bg-gray-50 relative">
+        {isLoading ? (
+          <Table>
+            <TableHeader>
               <TableRow>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    {...{
-                      colSpan: header.colSpan,
-                      style: {
-                        width: header.getSize()
-                      }
-                    }}
-                    className="text-[12px] text-slate-700 capitalize overflow-hidden whitespace-nowrap overflow-ellipsis "
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    <div
-                      className={` absolute right-0 bg-black cursor-col-resize select-none touch-none ${
-                        header.column.getIsResizing() ? 'bg-blue-500' : ''
-                      } ${header.column.getCanSort() ? 'cursor-pointer' : ''} `}
-                      onMouseDown={header.getResizeHandler()}
-                      onTouchStart={header.getResizeHandler()}
-                      onClick={() => header.column.getToggleSortingHandler()}
-                      style={{
-                        transform:
-                          columnResizeMode === 'onEnd' &&
-                          header.column.getIsResizing()
-                            ? `translateX(${
-                                table.getState().columnSizingInfo.deltaOffset
-                              }px)`
-                            : ''
-                      }}
-                    />
-                  </TableHead>
-                ))}
+                <Skeleton className='p-4 rounded-full mb-2' />
               </TableRow>
             </TableHeader>
-          ))}
-
-          {/* {isLoading
-            ? <div>Loadin..</div>
-            :  */}
-          <TableBody>
-            {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className="text-[14px] overflow-hidden whitespace-nowrap overflow-ellipsis "
-                    style={{
-                      width: cell.column.getSize()
-                    }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            {Array.from({ length: 10 }).map((item, i) => (
+              <TableRow
+              key={i}
+              >
+                {Array.from({ length: 10 }).map((item, i) => (
+                  <TableCell key={i}>
+                    <Skeleton className="p-2" />
                   </TableCell>
                 ))}
               </TableRow>
             ))}
-          </TableBody>
-          {/* } */}
-        </Table>
-        <div className="flex gap-x-4 justify-between p-4 ">
-          <div
-            className="flex flex-row items-center text-slate-500
+          </Table>
+        ) : (
+          <>
+            <Table>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableHeader
+                  key={headerGroup.id}
+                  className="bg-gray-50 relative"
+                >
+                  <TableRow>
+                    {headerGroup.headers.map((header) => (
+                      <TableHead
+                        key={header.id}
+                        {...{
+                          colSpan: header.colSpan,
+                          style: {
+                            width: header.getSize()
+                          }
+                        }}
+                        className="text-[12px] text-slate-700 capitalize overflow-hidden whitespace-nowrap overflow-ellipsis "
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        <div
+                          className={` absolute right-0 bg-black cursor-col-resize select-none touch-none ${
+                            header.column.getIsResizing() ? 'bg-blue-500' : ''
+                          } ${
+                            header.column.getCanSort() ? 'cursor-pointer' : ''
+                          } `}
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          onClick={() =>
+                            header.column.getToggleSortingHandler()
+                          }
+                          style={{
+                            transform:
+                              columnResizeMode === 'onEnd' &&
+                              header.column.getIsResizing()
+                                ? `translateX(${
+                                    table.getState().columnSizingInfo
+                                      .deltaOffset
+                                  }px)`
+                                : ''
+                          }}
+                        />
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+              ))}
+
+              {/* {isLoading
+            ? <div>Loadin..</div>
+            :  */}
+              <TableBody>
+                {table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className="text-[14px] overflow-hidden whitespace-nowrap overflow-ellipsis "
+                        style={{
+                          width: cell.column.getSize()
+                        }}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+              {/* } */}
+            </Table>
+            <div className="flex gap-x-4 justify-between p-4 ">
+              <div
+                className="flex flex-row items-center text-slate-500
           gap-x-2
           "
-          >
-            <BookOpen size={15} />
-            <p className="text-[12px]">
-              Page {table.getState().pagination.pageIndex + 1} of{' '}
-              {table.getPageCount()}
-            </p>
-          </div>
-          <div className="flex flex-row items-center space-x-4">
-            <Button
-              onClick={() => {
-                table.previousPage()
-                updateQueryParams(pageNo - 1)
-              }}
-              disabled={!table.getCanPreviousPage()}
-              size={'sm'}
-              className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
-            >
-              <ChevronsLeft size={15} />
-              Prev
-            </Button>
-            <Button
-              className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
-              onClick={() => {
-                table.nextPage()
-                updateQueryParams(pageNo + 1)
-              }}
-              disabled={!table.getCanNextPage()}
-              size={'sm'}
-            >
-              Next
-              <ChevronsRight size={15} />
-            </Button>
-          </div>
-        </div>
+              >
+                <BookOpen size={15} />
+                <p className="text-[12px]">
+                  Page {table.getState().pagination.pageIndex + 1} of{' '}
+                  {table.getPageCount()}
+                </p>
+              </div>
+              <div className="flex flex-row items-center space-x-4">
+                <Button
+                  onClick={() => {
+                    table.previousPage()
+                    updateQueryParams(pageNo - 1)
+                  }}
+                  disabled={!table.getCanPreviousPage()}
+                  size={'sm'}
+                  className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
+                >
+                  <ChevronsLeft size={15} />
+                  Prev
+                </Button>
+                <Button
+                  className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
+                  onClick={() => {
+                    table.nextPage()
+                    updateQueryParams(pageNo + 1)
+                  }}
+                  disabled={!table.getCanNextPage()}
+                  size={'sm'}
+                >
+                  Next
+                  <ChevronsRight size={15} />
+                </Button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </Suspense>
   )

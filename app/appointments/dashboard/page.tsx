@@ -14,7 +14,6 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { pinnedColumns } from '../columns'
-import { calculateAge } from '@/utils/calculateAge'
 import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
 import { useSession } from 'next-auth/react'
 import { type UserInterface } from 'otz-types'
@@ -49,12 +48,11 @@ const NotifyPage = () => {
       setUser(user as UserInterface)
     }
   }, [session])
-  let { data: weeklyData } = useGetAllAppointmentsQuery({
+  const { data: weeklyData } = useGetAllAppointmentsQuery({
     date: '2022-01-01',
     mode: value,
     hospitalID: user?.hospitalID as string
   })
-  weeklyData = weeklyData?.filter(item => calculateAge(item.Patient.dob) < 25)
 
   const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
   const { data: importantPatients } = useGetImportantPatientQuery(
@@ -66,8 +64,6 @@ const NotifyPage = () => {
   const importantPatientAppointment = weeklyData?.filter(appointment =>
     importantPatientIDs?.includes(appointment.patientID)
   )
-
-  console.log(importantPatientAppointment, 'important appointments')
 
   const handleSelectChange = (val: string) => {
     setValue(val)

@@ -14,6 +14,10 @@ export interface PrescriptionProps {
   computedNoOfPills: number
   expectedNoOfPills: number
   noOfPills: number
+  User: {
+    firstName: string
+    middleName: string
+  }
   ART: {
     artName: string
   }
@@ -45,16 +49,31 @@ export const linelistColumn: Array<ColumnDef<PrescriptionProps>> = [
   {
     accessorKey: 'file',
     header: 'file',
-    cell: ({ row }) => <Link
-    href={`/etl/${row.original.id}`}
-    className='text-blue-500'
-    >{row.original.file.replace('csvs/', '').replace('.csv', '')}</Link>
+    cell: ({ row }) => (
+      <Link
+        href={`/etl/${row.original.id}`}
+        className="text-blue-500 text-[12px] "
+      >
+        {row.original.file.replace('csvs/', '').replace('.csv', '')}
+      </Link>
+    )
+  },
+  {
+    accessorKey: 'uploaded',
+    header: 'Uploaded By',
+    cell: ({ row }) => (
+      <p className="text-[12px] text-slate-500 font-semibold">
+        {row.original?.User?.firstName} {row.original?.User?.middleName}
+      </p>
+    )
   },
   {
     accessorKey: 'Updated',
     header: 'Updated',
-    cell: ({ row }) => <p>
-      {moment(row.original.createdAt).format('ll')}
-    </p>
+    cell: ({ row }) => (
+      <p className="text-[12px] text-slate-500">
+        {moment(row.original.createdAt).calendar()}
+      </p>
+    )
   }
 ]

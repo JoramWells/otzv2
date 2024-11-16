@@ -49,7 +49,6 @@ const CustomPieChart = ({ data }: InputProps) => {
     ]
   }
 
-  console.log(count)
   return <PieChart data={regimenData} />
 }
 
