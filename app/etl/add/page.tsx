@@ -289,8 +289,6 @@ const AddEtlPage = () => {
   //   }
   // }, [nullUsers, recentUser])
 
-  console.log(nullUsers, 'nullUsers')
-
   return (
     <>
       <BreadcrumbComponent dataList={dataList} />
@@ -456,9 +454,9 @@ const AddEtlPage = () => {
             <Image
               src={'/img/file.png'}
               alt="img"
-              width={180}
-              height={180}
-              style={{ width: '180px', height: '180px' }}
+              width={140}
+              height={140}
+              style={{ width: '140px', height: '140px' }}
 
               // quality={100}
             />

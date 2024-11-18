@@ -52,6 +52,8 @@ const ETL = () => {
     hospitalID: user?.hospitalID as string
   })
 
+  console.log(data, 'dtm')
+
   const filteredArray = data ? [...data] : []
   filteredArray.sort(
     (a, b) =>
@@ -91,7 +93,7 @@ const ETL = () => {
         </Button>
       </div>
 
-      {data?.length > 0 && (
+      {data && data?.length > 0 && (
         <>
           <div className="p-4">
             <div className="bg-white rounded-lg p-4">

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
+import { type ExtendedLineListInterface } from '@/api/etl/etl.api'
 import { type ColumnDef } from '@tanstack/react-table'
 import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
@@ -45,7 +46,7 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const linelistColumn: Array<ColumnDef<PrescriptionProps>> = [
+export const linelistColumn: Array<ColumnDef<ExtendedLineListInterface>> = [
   {
     accessorKey: 'file',
     header: 'file',
@@ -57,6 +58,11 @@ export const linelistColumn: Array<ColumnDef<PrescriptionProps>> = [
         {row.original.file.replace('csvs/', '').replace('.csv', '')}
       </Link>
     )
+  },
+  {
+    accessorKey: 'size',
+    header: 'Size',
+    cell: ({ row }) => (<p>{row.original.size}</p>)
   },
   {
     accessorKey: 'uploaded',

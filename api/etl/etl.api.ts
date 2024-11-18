@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type LineListCSVInterface } from 'otz-types'
 
-export interface ETLProps {
-  id?: string
-  ETLDescription: string
+export type ExtendedLineListInterface = LineListCSVInterface & {
+  size: number
+  User: {
+    firstName: string
+    middleName: string
+  }
 }
 
 export const etlApi = createApi({
@@ -13,7 +17,7 @@ export const etlApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/articles/linelist-csv`
   }),
   endpoints: (builder) => ({
-    getAllETL: builder.query<any, { hospitalID: string }>({
+    getAllETL: builder.query<ExtendedLineListInterface[], { hospitalID: string }>({
       query: (params) => {
         if (params) {
           const { hospitalID } = params
