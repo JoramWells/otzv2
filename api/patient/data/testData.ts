@@ -1,15 +1,6 @@
-import { type PatientAttributes } from 'otz-types'
-
-enum UserRoles {
-  Admin = 'admin',
-  Clinician = 'clinician',
-  MentorMother = 'mentor mother',
-  AYPAdvocate = 'ayp advocate',
-  Nurse = 'nurse',
-  patient = 'patient',
-}
+import { PatientRoles, type PatientAttributes } from 'otz-types'
 
 export const patientTestData: PatientAttributes = {
   maritalStatus: 'married',
-  role: UserRoles.patient
+  role: PatientRoles.patient
 }
