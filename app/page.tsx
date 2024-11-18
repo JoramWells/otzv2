@@ -111,8 +111,6 @@ export default function Home () {
     })()
   }, [user?.role])
 
-  console.log(user, 'dtm')
-
   const filteredData = data?.filter(item => item.isActive)
 
   const router = useRouter()

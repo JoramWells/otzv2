@@ -271,6 +271,7 @@ const AddEtlPage = () => {
 
   const uniqueUsers = getUniqueUsers(csvUsers)
   const nullUsers = uniqueUsers.filter(item => !item.exists)
+  console.log(nullUsers, 'nullUsers')
 
   return (
     <>
@@ -328,7 +329,7 @@ const AddEtlPage = () => {
       </div>
 
       <div className="flex justify-center items-center flex-row p-2">
-        {csvArray.length > 0 && nullUsers?.length < 0 ? (
+        {csvArray.length > 0 && nullUsers?.length <= 0 ? (
           <div className="bg-white rounded-lg p-4 w-full">
             <div className="flex justify-end mb-2">
               <div className="flex space-x-2 items-center">
