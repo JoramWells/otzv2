@@ -1,5 +1,5 @@
 import { type PatientAttributes } from 'otz-types'
-export declare enum PatientRoles {
+export enum PatientRoles {
   Admin = 'admin',
   Clinician = 'clinician',
   MentorMother = 'mentor mother',
