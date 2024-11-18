@@ -122,7 +122,7 @@ const LoginPage = () => {
           label="Select hospital name"
           onChange={setHospitalID}
           value={hospitalID as string}
-          data={hospitalOptions()}
+          data={hospitalOptions() ?? []}
         />
         {error && <FormError message={error} />}
         <Button
