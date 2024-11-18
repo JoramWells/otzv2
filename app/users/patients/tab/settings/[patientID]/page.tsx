@@ -208,7 +208,7 @@ const ProfileSettings = ({ params }: { params: any }) => {
             label="Select hospital name"
             onChange={setHospitalID}
             value={hospitalID as string}
-            data={hospitalOptions()}
+            data={hospitalOptions() ?? []}
           />
 
           <div className="flex pt-4 space-x-4 justify-end border-t mt-2">
