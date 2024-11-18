@@ -24,7 +24,6 @@ import moment from 'moment'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Badge } from '@/components/ui/badge'
-import { type UserRoles } from '@/api/users/users.api'
 
 interface ListItemProps {
   id: string
@@ -95,7 +94,7 @@ const fetchRecentData = async (id: string): Promise<ExtendedAppModuleSession[] |
 
 export default function Home () {
   const { data: session, status } = useSession()
-  const [user, setUser] = useState<UserInterface & UserRoles>()
+  const [user, setUser] = useState<UserInterface>()
   const [data, setData] = useState<AppModuleInterface[]>([])
   const [recentSession, setRecentSession] = useState<
   ExtendedAppModuleSession[] | undefined
@@ -124,7 +123,7 @@ export default function Home () {
 
     if (session) {
       const { user } = session
-      setUser(user as UserInterface & UserRoles)
+      setUser(user as UserInterface)
       void (async () => {
         const dtm = await fetchRecentData(user?.id as string)
         setRecentSession(dtm)
