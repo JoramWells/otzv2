@@ -6,16 +6,18 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
-import { useGetAllUsersQuery } from '@/api/users/users.api'
+import { useAddUserMutation, useGetAllUsersQuery } from '@/api/users/users.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useUserContext } from '@/context/UserContext'
 import { type ColumnDef } from '@tanstack/react-table'
 import axios from 'axios'
 import { CircleCheck, Loader2, TriangleAlert, X } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { type UserInterface } from 'otz-types'
 import Papa, { type ParseMeta } from 'papaparse'
@@ -134,7 +136,6 @@ const AddEtlPage = () => {
   }, [usersData])
 
   const userName = users?.map(item => (`${item.firstName} ${item.middleName}`))
-  console.log(userName, 'username')
   const columns = useMemo<Array<ColumnDef<any>>>(
     () =>
       headers.map((header) => ({
@@ -165,6 +166,15 @@ const AddEtlPage = () => {
     }
   }, [csvArray])
   //
+  const [recentUser, setRecentUser] = useState<UserInterface>()
+  const [addUser, { isLoading: isAddUserLoading, data: savedUserData }] = useAddUserMutation()
+
+  useEffect(() => {
+    if (savedUserData) {
+      setRecentUser(savedUserData)
+    }
+  }, [savedUserData])
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const filex = e.target?.files?.[0]
     setFile(filex)
@@ -212,6 +222,7 @@ const AddEtlPage = () => {
   }
 
   const [responseData, setResponseData] = useState()
+  const { authUser } = useUserContext()
 
   //
   const handleSubmit = async () => {
@@ -271,6 +282,13 @@ const AddEtlPage = () => {
 
   const uniqueUsers = getUniqueUsers(csvUsers)
   const nullUsers = uniqueUsers.filter(item => !item.exists)
+
+  // useEffect(() => {
+  //   if (recentUser) {
+  //     nullUsers.filter(item => { console.log(item.user !== `${recentUser.middleName} ${recentUser.firstName}`, 'nullx') })
+  //   }
+  // }, [nullUsers, recentUser])
+
   console.log(nullUsers, 'nullUsers')
 
   return (
@@ -385,11 +403,37 @@ const AddEtlPage = () => {
                     <p>Not Registered</p>
                   </div>
                 )}{' '}
+                {!item.exists && (
+                  <Button
+                    size={'sm'}
+                    disabled={isAddUserLoading}
+                    onClick={async () => {
+                      const reverseName = (name: string) => {
+                        const parts = name.trim().split(' ')
+                        const reversed = parts.reverse()
+                        console.log(reversed, 'reversed')
+                        return {
+                          reversedName: reversed.join(' '),
+                          firstName: reversed[1] || '',
+                          lastName: reversed[0] || ''
+                        }
+                      }
+
+                      const { firstName, lastName } = reverseName(item.user)
+
+                      await addUser({
+                        firstName,
+                        middleName: lastName,
+                        hospitalID: authUser?.hospitalID
+                      })
+                    }}
+                  >
+                    {`${recentUser?.middleName} ${recentUser?.firstName}`.trim().toLowerCase() === item.user.trim().toLowerCase() ? 'Saved' : 'Save'}
+                  </Button>
+                )}
               </div>
             ))}
-            <div
-            className='flex justify-end'
-            >
+            <div className="flex justify-end">
               <Button
                 className="shadow-none"
                 variant={'outline'}
@@ -405,12 +449,23 @@ const AddEtlPage = () => {
           </div>
         ) : (
           <div
-            className="flex items-center h-[200px] border rounded-lg border-dashed w-1/2 p-4 justify-center
-          bg-blue-50 border-blue-200
+            className="flex items-center h-[350px] border rounded-lg border-dashed w-1/2 p-4 justify-center
+          bg-blue-50 border-blue-200 flex-col
           "
           >
+            <Image
+              src={'/img/file.png'}
+              alt="img"
+              width={180}
+              height={180}
+              style={{ width: '180px', height: '180px' }}
+
+              // quality={100}
+            />
             <div className="">
-              <p className="font-semibold mb-2">Choose file to upload</p>
+              <p className="font-semibold mb-2 text-center">
+                Choose file to upload
+              </p>
               <Input
                 // label=''
                 type="file"

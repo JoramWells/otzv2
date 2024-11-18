@@ -11,6 +11,7 @@ import { Database, LayoutDashboardIcon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { UserProvider } from '@/context/UserContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -43,22 +44,24 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   }, [status, router])
   if (session != null) {
     return (
-    <Provider store={store}>
-      <SidebarProvider>
-        <NotificationProvider>
-          <div className="flex flex-row">
-            <Sidebar>
-              <SidebarListItemsComponent dataList={DL} />
-            </Sidebar>
-            <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
-              {/* <Navbar /> */}
+      <Provider store={store}>
+        <UserProvider>
+          <SidebarProvider>
+            <NotificationProvider>
+              <div className="flex flex-row">
+                <Sidebar>
+                  <SidebarListItemsComponent dataList={DL} />
+                </Sidebar>
+                <div className="flex flex-col flex-1 h-screen overflow-y-auto bg-slate-50">
+                  {/* <Navbar /> */}
 
-              {children}
-            </div>
-          </div>
-        </NotificationProvider>
-      </SidebarProvider>
-    </Provider>
+                  {children}
+                </div>
+              </div>
+            </NotificationProvider>
+          </SidebarProvider>
+        </UserProvider>
+      </Provider>
     )
   }
   return (

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { Button } from '@/components/ui/button'
@@ -5,13 +7,18 @@ import { useSidebar } from '@/context/SidebarContext'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { type UserInterface } from 'otz-types'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { UserProfile } from '../users/UserProfile'
+import { useUpdateHospitalLocationMutation } from '@/api/hospital/hospital.api'
+import { useUserContext } from '@/context/UserContext'
+import { Loader2, Locate } from 'lucide-react'
+import { useToast } from '../ui/use-toast'
 // import { BellIcon } from 'lucide-react'
 export const Sidebar = ({ children, isSearchable = true }: { children: React.ReactNode, isSearchable?: boolean }) => {
   const { isSidebarOpen } = useSidebar()
   const { data: session } = useSession()
   const [user, setUser] = useState<Partial<UserInterface>>()
+  const { authUser } = useUserContext()
   useEffect(() => {
     if (session) {
       const transformedUser: Partial<UserInterface> = {
@@ -21,6 +28,40 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
       setUser(transformedUser)
     }
   }, [session])
+  const [updateHospitalLocation, { isLoading, data, error }] =
+      useUpdateHospitalLocationMutation()
+
+  const handleUpdateLocation = useCallback(() => {
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const authData = {
+        id: user?.hospitalID,
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+        locationUpdatedAt: new Date(),
+        locationUpdatedBy: session?.user?.id
+      }
+      await updateHospitalLocation(authData)
+    })
+  }, [user?.hospitalID, session?.user?.id, updateHospitalLocation])
+
+  const { toast } = useToast()
+
+  const send = useCallback(
+    () =>
+      toast({
+        // variant:'success',
+        title: 'Completed',
+        description: 'Hospital Location updated successfully.'
+        // action: <ToastAction altText="Saved">Undo</ToastAction>
+      }),
+    [toast]
+  )
+
+  useEffect(() => {
+    if (data) {
+      send()
+    }
+  }, [data, send])
 
   return (
     <div
@@ -57,21 +98,29 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
         </div>
       </div> */}
       <div className="absolute pb-4 pl-4 pr-4  bottom-0  w-full text-center">
-        <div>
-          {user
-            ? (
-              <UserProfile user={user as UserInterface} />
-              )
-            : (
-            <Button
-              className="w-full mb-4 shadow-none bg-[#003153]/5
-          text-slate-700 font-bold hover:bg-slate-100
-          "
-            >
-              Login
-            </Button>
-              )}
-        </div>
+          <Button
+            className="flex space-x-2 pl-4 mb-2 justify-start w-full"
+            disabled={isLoading}
+            // size={'sm'}
+            onClick={() => {
+              handleUpdateLocation()
+            }}
+          >
+            {isLoading
+              ? (
+              <>
+                <Loader2 className="animate-spin" size={18} />
+              </>
+                )
+              : (
+              <>
+                <Locate size={18} />
+                <span>Update Location</span>
+              </>
+                )}
+          </Button>
+
+            <UserProfile user={user as UserInterface} />
       </div>
     </div>
   )

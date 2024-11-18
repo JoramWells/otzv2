@@ -51,7 +51,7 @@ export function UserProfile ({ user }: { user: UserInterface }) {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem className="capitalize">{user.role}</DropdownMenuItem>
+        <DropdownMenuItem className="capitalize">{user?.role}</DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
