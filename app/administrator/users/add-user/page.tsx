@@ -204,7 +204,7 @@ const AddUser = () => {
             label="Select hospital name"
             onChange={setHospitalID}
             value={hospitalID as string}
-            data={hospitalOptions()}
+            data={hospitalOptions() ?? []}
           />
           <Button
             // colorScheme="teal"
