@@ -2,13 +2,23 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type HospitalAttributes } from 'otz-types'
 
+export interface LocationProps {
+  location?: {
+    county: string
+    subCounty: string
+    ward: string
+  }
+}
+
+export type ExtendedHospitalInterface = HospitalAttributes & LocationProps
+
 export const hospitalApi = createApi({
   reducerPath: 'hospitalApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/hospital`
   }),
   endpoints: (builder) => ({
-    getAllHospitals: builder.query<HospitalAttributes[], void>({
+    getAllHospitals: builder.query<ExtendedHospitalInterface[], void>({
       query: () => 'fetchAll'
     }),
     addHospitals: builder.mutation({
@@ -18,7 +28,7 @@ export const hospitalApi = createApi({
         body: newUser
       })
     }),
-    getHospital: builder.query<HospitalAttributes, string>({
+    getHospital: builder.query<ExtendedHospitalInterface, string>({
       query: (id) => `detail/${id}`
     }),
     updateHospital: builder.mutation<void, any>({

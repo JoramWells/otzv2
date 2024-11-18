@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { useUpdateHospitalMutation } from '@/api/hospital/hospital.api'
+import { type ExtendedHospitalInterface, useUpdateHospitalMutation } from '@/api/hospital/hospital.api'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
@@ -10,19 +10,7 @@ import { Loader2, Pencil } from 'lucide-react'
 import { useState } from 'react'
 // import { FaEdit } from 'react-icons/fa'
 
-export interface LocationProps {
-  id?: string
-  hospitalName: string
-
-  mflCode: string
-  location?: {
-    county: string
-    subCounty: string
-    ward: string
-  }
-}
-
-export const columns: Array<ColumnDef<LocationProps>> = [
+export const columns: Array<ColumnDef<ExtendedHospitalInterface>> = [
   {
     accessorKey: 'hospitalName',
     header: 'Name',

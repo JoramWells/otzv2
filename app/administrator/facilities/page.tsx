@@ -50,7 +50,7 @@ const Facilities = () => {
           <CustomTable
             isSearch={false}
             columns={columns}
-            data={data || []}
+            data={data ?? []}
             isLoading={isLoading}
             // filter={<FilterComponent />}
             // isSearch
