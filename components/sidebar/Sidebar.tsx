@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { type UserInterface } from 'otz-types'
 import { useEffect, useState } from 'react'
+import { UserProfile } from '../users/UserProfile'
 // import { BellIcon } from 'lucide-react'
 export const Sidebar = ({ children, isSearchable = true }: { children: React.ReactNode, isSearchable?: boolean }) => {
   const { isSidebarOpen } = useSidebar()
@@ -56,14 +57,11 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
           <p className="text-blue-500 text-underline">Powered by Synergy</p>
         </div>
       </div> */}
-      <div className="absolute p-4 bottom-0  w-full text-center">
+      <div className="absolute pb-4 pl-4 pr-4  bottom-0  w-full text-center">
         <div>
           {user
             ? (
-            <div className="flex space-x-4 marker:items-center p-2 text-white">
-              <CircleUser />
-              <p>{user.firstName}</p>
-            </div>
+              <UserProfile user={user} />
               )
             : (
             <Button

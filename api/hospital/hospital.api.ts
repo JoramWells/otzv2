@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type HospitalAttributes } from 'otz-types'
 
 export const hospitalApi = createApi({
   reducerPath: 'hospitalApi',
@@ -7,7 +8,7 @@ export const hospitalApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/root/hospital`
   }),
   endpoints: (builder) => ({
-    getAllHospitals: builder.query<any, void>({
+    getAllHospitals: builder.query<HospitalAttributes[], void>({
       query: () => 'fetchAll'
     }),
     addHospitals: builder.mutation({
@@ -17,12 +18,19 @@ export const hospitalApi = createApi({
         body: newUser
       })
     }),
-    getHospital: builder.query({
+    getHospital: builder.query<HospitalAttributes, string>({
       query: (id) => `detail/${id}`
     }),
     updateHospital: builder.mutation<void, any>({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
+        method: 'PUT',
+        body: patch
+      })
+    }),
+    updateHospitalLocation: builder.mutation<void, any>({
+      query: ({ id, ...patch }) => ({
+        url: `update-hospital-location/${id}`,
         method: 'PUT',
         body: patch
       })
@@ -40,5 +48,5 @@ export const hospitalApi = createApi({
 
 export const {
   useGetAllHospitalsQuery, useAddHospitalsMutation, useGetHospitalQuery, useUpdateHospitalMutation,
-  useDeleteHospitalMutation
+  useDeleteHospitalMutation, useUpdateHospitalLocationMutation
 } = hospitalApi

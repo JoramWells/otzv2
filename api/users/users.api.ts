@@ -1,14 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type UserInterface } from 'otz-types'
-enum Roles {
-  Admin = 'admin',
-  Advocate = 'advocate',
-}
-
-export interface UserRoles {
-  role: Roles
-}
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -29,7 +21,7 @@ export const userApi = createApi({
     login: builder.mutation({
       query: (email) => `login/${email}`
     }),
-    getUser: builder.query<UserInterface & UserRoles | null, string>({
+    getUser: builder.query<UserInterface | null, string>({
       query: (id) => `detail/${id}`
     }),
     updateUser: builder.mutation({
