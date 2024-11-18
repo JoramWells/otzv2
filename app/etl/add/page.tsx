@@ -6,13 +6,14 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
+import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { type ColumnDef } from '@tanstack/react-table'
 import axios from 'axios'
-import { Loader2, TriangleAlert, X } from 'lucide-react'
+import { CircleCheck, Loader2, TriangleAlert, X } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
@@ -115,9 +116,25 @@ interface ParseError {
   message: string
   row?: number
 }
+
+interface CheckUserInterface {
+  user: string
+  exists: boolean
+}
+
 const AddEtlPage = () => {
   const [headers, setHeaders] = useState<string[]>([])
+  const [users, setUsers] = useState<UserInterface[]>([])
+  const [csvUsers, setCsvUsers] = useState<CheckUserInterface[]>([])
+  const { data: usersData } = useGetAllUsersQuery()
+  useEffect(() => {
+    if (usersData) {
+      setUsers(usersData)
+    }
+  }, [usersData])
 
+  const userName = users?.map(item => (`${item.firstName} ${item.middleName}`))
+  console.log(userName, 'username')
   const columns = useMemo<Array<ColumnDef<any>>>(
     () =>
       headers.map((header) => ({
@@ -173,6 +190,14 @@ const AddEtlPage = () => {
             setHeaderErrors({ missingHeaders: [], extraHeaders: [] })
 
             setError(null)
+
+            const filteredRetrievedUsers = res.data.filter((row) => row['Case Manager'].length > 0)
+            const retrievedUsers = filteredRetrievedUsers.map((row) => row['Case Manager'])
+            const userChecks = retrievedUsers.map(user => ({
+              user,
+              exists: userName.includes(user)
+            }))
+            setCsvUsers(userChecks)
             // const filteredData = res.data.filter((row) => {
             //   return Object.values(row).every(
             //     (value) => value !== '' && value !== null && value !== undefined
@@ -233,6 +258,20 @@ const AddEtlPage = () => {
     }
   }, [responseData, router])
 
+  const getUniqueUsers = (data: CheckUserInterface[]) => {
+    const seen = new Set()
+    return data?.filter(item => {
+      if (!seen.has(item.user)) {
+        seen.add(item.user)
+        return true
+      }
+      return false
+    })
+  }
+
+  const uniqueUsers = getUniqueUsers(csvUsers)
+  const nullUsers = uniqueUsers.filter(item => !item.exists)
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList} />
@@ -289,7 +328,7 @@ const AddEtlPage = () => {
       </div>
 
       <div className="flex justify-center items-center flex-row p-2">
-        {csvArray.length > 0 ? (
+        {csvArray.length > 0 && nullUsers?.length < 0 ? (
           <div className="bg-white rounded-lg p-4 w-full">
             <div className="flex justify-end mb-2">
               <div className="flex space-x-2 items-center">
@@ -318,17 +357,59 @@ const AddEtlPage = () => {
               </div>
             </div>
             <CustomTable
-            isSearch={false}
-            columns={columns} data={filteredData || []} />
+              isSearch={false}
+              columns={columns}
+              data={filteredData || []}
+            />
+          </div>
+        ) : nullUsers?.length > 0 ? (
+          <div className="flex flex-col space-y-2 bg-white w-1/2 rounded-lg p-4">
+            <div>
+              <p>Users</p>
+              <p className="text-muted-foreground text-[12px]">
+                Users have different roles
+              </p>
+            </div>
+            {uniqueUsers.map((item) => (
+              <div className="flex justify-between" key={item.user}>
+                <p className="text-[12px] font-bold">{item.user}</p>
+                {item.exists ? (
+                  <div className="flex items-center space-x-2 text-emerald-500 text-[12px] ">
+                    <CircleCheck size={16} />
+                    <p>Registered</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2 text-red-500 text-[12px] ">
+                    <X className="" size={16} />
+                    <p>Not Registered</p>
+                  </div>
+                )}{' '}
+              </div>
+            ))}
+            <div
+            className='flex justify-end'
+            >
+              <Button
+                className="shadow-none"
+                variant={'outline'}
+                size={'sm'}
+                onClick={() => {
+                  router.push('/etl')
+                }}
+              >
+                <X className="mr-2" size={16} />
+                Cancel
+              </Button>
+            </div>
           </div>
         ) : (
-          <div className="flex items-center h-[200px] border rounded-lg border-dashed w-1/2 p-4 justify-center
+          <div
+            className="flex items-center h-[200px] border rounded-lg border-dashed w-1/2 p-4 justify-center
           bg-blue-50 border-blue-200
-          ">
-            <div className=''>
-              <p
-              className='font-semibold mb-2'
-              >Choose file to upload</p>
+          "
+          >
+            <div className="">
+              <p className="font-semibold mb-2">Choose file to upload</p>
               <Input
                 // label=''
                 type="file"

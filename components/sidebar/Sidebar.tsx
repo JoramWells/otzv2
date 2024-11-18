@@ -2,7 +2,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { useSidebar } from '@/context/SidebarContext'
-import { CircleUser } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { type UserInterface } from 'otz-types'
@@ -61,7 +60,7 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
         <div>
           {user
             ? (
-              <UserProfile user={user} />
+              <UserProfile user={user as UserInterface} />
               )
             : (
             <Button
