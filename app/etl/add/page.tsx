@@ -28,6 +28,8 @@ import React, {
   useMemo,
   useEffect
 } from 'react'
+import UploadSection from '../_components/UploadSection'
+import UpdateUsers from '../_components/UpdateUsers'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -292,29 +294,11 @@ const AddEtlPage = () => {
   // }, [nullUsers, recentUser])
 
   return (
-    <>
-      <BreadcrumbComponent dataList={dataList} />
+    <div className="bg-white">
+      {/* <BreadcrumbComponent dataList={dataList} /> */}
 
-      {/* <form
-        action=""
-        onSubmit={handleSubmit}
-        className="flex space-x-2 items-center bg-white"
-      >
-        <Input
-          // label=''
-          type="file"
-          accept=".csv"
-          onChange={handleFileChange}
-          className="shadow-none"
-        /> */}
-      {/* <Button type="submit" size={'sm'} disabled={file === undefined}>
-          {loading && <Loader2 className="animate-spin mr-2" size={16} />}
-          Submit
-        </Button> */}
-      {/* </form> */}
-
-      <div className="p-2 flex flex-col space-y-2">
-        {headerErrors.missingHeaders.length > 0 && (
+      {headerErrors.missingHeaders.length > 0 && (
+        <div className="p-2 flex flex-col space-y-2">
           <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
             <TriangleAlert className="text-red-500 mb-2" />
             <div className="flex flex-col space-y-1">
@@ -327,10 +311,12 @@ const AddEtlPage = () => {
               </p>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {/*  */}
-        {headerErrors.extraHeaders.length > 0 && (
+      {/*  */}
+      {headerErrors.extraHeaders.length > 0 && (
+        <div className="p-2 flex flex-col space-y-2">
           <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
             <TriangleAlert className="text-red-500 mb-2" />
             <div className="flex flex-col space-y-1">
@@ -343,10 +329,10 @@ const AddEtlPage = () => {
               </p>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      <div className="flex justify-center items-center flex-row p-2">
+      <div className="flex justify-center items-center flex-row h-screen">
         {csvArray.length > 0 && nullUsers?.length <= 0 ? (
           <div className="bg-white rounded-lg p-4 w-full">
             <div className="flex justify-end mb-2">
@@ -375,6 +361,7 @@ const AddEtlPage = () => {
                 </Button>
               </div>
             </div>
+            {progress} progress
             <CustomTable
               isSearch={false}
               columns={columns}
@@ -382,113 +369,17 @@ const AddEtlPage = () => {
             />
           </div>
         ) : nullUsers?.length > 0 ? (
-          <div className="flex flex-col space-y-4 bg-white w-1/2 rounded-lg p-4">
-            <div>
-              <p>Users</p>
-              <p className="text-muted-foreground text-[12px]">
-                Users have different roles
-              </p>
-            </div>
-            {uniqueUsers.map((item) => (
-              <div className="flex justify-between items-center" key={item.user}>
-                <p className="text-[12px] font-bold">{item.user}</p>
-                <div
-                className='flex items-center space-x-2 w-1/2'
-                >
-                  {item.exists ? (
-                    <div className="flex items-center space-x-2 text-emerald-500 text-[12px] ">
-                      <CircleCheck size={16} />
-                      <p>Registered</p>
-                    </div>
-                  ) : (
-                    <div className="flex items-center space-x-2 text-red-500 text-[12px] ">
-                      <X className="" size={16} />
-                      <p>Not Registered</p>
-                    </div>
-                  )}{' '}
-                  {!item.exists && (
-                    <Button
-                      size={'sm'}
-                      disabled={isAddUserLoading}
-                      onClick={async () => {
-                        const reverseName = (name: string) => {
-                          const parts = name.trim().split(' ')
-                          const reversed = parts.reverse()
-                          console.log(reversed, 'reversed')
-                          return {
-                            reversedName: reversed.join(' '),
-                            firstName: reversed[1] || '',
-                            lastName: reversed[0] || ''
-                          }
-                        }
-
-                        const { firstName, lastName } = reverseName(item.user)
-
-                        await addUser({
-                          firstName,
-                          middleName: lastName,
-                          hospitalID: authUser?.hospitalID
-                        })
-                      }}
-                    >
-                      {isAddUserLoading && (
-                        <Loader2 className="animate-spin" size={16} />
-                      )}
-                      {`${recentUser?.middleName} ${recentUser?.firstName}`
-                        .trim()
-                        .toLowerCase() === item.user.trim().toLowerCase()
-                        ? 'Saved'
-                        : 'Save'}
-                    </Button>
-                  )}
-                </div>
-              </div>
-            ))}
-            <div className="flex justify-end">
-              <Button
-                className="shadow-none"
-                variant={'outline'}
-                size={'sm'}
-                onClick={() => {
-                  router.push('/etl')
-                }}
-              >
-                <X className="mr-2" size={16} />
-                Cancel
-              </Button>
-            </div>
-          </div>
+          <UpdateUsers users={uniqueUsers} hospitalID={authUser?.hospitalID} />
         ) : (
-          <div
-            className="flex items-center h-[350px] border rounded-lg border-dashed w-1/2 p-4 justify-center
-          bg-blue-50 border-blue-200 flex-col
-          "
-          >
-            <Image
-              src={'/img/file.png'}
-              alt="img"
-              width={100}
-              height={100}
-              style={{ width: '100px', height: '100px' }}
-
-              // quality={100}
-            />
-            <div className="">
-              <p className="font-semibold mb-2 text-center">
-                Choose file to upload
-              </p>
-              <Input
-                // label=''
-                type="file"
-                accept=".csv"
-                onChange={handleFileChange}
-                className="shadow-none"
-              />
-            </div>
-          </div>
+          <>
+            {/* {headerErrors.extraHeaders.length > 0 ||
+              (headerErrors.missingHeaders.length > 0 && ( */}
+                <UploadSection onChange={handleFileChange} />
+              {/* // ))} */}
+          </>
         )}
       </div>
-    </>
+    </div>
   )
 }
 
