@@ -13,7 +13,7 @@ import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { LayoutDashboardIcon, Thermometer, WatchIcon } from 'lucide-react'
 import { useParams, usePathname } from 'next/navigation'
-import { type JSX, Suspense } from 'react'
+import { Suspense } from 'react'
 import { UserProvider } from '@/context/UserContext'
 
 const DL: SidebarListItemsProps[] = [
@@ -113,7 +113,7 @@ const OTZEnrollmentLayout = ({ children }: { children: React.ReactNode }) => {
   // )
 }
 
-export default function WrappedOTZEnrollmentLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+export default function WrappedOTZEnrollmentLayout (props: any) {
   return <Suspense>
     <Provider
     store={store}

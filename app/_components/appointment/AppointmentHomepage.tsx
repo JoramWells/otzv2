@@ -27,7 +27,7 @@ const AppointmentHomepage = () => {
   const [value, setValue] = useState<string | null>(tab)
 
   // const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
-  const { data } = useGetAllAppointmentsQuery({
+  const { data, isLoading: isLoadingAppointments } = useGetAllAppointmentsQuery({
     mode: 'all',
     date: '2022-01-01',
     hospitalID: user?.hospitalID as string
@@ -60,8 +60,6 @@ const AppointmentHomepage = () => {
         .includes('Rescheduled'.toLowerCase())
     )
   }, [sortedAppointment])
-
-  console.log(sortedAppointment, 'appointment')
 
   //
   const pendingAppointment = useCallback(() => {
@@ -130,57 +128,65 @@ const AppointmentHomepage = () => {
   }, [tab, updateQueryParams])
 
   return (
-
-      <>
-        <div className="mt-2 w-full">
-          <CustomTab
-            categoryList={categoryList}
-            setValue={setValue}
-            value={value}
-          />
-        </div>
-        <div className="w-full p-2">
-          <div className="bg-white rounded-lg p-4">
-
-          <h4
-          className='capitalize mb-2 font-bold '
-          >
-            {value} appointments
-          </h4>
-
-            {value === 'all' && (
-              <CustomTable columns={columns} data={sortedAppointment || []} />
-            )}
-
-            {/*  */}
-            {value === 'pending' && (
-              <CustomTable
-                columns={columns}
-                data={pendingAppointment() ?? []}
-              />
-            )}
-
-            {value === 'rescheduled' && (
-              <CustomTable
-                columns={columns}
-                data={rescheduledAppointment() || []}
-              />
-            )}
-
-            {value === 'upcoming' && (
-              <CustomTable
-                columns={columns}
-                data={upcomingAppointment() || []}
-              />
-            )}
-
-            {value === 'missed' && (
-              <CustomTable columns={columns} data={missedAppointment() || []} />
-            )}
+    <>
+      <div className="mt-2 w-full">
+        <CustomTab
+          categoryList={categoryList}
+          setValue={setValue}
+          value={value}
+        />
+      </div>
+      <div className="w-full p-2">
+        <div className="bg-white rounded-lg">
+          <div className="p-4 pb-0">
+            <p className="capitalize text-slate-700 text-[16px] ">
+              {value} appointments
+            </p>
           </div>
-        </div>
-      </>
 
+          {value === 'all' && (
+            <CustomTable
+              columns={columns}
+              isLoading={isLoadingAppointments}
+              data={sortedAppointment || []}
+            />
+          )}
+
+          {/*  */}
+          {value === 'pending' && (
+            <CustomTable
+              columns={columns}
+              isLoading={isLoadingAppointments}
+              data={pendingAppointment() ?? []}
+            />
+          )}
+
+          {value === 'rescheduled' && (
+            <CustomTable
+              isLoading={isLoadingAppointments}
+              columns={columns}
+              data={rescheduledAppointment() || []}
+            />
+          )}
+
+          {value === 'upcoming' && (
+            <CustomTable
+              columns={columns}
+              data={upcomingAppointment() || []}
+              isLoading={isLoadingAppointments}
+            />
+          )}
+
+          {value === 'missed' && (
+            <CustomTable
+              isLoading={isLoadingAppointments}
+              columns={columns}
+              data={missedAppointment() || []}
+            />
+          )}
+        </div>
+      </div>
+    </>
   )
 }
 

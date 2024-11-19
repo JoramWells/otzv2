@@ -251,13 +251,15 @@ const AddEtlPage = () => {
               const percentCompleted = Math.round((loaded * 100) / total)
               setProgress(percentCompleted)
             }
-          }
+          },
+          timeout: 300000
         }
       )
       setResponseData(response as any)
       setLoading(false)
     } catch (error) {
       console.log(error)
+      setLoading(false)
     }
   }
 
