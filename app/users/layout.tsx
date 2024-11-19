@@ -12,7 +12,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BookCopy, LayoutDashboardIcon, Users } from 'lucide-react'
+import { Book, BookCopy, LayoutDashboardIcon, Users } from 'lucide-react'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { type JSX, Suspense, useEffect } from 'react'
@@ -36,16 +36,16 @@ const DL: SidebarListItemsProps[] = [
   //   link: '/users/caregivers',
   //   icon: <HeartHandshake size={17} />
   // },
-  // {
-  //   id: '3',
-  //   label: 'Case Managers',
-  //   link: '/users/casemanagers',
-  //   icon: <InspectionPanel size={17} />
-  // },
   {
-    id: '4',
+    id: '3',
     label: 'Patients',
     link: '/users/patients',
+    icon: <Book size={17} />
+  },
+  {
+    id: '4',
+    label: 'OTZ',
+    link: '/users/otz',
     icon: <Users size={17} />
   },
   {

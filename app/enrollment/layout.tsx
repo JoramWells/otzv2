@@ -12,9 +12,9 @@ import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { LayoutDashboardIcon, Thermometer, WatchIcon } from 'lucide-react'
-import { useParams, usePathname, useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
+import { useParams, usePathname } from 'next/navigation'
+import { type JSX, Suspense } from 'react'
+import { UserProvider } from '@/context/UserContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -50,28 +50,28 @@ const DL: SidebarListItemsProps[] = [
   }
 ]
 
-const PatientLayout = ({ children }: { children: React.ReactNode }) => {
+const OTZEnrollmentLayout = ({ children }: { children: React.ReactNode }) => {
   const params = useParams()
   const { patientID } = params
 
   const pathname = usePathname()
-  const { data: session, status } = useSession()
-  const router = useRouter()
-  useEffect(() => {
-    if (status === 'loading') {
-      return
-    }
-    if (status === 'unauthenticated') {
-      // setTimeout(() => {
-      //   router.push('/login')
-      // }, 2000)
-      router.push('/login')
-    }
-  }, [status, router])
+  // const { data: session, status } = useSession()
+  // const router = useRouter()
+  // useEffect(() => {
+  //   if (status === 'loading') {
+  //     return
+  //   }
+  //   if (status === 'unauthenticated') {
+  //     // setTimeout(() => {
+  //     //   router.push('/login')
+  //     // }, 2000)
+  //     router.push('/login')
+  //   }
+  // }, [status, router])
 
-  if (session != null) {
-    if (
-      pathname === `/patients/tab/dashboard/${patientID}` ||
+  // if (session != null) {
+  if (
+    pathname === `/patients/tab/dashboard/${patientID}` ||
     pathname === `/patients/tab/appointments/${patientID}` ||
     pathname === `/patients/tab/caregivers/${patientID}` ||
     pathname === `/patients/tab/casemanagers/${patientID}` ||
@@ -82,16 +82,15 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
     pathname === `/patients/tab/messages/${patientID}` ||
     pathname === `/patients/tab/settings/${patientID}` ||
     pathname === `/patients/tab/steps/${patientID}`
-    ) {
-      return (
+  ) {
+    return (
       <Provider store={store}>
         <SidebarProvider>{children}</SidebarProvider>
       </Provider>
-      )
-    }
+    )
+  }
 
-    return (
-    <Provider store={store}>
+  return (
       <ChakraProvider>
         <SidebarProvider>
           <div className="flex flex-row">
@@ -106,15 +105,22 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </SidebarProvider>
       </ChakraProvider>
-    </Provider>
-    )
-  }
-
-  return (
-      <div>
-        <p>Redirecting...</p>
-      </div>
   )
+  // }
+
+  // return (
+  //     <AuthenticateLoader />
+  // )
 }
 
-export default PatientLayout
+export default function WrappedOTZEnrollmentLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+  return <Suspense>
+    <Provider
+    store={store}
+    >
+      <UserProvider>
+        <OTZEnrollmentLayout {...props} />
+      </UserProvider>
+    </Provider>
+  </Suspense>
+}

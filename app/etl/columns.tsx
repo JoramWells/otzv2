@@ -53,7 +53,7 @@ export const linelistColumn: Array<ColumnDef<ExtendedLineListInterface>> = [
     cell: ({ row }) => (
       <Link
         href={`/etl/${row.original.id}`}
-        className="text-blue-500 text-[12px] "
+        className="text-blue-500 text-[12px] capitalize "
       >
         {row.original.file.replace('csvs/', '').replace('.csv', '')}
       </Link>
@@ -62,7 +62,7 @@ export const linelistColumn: Array<ColumnDef<ExtendedLineListInterface>> = [
   {
     accessorKey: 'size',
     header: 'Size',
-    cell: ({ row }) => (<p>{row.original.size}</p>)
+    cell: ({ row }) => (<p className='text-[12px] text-slate-500 ' >{(row.original.size / 1024).toFixed(2)} KB</p>)
   },
   {
     accessorKey: 'uploaded',
@@ -82,4 +82,13 @@ export const linelistColumn: Array<ColumnDef<ExtendedLineListInterface>> = [
       </p>
     )
   }
+  // {
+  //   accessorKey: 'action',
+  //   header: '',
+  //   cell: ({ row }) => <Button
+  //   size={'sm'}
+  //   >
+  //     Open
+  //   </Button>
+  // }
 ]

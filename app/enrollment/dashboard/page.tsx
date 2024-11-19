@@ -141,7 +141,7 @@ const Dashboard = () => {
   ]
 
   return (
-    <div className="p-2">
+    <div>
       {/* breadcrumb */}
       <BreadcrumbComponent dataList={dataList} />
       <div className="mt-2 mb-2 flex justify-between space-x-2">

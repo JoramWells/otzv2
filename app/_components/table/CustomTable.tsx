@@ -117,12 +117,14 @@ export function CustomTable<TData, TValue> ({
       {isSearch && !isLoading && (
         <div
           className="flex flex-row justify-between items-center
-        mb-4
+        p-4
         "
         >
           <input
             placeholder="Search.."
-            className="border border-slate-200 h-8 rounded-full p-2 bg-slate-50 "
+            className="border border-slate-200 h-8 rounded-lg p-2 pl-4
+            text-[12px]
+            "
             value={
               (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
             }

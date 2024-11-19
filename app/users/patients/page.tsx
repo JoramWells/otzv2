@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -152,14 +153,11 @@ const Patients = () => {
     <>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="flex flex-row justify-between items-center bg-white  mt-2 pr-2">
-        <div>
-          <p className="mt-2 ml-2 text-[14px] font-semibold">Age Ranges</p>
           <CustomTab
             categoryList={categoryList}
             setValue={setTabValue}
             value={tabValue}
           />
-        </div>
         <Button
           className="bg-teal-600 hover:bg-teal-700
         font-bold shadow-none
@@ -176,9 +174,9 @@ const Patients = () => {
 
       <div className="w-full p-2 pt-0 rounded-lg mt-2">
         {tabValue === 'all' && (
-          <div className="p-2 bg-white rounded-lg">
-            <div className="mb-2">
-              <p className="font-semibold text-[14px] ">All Patients</p>
+          <div className="bg-white rounded-lg">
+            <div className="p-4 pb-0">
+              <p className="text-slate-700 text-[16px] ">All Patients</p>
               <p className="text-[12px] text-slate-500">
                 A list of patient 0 between 25 years and above.
               </p>
@@ -195,9 +193,9 @@ const Patients = () => {
 
         {/*  */}
         {tabValue === '0-9 years' && (
-          <div className="p-2 bg-white rounded-lg">
-            <div className="mb-2">
-              <p className="font-semibold text-[14px] ">0 years -- 9 years</p>
+          <div className="bg-white rounded-lg">
+            <div className="p-4 pb-0">
+              <p className="text-slate-700 text-[16px] ">0 years -- 9 years</p>
               <p className="text-[12px] text-slate-500">
                 A list of patient 0 between 9 years and above.
               </p>
@@ -206,7 +204,7 @@ const Patients = () => {
               columns={patientColumns}
               data={zeroToNine || []}
               isLoading={isLoading}
-              filter={<FilterComponent />}
+              // filter={<FilterComponent />}
               // isSearch
             />
           </div>
@@ -214,9 +212,9 @@ const Patients = () => {
 
         {/*  */}
         {tabValue === '10-14 years' && (
-          <div className="p-2 bg-white rounded-lg">
-            <div className="mb-2">
-              <p className="font-semibold text-[14px] ">10 years -- 14 years</p>
+          <div className="bg-white rounded-lg">
+            <div className="p-4 pb-0">
+              <p className="text-slate-700 text-[16px] ">10 years -- 14 years</p>
               <p className="text-[12px] text-slate-500">
                 A list of patient 10 between 14 years and above.
               </p>
@@ -225,7 +223,7 @@ const Patients = () => {
               columns={patientColumns}
               data={tenToFourteen || []}
               isLoading={isLoading}
-              filter={<FilterComponent />}
+              // filter={<FilterComponent />}
               // isSearch
             />
           </div>
@@ -233,9 +231,9 @@ const Patients = () => {
 
         {/*  */}
         {tabValue === '15-19 years' && (
-          <div className="p-2 bg-white rounded-lg">
-            <div className="mb-2">
-              <p className="font-semibold text-[14px] ">15 years -- 19 years</p>
+          <div className="bg-white rounded-lg">
+            <div className="p-4 pb-0">
+              <p className="text-slate-700 text-[16px] ">15 years -- 19 years</p>
               <p className="text-[12px] text-slate-500">
                 A list of patient 15 between 19 years and above.
               </p>
@@ -244,7 +242,7 @@ const Patients = () => {
               columns={patientColumns}
               data={fifteenToNineteen || []}
               isLoading={isLoading}
-              filter={<FilterComponent />}
+              // filter={<FilterComponent />}
               // isSearch
             />
           </div>
@@ -252,9 +250,9 @@ const Patients = () => {
 
         {/*  */}
         {tabValue === '20+ years' && (
-          <div className="p-2 bg-white rounded-lg">
-            <div className="mb-2">
-              <p className="font-semibold text-[14px] ">20 years +</p>
+          <div className="bg-white rounded-lg">
+            <div className="p-4 pb-0">
+              <p className="font-slate-700 text-[16px] ">20 years +</p>
               <p className="text-[12px] text-slate-500">
                 A list of patient 20 years and above.
               </p>
@@ -262,8 +260,9 @@ const Patients = () => {
             <CustomTable
               columns={patientColumns}
               data={twentyPlus || []}
+
               isLoading={isLoading}
-              filter={<FilterComponent />}
+              // filter={<FilterComponent />}
               // isSearch
             />
           </div>

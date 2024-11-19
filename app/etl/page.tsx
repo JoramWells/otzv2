@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'
 import { type UserInterface } from 'otz-types'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { Badge } from '@/components/ui/badge'
 //
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -48,11 +49,9 @@ const ETL = () => {
       setUser(user as UserInterface)
     }
   }, [session])
-  const { data } = useGetAllETLQuery({
+  const { data, isLoading } = useGetAllETLQuery({
     hospitalID: user?.hospitalID as string
   })
-
-  console.log(data, 'dtm')
 
   const filteredArray = data ? [...data] : []
   filteredArray.sort(
@@ -80,31 +79,39 @@ const ETL = () => {
   const router = useRouter()
   return (
     <div>
-      <BreadcrumbComponent dataList={dataList} />
+      <div className="flex justify-between w-full items-center bg-white relative">
+        <BreadcrumbComponent dataList={dataList} />
 
-      <div className="flex justify-between w-full items-center bg-white">
         <Button
           size={'sm'}
           onClick={() => {
             router.push('/etl/add')
           }}
+          className="absolute top-2 right-2"
         >
           Add
         </Button>
       </div>
 
-      {data && data?.length > 0 && (
-        <>
-          <div className="p-4">
-            <div className="bg-white rounded-lg p-4">
-              <CustomTable
-                columns={linelistColumn}
-                data={filteredArray ?? []}
-              />
+      <>
+        <div className="p-2">
+          <div className="bg-white rounded-lg">
+            <div
+            className='flex space-x-2 items-center p-4 pb-0'
+            >
+              <p className=" text-[16px] text-slate-700 ">Uploaded Linelist </p>
+              <Badge
+              className='bg-slate-200 text-black shadow-none'
+              >{data?.length}</Badge>
             </div>
+            <CustomTable
+              columns={linelistColumn}
+              isLoading={isLoading}
+              data={filteredArray ?? []}
+            />
           </div>
-        </>
-      )}
+        </div>
+      </>
 
       {/* <DragNDrop onFileSelected={setDraggedFiles} /> */}
     </div>

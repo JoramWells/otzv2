@@ -380,7 +380,7 @@ const AddEtlPage = () => {
             />
           </div>
         ) : nullUsers?.length > 0 ? (
-          <div className="flex flex-col space-y-2 bg-white w-1/2 rounded-lg p-4">
+          <div className="flex flex-col space-y-4 bg-white w-1/2 rounded-lg p-4">
             <div>
               <p>Users</p>
               <p className="text-muted-foreground text-[12px]">
@@ -388,47 +388,58 @@ const AddEtlPage = () => {
               </p>
             </div>
             {uniqueUsers.map((item) => (
-              <div className="flex justify-between" key={item.user}>
+              <div className="flex justify-between items-center" key={item.user}>
                 <p className="text-[12px] font-bold">{item.user}</p>
-                {item.exists ? (
-                  <div className="flex items-center space-x-2 text-emerald-500 text-[12px] ">
-                    <CircleCheck size={16} />
-                    <p>Registered</p>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-2 text-red-500 text-[12px] ">
-                    <X className="" size={16} />
-                    <p>Not Registered</p>
-                  </div>
-                )}{' '}
-                {!item.exists && (
-                  <Button
-                    size={'sm'}
-                    disabled={isAddUserLoading}
-                    onClick={async () => {
-                      const reverseName = (name: string) => {
-                        const parts = name.trim().split(' ')
-                        const reversed = parts.reverse()
-                        console.log(reversed, 'reversed')
-                        return {
-                          reversedName: reversed.join(' '),
-                          firstName: reversed[1] || '',
-                          lastName: reversed[0] || ''
+                <div
+                className='flex items-center space-x-2 w-1/2'
+                >
+                  {item.exists ? (
+                    <div className="flex items-center space-x-2 text-emerald-500 text-[12px] ">
+                      <CircleCheck size={16} />
+                      <p>Registered</p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-2 text-red-500 text-[12px] ">
+                      <X className="" size={16} />
+                      <p>Not Registered</p>
+                    </div>
+                  )}{' '}
+                  {!item.exists && (
+                    <Button
+                      size={'sm'}
+                      disabled={isAddUserLoading}
+                      onClick={async () => {
+                        const reverseName = (name: string) => {
+                          const parts = name.trim().split(' ')
+                          const reversed = parts.reverse()
+                          console.log(reversed, 'reversed')
+                          return {
+                            reversedName: reversed.join(' '),
+                            firstName: reversed[1] || '',
+                            lastName: reversed[0] || ''
+                          }
                         }
-                      }
 
-                      const { firstName, lastName } = reverseName(item.user)
+                        const { firstName, lastName } = reverseName(item.user)
 
-                      await addUser({
-                        firstName,
-                        middleName: lastName,
-                        hospitalID: authUser?.hospitalID
-                      })
-                    }}
-                  >
-                    {`${recentUser?.middleName} ${recentUser?.firstName}`.trim().toLowerCase() === item.user.trim().toLowerCase() ? 'Saved' : 'Save'}
-                  </Button>
-                )}
+                        await addUser({
+                          firstName,
+                          middleName: lastName,
+                          hospitalID: authUser?.hospitalID
+                        })
+                      }}
+                    >
+                      {isAddUserLoading && (
+                        <Loader2 className="animate-spin" size={16} />
+                      )}
+                      {`${recentUser?.middleName} ${recentUser?.firstName}`
+                        .trim()
+                        .toLowerCase() === item.user.trim().toLowerCase()
+                        ? 'Saved'
+                        : 'Save'}
+                    </Button>
+                  )}
+                </div>
               </div>
             ))}
             <div className="flex justify-end">
@@ -454,9 +465,9 @@ const AddEtlPage = () => {
             <Image
               src={'/img/file.png'}
               alt="img"
-              width={140}
-              height={140}
-              style={{ width: '140px', height: '140px' }}
+              width={100}
+              height={100}
+              style={{ width: '100px', height: '100px' }}
 
               // quality={100}
             />
