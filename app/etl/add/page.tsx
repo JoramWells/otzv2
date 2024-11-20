@@ -361,7 +361,6 @@ const AddEtlPage = () => {
                 </Button>
               </div>
             </div>
-            {progress} progress
             <CustomTable
               isSearch={false}
               columns={columns}

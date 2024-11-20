@@ -3,14 +3,13 @@
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
 import { columns } from '../columns'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 import CustomTab from '../../../components/tab/CustomTab'
-import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
+import { type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
-import { useSession } from 'next-auth/react'
-import { type UserInterface } from 'otz-types'
+import { useLabContext } from '@/context/ViralLoadContext'
 
 // interface ItemsProps {
 //   dob: MomentInput
@@ -30,20 +29,10 @@ const dataList2 = [
 ]
 
 const TrackPage = () => {
-  const { data: session } = useSession()
-  const [user, setUser] = useState<UserInterface>()
-  useEffect(() => {
-    if (session) {
-      const { user } = session
-      setUser(user as UserInterface)
-    }
-  }, [session])
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
   const [value, setValue] = useState<string | null>(tab)
-  const { data: vlData } = useGetAllViralLoadTestsQuery({
-    hospitalID: user?.hospitalID as string
-  })
+  const { viralLoadData, isLoading } = useLabContext()
 
   const categoryList = useMemo(
     () => [
@@ -51,7 +40,7 @@ const TrackPage = () => {
         id: 1,
         label: 'All',
         description: 'All patients',
-        count: vlData?.length
+        count: viralLoadData?.length
       },
       {
         id: 2,
@@ -74,19 +63,19 @@ const TrackPage = () => {
         description: 'Tertiary'
       }
     ],
-    [vlData?.length]
+    [viralLoadData?.length]
   )
 
-  const sortedAppointment: ViralLoadInterface[] = useMemo(
-    () => (vlData ? [...vlData] : []),
-    [vlData]
+  const sortedAppointment: ExtendedViralLoadInterface[] = useMemo(
+    () => (viralLoadData ? [...viralLoadData] : []),
+    [viralLoadData]
   )
 
   // const memSorted = useCallback(() => {}, [])
 
   sortedAppointment.sort(
     (a, b) =>
-      new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      new Date(b.updatedAt as unknown as string).getTime() - new Date(a.updatedAt as unknown as string).getTime()
   )
 
   return (
@@ -101,7 +90,9 @@ const TrackPage = () => {
         />
       </div>
       <div className="p-2 bg-white">
-        <CustomTable columns={columns} data={sortedAppointment || []} />
+        <CustomTable columns={columns}
+        isLoading={isLoading}
+        data={sortedAppointment || []} />
       </div>
     </>
   )

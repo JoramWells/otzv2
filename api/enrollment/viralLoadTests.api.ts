@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type PatientAttributes, type ViralLoadInterface } from 'otz-types'
+
+export type ExtendedViralLoadInterface = ViralLoadInterface & {
+  Patient: PatientAttributes
+}
 
 export const viralLoadApi = createApi({
   reducerPath: 'viralLoadApi',
@@ -8,7 +13,10 @@ export const viralLoadApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/lab/viral-load-tests`
   }),
   endpoints: (builder) => ({
-    getAllViralLoadTests: builder.query<any, { hospitalID: string }>({
+    getAllViralLoadTests: builder.query<
+    ExtendedViralLoadInterface[],
+    { hospitalID: string }
+    >({
       query: (params) => {
         if (params) {
           const { hospitalID } = params
@@ -20,8 +28,17 @@ export const viralLoadApi = createApi({
         return 'fetchAll'
       }
     }),
-    getAllVlCategories: builder.query<any, void>({
-      query: () => 'fetchAllVLCategory'
+    getAllVlCategories: builder.query<any, { hospitalID: string }>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } = params
+          let queryString = ''
+          // queryString += `date=${date}`
+          queryString += `hospitalID=${hospitalID}`
+          return `/fetchAllVLCategory?${queryString}`
+        }
+        return 'fetchAllVLCategory'
+      }
     }),
     addViralLoadTest: builder.mutation({
       query: (newUser) => ({

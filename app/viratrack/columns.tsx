@@ -5,26 +5,23 @@ import moment from 'moment'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import Avatar from '@/components/Avatar'
+import { type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
 // import { FaEdit } from 'react-icons/fa'
 
-export interface FullNameProps {
-  firstName?: string
-}
-
-export const columns: Array<ColumnDef<ViralLoadInterface>> = [
+export const columns: Array<ColumnDef<ExtendedViralLoadInterface>> = [
   {
     accessorKey: 'patient',
     header: 'Name',
     cell: ({ row }) => (
       <div className="flex flex-row space-x-2 text-[12px] items-center">
         <Avatar
-          name={`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}
+          name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
         <div className="flex flex-col space-y-1">
           <Link
             className="capitalize"
             href={`/patients/${row.original.id}`}
-          >{`${row.original.patient?.firstName} ${row.original.patient?.middleName}`}</Link>
+          >{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</Link>
         </div>
       </div>
     )
@@ -60,13 +57,13 @@ export const columns: Array<ColumnDef<ViralLoadInterface>> = [
     header: 'Status',
     cell: ({ row }) => (
       <>
-        {row.original.isVLValid ? (
+        {(row.original.isVLValid === true) ? (
           <Badge className="rounded-full text-[12px] bg-teal-50 text-teal-600 shadow-none hover:bg-gray-50 ">
            Valid
           </Badge>
         ) : (
           <Badge className="bg-red-50 text-[12px] text-red-500 shadow-none rounded-full hover:bg-red-50 ">
-            Valid
+            Invalid
           </Badge>
         )}
       </>

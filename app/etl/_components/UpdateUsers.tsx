@@ -22,43 +22,41 @@ const UpdateUsers = ({
   hospitalID
 
 }: UpdateUsersProfile) => {
-  const [recentUser, setRecentUser] = useState<UserInterface>();
-  const router = useRouter();
-  const [addUser, { isLoading, data: savedUserData }] = useAddUserMutation();
+  const [recentUser, setRecentUser] = useState<UserInterface>()
+  const router = useRouter()
+  const [addUser, { isLoading, data: savedUserData }] = useAddUserMutation()
 
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   const send = useCallback(
     (username: string) =>
       toast({
         // variant:'success',
-        title: "Completed",
-        description: `Successfully added ${username}`,
+        title: 'Completed',
+        description: `Successfully added ${username}`
         // action: <ToastAction altText="Saved">Undo</ToastAction>
       }),
     [toast]
-  );
+  )
 
-  const [localUsers, setLocalUsers] = useState(users); // Local state for users
+  const [localUsers, setLocalUsers] = useState(users) // Local state for users
 
   useEffect(() => {
     if (savedUserData) {
-      setRecentUser(savedUserData as UserInterface);
-      const userName = `${savedUserData.firstName} ${savedUserData.middleName}`;
-      send(userName);
-        setLocalUsers((prev) =>
+      setRecentUser(savedUserData as UserInterface)
+      const userName = `${savedUserData.firstName} ${savedUserData.middleName}`
+      send(userName)
+      setLocalUsers((prev) =>
         prev.map((u) =>
           u.user.trim().toLowerCase() === userName.trim().toLowerCase()
             ? { ...u, exists: true }
             : u
         )
-      );
-    
+      )
     }
 
-    // 
-    
-  }, [savedUserData, send]);
+    //
+  }, [savedUserData, send])
 
   return (
     <div className="flex items-center justify-center relative w-full bg-black/[.3] h-[100vh]">
@@ -78,39 +76,41 @@ const UpdateUsers = ({
                 {item.exists ||
                 `${recentUser?.firstName} ${recentUser?.middleName}`
                   .trim()
-                  .toLowerCase() === item.user.trim().toLowerCase() ? (
+                  .toLowerCase() === item.user.trim().toLowerCase()
+                  ? (
                   <div className="flex items-center space-x-2 text-emerald-500 text-[12px] ">
                     <CircleCheck size={16} />
                     <p>Registered</p>
                   </div>
-                ) : (
+                    )
+                  : (
                   <div className="flex items-center space-x-2 text-red-500 text-[12px] ">
                     <X className="" size={16} />
                     <p>Not Registered</p>
                   </div>
-                )}
+                    )}
                 {!item.exists && (
                   <Button
-                    size={"sm"}
+                    size={'sm'}
                     disabled={isLoading}
                     onClick={async () => {
                       const reverseName = (name: string) => {
-                        const parts = name.trim().split(" ");
-                        const reversed = parts.reverse();
+                        const parts = name.trim().split(' ')
+                        const reversed = parts.reverse()
                         return {
-                          reversedName: reversed.join(" "),
-                          firstName: reversed[1] || "",
-                          lastName: reversed[0] || "",
-                        };
-                      };
+                          reversedName: reversed.join(' '),
+                          firstName: reversed[1] || '',
+                          lastName: reversed[0] || ''
+                        }
+                      }
 
-                      const { firstName, lastName } = reverseName(item.user);
+                      const { firstName, lastName } = reverseName(item.user)
 
                       await addUser({
                         firstName,
                         middleName: lastName,
-                        hospitalID,
-                      });
+                        hospitalID
+                      })
                     }}
                   >
                     {isLoading && (
@@ -119,8 +119,8 @@ const UpdateUsers = ({
                     {`${recentUser?.firstName} ${recentUser?.middleName}`
                       .trim()
                       .toLowerCase() === item.user.trim().toLowerCase()
-                      ? "Saved"
-                      : "Save"}
+                      ? 'Saved'
+                      : 'Save'}
                   </Button>
                 )}
               </div>
@@ -129,17 +129,17 @@ const UpdateUsers = ({
         ))}
         <Button
           className="shadow-none absolute top-2 right-2 border-2 border-white hover:bg-slate-50 hover:text-slate-700 "
-          variant={"ghost"}
-          size={"sm"}
+          variant={'ghost'}
+          size={'sm'}
           onClick={() => {
-            router.push("/etl");
+            router.push('/etl')
           }}
         >
           <X className="text-white hover:text-slate-700" />
         </Button>
       </div>
     </div>
-  );
+  )
 }
 
 export default UpdateUsers

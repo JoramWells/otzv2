@@ -15,6 +15,7 @@ import { useSession } from 'next-auth/react'
 import { Suspense, useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { UserProvider, useUserContext } from '@/context/UserContext'
+import { LabProvider } from '@/context/ViralLoadContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -87,9 +88,11 @@ const ViratrackLayout = ({ children }: { children: React.ReactNode }) => {
 export default function WrappedViratrackLayout (props: any) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Provider store={store} >
+      <Provider store={store}>
         <UserProvider>
-          <ViratrackLayout {...props} />
+          <LabProvider>
+            <ViratrackLayout {...props} />
+          </LabProvider>
         </UserProvider>
       </Provider>
     </Suspense>

@@ -109,7 +109,10 @@ const NotifyPage = () => {
     (appointment) => importantPatientIDs?.includes(appointment.patientID)
   )
 
-  const { data: artPrescriptionData, isLoading: loadingArtPrescription } = useGetAllArtPrescriptionQuery()
+  const { data: artPrescriptionData, isLoading: loadingArtPrescription } =
+    useGetAllArtPrescriptionQuery({
+      hospitalID: user?.hospitalID as string
+    })
 
   const [value, setValue] = useState(1)
 

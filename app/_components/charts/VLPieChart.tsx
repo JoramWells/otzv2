@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable react/prop-types */
 import { useGetAllVlCategoriesQuery } from '@/api/enrollment/viralLoadTests.api'
 // import { type Point, type ChartDataset, type BubbleDataPoint } from 'chart.js/auto'
 import { Pie } from 'react-chartjs-2'
 import CustomSelect from '../../../components/forms/CustomSelect'
 import { useState } from 'react'
+import { useUserContext } from '@/context/UserContext'
 
 // export interface PieChartProps {
 //   labels: string[]
@@ -11,7 +13,11 @@ import { useState } from 'react'
 // }
 
 const VLPieChart = () => {
-  const { data } = useGetAllVlCategoriesQuery()
+  const { authUser } = useUserContext()
+  const { data } = useGetAllVlCategoriesQuery({
+    hospitalID: authUser?.hospitalID as string
+  })
+  console.log(data, 'datam')
 
   const chartData = {
     labels: data?.map((item: any) => item.category),

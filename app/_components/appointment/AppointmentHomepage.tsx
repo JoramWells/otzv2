@@ -27,11 +27,13 @@ const AppointmentHomepage = () => {
   const [value, setValue] = useState<string | null>(tab)
 
   // const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
-  const { data, isLoading: isLoadingAppointments } = useGetAllAppointmentsQuery({
-    mode: 'all',
-    date: '2022-01-01',
-    hospitalID: user?.hospitalID as string
-  })
+  const { data, isLoading: isLoadingAppointments } = useGetAllAppointmentsQuery(
+    {
+      mode: 'all',
+      date: '2022-01-01',
+      hospitalID: user?.hospitalID as string
+    }
+  )
 
   const sortedAppointment: ExtendedAppointmentInputProps[] = useMemo(
     () => (data ? [...data] : []),
@@ -41,7 +43,9 @@ const AppointmentHomepage = () => {
   // const memSorted = useCallback(() => {}, [])
 
   sortedAppointment.sort(
-    (a, b) => new Date(b.updatedAt as Date).getTime() - new Date(a.updatedAt as Date).getTime()
+    (a, b) =>
+      new Date(b.updatedAt as Date).getTime() -
+      new Date(a.updatedAt as Date).getTime()
   )
 
   const missedAppointment = useCallback(() => {
@@ -58,6 +62,15 @@ const AppointmentHomepage = () => {
       item.AppointmentStatus?.statusDescription
         .toLowerCase()
         .includes('Rescheduled'.toLowerCase())
+    )
+  }, [sortedAppointment])
+
+  //
+  const completedAppointment = useCallback(() => {
+    return sortedAppointment?.filter((item: any) =>
+      item.AppointmentStatus?.statusDescription
+        .toLowerCase()
+        .includes('Completed'.toLowerCase())
     )
   }, [sortedAppointment])
 
@@ -87,6 +100,11 @@ const AppointmentHomepage = () => {
       },
       {
         id: 2,
+        label: 'Completed',
+        count: completedAppointment()?.length
+      },
+      {
+        id: 2,
         label: 'Pending',
         count: pendingAppointment()?.length
       },
@@ -106,7 +124,7 @@ const AppointmentHomepage = () => {
         count: missedAppointment()?.length
       }
     ],
-    [missedAppointment, pendingAppointment, rescheduledAppointment, sortedAppointment?.length, upcomingAppointment]
+    [completedAppointment, missedAppointment, pendingAppointment, rescheduledAppointment, sortedAppointment?.length, upcomingAppointment]
   )
   const pathname = usePathname()
   const router = useRouter()
@@ -149,6 +167,15 @@ const AppointmentHomepage = () => {
               columns={columns}
               isLoading={isLoadingAppointments}
               data={sortedAppointment || []}
+            />
+          )}
+
+          {/*  */}
+          {value === 'completed' && (
+            <CustomTable
+              columns={columns}
+              isLoading={isLoadingAppointments}
+              data={completedAppointment() || []}
             />
           )}
 

@@ -5,12 +5,10 @@
 import { Chart, type ChartDataset, registerables } from 'chart.js'
 
 // import { type MomentInput } from 'moment'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
-import { useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
 import CustomSelect from '../../../components/forms/CustomSelect'
-import { useSession } from 'next-auth/react'
-import { type UserInterface } from 'otz-types'
+import { type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
 
 // interface Props {
 //   data: BarChartProps
@@ -21,44 +19,18 @@ export interface BarChartProps {
   datasets: Array<ChartDataset<'bar', Array<number | [number, number] | null>>>
 }
 
-interface vlDataProps {
-  dateOfVL: Date | number | string
-}
-
 Chart.register(...registerables)
 
-const VLBarChart = () => {
-  const { data: session } = useSession()
-  const [user, setUser] = useState<UserInterface>()
-  useEffect(() => {
-    if (session) {
-      const { user } = session
-      setUser(user as UserInterface)
-    }
-  }, [session])
-  const { data: vlData } = useGetAllViralLoadTestsQuery({
-    hospitalID: user?.hospitalID as string
-  })
-  const [data, setData] = useState([])
+const VLBarChart = ({ data }: { data: ExtendedViralLoadInterface[] | undefined }) => {
   const [value, setValue] = useState<number>(0)
-
-  //
-  useEffect(() => {
-    if (vlData) {
-      setData(vlData)
-    }
-  }, [vlData])
-
-  const countTrue = data?.filter((item: any) => item.isVLValid === true).length
-  const countFalse = data?.filter((item: any) => item.isVLValid === false).length
 
   const uniqueYears: number[] | any = useMemo(() => {
     return [
       ...new Set(
-        vlData?.map((item: vlDataProps) => new Date(item.dateOfVL).getFullYear())
+        data?.map((item: ExtendedViralLoadInterface) => new Date(item.dateOfVL as string).getFullYear())
       )
     ]
-  }, [vlData])
+  }, [data])
 
   uniqueYears.sort((a: number, b: number) => a - b)
 
@@ -70,6 +42,18 @@ const VLBarChart = () => {
     ))
   }, [uniqueYears])
 
+  const [vlData, setVLData] = useState<ExtendedViralLoadInterface[]>()
+  const handleChange = (val: number) => {
+    setVLData(data)
+    const filteredData = data?.filter((item: any) =>
+      new Date(item.dateOfVL).getFullYear() === val
+    )
+    setVLData(filteredData)
+    setValue(val)
+  }
+
+  const countTrue = vlData?.filter((item: any) => item.isVLValid === true).length
+  const countFalse = vlData?.filter((item: any) => item.isVLValid === false).length
   const chartData = {
     labels: ['True', 'False'],
     datasets: [
@@ -82,18 +66,6 @@ const VLBarChart = () => {
       }
     ]
   }
-
-  console.log(yearsOption(), 'years')
-
-  const handleChange = (val: number) => {
-    setData(vlData)
-    const filteredData = vlData?.filter((item: any) =>
-      new Date(item.dateOfVL).getFullYear() === val
-    )
-    setData(filteredData)
-    setValue(val)
-  }
-
   return (
     <div className="h-[300px] w-1/4 bg-slate-50 rounded-lg">
       <div className="p-4 flex flex-row justify-between items-center">
