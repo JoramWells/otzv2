@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { Clock, History, LayoutGrid, Search } from 'lucide-react'
+import { Bell, Clock, History, LayoutGrid, Search, TriangleAlert } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
@@ -16,7 +16,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { UserAccount } from '@/components/users/UserAccount'
-import { AppModuleSessionInterface, type AppModuleInterface, type UserInterface } from 'otz-types'
+import { AppModuleSessionInterface, type NotificationAttributes, type AppModuleInterface, type UserInterface } from 'otz-types'
 import axios from 'axios'
 import { type Url } from 'url'
 import { type ExtendedAppModuleSession } from '@/api/appModules/appModuleSession.api'
@@ -24,6 +24,8 @@ import moment from 'moment'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Badge } from '@/components/ui/badge'
+import { NotificationProvider, useNotificationContext } from '@/context/NotificationContext'
+import { NotificationDropDown } from '@/components/notification/NotificationDropDown'
 
 interface ListItemProps {
   id: string
@@ -81,6 +83,17 @@ const fetchData = async (): Promise<AppModuleInterface[] | undefined> => {
   }
 }
 
+const fetchNotificationData = async (hospitalID: string): Promise<NotificationAttributes[] | undefined> => {
+  try {
+    const { data } = await axios.get<NotificationAttributes[] | undefined>(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/notify/notifications/fetchAll?hospitalID=${hospitalID}`
+    )
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const fetchRecentData = async (id: string): Promise<ExtendedAppModuleSession[] | undefined> => {
   try {
     const { data } = await axios.get<ExtendedAppModuleSession[]>(
@@ -96,6 +109,8 @@ export default function Home () {
   const { data: session, status } = useSession()
   const [user, setUser] = useState<UserInterface>()
   const [data, setData] = useState<AppModuleInterface[]>([])
+  const [userNotifications, setUserNotifications] = useState<NotificationAttributes[]>()
+
   const [recentSession, setRecentSession] = useState<
   ExtendedAppModuleSession[] | undefined
   >([])
@@ -104,12 +119,21 @@ export default function Home () {
   useEffect(() => {
     void (async () => {
       const resp = await fetchData()
+      if (user?.hospitalID) {
+        const notificationData = await fetchNotificationData(user.hospitalID)
+        setUserNotifications(notificationData)
+      }
+
       if (resp) {
         setData(user?.role === 'admin' ? administrator.concat(resp) : resp)
         // console.log(resp, 'response')
       }
     })()
-  }, [user?.role])
+  }, [user?.hospitalID, user?.role])
+
+  const findModuleNotification = (moduleID: string | undefined) => {
+    return userNotifications?.filter(item => item?.moduleID === moduleID)?.length
+  }
 
   const filteredData = data?.filter(item => item.isActive)
 
@@ -155,7 +179,10 @@ export default function Home () {
                 // quality={100}
               />
 
-              <UserAccount user={user as UserInterface} />
+              <div className="flex items-center space-x-2">
+                <NotificationDropDown data={userNotifications ?? []} />
+                <UserAccount user={user as UserInterface} />
+              </div>
             </nav>
           </Suspense>
 
@@ -350,6 +377,19 @@ export default function Home () {
                             </p>
                           </div>
                         </div>
+                        {findModuleNotification(item?.id) !== 0 && (
+                          <div className="absolute top-4 right-4">
+                            <div className="relative">
+                              <TriangleAlert
+                                className="text-slate-700"
+                                size={16}
+                              />
+                              <div className="absolute -top-3 text-[12px] rounded-full -right-2 text-orange-500 font-bold bg-orange-100 h-5 w-5 flex items-center justify-center">
+                                {findModuleNotification(item?.id)}
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </Suspense>
                   ))}

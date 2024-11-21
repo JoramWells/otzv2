@@ -28,6 +28,8 @@ import React, {
   useMemo,
   useEffect
 } from 'react'
+import io, { type Socket } from 'socket.io-client'
+
 import UploadSection from '../_components/UploadSection'
 import UpdateUsers from '../_components/UpdateUsers'
 const BreadcrumbComponent = dynamic(
@@ -160,6 +162,21 @@ const AddEtlPage = () => {
   //     from: new Date(2022, 0, 20),
   //     to: addDays(new Date(2025, 0, 20), 20)
   //   })
+
+  // useEffect(() => {
+  //   const newSocket = io('ws://192.168.100.17:8081', {
+  //     path: '/api/etl/socket.io/ws',
+  //     transports: ['websocket']
+  //   })
+  //   newSocket.on('connect', () => {
+  //     console.log('connected')
+  //   })
+
+  //   //
+  //   newSocket.on('connection_error', (err) => {
+  //     console.log(err)
+  //   })
+  // }, [])
 
   const [filteredData, setFilteredData] = useState(csvArray)
   useEffect(() => {

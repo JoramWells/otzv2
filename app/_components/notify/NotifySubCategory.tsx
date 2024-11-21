@@ -34,7 +34,7 @@ const NotifySubCategory = () => {
   const categoryOptions = useCallback(() => {
     return notificationCategoryData?.map((item: any) => ({
       id: item.id,
-      label: item.notificationDescription
+      label: item?.notificationDescription
     }))
   }, [notificationCategoryData])
 
@@ -69,7 +69,7 @@ const NotifySubCategory = () => {
               <div>{item.notificationSubCategoryName}</div>
               <p
               className='text-sm text-slate-500 font-semibold'
-              >{item.notificationCategory.notificationDescription}</p>
+              >{item.notificationCategory?.notificationDescription}</p>
 
               <p className="text-sm mt-1 text-slate-500">
                 Updated: {moment(item.updatedAt).format('ll')}{' '}
