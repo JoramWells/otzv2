@@ -41,7 +41,7 @@ export function NotificationDropDown ({ data }: { data: NotificationAttributes[]
             <>
               <DropdownMenuItem className="capitalize hover:cursor-pointer hover:text-slate-700" key={item.id}>
                 <p className="text-[12px] text-slate-500">
-                  {item?.notificationDescription.substring(0, 50)}...
+                  {item?.notificationDescription?.substring(0, 50)}...
                 </p>
               </DropdownMenuItem>
             </>

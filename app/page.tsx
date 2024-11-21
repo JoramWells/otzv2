@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { Bell, Clock, History, LayoutGrid, Search, TriangleAlert } from 'lucide-react'
+import { Clock, History, LayoutGrid, Search, TriangleAlert } from 'lucide-react'
 import './globals.css'
 import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
@@ -16,7 +16,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { UserAccount } from '@/components/users/UserAccount'
-import { AppModuleSessionInterface, type NotificationAttributes, type AppModuleInterface, type UserInterface } from 'otz-types'
+import { type NotificationAttributes, type AppModuleInterface, type UserInterface } from 'otz-types'
 import axios from 'axios'
 import { type Url } from 'url'
 import { type ExtendedAppModuleSession } from '@/api/appModules/appModuleSession.api'
@@ -24,23 +24,22 @@ import moment from 'moment'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Badge } from '@/components/ui/badge'
-import { NotificationProvider, useNotificationContext } from '@/context/NotificationContext'
 import { NotificationDropDown } from '@/components/notification/NotificationDropDown'
 
-interface ListItemProps {
-  id: string
-  label: string
-  link: string
-}
+// interface ListItemProps {
+//   id: string
+//   label: string
+//   link: string
+// }
 
-interface ItemListProps {
-  id: string
-  label: string
-  src: string
-  description?: string
-  link: string
-  listItem: ListItemProps[]
-}
+// interface ItemListProps {
+//   id: string
+//   label: string
+//   src: string
+//   description?: string
+//   link: string
+//   listItem: ListItemProps[]
+// }
 
 const administrator: AppModuleInterface[] = [{
   id: '1',
