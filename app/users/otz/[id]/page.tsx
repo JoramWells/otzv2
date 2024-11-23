@@ -134,16 +134,16 @@ const OTZPage = ({ params }: { params: any }) => {
             <div className="flex flex-col space-y-2 p-2">
               <div className="flex justify-between items-center">
                 <p className="text-slate-500">VL Results</p>
-                <p className="font-bold">{data?.ViralLoad.vlResults}</p>
+                <p className="font-bold">{data?.ViralLoad?.vlResults}</p>
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-slate-500">VL Justification</p>
-                <p className="font-bold">{data?.ViralLoad.vlJustification}</p>
+                <p className="font-bold">{data?.ViralLoad?.vlJustification}</p>
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-slate-500">Date of VL</p>
                 <p className="font-bold">
-                  {moment(data?.ViralLoad.dateOfVL).format('ll')}
+                  {moment(data?.ViralLoad?.dateOfVL).format('ll')}
                 </p>
               </div>
             </div>
