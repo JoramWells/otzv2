@@ -16,7 +16,7 @@ interface CheckUserInterface {
 interface UpdateUsersProfile {
   users: CheckUserInterface[]
   hospitalID?: string
-  handleSubmit: () => {}
+  handleSubmit: () => void
   isLoading: boolean
 }
 
