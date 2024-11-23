@@ -385,6 +385,7 @@ const AddEtlPage = () => {
       }
       )
     )
+
     // setFilteredData(prev => prev.filter(item => {
     //   console.log(item['CCC No'] === user['CCC No'], 'similar')
 
@@ -394,6 +395,11 @@ const AddEtlPage = () => {
     setEmptyViralLoadDate(prev => prev?.filter(item => item['CCC No'] !== user['CCC No']))
   }
 
+  const handleSkip = (user: LineListInterface) => {
+    setFilteredData((prev) =>
+      prev.filter((item) => item['CCC No'] !== user['CCC No'])
+    )
+  }
   const handleInputChange = (cccNo: string | number, field: string, value: string) => {
     setEmptyViralLoadDate(prev => prev?.map(item => item['CCC No'] === cccNo ? { ...item, [field]: value } : item))
   }
@@ -555,6 +561,7 @@ const AddEtlPage = () => {
                           className="shadow-none"
                           size={'sm'}
                           variant={'ghost'}
+                          onClick={() => { handleSkip(item) }}
                         >
                           Skip
                         </Button>
