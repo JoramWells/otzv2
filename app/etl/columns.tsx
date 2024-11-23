@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type ExtendedLineListInterface } from '@/api/etl/etl.api'
@@ -47,7 +48,9 @@ export interface PatientProps {
   // action?: React.ReactNode
 }
 
-export const linelistColumn = (statuses: Record<string, any>): Array<ColumnDef<ExtendedLineListInterface>> => [
+export const linelistColumn = (
+  statuses: Record<string, any>
+): Array<ColumnDef<ExtendedLineListInterface>> => [
   {
     accessorKey: 'file',
     header: 'file',
@@ -65,7 +68,7 @@ export const linelistColumn = (statuses: Record<string, any>): Array<ColumnDef<E
     header: 'Size',
     cell: ({ row }) => (
       <p className="text-[12px] text-slate-500 ">
-        {(row.original.size / 1024).toFixed(2)} KB
+        {((row.original?.size) != null) && (row.original.size as unknown as number / 1024).toFixed(2)} KB
       </p>
     )
   },
@@ -83,16 +86,17 @@ export const linelistColumn = (statuses: Record<string, any>): Array<ColumnDef<E
     header: 'Success',
     cell: async ({ row }) => {
       const taskID = row.original?.taskID
-      const taskStatus = statuses[taskID]
-      return (Boolean(taskStatus)) &&
-        (
-        <div>
-          <p className="text-[12px] text-slate-500">{taskStatus?.status}</p>
-          {(Boolean((taskStatus?.progress))) && (
-            <Progress percentage={Math.floor(taskStatus?.progress)} />
-          )}
-        </div>
+      const taskStatus = statuses[taskID as string]
+      return (
+        Boolean(taskStatus) && (
+          <div>
+            <p className="text-[12px] text-slate-500">{taskStatus?.status}</p>
+            {Boolean(taskStatus?.progress) && (
+              <Progress percentage={Math.floor(taskStatus?.progress)} />
+            )}
+          </div>
         )
+      )
     }
   },
   {
