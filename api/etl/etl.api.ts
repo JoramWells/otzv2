@@ -4,7 +4,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type LineListCSVInterface } from 'otz-types'
 
 export type ExtendedLineListInterface = LineListCSVInterface & {
-  size: number
   User: {
     firstName: string
     middleName: string

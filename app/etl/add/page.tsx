@@ -32,6 +32,12 @@ import io, { type Socket } from 'socket.io-client'
 
 import UploadSection from '../_components/UploadSection'
 import UpdateUsers from '../_components/UpdateUsers'
+import CustomInput from '@/components/forms/CustomInput'
+import CustomSelect from '@/components/forms/CustomSelect'
+import { CollapseButton } from '@/components/CollapseButton'
+import Avatar from '@/components/Avatar'
+import { calculateAge } from '@/utils/calculateAge'
+import moment from 'moment'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -104,6 +110,58 @@ const requiredHeaders = [
   'NCDs status'
 ]
 
+export interface LineListInterface {
+  id?: string
+  'MFL Code'?: number
+  Name?: string
+  'CCC No'?: string
+  NUPI?: string
+  Sex?: string
+  DOB?: string
+  'Age at reporting'?: string
+  Weight?: string
+  Height?: string
+  'Blood Pressure'?: string
+  'Population Type'?: string
+  'Enrollment Date'?: string
+  'First Regimen'?: string
+  'Current Regimen Line'?: string
+  'Date of Baseline CD4 test'?: string
+  'Latest CD4 Count'?: string
+  'Last WHO Stage'?: string
+  'Last VL Result'?: string
+  'Last VL Justification'?: string
+  'Active in PMTCT'?: boolean
+  'Active in OTZ'?: boolean
+  'TPT Start Date'?: Date | string
+  'TPT Outcome Date'?: Date | string
+  'Differentiated care model'?: string
+  'Next Appointment Date'?: string
+  'Case Manager'?: string
+  NCDs?: string
+  'NCDs Onset Date'?: string
+  'AHD Client'?: string
+  'Medical cover'?: string
+  'Medical cover status'?: string
+  'Date confirmed positive'?: string
+  'Art Start Date'?: string
+  'Current Regimen'?: string
+  'Baseline CD4'?: string
+  'Latest CD4 Count Date '?: string
+  'Last WHO Stage Date'?: string
+  'VL Validility'?: string
+  'Last VL Date'?: string
+  'Active in OVC'?: string
+  'Active in TB'?: string
+  'TPT Outcome'?: string
+  Establishment?: string
+  'Last Visit Date'?: string
+  'Self Visit Date'?: string
+  'Months of Prescription'?: string
+  'Refill Date'?: string
+  'NCDs status'?: string
+}
+
 interface HeaderErrors {
   missingHeaders: string[]
   extraHeaders: string[]
@@ -151,6 +209,7 @@ const AddEtlPage = () => {
   const [csvArray, setCSVArray] = useState<CsvRow[]>([])
   const [file, setFile] = useState<File | undefined>()
   const [error, setError] = useState<string | null>(null)
+  const [emptyViralLoadDate, setEmptyViralLoadDate] = useState<LineListInterface[] | undefined>()
   const [headerErrors, setHeaderErrors] = useState<HeaderErrors>({
     missingHeaders: [],
     extraHeaders: []
@@ -164,8 +223,8 @@ const AddEtlPage = () => {
   //   })
 
   // useEffect(() => {
-  //   const newSocket = io('ws://192.168.100.17:8081', {
-  //     path: '/api/etl/socket.io/ws',
+  //   const newSocket = io('ws://192.168.100.17:8002', {
+  //     path: '/ws/progress/1',
   //     transports: ['websocket']
   //   })
   //   newSocket.on('connect', () => {
@@ -174,7 +233,7 @@ const AddEtlPage = () => {
 
   //   //
   //   newSocket.on('connection_error', (err) => {
-  //     console.log(err)
+  //     console.log(err)s
   //   })
   // }, [])
 
@@ -219,6 +278,9 @@ const AddEtlPage = () => {
             setHeaderErrors({ missingHeaders: [], extraHeaders: [] })
 
             setError(null)
+
+            const emptyViralLoad = res.data.filter(row => row['Last VL Result'].length === 0)
+            setEmptyViralLoadDate(emptyViralLoad)
 
             const filteredRetrievedUsers = res.data.filter((row) => row['Case Manager'].length > 0)
             const retrievedUsers = filteredRetrievedUsers.map((row) => row['Case Manager'])
@@ -286,6 +348,8 @@ const AddEtlPage = () => {
 
   useEffect(() => {
     if (responseData) {
+      console.log(responseData, 'responseData')
+      localStorage.setItem('TASK-response', JSON.stringify(responseData))
       router.push('/etl')
     }
   }, [responseData, router])
@@ -303,6 +367,36 @@ const AddEtlPage = () => {
 
   const uniqueUsers = getUniqueUsers(csvUsers)
   const nullUsers = uniqueUsers.filter(item => !item.exists)
+  const [dateOfVL, setDateOfVL] = useState()
+  const [vlResults, setVLResults] = useState()
+  const [justification, setJustification] = useState()
+
+  const handleSave = (user: LineListInterface) => {
+    setFilteredData((prev) =>
+      prev.map((item) => {
+        return item['CCC No'] === user['CCC No']!
+          ? {
+              ...item,
+              'Last VL Date': user['Last VL Date']!,
+              'Last VL Result': user['Last VL Result']!,
+              'Last VL Justification': user['Last VL Justification']!
+            }
+          : item
+      }
+      )
+    )
+    // setFilteredData(prev => prev.filter(item => {
+    //   console.log(item['CCC No'] === user['CCC No'], 'similar')
+
+    //   return item['CCC No'] === user['CCC No']
+    // }))
+
+    setEmptyViralLoadDate(prev => prev?.filter(item => item['CCC No'] !== user['CCC No']))
+  }
+
+  const handleInputChange = (cccNo: string | number, field: string, value: string) => {
+    setEmptyViralLoadDate(prev => prev?.map(item => item['CCC No'] === cccNo ? { ...item, [field]: value } : item))
+  }
 
   // useEffect(() => {
   //   if (recentUser) {
@@ -350,7 +444,9 @@ const AddEtlPage = () => {
       )}
 
       <div className="flex justify-center items-center flex-row h-screen">
-        {csvArray.length > 0 && nullUsers?.length <= 0 ? (
+        {csvArray.length > 0 &&
+        nullUsers?.length <= 0 &&
+        emptyViralLoadDate?.length === 0 ? (
           <div className="bg-white rounded-lg p-4 w-full">
             <div className="flex justify-end mb-2">
               <div className="flex space-x-2 items-center">
@@ -384,16 +480,120 @@ const AddEtlPage = () => {
               data={filteredData || []}
             />
           </div>
-        ) : nullUsers?.length > 0 ? (
-          <UpdateUsers users={uniqueUsers} hospitalID={authUser?.hospitalID} />
-        ) : (
+            ) : emptyViralLoadDate && emptyViralLoadDate?.length > 0 ? (
+          <div className="h-[350px] overflow-y-auto w-1/2 flex flex-col space-y-2 p-2">
+            {emptyViralLoadDate?.map((item) => {
+              const name = item.Name?.trim().split(', ')
+              const firstName = name?.[1] ?? ''
+              const middleName = name?.[0] ?? ''
+              return (
+                <div
+                  key={item['CCC No']}
+                  className="border border-slate-200 rounded-lg flex flex-col space-y-2"
+                >
+                  <CollapseButton
+                    label={
+                      <div className="flex space-x-2 items-center w-1/2 justify-between">
+                        {/* <Avatar name={`${firstName} ${middleName}`} /> */}
+
+                        <p className="font-semibold">{item.Name}</p>
+                        <p className="text-[12px] text-slate-500">{item.DOB}</p>
+                      </div>
+                    }
+                  >
+                    <div className="flex flex-col rounded-lg bg-white border border-slate-100">
+                      <div className="p-2 pl-4 pr-4">
+                        <label
+                          htmlFor=""
+                          className="text-[14px] font-semibold text-slate-700 mb-2"
+                        >
+                          Results
+                        </label>
+
+                        <Input
+                          // label="Results"
+                          type='number'
+                          onChange={(e) => {
+                            handleInputChange(
+                              item['CCC No']!,
+                              'Last VL Result',
+                              e.target.value
+                            )
+                          }}
+                          defaultValue={0}
+                          value={item['Last VL Result']}
+                          className="shadow-none"
+                        />
+                      </div>
+
+                      {/*  */}
+                      <div className="p-2 pr-4 pl-4">
+                        <label
+                          htmlFor=""
+                          className="text-[14px] font-semibold text-slate-700 mb-2"
+                        >
+                          Date of VL
+                        </label>
+                        <Input
+                          // label="Date"
+                          type="date"
+                          defaultValue={moment().format('YYYY-MM-DD')}
+                          onChange={(e) => {
+                            handleInputChange(
+                              item['CCC No']!,
+                              'Last VL Date',
+                              e.target.value
+                            )
+                          }}
+                          className="shadow-none"
+                          value={item['Last VL Date']}
+                        />
+                      </div>
+
+                      <div className="flex flex-row border-t border-slate-200 justify-end space-x-2 p-2 pl-4 pr-4">
+                        <Button
+                          className="shadow-none"
+                          size={'sm'}
+                          variant={'ghost'}
+                        >
+                          Skip
+                        </Button>
+                        <Button
+                          className="shadow-none"
+                          size={'sm'}
+                          onClick={() => {
+                            handleSave(item)
+                          }}
+                        >
+                          Update
+                        </Button>
+                      </div>
+                    </div>
+                  </CollapseButton>
+                  {/* <div
+                className='bg-slate-100 p-2 rounded-t-lg border-b border-slate-200'
+                >
+                  <p>{item.Name}</p>
+                </div> */}
+                </div>
+              )
+            })}
+          </div>
+            ) : nullUsers.length > 0 ? (
+          <UpdateUsers
+            users={uniqueUsers}
+            hospitalID={authUser?.hospitalID}
+            handleSubmit={handleSubmit}
+            isLoading={isAddUserLoading}
+          />
+            ) : (
           <>
             {/* {headerErrors.extraHeaders.length > 0 ||
               (headerErrors.missingHeaders.length > 0 && ( */}
-                <UploadSection onChange={handleFileChange} />
-              {/* // ))} */}
+            <UploadSection onChange={handleFileChange} />
+            {/* // ))} */}
           </>
-        )}
+            )}
       </div>
     </div>
   )

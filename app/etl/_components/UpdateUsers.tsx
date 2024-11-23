@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useAddUserMutation } from '@/api/users/users.api'
@@ -15,16 +16,20 @@ interface CheckUserInterface {
 interface UpdateUsersProfile {
   users: CheckUserInterface[]
   hospitalID?: string
+  handleSubmit: () => {}
+  isLoading: boolean
 }
 
 const UpdateUsers = ({
   users,
-  hospitalID
+  hospitalID,
+  handleSubmit,
+  isLoading
 
 }: UpdateUsersProfile) => {
   const [recentUser, setRecentUser] = useState<UserInterface>()
   const router = useRouter()
-  const [addUser, { isLoading, data: savedUserData }] = useAddUserMutation()
+  const [addUser, { isLoading: isLoadingSaveUser, data: savedUserData }] = useAddUserMutation()
 
   const { toast } = useToast()
 
@@ -67,66 +72,87 @@ const UpdateUsers = ({
             The following list of {users?.length} users need to be registered.
           </p>
         </div>
-        {localUsers.map((item, idx) => (
-          <div key={item.user} className="flex space-x-2 items-center">
-            <p>{idx + 1}.</p>
-            <div className="flex flex-1 justify-between items-center border h-10 rounded-lg border-slate-200 p-2">
-              <p className="text-[12px] font-bold">{item.user}</p>
-              <div className="flex items-center space-x-2 w-1/2 justify-between">
-                {item.exists ||
-                `${recentUser?.firstName} ${recentUser?.middleName}`
-                  .trim()
-                  .toLowerCase() === item.user.trim().toLowerCase()
-                  ? (
-                  <div className="flex items-center space-x-2 text-emerald-500 text-[12px] ">
-                    <CircleCheck size={16} />
-                    <p>Registered</p>
-                  </div>
-                    )
-                  : (
-                  <div className="flex items-center space-x-2 text-red-500 text-[12px] ">
-                    <X className="" size={16} />
-                    <p>Not Registered</p>
-                  </div>
-                    )}
-                {!item.exists && (
-                  <Button
-                    size={'sm'}
-                    disabled={isLoading}
-                    onClick={async () => {
-                      const reverseName = (name: string) => {
-                        const parts = name.trim().split(' ')
-                        const reversed = parts.reverse()
-                        return {
-                          reversedName: reversed.join(' '),
-                          firstName: reversed[1] || '',
-                          lastName: reversed[0] || ''
-                        }
-                      }
 
-                      const { firstName, lastName } = reverseName(item.user)
+        {localUsers.filter((item) => !item.exists).length === 0
+          ? (
+          <Button className="" size={'sm'} onClick={handleSubmit}
+          disabled={isLoading}
+          >
+            {isLoading &&
+            <Loader2 size={16} className='mr-2' />
+            }
+            Upload File
+          </Button>
+            ) : (
+          <div className="w-full h-[350px] flex flex-col space-y-1 overflow-y-auto p-1">
+            {localUsers
+              .filter((item) => !item.exists)
+              .map((item, idx) => (
+                <div key={item.user} className="flex space-x-2 items-center">
+                  <div className="w-1/8">
+                    <p>{idx + 1}.</p>
+                  </div>
+                  <div className="flex flex-1 justify-between items-center border h-10 rounded-lg border-slate-200 p-2">
+                    <p className="text-[12px] font-bold">{item.user}</p>
+                    <div className="flex items-center space-x-2 w-1/2 justify-between">
+                      {item.exists ||
+                      `${recentUser?.firstName} ${recentUser?.middleName}`
+                        .trim()
+                        .toLowerCase() === item.user.trim().toLowerCase()
+                        ? (
+                        <div className="flex items-center space-x-2 text-emerald-500 text-[12px] ">
+                          <CircleCheck size={16} />
+                          <p>Registered</p>
+                        </div>
+                          )
+                        : (
+                        <div className="flex items-center space-x-2 text-red-500 text-[12px] ">
+                          <X className="" size={16} />
+                          <p>Not Registered</p>
+                        </div>
+                          )}
+                      {!item.exists && (
+                        <Button
+                          size={'sm'}
+                          // disabled={isLoadingsa}
+                          onClick={async () => {
+                            const reverseName = (name: string) => {
+                              const parts = name.trim().split(' ')
+                              const reversed = parts.reverse()
+                              return {
+                                reversedName: reversed.join(' '),
+                                firstName: reversed[1] || '',
+                                lastName: reversed[0] || ''
+                              }
+                            }
 
-                      await addUser({
-                        firstName,
-                        middleName: lastName,
-                        hospitalID
-                      })
-                    }}
-                  >
-                    {isLoading && (
-                      <Loader2 className="animate-spin" size={16} />
-                    )}
-                    {`${recentUser?.firstName} ${recentUser?.middleName}`
-                      .trim()
-                      .toLowerCase() === item.user.trim().toLowerCase()
-                      ? 'Saved'
-                      : 'Save'}
-                  </Button>
-                )}
-              </div>
-            </div>
+                            const { firstName, lastName } = reverseName(
+                              item.user
+                            )
+
+                            await addUser({
+                              firstName,
+                              middleName: lastName,
+                              hospitalID
+                            })
+                          }}
+                        >
+                          {isLoadingSaveUser && (
+                            <Loader2 className="animate-spin" size={16} />
+                          )}
+                          {`${recentUser?.firstName} ${recentUser?.middleName}`
+                            .trim()
+                            .toLowerCase() === item.user.trim().toLowerCase()
+                            ? 'Saved'
+                            : 'Save'}
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
           </div>
-        ))}
+            )}
         <Button
           className="shadow-none absolute top-2 right-2 border-2 border-white hover:bg-slate-50 hover:text-slate-700 "
           variant={'ghost'}

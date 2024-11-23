@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -9,7 +11,7 @@ import dynamic from 'next/dynamic'
 
 import { CustomTable } from '@/app/_components/table/CustomTable'
 // import { type DateRange } from 'react-day-picker'
-import { useGetAllETLQuery } from '@/api/etl/etl.api'
+import { type ExtendedLineListInterface, useGetAllETLQuery } from '@/api/etl/etl.api'
 import { linelistColumn } from './columns'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
@@ -17,6 +19,7 @@ import { type UserInterface } from 'otz-types'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { Badge } from '@/components/ui/badge'
+import axios from 'axios'
 //
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -38,9 +41,14 @@ const dataList = [
   }
 ]
 
+const fetchData = async (taskID: string) => {
+  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/etl/task-status/${taskID}/`)
+  // console.log(data, 'progress')
+  return data
+}
+
 const ETL = () => {
   const [user, setUser] = useState<UserInterface>()
-
   const { data: session } = useSession()
 
   useEffect(() => {
@@ -49,16 +57,45 @@ const ETL = () => {
       setUser(user as UserInterface)
     }
   }, [session])
+
+  const [etlData, setEtlData] = useState<ExtendedLineListInterface[]>([])
   const { data, isLoading } = useGetAllETLQuery({
     hospitalID: user?.hospitalID as string
   })
 
-  const filteredArray = data ? [...data] : []
+  // useEffect(() => {
+
+  //   // console.log(uploadedFile, 'uploadedFile')
+  //   // item.file === uploadedFile?.replace(prefix, '') && console.log(item.file)
+  // }, [data])
+  const [statuses, setStatuses] = useState({})
+
+  useEffect(() => {
+    if (data) {
+      setEtlData(data);
+      //
+      (async () => {
+        const statusData = await Promise.all(
+          data?.map(async (item) => {
+            if (item.taskID) {
+              const response = await fetchData(item.taskID)
+              return { [item.taskID]: response }
+            }
+          })
+        )
+        setStatuses(Object.assign({}, ...statusData))
+      })()
+    }
+  }, [data])
+
+  const filteredArray = etlData ? [...etlData] : []
   filteredArray.sort(
     (a, b) =>
       new Date(b.createdAt as unknown as string).getTime() -
         new Date(a.createdAt as unknown as string).getTime()
   )
+
+  console.log(filteredArray)
 
   // const handleFilter = (range: DateRange | undefined) => {
   //   const dataFiltered = csvArray.filter((item) => {
@@ -105,7 +142,8 @@ const ETL = () => {
               >{data?.length}</Badge>
             </div>
             <CustomTable
-              columns={linelistColumn}
+            isSearch={false}
+              columns={linelistColumn(statuses)}
               isLoading={isLoading}
               data={filteredArray ?? []}
             />

@@ -5,7 +5,7 @@ import { type ReactNode, useState } from 'react'
 import { Button } from '@/components/ui/button'
 
 interface CollapseButtonProps {
-  label: string
+  label: ReactNode
   children: ReactNode
 }
 
@@ -24,10 +24,10 @@ export const CollapseButton = ({
       <Button
         onClick={onToggle}
         className={`flex items-center justify-between text-slate-600 text-sm w-full bg-white
-        hover:cursor-pointer  hover:bg-slate-50 hover:text-slate-500 p-2 rounded-lg ${visible && 'bg-slate-100 border '}
+        hover:cursor-pointer  hover:bg-slate-50 hover:text-slate-500 p-2 rounded-lg ${visible && 'bg-slate-50 border-b border-slate-200 rounded-b-none '}
         `}
       >
-          <p className={'text-[14px] text-slate-500 font-normal'}>{label}</p>
+          {label}
 
         {visible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
       </Button>
@@ -35,7 +35,7 @@ export const CollapseButton = ({
       {visible && (
           <div
             className={
-              'duration-100 p-2 w-full bg-slate-50 rounded-lg mt-1 mb-2'
+              'duration-100 p-2 w-full rounded-t-none rounded-lg mb-2'
             }
           >
             {children}
