@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -50,18 +51,18 @@ const HomeVisitAdd = () => {
       setUser(user as UserInterface)
     }
   }, [session])
-  const { data: patientData } = useGetAllPatientsQuery({
-    hospitalID: user?.hospitalID as string
-  })
+  // const { data: patientData } = useGetAllPatientsQuery({
+  //   hospitalID: user?.hospitalID as string
+  // })
   const [patientID, setPatientID] = useState()
-  const patientDataOptions = useCallback(() => {
-    return (
-      patientData?.map((item: PatientAttributes) => ({
-        id: item.id as string,
-        label: `${item.firstName} ${item.middleName}`
-      })) ?? []
-    )
-  }, [patientData])()
+  // const patientDataOptions = useCallback(() => {
+  //   return (
+  //     patientData?.map((item: PatientAttributes) => ({
+  //       id: item.id as string,
+  //       label: `${item.firstName} ${item.middleName}`
+  //     })) ?? []
+  //   )
+  // }, [patientData])()
 
   //
   const [homeVisitReason, setHomeVisitReason] = useState('')
@@ -147,12 +148,12 @@ const HomeVisitAdd = () => {
                 </p>
               </div>
             </div>
-            <CustomSelect
+            {/* <CustomSelect
               label="Select Patient"
               onChange={setPatientID}
               value={patientID as unknown as string }
               data={patientDataOptions ?? []}
-            />
+            /> */}
           </div>
 
           {/*  */}
