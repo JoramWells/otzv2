@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
@@ -27,28 +28,28 @@ const HeaderTitle = ({ title, link, label = '' }: HeaderTitleProps) => {
       setUser(user as UserInterface)
     }
   }, [session])
-  const { data: patientData } = useGetAllPatientsQuery({
-    hospitalID: user?.hospitalID as string
-  })
+  // const { data: patientData } = useGetAllPatientsQuery({
+  //   hospitalID: user?.hospitalID as string
+  // })
   const router = useRouter()
 
-  const dataOptions = useCallback(() => {
-    return patientData?.map((item: any) => ({
-      id: item.id,
-      label: item.firstName
-    }))
-  }, [patientData])
+  // const dataOptions = useCallback(() => {
+  //   return patientData?.map((item: any) => ({
+  //     id: item.id,
+  //     label: item.firstName
+  //   }))
+  // }, [patientData])
 
   return (
     <div className="p-2 pl-4 pr-2 bg-white flex flex-row justify-between items-center   mt-2">
       <h1 className="text text-xl font-bold text-slate-700">{title} </h1>
       <CaseManagerDialog label={label}>
-        <CustomSelect
+        {/* <CustomSelect
           label="Select Patient Name"
           value={patientID}
           onChange={setPatientID}
           data={dataOptions() as DataItem[]}
-        />
+        /> */}
         <Button
           className="bg-teal-600 hover:bg-teal-700 shadow-none"
           disabled={patientID.length === 0}
