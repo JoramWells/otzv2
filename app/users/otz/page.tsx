@@ -68,7 +68,7 @@ const OTZ = () => {
     hospitalID: authUser?.hospitalID as string,
   })
 
-  const [responseData, setResponseData] = useState<OTZEnrollmentResponseInterface | undefined>()
+  const [responseData, setResponseData] = useState<ExtendedOTZEnrollment[] | undefined>()
 
   async function fetchPatientData (
     hospitalID: string | undefined,
