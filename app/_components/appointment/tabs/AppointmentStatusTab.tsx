@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { CustomTable } from '../../table/CustomTable'
+// import { CustomTable } from '../../table/CustomTable'
 import { CalendarDays } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import Calendar from '../../calendar/Calendar'
+// import Calendar from '../../calendar/Calendar'
 import { type ColumnDef } from '@tanstack/react-table'
 import { type ColumnProps } from '@/app/notify/columns'
 // import { type ColumnProps } from '@/app/appointment/columns'
@@ -31,9 +31,9 @@ const AppointmentStatusTab = ({ data, columns }: AppointmentTabProps) => {
           NEW
         </Button>
       </div>
-      {isCalendarVisible
+      {/* {isCalendarVisible
         ? <Calendar data={data} />
-        : <CustomTable data={data} columns={columns} />}
+        : <CustomTable data={data} columns={columns} />} */}
     </div>
   )
 }
