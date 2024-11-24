@@ -36,22 +36,29 @@ import {
 } from '@tanstack/react-table'
 import { BookOpen, ChevronsLeft, ChevronsRight, FileDown } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { type ReactNode, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { type ChangeEvent, type Dispatch, type ReactNode, type SetStateAction, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
-
 export interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
   isSearch?: boolean
   isLoading?: boolean
+  total?: number
   filter?: ReactNode
+  search: string
+  setSearch: Dispatch<SetStateAction<string>>
+  debounceSearch: (value: string) => void
 }
 export function CustomTable<TData, TValue> ({
   data,
   columns,
   isSearch = true,
   isLoading = false,
-  filter
+  filter,
+  total,
+  search,
+  setSearch,
+  debounceSearch
 }: CustomTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -68,16 +75,27 @@ export function CustomTable<TData, TValue> ({
     maxWidth: 400
   }), [])
 
+  const pageParams = useSearchParams()
+  const page = pageParams.get('page')
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSearch(value)
+    debounceSearch(value)
+  }
+
   const table = useReactTable({
     data,
     columns,
     columnResizeMode,
+    pageCount: total && Math.ceil(total / 10),
     columnResizeDirection: 'rtl',
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
     onRowSelectionChange: setRowSelection,
     onColumnVisibilityChange: setColumnVisibility,
     enableSorting: true,
@@ -87,11 +105,11 @@ export function CustomTable<TData, TValue> ({
       sorting,
       columnVisibility,
       rowSelection,
-      columnFilters
+      columnFilters,
+      pagination: { pageIndex: page as unknown as number - 1, pageSize: 10 }
     }
   })
-  const pageParams = useSearchParams()
-  const page = pageParams.get('page')
+
   const pathname = usePathname()
   const router = useRouter()
 
@@ -114,7 +132,7 @@ export function CustomTable<TData, TValue> ({
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      {isSearch && !isLoading && (
+      {isSearch && (
         <div
           className="flex flex-row justify-between items-center
         p-4
@@ -125,12 +143,14 @@ export function CustomTable<TData, TValue> ({
             className="border border-slate-200 h-8 rounded-lg p-2 pl-4
             text-[12px]
             "
-            value={
-              (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
-            }
-            onChange={(event) =>
-              table.getColumn('firstName')?.setFilterValue(event.target.value)
-            }
+            value={search}
+            onChange={handleSearch}
+            // value={
+            //   (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
+            // }
+            // onChange={(event) =>
+            //   table.getColumn('firstName')?.setFilterValue(event.target.value)
+            // }
           />
 
           <div className="flex flex-row space-x-4 items-center">
@@ -190,22 +210,17 @@ export function CustomTable<TData, TValue> ({
       >
         {isLoading ? (
           <Table>
-            <TableHeader>
-              <TableRow>
-                <Skeleton className='p-4 rounded-full mb-2' />
-              </TableRow>
-            </TableHeader>
-            {Array.from({ length: 10 }).map((item, i) => (
-              <TableRow
-              key={i}
-              >
-                {Array.from({ length: 10 }).map((item, i) => (
-                  <TableCell key={i}>
-                    <Skeleton className="p-2" />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+            <TableBody>
+              {Array.from({ length: 10 }).map((item, i) => (
+                <TableRow key={i}>
+                  {Array.from({ length: 10 }).map((item, i) => (
+                    <TableCell key={i}>
+                      <Skeleton className="p-2" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
           </Table>
         ) : (
           <>

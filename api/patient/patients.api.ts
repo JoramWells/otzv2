@@ -27,6 +27,12 @@ type PostsResponse = Post[]
 //   }
 // }
 
+export interface PatientInputParams {
+  hospitalID: string
+  page: number
+  pageSize: number
+}
+
 export const patientsApi = createApi({
   reducerPath: 'patientsApi',
   baseQuery: fetchBaseQuery({
@@ -41,11 +47,15 @@ export const patientsApi = createApi({
     // }
   }),
   endpoints: (builder) => ({
-    getAllPatients: builder.query<PatientAttributes[], { hospitalID: string }>({
+    getAllPatients: builder.query<PatientAttributes[], PatientInputParams>({
       query: (params) => {
         if (params) {
-          const { hospitalID } = params
-          return `/fetchAll?hospitalID=${hospitalID}`
+          const { hospitalID, page, pageSize } = params
+          let queryString = ''
+          queryString += `hospitalID=${hospitalID}`
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          return `/fetchAll?${queryString}`
         }
         return 'fetchAll'
       }

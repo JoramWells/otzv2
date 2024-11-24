@@ -396,8 +396,8 @@ const AddEtlPage = () => {
   }
 
   const handleSkip = (user: LineListInterface) => {
-    setFilteredData((prev) =>
-      prev.filter((item) => item['CCC No'] !== user['CCC No'])
+    setEmptyViralLoadDate((prev) =>
+      prev?.filter((item) => item['CCC No'] !== user['CCC No'])
     )
   }
   const handleInputChange = (cccNo: string | number, field: string, value: string) => {

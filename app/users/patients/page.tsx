@@ -1,26 +1,28 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { CustomTable } from '../../_components/table/CustomTable'
 // import { Button } from '@/components/ui/button'
 // import { PlusCircle } from 'lucide-react'
 // import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { patientColumns } from './_components/columns'
 import { Button } from '@/components/ui/button'
 import { ListFilter, PlusCircle } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import { type UserInterface, type PatientAttributes } from 'otz-types'
 import { calculateAge } from '@/utils/calculateAge'
 import CustomTab from '@/components/tab/CustomTab'
-import { useSession } from 'next-auth/react'
+import { useUserContext } from '@/context/UserContext'
+import debounce from 'lodash/debounce'
+import axios from 'axios'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -78,39 +80,90 @@ const FilterComponent = () => {
   )
 }
 
+export interface ExtendedPatientAttribute {
+  data: PatientAttributes[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
+
 const Patients = () => {
   // const datax = await getPatients()
 
   const [user, setUser] = useState<UserInterface>()
+  const { authUser } = useUserContext()
+  const [search, setSearch] = useState('')
 
-  const { data: session } = useSession()
+  const searchParams = useSearchParams()
+  const [patientData, setPatientData] = useState<PatientAttributes[] | undefined>([])
+  const [patientTotal, setPatientTotal] = useState<number | undefined>(0)
+  const [loading, setLoading] = useState(false)
+
+  async function fetchPatientData (hospitalID: string | undefined, page: number, pageSize: number, searchQuery: string | undefined): Promise<ExtendedPatientAttribute | undefined> {
+    try {
+      setLoading(true)
+      const { data } = await axios.get<ExtendedPatientAttribute | undefined>(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/patients/fetchAll`,
+        {
+          params: {
+            hospitalID,
+            page,
+            pageSize,
+            searchQuery
+          }
+        }
+      )
+      setLoading(false)
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const page = searchParams.get('page')
+
+  const debounceSearch = useMemo(() => {
+    // setSearch(value)
+
+    return debounce(async (value: string) => {
+      const data = await fetchPatientData(authUser?.hospitalID, parseInt(page as string, 10), 10, value)
+      setPatientData(data?.data)
+      setPatientTotal(data?.total)
+    }, 500)
+  }, [authUser?.hospitalID, page])
 
   useEffect(() => {
-    if (session) {
-      const { user } = session
-      setUser(user as UserInterface)
-    }
-  }, [session])
-  const { data, isLoading } = useGetAllPatientsQuery({
-    hospitalID: user?.hospitalID as string
-  })
-  const filteredArray: PatientAttributes[] = data ? [...data] : []
-  filteredArray.sort(
-    (a, b) => new Date(b.createdAt as unknown as string).getTime() - new Date(a.createdAt as unknown as string).getTime()
-  )
+    return () => debounceSearch.cancel()
+  }, [debounceSearch])
 
-  const otzPatients = filteredArray.filter(item => calculateAge(item.dob) <= 25)
+  useEffect(() => {
+    (async () => {
+      if (page && authUser?.hospitalID) {
+        const data = await fetchPatientData(authUser?.hospitalID, parseInt(page, 10), 10, '')
+        setPatientData(data?.data)
+        setPatientTotal(data?.total)
+      }
+    })()
+  }, [authUser?.hospitalID, page, searchParams])
 
-  const zeroToNine = otzPatients.filter((item) => calculateAge(item.dob) <= 9)
-  const tenToFourteen = otzPatients.filter(
+  // const { data, isLoading } = useGetAllPatientsQuery({
+  //   hospitalID: authUser?.hospitalID as string,
+  //   page: (page && (page as unknown as number)) ?? 1,
+  //   pageSize: 10
+  // })
+
+  const otzPatients = patientData?.filter(item => calculateAge(item.dob) <= 25)
+
+  const zeroToNine = otzPatients?.filter((item) => calculateAge(item.dob) <= 9)
+  const tenToFourteen = otzPatients?.filter(
     (item) => calculateAge(item.dob) >= 10 && calculateAge(item.dob) <=
  14)
 
-  const fifteenToNineteen = otzPatients.filter(
+  const fifteenToNineteen = otzPatients?.filter(
     (item) => calculateAge(item.dob) >= 15 && calculateAge(item.dob) <= 19
   )
 
-  const twentyPlus = otzPatients.filter(
+  const twentyPlus = otzPatients?.filter(
     (item) => calculateAge(item.dob) >= 20
   )
 
@@ -122,28 +175,28 @@ const Patients = () => {
     {
       id: 0,
       label: 'All',
-      count: otzPatients.length
+      count: otzPatients?.length
     },
     {
       id: 1,
       label: '0-9 years',
-      count: zeroToNine.length
+      count: zeroToNine?.length
     },
     {
       id: 2,
       label: '10-14 years',
       count:
-      tenToFourteen.length
+      tenToFourteen?.length
     },
     {
       id: 3,
       label: '15-19 years',
-      count: fifteenToNineteen.length
+      count: fifteenToNineteen?.length
     },
     {
       id: 4,
       label: '20+ years',
-      count: twentyPlus.length
+      count: twentyPlus?.length
     }
   ]
 
@@ -153,11 +206,11 @@ const Patients = () => {
     <>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="flex flex-row justify-between items-center bg-white  mt-2 pr-2">
-          <CustomTab
-            categoryList={categoryList}
-            setValue={setTabValue}
-            value={tabValue}
-          />
+        <CustomTab
+          categoryList={categoryList}
+          setValue={setTabValue}
+          value={tabValue}
+        />
         <Button
           className="bg-teal-600 hover:bg-teal-700
         font-bold shadow-none
@@ -183,8 +236,12 @@ const Patients = () => {
             </div>
             <CustomTable
               columns={patientColumns}
-              data={otzPatients || []}
-              isLoading={isLoading}
+              data={patientData ?? []}
+              total={patientTotal}
+              isLoading={loading}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />
@@ -202,8 +259,12 @@ const Patients = () => {
             </div>
             <CustomTable
               columns={patientColumns}
-              data={zeroToNine || []}
-              isLoading={isLoading}
+              data={zeroToNine ?? []}
+              total={patientTotal}
+              isLoading={loading}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />
@@ -214,15 +275,21 @@ const Patients = () => {
         {tabValue === '10-14 years' && (
           <div className="bg-white rounded-lg">
             <div className="p-4 pb-0">
-              <p className="text-slate-700 text-[16px] ">10 years -- 14 years</p>
+              <p className="text-slate-700 text-[16px] ">
+                10 years -- 14 years
+              </p>
               <p className="text-[12px] text-slate-500">
                 A list of patient 10 between 14 years and above.
               </p>
             </div>
             <CustomTable
               columns={patientColumns}
-              data={tenToFourteen || []}
-              isLoading={isLoading}
+              data={tenToFourteen ?? []}
+              total={patientTotal}
+              isLoading={loading}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />
@@ -233,15 +300,21 @@ const Patients = () => {
         {tabValue === '15-19 years' && (
           <div className="bg-white rounded-lg">
             <div className="p-4 pb-0">
-              <p className="text-slate-700 text-[16px] ">15 years -- 19 years</p>
+              <p className="text-slate-700 text-[16px] ">
+                15 years -- 19 years
+              </p>
               <p className="text-[12px] text-slate-500">
                 A list of patient 15 between 19 years and above.
               </p>
             </div>
             <CustomTable
               columns={patientColumns}
-              data={fifteenToNineteen || []}
-              isLoading={isLoading}
+              data={fifteenToNineteen ?? []}
+              total={patientTotal}
+              isLoading={loading}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />
@@ -259,9 +332,12 @@ const Patients = () => {
             </div>
             <CustomTable
               columns={patientColumns}
-              data={twentyPlus || []}
-
-              isLoading={isLoading}
+              data={twentyPlus ?? []}
+              total={patientTotal}
+              isLoading={loading}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />
