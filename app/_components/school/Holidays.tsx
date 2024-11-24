@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import React, { useState } from 'react'
-import { CustomTable } from '../table/CustomTable'
+// import { CustomTable } from '../table/CustomTable'
 import { Map } from 'lucide-react'
 import { Button } from '@chakra-ui/react'
 // import MapComponent from '../map/MapComponent'
 // import useCurrentLocation from '@/hooks/useCurrentLocation'
-import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
-import { holidaysColumn } from '@/app/administrator/schools/columns'
+// import { useGetAllSchoolTermHolidaysQuery } from '@/api/school/schoolTermHoliday.api'
+// import { holidaysColumn } from '@/app/administrator/schools/columns'
 
 interface SchoolProps {
   handleClick: (value: number) => void
@@ -17,7 +17,7 @@ interface SchoolProps {
 const Holidays = ({ handleClick, value }: SchoolProps) => {
   const [isMapVisible, setIsMapVisible] = useState(false)
   // const currentLocation = useCurrentLocation()
-  const { data: holidaysData } = useGetAllSchoolTermHolidaysQuery()
+  // const { data: holidaysData } = useGetAllSchoolTermHolidaysQuery()
 
   // get current location
   return (
@@ -56,7 +56,7 @@ const Holidays = ({ handleClick, value }: SchoolProps) => {
         <MapComponent center={currentLocation} />
           )
         : ( */}
-        <CustomTable columns={holidaysColumn} data={holidaysData ?? []} />
+        {/* <CustomTable columns={holidaysColumn} data={holidaysData ?? []} /> */}
           {/* // )} */}
     </div>
   )
