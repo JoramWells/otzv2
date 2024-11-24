@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { Button } from '@chakra-ui/react'
 import CustomSelect from '@/components/forms/CustomSelect'
-import Select from 'react-select'
-import { useGetAllPatientsQuery } from '../../../api/patient/patients.api'
-import axios from 'axios'
+// import Select from 'react-select'
+// import { useGetAllPatientsQuery } from '../../../api/patient/patients.api'
+// import axios from 'axios'
 import { type MomentInput } from 'moment'
 import { Info } from 'lucide-react'
 import ViralLoadStatusComponent from './ViralLoadStatusComponent'
@@ -17,10 +18,10 @@ import { type UserInterface, type PrescriptionInterface } from 'otz-types'
 import { useSession } from 'next-auth/react'
 // import { useRouter } from 'next/router'
 
-interface InputProps {
-  id: string
-  label: string
-}
+// interface InputProps {
+//   id: string
+//   label: string
+// }
 
 export interface VLDataProps {
   id: string
@@ -29,11 +30,11 @@ export interface VLDataProps {
   isVLValid: boolean
 }
 
-const getArtPrescription = async (id: string): Promise<[PrescriptionInterface, VLDataProps]> => {
-  const prescriptionResponse = await axios.get<PrescriptionInterface>(`${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription/detail/${id}`)
-  const vlResponse = await axios.get<VLDataProps>(`${process.env.NEXT_PUBLIC_API_URL}/api/lab/viral-load-tests/detail/${id}`)
-  return [prescriptionResponse.data, vlResponse.data]
-}
+// const getArtPrescription = async (id: string): Promise<[PrescriptionInterface, VLDataProps]> => {
+//   const prescriptionResponse = await axios.get<PrescriptionInterface>(`${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription/detail/${id}`)
+//   const vlResponse = await axios.get<VLDataProps>(`${process.env.NEXT_PUBLIC_API_URL}/api/lab/viral-load-tests/detail/${id}`)
+//   return [prescriptionResponse.data, vlResponse.data]
+// }
 
 export interface PrimaryCaregiverProps {
   setPrimaryCaregiverID: (val: string) => void
@@ -56,42 +57,42 @@ const PrimaryCareGiver = ({
       setUser(user as UserInterface)
     }
   }, [session])
-  const { data: caregiverData } = useGetAllPatientsQuery({
-    hospitalID: user?.hospitalID as string
-  })
+  // const { data: caregiverData } = useGetAllPatientsQuery({
+  //   hospitalID: user?.hospitalID as string
+  // })
   // const { data: artPrescriptionData } = useGetArtPrescriptionQuery(patientID)
 
   const [currentRegimenLine, setCurrentRegimenLine] = useState('')
-  const [caregiverID, setCaregiverID] = useState<InputProps | null>(null)
+  // const [caregiverID, setCaregiverID] = useState<InputProps | null>(null)
   const [prescriptionData, setPrescriptionData] =
     useState<PrescriptionInterface | undefined>()
   const [vlData, setVLData] = useState<VLDataProps | null>(null)
 
-  const handleChange = useCallback(
-    async (val: InputProps) => {
-      setCaregiverID(val)
-      setPrimaryCaregiverID(val.id)
-      const [prescription, vl] = await getArtPrescription(val.id)
-      setPrimaryCaregiverPrescriptionStatus(prescription)
-      setPrescriptionData(prescription)
-      setVLData(vl)
-      setPrimaryCaregiverVLStatus(vl)
-    },
-    [
-      setPrimaryCaregiverID,
-      setPrimaryCaregiverPrescriptionStatus,
-      setPrimaryCaregiverVLStatus
-    ]
-  )
+  // const handleChange = useCallback(
+  //   async (val: InputProps) => {
+  //     setCaregiverID(val)
+  //     setPrimaryCaregiverID(val.id)
+  //     const [prescription, vl] = await getArtPrescription(val.id)
+  //     setPrimaryCaregiverPrescriptionStatus(prescription)
+  //     setPrescriptionData(prescription)
+  //     setVLData(vl)
+  //     setPrimaryCaregiverVLStatus(vl)
+  //   },
+  //   [
+  //     setPrimaryCaregiverID,
+  //     setPrimaryCaregiverPrescriptionStatus,
+  //     setPrimaryCaregiverVLStatus
+  //   ]
+  // )
 
   // const { data: lineData } = useGetAllArtRegimenPhaseQuery()
 
-  const caregiverOptions = useCallback(() => {
-    return caregiverData?.map((item: any) => ({
-      id: item.id,
-      label: `${item.firstName} ${item.middleName}`
-    }))
-  }, [caregiverData])
+  // const caregiverOptions = useCallback(() => {
+  //   return caregiverData?.map((item: any) => ({
+  //     id: item.id,
+  //     label: `${item.firstName} ${item.middleName}`
+  //   }))
+  // }, [caregiverData])
 
   return (
     <div
@@ -108,11 +109,11 @@ const PrimaryCareGiver = ({
             </p>
           </div>
         </div>
-        <Select
+        {/* <Select
           value={caregiverID}
           onChange={(val) => handleChange(val as unknown as InputProps)}
           options={caregiverOptions()}
-        />
+        /> */}
       </div>
 
       <ViralLoadStatusComponent viralLoadData={vlData} />
