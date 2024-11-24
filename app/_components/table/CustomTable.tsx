@@ -45,9 +45,9 @@ export interface CustomTableProps<TData, TValue> {
   isLoading?: boolean
   total?: number
   filter?: ReactNode
-  search: string
-  setSearch: Dispatch<SetStateAction<string>>
-  debounceSearch: (value: string) => void
+  search?: string
+  setSearch?: Dispatch<SetStateAction<string>>
+  debounceSearch?: (value: string) => void
 }
 export function CustomTable<TData, TValue> ({
   data,
@@ -80,8 +80,8 @@ export function CustomTable<TData, TValue> ({
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    setSearch(value)
-    debounceSearch(value)
+    setSearch && setSearch(value)
+    debounceSearch && debounceSearch(value)
   }
 
   const table = useReactTable({

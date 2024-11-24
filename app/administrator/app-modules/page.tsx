@@ -1,11 +1,11 @@
 'use client'
 
 import { useGetAllAppModulesQuery } from '@/api/appModules/appModules.api'
-import { CustomTable } from '@/app/_components/table/CustomTable'
+// import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import React from 'react'
-import { columns } from './columns'
+// import { columns } from './columns'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 const dataList2 = [
   {
@@ -43,7 +43,7 @@ const AppModulesPage = () => {
       </div>
       <div className="p-2">
         <div className="bg-white rounded-lg p-4">
-          <CustomTable columns={columns} data={data ?? []} />
+          {/* <CustomTable columns={columns} data={data ?? []} /> */}
         </div>
       </div>
     </div>
