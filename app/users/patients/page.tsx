@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -136,7 +135,7 @@ const Patients = () => {
   }, [debounceSearch])
 
   useEffect(() => {
-    (async () => {
+    void (async () => {
       if (page && authUser?.hospitalID) {
         const data = await fetchPatientData(authUser?.hospitalID, parseInt(page, 10), 10, '')
         setPatientData(data?.data)

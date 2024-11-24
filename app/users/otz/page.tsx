@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/comma-dangle */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -115,7 +114,7 @@ const OTZ = () => {
   }, [debounceSearch])
 
   useEffect(() => {
-    (async () => {
+    void (async () => {
       if (page && authUser?.hospitalID) {
         const data = await fetchPatientData(
           authUser?.hospitalID,

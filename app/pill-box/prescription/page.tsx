@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -121,7 +120,7 @@ const PrescriptionPage = () => {
   }, [debounceSearch])
 
   useEffect(() => {
-    (async () => {
+    void (async () => {
       if (page && user?.hospitalID) {
         const data = await fetchPatientData(
           user?.hospitalID,
