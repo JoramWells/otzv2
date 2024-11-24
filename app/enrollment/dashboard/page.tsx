@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -71,21 +72,21 @@ const Dashboard = () => {
     }
   }, [session])
 
-  const { data } = useGetAllPatientsQuery({
-    hospitalID: user?.hospitalID as string
-  })
+  // const { data } = useGetAllPatientsQuery({
+  //   hospitalID: user?.hospitalID as string
+  // })
 
-  const ageRanges: Array<[number, number]> = [[0, 9], [10, 19], [20, 24], [25, Infinity]]
+  // const ageRanges: Array<[number, number]> = [[0, 9], [10, 19], [20, 24], [25, Infinity]]
 
-  const pieChartData = {
-    labels: ['Paediatric', 'OTZ', 'OTZ Plus', 'Adult'],
-    datasets: [
-      {
-        data: calculateAgeRange(data || [], ageRanges),
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-      }
-    ]
-  }
+  // const pieChartData = {
+  //   labels: ['Paediatric', 'OTZ', 'OTZ Plus', 'Adult'],
+  //   datasets: [
+  //     {
+  //       data: calculateAgeRange(data || [], ageRanges),
+  //       backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+  //     }
+  //   ]
+  // }
 
   //
   // const barCharData = {
@@ -161,7 +162,7 @@ const Dashboard = () => {
         <p className='font-bold'>Dashboard Analytics</p>
 
         <div className="flex flex-row justify-between space-x-2 mt-2">
-            <PieChart data={pieChartData} />
+            {/* <PieChart data={pieChartData} /> */}
 
           {/* <BarChart data={barCharData} />
           <LineChart data={lineChartData} /> */}
