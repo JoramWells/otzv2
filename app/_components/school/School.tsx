@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import { useState } from 'react'
-import { CustomTable } from '../table/CustomTable'
+// import { CustomTable } from '../table/CustomTable'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Map } from 'lucide-react'
 import { Button } from '@chakra-ui/react'
@@ -62,7 +62,7 @@ const School = ({ column, data, handleClick, value }: SchoolProps) => {
         center={currentLocation || undefined}
         /> */}
         {/* // :  */}
-        <CustomTable columns={column} data={data ?? []} />
+        {/* <CustomTable columns={column} data={data ?? []} /> */}
         {/* // } */}
     </div>
   )
