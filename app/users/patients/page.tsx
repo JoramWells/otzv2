@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -17,7 +17,7 @@ import { ListFilter, PlusCircle } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
-import { type UserInterface, type PatientAttributes } from 'otz-types'
+import { type PatientAttributes } from 'otz-types'
 import { calculateAge } from '@/utils/calculateAge'
 import CustomTab from '@/components/tab/CustomTab'
 import { useUserContext } from '@/context/UserContext'
@@ -91,7 +91,6 @@ export interface ExtendedPatientAttribute {
 const Patients = () => {
   // const datax = await getPatients()
 
-  const [user, setUser] = useState<UserInterface>()
   const { authUser } = useUserContext()
   const [search, setSearch] = useState('')
 
@@ -153,6 +152,8 @@ const Patients = () => {
   // })
 
   const otzPatients = patientData?.filter(item => calculateAge(item.dob) <= 25)
+
+  console.log(patientData, 'otzPatients')
 
   const zeroToNine = otzPatients?.filter((item) => calculateAge(item.dob) <= 9)
   const tenToFourteen = otzPatients?.filter(
@@ -236,7 +237,7 @@ const Patients = () => {
             </div>
             <CustomTable
               columns={patientColumns}
-              data={patientData ?? []}
+              data={otzPatients ?? []}
               total={patientTotal}
               isLoading={loading}
               search={search}

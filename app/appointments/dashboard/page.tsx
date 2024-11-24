@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -7,14 +8,11 @@
 import { History, Pin } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
-import { useGetAllAppointmentsQuery, useGetAllPriorityAppointmentsQuery } from '@/api/appointment/appointment.api.'
-import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
+// import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
+// import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { CustomTable } from '@/app/_components/table/CustomTable'
-import { pinnedColumns } from '../columns'
-import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
+// import { pinnedColumns } from '../columns'
 import { useSession } from 'next-auth/react'
 import { type UserInterface } from 'otz-types'
 const BreadcrumbComponent = dynamic(
@@ -48,22 +46,22 @@ const NotifyPage = () => {
       setUser(user as UserInterface)
     }
   }, [session])
-  const { data: weeklyData } = useGetAllAppointmentsQuery({
-    date: '2022-01-01',
-    mode: value,
-    hospitalID: user?.hospitalID as string
-  })
+  // const { data: weeklyData } = useGetAllAppointmentsQuery({
+  //   date: '2022-01-01',
+  //   mode: value,
+  //   hospitalID: user?.hospitalID as string
+  // })
 
-  const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
-  const { data: importantPatients } = useGetImportantPatientQuery(
-    session?.user.id as string
-  )
+  // const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
+  // const { data: importantPatients } = useGetImportantPatientQuery(
+  //   session?.user.id as string
+  // )
 
-  const importantPatientIDs = importantPatients?.map(item => item.patientID)
+  // const importantPatientIDs = importantPatients?.map(item => item.patientID)
 
-  const importantPatientAppointment = weeklyData?.filter(appointment =>
-    importantPatientIDs?.includes(appointment.patientID)
-  )
+  // const importantPatientAppointment = weeklyData?.filter(appointment =>
+  //   importantPatientIDs?.includes(appointment.patientID)
+  // )
 
   const handleSelectChange = (val: string) => {
     setValue(val)
@@ -103,8 +101,8 @@ const NotifyPage = () => {
             </div>
           </div>
           <div className="flex space-x-2 bg-slate-50 p-2">
-            <AppointmentBarChart data={weeklyData ?? []} />
-            <AppointmentPieChart data={weeklyData ?? []} />
+            {/* <AppointmentBarChart data={weeklyData ?? []} />
+            <AppointmentPieChart data={weeklyData ?? []} /> */}
 
           </div>
         <div className="bg-white p-4">
@@ -138,22 +136,22 @@ const NotifyPage = () => {
             ))}
           </div>
           {/* <div className="p-2"> */}
-            {tab === 1 && (
+            {/* {tab === 1 && (
               <CustomTable
                 isSearch={false}
                 data={importantPatientAppointment ?? []}
                 columns={pinnedColumns}
               />
-            )}
+            )} */}
 
             {/*  */}
-            {tab === 2 && (
+            {/* {tab === 2 && (
               <CustomTable
                 isSearch={false}
                 data={priorityAppointmentData || []}
                 columns={pinnedColumns}
               />
-            )}
+            )} */}
           {/* </div> */}
         </div>
 

@@ -16,6 +16,7 @@ import Footer from '@/components/Footer'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { PharmacyProvider } from '@/context/PharmacyContext'
 import io from 'socket.io-client'
+import { UserProvider } from '@/context/UserContext'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -71,7 +72,6 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
 
   if (session != null) {
     return (
-      <Provider store={store}>
         <SidebarProvider>
           <PharmacyProvider>
             <div className="flex flex-row bg-slate-50">
@@ -85,7 +85,6 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </PharmacyProvider>
         </SidebarProvider>
-      </Provider>
     )
   }
 
@@ -95,7 +94,13 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
 export default function WrappedPatientLayout (props: any) {
   return (
     <Suspense>
-      <PatientLayout {...props} />
+      <Provider
+      store={store}
+      >
+        <UserProvider>
+          <PatientLayout {...props} />
+        </UserProvider>
+      </Provider>
     </Suspense>
   )
 }

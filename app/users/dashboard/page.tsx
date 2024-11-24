@@ -7,19 +7,12 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 // import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
-import PopulationTypeChart from '@/components/Recharts/PopulationTypeChart'
-import { CustomTable } from '@/app/_components/table/CustomTable'
-import { importantPatientColumn } from '../patients/_components/columns'
+// import PopulationTypeChart from '@/components/Recharts/PopulationTypeChart'
 import { Button } from '@/components/ui/button'
-import { type UserInterface, type PatientAttributes } from 'otz-types'
-import { calculateAge } from '@/utils/calculateAge'
-import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
-import { useSession } from 'next-auth/react'
 import PatientVisitActivitiesChart from '@/app/_components/charts/PatientVisitActivitiesChart'
 
 // const UserDashboardCard = dynamic(
@@ -49,30 +42,28 @@ const BreadcrumbComponent = dynamic(
 // )
 
 const NotifyPage = () => {
-  const [user, setUser] = useState<UserInterface>()
+  // const [user, setUser] = useState<UserInterface>()
 
-  const { data: session } = useSession()
+  // let { data } = useGetAllPatientsQuery({
+  //   hospitalID: user?.hospitalID as string
+  // })
 
-  let { data } = useGetAllPatientsQuery({
-    hospitalID: user?.hospitalID as string
-  })
-
-  data = data?.filter(item => calculateAge(item.dob) < 25)
+  // data = data?.filter(item => calculateAge(item.dob) < 25)
 
   // const dataList: UserDashboardCardDataListProps[] =
-  const filteredArray: PatientAttributes[] = data ? [...data] : []
-  filteredArray.sort(
-    (a, b) =>
-      new Date(b.createdAt as unknown as string).getTime() -
-      new Date(a.createdAt as unknown as string).getTime()
-  )
+  // const filteredArray: PatientAttributes[] = data ? [...data] : []
+  // filteredArray.sort(
+  //   (a, b) =>
+  //     new Date(b.createdAt as unknown as string).getTime() -
+  //     new Date(a.createdAt as unknown as string).getTime()
+  // )
 
-  useEffect(() => {
-    if (session) {
-      const { user } = session
-      setUser(user as UserInterface)
-    }
-  }, [session])
+  // useEffect(() => {
+  //   if (session) {
+  //     const { user } = session
+  //     setUser(user as UserInterface)
+  //   }
+  // }, [session])
 
   // const recentPatients = filteredArray?.slice(0, 3)
 
@@ -106,19 +97,19 @@ const NotifyPage = () => {
   //   ]
   // }
 
-  const uniqueYears: number[] | any = useMemo(() => {
-    return [
-      ...new Set(
-        data?.map((item: any) =>
-          new Date(item.dateConfirmedPositive).getFullYear()
-        )
-      )
-    ]
-  }, [data])
+  // const uniqueYears: number[] | any = useMemo(() => {
+  //   return [
+  //     ...new Set(
+  //       data?.map((item: any) =>
+  //         new Date(item.dateConfirmedPositive).getFullYear()
+  //       )
+  //     )
+  //   ]
+  // }, [data])
 
-  uniqueYears.sort((a: number, b: number) => a - b)
+  // uniqueYears.sort((a: number, b: number) => a - b)
 
-  const { data: importantPatients } = useGetImportantPatientQuery(session?.user.id as string)
+  // const { data: importantPatients } = useGetImportantPatientQuery(session?.user.id as string)
   const [value, setValue] = useState(1)
 
   return (
@@ -138,7 +129,7 @@ const NotifyPage = () => {
       </div>
 
       <div className="flex justify-between pl-2 pr-2 pb-2 space-x-2">
-        <PopulationTypeChart data={data || []} />
+        {/* <PopulationTypeChart data={data || []} /> */}
         <div className="p-2 bg-white rounded-lg flex-1  ">
           <h3 className="font-semibold ml-2 text-slate-700 ">Quick Access</h3>
           <div className="flex flex-row space-x-2">
@@ -161,13 +152,13 @@ const NotifyPage = () => {
               </Button>
             ))}
           </div>
-          {value === 1 && (
+          {/* {value === 1 && (
             <CustomTable
               isSearch={false}
               data={importantPatients || []}
               columns={importantPatientColumn}
             />
-          )}
+          )} */}
 
           {/*
             {value === 2 && (

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -5,39 +6,106 @@ import CustomTab from '@/components/tab/CustomTab'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { columns } from '@/app/appointments/columns'
-import { type ExtendedAppointmentInputProps, useGetAllAppointmentsQuery } from '@/api/appointment/appointment.api.'
+import { type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { type UserInterface } from 'otz-types'
-import { useSession } from 'next-auth/react'
+import axios from 'axios'
+import { useUserContext } from '@/context/UserContext'
+import debounce from 'lodash/debounce'
+export interface AppointmentResponseInterface {
+  data: ExtendedAppointmentInputProps[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
 
 const AppointmentHomepage = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
-  const [user, setUser] = useState<UserInterface>()
-
-  const { data: session } = useSession()
-
-  useEffect(() => {
-    if (session) {
-      const { user } = session
-      setUser(user as UserInterface)
-    }
-  }, [session])
-
+  const [loading, setLoading] = useState(false)
+  const [responseData, setResponseData] = useState<ExtendedAppointmentInputProps[] | undefined>([])
+  const [total, setTotal] = useState<number | undefined>(0)
+  const page = searchParams.get('page')
+  const [search, setSearch] = useState('')
   const [value, setValue] = useState<string | null>(tab)
 
-  // const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
-  const { data, isLoading: isLoadingAppointments } = useGetAllAppointmentsQuery(
-    {
-      mode: 'all',
-      date: '2022-01-01',
-      hospitalID: user?.hospitalID as string
+  const { authUser } = useUserContext()
+
+  async function fetchAppointmentData (
+    hospitalID: string | undefined,
+    page: number,
+    pageSize: number,
+    searchQuery: string | undefined
+  ): Promise<AppointmentResponseInterface | undefined> {
+    try {
+      setLoading(true)
+      const { data } = await axios.get<
+      AppointmentResponseInterface | undefined
+      >(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/appointments/fetchAll/`,
+        {
+          params: {
+            hospitalID,
+            mode: 'all',
+            date: '2022-01-01'
+            // page,
+            // pageSize,
+            // searchQuery
+          }
+        }
+      )
+      setLoading(false)
+      return data
+    } catch (error) {
+      console.log(error)
     }
-  )
+  }
+
+  const debounceSearch = useMemo(() => {
+    // setSearch(value)
+
+    return debounce(async (value: string) => {
+      const data = await fetchAppointmentData(
+        authUser?.hospitalID,
+        parseInt(page as string, 10),
+        10,
+        value
+      )
+      setResponseData(data?.data)
+      setTotal(data?.total)
+    }, 500)
+  }, [authUser?.hospitalID, page])
+  useEffect(() => {
+    return () => debounceSearch.cancel()
+  }, [debounceSearch])
+
+  useEffect(() => {
+    (async () => {
+      if (page && authUser?.hospitalID) {
+        const data = await fetchAppointmentData(
+          authUser?.hospitalID,
+          parseInt(page, 10),
+          10,
+          ''
+        )
+        setResponseData(data?.data)
+        setTotal(data?.total)
+      }
+    })()
+  }, [authUser?.hospitalID, page, searchParams])
+
+  // const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
+  // const { data, isLoading: loading } = useGetAllAppointmentsQuery(
+  //   {
+  //     mode: 'all',
+  //     date: '2022-01-01',
+  //     hospitalID: user?.hospitalID as string
+  //   }
+  // )
 
   const sortedAppointment: ExtendedAppointmentInputProps[] = useMemo(
-    () => (data ? [...data] : []),
-    [data]
+    () => (responseData ? [...responseData] : []),
+    [responseData]
   )
 
   // const memSorted = useCallback(() => {}, [])
@@ -76,12 +144,12 @@ const AppointmentHomepage = () => {
 
   //
   const pendingAppointment = useCallback(() => {
-    return data?.filter((item: any) =>
+    return responseData?.filter((item: any) =>
       item.AppointmentStatus?.statusDescription
         .toLowerCase()
         .includes('Pending'.toLowerCase())
     )
-  }, [data])
+  }, [responseData])
 
   const upcomingAppointment = useCallback(() => {
     return sortedAppointment?.filter((item: any) =>
@@ -96,7 +164,7 @@ const AppointmentHomepage = () => {
       {
         id: 1,
         label: 'All',
-        count: sortedAppointment?.length
+        count: total
       },
       {
         id: 2,
@@ -104,7 +172,7 @@ const AppointmentHomepage = () => {
         count: completedAppointment()?.length
       },
       {
-        id: 2,
+        id: 6,
         label: 'Pending',
         count: pendingAppointment()?.length
       },
@@ -124,7 +192,7 @@ const AppointmentHomepage = () => {
         count: missedAppointment()?.length
       }
     ],
-    [completedAppointment, missedAppointment, pendingAppointment, rescheduledAppointment, sortedAppointment?.length, upcomingAppointment]
+    [completedAppointment, missedAppointment, pendingAppointment, rescheduledAppointment, total, upcomingAppointment]
   )
   const pathname = usePathname()
   const router = useRouter()
@@ -144,6 +212,8 @@ const AppointmentHomepage = () => {
       setValue('all')
     }
   }, [tab, updateQueryParams])
+
+  console.log(responseData, 'responseData!!')
 
   return (
     <>
@@ -165,8 +235,11 @@ const AppointmentHomepage = () => {
           {value === 'all' && (
             <CustomTable
               columns={columns}
-              isLoading={isLoadingAppointments}
+              isLoading={loading}
               data={sortedAppointment || []}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
             />
           )}
 
@@ -174,8 +247,11 @@ const AppointmentHomepage = () => {
           {value === 'completed' && (
             <CustomTable
               columns={columns}
-              isLoading={isLoadingAppointments}
+              isLoading={loading}
               data={completedAppointment() || []}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
             />
           )}
 
@@ -183,16 +259,22 @@ const AppointmentHomepage = () => {
           {value === 'pending' && (
             <CustomTable
               columns={columns}
-              isLoading={isLoadingAppointments}
+              isLoading={loading}
               data={pendingAppointment() ?? []}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
             />
           )}
 
           {value === 'rescheduled' && (
             <CustomTable
-              isLoading={isLoadingAppointments}
+              isLoading={loading}
               columns={columns}
               data={rescheduledAppointment() || []}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
             />
           )}
 
@@ -200,15 +282,21 @@ const AppointmentHomepage = () => {
             <CustomTable
               columns={columns}
               data={upcomingAppointment() || []}
-              isLoading={isLoadingAppointments}
+              isLoading={loading}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
             />
           )}
 
           {value === 'missed' && (
             <CustomTable
-              isLoading={isLoadingAppointments}
+              isLoading={loading}
               columns={columns}
               data={missedAppointment() || []}
+              search={search}
+              setSearch={setSearch}
+              debounceSearch={debounceSearch}
             />
           )}
         </div>
