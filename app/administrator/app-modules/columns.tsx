@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { type AppModulesProps } from '@/api/appModules/appModules.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { type ColumnDef } from '@tanstack/react-table'
@@ -8,9 +7,10 @@ import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 // import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { type AppModuleInterface } from 'otz-types'
 // import { FaEdit } from 'react-icons/fa'
 
-export const columns: Array<ColumnDef<AppModulesProps>> = [
+export const columns: Array<ColumnDef<AppModuleInterface>> = [
   {
     accessorKey: 'avatar',
     header: 'Avatar',
