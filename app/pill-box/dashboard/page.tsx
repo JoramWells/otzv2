@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
@@ -9,13 +10,13 @@ import dynamic from 'next/dynamic'
 import { type ExtendedPrescriptionInterface, useGetAllPrescriptionsQuery, useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
 import { useGetAllArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 import { type UserInterface, type ARTPrescriptionInterface, type PrescriptionInterface } from 'otz-types'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { CustomTable } from '@/app/_components/table/CustomTable'
-import { importantPrescription } from '../prescription/columns'
+// import { CustomTable } from '@/app/_components/table/CustomTable'
+// import { importantPrescription } from '../prescription/columns'
 import { usePharmacyContext } from '@/context/PharmacyContext'
 import AdherenceRate from '@/components/Recharts/AdherenceRate'
-import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
+// import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
 import { useSession } from 'next-auth/react'
 
 const DoubleARTUptakeBarChart = dynamic(
@@ -78,36 +79,36 @@ const NotifyPage = () => {
 
   const { data: facilityData } = useGetFacilityAdherenceQuery()
 
-  const { data: prescriptionData } = useGetAllPrescriptionsQuery({
-    mode: undefined,
-    hospitalID: user?.hospitalID as string
-  })
+  // const { data: prescriptionData } = useGetAllPrescriptionsQuery({
+  //   mode: undefined,
+  //   hospitalID: user?.hospitalID as string
+  // })
 
-  const filteredArray: PrescriptionInterface[] = prescriptionData
-    ? [...prescriptionData]
-    : []
-  filteredArray.sort(
-    (a, b) =>
-      new Date(b.createdAt as unknown as string).getTime() -
-        new Date(a.createdAt as unknown as string).getTime()
-  )
+  // const filteredArray: PrescriptionInterface[] = prescriptionData
+  //   ? [...prescriptionData]
+  //   : []
+  // filteredArray.sort(
+  //   (a, b) =>
+  //     new Date(b.createdAt as unknown as string).getTime() -
+  //       new Date(a.createdAt as unknown as string).getTime()
+  // )
 
-  const recentPrescription = filteredArray?.slice(0, 3)
+  // const recentPrescription = filteredArray?.slice(0, 3)
 
-  const filterPrescriptionData = useCallback(() => {
-    const tempData = prescriptionData ? [...prescriptionData] : []
-    return tempData.filter(
-      (item: ExtendedPrescriptionInterface) => item?.Patient?.isImportant
-    )
-  }, [prescriptionData])()
-  const { data: importantPatients } = useGetImportantPatientQuery(
-    session?.user.id as string
-  )
-  const importantPatientIDs = importantPatients?.map((item) => item.patientID)
+  // const filterPrescriptionData = useCallback(() => {
+  //   const tempData = prescriptionData ? [...prescriptionData] : []
+  //   return tempData.filter(
+  //     (item: ExtendedPrescriptionInterface) => item?.Patient?.isImportant
+  //   )
+  // }, [prescriptionData])()
+  // const { data: importantPatients } = useGetImportantPatientQuery(
+  //   session?.user.id as string
+  // )
+  // const importantPatientIDs = importantPatients?.map((item) => item.patientID)
 
-  const importantPatientAppointment = filterPrescriptionData?.filter(
-    (appointment) => importantPatientIDs?.includes(appointment.patientID)
-  )
+  // const importantPatientAppointment = filterPrescriptionData?.filter(
+  //   (appointment) => importantPatientIDs?.includes(appointment.patientID)
+  // )
 
   const { data: artPrescriptionData, isLoading: loadingArtPrescription } =
     useGetAllArtPrescriptionQuery({
@@ -174,22 +175,22 @@ const NotifyPage = () => {
           ))}
         </div>
         <div className="p-2 bg-white pt-0">
-          {value === 1 && (
+          {/* {value === 1 && (
             <CustomTable
               isSearch={false}
               data={importantPatientAppointment || []}
               columns={importantPrescription}
             />
-          )}
+          )} */}
 
           {/*  */}
-          {value === 2 && (
+          {/* {value === 2 && (
             <CustomTable
               isSearch={false}
               data={recentPrescription || []}
               columns={importantPrescription}
             />
-          )}
+          )} */}
         </div>
       </div>
     </>
