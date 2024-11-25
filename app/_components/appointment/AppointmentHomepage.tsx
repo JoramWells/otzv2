@@ -5,9 +5,8 @@ import CustomTab from '@/components/tab/CustomTab'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { columns } from '@/app/appointments/columns'
-import { type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
+import { useGetAllAppointmentsQuery, type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import axios from 'axios'
 import { useUserContext } from '@/context/UserContext'
 import debounce from 'lodash/debounce'
 export interface AppointmentResponseInterface {
@@ -21,7 +20,6 @@ export interface AppointmentResponseInterface {
 const AppointmentHomepage = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
-  const [loading, setLoading] = useState(false)
   const [responseData, setResponseData] = useState<ExtendedAppointmentInputProps[] | undefined>([])
   const [total, setTotal] = useState<number | undefined>(0)
   const page = searchParams.get('page')
@@ -30,77 +28,38 @@ const AppointmentHomepage = () => {
 
   const { authUser } = useUserContext()
 
-  async function fetchAppointmentData (
-    hospitalID: string | undefined,
-    page: number,
-    pageSize: number,
-    searchQuery: string | undefined
-  ): Promise<AppointmentResponseInterface | undefined> {
-    try {
-      setLoading(true)
-      const { data } = await axios.get<
-      AppointmentResponseInterface | undefined
-      >(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/appointments/fetchAll/`,
-        {
-          params: {
-            hospitalID,
-            mode: 'all',
-            date: '2022-01-01'
-            // page,
-            // pageSize,
-            // searchQuery
-          }
-        }
-      )
-      setLoading(false)
-      return data
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const { data, isLoading } = useGetAllAppointmentsQuery({
+    mode: 'all',
+    date: '2022-01-01',
+    hospitalID: authUser?.hospitalID as string,
+    page: Number(page) ?? 1,
+    pageSize: 10,
+    searchQuery: search
+  })
 
   const debounceSearch = useMemo(() => {
     // setSearch(value)
 
-    return debounce(async (value: string) => {
-      const data = await fetchAppointmentData(
-        authUser?.hospitalID,
-        parseInt(page as string, 10),
-        10,
-        value
-      )
+    if (page != null) {
+      return debounce(async (value: string) => {
+        setSearch(value)
+      }, 500)
+    }
+  }, [page])
+
+  useEffect(() => {
+    debounceSearch?.(search)
+    return () => debounceSearch?.cancel()
+  }, [debounceSearch, search])
+
+  useEffect(() => {
+    if (data) {
       setResponseData(data?.data)
       setTotal(data?.total)
-    }, 500)
-  }, [authUser?.hospitalID, page])
-  useEffect(() => {
-    return () => debounceSearch.cancel()
-  }, [debounceSearch])
-
-  useEffect(() => {
-    void (async () => {
-      if (page && authUser?.hospitalID) {
-        const data = await fetchAppointmentData(
-          authUser?.hospitalID,
-          parseInt(page, 10),
-          10,
-          ''
-        )
-        setResponseData(data?.data)
-        setTotal(data?.total)
-      }
-    })()
-  }, [authUser?.hospitalID, page, searchParams])
+    }
+  }, [data])
 
   // const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
-  // const { data, isLoading: loading } = useGetAllAppointmentsQuery(
-  //   {
-  //     mode: 'all',
-  //     date: '2022-01-01',
-  //     hospitalID: user?.hospitalID as string
-  //   }
-  // )
 
   const sortedAppointment: ExtendedAppointmentInputProps[] = useMemo(
     () => (responseData ? [...responseData] : []),
@@ -234,11 +193,11 @@ const AppointmentHomepage = () => {
           {value === 'all' && (
             <CustomTable
               columns={columns}
-              isLoading={loading}
+              isLoading={isLoading}
               data={sortedAppointment || []}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
+
             />
           )}
 
@@ -246,11 +205,11 @@ const AppointmentHomepage = () => {
           {value === 'completed' && (
             <CustomTable
               columns={columns}
-              isLoading={loading}
+              isLoading={isLoading}
               data={completedAppointment() || []}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
+
             />
           )}
 
@@ -258,22 +217,22 @@ const AppointmentHomepage = () => {
           {value === 'pending' && (
             <CustomTable
               columns={columns}
-              isLoading={loading}
+              isLoading={isLoading}
               data={pendingAppointment() ?? []}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
+
             />
           )}
 
           {value === 'rescheduled' && (
             <CustomTable
-              isLoading={loading}
+              isLoading={isLoading}
               columns={columns}
               data={rescheduledAppointment() || []}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
+
             />
           )}
 
@@ -281,21 +240,21 @@ const AppointmentHomepage = () => {
             <CustomTable
               columns={columns}
               data={upcomingAppointment() || []}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
+
             />
           )}
 
           {value === 'missed' && (
             <CustomTable
-              isLoading={loading}
+              isLoading={isLoading}
               columns={columns}
               data={missedAppointment() || []}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
+
             />
           )}
         </div>

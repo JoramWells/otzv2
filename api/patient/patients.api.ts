@@ -59,7 +59,7 @@ export const patientsApi = createApi({
           queryString += `&page=${page}`
           queryString += `&pageSize=${pageSize}`
           queryString += `&searchQuery=${searchQuery}`
-          return `/fetchAll?${queryString}`
+          return `/fetchAll/?${queryString}`
         }
         return 'fetchAll'
       }

@@ -7,6 +7,9 @@ interface AppointmentTypeProps {
   date?: string
   mode?: string
   hospitalID: string
+  page: number
+  pageSize: number
+  searchQuery: string
 }
 
 export type ExtendedAppointmentInputProps = AppointmentAttributes & {
@@ -22,6 +25,14 @@ export type ExtendedAppointmentInputProps = AppointmentAttributes & {
   }
 }
 
+export interface AppointmentResponseInterface {
+  data: ExtendedAppointmentInputProps[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
+
 export const appointmentApi = createApi({
   reducerPath: 'appointmentApi',
   baseQuery: fetchBaseQuery({
@@ -29,17 +40,20 @@ export const appointmentApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllAppointments: builder.query<
-    ExtendedAppointmentInputProps[],
+    AppointmentResponseInterface,
     AppointmentTypeProps
     >({
       query: (params) => {
         if (params) {
-          const { date, mode, hospitalID } = params
+          const { date, mode, hospitalID, page, pageSize, searchQuery } = params
           let queryString = ''
           queryString += `date=${date}`
           queryString += `&mode=${mode}`
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
           queryString += `&hospitalID=${hospitalID}`
-          return `/fetchAll?${queryString}`
+          return `/fetchAll/?${queryString}`
         }
         return '/fetchAll'
       }
