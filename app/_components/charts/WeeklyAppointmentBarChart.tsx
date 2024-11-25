@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -32,11 +33,11 @@ const WeeklyAppointmentBarChart = () => {
   }, [session])
 
   const currentDate = moment().format('YYYY-MM-DD')
-  const { data: weeklyData } = useGetAllAppointmentsQuery({
-    date: currentDate,
-    mode: 'weekly',
-    hospitalID: user?.hospitalID as string
-  })
+  // const { data: weeklyData } = useGetAllAppointmentsQuery({
+  //   date: currentDate,
+  //   mode: 'weekly',
+  //   hospitalID: user?.hospitalID as string
+  // })
 
   const { data: availabilityData } = useGetAllUserAvailabilitiesQuery()
 
@@ -53,33 +54,33 @@ const WeeklyAppointmentBarChart = () => {
     return tempData
   }, [weekDays])()
 
-  const transformDataToCart = () => {
-    const daysOfWeek = filterAvailableWeekDays ? Object.keys(filterAvailableWeekDays) : []
-    const appointmentsCountByDay = [0, 0, 0, 0, 0, 0, 0]
+  // const transformDataToCart = () => {
+  //   const daysOfWeek = filterAvailableWeekDays ? Object.keys(filterAvailableWeekDays) : []
+  //   const appointmentsCountByDay = [0, 0, 0, 0, 0, 0, 0]
 
-    weeklyData?.forEach((appointment: ExtendedAppointmentInputProps) => {
-      const appointmentDate = new Date(appointment.appointmentDate as string)
-      const dayOfWeek = appointmentDate.getDay()
-      appointmentsCountByDay[dayOfWeek]++
-    })
+  //   weeklyData?.forEach((appointment: ExtendedAppointmentInputProps) => {
+  //     const appointmentDate = new Date(appointment.appointmentDate as string)
+  //     const dayOfWeek = appointmentDate.getDay()
+  //     appointmentsCountByDay[dayOfWeek]++
+  //   })
 
-    return {
-      labels: daysOfWeek,
-      datasets: [
-        {
-          label: 'Appointments',
-          data: appointmentsCountByDay
-        }
-      ]
-    }
-  }
+  //   return {
+  //     labels: daysOfWeek,
+  //     datasets: [
+  //       {
+  //         label: 'Appointments',
+  //         data: appointmentsCountByDay
+  //       }
+  //     ]
+  //   }
+  // }
 
-  const chartData = transformDataToCart()
+  // const chartData = transformDataToCart()
 
   return (
     <div className="h-[300px] w-1/2 rounded-lg bg-slate-50 p-2">
       <h1 className="font-bold text-lg">Weekly Appointment</h1>
-      <div className="pb-10 pl-5 pr-5 w-full h-full">
+      {/* <div className="pb-10 pl-5 pr-5 w-full h-full">
         <Bar data={chartData} options={{
           plugins: {
             // title: {
@@ -90,8 +91,8 @@ const WeeklyAppointmentBarChart = () => {
           responsive: true,
           maintainAspectRatio: false
         }}
-     />
-      </div>
+     /> */}
+      {/* </div> */}
     </div>
   )
 }
