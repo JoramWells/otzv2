@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -9,35 +9,27 @@
 import { useAddUserMutation, useGetAllUsersQuery } from '@/api/users/users.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUserContext } from '@/context/UserContext'
 import { type ColumnDef } from '@tanstack/react-table'
 import axios from 'axios'
-import { CircleCheck, Loader2, TriangleAlert, X } from 'lucide-react'
+import { Loader2, TriangleAlert, X } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { type UserInterface } from 'otz-types'
 import Papa, { type ParseMeta } from 'papaparse'
 import React, {
-  type FormEvent,
   useState,
   type ChangeEvent,
   useMemo,
   useEffect
 } from 'react'
-import io, { type Socket } from 'socket.io-client'
 
 import UploadSection from '../_components/UploadSection'
 import UpdateUsers from '../_components/UpdateUsers'
-import CustomInput from '@/components/forms/CustomInput'
-import CustomSelect from '@/components/forms/CustomSelect'
-import { CollapseButton } from '@/components/CollapseButton'
-import Avatar from '@/components/Avatar'
-import { calculateAge } from '@/utils/calculateAge'
-import moment from 'moment'
+
+import UpdateMissingVLEntries from '../_components/UpdateMissingVLEntries'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -167,7 +159,7 @@ interface HeaderErrors {
   extraHeaders: string[]
 }
 
-type CsvRow = Record<string, string>
+export type CsvRow = Record<string, string>
 
 interface ParseResult<T> {
   data: T[]
@@ -244,14 +236,6 @@ const AddEtlPage = () => {
     }
   }, [csvArray])
   //
-  const [recentUser, setRecentUser] = useState<UserInterface>()
-  const [addUser, { isLoading: isAddUserLoading, data: savedUserData }] = useAddUserMutation()
-
-  useEffect(() => {
-    if (savedUserData) {
-      setRecentUser(savedUserData)
-    }
-  }, [savedUserData])
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const filex = e.target?.files?.[0]
@@ -371,39 +355,6 @@ const AddEtlPage = () => {
   const [vlResults, setVLResults] = useState()
   const [justification, setJustification] = useState()
 
-  const handleSave = (user: LineListInterface) => {
-    setFilteredData((prev) =>
-      prev.map((item) => {
-        return item['CCC No'] === user['CCC No']!
-          ? {
-              ...item,
-              'Last VL Date': user['Last VL Date']!,
-              'Last VL Result': user['Last VL Result']!,
-              'Last VL Justification': user['Last VL Justification']!
-            }
-          : item
-      }
-      )
-    )
-
-    // setFilteredData(prev => prev.filter(item => {
-    //   console.log(item['CCC No'] === user['CCC No'], 'similar')
-
-    //   return item['CCC No'] === user['CCC No']
-    // }))
-
-    setEmptyViralLoadDate(prev => prev?.filter(item => item['CCC No'] !== user['CCC No']))
-  }
-
-  const handleSkip = (user: LineListInterface) => {
-    setEmptyViralLoadDate((prev) =>
-      prev?.filter((item) => item['CCC No'] !== user['CCC No'])
-    )
-  }
-  const handleInputChange = (cccNo: string | number, field: string, value: string) => {
-    setEmptyViralLoadDate(prev => prev?.map(item => item['CCC No'] === cccNo ? { ...item, [field]: value } : item))
-  }
-
   // useEffect(() => {
   //   if (recentUser) {
   //     nullUsers.filter(item => { console.log(item.user !== `${recentUser.middleName} ${recentUser.firstName}`, 'nullx') })
@@ -483,115 +434,22 @@ const AddEtlPage = () => {
             <CustomTable
               isSearch={false}
               columns={columns}
-              data={filteredData || []}
+              data={filteredData.slice(0, 10) || []}
+              // total={csvArray?.length}
             />
           </div>
             ) : emptyViralLoadDate && emptyViralLoadDate?.length > 0 ? (
-          <div className="h-[350px] overflow-y-auto w-1/2 flex flex-col space-y-2 p-2">
-            {emptyViralLoadDate?.map((item) => {
-              const name = item.Name?.trim().split(', ')
-              const firstName = name?.[1] ?? ''
-              const middleName = name?.[0] ?? ''
-              return (
-                <div
-                  key={item['CCC No']}
-                  className="border border-slate-200 rounded-lg flex flex-col space-y-2"
-                >
-                  <CollapseButton
-                    label={
-                      <div className="flex space-x-2 items-center w-1/2 justify-between">
-                        {/* <Avatar name={`${firstName} ${middleName}`} /> */}
-
-                        <p className="font-semibold">{item.Name}</p>
-                        <p className="text-[12px] text-slate-500">{item.DOB}</p>
-                      </div>
-                    }
-                  >
-                    <div className="flex flex-col rounded-lg bg-white border border-slate-100">
-                      <div className="p-2 pl-4 pr-4">
-                        <label
-                          htmlFor=""
-                          className="text-[14px] font-semibold text-slate-700 mb-2"
-                        >
-                          Results
-                        </label>
-
-                        <Input
-                          // label="Results"
-                          type='number'
-                          onChange={(e) => {
-                            handleInputChange(
-                              item['CCC No']!,
-                              'Last VL Result',
-                              e.target.value
-                            )
-                          }}
-                          defaultValue={0}
-                          value={item['Last VL Result']}
-                          className="shadow-none"
-                        />
-                      </div>
-
-                      {/*  */}
-                      <div className="p-2 pr-4 pl-4">
-                        <label
-                          htmlFor=""
-                          className="text-[14px] font-semibold text-slate-700 mb-2"
-                        >
-                          Date of VL
-                        </label>
-                        <Input
-                          // label="Date"
-                          type="date"
-                          defaultValue={moment().format('YYYY-MM-DD')}
-                          onChange={(e) => {
-                            handleInputChange(
-                              item['CCC No']!,
-                              'Last VL Date',
-                              e.target.value
-                            )
-                          }}
-                          className="shadow-none"
-                          value={item['Last VL Date']}
-                        />
-                      </div>
-
-                      <div className="flex flex-row border-t border-slate-200 justify-end space-x-2 p-2 pl-4 pr-4">
-                        <Button
-                          className="shadow-none"
-                          size={'sm'}
-                          variant={'ghost'}
-                          onClick={() => { handleSkip(item) }}
-                        >
-                          Skip
-                        </Button>
-                        <Button
-                          className="shadow-none"
-                          size={'sm'}
-                          onClick={() => {
-                            handleSave(item)
-                          }}
-                        >
-                          Update
-                        </Button>
-                      </div>
-                    </div>
-                  </CollapseButton>
-                  {/* <div
-                className='bg-slate-100 p-2 rounded-t-lg border-b border-slate-200'
-                >
-                  <p>{item.Name}</p>
-                </div> */}
-                </div>
-              )
-            })}
-          </div>
+          <UpdateMissingVLEntries
+            missingData={emptyViralLoadDate}
+            setMissingData={setEmptyViralLoadDate}
+            setData={setFilteredData}
+          />
             ) : nullUsers.length > 0 ? (
           <UpdateUsers
             users={uniqueUsers}
             hospitalID={authUser?.hospitalID}
             handleSubmit={handleSubmit}
-            isLoading={isAddUserLoading}
+            isLoading={loading}
           />
             ) : (
           <>
