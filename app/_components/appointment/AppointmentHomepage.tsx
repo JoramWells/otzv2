@@ -7,8 +7,9 @@ import { CustomTable } from '../table/CustomTable'
 import { columns } from '@/app/appointments/columns'
 import { useGetAllAppointmentsQuery, type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useUserContext } from '@/context/UserContext'
 import debounce from 'lodash/debounce'
+import { useSession } from 'next-auth/react'
+import { type UserInterface } from 'otz-types'
 export interface AppointmentResponseInterface {
   data: ExtendedAppointmentInputProps[]
   page: number
@@ -25,13 +26,20 @@ const AppointmentHomepage = () => {
   const page = searchParams.get('page')
   const [search, setSearch] = useState('')
   const [value, setValue] = useState<string | null>(tab)
+  const [user, setUser] = useState<UserInterface>()
 
-  const { authUser } = useUserContext()
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    if (session) {
+      setUser(session.user as UserInterface)
+    }
+  }, [session])
 
   const { data, isLoading } = useGetAllAppointmentsQuery({
     mode: 'all',
     date: '2022-01-01',
-    hospitalID: authUser?.hospitalID as string,
+    hospitalID: user?.hospitalID as string,
     page: Number(page) ?? 1,
     pageSize: 10,
     searchQuery: search

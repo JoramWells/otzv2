@@ -296,7 +296,7 @@ const AddEtlPage = () => {
     if (file != null && session !== null) {
       const { user } = session
       const user2 = user as UserInterface
-      formData.append('file', file)
+      formData.append('file', new Blob([Papa.unparse(csvArray)], { type: 'text/csv' }), 'cleaned.csv')
       formData.append('hospitalID', user2.hospitalID!)
       formData.append('userID', user2.id!)
     }

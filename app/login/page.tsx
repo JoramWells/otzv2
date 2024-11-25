@@ -32,24 +32,26 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsLoading(true)
-    const response = await signIn('credentials', {
-      firstName,
-      password,
-      hospitalID,
-      redirect: false
-    })
-    setIsLoading(false)
-
-    // if(response?.error){
-    //   setError(response.error)
-    // }
-    if (response?.error === null) {
-      router.push('/')
-      router.refresh()
-    } else {
-      setError(response?.error)
+    if (hospitalID) {
+      setIsLoading(true)
+      const response = await signIn('credentials', {
+        firstName,
+        password,
+        hospitalID,
+        redirect: false
+      })
       setIsLoading(false)
+
+      // if(response?.error){
+      //   setError(response.error)
+      // }
+      if (response?.error === null) {
+        router.push('/')
+        router.refresh()
+      } else {
+        setError(response?.error)
+        setIsLoading(false)
+      }
     }
   }
 
