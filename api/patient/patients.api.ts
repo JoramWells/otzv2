@@ -5,12 +5,14 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type PatientAttributes } from 'otz-types'
-interface Post {
-  id: number
-  name: string
-}
 
-type PostsResponse = Post[]
+export interface PatientResponseInterface {
+  data: PatientAttributes[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
 
 // const customFetch = async (
 //   input: NodeRequestInfo,
@@ -31,6 +33,7 @@ export interface PatientInputParams {
   hospitalID: string
   page: number
   pageSize: number
+  searchQuery: string
 }
 
 export const patientsApi = createApi({
@@ -47,14 +50,15 @@ export const patientsApi = createApi({
     // }
   }),
   endpoints: (builder) => ({
-    getAllPatients: builder.query<PatientAttributes[], PatientInputParams>({
+    getAllPatients: builder.query<PatientResponseInterface | null, PatientInputParams>({
       query: (params) => {
         if (params) {
-          const { hospitalID, page, pageSize } = params
+          const { hospitalID, page, pageSize, searchQuery } = params
           let queryString = ''
           queryString += `hospitalID=${hospitalID}`
           queryString += `&page=${page}`
           queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
           return `/fetchAll?${queryString}`
         }
         return 'fetchAll'

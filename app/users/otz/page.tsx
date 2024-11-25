@@ -1,23 +1,17 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/comma-dangle */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { type ExtendedOTZEnrollment, useGetAllOTZEnrollmentsQuery } from '@/api/enrollment/otzEnrollment.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-import CustomTab from '@/components/tab/CustomTab'
-import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
-import { useGetAllEligibleOTZPatientsQuery } from '@/api/patient/patients.api'
-import { Button } from '@/components/ui/button'
+import { Suspense, useEffect, useMemo, useState } from 'react'
 import { useUserContext } from '@/context/UserContext'
-import { columns, patientColumns } from './columns'
+import { columns } from './columns'
 import { Badge } from '@/components/ui/badge'
-import axios from 'axios'
 import debounce from 'lodash/debounce'
 import { useSearchParams } from 'next/navigation'
-import { type OTZEnrollmentsInterface } from 'otz-types'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -39,11 +33,6 @@ const dataList2 = [
   }
 ]
 
-interface Patient {
-  id: string
-  firstName: string
-}
-
 export interface OTZEnrollmentResponseInterface {
   data: ExtendedOTZEnrollment[]
   page: number
@@ -59,74 +48,38 @@ const OTZ = () => {
   const page = searchParams.get('page')
 
   const { authUser } = useUserContext()
-  const [loading, setLoading] = useState(false)
   const [total, setTotal] = useState<number | undefined>(0)
   const [search, setSearch] = useState('')
 
-  const { data } = useGetAllOTZEnrollmentsQuery({
+  const { data, isLoading } = useGetAllOTZEnrollmentsQuery({
     hospitalID: authUser?.hospitalID as string,
+    page: Number(page) ?? 1,
+    pageSize: 10,
+    searchQuery: search
   })
 
   const [responseData, setResponseData] = useState<ExtendedOTZEnrollment[] | undefined>()
 
-  async function fetchPatientData (
-    hospitalID: string | undefined,
-    page: number,
-    pageSize: number,
-    searchQuery: string | undefined
-  ): Promise<OTZEnrollmentResponseInterface | undefined> {
-    try {
-      setLoading(true)
-      const { data } = await axios.get<OTZEnrollmentResponseInterface | undefined>(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/otz-enrollment/fetchAll`,
-        {
-          params: {
-            hospitalID,
-            page,
-            pageSize,
-            searchQuery,
-          },
-        }
-      )
-      setLoading(false)
-      return data
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const debounceSearch = useMemo(() => {
     // setSearch(value)
+    if (page !== null) {
+      return debounce(async (value: string) => {
+        setSearch(value)
+      }, 500)
+    }
+  }, [page])
 
-    return debounce(async (value: string) => {
-      const data = await fetchPatientData(
-        authUser?.hospitalID,
-        parseInt(page as string, 10),
-        10,
-        value
-      )
+  useEffect(() => {
+    debounceSearch?.(search)
+    return () => debounceSearch?.cancel()
+  }, [debounceSearch, search])
+
+  useEffect(() => {
+    if (data) {
       setResponseData(data?.data)
       setTotal(data?.total)
-    }, 500)
-  }, [authUser?.hospitalID, page])
-  useEffect(() => {
-    return () => debounceSearch.cancel()
-  }, [debounceSearch])
-
-  useEffect(() => {
-    void (async () => {
-      if (page && authUser?.hospitalID) {
-        const data = await fetchPatientData(
-          authUser?.hospitalID,
-          parseInt(page, 10),
-          10,
-          ''
-        )
-        setResponseData(data?.data)
-        setTotal(data?.total)
-      }
-    })()
-  }, [authUser?.hospitalID, page, searchParams])
+    }
+  }, [data, page, searchParams])
 
   return (
     <Suspense>
@@ -145,10 +98,9 @@ const OTZ = () => {
               columns={columns}
               data={responseData ?? []}
               total={total}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
             />
           </div>
         </div>

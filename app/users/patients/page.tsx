@@ -22,6 +22,7 @@ import CustomTab from '@/components/tab/CustomTab'
 import { useUserContext } from '@/context/UserContext'
 import debounce from 'lodash/debounce'
 import axios from 'axios'
+import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -79,14 +80,6 @@ const FilterComponent = () => {
   )
 }
 
-export interface ExtendedPatientAttribute {
-  data: PatientAttributes[]
-  page: number
-  total: number
-  pageSize: number
-  searchQuery: string
-}
-
 const Patients = () => {
   // const datax = await getPatients()
 
@@ -98,61 +91,37 @@ const Patients = () => {
   const [patientTotal, setPatientTotal] = useState<number | undefined>(0)
   const [loading, setLoading] = useState(false)
 
-  async function fetchPatientData (hospitalID: string | undefined, page: number, pageSize: number, searchQuery: string | undefined): Promise<ExtendedPatientAttribute | undefined> {
-    try {
-      setLoading(true)
-      const { data } = await axios.get<ExtendedPatientAttribute | undefined>(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/users/patients/fetchAll`,
-        {
-          params: {
-            hospitalID,
-            page,
-            pageSize,
-            searchQuery
-          }
-        }
-      )
-      setLoading(false)
-      return data
-    } catch (error) {
-      console.log(error)
-    }
-  }
   const page = searchParams.get('page')
 
   const debounceSearch = useMemo(() => {
     // setSearch(value)
+    if (page !== null) {
+      return debounce(async (value: string) => {
+        setSearch(value)
+      }, 500)
+    }
+  }, [page])
 
-    return debounce(async (value: string) => {
-      const data = await fetchPatientData(authUser?.hospitalID, parseInt(page as string, 10), 10, value)
+  useEffect(() => {
+    debounceSearch?.(search)
+    return () => debounceSearch?.cancel()
+  }, [debounceSearch, search])
+
+  const { data, isLoading } = useGetAllPatientsQuery({
+    hospitalID: authUser?.hospitalID as string,
+    page: Number(page) ?? 1,
+    pageSize: 10,
+    searchQuery: search
+  })
+
+  useEffect(() => {
+    if (data) {
       setPatientData(data?.data)
       setPatientTotal(data?.total)
-    }, 500)
-  }, [authUser?.hospitalID, page])
-
-  useEffect(() => {
-    return () => debounceSearch.cancel()
-  }, [debounceSearch])
-
-  useEffect(() => {
-    void (async () => {
-      if (page && authUser?.hospitalID) {
-        const data = await fetchPatientData(authUser?.hospitalID, parseInt(page, 10), 10, '')
-        setPatientData(data?.data)
-        setPatientTotal(data?.total)
-      }
-    })()
-  }, [authUser?.hospitalID, page, searchParams])
-
-  // const { data, isLoading } = useGetAllPatientsQuery({
-  //   hospitalID: authUser?.hospitalID as string,
-  //   page: (page && (page as unknown as number)) ?? 1,
-  //   pageSize: 10
-  // })
+    }
+  }, [data])
 
   const otzPatients = patientData?.filter(item => calculateAge(item.dob) <= 25)
-
-  console.log(patientData, 'otzPatients')
 
   const zeroToNine = otzPatients?.filter((item) => calculateAge(item.dob) <= 9)
   const tenToFourteen = otzPatients?.filter(
@@ -241,7 +210,6 @@ const Patients = () => {
               isLoading={loading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />
@@ -261,10 +229,9 @@ const Patients = () => {
               columns={patientColumns}
               data={zeroToNine ?? []}
               total={patientTotal}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />
@@ -286,10 +253,9 @@ const Patients = () => {
               columns={patientColumns}
               data={tenToFourteen ?? []}
               total={patientTotal}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />
@@ -311,10 +277,9 @@ const Patients = () => {
               columns={patientColumns}
               data={fifteenToNineteen ?? []}
               total={patientTotal}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />
@@ -334,10 +299,9 @@ const Patients = () => {
               columns={patientColumns}
               data={twentyPlus ?? []}
               total={patientTotal}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
               // filter={<FilterComponent />}
               // isSearch
             />

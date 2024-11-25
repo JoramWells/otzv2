@@ -8,6 +8,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
@@ -26,7 +28,10 @@ export function NotificationDropDown ({ data }: { data: NotificationAttributes[]
           </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className='shadow-none' >
+      <DropdownMenuContent align="end" className="shadow-none">
+        <DropdownMenuLabel>My Notifications</DropdownMenuLabel>
+        <DropdownMenuSeparator/>
+
         {/* <DropdownMenuItem className="capitalize">
           <span>
             {user?.firstName} {user?.middleName}
@@ -38,7 +43,10 @@ export function NotificationDropDown ({ data }: { data: NotificationAttributes[]
         <div className="h-[200px] w-auto overflow-y-auto">
           {data?.map((item) => (
             <>
-              <DropdownMenuItem className="capitalize hover:cursor-pointer hover:text-slate-700" key={item.id}>
+              <DropdownMenuItem
+                className="capitalize hover:cursor-pointer hover:text-slate-700"
+                key={item.id}
+              >
                 <p className="text-[12px] text-slate-500">
                   {item?.notificationDescription?.substring(0, 50)}...
                 </p>

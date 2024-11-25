@@ -10,6 +10,21 @@ export type ExtendedOTZEnrollment = OTZEnrollmentsInterface & {
   User: UserInterface
 }
 
+export interface OTZEnrollmentResponseInterface {
+  data: ExtendedOTZEnrollment[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
+
+export interface OTZEnrollmentInputParams {
+  hospitalID: string
+  page: number
+  pageSize: number
+  searchQuery: string
+}
+
 export const otzEnrollmentApi = createApi({
   reducerPath: 'otzEnrollmentApi',
   baseQuery: fetchBaseQuery({
@@ -17,14 +32,18 @@ export const otzEnrollmentApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllOTZEnrollments: builder.query<
-    any,
-    { hospitalID: string }
+    OTZEnrollmentResponseInterface,
+    OTZEnrollmentInputParams
     >({
       query: (params) => {
         if (params) {
-          const { hospitalID } = params
+          const { hospitalID, page, pageSize, searchQuery } = params
+
           let queryString = ''
           queryString += `hospitalID=${hospitalID}`
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
           return `/fetchAll?${queryString}`
         }
         return 'fetchAll'
