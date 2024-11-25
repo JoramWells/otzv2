@@ -5,18 +5,37 @@ import { type PatientAttributes, type PrescriptionInterface } from 'otz-types'
 
 export type ExtendedPrescriptionInterface = PrescriptionInterface & { Patient: PatientAttributes }
 
+interface PrescriptionInputProps {
+  mode?: string
+  hospitalID: string
+  page: number
+  pageSize: number
+  searchQuery: string
+}
+
+export interface PrescriptionResponseInterface {
+  data: ExtendedPrescriptionInterface[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
+
 export const prescriptionApi = createApi({
   reducerPath: 'prescriptionApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/prescription`
   }),
   endpoints: (builder) => ({
-    getAllPrescriptions: builder.query<ExtendedPrescriptionInterface[], { mode: string | undefined, hospitalID: string }>({
+    getAllPrescriptions: builder.query<PrescriptionResponseInterface, PrescriptionInputProps>({
       query: (params) => {
         if (params) {
-          const { mode, hospitalID } = params
+          const { mode, hospitalID, page, pageSize, searchQuery } = params
           let queryString = ''
           queryString += `mode=${mode}`
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
           queryString += `&hospitalID=${hospitalID}`
           return `/fetchAll?${queryString}`
         }

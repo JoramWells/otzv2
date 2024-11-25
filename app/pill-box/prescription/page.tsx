@@ -66,6 +66,13 @@ const PrescriptionPage = () => {
   ExtendedPrescriptionInterface[] | undefined
   >()
 
+  const { data, isLoading } = useGetAllPrescriptionsQuery({
+    mode: undefined,
+    hospitalID: user?.hospitalID as string,
+    page: Number(page) ?? 1,
+    pageSize: 10,
+    searchQuery: search
+  })
   useEffect(() => {
     if (session) {
       const { user } = session
@@ -73,71 +80,27 @@ const PrescriptionPage = () => {
     }
   }, [session])
 
-  async function fetchPatientData (
-    hospitalID: string | undefined,
-    page: number,
-    pageSize: number,
-    searchQuery: string | undefined
-  ): Promise<PrescriptionResponseInterface | undefined> {
-    try {
-      setLoading(true)
-      const { data } = await axios.get<
-      PrescriptionResponseInterface | undefined
-      >(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/otz-enrollment/fetchAll`,
-          {
-            params: {
-              hospitalID,
-              page,
-              pageSize,
-              searchQuery
-            }
-          }
-      )
-      setLoading(false)
-      return data
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const debounceSearch = useMemo(() => {
     // setSearch(value)
 
-    return debounce(async (value: string) => {
-      const data = await fetchPatientData(
-        user?.hospitalID,
-        parseInt(page as string, 10),
-        10,
-        value
-      )
-      setResponseData(data?.data)
-      setTotal(data?.total)
-    }, 500)
-  }, [page, user?.hospitalID])
-  useEffect(() => {
-    return () => debounceSearch.cancel()
-  }, [debounceSearch])
+    if (page != null) {
+      return debounce(async (value: string) => {
+        setSearch(value)
+      }, 500)
+    }
+  }, [page])
 
   useEffect(() => {
-    void (async () => {
-      if (page && user?.hospitalID) {
-        const data = await fetchPatientData(
-          user?.hospitalID,
-          parseInt(page, 10),
-          10,
-          ''
-        )
-        setResponseData(data?.data)
-        setTotal(data?.total)
-      }
-    })()
-  }, [page, searchParams, user?.hospitalID])
+    debounceSearch?.(search)
+    return () => debounceSearch?.cancel()
+  }, [debounceSearch, search])
 
-  // const { data } = useGetAllPrescriptionsQuery({
-  //   mode: undefined,
-  //   hospitalID: user?.hospitalID as string
-  // })
+  useEffect(() => {
+    if (data != null) {
+      setResponseData(data.data)
+      setTotal(data.total)
+    }
+  }, [data])
 
   let sortedData = responseData ? [...responseData] : []
   sortedData = sortedData.filter(item => calculateAge(item.Patient.dob) < 25)
@@ -190,10 +153,9 @@ const PrescriptionPage = () => {
               columns={columns}
               data={responseData ?? []}
               total={total}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
             />
           )}
           {tabValue === 'active' && (
@@ -201,20 +163,18 @@ const PrescriptionPage = () => {
               columns={columns}
               data={activeData || []}
               total={total}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
             />
           )}
           {tabValue === 'not active' && (
             <CustomTable
               columns={columns}
               data={nonActive || []}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              debounceSearch={debounceSearch}
             />
           )}
         </div>
