@@ -12,7 +12,7 @@ import { BellDot, LayoutDashboardIcon, Pill } from 'lucide-react'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { type JSX, Suspense, useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { PharmacyProvider } from '@/context/PharmacyContext'
 import { UserProvider, useUserContext } from '@/context/UserContext'
@@ -80,7 +80,7 @@ const PillLayout = ({ children }: { children: React.ReactNode }) => {
   return <AuthenticateLoader/>
 }
 
-export default function WrappedPillLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+export default function WrappedPillLayout (props: any) {
   return (
     <Suspense fallback={<div>Loading..</div>}>
       <Provider store={store} >
