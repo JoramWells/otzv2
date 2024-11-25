@@ -73,7 +73,9 @@ const UpdateMissingVLEntries = ({ missingData, setMissingData, setData }: Update
                 </div>
               }
             >
-              <form className="flex flex-col rounded-lg bg-white border border-slate-100">
+              <form
+              onSubmit={() => handleSave(item)}
+              className="flex flex-col rounded-lg bg-white border border-slate-100">
                 <div className="p-2 pl-4 pr-4">
                   <label
                     htmlFor=""
@@ -138,9 +140,10 @@ const UpdateMissingVLEntries = ({ missingData, setMissingData, setData }: Update
                   <Button
                     className="shadow-none"
                     size={'sm'}
-                    onClick={() => {
-                      handleSave(item)
-                    }}
+                    type='submit'
+                    // onClick={() => {
+                    //   handleSave(item)
+                    // }}
                   >
                     Update
                   </Button>
