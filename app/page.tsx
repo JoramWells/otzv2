@@ -25,6 +25,7 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Badge } from '@/components/ui/badge'
 import { NotificationDropDown } from '@/components/notification/NotificationDropDown'
+import { type AppModuleResponseInterface } from '@/api/appModules/appModules.api'
 
 // interface ListItemProps {
 //   id: string
@@ -71,10 +72,17 @@ const responsive = {
   }
 }
 
-const fetchData = async (): Promise<AppModuleInterface[] | undefined> => {
+const fetchData = async (): Promise<AppModuleResponseInterface | undefined> => {
   try {
-    const { data } = await axios.get<AppModuleInterface[]>(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/root/app-modules/fetchAll`
+    const { data } = await axios.get<AppModuleResponseInterface | undefined>(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/root/app-modules/fetchAll/`,
+        {
+          params: {
+            page: 1,
+            pageSize: 10,
+            searchQuery: ''
+          }
+        }
     )
     return data
   } catch (e) {
@@ -82,10 +90,25 @@ const fetchData = async (): Promise<AppModuleInterface[] | undefined> => {
   }
 }
 
-const fetchNotificationData = async (hospitalID: string): Promise<NotificationAttributes[] | undefined> => {
+export interface NotificationResponseInterface {
+  data: NotificationAttributes[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
+
+const fetchNotificationData = async (hospitalID: string): Promise<NotificationResponseInterface | undefined> => {
   try {
-    const { data } = await axios.get<NotificationAttributes[] | undefined>(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/notify/notifications/fetchAll?hospitalID=${hospitalID}`
+    const { data } = await axios.get<NotificationResponseInterface | undefined>(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/notify/notifications/fetchAll?hospitalID=${hospitalID}`,
+      {
+        params: {
+          page: 1,
+          pageSize: 10,
+          searchQuery: ''
+        }
+      }
     )
     return data
   } catch (error) {
@@ -120,11 +143,11 @@ export default function Home () {
       const resp = await fetchData()
       if (user?.hospitalID) {
         const notificationData = await fetchNotificationData(user.hospitalID)
-        setUserNotifications(notificationData)
+        setUserNotifications(notificationData?.data)
       }
 
       if (resp) {
-        setData(user?.role === 'admin' ? administrator.concat(resp) : resp)
+        setData(user?.role === 'admin' ? administrator.concat(resp.data) : resp.data)
         // console.log(resp, 'response')
       }
     })()
@@ -178,7 +201,7 @@ export default function Home () {
                 // quality={100}
               />
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-4">
                 <NotificationDropDown data={userNotifications ?? []} />
                 <UserAccount user={user as UserInterface} />
               </div>

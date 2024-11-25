@@ -16,14 +16,13 @@ import { type NotificationAttributes } from 'otz-types'
 export function NotificationDropDown ({ data }: { data: NotificationAttributes[] }) {
   // const { data: session } = useSession()
   // const router = useRouter()
-  console.log(data)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="shadow-none relative" size={'sm'} variant={'ghost'}>
           <Bell size={18} />
-          <div className="absolute p-1 rounded-full shadow-none top-0 right-0 text-[12px] h-5 w-5 flex items-center justify-center bg-red-500 hover:bg-red-400">
-            {data?.length}
+          <div className="absolute p-1 rounded-full shadow-none top-0 right-0 text-[10px] font-semibold h-5 w-5 flex items-center justify-center bg-red-500 hover:bg-red-400">
+            {data?.length >= 10 ? '10+' : data?.length}
           </div>
         </Button>
       </DropdownMenuTrigger>

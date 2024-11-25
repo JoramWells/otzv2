@@ -81,7 +81,7 @@ export function CustomTable<TData, TValue> ({
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setSearch && setSearch(value)
-    debounceSearch && debounceSearch(value)
+    // debounceSearch && debounceSearch(value)
   }
 
   const table = useReactTable({
@@ -124,7 +124,7 @@ export function CustomTable<TData, TValue> ({
   useEffect(() => {
     const { pageIndex } = table.getState().pagination
     if (page === null) {
-      updateQueryParams(pageIndex + 1)
+      updateQueryParams(1)
     }
     setPageNo(pageIndex + 1)
     table.setPageIndex(Number(page) - 1)
