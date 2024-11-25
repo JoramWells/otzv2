@@ -16,13 +16,14 @@ import { ListFilter, PlusCircle } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
-import { type PatientAttributes } from 'otz-types'
+import { type UserInterface, type PatientAttributes } from 'otz-types'
 import { calculateAge } from '@/utils/calculateAge'
 import CustomTab from '@/components/tab/CustomTab'
 import { useUserContext } from '@/context/UserContext'
 import debounce from 'lodash/debounce'
 import axios from 'axios'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
+import { useSession } from 'next-auth/react'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -83,7 +84,9 @@ const FilterComponent = () => {
 const Patients = () => {
   // const datax = await getPatients()
 
-  const { authUser } = useUserContext()
+  const { data: session } = useSession()
+
+  const [user, setUser] = useState<UserInterface>()
   const [search, setSearch] = useState('')
 
   const searchParams = useSearchParams()
@@ -91,6 +94,12 @@ const Patients = () => {
   const [patientTotal, setPatientTotal] = useState<number | undefined>(0)
 
   const page = searchParams.get('page')
+
+  useEffect(() => {
+    if (session) {
+      setUser(session?.user as UserInterface)
+    }
+  }, [session])
 
   const debounceSearch = useMemo(() => {
     // setSearch(value)
@@ -107,7 +116,7 @@ const Patients = () => {
   }, [debounceSearch, search])
 
   const { data, isLoading } = useGetAllPatientsQuery({
-    hospitalID: authUser?.hospitalID as string,
+    hospitalID: user?.hospitalID as string,
     page: Number(page) ?? 1,
     pageSize: 10,
     searchQuery: search
