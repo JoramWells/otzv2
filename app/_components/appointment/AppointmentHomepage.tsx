@@ -194,10 +194,10 @@ const AppointmentHomepage = () => {
             <CustomTable
               columns={columns}
               isLoading={isLoading}
+              total={total}
               data={sortedAppointment || []}
               search={search}
               setSearch={setSearch}
-
             />
           )}
 
@@ -206,10 +206,10 @@ const AppointmentHomepage = () => {
             <CustomTable
               columns={columns}
               isLoading={isLoading}
+              total={total}
               data={completedAppointment() || []}
               search={search}
               setSearch={setSearch}
-
             />
           )}
 
@@ -218,32 +218,32 @@ const AppointmentHomepage = () => {
             <CustomTable
               columns={columns}
               isLoading={isLoading}
+              total={total}
               data={pendingAppointment() ?? []}
               search={search}
               setSearch={setSearch}
-
             />
           )}
 
           {value === 'rescheduled' && (
             <CustomTable
               isLoading={isLoading}
+              total={total}
               columns={columns}
               data={rescheduledAppointment() || []}
               search={search}
               setSearch={setSearch}
-
             />
           )}
 
           {value === 'upcoming' && (
             <CustomTable
               columns={columns}
+              total={total}
               data={upcomingAppointment() || []}
               isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-
             />
           )}
 
@@ -251,10 +251,10 @@ const AppointmentHomepage = () => {
             <CustomTable
               isLoading={isLoading}
               columns={columns}
+              total={total}
               data={missedAppointment() || []}
               search={search}
               setSearch={setSearch}
-
             />
           )}
         </div>

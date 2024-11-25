@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
@@ -12,11 +11,9 @@ import { type ExtendedPrescriptionInterface, useGetAllPrescriptionsQuery } from 
 import CustomTab from '@/components/tab/CustomTab'
 import { useEffect, useMemo, useState } from 'react'
 import { calculateAge } from '@/utils/calculateAge'
-import { useSession } from 'next-auth/react'
-import { type UserInterface } from 'otz-types'
-import axios from 'axios'
 import debounce from 'lodash/debounce'
 import { useSearchParams } from 'next/navigation'
+import { useUserContext } from '@/context/UserContext'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -54,12 +51,10 @@ const dataList2 = [
 
 const PrescriptionPage = () => {
   const searchParams = useSearchParams()
+  const { authUser } = useUserContext()
 
   const page = searchParams.get('page')
 
-  const { data: session } = useSession()
-  const [user, setUser] = useState<UserInterface>()
-  const [loading, setLoading] = useState(false)
   const [total, setTotal] = useState<number | undefined>(0)
   const [search, setSearch] = useState('')
   const [responseData, setResponseData] = useState<
@@ -68,17 +63,11 @@ const PrescriptionPage = () => {
 
   const { data, isLoading } = useGetAllPrescriptionsQuery({
     mode: undefined,
-    hospitalID: user?.hospitalID as string,
+    hospitalID: authUser?.hospitalID as string,
     page: Number(page) ?? 1,
     pageSize: 10,
     searchQuery: search
   })
-  useEffect(() => {
-    if (session) {
-      const { user } = session
-      setUser(user as UserInterface)
-    }
-  }, [session])
 
   const debounceSearch = useMemo(() => {
     // setSearch(value)
@@ -86,7 +75,7 @@ const PrescriptionPage = () => {
     if (page != null) {
       return debounce(async (value: string) => {
         setSearch(value)
-      }, 500)
+      }, 300)
     }
   }, [page])
 

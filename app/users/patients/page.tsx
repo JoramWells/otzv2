@@ -121,7 +121,7 @@ const Patients = () => {
     }
   }, [data])
 
-  const otzPatients = patientData?.filter(item => calculateAge(item.dob) <= 25)
+  const otzPatients = patientData?.filter(item => calculateAge(item.dob) <= 24)
 
   const zeroToNine = otzPatients?.filter((item) => calculateAge(item.dob) <= 9)
   const tenToFourteen = otzPatients?.filter(
@@ -144,7 +144,7 @@ const Patients = () => {
     {
       id: 0,
       label: 'All',
-      count: otzPatients?.length
+      count: patientTotal
     },
     {
       id: 1,
