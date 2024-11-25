@@ -89,7 +89,6 @@ const Patients = () => {
   const searchParams = useSearchParams()
   const [patientData, setPatientData] = useState<PatientAttributes[] | undefined>([])
   const [patientTotal, setPatientTotal] = useState<number | undefined>(0)
-  const [loading, setLoading] = useState(false)
 
   const page = searchParams.get('page')
 
@@ -207,7 +206,7 @@ const Patients = () => {
               columns={patientColumns}
               data={otzPatients ?? []}
               total={patientTotal}
-              isLoading={loading}
+              isLoading={isLoading}
               search={search}
               setSearch={setSearch}
               // filter={<FilterComponent />}
