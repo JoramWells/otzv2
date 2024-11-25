@@ -31,19 +31,18 @@ const AddApp = ({ params }: { params: any }) => {
   const { appModuleID } = params
 
   const { data } = useGetAppModulesQuery(appModuleID as string)
-  console.log(data, 'data')
 
   const [file, setFile] = useState<File | undefined>()
-  const [title, setTitle] = useState('')
-  const [link, setLink] = useState('')
-  const [description, setDescription] = useState('')
+  const [title, setTitle] = useState<string>()
+  const [link, setLink] = useState<string>()
+  const [description, setDescription] = useState<string>()
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
     if (data != null) {
-      setTitle(data.title)
-      setLink(data.link)
-      setDescription(data.description)
+      setTitle(data?.title)
+      setLink(data?.link)
+      setDescription(data?.description)
       setIsActive(data.isActive as boolean)
     }
   }, [data])
@@ -53,9 +52,9 @@ const AddApp = ({ params }: { params: any }) => {
     e.preventDefault()
     const formData = new FormData()
 
-    formData.append('title', title)
-    formData.append('description', description)
-    formData.append('link', link)
+    formData.append('title', title as string)
+    formData.append('description', description as string)
+    formData.append('link', link as string)
     formData.append('isActive', isActive as unknown as string)
     if (file != null) {
       formData.append('file', file)
