@@ -15,6 +15,10 @@ import {
 import { useMemo } from 'react'
 import { type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
 
+interface AppointmentBarChartInputProps{
+  agendaDescription: string
+}
+
 type GroupData = Record<string, any>
 
 // type ChartConfig = Record<string, { label: string, color: string }>
@@ -28,11 +32,11 @@ const getNextColor = () => {
   return `hsl(var(--chart-${nextColor}))`
 }
 
-export function AppointmentBarChart ({ data }: { data: ExtendedAppointmentInputProps[] }) {
+export function AppointmentBarChart ({ data }: { data: AppointmentBarChartInputProps[] }) {
   const chartConfig = useMemo(() => {
     const config: ChartConfig = {}
-    data?.forEach(({ AppointmentAgenda }) => {
-      const { agendaDescription } = AppointmentAgenda
+    data?.forEach((item) => {
+      const agendaDescription = item.agendaDescription
       if (!config[agendaDescription]) {
         config[agendaDescription] = {
           label: agendaDescription,
@@ -60,7 +64,8 @@ export function AppointmentBarChart ({ data }: { data: ExtendedAppointmentInputP
   }
 
   // const chartData = transformDataToCart()
-  const chartData = groupAppointmentsByDay(data)
+  // const chartData = groupAppointmentsByDay(data)
+  const chartData = data
 
   // const chartConfig = generateChartConfig(data)
 

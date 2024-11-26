@@ -20,6 +20,7 @@ interface ChartDataItem {
 
 export function UserActivitiesChart () {
   const { data } = useGetAllUserActivitiesCountQuery()
+  console.log(data, 'dtm')
   const chartData: ChartDataItem[] =
     data?.map((item: UserActivityData, index: number) => ({
       visitors: parseInt(item.count, 10),

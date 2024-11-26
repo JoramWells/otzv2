@@ -34,84 +34,105 @@ export interface AppointmentResponseInterface {
 }
 
 export const appointmentApi = createApi({
-  reducerPath: 'appointmentApi',
+  reducerPath: "appointmentApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/appointments`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/appointments`,
   }),
   endpoints: (builder) => ({
     getAllAppointments: builder.query<
-    AppointmentResponseInterface,
-    AppointmentTypeProps
+      AppointmentResponseInterface,
+      AppointmentTypeProps
     >({
       query: (params) => {
         if (params) {
-          const { date, mode, hospitalID, page, pageSize, searchQuery } = params
-          let queryString = ''
-          queryString += `date=${date}`
-          queryString += `&mode=${mode}`
-          queryString += `&page=${page}`
-          queryString += `&pageSize=${pageSize}`
-          queryString += `&searchQuery=${searchQuery}`
-          queryString += `&hospitalID=${hospitalID}`
-          return `/fetchAll/?${queryString}`
+          const { date, mode, hospitalID, page, pageSize, searchQuery } =
+            params;
+          let queryString = "";
+          queryString += `date=${date}`;
+          queryString += `&mode=${mode}`;
+          queryString += `&page=${page}`;
+          queryString += `&pageSize=${pageSize}`;
+          queryString += `&searchQuery=${searchQuery}`;
+          queryString += `&hospitalID=${hospitalID}`;
+          return `/fetchAll/?${queryString}`;
         }
-        return '/fetchAll'
-      }
+        return "/fetchAll";
+      },
     }),
     getAllWeeklyAppointments: builder.query<any, void>({
-      query: () => 'fetchAllWeekly'
+      query: () => "fetchAllWeekly",
     }),
     addAppointment: builder.mutation({
       query: (newUser) => ({
-        url: 'add',
-        method: 'POST',
-        body: newUser
-      })
+        url: "add",
+        method: "POST",
+        body: newUser,
+      }),
     }),
     getAppointment: builder.query<ExtendedAppointmentInputProps, string>({
       query: (id) => {
-        return `detail/${id}`
-      }
+        return `detail/${id}`;
+      },
     }),
     getAppointmentDetail: builder.query({
-      query: (id) => `appointmentDetail/${id}`
+      query: (id) => `appointmentDetail/${id}`,
+    }),
+    getAppointmentAgendaCount: builder.query({
+      query: (params) => {
+        if (params) {
+          const { hospitalID, date } = params;
+          let queryString = "";
+          queryString += `date=${date}`;
+          queryString += `&hospitalID=${hospitalID}`;
+          return `/appointment-agenda-count/?${queryString}`;
+        }
+        return "/appointment-agenda-count";
+      },
     }),
     getPriorityAppointmentDetail: builder.query({
-      query: (id) => `priorityAppointmentDetail/${id}`
+      query: (id) => `priorityAppointmentDetail/${id}`,
     }),
     getRecentPatientAppointment: builder.mutation({
       query: ({ id, params }) => {
         if (params) {
-          const { agenda } = params
-          return `recent-appointment/${id}?agenda=${agenda}`
+          const { agenda } = params;
+          return `recent-appointment/${id}?agenda=${agenda}`;
         }
-        return `recent-appointment/${id}`
-      }
+        return `recent-appointment/${id}`;
+      },
     }),
-    getAllPriorityAppointments: builder.query<any, void>({
-      query: () => 'priorityAppointments'
+    getRecentAppointments: builder.query<ExtendedAppointmentInputProps[], {hospitalID: string}>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } = params;
+          let queryString = "";
+          queryString += `hospitalID=${hospitalID}`;
+          return `/recent-appointments/?${queryString}`;
+        }
+        return "/recent-appointments";
+      },
     }),
     updateAppointment: builder.mutation<void, any>({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
-        method: 'PUT',
-        body: patch
-      })
+        method: "PUT",
+        body: patch,
+      }),
     }),
     deleteAppointment: builder.mutation({
-      query (id) {
+      query(id) {
         return {
           url: `delete/${id}`,
-          method: 'DELETE'
-        }
-      }
-    })
-  })
-})
+          method: "DELETE",
+        };
+      },
+    }),
+  }),
+});
 
 export const {
   useGetAllAppointmentsQuery, useAddAppointmentMutation, useGetPriorityAppointmentDetailQuery,
-  useGetAppointmentQuery, useGetAppointmentDetailQuery, useGetAllPriorityAppointmentsQuery,
+  useGetAppointmentQuery, useGetAppointmentDetailQuery, useGetRecentAppointmentsQuery,
   useUpdateAppointmentMutation, useDeleteAppointmentMutation, useGetRecentPatientAppointmentMutation,
-  useGetAllWeeklyAppointmentsQuery
+  useGetAllWeeklyAppointmentsQuery, useGetAppointmentAgendaCountQuery
 } = appointmentApi

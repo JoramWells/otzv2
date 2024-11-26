@@ -15,6 +15,11 @@ import { Button } from '@/components/ui/button'
 // import { pinnedColumns } from '../columns'
 import { useSession } from 'next-auth/react'
 import { type UserInterface } from 'otz-types'
+import { useGetAppointmentAgendaCountQuery, useGetRecentAppointmentsQuery } from '@/api/appointment/appointment.api.'
+import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
+import CustomPieChart from '@/app/_components/charts/CustomPieChart'
+import { CustomTable } from '@/app/_components/table/CustomTable'
+import { pinnedColumns } from '../columns'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -46,22 +51,47 @@ const NotifyPage = () => {
       setUser(user as UserInterface)
     }
   }, [session])
-  // const { data: weeklyData } = useGetAllAppointmentsQuery({
-  //   date: '2022-01-01',
-  //   mode: value,
-  //   hospitalID: user?.hospitalID as string
-  // })
+  const { data: weeklyData } = useGetAppointmentAgendaCountQuery({
+    hospitalID: user?.hospitalID as string,
+    date: value
+  },
+  {
+    skip: !user?.hospitalID
+  }
+  )
 
-  // const { data: priorityAppointmentData } = useGetAllPriorityAppointmentsQuery()
-  // const { data: importantPatients } = useGetImportantPatientQuery(
-  //   session?.user.id as string
-  // )
+  interface AppointmentAgendaCountInterface{
+    status: string
+  }
 
-  // const importantPatientIDs = importantPatients?.map(item => item.patientID)
+const statusCount = (appointments: {status: string}[]):{status: string, count:number}[] => {
+  // Count each status dynamically
+  const counts:Record<string, number> = appointments?.reduce((acc, appointment) => {
+    const status = appointment.status || "Unknown"; // Handle missing status
+    if (!acc[status]) {
+      acc[status] = 0;
+    }
+    acc[status]++;
+    return acc;
+  }, {} as Record<string, number>);
 
-  // const importantPatientAppointment = weeklyData?.filter(appointment =>
-  //   importantPatientIDs?.includes(appointment.patientID)
-  // )
+  // Transform the result into an array of objects
+  return counts ? Object?.entries(counts).map(([status, count]) => ({
+    status,
+    count,
+  })): [];
+};
+
+
+
+  const { data: priorityAppointmentData } = useGetRecentAppointmentsQuery({
+    hospitalID: user?.hospitalID as string
+  },
+  {
+    skip: !user?.hospitalID
+  }
+
+);
 
   const handleSelectChange = (val: string) => {
     setValue(val)
@@ -101,8 +131,11 @@ const NotifyPage = () => {
             </div>
           </div>
           <div className="flex space-x-2 bg-slate-50 p-2">
-            {/* <AppointmentBarChart data={weeklyData ?? []} />
-            <AppointmentPieChart data={weeklyData ?? []} /> */}
+            <AppointmentBarChart data={weeklyData ?? []} />
+            <CustomPieChart
+            data={statusCount(weeklyData) ?? []}
+            />
+            {/* <AppointmentPieChart data={weeklyData ?? []} /> */}
 
           </div>
         <div className="bg-white p-4">
@@ -136,13 +169,13 @@ const NotifyPage = () => {
             ))}
           </div>
           {/* <div className="p-2"> */}
-            {/* {tab === 1 && (
+            {tab === 1 && (
               <CustomTable
                 isSearch={false}
-                data={importantPatientAppointment ?? []}
+                data={priorityAppointmentData ?? []}
                 columns={pinnedColumns}
               />
-            )} */}
+            )}
 
             {/*  */}
             {/* {tab === 2 && (

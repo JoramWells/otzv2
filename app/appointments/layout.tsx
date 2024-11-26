@@ -73,7 +73,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   if (session != null) {
     return (
         <SidebarProvider>
-          <PharmacyProvider>
+          {/* <PharmacyProvider> */}
             <div className="flex flex-row bg-slate-50">
               <Sidebar>
                 <SidebarListItemsComponent dataList={DL} />
@@ -83,7 +83,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
                 <Footer />
               </div>
             </div>
-          </PharmacyProvider>
+          {/* </PharmacyProvider> */}
         </SidebarProvider>
     )
   }
