@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -8,8 +7,7 @@
 import { History, Pin } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-// import AppointmentPieChart from '@/app/_components/charts/AppointmentPieChart'
-// import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
+
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 // import { pinnedColumns } from '../columns'
@@ -41,7 +39,7 @@ const dataList2 = [
   }
 ]
 
-const NotifyPage = () => {
+const AppointmentDashboardPage = () => {
   const [value, setValue] = useState('all')
   const { data: session } = useSession()
   const [user, setUser] = useState<UserInterface>()
@@ -60,29 +58,25 @@ const NotifyPage = () => {
   }
   )
 
-  interface AppointmentAgendaCountInterface{
-    status: string
-  }
-
-const statusCount = (appointments: {status: string}[]):{status: string, count:number}[] => {
+  const statusCount = (appointments: Array<{ status: string }>): Array<{ status: string, count: number }> => {
   // Count each status dynamically
-  const counts:Record<string, number> = appointments?.reduce((acc, appointment) => {
-    const status = appointment.status || "Unknown"; // Handle missing status
-    if (!acc[status]) {
-      acc[status] = 0;
-    }
-    acc[status]++;
-    return acc;
-  }, {} as Record<string, number>);
+    const counts: Record<string, number> = appointments?.reduce<Record<string, number>>((acc, appointment) => {
+      const status = appointment.status || 'Unknown' // Handle missing status
+      if (!acc[status]) {
+        acc[status] = 0
+      }
+      acc[status]++
+      return acc
+    }, {})
 
-  // Transform the result into an array of objects
-  return counts ? Object?.entries(counts).map(([status, count]) => ({
-    status,
-    count,
-  })): [];
-};
-
-
+    // Transform the result into an array of objects
+    return counts
+      ? Object?.entries(counts).map(([status, count]) => ({
+        status,
+        count
+      }))
+      : []
+  }
 
   const { data: priorityAppointmentData } = useGetRecentAppointmentsQuery({
     hospitalID: user?.hospitalID as string
@@ -91,7 +85,7 @@ const statusCount = (appointments: {status: string}[]):{status: string, count:nu
     skip: !user?.hospitalID
   }
 
-);
+  )
 
   const handleSelectChange = (val: string) => {
     setValue(val)
@@ -104,26 +98,26 @@ const statusCount = (appointments: {status: string}[]):{status: string, count:nu
       <BreadcrumbComponent dataList={dataList2} />
 
           <div className="flex justify-between items-center w-full bg-white p-2 mt-2 ">
-              <h2
+              <h3
                 className="font-semibold capitalize ml-2
         "
               >
                 Appointments
-              </h2>
+              </h3>
 
             <div className="flex space-x-2">
               {[
-                { id: 0, label: 'all' },
-                { id: 1, label: 'weekly' },
-                { id: 2, label: 'monthly' }
+                { id: 'all', label: 'All' },
+                { id: 'weekly', label: 'This week' },
+                { id: 'monthly', label: 'This month' }
               ].map((item, idx) => (
                 <Button
                   key={item.id}
                   size={'sm'}
                   className={`rounded-full border bg-transparent text-black hover:bg-slate-100 ${
-                    item.label === value && 'bg-slate-200'
+                    item.id === value && 'bg-slate-200'
                   } `}
-                  onClick={() => handleSelectChange(item.label.toLowerCase())}
+                  onClick={() => handleSelectChange(item.id.toLowerCase())}
                 >
                   {item.label}
                 </Button>
@@ -192,4 +186,4 @@ const statusCount = (appointments: {status: string}[]):{status: string, count:nu
   )
 }
 
-export default NotifyPage
+export default AppointmentDashboardPage

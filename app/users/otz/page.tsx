@@ -51,12 +51,17 @@ const OTZ = () => {
   const [total, setTotal] = useState<number | undefined>(0)
   const [search, setSearch] = useState('')
 
-  const { data, isLoading } = useGetAllOTZEnrollmentsQuery({
-    hospitalID: authUser?.hospitalID as string,
-    page: Number(page) ?? 1,
-    pageSize: 10,
-    searchQuery: search
-  })
+  const { data, isLoading } = useGetAllOTZEnrollmentsQuery(
+    {
+      hospitalID: authUser?.hospitalID as string,
+      page: Number(page) ?? 1,
+      pageSize: 10,
+      searchQuery: search,
+    },
+    {
+      skip: !authUser?.hospitalID,
+    }
+  )
 
   const [responseData, setResponseData] = useState<ExtendedOTZEnrollment[] | undefined>()
 

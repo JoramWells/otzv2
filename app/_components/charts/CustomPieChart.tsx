@@ -20,7 +20,7 @@ interface ChartDataItem {
 export default function CustomPieChart ({ data }: { data: any[] }) {
   // const { data } = useGetAllUserActivitiesCountQuery()
   const chartData: ChartDataItem[] =
-    data?.map((item: {status: string, count: string}, index: number) => ({
+    data?.map((item: { status: string, count: string }, index: number) => ({
       visitors: parseInt(item.count, 10),
       browser: `${item.status}`,
       fill: `hsl(var(--chart-${(index % 5) + 1}))` // Cycle through colors
@@ -53,6 +53,7 @@ export default function CustomPieChart ({ data }: { data: any[] }) {
               className="fill-background text-white"
               stroke="none"
               fontSize={12}
+              // eslint-disable-next-line @typescript-eslint/promise-function-async
               formatter={(value: keyof typeof chartConfig) =>
                 chartConfig[value]?.label
               }
@@ -61,5 +62,5 @@ export default function CustomPieChart ({ data }: { data: any[] }) {
         </PieChart>
       </ChartContainer>
     </div>
-  );
+  )
 }

@@ -43,7 +43,11 @@ const AppointmentHomepage = () => {
     page: Number(page) ?? 1,
     pageSize: 10,
     searchQuery: search
-  })
+  },
+  {
+    skip: !user?.hospitalID
+  }
+  )
 
   const debounceSearch = useMemo(() => {
     // setSearch(value)
