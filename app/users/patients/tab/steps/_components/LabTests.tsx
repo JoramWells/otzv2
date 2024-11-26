@@ -9,7 +9,7 @@ import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import ViralLoad from './LabTests/ViralLoad'
 import RecentViralLoadCard from './LabTests/RecentViralLoadCard'
 import { ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
@@ -50,8 +50,10 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
   const agendaDataOptions = useCallback(() => {
     return agendaData?.filter(
       (item: any) => item.agendaDescription.toLowerCase() === 'viral load'
-    ) ?? []
+    ) || []
   }, [agendaData])
+
+  console.log(agendaDataOptions(), 'agData')
 
   //
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
@@ -71,18 +73,25 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
   //   const validDate = currentDate.add(6, 'months')
   // }
 
-  const inputValues = {
-    patientID,
-    dateOfVL,
-    dateOfNextVL,
-    vlResults,
-    vlJustification,
-    userID: userOptions()?.length > 0 && userOptions()[0]?.id,
-    patientVisitID,
-    appointmentAgendaID: agendaDataOptions()?.length > 0 && agendaDataOptions()[0]?.id,
-    appointmentStatusID: statusOptions()?.length > 0 && statusOptions()[0]?.id,
-    appointmentDate: dateOfNextVL
-  }
+  const inputValues = useMemo(
+    () => [
+      {
+        patientID,
+        dateOfVL,
+        dateOfNextVL,
+        vlResults,
+        vlJustification,
+        userID: userOptions()?.length > 0 && userOptions()[0]?.id,
+        patientVisitID,
+        appointmentAgendaID:
+          agendaDataOptions()?.length > 0 && agendaDataOptions()[0]?.id,
+        appointmentStatusID:
+          statusOptions()?.length > 0 && statusOptions()[0]?.id,
+        appointmentDate: dateOfNextVL
+      }
+    ],
+    [agendaDataOptions, dateOfNextVL, dateOfVL, patientID, patientVisitID, statusOptions, userOptions, vlJustification, vlResults]
+  )
 
   useEffect(() => {
     if (vlData) {
@@ -191,7 +200,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
                 className="bg-teal-600 hover:bg-teal-500 shadow-none text-white"
                 disabled={isLoading}
                 onClick={() => {
-                  addViralLoadTest(inputValues)
+                  addViralLoadTest(inputValues[0])
                 }}
                 size={'sm'}
               >

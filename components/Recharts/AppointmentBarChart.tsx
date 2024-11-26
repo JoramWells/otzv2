@@ -13,13 +13,10 @@ import {
   ChartTooltipContent
 } from '@/components/ui/chart'
 import { useMemo } from 'react'
-import { type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
 
-interface AppointmentBarChartInputProps{
+interface AppointmentBarChartInputProps {
   agendaDescription: string
 }
-
-type GroupData = Record<string, any>
 
 // type ChartConfig = Record<string, { label: string, color: string }>
 
@@ -47,21 +44,6 @@ export function AppointmentBarChart ({ data }: { data: AppointmentBarChartInputP
 
     return config
   }, [data])
-
-  const groupAppointmentsByDay = (appointments: any[]) => {
-    const groupedData: GroupData = {}
-    appointments?.forEach((appointment: { AppointmentAgenda: any, appointmentDate: any }) => {
-      const { AppointmentAgenda, appointmentDate } = appointment
-      if (!groupedData[appointmentDate]) {
-        groupedData[appointmentDate] = { appointmentDate }
-      }
-      if (!groupedData[appointmentDate][AppointmentAgenda?.agendaDescription]) {
-        groupedData[appointmentDate][AppointmentAgenda?.agendaDescription] = 0
-      }
-      groupedData[appointmentDate][AppointmentAgenda?.agendaDescription]++
-    })
-    return Object.values(groupedData)
-  }
 
   // const chartData = transformDataToCart()
   // const chartData = groupAppointmentsByDay(data)
