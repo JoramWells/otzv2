@@ -89,7 +89,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
 
   const { data } = useGetPrescriptionQuery(patientVisitID as string)
 
-  const { data: mmas8Data } = useGetMmasEightByPatientIDQuery(patientID)
+  const { data: mmas8Data } = useGetMmasEightByPatientIDQuery(patientID as string)
 
   useEffect(() => {
     if (data) {
@@ -386,7 +386,7 @@ const PrescriptionDetailPage = ({ params }: { params: any }) => {
         </div>
 
         <EnhancedAdherenceCounsellingForm
-          score={mmas8Data?.totalScores}
+          score={mmas8Data?.totalScores as unknown as string}
           adherence={patientAdherence?.adherence as unknown as number}
           prescriptionID={prescriptionID}
           nextAppointmentDate={nextRefillDate as unknown as Date}
