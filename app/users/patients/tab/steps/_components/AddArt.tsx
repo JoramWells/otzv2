@@ -11,9 +11,6 @@ import {
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { Button } from '@/components/ui/button'
 import {
-  ChevronsLeft,
-  ChevronsRight,
-  Loader2,
   Plus,
   RefreshCcw,
   TabletsIcon
@@ -23,7 +20,6 @@ import { useSearchParams } from 'next/navigation'
 
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
-import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useAddPrescriptionMutation, useGetPrescriptionDetailQuery, useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import { Badge } from '@/components/ui/badge'
 import RecentPrescriptionCard from './ART/RecentPrescriptionCard'
@@ -34,6 +30,7 @@ import SwitchART from './ART/SwitchART'
 import { Skeleton } from '@/components/ui/skeleton'
 import CardHeader from './CardHeader'
 import { useToast } from '@/components/ui/use-toast'
+import { useUserContext } from '@/context/UserContext'
 
 const reasonOptions = [
   {
@@ -111,7 +108,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
   const { data: prescriptionData } = useGetArtPrescriptionQuery(patientID)
   const { data: agendaData } = useGetAllAppointmentAgendaQuery()
   const { data: statusData } = useGetAllAppointmentStatusQuery()
-  const { data: userData } = useGetAllUsersQuery()
+
   const [recentPrescriptionData, setRecentPrescriptionData] = useState<PrescriptionInterface>()
 
   const [
@@ -205,6 +202,8 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
     return await addArtPrescription(inputValues)
   }
 
+  const { authUser } = useUserContext()
+
   const [tab, setTab] = useState(1)
 
   useEffect(() => {
@@ -225,13 +224,13 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
           ? addArtPrescriptionData?.id
           : recentPrescriptionData?.id,
         refillDate,
-        userID: userData?.[0].id,
+        userID: authUser?.id,
         patientVisitID: appointmentID,
         appointmentAgendaID: agendaDataOptions?.()[0]?.id,
         appointmentStatusID: statusOptions?.()[0]?.id
       }
     ],
-    [addArtPrescriptionData?.id, agendaDataOptions, appointmentID, frequency, noOfPill, patientID, recentPrescriptionData?.id, refillDate, statusOptions, userData]
+    [addArtPrescriptionData?.id, agendaDataOptions, appointmentID, authUser?.id, frequency, noOfPill, patientID, recentPrescriptionData?.id, refillDate, statusOptions]
   )[0]
 
   console.log(addArtPrescriptionData, 'prescriptionInputValues')
