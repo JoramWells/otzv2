@@ -74,7 +74,7 @@ const FilterComponent = () => {
   )
 }
 
-const Patients = ({ all }: { all: ReactNode }) => {
+const Patients = () => {
   // const datax = await getPatients()
 
   const { data: session } = useSession()
@@ -85,9 +85,9 @@ const Patients = ({ all }: { all: ReactNode }) => {
   const searchParams = useSearchParams()
   const [patientData, setPatientData] = useState<PatientAttributes[] | undefined>([])
   const [patientTotal, setPatientTotal] = useState<number>(0)
-  const [tabValue, setTabValue] = useState('all')
-
   const page = searchParams.get('page')
+
+  const [tabValue, setTabValue] = useState(page)
 
   useEffect(() => {
     if (session) {
@@ -114,10 +114,10 @@ const Patients = ({ all }: { all: ReactNode }) => {
     page: Number(page) ?? 1,
     pageSize: 10,
     searchQuery: search,
-    calHIVQuery: tabValue
+    calHIVQuery: tabValue as string
   },
   {
-    skip: !user?.hospitalID
+    skip: !user?.hospitalID && !tabValue
   }
   )
 
@@ -126,7 +126,10 @@ const Patients = ({ all }: { all: ReactNode }) => {
       setPatientData(data?.data)
       setPatientTotal(data?.total)
     }
-  }, [data])
+    if (page === null) {
+      setTabValue('all')
+    }
+  }, [data, page])
 
   const zeroToNine = tabValue === '0-9 years' ? patientData : []
   const tenToFourteen = tabValue === '10-14 years' ? patientData : []

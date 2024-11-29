@@ -10,7 +10,7 @@ import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Edit, Ellipsis, Pin, Star, StarOff, TrashIcon } from 'lucide-react'
+import { Edit, Ellipsis, Star, StarOff, TrashIcon } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
@@ -24,9 +24,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { type PatientAttributes } from 'otz-types'
 import Image from 'next/image'
-import { type ExtendedImportantPatientInterface, useAddImportantPatientMutation, useGetImportantByPatientIDQuery, useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
+import { type ExtendedImportantPatientInterface, useAddImportantPatientMutation, useGetImportantByPatientIDQuery } from '@/api/patient/importantPatients.api'
 import { useSession } from 'next-auth/react'
-import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 //
@@ -345,46 +344,42 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
       </p>
     )
   },
-  {
-    accessorKey: 'pinned',
-    header: 'Pinned',
-    cell: ({ row }) => {
-      const patientID = row.original.id
-      const { data } = useGetImportantByPatientIDQuery(patientID)
-      const isPinned = data && patientID === data?.patientID
-      console.log(data, 'dtm')
-      return (
-        <Suspense fallback={<Skeleton className="p-2" />}>
-          {isPinned ? (
-            <Button size={'sm'} variant={'ghost'}
-            className='shadow-none'
-            >
-              <Star size={16} className="text-yellow-600" />
-            </Button>
-          ) : (
-            <Button
-            size={'sm'}
-            variant={'ghost'}
-            className='shadow-none'
-            >
-              <StarOff size={16} className="text-slate-500" />
-            </Button>
-          )}
-        </Suspense>
-      )
-    }
-  },
+
   {
     accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => {
+      const patientID = row.original.id
+
       const { data: session } = useSession()
       return (
+        <div className='flex flex-row space-x-2 items-center' >
+          <PinnedCell patientID={patientID} />
         <DropDownComponent id={row.original.id!} userID={session?.user.id} />
+
+        </div>
       )
     }
   }
 ]
+
+const PinnedCell = ({ patientID }: { patientID?: string }) => {
+  const { data, isLoading } = useGetImportantByPatientIDQuery(patientID!)
+  if (isLoading) {
+    return <Skeleton className='p-2' />
+  }
+  const isPinned = data && patientID === data?.patientID
+
+  return (
+    <Button size={'sm'} variant={'ghost'} className="shadow-none">
+      {isPinned ? (
+        <Star size={16} className="text-yellow-600" />
+      ) : (
+        <StarOff size={16} className="text-slate-500" />
+      )}
+    </Button>
+  )
+}
 
 const DropDownComponent = ({ id, userID }: { id: string, userID?: string }) => {
   const [addImportantPatient] = useAddImportantPatientMutation()

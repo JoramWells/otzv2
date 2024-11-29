@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from '@/components/ui/button'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
-import { Badge } from '@/components/ui/badge'
+import { useCallback, useEffect, useMemo } from 'react'
 
 interface CategoryListProps {
   id: number
@@ -31,14 +29,21 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
-  const params = new URLSearchParams(searchParams)
+  const params = useMemo(() => new URLSearchParams(searchParams), [searchParams])
   const tab = params.get('tab')
+  const page = params.get('page')
   const handleClick = (term: string) => {
     setValue(term)
 
     params.set('tab', term.toLowerCase())
     router.replace(`${pathname}?${params.toString()}`)
   }
+
+  useEffect(() => {
+    if (tab === value && (page != null)) {
+      params.set('page', '1')
+    }
+  }, [page, params, tab, value])
 
   return (
     <nav
