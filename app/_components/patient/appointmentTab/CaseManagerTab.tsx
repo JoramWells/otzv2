@@ -157,9 +157,13 @@ const CaseManager = ({ patientID }: DataProps) => {
 
   }
 
-  const { data } = useGetAllUsersQuery()
+  const { data } = useGetAllUsersQuery({
+    page: 1,
+    pageSize: 10,
+    searchQuery: ''
+  })
   const userOptions = useCallback(() => {
-    return data?.map((item: any) => ({
+    return data?.data?.map((item: any) => ({
       id: item.id, label: `${item.firstName} ${item.middleName} `
     }))
   }, [data])
