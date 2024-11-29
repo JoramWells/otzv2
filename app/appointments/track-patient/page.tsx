@@ -27,7 +27,8 @@ const TrackPatientPage = () => {
     hospitalID: authUser?.hospitalID as unknown as string,
     page: 1,
     pageSize: 10,
-    searchQuery: ''
+    searchQuery: '',
+    status: 'all'
   },
   {
     skip: (authUser?.hospitalID) == null
