@@ -88,7 +88,11 @@ export const PharmacyProvider = ({ children }: { children: ReactNode }) => {
   const { data } = useGetAllPillDailyUptakeQuery({
     date: currentDate as unknown as Date,
     hospitalID: user?.hospitalID as string
-  })
+  },
+  {
+    skip: !user?.hospitalID
+  }
+  )
 
   //   Get session of already registered user
 

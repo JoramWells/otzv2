@@ -13,9 +13,11 @@ export const executeDisclosureApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/execute-disclosure`
   }),
   endpoints: (builder) => ({
-    getAllExecuteDisclosure: builder.query<ExecuteDisclosureInputProps[], void>({
-      query: () => 'fetchAll'
-    }),
+    getAllExecuteDisclosure: builder.query<ExecuteDisclosureInputProps[], void>(
+      {
+        query: () => 'fetchAll'
+      }
+    ),
     addExecuteDisclosure: builder.mutation({
       query: (response) => ({
         url: 'add',
@@ -25,6 +27,9 @@ export const executeDisclosureApi = createApi({
     }),
     getExecuteDisclosure: builder.query<ExecuteDisclosureAttributes, string>({
       query: (id) => `detail/${id}`
+    }),
+    getExecuteDisclosureByPatientID: builder.query<ExecuteDisclosureAttributes, string>({
+      query: (id) => `by-patient-id/${id}`
     }),
     getAllExecuteDisclosureByVisitId: builder.query({
       query: (id) => `details/${id}`
@@ -49,5 +54,5 @@ export const executeDisclosureApi = createApi({
 
 export const {
   useGetAllExecuteDisclosureQuery, useAddExecuteDisclosureMutation, useGetAllExecuteDisclosureByVisitIdQuery,
-  useGetExecuteDisclosureQuery
+  useGetExecuteDisclosureQuery, useGetExecuteDisclosureByPatientIDQuery
 } = executeDisclosureApi

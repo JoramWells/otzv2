@@ -22,7 +22,7 @@ export const mmasFourApi = createApi({
       query: (id) => `detail/${id}`
     }),
     getMmasFourByPatientID: builder.query({
-      query: (id) => `details/${id}`
+      query: (id) => `by-patient-id/${id}`
     }),
     deleteMmasFour: builder.mutation({
       query (id) {

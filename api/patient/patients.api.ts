@@ -34,6 +34,7 @@ export interface PatientInputParams {
   page: number
   pageSize: number
   searchQuery: string
+  calHIVQuery: string
 }
 
 export const patientsApi = createApi({
@@ -53,11 +54,12 @@ export const patientsApi = createApi({
     getAllPatients: builder.query<PatientResponseInterface | null, PatientInputParams>({
       query: (params) => {
         if (params) {
-          const { hospitalID, page, pageSize, searchQuery } = params
+          const { hospitalID, page, pageSize, searchQuery, calHIVQuery } = params
           let queryString = ''
           queryString += `hospitalID=${hospitalID}`
           queryString += `&page=${page}`
           queryString += `&pageSize=${pageSize}`
+          queryString += `&calHIVQuery=${calHIVQuery}`
           queryString += `&searchQuery=${searchQuery}`
           return `/fetchAll/?${queryString}`
         }

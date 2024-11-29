@@ -183,8 +183,6 @@ const AppointmentHomepage = () => {
     }
   }, [tab, updateQueryParams])
 
-  console.log(responseData, 'responseData!!')
-
   return (
     <>
       <div className="mt-2 w-full">

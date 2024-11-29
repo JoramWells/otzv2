@@ -30,6 +30,9 @@ export const postDisclosureApi = createApi({
     getPostDisclosure: builder.query<PostDisclosureAttributes, string>({
       query: (id) => `detail/${id}`
     }),
+    getPostDisclosureByPatientID: builder.query<PostDisclosureAttributes, string>({
+      query: (id) => `by-patient-id/${id}`
+    }),
     getAllPostDisclosureByVisitId: builder.query({
       query: (id) => `details/${id}`
     }),
@@ -53,5 +56,5 @@ export const postDisclosureApi = createApi({
 
 export const {
   useGetAllPostDisclosureQuery, useAddPostDisclosureMutation, useGetAllPostDisclosureByVisitIdQuery,
-  useGetPostDisclosureQuery
+  useGetPostDisclosureQuery, useGetPostDisclosureByPatientIDQuery
 } = postDisclosureApi

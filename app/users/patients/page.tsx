@@ -3,27 +3,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { CustomTable } from '../../_components/table/CustomTable'
-// import { Button } from '@/components/ui/button'
-// import { PlusCircle } from 'lucide-react'
-// import { useRouter } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
-import { patientColumns } from './_components/columns'
 import { Button } from '@/components/ui/button'
 import { ListFilter, PlusCircle } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
 import { type UserInterface, type PatientAttributes } from 'otz-types'
-import { calculateAge } from '@/utils/calculateAge'
 import CustomTab from '@/components/tab/CustomTab'
-import { useUserContext } from '@/context/UserContext'
 import debounce from 'lodash/debounce'
-import axios from 'axios'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { useSession } from 'next-auth/react'
+import AgeComponent from './_components/Homepage/AgeComponent'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -81,7 +74,7 @@ const FilterComponent = () => {
   )
 }
 
-const Patients = () => {
+const Patients = ({ all }: { all: ReactNode }) => {
   // const datax = await getPatients()
 
   const { data: session } = useSession()
@@ -91,7 +84,8 @@ const Patients = () => {
 
   const searchParams = useSearchParams()
   const [patientData, setPatientData] = useState<PatientAttributes[] | undefined>([])
-  const [patientTotal, setPatientTotal] = useState<number | undefined>(0)
+  const [patientTotal, setPatientTotal] = useState<number>(0)
+  const [tabValue, setTabValue] = useState('all')
 
   const page = searchParams.get('page')
 
@@ -119,7 +113,8 @@ const Patients = () => {
     hospitalID: user?.hospitalID as string,
     page: Number(page) ?? 1,
     pageSize: 10,
-    searchQuery: search
+    searchQuery: search,
+    calHIVQuery: tabValue
   },
   {
     skip: !user?.hospitalID
@@ -133,20 +128,12 @@ const Patients = () => {
     }
   }, [data])
 
-  const otzPatients = patientData?.filter(item => calculateAge(item.dob) <= 24)
+  const zeroToNine = tabValue === '0-9 years' ? patientData : []
+  const tenToFourteen = tabValue === '10-14 years' ? patientData : []
 
-  const zeroToNine = otzPatients?.filter((item) => calculateAge(item.dob) <= 9)
-  const tenToFourteen = otzPatients?.filter(
-    (item) => calculateAge(item.dob) >= 10 && calculateAge(item.dob) <=
- 14)
+  const fifteenToNineteen = tabValue === '15-20 years' ? patientData : []
 
-  const fifteenToNineteen = otzPatients?.filter(
-    (item) => calculateAge(item.dob) >= 15 && calculateAge(item.dob) <= 19
-  )
-
-  const twentyPlus = otzPatients?.filter(
-    (item) => calculateAge(item.dob) >= 20
-  )
+  const twentyPlus = tabValue === '20 years' ? patientData : []
 
   // console.log(data, 'dtx')
 
@@ -155,33 +142,31 @@ const Patients = () => {
   const categoryList = [
     {
       id: 0,
-      label: 'All',
-      count: patientTotal
+      label: 'All'
+      // count: patientTotal
     },
     {
       id: 1,
-      label: '0-9 years',
-      count: zeroToNine?.length
+      label: '0-9 years'
+      // count: zeroToNine?.length
     },
     {
       id: 2,
-      label: '10-14 years',
-      count:
-      tenToFourteen?.length
+      label: '10-14 years'
+      // count:
+      // tenToFourteen?.length
     },
     {
       id: 3,
-      label: '15-19 years',
-      count: fifteenToNineteen?.length
+      label: '15-20 years'
+      // count: fifteenToNineteen?.length
     },
     {
       id: 4,
-      label: '20+ years',
-      count: twentyPlus?.length
+      label: '20 years'
+      // count: twentyPlus?.length
     }
   ]
-
-  const [tabValue, setTabValue] = useState('all')
 
   return (
     <>
@@ -208,116 +193,63 @@ const Patients = () => {
 
       <div className="w-full p-2 pt-0 rounded-lg mt-2">
         {tabValue === 'all' && (
-          <div className="bg-white rounded-lg">
-            <div className="p-4 pb-0">
-              <p className="text-slate-700 text-[16px] ">All Patients</p>
-              <p className="text-[12px] text-slate-500">
-                A list of patient 0 between 25 years and above.
-              </p>
-            </div>
-            <CustomTable
-              columns={patientColumns}
-              data={otzPatients ?? []}
-              total={patientTotal}
-              isLoading={isLoading}
-              search={search}
-              setSearch={setSearch}
-              // filter={<FilterComponent />}
-              // isSearch
-            />
-          </div>
+          <AgeComponent
+            title="All patients"
+            data={patientData ?? []}
+            isLoading={isLoading}
+            search={search}
+            setSearch={setSearch}
+            total={patientTotal}
+          />
         )}
 
         {/*  */}
         {tabValue === '0-9 years' && (
-          <div className="bg-white rounded-lg">
-            <div className="p-4 pb-0">
-              <p className="text-slate-700 text-[16px] ">0 years -- 9 years</p>
-              <p className="text-[12px] text-slate-500">
-                A list of patient 0 between 9 years and above.
-              </p>
-            </div>
-            <CustomTable
-              columns={patientColumns}
-              data={zeroToNine ?? []}
-              total={patientTotal}
-              isLoading={isLoading}
-              search={search}
-              setSearch={setSearch}
-              // filter={<FilterComponent />}
-              // isSearch
-            />
-          </div>
+          <AgeComponent
+            title="0 years -- 9 years"
+            data={zeroToNine ?? []}
+            isLoading={isLoading}
+            search={search}
+            setSearch={setSearch}
+            total={patientTotal}
+          />
         )}
 
         {/*  */}
         {tabValue === '10-14 years' && (
-          <div className="bg-white rounded-lg">
-            <div className="p-4 pb-0">
-              <p className="text-slate-700 text-[16px] ">
-                10 years -- 14 years
-              </p>
-              <p className="text-[12px] text-slate-500">
-                A list of patient 10 between 14 years and above.
-              </p>
-            </div>
-            <CustomTable
-              columns={patientColumns}
-              data={tenToFourteen ?? []}
-              total={patientTotal}
-              isLoading={isLoading}
-              search={search}
-              setSearch={setSearch}
-              // filter={<FilterComponent />}
-              // isSearch
-            />
-          </div>
+          <AgeComponent
+            title="10 years -- 14 years"
+            data={tenToFourteen ?? []}
+            isLoading={isLoading}
+            search={search}
+            setSearch={setSearch}
+            total={patientTotal}
+          />
         )}
 
         {/*  */}
-        {tabValue === '15-19 years' && (
-          <div className="bg-white rounded-lg">
-            <div className="p-4 pb-0">
-              <p className="text-slate-700 text-[16px] ">
-                15 years -- 19 years
-              </p>
-              <p className="text-[12px] text-slate-500">
-                A list of patient 15 between 19 years and above.
-              </p>
-            </div>
-            <CustomTable
-              columns={patientColumns}
-              data={fifteenToNineteen ?? []}
-              total={patientTotal}
-              isLoading={isLoading}
-              search={search}
-              setSearch={setSearch}
-              // filter={<FilterComponent />}
-              // isSearch
-            />
-          </div>
+        {tabValue === '15-20 years' && (
+          <AgeComponent
+            title="15 years -- 20 years"
+            data={fifteenToNineteen ?? []}
+            isLoading={isLoading}
+            search={search}
+            setSearch={setSearch}
+            total={patientTotal}
+          />
         )}
 
         {/*  */}
-        {tabValue === '20+ years' && (
-          <div className="bg-white rounded-lg">
-            <div className="p-4 pb-0">
-              <p className="font-slate-700 text-[16px] ">20 years +</p>
-              <p className="text-[12px] text-slate-500">
-                A list of patient 20 years and above.
-              </p>
-            </div>
-            <CustomTable
-              columns={patientColumns}
+        {tabValue === '20 years' && (
+
+            <AgeComponent
+              title="15 years -- 20 years"
               data={twentyPlus ?? []}
-              total={patientTotal}
               isLoading={isLoading}
               search={search}
               setSearch={setSearch}
-              // filter={<FilterComponent />}
-              // isSearch
+              total={patientTotal}
             />
-          </div>
         )}
       </div>
     </>

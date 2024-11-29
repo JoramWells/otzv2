@@ -41,7 +41,7 @@ const BreadcrumbComponent = dynamic(
 //   }
 // )
 
-const NotifyPage = () => {
+const UserDashboardPage = () => {
   // const [user, setUser] = useState<UserInterface>()
 
   // let { data } = useGetAllPatientsQuery({
@@ -175,4 +175,4 @@ const NotifyPage = () => {
   )
 }
 
-export default NotifyPage
+export default UserDashboardPage

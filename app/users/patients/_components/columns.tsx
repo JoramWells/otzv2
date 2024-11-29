@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -9,7 +10,7 @@ import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Edit, Ellipsis, TrashIcon } from 'lucide-react'
+import { Edit, Ellipsis, Pin, Star, StarOff, TrashIcon } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
@@ -23,8 +24,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { type PatientAttributes } from 'otz-types'
 import Image from 'next/image'
-import { type ExtendedImportantPatientInterface, useAddImportantPatientMutation } from '@/api/patient/importantPatients.api'
+import { type ExtendedImportantPatientInterface, useAddImportantPatientMutation, useGetImportantByPatientIDQuery, useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
 import { useSession } from 'next-auth/react'
+import { Suspense } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
 //
 interface AppointmentProps {
   id: any
@@ -248,31 +252,32 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
       pt-1 pb-1 text-[12px]
       "
         >
-          {avatar
-            ? <Image
-            // w={0}
-            alt="im"
-            // placeholder="data:image/..."
-            width={25}
-            height={25}
-            // quality={25}
-            // fill
-            // objectFit='contain'
-            // priority
-            className="rounded-full"
-            src={`${process.env.NEXT_PUBLIC_API_URL}/api/users/${avatar}`}
-            style={{
-              width: '25px',
-              height: '25px',
-              objectFit: 'cover'
-            }}
-          />
-            : <Avatar
-            size={'xs'}
-            className="font-bold"
-            name={`${firstName} ${middleName}`}
-          />
-    }
+          {avatar ? (
+            <Image
+              // w={0}
+              alt="im"
+              // placeholder="data:image/..."
+              width={25}
+              height={25}
+              // quality={25}
+              // fill
+              // objectFit='contain'
+              // priority
+              className="rounded-full"
+              src={`${process.env.NEXT_PUBLIC_API_URL}/api/users/${avatar}`}
+              style={{
+                width: '25px',
+                height: '25px',
+                objectFit: 'cover'
+              }}
+            />
+          ) : (
+            <Avatar
+              size={'xs'}
+              className="font-bold"
+              name={`${firstName} ${middleName}`}
+            />
+          )}
           <Link
             className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
             href={`/users/patients/tab/dashboard/${id}`}
@@ -323,7 +328,9 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'populationType',
     header: 'Population Type',
-    cell: ({ row }) => <p className="text-[12px]">{row.original.populationType}</p>
+    cell: ({ row }) => (
+      <p className="text-[12px]">{row.original.populationType}</p>
+    )
   },
   // {
   //   accessorKey: 'entryPoint',
@@ -332,9 +339,40 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'createdAt',
     header: 'Date of Enrollment',
-    cell: ({ row }) => <p
-    className='text-[12px]'
-    >{moment(row.original.createdAt).format('ll')}</p>
+    cell: ({ row }) => (
+      <p className="text-[12px]">
+        {moment(row.original.createdAt).format('ll')}
+      </p>
+    )
+  },
+  {
+    accessorKey: 'pinned',
+    header: 'Pinned',
+    cell: ({ row }) => {
+      const patientID = row.original.id
+      const { data } = useGetImportantByPatientIDQuery(patientID)
+      const isPinned = data && patientID === data?.patientID
+      console.log(data, 'dtm')
+      return (
+        <Suspense fallback={<Skeleton className="p-2" />}>
+          {isPinned ? (
+            <Button size={'sm'} variant={'ghost'}
+            className='shadow-none'
+            >
+              <Star size={16} className="text-yellow-600" />
+            </Button>
+          ) : (
+            <Button
+            size={'sm'}
+            variant={'ghost'}
+            className='shadow-none'
+            >
+              <StarOff size={16} className="text-slate-500" />
+            </Button>
+          )}
+        </Suspense>
+      )
+    }
   },
   {
     accessorKey: 'action',
@@ -342,10 +380,7 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
     cell: ({ row }) => {
       const { data: session } = useSession()
       return (
-        <DropDownComponent
-          id={row.original.id!}
-          userID={session?.user.id}
-        />
+        <DropDownComponent id={row.original.id!} userID={session?.user.id} />
       )
     }
   }

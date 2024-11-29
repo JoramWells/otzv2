@@ -69,7 +69,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         path: '/api/users/socket.io',
         transports: ['websocket'],
         query: {
-          patientID: patientData?.id,
+          // patientID: patientData?.id,
           userID: session.user.id,
           moduleID
         }

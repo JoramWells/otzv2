@@ -35,7 +35,9 @@ export const importantPatientApi = createApi({
     getImportantPatient: builder.query<ExtendedImportantPatientInterface[], string>({
       query: (id) => `detail/${id}`
     }),
-
+    getImportantByPatientID: builder.query<ExtendedImportantPatientInterface, string>({
+      query: (id) => `important-by-patient-id/${id}`
+    }),
     updateImportantPatient: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
@@ -56,6 +58,6 @@ export const importantPatientApi = createApi({
 
 export const {
   useGetAllImportantPatientsQuery, useUpdateImportantPatientMutation,
-  useDeleteImportantPatientMutation, useAddImportantPatientMutation, useGetImportantPatientQuery
+  useDeleteImportantPatientMutation, useAddImportantPatientMutation, useGetImportantPatientQuery, useGetImportantByPatientIDQuery
 
 } = importantPatientApi

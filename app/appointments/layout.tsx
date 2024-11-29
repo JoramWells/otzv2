@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { CalendarCheck, CalendarDays, ClockIcon } from 'lucide-react'
+import { CalendarCheck, CalendarDays, ClockIcon, Radar } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -32,10 +32,16 @@ const DL: SidebarListItemsProps[] = [
     icon: <CalendarDays size={17} />
   },
   {
-    id: '5',
+    id: '3',
     label: 'Availability',
     link: '/appointments/availability',
     icon: <ClockIcon size={17} />
+  },
+  {
+    id: '4',
+    label: 'Track Patient',
+    link: '/appointments/track-patient',
+    icon: <Radar size={17} />
   }
 ]
 

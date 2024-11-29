@@ -30,8 +30,8 @@ export const mmasEightApi = createApi({
     getMmasEight: builder.query<MMASEightInterface | undefined, string>({
       query: (id) => `detail/${id}`
     }),
-    getMmasEightByPatientID: builder.query({
-      query: (id) => `details/${id}`
+    getMmasEightByPatientID: builder.query<MMASEightInterface, string>({
+      query: (id) => `by-patient-id/${id}`
     }),
     deleteMmasEight: builder.mutation({
       query (id) {
