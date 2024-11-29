@@ -8,8 +8,7 @@ import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { usePathname, useRouter } from 'next/navigation'
 
 const Users = () => {
-  const { data } = useGetAllUsersQuery()
-  console.log(data, 'dtc')
+  // const { data } = useGetAllUsersQuery()
 
   const router = useRouter()
   const pathname = usePathname()
@@ -30,7 +29,7 @@ const Users = () => {
             >
               Patients
             </p>
-            <Tag
+            {/* <Tag
               m={0}
               rounded={'full'}
               fontWeight={'bold'}
@@ -38,7 +37,7 @@ const Users = () => {
               size={'sm'}
             >
               {data?.length}
-            </Tag>
+            </Tag> */}
           </div>
           <Button
           size={'sm'}
