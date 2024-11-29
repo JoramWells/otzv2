@@ -182,10 +182,14 @@ const AddEtlPage = () => {
   const [headers, setHeaders] = useState<string[]>([])
   const [users, setUsers] = useState<UserInterface[]>([])
   const [csvUsers, setCsvUsers] = useState<CheckUserInterface[]>([])
-  const { data: usersData } = useGetAllUsersQuery()
+  const { data: usersData } = useGetAllUsersQuery({
+    page: 1,
+    pageSize: 100,
+    searchQuery: ''
+  })
   useEffect(() => {
     if (usersData) {
-      setUsers(usersData)
+      setUsers(usersData.data)
     }
   }, [usersData])
 
