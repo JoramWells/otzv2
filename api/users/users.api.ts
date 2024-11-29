@@ -1,15 +1,40 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type UserInterface } from 'otz-types'
 
+export interface UserResponseInterface {
+  data: UserInterface[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
+
+export interface UserInputParams {
+  page: number
+  pageSize: number
+  searchQuery: string
+}
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/users`
   }),
   endpoints: (builder) => ({
-    getAllUsers: builder.query<UserInterface[], void>({
-      query: () => 'fetchAll'
+    getAllUsers: builder.query<UserResponseInterface, UserInputParams>({
+      query: (params) => {
+        if (params) {
+          const { page, pageSize, searchQuery } =
+            params
+          let queryString = ''
+          queryString += `page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          return `/fetchAll/?${queryString}`
+        }
+        return 'fetchAll'
+      }
     }),
     addUser: builder.mutation({
       query: (newUser) => ({

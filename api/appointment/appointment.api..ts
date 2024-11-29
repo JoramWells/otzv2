@@ -10,6 +10,7 @@ interface AppointmentTypeProps {
   page: number
   pageSize: number
   searchQuery: string
+  status: string
 }
 
 export type ExtendedAppointmentInputProps = AppointmentAttributes & {
@@ -45,15 +46,15 @@ export const appointmentApi = createApi({
     >({
       query: (params) => {
         if (params) {
-          const { date, mode, hospitalID, page, pageSize, searchQuery } =
+          const { hospitalID, page, pageSize, searchQuery, status } =
             params
           let queryString = ''
-          queryString += `date=${date}`
-          queryString += `&mode=${mode}`
-          queryString += `&page=${page}`
+
+          queryString += `page=${page}`
           queryString += `&pageSize=${pageSize}`
           queryString += `&searchQuery=${searchQuery}`
           queryString += `&hospitalID=${hospitalID}`
+          queryString += `&status=${status}`
           return `/fetchAll/?${queryString}`
         }
         return '/fetchAll'

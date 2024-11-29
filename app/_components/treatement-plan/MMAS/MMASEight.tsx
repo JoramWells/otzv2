@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable import/no-extraneous-dependencies */
 
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
@@ -63,9 +64,9 @@ const MmasEight = ({
     if (data) {
       const { difficultyRemembering, isQuitOutControl, isTookMedYesterday, isUnderPressure } = data
       setIsDifficultyRemembering(difficultyRemembering as unknown as boolean)
-      setIsQuitControl(isQuitOutControl)
-      setIsTookYesterday(isTookMedYesterday)
-      setIsUnderPressure(isUnderPressure)
+      setIsQuitControl(isQuitOutControl as boolean)
+      setIsTookYesterday(isTookMedYesterday as boolean)
+      setIsUnderPressure(isUnderPressure as boolean)
     }
   }, [data, setIsDifficultyRemembering, setIsQuitControl, setIsTookYesterday, setIsUnderPressure])
 

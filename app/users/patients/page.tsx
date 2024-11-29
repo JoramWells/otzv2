@@ -86,8 +86,9 @@ const Patients = () => {
   const [patientData, setPatientData] = useState<PatientAttributes[] | undefined>([])
   const [patientTotal, setPatientTotal] = useState<number>(0)
   const page = searchParams.get('page')
+  const tab = searchParams.get('tab')
 
-  const [tabValue, setTabValue] = useState(page)
+  const [tabValue, setTabValue] = useState(tab)
 
   useEffect(() => {
     if (session) {
@@ -126,10 +127,10 @@ const Patients = () => {
       setPatientData(data?.data)
       setPatientTotal(data?.total)
     }
-    if (page === null) {
+    if (tab === null) {
       setTabValue('all')
     }
-  }, [data, page])
+  }, [data, tab])
 
   const zeroToNine = tabValue === '0-9 years' ? patientData : []
   const tenToFourteen = tabValue === '10-14 years' ? patientData : []

@@ -42,7 +42,8 @@ const AppointmentHomepage = () => {
     hospitalID: user?.hospitalID as string,
     page: Number(page) ?? 1,
     pageSize: 10,
-    searchQuery: search
+    searchQuery: search,
+    status: value as string
   },
   {
     skip: !user?.hospitalID

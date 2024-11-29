@@ -10,18 +10,29 @@ export type ExtendedLineListInterface = LineListCSVInterface & {
   }
 }
 
+export interface LineListResponseInterface {
+  data: ExtendedLineListInterface[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
+
 export const etlApi = createApi({
   reducerPath: 'etlApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/articles/linelist-csv`
   }),
   endpoints: (builder) => ({
-    getAllETL: builder.query<ExtendedLineListInterface[], { hospitalID: string }>({
+    getAllETL: builder.query<LineListResponseInterface, { hospitalID: string, page: string | number, pageSize: string | number, searchQuery: string }>({
       query: (params) => {
         if (params) {
-          const { hospitalID } = params
+          const { hospitalID, page, pageSize, searchQuery } = params
           let queryString = ''
-          queryString += `hospitalID=${hospitalID}`
+          queryString += `page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          queryString += `&hospitalID=${hospitalID}`
           return `/fetchAll?${queryString}`
         }
         return '/fetchAll'

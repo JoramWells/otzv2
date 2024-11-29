@@ -2,12 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { CustomTable } from '../../_components/table/CustomTable'
-import { columns, type UserProps } from './columns'
+import { columns } from './columns'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useEffect, useMemo, useState } from 'react'
+import debounce from 'lodash/debounce'
+import { type UserInterface } from 'otz-types'
 //
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -31,7 +34,40 @@ const dataList = [
 ]
 
 const Users = () => {
-  const { data } = useGetAllUsersQuery()
+  const searchParams = useSearchParams()
+
+  const page = searchParams.get('page')
+  const [search, setSearch] = useState('')
+  const { data } = useGetAllUsersQuery({
+    page: Number(page) ?? 1,
+    pageSize: 10,
+    searchQuery: search
+  })
+
+  const [userData, setUserData] = useState<UserInterface[]>([])
+  const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    if (data) {
+      setUserData(data.data)
+      setTotal(data.total)
+    }
+  }, [data])
+
+  //
+  const debounceSearch = useMemo(() => {
+    // setSearch(value)
+    if (page !== null) {
+      return debounce(async (value: string) => {
+        setSearch(value)
+      }, 500)
+    }
+  }, [page])
+
+  useEffect(() => {
+    debounceSearch?.(search)
+    return () => debounceSearch?.cancel()
+  }, [debounceSearch, search])
 
   const router = useRouter()
   const pathname = usePathname()
@@ -41,9 +77,7 @@ const Users = () => {
 
   return (
     <>
-      <div
-      className='relative'
-      >
+      <div className="relative">
         <BreadcrumbComponent dataList={dataList} />
         <Button
           size={'sm'}
@@ -57,7 +91,12 @@ const Users = () => {
 
       <div className="p-2 ">
         <div className="bg-white p-2 rounded-lg">
-          <CustomTable columns={columns} data={data ?? []} isSearch={false} />
+          <CustomTable
+            columns={columns}
+            data={userData ?? []}
+            search={search}
+            setSearch={setSearch}
+          />
         </div>
       </div>
     </>

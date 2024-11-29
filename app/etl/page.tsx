@@ -14,7 +14,7 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import { type ExtendedLineListInterface, useGetAllETLQuery } from '@/api/etl/etl.api'
 import { linelistColumn } from './columns'
 import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { type UserInterface } from 'otz-types'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
@@ -50,6 +50,12 @@ const fetchData = async (taskID: string) => {
 const ETL = () => {
   const [user, setUser] = useState<UserInterface>()
   const { data: session } = useSession()
+  const searchParams = useSearchParams()
+
+  const page = searchParams.get('page')
+  const [etlData, setEtlData] = useState<ExtendedLineListInterface[]>([])
+  const [total, setTotal] = useState(0)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     if (session) {
@@ -58,25 +64,27 @@ const ETL = () => {
     }
   }, [session])
 
-  const [etlData, setEtlData] = useState<ExtendedLineListInterface[]>([])
   const { data, isLoading } = useGetAllETLQuery({
-    hospitalID: user?.hospitalID as string
-  })
+    hospitalID: user?.hospitalID as string,
+    page: Number(page) ?? 1,
+    pageSize: 10,
+    searchQuery: search
+  },
+  {
+    skip: !user?.hospitalID
+  }
+  )
 
-  // useEffect(() => {
-
-  //   // console.log(uploadedFile, 'uploadedFile')
-  //   // item.file === uploadedFile?.replace(prefix, '') && console.log(item.file)
-  // }, [data])
   const [statuses, setStatuses] = useState({})
 
   useEffect(() => {
     if (data) {
-      setEtlData(data);
+      setEtlData(data.data)
+      setTotal(data.total);
       //
       (async () => {
         const statusData = await Promise.all(
-          data?.map(async (item) => {
+          data?.data?.map(async (item) => {
             if (item.taskID) {
               const response = await fetchData(item.taskID)
               return { [item.taskID]: response }
@@ -94,8 +102,6 @@ const ETL = () => {
       new Date(b.createdAt as unknown as string).getTime() -
         new Date(a.createdAt as unknown as string).getTime()
   )
-
-  console.log(filteredArray)
 
   // const handleFilter = (range: DateRange | undefined) => {
   //   const dataFiltered = csvArray.filter((item) => {
@@ -139,13 +145,16 @@ const ETL = () => {
               <p className=" text-[16px] text-slate-700 ">Uploaded Linelist </p>
               <Badge
               className='bg-slate-200 text-black shadow-none'
-              >{data?.length}</Badge>
+              >{total}</Badge>
             </div>
             <CustomTable
             isSearch={false}
               columns={linelistColumn(statuses)}
               isLoading={isLoading}
               data={filteredArray ?? []}
+              search={search}
+              setSearch={setSearch}
+              total={total}
             />
           </div>
         </div>
