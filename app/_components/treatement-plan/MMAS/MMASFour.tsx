@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
 
@@ -37,10 +38,10 @@ const MmasFour = ({
         isCareless, isForget,
         isQuitFeelBetter, isQuitFeelWorse
       } = data
-      setIsForget(isForget)
-      setIsCareless(isCareless)
-      setIsQuitFeelWorse(isQuitFeelWorse)
-      setIsQuitFeelBetter(isQuitFeelBetter)
+      setIsForget(isForget as boolean)
+      setIsCareless(isCareless as boolean)
+      setIsQuitFeelWorse(isQuitFeelWorse as boolean)
+      setIsQuitFeelBetter(isQuitFeelBetter as boolean)
     }
   }, [data, setIsCareless, setIsForget, setIsQuitFeelBetter, setIsQuitFeelWorse])
   return (
