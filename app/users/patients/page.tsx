@@ -17,6 +17,7 @@ import debounce from 'lodash/debounce'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { useSession } from 'next-auth/react'
 import AgeComponent from './_components/Homepage/AgeComponent'
+import { calculateAge } from '@/utils/calculateAge'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -132,6 +133,8 @@ const Patients = () => {
     }
   }, [data, tab])
 
+  const all = tabValue === 'all' ? patientData?.filter(patient => calculateAge(patient.dob) < 24) : []
+
   const zeroToNine = tabValue === '0-9 years' ? patientData : []
   const tenToFourteen = tabValue === '10-14 years' ? patientData : []
 
@@ -144,11 +147,7 @@ const Patients = () => {
   const router = useRouter()
 
   const categoryList = [
-    {
-      id: 0,
-      label: 'All'
-      // count: patientTotal
-    },
+
     {
       id: 1,
       label: '0-9 years'
@@ -196,16 +195,16 @@ const Patients = () => {
       </div>
 
       <div className="w-full p-2 pt-0 rounded-lg mt-2">
-        {tabValue === 'all' && (
+        {/* {tabValue === 'all' && (
           <AgeComponent
             title="All patients"
-            data={patientData ?? []}
+            data={[]}
             isLoading={isLoading}
             search={search}
             setSearch={setSearch}
             total={patientTotal}
           />
-        )}
+        )} */}
 
         {/*  */}
         {tabValue === '0-9 years' && (
