@@ -75,24 +75,34 @@ const ETL = () => {
   }
   )
 
-  const [statuses, setStatuses] = useState({})
+  type StatusType = Record<string, any>
+
+  const [statuses, setStatuses] = useState<StatusType>({})
 
   useEffect(() => {
     if (data) {
       setEtlData(data.data)
-      setTotal(data.total);
+      setTotal(data.total)
       //
-      (async () => {
-        const statusData = await Promise.all(
-          data?.data?.map(async (item) => {
-            if (item.taskID) {
-              const response = await fetchData(item.taskID)
-              return { [item.taskID]: response }
-            }
-          })
-        )
-        setStatuses(Object.assign({}, ...statusData))
-      })()
+      const fetchStatuses = async () => {
+        try {
+          const validatedItems = data.data.filter(item => item.taskID)
+          const statusData = await Promise.all(
+            validatedItems?.map(async (item) => {
+              if (item.taskID) {
+                const response = await fetchData(item.taskID)
+                return { [item.taskID]: response }
+              }
+            })
+          )
+
+          const statuses = statusData.reduce((acc, curr) => ({ ...acc, ...curr }), {})
+          setStatuses(statuses!)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      fetchStatuses()
     }
   }, [data])
 
