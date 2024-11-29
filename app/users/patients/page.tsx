@@ -163,12 +163,12 @@ const Patients = () => {
       id: 3,
       label: '15-20 years'
       // count: fifteenToNineteen?.length
+    },
+    {
+      id: 4,
+      label: '20 years'
+      // count: twentyPlus?.length
     }
-    // {
-    //   id: 4,
-    //   label: '20 years'
-    //   // count: twentyPlus?.length
-    // }
   ]
 
   return (
@@ -243,7 +243,7 @@ const Patients = () => {
         )}
 
         {/*  */}
-        {/* {tabValue === '20 years' && (
+        {tabValue === '20 years' && (
 
             <AgeComponent
               title="15 years -- 20 years"
@@ -253,7 +253,7 @@ const Patients = () => {
               setSearch={setSearch}
               total={patientTotal}
             />
-        )} */}
+        )}
       </div>
     </>
   )
