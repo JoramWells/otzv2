@@ -5,7 +5,6 @@
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { useAddViralLoadTestMutation, useGetAllViralLoadByPatientIDQuery, useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
-import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'
@@ -15,6 +14,7 @@ import RecentViralLoadCard from './LabTests/RecentViralLoadCard'
 import { ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
 import CardHeader from './CardHeader'
 import { useToast } from '@/components/ui/use-toast'
+import { useUserContext } from '@/context/UserContext'
 
 const justificationOptions = [
   {
@@ -57,12 +57,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
 
   //
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
-  const { data } = useGetAllUsersQuery()
-  const userOptions = useCallback(() => {
-    return data?.map((item: any) => ({
-      id: item.id, label: item.firstName
-    })) || []
-  }, [data])
+  const { authUser } = useUserContext()
 
   const [dateOfVL, setDateOfVL] = useState('')
   const [dateOfNextVL, setDateOfNextVL] = useState('')
@@ -81,7 +76,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
         dateOfNextVL,
         vlResults,
         vlJustification,
-        userID: userOptions()?.length > 0 && userOptions()[0]?.id,
+        userID: authUser?.id,
         patientVisitID,
         appointmentAgendaID:
           agendaDataOptions()?.length > 0 && agendaDataOptions()[0]?.id,
@@ -90,7 +85,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
         appointmentDate: dateOfNextVL
       }
     ],
-    [agendaDataOptions, dateOfNextVL, dateOfVL, patientID, patientVisitID, statusOptions, userOptions, vlJustification, vlResults]
+    [agendaDataOptions, authUser?.id, dateOfNextVL, dateOfVL, patientID, patientVisitID, statusOptions, vlJustification, vlResults]
   )
 
   useEffect(() => {
