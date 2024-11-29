@@ -129,7 +129,7 @@ const Patients = () => {
       setPatientTotal(data?.total)
     }
     if (tab === null) {
-      setTabValue('all')
+      setTabValue('0-9 years')
     }
   }, [data, tab])
 
