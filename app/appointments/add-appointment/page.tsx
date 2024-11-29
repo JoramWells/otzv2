@@ -142,13 +142,17 @@ const AddArtCategory = ({ params }: any) => {
 
   const [addAppointment, { isLoading }] = useAddAppointmentMutation()
 
-  const { data: usersData } = useGetAllUsersQuery()
+  const { data: usersData } = useGetAllUsersQuery({
+    page: 1,
+    pageSize: 10,
+    searchQuery: ''
+  })
 
   const { data: appointmentAgendaData } = useGetAllAppointmentAgendaQuery()
   const { data: appointmentStatusData } = useGetAllAppointmentStatusQuery()
 
   const usersOption = useCallback(() => {
-    return usersData?.map((item: any) => ({
+    return usersData?.data?.map((item: any) => ({
       id: item.id,
       label: item.firstName
     }))
