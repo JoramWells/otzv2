@@ -119,7 +119,7 @@ const Patients = () => {
     calHIVQuery: tabValue as string
   },
   {
-    skip: !user?.hospitalID && !tabValue
+    skip: !user?.hospitalID && !tabValue && tabValue === tab
   }
   )
 

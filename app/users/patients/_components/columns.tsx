@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -349,12 +350,12 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
     accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => {
-      const patientID = row.original.id
+      // const patientID = row.original.id
 
       const { data: session } = useSession()
       return (
         <div className='flex flex-row space-x-2 items-center' >
-          <PinnedCell patientID={patientID} />
+          {/* <PinnedCell patientID={patientID} /> */}
         <DropDownComponent id={row.original.id!} userID={session?.user.id} />
 
         </div>

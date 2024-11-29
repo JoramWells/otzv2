@@ -44,6 +44,7 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
           href={`/users/patients/tab/dashboard/${row.original.id}`}
           target='_blank'
         >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
+        {calculateAge(row.original.dob)}
       </div>
     )
   },

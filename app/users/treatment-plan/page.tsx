@@ -59,7 +59,7 @@ const TreatmentPlanPage = () => {
     }
   )
 
-  const filterData = patientData?.filter(item => calculateAge(item.dob) > 5)
+  const filterData = patientData?.filter(item => calculateAge(item.dob) > 5 && calculateAge(item.dob) < 14)
 
   //
   useEffect(() => {
