@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -138,7 +139,7 @@ export const postDisclosureColumns: Array<ColumnDef<PostDisclosureInputProps>> =
     header: 'comments',
     cell: ({ row }) => (
       <div>
-        {row.original.finalComments?.length > 0 ? (
+        {row.original.finalComments?.length! > 0 ? (
           <p className="text-[12px]">{row.original.finalComments}</p>
         ) : (
           <div className="flex space-x-2 items-center">
