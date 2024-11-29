@@ -85,7 +85,7 @@ const ProfileSettings = ({ params }: { params: any }) => {
       setFirstName(patientProfileData.firstName)
       setMiddleName(patientProfileData.middleName)
       setLastName(patientProfileData.lastName)
-      setRole(patientProfileData.role)
+      setRole(patientProfileData.role as string)
       setHospitalID(patientProfileData.hospitalID)
       setPopulationType(patientProfileData.populationType)
       setPassword(patientProfileData.password)
