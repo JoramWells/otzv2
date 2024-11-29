@@ -270,9 +270,9 @@ const StepsPage = ({ params }: any) => {
   useEffect(() => {
     if (disclosureEligibilityData) {
       const { isCorrectAge, isKnowledgeable, isWillingToDisclose } = disclosureEligibilityData
-      setIsCorrectAge(isCorrectAge)
-      setIsKnowledgeable(isKnowledgeable)
-      setIsWillingToDisclose(isWillingToDisclose)
+      setIsCorrectAge(isCorrectAge as boolean)
+      setIsKnowledgeable(isKnowledgeable as boolean)
+      setIsWillingToDisclose(isWillingToDisclose as boolean)
     }
   }, [disclosureEligibilityData])
 
@@ -292,29 +292,27 @@ const StepsPage = ({ params }: any) => {
 
       } = childCareGiveReadinessData
       setIsFreeChildCaregiverFromSevereIllness(
-        isFreeChildCaregiverFromSevereIllness
+        isFreeChildCaregiverFromSevereIllness as boolean
       )
-      setIsConsistentSocialSupport(isConsistentSocialSupport)
+      setIsConsistentSocialSupport(isConsistentSocialSupport as boolean)
       //
       setIsInterestInEnvironmentAndPlaying(
-        isInterestInEnvironmentAndPlaying
+        isInterestInEnvironmentAndPlaying as boolean
       )
       //
       setIsChildKnowsMedicineAndIllness(
-        isChildKnowsMedicineAndIllness
+        isChildKnowsMedicineAndIllness as boolean
       )
-      setIsChildSchoolEngagement(
-        isChildSchoolEngagement
-      )
+      setIsChildSchoolEngagement(isChildSchoolEngagement as boolean)
 
       //
       setIsCaregiverCommunicatedToChild(
-        isCaregiverCommunicatedToChild
+        isCaregiverCommunicatedToChild as boolean
       )
-      setIsSecuredPatientInfo(isSecuredPatientInfo)
+      setIsSecuredPatientInfo(isSecuredPatientInfo as boolean)
 
       setIsAssessedCaregiverReadinessToDisclose(
-        isAssessedCaregiverReadinessToDisclose
+        isAssessedCaregiverReadinessToDisclose as boolean
       )
     }
   }, [childCareGiveReadinessData])
@@ -349,13 +347,13 @@ const StepsPage = ({ params }: any) => {
         isGivenAppropriateInfo,
         isReferredForPsychiatric
       } = postDisclosureData
-      setIsAddressedNegativeImage(isAddressedNegativeSelfImage)
-      setIsAssessedChildEngagement(isAssessedChildEngagement)
-      setIsAssessedMoodiness(isAssessedMoodiness)
-      setIsPeerRelationshipAssessed(isPeerRelationshipAssessed)
-      setIsChildQuestionsAllowed(isChildQuestionsAllowed)
-      setIsReferredForPhysic(isReferredForPsychiatric)
-      setIsGivenAppropriateInfo(isGivenAppropriateInfo)
+      setIsAddressedNegativeImage(isAddressedNegativeSelfImage as boolean)
+      setIsAssessedChildEngagement(isAssessedChildEngagement as boolean)
+      setIsAssessedMoodiness(isAssessedMoodiness as boolean)
+      setIsPeerRelationshipAssessed(isPeerRelationshipAssessed as boolean)
+      setIsChildQuestionsAllowed(isChildQuestionsAllowed as boolean)
+      setIsReferredForPhysic(isReferredForPsychiatric as boolean)
+      setIsGivenAppropriateInfo(isGivenAppropriateInfo as boolean)
     }
   }, [postDisclosureData])
 
