@@ -11,7 +11,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import multiMonthPlugin from '@fullcalendar/multimonth'
 
 import { Suspense } from 'react'
-import EditAppointmentDialog from '../../../_components/appointment/EditAppointmentDialog'
+// import EditAppointmentDialog from '../../../_components/appointment/EditAppointmentDialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSearchParams } from 'next/navigation'
 import { CustomTable } from '@/app/_components/table/CustomTable'
@@ -37,7 +37,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
         <div className="flex flex-row items-center justify-between bg-white mt-2 w-full">
 <p className='text-xl font-bold p-2'>Manage Appointments</p>
 
-          <EditAppointmentDialog patientID={patientID} />
+          {/* <EditAppointmentDialog patientID={patientID} /> */}
         </div>
 
         {data?.length > 0 ? (
@@ -104,7 +104,7 @@ const AppointmentTab = ({ patientID }: AppointmentTabProps) => {
               This patient has no appointments. Learn More about appointments by
               adding a new appointment.
             </p>
-            <EditAppointmentDialog patientID={patientID} />
+            {/* <EditAppointmentDialog patientID={patientID} /> */}
           </div>
         )}
       </div>
