@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { type PatientAttributes } from 'otz-types'
 import { calculateAge } from '@/utils/calculateAge'
+import { Badge } from '@/components/ui/badge'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -73,9 +74,13 @@ const TreatmentPlanPage = () => {
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="p-2">
-        <div
-        className='bg-white rounded-lg'
-        >
+        <div className="bg-white rounded-lg border border-slate-100">
+          <div className="p-4 pb-2 pt-2 flex flex-row space-x-2 items-center  rounded-t-lg border-b border-slate-100 bg-gray-50 ">
+            <p className="text-slate-700 text-[16px] ">Treatment Plan Overview</p>
+            <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
+              {patientTotal}
+            </Badge>
+          </div>
           <CustomTable
             columns={columns}
             data={patientData ?? []}

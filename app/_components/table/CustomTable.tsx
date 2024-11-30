@@ -301,7 +301,7 @@ export function CustomTable<TData, TValue> ({
               </TableBody>
               {/* } */}
             </Table>
-            <div className="flex gap-x-4 justify-between p-4 ">
+            <div className="flex gap-x-4 justify-between p-4 pt-2 pb-2 border-t border-slate-100 ">
               <div
                 className="flex flex-row items-center text-slate-500
           gap-x-2
