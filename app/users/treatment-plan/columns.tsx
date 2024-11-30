@@ -26,69 +26,73 @@ import { v4 as uuidv4 } from 'uuid'
 
 export const columns: Array<ColumnDef<PatientAttributes>> = [
   {
-    accessorKey: 'firstName',
-    header: 'Name',
+    accessorKey: "firstName",
+    header: "Name",
     cell: ({ row }) => (
-      <div
-        className="flex flex-row gap-x-3 items-center
+      <div>
+        <div
+          className="flex flex-row gap-x-3 items-center
       pt-1.5 pb-1.5 text-[12px]
       "
-      >
-        <Avatar
-          size={'sm'}
-          className="font-bold"
-          name={`${row.original?.firstName} ${row.original?.middleName}`}
-        />
-        <Link
-          className="capitalize font-bold text-slate-700 underline"
-          href={`/users/patients/tab/dashboard/${row.original.id}`}
-          target='_blank'
-        >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
-        {calculateAge(row.original.dob)}
+        >
+          <Avatar
+            size={"sm"}
+            className="font-bold"
+            name={`${row.original?.firstName} ${row.original?.middleName}`}
+          />
+          <Link
+            className="capitalize font-bold text-slate-700 underline"
+            href={`/users/patients/tab/dashboard/${row.original.id}`}
+            target="_blank"
+          >{`${row.original?.firstName} ${row.original?.middleName}`}</Link>
+        </div>
+        <p className='font-semibold' >{calculateAge(row.original.dob)}</p>
       </div>
-    )
+    ),
   },
   {
-    accessorKey: 'mmas8',
-    header: 'MMAS8',
+    accessorKey: "mmas8",
+    header: "MMAS8",
     cell: ({ row }) => {
-      const { id } = row.original
-      const { data } = useGetMmasEightByPatientIDQuery(id as string)
-      const [addPatientVisit, { isLoading, data: visitData }] = useAddPatientVisitMutation()
-      const { authUser } = useUserContext()
-      const [patientVisitID, setPatientVisitID] = useState()
+      const { id } = row.original;
+      const { data } = useGetMmasEightByPatientIDQuery(id as string);
+      const [addPatientVisit, { isLoading, data: visitData }] =
+        useAddPatientVisitMutation();
+      const { authUser } = useUserContext();
+      const [patientVisitID, setPatientVisitID] = useState();
       const handleStartVisit = useCallback(
         async (path: string) => {
-          const newVisitID = uuidv4()
+          const newVisitID = uuidv4();
           const inputValues = {
             patientID: id,
             userID: authUser?.id,
-            id: newVisitID
-          }
-          setPatientVisitID(patientVisitID)
-          await addPatientVisit(inputValues)
+            id: newVisitID,
+          };
+          setPatientVisitID(patientVisitID);
+          await addPatientVisit(inputValues);
 
           // if (patientVisitID && patientVisitID !== 'undefined') {
           //   linkRef.current?.click()
           // }
-          return (`${path}${newVisitID}&step=5`)
+          return `${path}${newVisitID}&step=5`;
         },
         [addPatientVisit, authUser?.id, id, patientVisitID]
-
-      )
+      );
 
       const generateHref = async () => {
         const url = await handleStartVisit(
-            `/users/patients/tab/steps/${row.original.id}?appointmentID=&step=5`
-        )
-        return url
-      }
+          `/users/patients/tab/steps/${row.original.id}?appointmentID=&step=5`
+        );
+        return url;
+      };
 
-      const handleClick = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-        e.preventDefault() // Prevent default navigation
-        const url = await generateHref()
-        window.open(url, '_blank') // Open in a new tab
-      }
+      const handleClick = async (
+        e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+      ) => {
+        e.preventDefault(); // Prevent default navigation
+        const url = await generateHref();
+        window.open(url, "_blank"); // Open in a new tab
+      };
 
       return (
         <Suspense fallback={<div>loading</div>}>
@@ -103,7 +107,7 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
               <div className="flex flex-row space-x-2 items-center">
                 <Calendar size={16} className="text-slate-500" />
                 <p className="text-[12px]">
-                  {moment(data?.createdAt).format('ll')}
+                  {moment(data?.createdAt).format("ll")}
                 </p>
               </div>
             </div>
@@ -111,15 +115,15 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
             <div className="flex flex-row items-center text-orange-500 space-x-2 ">
               <AlertTriangle size={16} />
               <a
-              // ref={linkRef}
-              // target='_blank'
+                // ref={linkRef}
+                // target='_blank'
                 // onClick={async () =>
                 // await handleStartVisit(
                 // href={async () => {
                 //   return await handleStartVisit(`/users/patients/tab/steps/${row.original.id}?appointmentID=&step=5`)
                 // }}
-                href='#'
-                onClick={async e => await handleClick(e)}
+                href="#"
+                onClick={async (e) => await handleClick(e)}
                 //   )
                 // }
                 // size={'sm'}
@@ -130,18 +134,21 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
             </div>
           )}
         </Suspense>
-      )
-    }
+      );
+    },
     // enableSorting: true
   },
   {
-    accessorKey: 'disclosure',
-    header: 'Partial Disclosure',
+    accessorKey: "disclosure",
+    header: "Partial Disclosure",
     cell: ({ row }) => {
-      const { id } = row.original
-      const { data } = useGetChildCaregiverReadinessByPatientIDQuery(id as string)
-      const { data: disclosureEligibilityData } = useGetDisclosureEligibilityByPatientIDQuery(id as string)
-      let percentage = 0
+      const { id } = row.original;
+      const { data } = useGetChildCaregiverReadinessByPatientIDQuery(
+        id as string
+      );
+      const { data: disclosureEligibilityData } =
+        useGetDisclosureEligibilityByPatientIDQuery(id as string);
+      let percentage = 0;
       if (data && disclosureEligibilityData) {
         const {
           isAssessedCaregiverReadinessToDisclose,
@@ -151,17 +158,17 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
           isConsistentSocialSupport,
           isFreeChildCaregiverFromSevereIllness,
           isInterestInEnvironmentAndPlaying,
-          isSecuredPatientInfo
-        } = data
+          isSecuredPatientInfo,
+        } = data;
 
         const { isCorrectAge, isKnowledgeable, isWillingToDisclose } =
-        disclosureEligibilityData
+          disclosureEligibilityData;
 
         const disclosureObj = {
           isCorrectAge,
           isKnowledgeable,
-          isWillingToDisclose
-        }
+          isWillingToDisclose,
+        };
 
         const obj = {
           isFreeChildCaregiverFromSevereIllness,
@@ -171,48 +178,55 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
           isCaregiverCommunicatedToChild,
           isSecuredPatientInfo,
           isAssessedCaregiverReadinessToDisclose,
-          isChildSchoolEngagement
-        }
+          isChildSchoolEngagement,
+        };
 
-        const disclosureValues = Object.values(disclosureObj).filter((item) => item).length
+        const disclosureValues = Object.values(disclosureObj).filter(
+          (item) => item
+        ).length;
 
-        const bValues = Object.values(obj).filter((item) => item).length
+        const bValues = Object.values(obj).filter((item) => item).length;
 
-        const disclosurePercentage = (disclosureValues / Object?.keys(obj).length) * 100
-        const eligibilityPercentage = (bValues / Object?.keys(obj).length) * 100
+        const disclosurePercentage =
+          (disclosureValues / Object?.keys(obj).length) * 100;
+        const eligibilityPercentage =
+          (bValues / Object?.keys(obj).length) * 100;
 
-        percentage = (disclosurePercentage + eligibilityPercentage) / 2
+        percentage = (disclosurePercentage + eligibilityPercentage) / 2;
       }
 
       return (
- <Suspense
- fallback={<div>loading..</div>}
- >
-   {data
-     ? <Progress percentage={percentage} />
-     : <div className='flex flex-row items-center text-orange-500 space-x-2 ' >
-  <AlertTriangle size={16} />
-  <Link href={''} className='underline' >
-  update
-  </Link>
- </div>
-  }
- </Suspense>
-      )
-    }
+        <Suspense fallback={<div>loading..</div>}>
+          {data ? (
+            <Progress percentage={percentage} />
+          ) : (
+            <div className="flex flex-row items-center text-orange-500 space-x-2 ">
+              <AlertTriangle size={16} />
+              <Link href={""} className="underline">
+                update
+              </Link>
+            </div>
+          )}
+        </Suspense>
+      );
+    },
   },
   {
-    accessorKey: 'fullDisclosure',
-    header: 'Full Disclosure',
+    accessorKey: "fullDisclosure",
+    header: "Full Disclosure",
     cell: ({ row }) => {
-      const { id } = row.original
-      const { data: executeDisclosureData } = useGetExecuteDisclosureByPatientIDQuery(id as string, {
-        skip: !id
-      })
-      const { data: postDisclosureData } = useGetPostDisclosureByPatientIDQuery(id as string, {
-        skip: !id
-      })
-      let percentage = 0
+      const { id } = row.original;
+      const { data: executeDisclosureData } =
+        useGetExecuteDisclosureByPatientIDQuery(id as string, {
+          skip: !id,
+        });
+      const { data: postDisclosureData } = useGetPostDisclosureByPatientIDQuery(
+        id as string,
+        {
+          skip: !id,
+        }
+      );
+      let percentage = 0;
       if (executeDisclosureData && postDisclosureData) {
         const {
           isAssessedChildCaregiverComfort,
@@ -222,8 +236,8 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
           isExplainedCareOptions,
           isInvitedChildQuestions,
           isObservedImmediateReactions,
-          isReassuredCaregiver
-        } = executeDisclosureData
+          isReassuredCaregiver,
+        } = executeDisclosureData;
         const executeDisclosureObj = {
           isAssessedChildCaregiverComfort,
           isAssessedDepthOfChildKnowledge,
@@ -232,8 +246,8 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
           isExplainedCareOptions,
           isInvitedChildQuestions,
           isObservedImmediateReactions,
-          isReassuredCaregiver
-        }
+          isReassuredCaregiver,
+        };
 
         // post disclosure
         const {
@@ -244,8 +258,8 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
           isChildQuestionsAllowed,
           isGivenAppropriateInfo,
           isPeerRelationshipAssessed,
-          isReferredForPsychiatric
-        } = postDisclosureData
+          isReferredForPsychiatric,
+        } = postDisclosureData;
         const postDisclosureObj = {
           isAddressedNegativeSelfImage,
           isAssessedChildEngagement,
@@ -254,47 +268,50 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
           isChildQuestionsAllowed,
           isGivenAppropriateInfo,
           isPeerRelationshipAssessed,
-          isReferredForPsychiatric
-        }
+          isReferredForPsychiatric,
+        };
 
         //
-        const executeDisclosureDataValues = Object.values(executeDisclosureObj).filter((item) => item).length
-        const postDisclosureDataValues = Object.values(postDisclosureObj).filter((item) => item).length
+        const executeDisclosureDataValues = Object.values(
+          executeDisclosureObj
+        ).filter((item) => item).length;
+        const postDisclosureDataValues = Object.values(
+          postDisclosureObj
+        ).filter((item) => item).length;
 
         //
         const disclosurePercentage =
-                  (executeDisclosureDataValues / Object?.keys(executeDisclosureObj).length) * 100
+          (executeDisclosureDataValues /
+            Object?.keys(executeDisclosureObj).length) *
+          100;
         const eligibilityPercentage =
-                  (postDisclosureDataValues / Object?.keys(postDisclosureObj).length) * 100
+          (postDisclosureDataValues / Object?.keys(postDisclosureObj).length) *
+          100;
 
-        percentage = (disclosurePercentage + eligibilityPercentage) / 2
+        percentage = (disclosurePercentage + eligibilityPercentage) / 2;
       }
       return (
         <div>
-          {postDisclosureData
-            ? (
+          {postDisclosureData ? (
             <Progress percentage={percentage} />
-              )
-            : (
+          ) : (
             <div>
-              {calculateAge(row.original.dob) < 9
-                ? (
-                <div
-                className='text-[12px] text-slate-500'
-                >Hello, client not age appropriate</div>
-                  )
-                : (
+              {calculateAge(row.original.dob) < 9 ? (
+                <div className="text-[12px] text-slate-500">
+                  Hello, client not age appropriate
+                </div>
+              ) : (
                 <div className="flex flex-row items-center text-orange-500 space-x-2 ">
                   <AlertTriangle size={16} />
-                  <Link href={''} className="underline text-[12px] ">
+                  <Link href={""} className="underline text-[12px] ">
                     update
                   </Link>
                 </div>
-                  )}
-            </div>
               )}
+            </div>
+          )}
         </div>
-      )
-    }
-  }
-]
+      );
+    },
+  },
+];

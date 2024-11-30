@@ -36,22 +36,22 @@ export const LabProvider = ({ children }: { children: ReactNode }) => {
   const { authUser } = useUserContext()
   const [viralLoadData, setViralLoadData] = useState<ExtendedViralLoadInterface[] | undefined>()
 
-  useEffect(() => {
-    if (session) {
-      setUser(session.user)
-    }
-  }, [session])
+  // useEffect(() => {
+  //   if (session) {
+  //     setUser(session.user)
+  //   }
+  // }, [session])
 
   const { data: vlData, isLoading } = useGetAllViralLoadTestsQuery(
     {
-      hospitalID: user?.hospitalID as string
+      hospitalID: authUser?.hospitalID as string
     },
     {
-      skip: !user?.hospitalID
+      skip: !authUser?.hospitalID
     }
   )
 
-  console.log(vlData, 'datax')
+  // console.log(vlData, 'datax')
 
   useEffect(() => {
     if (vlData) {
