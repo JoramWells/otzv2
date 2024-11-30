@@ -5,7 +5,7 @@
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import React, { useEffect, useState } from 'react'
 import { columns } from './columns'
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
+import { useGetAllEligibleOTZPatientsQuery, useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { useSearchParams } from 'next/navigation'
 import { useUserContext } from '@/context/UserContext'
 import dynamic from 'next/dynamic'
@@ -46,20 +46,19 @@ const TreatmentPlanPage = () => {
 
   const page = searchParams.get('page')
 
-  const { data, isLoading } = useGetAllPatientsQuery(
+  const { data, isLoading } = useGetAllEligibleOTZPatientsQuery(
     {
       hospitalID: authUser?.hospitalID as string,
       page: Number(page) ?? 1,
       pageSize: 10,
-      searchQuery: '',
-      calHIVQuery: 'all'
+      searchQuery: ''
     },
     {
-      skip: (authUser?.hospitalID) == null
+      skip: authUser?.hospitalID == null
     }
   )
 
-  const filterData = patientData?.filter(item => calculateAge(item.dob) > 5 && calculateAge(item.dob) < 14)
+  // const filterData = patientData?.filter(item => calculateAge(item.dob) > 5 && calculateAge(item.dob) < 14)
 
   //
   useEffect(() => {
@@ -69,7 +68,6 @@ const TreatmentPlanPage = () => {
     }
   }, [data])
 
-  console.log(data)
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -80,8 +78,8 @@ const TreatmentPlanPage = () => {
         >
           <CustomTable
             columns={columns}
-            data={filterData ?? []}
-            total={filterData?.length}
+            data={patientData ?? []}
+            total={patientTotal}
             isLoading={isLoading}
             // search={search}
             // setSearch={setSearch}

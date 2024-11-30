@@ -13,6 +13,7 @@ import {
 
 import { type ExtendedViralLoadInterface, useGetAllViralLoadTestsQuery } from '@/api/enrollment/viralLoadTests.api'
 import { useUserContext } from './UserContext'
+import { useSession } from 'next-auth/react'
 
 export interface AppContext {
   viralLoadData: ExtendedViralLoadInterface[] | undefined
@@ -30,12 +31,27 @@ const initialState: AppContext = {
 export const LabContext = createContext(initialState)
 
 export const LabProvider = ({ children }: { children: ReactNode }) => {
+  const { data: session } = useSession()
+  const [user, setUser] = useState()
   const { authUser } = useUserContext()
   const [viralLoadData, setViralLoadData] = useState<ExtendedViralLoadInterface[] | undefined>()
 
-  const { data: vlData, isLoading } = useGetAllViralLoadTestsQuery({
-    hospitalID: authUser?.hospitalID as string
-  })
+  useEffect(() => {
+    if (session) {
+      setUser(session.user)
+    }
+  }, [session])
+
+  const { data: vlData, isLoading } = useGetAllViralLoadTestsQuery(
+    {
+      hospitalID: user?.hospitalID as string
+    },
+    {
+      skip: !user?.hospitalID
+    }
+  )
+
+  console.log(vlData, 'datax')
 
   useEffect(() => {
     if (vlData) {

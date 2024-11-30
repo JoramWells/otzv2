@@ -10,7 +10,7 @@ export type ExtendedViralLoadInterface = ViralLoadInterface & {
 export const viralLoadApi = createApi({
   reducerPath: 'viralLoadApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/lab/viral-load-tests`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/viral-load-tests`
   }),
   endpoints: (builder) => ({
     getAllViralLoadTests: builder.query<
@@ -38,6 +38,20 @@ export const viralLoadApi = createApi({
           return `/fetchAllVLCategory?${queryString}`
         }
         return 'fetchAllVLCategory'
+      }
+    }),
+    getVLSuppressionRate: builder.query<any, { hospitalID: string, startDate: string, endDate: string }>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID, endDate, startDate } = params
+          let queryString = ''
+          // queryString += `date=${date}`
+          queryString += `hospitalID=${hospitalID}`
+          queryString += `&startDate=${startDate}`
+          queryString += `&endDate=${endDate}`
+          return `/suppression-rate?${queryString}`
+        }
+        return 'suppression-rate'
       }
     }),
     addViralLoadTest: builder.mutation({
@@ -86,5 +100,6 @@ export const {
   useGetViralLoadTestQuery,
   useGetOTZPatientEnrollmentQuery,
   useGetAllVlCategoriesQuery,
-  useGetViralLoadTestByPatientVisitIDQuery
+  useGetViralLoadTestByPatientVisitIDQuery,
+  useGetVLSuppressionRateQuery
 } = viralLoadApi

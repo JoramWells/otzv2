@@ -5,6 +5,9 @@
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useLabContext } from '@/context/ViralLoadContext'
+import { useGetVLSuppressionRateQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -44,7 +47,25 @@ const dataList2 = [
 ]
 
 const NotifyPage = () => {
+  // const [user, setUser] = useState()
   const { viralLoadData } = useLabContext()
+  // console.log(viralLoadData, 'viralLoadData')
+  // const { data: session } = useSession()
+  // useEffect(() => {
+  //   if (session) {
+  //     setUser(session.user)
+  //   }
+  // }, [session])
+  // const { data: vlSuppression } = useGetVLSuppressionRateQuery({
+  //   hospitalID: user?.hospitalID,
+  //   startDate: new Date('2023-04-05'),
+  //   endDate: new Date('2024-11-09')
+  // },
+  // {
+  //   skip: !user?.hospitalID
+  // })
+
+  // console.log(vlSuppression, 'vlSuppression')
 
   return (
     <div className="">

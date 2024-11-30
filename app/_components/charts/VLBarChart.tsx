@@ -22,6 +22,7 @@ export interface BarChartProps {
 Chart.register(...registerables)
 
 const VLBarChart = ({ data }: { data: ExtendedViralLoadInterface[] | undefined }) => {
+  console.log(data, 'datam')
   const [value, setValue] = useState<number>(0)
 
   const uniqueYears: number[] | any = useMemo(() => {
