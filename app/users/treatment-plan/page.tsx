@@ -50,7 +50,7 @@ const TreatmentPlanPage = () => {
     {
       hospitalID: authUser?.hospitalID as string,
       page: Number(page) ?? 1,
-      pageSize: 10,
+      pageSize: 5,
       searchQuery: ''
     },
     {

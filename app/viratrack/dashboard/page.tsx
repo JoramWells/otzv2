@@ -5,9 +5,6 @@
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useLabContext } from '@/context/ViralLoadContext'
-import { useGetVLSuppressionRateQuery } from '@/api/enrollment/viralLoadTests.api'
-import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),

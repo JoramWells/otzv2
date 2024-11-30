@@ -73,7 +73,7 @@ export const patientsApi = createApi({
     getAllPMTCTPatients: builder.query<any, void>({
       query: () => 'fetchAllPMTCT'
     }),
-    getAllEligibleOTZPatients: builder.query<any, PatientInputParams>({
+    getAllEligibleOTZPatients: builder.query<PatientResponseInterface, PatientInputParams>({
       query: (params) => {
         if (params) {
           const { hospitalID, page, pageSize, searchQuery } =
