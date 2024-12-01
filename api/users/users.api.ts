@@ -12,9 +12,9 @@ export interface UserResponseInterface {
 }
 
 export interface UserInputParams {
-  page: number
-  pageSize: number
-  searchQuery: string
+  page?: number
+  pageSize?: number
+  searchQuery?: string
 }
 export const userApi = createApi({
   reducerPath: 'userApi',

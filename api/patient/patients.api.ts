@@ -34,7 +34,7 @@ export interface PatientInputParams {
   page: number
   pageSize: number
   searchQuery: string
-  casemanager: string | null
+  casemanager?: string | null
   calHIVQuery?: string
 }
 

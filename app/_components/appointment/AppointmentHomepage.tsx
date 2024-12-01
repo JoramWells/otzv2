@@ -182,12 +182,12 @@ const AppointmentHomepage = () => {
 
         {/*  */}
         <CustomSelectParams
-          label={`Page No :- ${pageNumber(total, 10)}`}
+          label={`Page No :- ${pageNumber(total!, 10)}`}
           paramValue="page"
           onChange={setPageSize}
           value={`${pageSize}`}
           data={Array.from(
-            { length: pageNumber(total, 10) },
+            { length: pageNumber(total!, 10) },
             (_, index) => ({ id: `${index + 1}`, label: `${index + 1}` })
           )}
           placeholder="Page"

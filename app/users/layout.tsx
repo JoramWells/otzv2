@@ -12,7 +12,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { Book, BookCopy, LayoutDashboardIcon, NotebookPen, Users } from 'lucide-react'
+import { Book, BookCopy, History, LayoutDashboardIcon, NotebookPen, Users } from 'lucide-react'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { type JSX, Suspense, useEffect } from 'react'
@@ -26,10 +26,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const DL: SidebarListItemsProps[] = [
   {
-    id: '1',
-    label: 'Dashboard',
-    link: '/users/dashboard',
-    icon: <LayoutDashboardIcon size={17} />
+    id: "1",
+    label: "Dashboard",
+    link: "/users/dashboard",
+    icon: <LayoutDashboardIcon size={17} />,
   },
   // {
   //   id: '2',
@@ -38,30 +38,36 @@ const DL: SidebarListItemsProps[] = [
   //   icon: <HeartHandshake size={17} />
   // },
   {
-    id: '3',
-    label: 'Patients',
-    link: '/users/patients',
-    icon: <Book size={17} />
+    id: "3",
+    label: "Patients",
+    link: "/users/patients",
+    icon: <Book size={17} />,
   },
   {
-    id: '4',
-    label: 'OTZ',
-    link: '/users/otz',
-    icon: <Users size={17} />
-  },
-    {
-    id: '5',
-    label: 'Treatment Plan',
-    link: '/users/treatment-plan',
-    icon: <NotebookPen size={17} />
+    id: "4",
+    label: "OTZ",
+    link: "/users/otz",
+    icon: <Users size={17} />,
   },
   {
-    id: '6',
-    label: 'Reports',
-    link: '/users/reports',
-    icon: <BookCopy size={17} />
-  }
-]
+    id: "5",
+    label: "Treatment Plan",
+    link: "/users/treatment-plan",
+    icon: <NotebookPen size={17} />,
+  },
+  {
+    id: "6",
+    label: "Visits",
+    link: "/users/visits",
+    icon: <History size={17} />,
+  },
+  {
+    id: "7",
+    label: "Reports",
+    link: "/users/reports",
+    icon: <BookCopy size={17} />,
+  },
+];
 
 const PatientLayout = ({ children }: { children: React.ReactNode }) => {
   const params = useParams()

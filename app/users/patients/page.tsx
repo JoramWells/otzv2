@@ -22,7 +22,6 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Badge } from '@/components/ui/badge'
 import { useGetAllCaseManagersQuery, useGetCaseManagerQuery } from '@/api/patient/casemanager.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
-import CustomSelectPaginated from '@/components/forms/CustomSelectPaginated'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
