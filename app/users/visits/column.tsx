@@ -60,30 +60,12 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
         skip: !id
       })
       return (
-        <div className="flex flex-col space-y-1 items-start">
-          <div
-          className='flex flex-row space-x-2 items-center'
-          >
-            {data
-              ? (
-              <CircleCheckBig className="text-emerald-500" size={16} />
-                )
-              : (
-              <CircleX size={16} className="text-slate-500" />
-                )}
-            <p className="text-[12px] font-semibold text-slate-700 ">MMAS-4</p>
-          </div>
-          <div className="flex items-start flex-row space-x-2">
-            {mmas8Data
-              ? (
-              <CircleCheckBig size={16} className="text-emerald-500" />
-                )
-              : (
-              <CircleX size={16} className="text-slate-500" />
-                )}
-            <p className="text-[12px] font-semibold text-slate-700">MMAS-8</p>
-          </div>
-        </div>
+        <IsCompletedComponent
+        data1={data}
+        title1='MMAS-4'
+        data2={mmas8Data}
+        title2='MMAS-8'
+        />
       )
     }
   },
@@ -101,36 +83,12 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
           skip: id == null
         })
       return (
-        <div className="flex flex-col space-y-1 items-start">
-          <div className="flex flex-row space-x-2">
-            <div>
-              {data
-                ? (
-                <CircleCheckBig size={16} className="text-emerald-500" />
-                  )
-                : (
-                <CircleX size={16} className="text-slate-500" />
-                  )}
-            </div>
-            <p className="text-[12px] font-semibold text-slate-700">
-              Eligibility
-            </p>
-          </div>
-
-          {/*  */}
-          <div className='flex flex-row space-x-2 items-center' >
-            <div>
-              {readinessData
-                ? (
-                <CircleCheckBig size={16} className="text-emerald-500" />
-                  )
-                : (
-                <CircleX size={16} className='text-slate-500' />
-                  )}
-            </div>
-            <p className='text-[12px] font-semibold text-slate-700' >Readiness</p>
-          </div>
-        </div>
+        <IsCompletedComponent
+          data1={data}
+          title1="Disclosed"
+          data2={readinessData}
+          title2="Child Readiness"
+        />
       )
     }
   },
@@ -147,42 +105,18 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
         skip: !id
       })
       return (
-        <div className="flex flex-col space-y-1 items-start">
-          <div className="flex flex-row space-x-2">
-            <div>
-              {data
-                ? (
-                <CircleCheckBig size={16} className="text-emerald-500" />
-                  )
-                : (
-                <CircleX size={16} className='text-slate-500' />
-                  )}
-            </div>
-            <p className="text-[12px] font-semibold text-slate-700">Executed</p>
-          </div>
-
-          {/*  */}
-          <div className="flex flex-row space-x-2">
-            <div>
-              {postData
-                ? (
-                <CircleCheckBig size={16} className="text-emerald-500" />
-                  )
-                : (
-                <CircleX size={16} className='text-slate-500' />
-                  )}
-            </div>
-            <p className="text-[12px] font-semibold text-slate-700">
-              Post Disclosure
-            </p>
-          </div>
-        </div>
+        <IsCompletedComponent
+          data1={data}
+          title1="Execute"
+          data2={postData}
+          title2="Post Disclosure"
+        />
       )
     }
   },
   {
     accessorKey: 'schedule',
-    header: 'Schedule',
+    header: 'Time Schedule',
     cell: ({ row }) => {
       const { id } = row.original
       const { data } = useGetTimeAndWorkByVisitIDQuery(id, {
@@ -190,18 +124,21 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
       })
 
       return (
-        <div className="flex flex-row space-x-2 items-center">
           <div>
             {data
               ? (
-              <CircleCheckBig size={16} className="text-emerald-500" />
+              <div className="flex flex-row space-x-2 items-center">
+                <CircleCheckBig size={16} className="text-emerald-500" />
+                <p className="text-[12px] font-semibold text-emerald-500">Yes</p>
+              </div>
                 )
               : (
-              <CircleX size={16} className="text-slate-500" />
+              <div className="flex flex-row space-x-2 items-center">
+                <CircleX size={16} className="text-slate-500" />
+                <p className="text-[12px] font-semibold text-slate-700">No</p>
+              </div>
                 )}
           </div>
-          <p className="text-[12px] font-semibold text-slate-700">Executed</p>
-        </div>
       )
     }
   },
@@ -218,3 +155,38 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
     // )
   }
 ]
+
+const IsCompletedComponent = ({ data1, data2, title1, title2 }: { data1: any, data2: any, title1: string, title2: string }) => {
+  return (
+  <div className="flex flex-col space-y-1 items-start">
+    <div className="flex flex-row space-x-2">
+      <div>
+        {data1
+          ? (
+          <CircleCheckBig size={16} className="text-emerald-500" />
+            )
+          : (
+          <CircleX size={16} className="text-slate-500" />
+            )}
+      </div>
+      <p className="text-[12px] font-semibold text-slate-700">{title1}</p>
+    </div>
+
+    {/*  */}
+    <div className="flex flex-row space-x-2">
+      <div>
+        {data2
+          ? (
+          <CircleCheckBig size={16} className="text-emerald-500" />
+            )
+          : (
+          <CircleX size={16} className="text-slate-500" />
+            )}
+      </div>
+      <p className="text-[12px] font-semibold text-slate-700">
+        {title2}
+      </p>
+    </div>
+  </div>
+  )
+}

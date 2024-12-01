@@ -13,6 +13,7 @@ import { patientVisitColumns } from './column'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUserContext } from '@/context/UserContext'
+import { Badge } from '@/components/ui/badge'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -92,10 +93,17 @@ const PageVisits = () => {
     <div>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div
-      className='p-2'
-      >
-        <div className='bg-white border rounded-lg' >
+      <div className="p-2">
+        <div className="bg-white border rounded-lg">
+          <div
+            className="p-4 pb-2 pt-2 flex
+           flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg"
+          >
+            <p className="text-slate-700 text-[16px] ">Patient Visits</p>
+            <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
+              {patientTotal}
+            </Badge>
+          </div>
           <CustomTable
             columns={patientVisitColumns}
             data={patientData ?? []}

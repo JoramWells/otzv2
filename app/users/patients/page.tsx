@@ -145,8 +145,6 @@ const Patients = () => {
     }))
   }, [userData])()
 
-  console.log(caseManagerOptions)
-
   useEffect(() => {
     if (data) {
       setPatientData(data?.data)
@@ -218,6 +216,13 @@ const Patients = () => {
       </div>
     )
   }
+  const pathname = usePathname()
+  const params = new URLSearchParams(searchParams.toString())
+  const clearCaseManager = () => {
+    setCaseManager('')
+    params.set('casemanager', '')
+    router.replace(`${pathname}?${params.toString()}`)
+  }
 
   return (
     <>
@@ -239,14 +244,21 @@ const Patients = () => {
       </div>
 
       <div className="w-full p-2 pt-0 rounded-lg mt-2">
-
         <div className="bg-white rounded-lg border border-slate-200">
-          <div className="p-4 pb-2 pt-2 flex
-           flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg">
-            <p className="text-slate-700 text-[16px] ">{tabValue}</p>
-            <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
-              {patientTotal}
-            </Badge>
+          <div
+            className="p-4 pb-2 pt-2 flex
+           flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
+          >
+            <div className='flex flex-row space-x-2 items-center' >
+              <p className="text-slate-700 text-[16px] ">{tabValue}</p>
+              <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
+                {patientTotal}
+              </Badge>
+            </div>
+            {caseManager && <Badge
+            className='hover: cursor-pointer bg-slate-50 border border-slate-200 hover:bg-slate-100 shadow-none text-black'
+            onClick={() => clearCaseManager()}
+            >{caseManager}</Badge>}
           </div>
           <CustomTable
             columns={patientColumns}

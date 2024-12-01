@@ -11,6 +11,7 @@ import debounce from 'lodash/debounce'
 import { useSession } from 'next-auth/react'
 import { type UserInterface } from 'otz-types'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'
+import { Badge } from '@/components/ui/badge'
 export interface AppointmentResponseInterface {
   data: ExtendedAppointmentInputProps[]
   page: number
@@ -116,6 +117,13 @@ const AppointmentHomepage = () => {
     return Math.ceil(count / pageSize)
   }
 
+  const params = new URLSearchParams(searchParams.toString())
+  const clearAgenda = () => {
+    setAgenda('')
+    params.set('agenda', '')
+    router.replace(`${pathname}?${params.toString()}`)
+  }
+
   function StatusFilter () {
     return (
       <div className="flex flex-row space-x-2 items-center">
@@ -198,25 +206,39 @@ const AppointmentHomepage = () => {
 
   return (
     <>
-
       <div className="w-full p-2">
-        <div className="bg-white rounded-lg">
-          <div className="p-4 pb-0">
-            <p className="capitalize text-slate-700 text-[16px] ">
-              {value} appointments
-            </p>
+        <div className="bg-white rounded-lg border border-slate-200">
+          <div
+            className="p-4 pb-2 pt-2 flex
+           flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
+          >
+            <div className="flex flex-row space-x-2 items-center">
+              <p className="text-slate-700 text-[16px] ">
+                {value} appointments
+              </p>
+              <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
+                {total}
+              </Badge>
+            </div>
+            {agendaValue && (
+              <Badge
+                className="hover: cursor-pointer bg-slate-50 border border-slate-200 hover:bg-slate-100 shadow-none text-black"
+                onClick={() => clearAgenda()}
+              >
+                {agendaValue}
+              </Badge>
+            )}
           </div>
 
-            <CustomTable
-              columns={columns}
-              isLoading={isLoading}
-              total={total}
-              data={sortedAppointment || []}
-              search={search}
-              setSearch={setSearch}
-              filter={<StatusFilter />}
-            />
-
+          <CustomTable
+            columns={columns}
+            isLoading={isLoading}
+            total={total}
+            data={sortedAppointment || []}
+            search={search}
+            setSearch={setSearch}
+            filter={<StatusFilter />}
+          />
         </div>
       </div>
     </>
