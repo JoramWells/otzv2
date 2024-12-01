@@ -38,6 +38,15 @@ import { useGetPatientSessionLogQuery } from '@/api/patient/patientSessionLogs.a
 import PatientSessionLogsChart from '@/components/Recharts/PatientSessionLogsChart'
 import { useGetChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 import { calculateAge } from '@/utils/calculateAge'
+import dynamic from 'next/dynamic'
+
+const BreadcrumbComponent = dynamic(
+  async () => await import("@/components/nav/BreadcrumbComponent"),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
+  }
+)
 
 export interface InputTabProps {
   id: number
@@ -124,9 +133,29 @@ const PatientDetails = ({ params }: any) => {
     }
   }, [patientData])
 
+  const dataList2 = [
+    {
+      id: "1",
+      label: "home",
+      link: "/"
+    },
+    {
+      id: "2",
+      label: "Patients",
+      link: "/users/patients"
+    },
+    {
+      id: "3",
+      label: `${patientData?.firstName} ${patientData?.middleName}`,
+      link: ""
+    }
+  ]
+
   return (
     <div>
-      <div className="p-2 w-full justify-between flex items-center bg-white">
+      <BreadcrumbComponent dataList={dataList2} />
+
+      <div className="p-2 w-full mt-2 justify-between flex items-center bg-white">
         <div className="z-20">
           {isLoadingPatientData ? (
             <Skeleton className="w-[100px] h-8" />
@@ -179,40 +208,39 @@ const PatientDetails = ({ params }: any) => {
 
       {!childCareGiveReadinessData &&
         !isLoadingCareData &&
-        (age >= 9 &&
-        age <=
-          12) && (
-            <div
-              className="m-2 p-4 mb-0 rounded-lg border border-slate-200 bg-white flex flex-row justify-between
+        age >= 9 &&
+        age <= 12 && (
+          <div
+            className="m-2 p-4 mb-0 rounded-lg border border-slate-200 bg-white flex flex-row justify-between
       items-center
       "
-            >
-              <div className=" flex flex-row items-center space-x-4">
-                <FileUser className="text-slate-700" />
-                <div>
-                  <p className="font-semibold text-slate-700 text-[14px]">
-                    This patient has no partial disclosure
-                  </p>
-                  <p className="text-[12px] text-slate-500">
-                    Partial disclosure is conducted between the ages 6 and 10.
-                    Review to make sure that this patient has a complete
-                    disclosure.
-                  </p>
-                </div>
+          >
+            <div className=" flex flex-row items-center space-x-4">
+              <FileUser className="text-slate-700" />
+              <div>
+                <p className="font-semibold text-slate-700 text-[14px]">
+                  This patient has no partial disclosure
+                </p>
+                <p className="text-[12px] text-slate-500">
+                  Partial disclosure is conducted between the ages 6 and 10.
+                  Review to make sure that this patient has a complete
+                  disclosure.
+                </p>
               </div>
-              <Button
-                onClick={async () => {
-                  await handleStartVisit(
-                    `/users/patients/tab/settings/disclosure/${patientID}?appointmentID=`
-                  )
-                }}
-                size={"sm"}
-                variant={"outline"}
-                className="shadow-none"
-              >
-                Add Partial Disclosure
-              </Button>
             </div>
+            <Button
+              onClick={async () => {
+                await handleStartVisit(
+                  `/users/patients/tab/settings/disclosure/${patientID}?appointmentID=`
+                )
+              }}
+              size={"sm"}
+              variant={"outline"}
+              className="shadow-none"
+            >
+              Add Partial Disclosure
+            </Button>
+          </div>
       )}
 
       <div className="grid w-full grid-cols-1 gap-2 lg:grid-cols-4 p-2 md:grid-cols-2">

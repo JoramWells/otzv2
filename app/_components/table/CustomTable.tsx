@@ -138,20 +138,25 @@ export function CustomTable<TData, TValue> ({
         p-4
         "
         >
-          <input
-            placeholder="Search.."
-            className="border border-slate-200 h-8 rounded-lg p-2 pl-4
+          <div
+          className='flex flex-row space-x-2 items-center'
+          >
+            <input
+              placeholder="Search.."
+              className="border border-slate-200 h-8 rounded-lg p-2 pl-4
             text-[12px]
             "
-            value={search}
-            onChange={handleSearch}
-            // value={
-            //   (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
-            // }
-            // onChange={(event) =>
-            //   table.getColumn('firstName')?.setFilterValue(event.target.value)
-            // }
-          />
+              value={search}
+              onChange={handleSearch}
+              // value={
+              //   (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
+              // }
+              // onChange={(event) =>
+              //   table.getColumn('firstName')?.setFilterValue(event.target.value)
+              // }
+            />
+            {filter && filter}
+          </div>
 
           <div className="flex flex-row space-x-4 items-center">
             <CSVLink data={data as object[]}>
@@ -165,8 +170,6 @@ export function CustomTable<TData, TValue> ({
                 Export
               </Button>
             </CSVLink>
-
-            {filter && filter}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

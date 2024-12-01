@@ -23,7 +23,7 @@ export default function BreadcrumbComponent ({ dataList }: DataListProps) {
         {dataList.map((item, index) => (
           <Fragment key={item.id}>
             <BreadcrumbItem>
-              <BreadcrumbLink href={item.link} className="capitalize text-[12px] ">
+              <BreadcrumbLink href={item.link} className={`capitalize text-[12px] ${index === dataList.length - 1 && 'text-blue-500'} `}>
                 {item.label}
               </BreadcrumbLink>
             </BreadcrumbItem>
