@@ -22,6 +22,7 @@ import { Toaster } from '@/components/ui/toaster'
 import { v4 as uuidv4 } from 'uuid'
 import { UserProvider, useUserContext } from '@/context/UserContext'
 import { PharmacyProvider } from '@/context/PharmacyContext'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -166,15 +167,16 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
 }
 
 export default function WrappedPatientLayout (props: JSX.IntrinsicAttributes & { children: React.ReactNode }) {
+  const queryClient = new QueryClient()
   return (
-    <Suspense
-    fallback={<div>Loading...</div>}
-    >
-      <Provider store={store}>
-        <UserProvider>
-          <PatientLayout {...props} />
-        </UserProvider>
-      </Provider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <QueryClientProvider client={queryClient} >
+        <Provider store={store}>
+          <UserProvider>
+            <PatientLayout {...props} />
+          </UserProvider>
+        </Provider>
+      </QueryClientProvider>
     </Suspense>
   )
 }

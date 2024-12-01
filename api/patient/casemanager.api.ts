@@ -1,5 +1,10 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+export interface CaseManagerInputParams {
+  hospitalID: string
+}
 
 export const caseManagerApi = createApi({
   reducerPath: 'caseManagerApi',
@@ -7,8 +12,16 @@ export const caseManagerApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/casemanager`
   }),
   endpoints: (builder) => ({
-    getAllCaseManagers: builder.query<any, void>({
-      query: () => 'fetchAll'
+    getAllCaseManagers: builder.query<any, CaseManagerInputParams>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } = params
+          let queryString = ''
+          queryString += `hospitalID=${hospitalID}`
+          return `/fetchAll/?${queryString}`
+        }
+        return 'fetchAll'
+      }
     }),
     addCaseManager: builder.mutation({
       query: (newUser) => ({
@@ -19,6 +32,9 @@ export const caseManagerApi = createApi({
     }),
     getCaseManager: builder.query({
       query: (id) => `detail/${id}`
+    }),
+    getCaseManagerByPatientID: builder.query({
+      query: (id) => `casemanager-by-patient-id/${id}`
     }),
     updateCaseManager: builder.mutation({
       query: ({ id, ...patch }) => ({
@@ -39,6 +55,6 @@ export const caseManagerApi = createApi({
 })
 
 export const {
-  useGetAllCaseManagersQuery, useUpdateCaseManagerMutation,
+  useGetAllCaseManagersQuery, useUpdateCaseManagerMutation, useGetCaseManagerByPatientIDQuery,
   useDeleteCaseManagerMutation, useAddCaseManagerMutation, useGetCaseManagerQuery
 } = caseManagerApi

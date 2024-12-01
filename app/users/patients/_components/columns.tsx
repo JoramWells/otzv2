@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -29,103 +28,8 @@ import { type ExtendedImportantPatientInterface, useAddImportantPatientMutation,
 import { useSession } from 'next-auth/react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
+import { useGetCaseManagerByPatientIDQuery } from '@/api/patient/casemanager.api'
 //
-interface AppointmentProps {
-  id: any
-  User: {
-    firstName?: string
-    middleName?: string
-  }
-  AppointmentAgenda: {
-    agendaDescription?: string
-  }
-  AppointmentStatus: {
-    statusDescription?: string
-  }
-  appointmentDate: MomentInput
-}
-
-export const columns: Array<ColumnDef<AppointmentProps>> = [
-  {
-    accessorKey: 'firstName',
-    header: 'Requested By',
-    cell: ({ row }) => (
-      <Link
-        className="capitalize font-bold text-slate-700 text-[12px] "
-        href={`/patients/${row.original.id}`}
-      >{`${row.original.User?.firstName} ${row.original.User?.middleName}`}</Link>
-    )
-  },
-  {
-    accessorKey: 'appointmentAgenda',
-    header: 'Agenda',
-    cell: ({ row }) => (
-      <p
-      className='text-[12px]'
-      >{row.original.AppointmentAgenda?.agendaDescription}</p>
-    )
-  },
-  {
-    accessorKey: 'appointmentStatus',
-    header: 'Status',
-    cell: ({ row }) => {
-      const status = row.original.AppointmentStatus?.statusDescription
-      return (
-        <div>
-          {status === 'Pending' && (
-            <Badge className="shadow-none rounded-full bg-orange-50 text-orange-500 hover:bg-orange-50">
-              {status}
-            </Badge>
-          )}
-
-          {status === 'Upcoming' && (
-            <Badge className="shadow-none rounded-full bg-blue-50 text-blue-500 hover:bg-blue-50">
-              {status}
-            </Badge>
-          )}
-
-          {status === 'Completed' && (
-            <Badge className="shadow-none rounded-full bg-teal-50 text-teal-500 hover:bg-teal-50">
-              {status}
-            </Badge>
-          )}
-
-          {status === 'Cancelled' && (
-            <Badge className="shadow-none rounded-full bg-red-50 text-red-500 hover:bg-red-50">
-              {status}
-            </Badge>
-          )}
-
-          {status === 'Rescheduled' && (
-            <Badge className="shadow-none rounded-full bg-teal-50 text-teal-500 hover:bg-teal-50">
-              {status}
-            </Badge>
-          )}
-
-        </div>
-      )
-    },
-    enableSorting: true
-  },
-
-  {
-    accessorKey: 'appointmentDate',
-    header: 'Date',
-    cell: ({ row }) => (
-      <p>{moment(row.original.appointmentDate).format('LL')}</p>
-    )
-  },
-  {
-    // accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => (
-      <div>
-        <TrashIcon />
-      </div>
-    )
-  }
-]
-
 interface CaregiverColumnsProps {
   id: string
   firstName?: string
@@ -326,25 +230,38 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
     cell: ({ row }) => <p className="text-[12px]">{row.original.cccNo}</p>
   },
   {
-    accessorKey: 'populationType',
-    header: 'Population Type',
-    cell: ({ row }) => (
-      <p className="text-[12px]">{row.original.populationType}</p>
-    )
+    accessorKey: 'caseManager',
+    header: 'Case Manager',
+    cell: ({ row }) => {
+      const { id } = row.original
+      const { data, isLoading } = useGetCaseManagerByPatientIDQuery(id, {
+        skip: !id
+      })
+
+      return (
+        <div>
+          {isLoading ? (
+            <Skeleton />
+          ) : (
+            <p className="text-[12px]">{data?.User?.firstName} {data?.User?.middleName}</p>
+          )}
+        </div>
+      )
+    }
   },
   // {
   //   accessorKey: 'entryPoint',
   //   header: 'Entry Point'
   // },
-  {
-    accessorKey: 'createdAt',
-    header: 'Date of Enrollment',
-    cell: ({ row }) => (
-      <p className="text-[12px]">
-        {moment(row.original.createdAt).format('ll')}
-      </p>
-    )
-  },
+  // {
+  //   accessorKey: 'createdAt',
+  //   header: 'Date of Enrollment',
+  //   cell: ({ row }) => (
+  //     <p className="text-[12px]">
+  //       {moment(row.original.createdAt).format('ll')}
+  //     </p>
+  //   )
+  // },
 
   {
     accessorKey: 'action',

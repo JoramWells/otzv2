@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import CustomTab from '@/components/tab/CustomTab'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CustomTable } from '../table/CustomTable'
 import { columns } from '@/app/appointments/columns'
@@ -10,6 +9,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import debounce from 'lodash/debounce'
 import { useSession } from 'next-auth/react'
 import { type UserInterface } from 'otz-types'
+import CustomSelectParams from '@/components/forms/CustomSelectParams'
 export interface AppointmentResponseInterface {
   data: ExtendedAppointmentInputProps[]
   page: number
@@ -21,12 +21,15 @@ export interface AppointmentResponseInterface {
 const AppointmentHomepage = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
+  const agenda = searchParams.get("agenda");
   const [responseData, setResponseData] = useState<ExtendedAppointmentInputProps[] | undefined>([])
   const [total, setTotal] = useState<number | undefined>(0)
   const page = searchParams.get('page')
   const [search, setSearch] = useState('')
   const [value, setValue] = useState<string | null>(tab)
+  const [agendaValue, setAgenda] = useState<string | null>()
   const [user, setUser] = useState<UserInterface>()
+  const [pageSize, setPageSize] = useState(1);
 
   const { data: session } = useSession()
 
@@ -43,7 +46,8 @@ const AppointmentHomepage = () => {
     page: Number(page) ?? 1,
     pageSize: 10,
     searchQuery: search,
-    status: value as string
+    status: value as string,
+    agenda: agendaValue
   },
   {
     skip: !user?.hospitalID
@@ -87,84 +91,6 @@ const AppointmentHomepage = () => {
       new Date(a.updatedAt as Date).getTime()
   )
 
-  const missedAppointment = useCallback(() => {
-    return sortedAppointment?.filter((item: any) =>
-      item.AppointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Missed'.toLowerCase())
-    )
-  }, [sortedAppointment])
-
-  //
-  const rescheduledAppointment = useCallback(() => {
-    return sortedAppointment?.filter((item: any) =>
-      item.AppointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Rescheduled'.toLowerCase())
-    )
-  }, [sortedAppointment])
-
-  //
-  const completedAppointment = useCallback(() => {
-    return sortedAppointment?.filter((item: any) =>
-      item.AppointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Completed'.toLowerCase())
-    )
-  }, [sortedAppointment])
-
-  //
-  const pendingAppointment = useCallback(() => {
-    return responseData?.filter((item: any) =>
-      item.AppointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Pending'.toLowerCase())
-    )
-  }, [responseData])
-
-  const upcomingAppointment = useCallback(() => {
-    return sortedAppointment?.filter((item: any) =>
-      item.AppointmentStatus?.statusDescription
-        .toLowerCase()
-        .includes('Upcoming'.toLowerCase())
-    )
-  }, [sortedAppointment])
-
-  const categoryList = useMemo(
-    () => [
-      {
-        id: 1,
-        label: 'All',
-        count: total
-      },
-      {
-        id: 2,
-        label: 'Completed',
-        count: completedAppointment()?.length
-      },
-      {
-        id: 6,
-        label: 'Pending',
-        count: pendingAppointment()?.length
-      },
-      {
-        id: 3,
-        label: 'Rescheduled',
-        count: rescheduledAppointment()?.length
-      },
-      {
-        id: 4,
-        label: 'Upcoming',
-        count: upcomingAppointment()?.length
-      },
-      {
-        id: 5,
-        label: 'Missed',
-        count: missedAppointment()?.length
-      }
-    ],
-    [completedAppointment, missedAppointment, pendingAppointment, rescheduledAppointment, total, upcomingAppointment]
-  )
   const pathname = usePathname()
   const router = useRouter()
 
@@ -184,15 +110,95 @@ const AppointmentHomepage = () => {
     }
   }, [tab, updateQueryParams])
 
-  return (
-    <>
-      <div className="mt-2 w-full">
-        <CustomTab
-          categoryList={categoryList}
-          setValue={setValue}
-          value={value}
+  // 
+    const pageNumber = (count: number, pageSize: number) => {
+      return Math.ceil(count / pageSize);
+    };
+
+
+  function StatusFilter () {
+    return (
+      <div className="flex flex-row space-x-2 items-center">
+        <CustomSelectParams
+          label="Status"
+          onChange={setValue}
+          paramValue="tab"
+          value={value as string}
+          data={[
+            {
+              id: "all",
+              label: "All",
+            },
+            {
+              id: "completed",
+              label: "Completed",
+            },
+            {
+              id: "missed",
+              label: "Missed",
+            },
+            {
+              id: "upcoming",
+              label: "Upcoming",
+            },
+            {
+              id: "pending",
+              label: "Pending",
+            },
+            {
+              id: "rescheduled",
+              label: "Rescheduled",
+            },
+          ]}
+          placeholder="Status"
+        />
+
+        {/*  */}
+        <CustomSelectParams
+          label="Agenda"
+          onChange={setAgenda}
+          paramValue="agenda"
+          value={agendaValue as string}
+          data={[
+            {
+              id: "clinic visit",
+              label: "Clinic Visit",
+            },
+            {
+              id: "home visit",
+              label: "Home Visit",
+            },
+            {
+              id: "refill",
+              label: "Refill",
+            },
+            {
+              id: "viral load",
+              label: "Viral Load",
+            },
+          ]}
+          placeholder="Agenda"
+        />
+
+        {/*  */}
+        <CustomSelectParams
+          label={`Page No :- ${pageNumber(total, 10)}`}
+          paramValue="page"
+          onChange={setPageSize}
+          value={`${pageSize}`}
+          data={Array.from(
+            { length: pageNumber(total, 10) },
+            (_, index) => ({ id: `${index + 1}`, label: `${index + 1}` })
+          )}
+          placeholder="Page"
         />
       </div>
+    );
+  }
+
+  return (
+    <>
+
       <div className="w-full p-2">
         <div className="bg-white rounded-lg">
           <div className="p-4 pb-0">
@@ -201,7 +207,6 @@ const AppointmentHomepage = () => {
             </p>
           </div>
 
-          {value === 'all' && (
             <CustomTable
               columns={columns}
               isLoading={isLoading}
@@ -209,65 +214,9 @@ const AppointmentHomepage = () => {
               data={sortedAppointment || []}
               search={search}
               setSearch={setSearch}
+              filter={<StatusFilter />}
             />
-          )}
 
-          {/*  */}
-          {value === 'completed' && (
-            <CustomTable
-              columns={columns}
-              isLoading={isLoading}
-              total={total}
-              data={completedAppointment() || []}
-              search={search}
-              setSearch={setSearch}
-            />
-          )}
-
-          {/*  */}
-          {value === 'pending' && (
-            <CustomTable
-              columns={columns}
-              isLoading={isLoading}
-              total={total}
-              data={pendingAppointment() ?? []}
-              search={search}
-              setSearch={setSearch}
-            />
-          )}
-
-          {value === 'rescheduled' && (
-            <CustomTable
-              isLoading={isLoading}
-              total={total}
-              columns={columns}
-              data={rescheduledAppointment() || []}
-              search={search}
-              setSearch={setSearch}
-            />
-          )}
-
-          {value === 'upcoming' && (
-            <CustomTable
-              columns={columns}
-              total={total}
-              data={upcomingAppointment() || []}
-              isLoading={isLoading}
-              search={search}
-              setSearch={setSearch}
-            />
-          )}
-
-          {value === 'missed' && (
-            <CustomTable
-              isLoading={isLoading}
-              columns={columns}
-              total={total}
-              data={missedAppointment() || []}
-              search={search}
-              setSearch={setSearch}
-            />
-          )}
         </div>
       </div>
     </>

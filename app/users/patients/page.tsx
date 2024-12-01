@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { Button } from '@/components/ui/button'
@@ -20,6 +20,9 @@ import CustomSelectParams from '@/components/forms/CustomSelectParams'
 import { patientColumns } from './_components/columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Badge } from '@/components/ui/badge'
+import { useGetAllCaseManagersQuery, useGetCaseManagerQuery } from '@/api/patient/casemanager.api'
+import { useGetAllUsersQuery } from '@/api/users/users.api'
+import CustomSelectPaginated from '@/components/forms/CustomSelectPaginated'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -90,7 +93,9 @@ const Patients = () => {
   const [patientTotal, setPatientTotal] = useState<number>(0)
   const page = searchParams.get('page')
   const tab = searchParams.get('tab')
+  const casemanagerParam = searchParams.get('casemanager')
   const [pageSize, setPageSize] = useState(1)
+  const [caseManager, setCaseManager] = useState('')
 
   const [tabValue, setTabValue] = useState(tab)
 
@@ -114,17 +119,34 @@ const Patients = () => {
     return () => debounceSearch?.cancel()
   }, [debounceSearch, search])
 
-  const { data, isLoading } = useGetAllPatientsQuery({
-    hospitalID: user?.hospitalID as string,
-    page: Number(page) ?? 1,
-    pageSize: 10,
-    searchQuery: search,
-    calHIVQuery: tabValue as string
-  },
-  {
-    skip: !user?.hospitalID && !tabValue && tabValue === tab
-  }
+  const { data, isLoading } = useGetAllPatientsQuery(
+    {
+      hospitalID: user?.hospitalID as string,
+      page: Number(page) ?? 1,
+      pageSize: 10,
+      searchQuery: search,
+      calHIVQuery: tabValue as string,
+      casemanager: casemanagerParam
+    },
+    {
+      skip: !user?.hospitalID && !tabValue && tabValue === tab
+    }
   )
+
+  const { data: userData } = useGetAllUsersQuery({
+    // page: Number(page) ?? 1,
+    // pageSize: 10,
+    searchQuery: search
+  })
+
+  const caseManagerOptions = useCallback(() => {
+    return userData?.data?.map((item) => ({
+      id: `${item?.firstName} ${item?.middleName}`,
+      label: `${item?.firstName} ${item?.middleName}`
+    }))
+  }, [userData])()
+
+  console.log(caseManagerOptions)
 
   useEffect(() => {
     if (data) {
@@ -148,7 +170,7 @@ const Patients = () => {
         <CustomSelectParams
           label="Age (years)"
           onChange={setTabValue}
-          paramValue='tab'
+          paramValue="tab"
           value={tabValue as string}
           data={[
             {
@@ -176,7 +198,7 @@ const Patients = () => {
         />
         <CustomSelectParams
           label={`Page No :- ${pageNumber(patientTotal, 10)}`}
-          paramValue='page'
+          paramValue="page"
           onChange={setPageSize}
           value={`${pageSize}`}
           data={Array.from(
@@ -185,6 +207,15 @@ const Patients = () => {
           )}
           placeholder="Page"
         />
+        <CustomSelectParams
+          label={`Page No :- ${pageNumber(patientTotal, 10)}`}
+          paramValue="casemanager"
+          onChange={setCaseManager}
+          value={caseManager}
+          data={caseManagerOptions ?? []}
+          placeholder="Case Manager"
+        />
+
       </div>
     )
   }

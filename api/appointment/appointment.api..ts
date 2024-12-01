@@ -4,13 +4,14 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type AppointmentAgendaAttributes, type PatientAttributes, type AppointmentAttributes } from 'otz-types'
 
 interface AppointmentTypeProps {
-  date?: string
-  mode?: string
-  hospitalID: string
-  page: number
-  pageSize: number
-  searchQuery: string
-  status: string
+  date?: string;
+  mode?: string;
+  hospitalID: string;
+  page: number;
+  pageSize: number;
+  searchQuery: string;
+  status: string;
+  agenda?: string | null;
 }
 
 export type ExtendedAppointmentInputProps = AppointmentAttributes & {
@@ -46,7 +47,7 @@ export const appointmentApi = createApi({
     >({
       query: (params) => {
         if (params) {
-          const { hospitalID, page, pageSize, searchQuery, status } =
+          const { hospitalID, page, pageSize, searchQuery, status, agenda } =
             params
           let queryString = ''
 
@@ -55,6 +56,7 @@ export const appointmentApi = createApi({
           queryString += `&searchQuery=${searchQuery}`
           queryString += `&hospitalID=${hospitalID}`
           queryString += `&status=${status}`
+          queryString += `&agenda=${agenda}`;
           return `/fetchAll/?${queryString}`
         }
         return '/fetchAll'

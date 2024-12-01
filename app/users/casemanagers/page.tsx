@@ -2,7 +2,7 @@
 'use client'
 
 import { columns } from './columns'
-import { useGetAllCaseManagersQuery } from '@/api/caregiver/casemanager.api'
+import { useGetAllCaseManagersQuery } from '@/api/patient/casemanager.api'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CustomTable } from '@/app/_components/table/CustomTable'
