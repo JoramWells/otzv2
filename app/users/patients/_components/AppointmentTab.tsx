@@ -15,7 +15,7 @@ import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSearchParams } from 'next/navigation'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { columns } from './columns'
+import { columns } from '../../columns'
 
 export interface AppointmentTabProps {
   patientID: string

@@ -5,6 +5,7 @@ import { type ExtendedPatientVisitsInterface } from '@/api/patient/patientVisits
 import { useGetExecuteDisclosureByVisitIdQuery } from '@/api/treatmentplan/full/executeDisclosure.api'
 import { useGetPostDisclosureByVisitIdQuery } from '@/api/treatmentplan/full/postDisclosure.api'
 import { useGetMmasEightByVisitIDQuery } from '@/api/treatmentplan/mmasEight.api'
+import { useGetMmasFourByVisitIDQuery } from '@/api/treatmentplan/mmasFour.api'
 import { useGetChildCaregiverReadinessByVisitIdQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 import { useGetDisclosureEligibilityByVisitIDQuery } from '@/api/treatmentplan/partial/disclosureEligibility.api'
 import { useGetTimeAndWorkByVisitIDQuery } from '@/api/treatmentplan/timeAndWork.api'
@@ -54,21 +55,34 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
     header: 'MMAS',
     cell: ({ row }) => {
       const { id } = row.original
-
+      const { data } = useGetMmasFourByVisitIDQuery(id)
       const { data: mmas8Data } = useGetMmasEightByVisitIDQuery(id as string, {
         skip: !id
       })
-      console.log(mmas8Data, 'dtmx')
       return (
-        <div>
-          <p className="text-[14px]">MMAS-8</p>
-          {mmas8Data
-            ? (
-            <CircleCheckBig className="text-emerald-500" />
-              )
-            : (
-            <CircleX />
-              )}
+        <div className="flex flex-col space-y-1 items-start">
+          <div
+          className='flex flex-row space-x-2 items-center'
+          >
+            {data
+              ? (
+              <CircleCheckBig className="text-emerald-500" size={16} />
+                )
+              : (
+              <CircleX size={16} className="text-slate-500" />
+                )}
+            <p className="text-[12px] font-semibold text-slate-700 ">MMAS-4</p>
+          </div>
+          <div className="flex items-start flex-row space-x-2">
+            {mmas8Data
+              ? (
+              <CircleCheckBig size={16} className="text-emerald-500" />
+                )
+              : (
+              <CircleX size={16} className="text-slate-500" />
+                )}
+            <p className="text-[12px] font-semibold text-slate-700">MMAS-8</p>
+          </div>
         </div>
       )
     }
