@@ -101,32 +101,34 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
           skip: id == null
         })
       return (
-        <div className="flex space-x-2 items-start">
-          <div>
-            <p>Eligibility</p>
+        <div className="flex flex-col space-y-1 items-start">
+          <div className="flex flex-row space-x-2">
             <div>
               {data
                 ? (
-                <CircleCheckBig className="text-emerald-500" />
+                <CircleCheckBig size={16} className="text-emerald-500" />
                   )
                 : (
-                <CircleX />
+                <CircleX size={16} className="text-slate-500" />
                   )}
             </div>
+            <p className="text-[12px] font-semibold text-slate-700">
+              Eligibility
+            </p>
           </div>
 
           {/*  */}
-          <div>
-            <p>Readiness</p>
+          <div className='flex flex-row space-x-2 items-center' >
             <div>
               {readinessData
                 ? (
-                <CircleCheckBig className="text-emerald-500" />
+                <CircleCheckBig size={16} className="text-emerald-500" />
                   )
                 : (
-                <CircleX />
+                <CircleX size={16} className='text-slate-500' />
                   )}
             </div>
+            <p className='text-[12px] font-semibold text-slate-700' >Readiness</p>
           </div>
         </div>
       )
@@ -145,32 +147,34 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
         skip: !id
       })
       return (
-        <div className="flex space-x-2 items-start">
-          <div>
-            <p>Executed</p>
+        <div className="flex flex-col space-y-1 items-start">
+          <div className="flex flex-row space-x-2">
             <div>
               {data
                 ? (
-                <CircleCheckBig className="text-emerald-500" />
+                <CircleCheckBig size={16} className="text-emerald-500" />
                   )
                 : (
-                <CircleX />
+                <CircleX size={16} className='text-slate-500' />
                   )}
             </div>
+            <p className="text-[12px] font-semibold text-slate-700">Executed</p>
           </div>
 
           {/*  */}
-          <div>
-            <p>Post Disclosure</p>
+          <div className="flex flex-row space-x-2">
             <div>
               {postData
                 ? (
-                <CircleCheckBig className="text-emerald-500" />
+                <CircleCheckBig size={16} className="text-emerald-500" />
                   )
                 : (
-                <CircleX />
+                <CircleX size={16} className='text-slate-500' />
                   )}
             </div>
+            <p className="text-[12px] font-semibold text-slate-700">
+              Post Disclosure
+            </p>
           </div>
         </div>
       )
@@ -186,20 +190,17 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
       })
 
       return (
-        <div className="flex space-x-2 items-start">
+        <div className="flex flex-row space-x-2 items-center">
           <div>
-            <p>Executed</p>
-            <div>
-              {data
-                ? (
-                <CircleCheckBig className="text-emerald-500" />
-                  )
-                : (
-                <CircleX />
-                  )}
-            </div>
+            {data
+              ? (
+              <CircleCheckBig size={16} className="text-emerald-500" />
+                )
+              : (
+              <CircleX size={16} className="text-slate-500" />
+                )}
           </div>
-
+          <p className="text-[12px] font-semibold text-slate-700">Executed</p>
         </div>
       )
     }
