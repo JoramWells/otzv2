@@ -92,17 +92,23 @@ const PageVisits = () => {
     <div>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <CustomTable
-        columns={patientVisitColumns}
-        data={patientData ?? []}
-        total={patientTotal}
-        isLoading={isLoading}
-        search={search}
-        setSearch={setSearch}
-        // filter={<AgeFilter />}
+      <div
+      className='p-2'
+      >
+        <div className='bg-white border rounded-lg' >
+          <CustomTable
+            columns={patientVisitColumns}
+            data={patientData ?? []}
+            total={patientTotal}
+            isLoading={isLoading}
+            search={search}
+            setSearch={setSearch}
+            // filter={<AgeFilter />}
 
-        // isSearch
-      />
+            // isSearch
+          />
+        </div>
+      </div>
     </div>
   )
 }

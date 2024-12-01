@@ -201,7 +201,9 @@ const CaseManager = ({ patientID }: DataProps) => {
 const CaseManagerTab = ({ patientID }: DataProps) => {
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState('')
-  const { data, isLoading, isError } = useGetAllCaseManagersQuery()
+  const { data, isLoading, isError } = useGetAllCaseManagersQuery({
+    hospitalID: ''
+  })
   const searchParams = useSearchParams()
   const params = new URLSearchParams(searchParams).get('tab')
   return (
