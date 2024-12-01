@@ -24,7 +24,7 @@ export const mmasFourApi = createApi({
     getMmasFourByPatientID: builder.query({
       query: (id) => `by-patient-id/${id}`
     }),
-        getMmasFourByVisitID: builder.query({
+    getMmasFourByVisitID: builder.query({
       query: (id) => `by-visit-id/${id}`
     }),
     deleteMmasFour: builder.mutation({

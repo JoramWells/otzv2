@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { PatientAttributes, UserInterface, type PatientVisitsInterface } from 'otz-types'
+import { type PatientAttributes, type UserInterface, type PatientVisitsInterface } from 'otz-types'
 
 export type ExtendedPatientVisitsInterface = PatientVisitsInterface & {
-  Patient: PatientAttributes,
+  Patient: PatientAttributes
   User: UserInterface
 }
 
@@ -23,24 +24,24 @@ export interface UserActivityData {
 }
 
 export interface PatientVisitInputParams {
-  hospitalID: string;
-  page: number;
-  pageSize: number;
-  searchQuery: string;
+  hospitalID: string
+  page: number
+  pageSize: number
+  searchQuery: string
 }
 
 export interface PatientVisitResponseInterface {
-  data: ExtendedPatientVisitsInterface[];
-  page: number;
-  total: number;
-  pageSize: number;
-  searchQuery: string;
+  data: ExtendedPatientVisitsInterface[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
 }
 
 export const patientVisitsApi = createApi({
-  reducerPath: "patientVisitsApi",
+  reducerPath: 'patientVisitsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/patient-visits`,
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/users/patient-visits`
     // prepareHeaders (headers, { getState }) {
     //   // Add your custom headers here
     //   if (process.env.NEXT_PUBLIC_API_URL !== undefined) {
@@ -57,54 +58,54 @@ export const patientVisitsApi = createApi({
             hospitalID,
             page,
             pageSize,
-            searchQuery,
-          } = params;
-          let queryString = "";
-          queryString += `hospitalID=${hospitalID}`;
-          queryString += `&page=${page}`;
-          queryString += `&pageSize=${pageSize}`;
-          queryString += `&searchQuery=${searchQuery}`;
-          return `/fetchAll/?${queryString}`;
+            searchQuery
+          } = params
+          let queryString = ''
+          queryString += `hospitalID=${hospitalID}`
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          return `/fetchAll/?${queryString}`
         }
-        return "fetchAll";
-      },
+        return 'fetchAll'
+      }
     }),
     getAllUserPatientCount: builder.query<PatientVisitsInterface[], void>({
-      query: (id) => "user-patient-count/1",
+      query: (id) => 'user-patient-count/1'
     }),
     getAllUserActivitiesCount: builder.query<UserActivityData[], void>({
-      query: (id) => "user-activities-count/1",
+      query: (id) => 'user-activities-count/1'
     }),
     addPatientVisit: builder.mutation({
       query: (newUser) => ({
-        url: "add",
-        method: "POST",
-        body: newUser,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: newUser
+      })
     }),
     getPatientVisit: builder.query({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
     getHistoryPatientVisit: builder.query<any, string>({
-      query: (id) => `patient-history/${id}`,
+      query: (id) => `patient-history/${id}`
     }),
     updatePatientVisit: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
-        method: "PUT",
-        body: patch,
-      }),
+        method: 'PUT',
+        body: patch
+      })
     }),
     deletePatientVisit: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete/${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const {
   useGetAllPatientVisitsQuery, useUpdatePatientVisitMutation, useGetHistoryPatientVisitQuery, useGetAllUserActivitiesCountQuery,

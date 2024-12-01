@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -21,7 +22,7 @@ export interface AppointmentResponseInterface {
 const AppointmentHomepage = () => {
   const searchParams = useSearchParams()
   const tab = searchParams.get('tab')
-  const agenda = searchParams.get("agenda");
+  // const agenda = searchParams.get('agenda')
   const [responseData, setResponseData] = useState<ExtendedAppointmentInputProps[] | undefined>([])
   const [total, setTotal] = useState<number | undefined>(0)
   const page = searchParams.get('page')
@@ -29,7 +30,7 @@ const AppointmentHomepage = () => {
   const [value, setValue] = useState<string | null>(tab)
   const [agendaValue, setAgenda] = useState<string | null>()
   const [user, setUser] = useState<UserInterface>()
-  const [pageSize, setPageSize] = useState(1);
+  const [pageSize, setPageSize] = useState(1)
 
   const { data: session } = useSession()
 
@@ -110,11 +111,10 @@ const AppointmentHomepage = () => {
     }
   }, [tab, updateQueryParams])
 
-  // 
-    const pageNumber = (count: number, pageSize: number) => {
-      return Math.ceil(count / pageSize);
-    };
-
+  //
+  const pageNumber = (count: number, pageSize: number) => {
+    return Math.ceil(count / pageSize)
+  }
 
   function StatusFilter () {
     return (
@@ -126,29 +126,29 @@ const AppointmentHomepage = () => {
           value={value as string}
           data={[
             {
-              id: "all",
-              label: "All",
+              id: 'all',
+              label: 'All'
             },
             {
-              id: "completed",
-              label: "Completed",
+              id: 'completed',
+              label: 'Completed'
             },
             {
-              id: "missed",
-              label: "Missed",
+              id: 'missed',
+              label: 'Missed'
             },
             {
-              id: "upcoming",
-              label: "Upcoming",
+              id: 'upcoming',
+              label: 'Upcoming'
             },
             {
-              id: "pending",
-              label: "Pending",
+              id: 'pending',
+              label: 'Pending'
             },
             {
-              id: "rescheduled",
-              label: "Rescheduled",
-            },
+              id: 'rescheduled',
+              label: 'Rescheduled'
+            }
           ]}
           placeholder="Status"
         />
@@ -161,21 +161,21 @@ const AppointmentHomepage = () => {
           value={agendaValue as string}
           data={[
             {
-              id: "clinic visit",
-              label: "Clinic Visit",
+              id: 'clinic visit',
+              label: 'Clinic Visit'
             },
             {
-              id: "home visit",
-              label: "Home Visit",
+              id: 'home visit',
+              label: 'Home Visit'
             },
             {
-              id: "refill",
-              label: "Refill",
+              id: 'refill',
+              label: 'Refill'
             },
             {
-              id: "viral load",
-              label: "Viral Load",
-            },
+              id: 'viral load',
+              label: 'Viral Load'
+            }
           ]}
           placeholder="Agenda"
         />
@@ -193,7 +193,7 @@ const AppointmentHomepage = () => {
           placeholder="Page"
         />
       </div>
-    );
+    )
   }
 
   return (

@@ -12,40 +12,40 @@ export type MMASEightInterface = MMASEightAttributes & {
 }
 
 export const mmasEightApi = createApi({
-  reducerPath: "mmasEightApi",
+  reducerPath: 'mmasEightApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/mmas-8`,
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/mmas-8`
   }),
   endpoints: (builder) => ({
     getAllMmasEight: builder.query<MMASEightInterface[], void>({
-      query: () => "fetchAll",
+      query: () => 'fetchAll'
     }),
     addMmasEight: builder.mutation({
       query: (newUser) => ({
-        url: "add",
-        method: "POST",
-        body: newUser,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: newUser
+      })
     }),
     getMmasEight: builder.query<MMASEightInterface | undefined, string>({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
     getMmasEightByPatientID: builder.query<MMASEightInterface, string>({
-      query: (id) => `by-patient-id/${id}`,
+      query: (id) => `by-patient-id/${id}`
     }),
     getMmasEightByVisitID: builder.query<MMASEightInterface, string>({
-      query: (id) => `by-visit-id/${id}`,
+      query: (id) => `by-visit-id/${id}`
     }),
     deleteMmasEight: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const {
   useGetAllMmasEightQuery, useAddMmasEightMutation, useGetMmasEightByPatientIDQuery,

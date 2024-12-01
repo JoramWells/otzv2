@@ -12,59 +12,59 @@ export type ChildCaregiverReadinessProps = ChildCaregiverReadinessAttributes & {
 }
 
 export const childCaregiverReadinessApi = createApi({
-  reducerPath: "childCaregiverReadinessApi",
+  reducerPath: 'childCaregiverReadinessApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/child-readiness`,
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/child-readiness`
   }),
   endpoints: (builder) => ({
     getAllChildCaregiverReadiness: builder.query<
-      ChildCaregiverReadinessProps[],
-      void
+    ChildCaregiverReadinessProps[],
+    void
     >({
-      query: () => "fetchAll",
+      query: () => 'fetchAll'
     }),
     addChildCaregiverReadiness: builder.mutation({
       query: (response) => ({
-        url: "add",
-        method: "POST",
-        body: response,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: response
+      })
     }),
     getChildCaregiverReadiness: builder.query<
-      ChildCaregiverReadinessProps,
-      string
+    ChildCaregiverReadinessProps,
+    string
     >({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
     getChildCaregiverReadinessByPatientID: builder.query<
-      ChildCaregiverReadinessAttributes,
-      string
+    ChildCaregiverReadinessAttributes,
+    string
     >({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
     getChildCaregiverReadinessByVisitId: builder.query({
-      query: (id) => `by-visit-id/${id}`,
+      query: (id) => `by-visit-id/${id}`
     }),
     getAllChildCaregiverReadinessByVisitId: builder.query({
-      query: (id) => `details/${id}`,
+      query: (id) => `details/${id}`
     }),
     updateChildCaregiverReadiness: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
-        method: "PUT",
-        body: patch,
-      }),
+        method: 'PUT',
+        body: patch
+      })
     }),
     deleteChildCaregiverReadiness: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const {
   useGetAllChildCaregiverReadinessQuery, useAddChildCaregiverReadinessMutation, useGetAllChildCaregiverReadinessByVisitIdQuery,

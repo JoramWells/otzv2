@@ -8,55 +8,55 @@ export type ExecuteDisclosureInputProps = ExecuteDisclosureAttributes & {
 }
 
 export const executeDisclosureApi = createApi({
-  reducerPath: "executeDisclosureApi",
+  reducerPath: 'executeDisclosureApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/execute-disclosure`,
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/execute-disclosure`
   }),
   endpoints: (builder) => ({
     getAllExecuteDisclosure: builder.query<ExecuteDisclosureInputProps[], void>(
       {
-        query: () => "fetchAll",
+        query: () => 'fetchAll'
       }
     ),
     addExecuteDisclosure: builder.mutation({
       query: (response) => ({
-        url: "add",
-        method: "POST",
-        body: response,
-      }),
+        url: 'add',
+        method: 'POST',
+        body: response
+      })
     }),
     getExecuteDisclosure: builder.query<ExecuteDisclosureAttributes, string>({
-      query: (id) => `detail/${id}`,
+      query: (id) => `detail/${id}`
     }),
     getExecuteDisclosureByPatientID: builder.query<
-      ExecuteDisclosureAttributes,
-      string
+    ExecuteDisclosureAttributes,
+    string
     >({
-      query: (id) => `by-patient-id/${id}`,
+      query: (id) => `by-patient-id/${id}`
     }),
     getExecuteDisclosureByVisitId: builder.query({
-      query: (id) => `by-visit-id/${id}`,
+      query: (id) => `by-visit-id/${id}`
     }),
     getAllExecuteDisclosureByVisitId: builder.query({
-      query: (id) => `details/${id}`,
+      query: (id) => `details/${id}`
     }),
     updateExecuteDisclosure: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
-        method: "PUT",
-        body: patch,
-      }),
+        method: 'PUT',
+        body: patch
+      })
     }),
     deleteExecuteDisclosure: builder.mutation({
-      query(id) {
+      query (id) {
         return {
           url: `delete${id}`,
-          method: "DELETE",
-        };
-      },
-    }),
-  }),
-});
+          method: 'DELETE'
+        }
+      }
+    })
+  })
+})
 
 export const {
   useGetAllExecuteDisclosureQuery, useAddExecuteDisclosureMutation, useGetAllExecuteDisclosureByVisitIdQuery,

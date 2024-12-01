@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -6,7 +7,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { Badge } from '@/components/ui/badge'
 // import { Button } from '@/components/ui/button'
-import { type PatientProps } from '@/types'
 import { calculateAge } from '@/utils/calculateAge'
 import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
@@ -341,8 +341,6 @@ const DropDownComponent = ({ id, userID }: { id: string, userID?: string }) => {
     </DropdownMenu>
   )
 }
-
-
 
 export const importantPatientColumn: Array<ColumnDef<ExtendedImportantPatientInterface>> = [
   {
