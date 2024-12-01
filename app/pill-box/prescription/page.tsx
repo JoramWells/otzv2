@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -14,6 +15,7 @@ import { calculateAge } from '@/utils/calculateAge'
 import debounce from 'lodash/debounce'
 import { useSearchParams } from 'next/navigation'
 import { useUserContext } from '@/context/UserContext'
+import CustomSelectParams from '@/components/forms/CustomSelectParams'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -54,6 +56,7 @@ const PrescriptionPage = () => {
   const { authUser } = useUserContext()
 
   const page = searchParams.get('page')
+  const [pageSize, setPageSize] = useState(1)
 
   const [total, setTotal] = useState<number | undefined>(0)
   const [search, setSearch] = useState('')
@@ -102,6 +105,52 @@ const PrescriptionPage = () => {
   const nonActive = sortedData?.filter(item => item.expectedNoOfPills && item.expectedNoOfPills < 0)
 
   const [tabValue, setTabValue] = useState('all')
+  const [regimenLine, setRegimenLine] = useState('')
+  const pageNumber = (count: number, pageSize: number) => {
+    return Math.ceil(count / pageSize)
+  }
+  function StatusFilter () {
+    return (
+        <div className="flex flex-row space-x-2 items-center">
+
+          {/*  */}
+          <CustomSelectParams
+            label="Regimen Line"
+            onChange={setRegimenLine}
+            paramValue="line"
+            value={regimenLine}
+            data={[
+              {
+                id: 'first line',
+                label: 'First Line'
+              },
+              {
+                id: 'second line',
+                label: 'Second Line'
+              },
+              {
+                id: 'third line',
+                label: 'Third Line'
+              }
+            ]}
+            placeholder="Line"
+          />
+
+          {/*  */}
+          <CustomSelectParams
+            label={`Page No :- ${pageNumber(total!, 10)}`}
+            paramValue="page"
+            onChange={setPageSize}
+            value={`${pageSize}`}
+            data={Array.from(
+              { length: pageNumber(total!, 10) },
+              (_, index) => ({ id: `${index + 1}`, label: `${index + 1}` })
+            )}
+            placeholder="Page"
+          />
+        </div>
+    )
+  }
 
   return (
     <>
@@ -137,7 +186,6 @@ const PrescriptionPage = () => {
             ]}
           />
           <div className="mb-2" />
-          {tabValue === 'all' && (
             <CustomTable
               columns={columns}
               data={responseData ?? []}
@@ -145,27 +193,9 @@ const PrescriptionPage = () => {
               isLoading={isLoading}
               search={search}
               setSearch={setSearch}
+              filter={<StatusFilter/>}
             />
-          )}
-          {tabValue === 'active' && (
-            <CustomTable
-              columns={columns}
-              data={activeData || []}
-              total={total}
-              isLoading={isLoading}
-              search={search}
-              setSearch={setSearch}
-            />
-          )}
-          {tabValue === 'not active' && (
-            <CustomTable
-              columns={columns}
-              data={nonActive || []}
-              isLoading={isLoading}
-              search={search}
-              setSearch={setSearch}
-            />
-          )}
+
         </div>
       </div>
     </>

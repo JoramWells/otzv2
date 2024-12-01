@@ -96,6 +96,7 @@ const Users = () => {
             data={userData ?? []}
             search={search}
             setSearch={setSearch}
+            total={total}
           />
         </div>
       </div>

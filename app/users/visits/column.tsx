@@ -11,8 +11,9 @@ import { useGetDisclosureEligibilityByVisitIDQuery } from '@/api/treatmentplan/p
 import { useGetTimeAndWorkByVisitIDQuery } from '@/api/treatmentplan/timeAndWork.api'
 import Avatar from '@/components/Avatar'
 import { type ColumnDef } from '@tanstack/react-table'
-import { CircleCheckBig, CircleX } from 'lucide-react'
+import { ArrowRight, CircleCheckBig, CircleX } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface>> = [
   {
@@ -61,10 +62,10 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
       })
       return (
         <IsCompletedComponent
-        data1={data}
-        title1='MMAS-4'
-        data2={mmas8Data}
-        title2='MMAS-8'
+          data1={data}
+          title1="MMAS-4"
+          data2={mmas8Data}
+          title2="MMAS-8"
         />
       )
     }
@@ -124,35 +125,39 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
       })
 
       return (
-          <div>
-            {data
-              ? (
-              <div className="flex flex-row space-x-2 items-center">
-                <CircleCheckBig size={16} className="text-emerald-500" />
-                <p className="text-[12px] font-semibold text-emerald-500">Yes</p>
-              </div>
-                )
-              : (
-              <div className="flex flex-row space-x-2 items-center">
-                <CircleX size={16} className="text-slate-500" />
-                <p className="text-[12px] font-semibold text-slate-700">No</p>
-              </div>
-                )}
-          </div>
+        <div>
+          {data
+            ? (
+            <div className="flex flex-row space-x-2 items-center">
+              <CircleCheckBig size={16} className="text-emerald-500" />
+              <p className="text-[12px] font-semibold text-emerald-500">Yes</p>
+            </div>
+              )
+            : (
+            <div className="flex flex-row space-x-2 items-center">
+              <CircleX size={16} className="text-slate-500" />
+              <p className="text-[12px] font-semibold text-slate-700">No</p>
+            </div>
+              )}
+        </div>
       )
     }
   },
   {
     accessorKey: 'action',
-    header: 'Action'
-    // cell: ({ row }) => (
-    //   <Button
-    //   className=''
-    //   variant={'outline'}
-    //   >
-    //     <Link href={`/patients/add-triage/${row.original?.Patient?.id}?appointmentID=${row.original?.id} `}>See Patient</Link>
-    //   </Button>
-    // )
+    header: 'Action',
+    cell: ({ row }) => {
+      const router = useRouter()
+      return (
+        <ArrowRight
+          size={18}
+          className="hover:cursor-pointer hover:text-slate-500 text-slate-400 "
+          onClick={() => {
+            router.push(`/users/patients/tab/visit-detail/${row.original.id}`)
+          }}
+        />
+      )
+    }
   }
 ]
 

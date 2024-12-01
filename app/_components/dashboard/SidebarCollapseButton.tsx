@@ -15,10 +15,12 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
   const pathname = usePathname()
   const isActive = useMemo(() => {
     if (link !== null) {
-      return pathname === link?.toLowerCase()
+      return pathname.includes(link!)
     }
-    return pathname.includes(label.toLowerCase())
-  }, [pathname, link, label])
+    // return pathname.includes(label.toLowerCase())
+    // const regex = new RegExp(`\\b${link}\\b`, 'i') // Matches the `link` as a full word, case-insensitive
+    return pathname.includes(link)
+  }, [pathname, link])
 
   const onToggle = () => {
     setVisible(prev => !prev)

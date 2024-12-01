@@ -69,7 +69,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   if (
     pathname === `/users/patients/tab/steps/${patientID}` ||
-    pathname === `/users/patients/tab/visit-detail/${patientID}` ||
+    // pathname === `/users/patients/tab/visit-detail/${patientID}` ||
     pathname === `/users/patients/tab/visit-detail/mmas/${patientID}` ||
     pathname === `/users/patients/tab/visit-detail/time-schedule/${patientID}` ||
     pathname === `/users/patients/tab/visit-detail/triage/${patientID}`

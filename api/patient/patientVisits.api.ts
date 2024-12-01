@@ -24,7 +24,8 @@ export interface UserActivityData {
 }
 
 export interface PatientVisitInputParams {
-  hospitalID: string
+  id?: string
+  hospitalID?: string
   page: number
   pageSize: number
   searchQuery: string
@@ -51,15 +52,13 @@ export const patientVisitsApi = createApi({
     // }
   }),
   endpoints: (builder) => ({
-    getAllPatientVisits: builder.query<PatientVisitResponseInterface, PatientVisitInputParams>({
+    getAllPatientVisits: builder.query<
+    PatientVisitResponseInterface,
+    PatientVisitInputParams
+    >({
       query: (params) => {
         if (params) {
-          const {
-            hospitalID,
-            page,
-            pageSize,
-            searchQuery
-          } = params
+          const { hospitalID, page, pageSize, searchQuery } = params
           let queryString = ''
           queryString += `hospitalID=${hospitalID}`
           queryString += `&page=${page}`
@@ -83,11 +82,21 @@ export const patientVisitsApi = createApi({
         body: newUser
       })
     }),
-    getPatientVisit: builder.query({
+    getPatientVisit: builder.query<ExtendedPatientVisitsInterface, string>({
       query: (id) => `detail/${id}`
     }),
-    getHistoryPatientVisit: builder.query<any, string>({
-      query: (id) => `patient-history/${id}`
+    getHistoryPatientVisit: builder.query<PatientVisitResponseInterface, PatientVisitInputParams>({
+      query: (params) => {
+        if (params) {
+          const { id, page, pageSize, searchQuery } = params
+          let queryString = ''
+          queryString += `page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          return `/patient-history/${id}/?${queryString}`
+        }
+        return 'patient-history'
+      }
     }),
     updatePatientVisit: builder.mutation({
       query: ({ id, ...patch }) => ({
