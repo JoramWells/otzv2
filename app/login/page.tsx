@@ -79,7 +79,7 @@ const LoginPage = () => {
   }, [hospitalsData])
   return (
     <div className="flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-slate-50">
-      <div className='mb-4'>
+      <div className="mb-4">
         <Image
           src={'/img/logo1.svg'}
           alt="img"
@@ -121,12 +121,13 @@ const LoginPage = () => {
           type="password"
         />
         <CustomSelect
-          label="Select hospital name"
+          label="Hospital name"
           onChange={setHospitalID}
           value={hospitalID as string}
+          placeholder="Select hospital"
           data={hospitalOptions() ?? []}
         />
-        {error && <FormError message={error} />}
+        {error && <FormError message={error} setError={setError} />}
         <Button
           size={'sm'}
           className="bg-teal-600 text-[14px] mt-2 hover:bg-teal-700 font-semibold shadow-none"

@@ -32,7 +32,9 @@ const CustomInput = ({ description, label, name, placeholder, value, type = 'tex
         )}
       </div>
       <input
-        className="border border-slate-200 p-2  rounded flex-grow text-[12px] focus:border-teal-500 active:border-teal-500 "
+        className="p-2 border border-slate-200 focus:bg-slate-50  rounded-lg flex-grow text-[12px] focus:border-slate-200 active:border-slate-200
+        focus-within:ring-1 focus-within:ring-slate-200 outline-none
+        "
         placeholder={placeholder}
         value={value}
         name={name}
@@ -47,7 +49,7 @@ const CustomInput = ({ description, label, name, placeholder, value, type = 'tex
           className="absolute right-0 bottom-0.5 hover:bg-slate-100 p-2 hover:cursor-pointer"
           onClick={togglePassword}
         >
-          {isShowPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+          {isShowPassword ? <Eye size={16} className='text-teal-500' /> : <EyeOff size={16} className='text-slate-500' />}
         </Button>
       )}
     </div>

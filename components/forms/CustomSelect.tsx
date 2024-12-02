@@ -48,8 +48,8 @@ const CustomSelect = ({
         value={value}
         name={name}
       >
-        <SelectTrigger className="w-full shadow-none border-slate-200 p-4 rounded">
-          <SelectValue placeholder={placeholder} />
+        <SelectTrigger className="w-full shadow-none focus:ring-1 focus:ring-slate-200 border-slate-200 p-4 outline-none rounded-lg focus-within:ring-1 focus-within:ring-slate-200">
+          <SelectValue placeholder={placeholder} className='text-slate-500 text-[12px]' />
         </SelectTrigger>
         <SelectContent className='shadow-none' >
           <SelectGroup>

@@ -222,14 +222,14 @@ const PrescriptionPage = () => {
            flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
           >
             <div className="flex flex-row space-x-2 items-center">
-              <p className="text-slate-700 text-[16px] ">{status} Prescriptions</p>
+              <p className="text-slate-700 text-[16px] capitalize ">{status} Prescriptions</p>
               <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
                 {total}
               </Badge>
             </div>
             {status && (
               <Badge
-                className="hover: cursor-pointer bg-slate-50 border border-slate-200 hover:bg-slate-100 shadow-none text-black"
+                className="hover: cursor-pointer bg-purple-50 border rounded-full text-[12px] border-purple-200 hover:bg-purple-100 capitalize shadow-none text-purple-500"
                 onClick={() => clearStatus()}
               >
                 {status}
