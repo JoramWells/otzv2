@@ -11,6 +11,10 @@ interface PrescriptionInputProps {
   page: number
   pageSize: number
   searchQuery: string
+  frequency: string
+  status: string
+  line: string
+  regimen: string
 }
 
 export interface PrescriptionResponseInterface {
@@ -30,12 +34,16 @@ export const prescriptionApi = createApi({
     getAllPrescriptions: builder.query<PrescriptionResponseInterface, PrescriptionInputProps>({
       query: (params) => {
         if (params) {
-          const { mode, hospitalID, page, pageSize, searchQuery } = params
+          const { mode, hospitalID, page, pageSize, searchQuery, frequency, line, regimen, status } = params
           let queryString = ''
           queryString += `mode=${mode}`
           queryString += `&page=${page}`
           queryString += `&pageSize=${pageSize}`
           queryString += `&searchQuery=${searchQuery}`
+          queryString += `&frequency=${frequency}`
+          queryString += `&line=${line}`
+          queryString += `&regimen=${regimen}`
+          queryString += `&status=${status}`
           queryString += `&hospitalID=${hospitalID}`
           return `/fetchAll?${queryString}`
         }

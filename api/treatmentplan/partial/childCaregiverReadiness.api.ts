@@ -40,7 +40,7 @@ export const childCaregiverReadinessApi = createApi({
     ChildCaregiverReadinessAttributes,
     string
     >({
-      query: (id) => `detail/${id}`
+      query: (id) => `by-patient-id/${id}`
     }),
     getChildCaregiverReadinessByVisitId: builder.query({
       query: (id) => `by-visit-id/${id}`

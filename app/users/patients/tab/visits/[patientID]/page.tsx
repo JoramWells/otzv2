@@ -67,6 +67,9 @@ const Page = ({ params }: { params: any }) => {
           <CustomTable
             data={historyData ?? []}
             columns={columns}
+            total={total}
+            search={search}
+            setSearch={setSearch}
             // isSearch={false}
           />
         </div>

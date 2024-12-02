@@ -143,7 +143,7 @@ export function CustomTable<TData, TValue> ({
           >
             <input
               placeholder="Search.."
-              className="border border-slate-200 h-8 rounded-lg p-2 pl-4
+              className="border border-slate-200 h-8 rounded-lg p-2
             text-[12px]
             "
               value={search}

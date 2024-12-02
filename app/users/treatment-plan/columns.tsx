@@ -62,7 +62,7 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
         //   skip: !id
         // }
       )
-      const [addPatientVisit, { isLoading, data: visitData }] =
+      const [addPatientVisit] =
         useAddPatientVisitMutation()
       const { authUser } = useUserContext()
       const [patientVisitID, setPatientVisitID] = useState()
@@ -155,9 +155,8 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
     cell: ({ row }) => {
       const { id, dob } = row.original
       const age = calculateAge(dob)
-      const isReadyForPartial = age > 5
 
-      const [addPatientVisit, { isLoading, data: visitData }] =
+      const [addPatientVisit] =
               useAddPatientVisitMutation()
       const { authUser } = useUserContext()
       const [patientVisitID, setPatientVisitID] = useState()
@@ -255,8 +254,7 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
 
       return (
         <Suspense fallback={<div>loading..</div>}>
-          {isReadyForPartial ? (
-            <>
+
               {data ? (
                 <div>
                   <p className="text-[12px] text-slate-500">
@@ -287,15 +285,7 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
                   <SquareArrowOutUpRight size={14} />
                 </div>
               )}
-            </>
-          ) : (
-            <div className="flex flex-row space-x-2">
-              <CalendarX2 size={16} />
-              {/* <p className="text-[12px] text-slate-500">
-                {calculateAge(row.original.dob)}
-              </p> */}
-            </div>
-          )}
+
         </Suspense>
       )
     }
@@ -305,9 +295,7 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
     header: 'Full Disclosure',
     cell: ({ row }) => {
       const { id, dob } = row.original
-      const age = calculateAge(dob)
-      const isFullDisclosureReady = age >= 6 && age <= 14
-      const [addPatientVisit, { isLoading, data: visitData }] =
+      const [addPatientVisit] =
       useAddPatientVisitMutation()
       const { authUser } = useUserContext()
       const [patientVisitID, setPatientVisitID] = useState()
@@ -421,8 +409,7 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
       }
       return (
         <div>
-          {isFullDisclosureReady
-            ? <>
+
                     {postDisclosureData ? (
             <Progress percentage={percentage} />
                     ) : (
@@ -448,11 +435,6 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
                       <SquareArrowOutUpRight size={14} />
                     </div>
                     )}
-          </>
-            : <div>
-            <CalendarX2 size={16} />
-          </div>
-          }
 
         </div>
       )
