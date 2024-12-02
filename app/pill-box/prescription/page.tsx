@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
@@ -11,9 +12,10 @@ import dynamic from 'next/dynamic'
 import { type ExtendedPrescriptionInterface, useGetAllPrescriptionsQuery } from '@/api/pillbox/prescription.api'
 import { useEffect, useMemo, useState } from 'react'
 import debounce from 'lodash/debounce'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useUserContext } from '@/context/UserContext'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'
+import { Badge } from '@/components/ui/badge'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -52,7 +54,8 @@ const dataList2 = [
 const PrescriptionPage = () => {
   const searchParams = useSearchParams()
   const { authUser } = useUserContext()
-
+  const pathname = usePathname()
+  const router = useRouter()
   const page = searchParams.get('page')
   const [pageSize, setPageSize] = useState(1)
 
@@ -129,7 +132,7 @@ const PrescriptionPage = () => {
           placeholder="Frequency"
         />
         {/*  */}
-        <CustomSelectParams
+        {/* <CustomSelectParams
           label="Regimen Line"
           onChange={setRegimenLine}
           paramValue="line"
@@ -149,10 +152,10 @@ const PrescriptionPage = () => {
             }
           ]}
           placeholder="Line"
-        />
+        /> */}
 
         {/*  */}
-        <CustomSelectParams
+        {/* <CustomSelectParams
           label="Regimen"
           onChange={setRegimen}
           paramValue="regimen"
@@ -164,7 +167,7 @@ const PrescriptionPage = () => {
             }
           ]}
           placeholder="Regimen"
-        />
+        /> */}
 
         {/*  */}
         <CustomSelectParams
@@ -201,30 +204,48 @@ const PrescriptionPage = () => {
     )
   }
 
+  const params = new URLSearchParams(searchParams.toString())
+  const clearStatus = () => {
+    setStatus('')
+    params.set('status', '')
+    router.replace(`${pathname}?${params.toString()}`)
+  }
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="p-2">
-        <div className="bg-white rounded-lg p-4">
-          <p className="font-semibold">
-            Current Prescriptions{' '}
-            <span className="text-slate-500 text-[14px] ">
-              ({total})
-            </span>
-          </p>
+        <div className="bg-white rounded-lg border border-slate-200">
+          <div
+            className="p-4 pb-2 pt-2 flex
+           flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
+          >
+            <div className="flex flex-row space-x-2 items-center">
+              <p className="text-slate-700 text-[16px] ">{status} Prescriptions</p>
+              <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
+                {total}
+              </Badge>
+            </div>
+            {status && (
+              <Badge
+                className="hover: cursor-pointer bg-slate-50 border border-slate-200 hover:bg-slate-100 shadow-none text-black"
+                onClick={() => clearStatus()}
+              >
+                {status}
+              </Badge>
+            )}
+          </div>
 
-          <div className="mb-2" />
-            <CustomTable
-              columns={columns}
-              data={responseData ?? []}
-              total={total}
-              isLoading={isLoading}
-              search={search}
-              setSearch={setSearch}
-              filter={<StatusFilter/>}
-            />
-
+          <CustomTable
+            columns={columns}
+            data={responseData ?? []}
+            total={total}
+            isLoading={isLoading}
+            search={search}
+            setSearch={setSearch}
+            filter={<StatusFilter />}
+          />
         </div>
       </div>
     </>

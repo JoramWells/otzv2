@@ -34,7 +34,7 @@ import {
   type SortingState,
   type ColumnResizeMode
 } from '@tanstack/react-table'
-import { BookOpen, ChevronsLeft, ChevronsRight, FileDown } from 'lucide-react'
+import { BookOpen, ChevronsLeft, ChevronsRight, FileDown, Search, X } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { type ChangeEvent, type Dispatch, type ReactNode, type SetStateAction, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
@@ -135,26 +135,27 @@ export function CustomTable<TData, TValue> ({
       {isSearch && (
         <div
           className="flex flex-row justify-between items-center
-        p-4
+        p-4 pl-0 pr-0
         "
         >
-          <div
-          className='flex flex-row space-x-2 items-center'
-          >
-            <input
-              placeholder="Search.."
-              className="border border-slate-200 h-8 rounded-lg p-2
-            text-[12px]
+          <div className="flex flex-row space-x-2 items-center pl-2 pr-2">
+            <div className="flex items-center flex-row  border border-slate-200 rounded-lg focus-within:ring focus-within:border focus-within:ring-slate-50">
+              <Search size={16} className="ml-2 text-slate-500" />
+              <input
+                placeholder="Search.."
+                className="border-none outline-none h-8 rounded-lg p-2
+            text-[12px] flex-1 ml-2
             "
-              value={search}
-              onChange={handleSearch}
-              // value={
-              //   (table.getColumn('firstName')?.getFilterValue() as string) ?? ''
-              // }
-              // onChange={(event) =>
-              //   table.getColumn('firstName')?.setFilterValue(event.target.value)
-              // }
-            />
+                value={search}
+                onChange={handleSearch}
+              />
+      { search && search?.length > 0 &&
+
+                <X size={16} className='text-slate-500 mr-2'
+                onClick={() => setSearch && setSearch('')}
+                />
+      }
+            </div>
             {filter && filter}
           </div>
 
