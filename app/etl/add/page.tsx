@@ -99,7 +99,10 @@ const requiredHeaders = [
   'Self Visit Date',
   'Months of Prescription',
   'Refill Date',
-  'NCDs status'
+  'NCDs status',
+  'Last risk score',
+  'Risk categorization',
+  'Evaluation date'
 ]
 
 export interface LineListInterface {
@@ -152,6 +155,9 @@ export interface LineListInterface {
   'Months of Prescription'?: string
   'Refill Date'?: string
   'NCDs status'?: string
+  'Last risk score'?: string
+  'Risk categorization'?: string
+  'Evaluation date'?: string
 }
 
 interface HeaderErrors {

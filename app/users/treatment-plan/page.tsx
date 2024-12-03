@@ -3,7 +3,7 @@
 'use client'
 
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { columns } from './columns'
 import { useGetAllEligibleOTZPatientsQuery, useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { useSearchParams } from 'next/navigation'
@@ -11,7 +11,7 @@ import { useUserContext } from '@/context/UserContext'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { type PatientAttributes } from 'otz-types'
-import { calculateAge } from '@/utils/calculateAge'
+import debounce from 'lodash/debounce'
 import { Badge } from '@/components/ui/badge'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -46,18 +46,33 @@ const TreatmentPlanPage = () => {
   const { authUser } = useUserContext()
 
   const page = searchParams.get('page')
+  const [search, setSearch] = useState('')
 
   const { data, isLoading } = useGetAllEligibleOTZPatientsQuery(
     {
       hospitalID: authUser?.hospitalID as string,
       page: Number(page) ?? 1,
       pageSize: 5,
-      searchQuery: ''
+      searchQuery: search
     },
     {
       skip: authUser?.hospitalID == null
     }
   )
+
+  const debounceSearch = useMemo(() => {
+    // setSearch(value)
+    if (page !== null) {
+      return debounce(async (value: string) => {
+        setSearch(value)
+      }, 500)
+    }
+  }, [page])
+
+  useEffect(() => {
+    debounceSearch?.(search)
+    return () => debounceSearch?.cancel()
+  }, [debounceSearch, search])
 
   // const filterData = patientData?.filter(item => calculateAge(item.dob) > 5 && calculateAge(item.dob) < 14)
 
@@ -86,8 +101,8 @@ const TreatmentPlanPage = () => {
             data={patientData ?? []}
             total={patientTotal}
             isLoading={isLoading}
-            // search={search}
-            // setSearch={setSearch}
+            search={search}
+            setSearch={setSearch}
             // filter={<FilterComponent />}
             // isSearch
           />
