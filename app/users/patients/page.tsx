@@ -15,12 +15,10 @@ import { type UserInterface, type PatientAttributes } from 'otz-types'
 import debounce from 'lodash/debounce'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { useSession } from 'next-auth/react'
-import { calculateAge } from '@/utils/calculateAge'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'
 import { patientColumns } from './_components/columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Badge } from '@/components/ui/badge'
-import { useGetAllCaseManagersQuery, useGetCaseManagerQuery } from '@/api/patient/casemanager.api'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),

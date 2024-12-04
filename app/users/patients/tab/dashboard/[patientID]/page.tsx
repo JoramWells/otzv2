@@ -15,7 +15,7 @@ import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
 import { useGetVitalSignByPatientIDQuery } from '@/api/lab/vitalSigns.api'
 import { Button } from '@/components/ui/button'
 import { secondaryColor } from '@/constants/color'
-import { ArrowRight, FileUser, InfoIcon, Loader2, MapPinOff } from 'lucide-react'
+import { ArrowRight, FileUser, InfoIcon, Loader2, MapPinOff, Plus, Star } from 'lucide-react'
 import Link from 'next/link'
 import { redirect, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
@@ -152,17 +152,42 @@ const PatientDetails = ({ params }: any) => {
   ]
 
   return (
-    <div>
-      <BreadcrumbComponent dataList={dataList2} />
-
-      <div className="p-2 w-full mt-2 justify-between flex items-center bg-white">
-        <div className="z-20">
+    <>
+      <div className="relative">
+        <BreadcrumbComponent dataList={dataList2} />
+        <div className="absolute flex flex-row space-x-2 items-center right-2 top-2">
+          <Button
+          className='text-slate-500 flex flex-row space-x-1 shadow-none'
+          variant={'outline'}
+          size={'sm'}
+          >
+            <Star size={16} className='mr-1' />
+            Star
+          </Button>
+          <Button
+            disabled={isLoading}
+            onClick={async () => {
+              await handleStartVisit(
+                `/users/patients/tab/steps/${patientID}?appointmentID=`
+              )
+            }}
+            className="shadow-none font-bold flex items-center justify-center text-white bg-teal-500 hover:bg-teal-600"
+            // variant={'outline'}
+            size={"sm"}
+          >
+            {isLoading ? <Loader2 className="mr-1 animate-spin" size={16} /> : <Plus size={16} className='mr-1' />}
+            <>
+              New Visit
+              {/* <ArrowRight size={16} className="ml-2" /> */}
+            </>
+          </Button>
           {isLoadingPatientData ? (
             <Skeleton className="w-[100px] h-8" />
           ) : isError ? (
             <div>error...</div>
           ) : (
             <PatientProfileDropdown
+            id={patientData?.id}
               cccNo={patientData?.cccNo}
               dob={patientData?.dob}
               firstName={patientData?.firstName}
@@ -171,40 +196,9 @@ const PatientDetails = ({ params }: any) => {
             />
           )}
         </div>
-        {/*  */}
-        <div className="flex items-center space-x-2">
-          {/* <div className="flex space-x-2 items-center">
-            <p>Time</p>
-            <div className="flex flex-col space-y-1">
-              <div className="text-[14px] ">Morning</div>
-              <div className="text-[14px] ">Evening</div>
-            </div>
-          </div> */}
-          {/*  */}
-          <div className="flex items-center bg-teal-600 rounded-lg">
-            <Button
-              disabled={isLoading}
-              onClick={async () => {
-                await handleStartVisit(
-                  `/users/patients/tab/steps/${patientID}?appointmentID=`
-                )
-              }}
-              className="shadow-none bg-teal-600 hover:bg-teal-700 font-bold flex items-center justify-center"
-              size={"sm"}
-            >
-              {isLoading && <Loader2 className="mr-2 animate-spin" size={16} />}
-              <>
-                New Visit
-                <ArrowRight size={16} className="ml-2" />
-              </>
-            </Button>
-            {/* <StartVisitDropdown
-              appointmentList={priorityAppointment}
-              patientID={patientID}
-            /> */}
-          </div>
-        </div>
       </div>
+
+      {/*  */}
 
       {!childCareGiveReadinessData &&
         !isLoadingCareData &&
@@ -338,7 +332,7 @@ const PatientDetails = ({ params }: any) => {
       <div>
         <PatientSessionLogsChart data={sessionData || []} />
       </div>
-    </div>
+    </>
   )
 }
 

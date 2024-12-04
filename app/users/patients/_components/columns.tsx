@@ -208,19 +208,16 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
     header: 'Phone No',
     cell: ({ row }) => (
       <div className="text-[12px]">
-        {row.original.phoneNo
-          ? (
-              row.original.phoneNo
-            )
-          : (
-          <Badge
-            className="rounded-full shadow-none bg-slate-100 hover:bg-slate-200 hover:cursor-pointer
-      text-slate-500 text-[12px]
-      "
+        {row.original.phoneNo ? (
+          row.original.phoneNo
+        ) : (
+          <Link
+            href={`/users/patients/tab/settings/${row.original.id}`}
+            className="text-[12px] text-blue-500 italic underline"
           >
             Update
-          </Badge>
-            )}
+          </Link>
+        )}
       </div>
     )
   },
@@ -243,7 +240,9 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
           {isLoading ? (
             <Skeleton />
           ) : (
-            <p className="text-[12px]">{data?.User?.firstName} {data?.User?.middleName}</p>
+            <p className="text-[12px]">
+              {data?.User?.firstName} {data?.User?.middleName}
+            </p>
           )}
         </div>
       )
@@ -271,10 +270,9 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
 
       const { data: session } = useSession()
       return (
-        <div className='flex flex-row space-x-2 items-center' >
+        <div className="flex flex-row space-x-2 items-center">
           {/* <PinnedCell patientID={patientID} /> */}
-        <DropDownComponent id={row.original.id!} userID={session?.user.id} />
-
+          <DropDownComponent id={row.original.id!} userID={session?.user.id} />
         </div>
       )
     }

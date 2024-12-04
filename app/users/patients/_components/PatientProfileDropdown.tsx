@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
@@ -17,10 +18,12 @@ import { Button } from '@/components/ui/button'
 // import { useRouter } from 'next/navigation'
 import Avatar from '@/components/Avatar'
 import { calculateAge } from '@/utils/calculateAge'
+import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
+import Link from 'next/link'
 
-interface InputProps { firstName?: string, middleName?: string, dob?: Date | string, cccNo?: string, phoneNo?: string }
+interface InputProps { id: string | undefined, firstName?: string, middleName?: string, dob?: Date | string, cccNo?: string, phoneNo?: string }
 
-export function PatientProfileDropdown ({ firstName, middleName, dob, cccNo, phoneNo }: InputProps) {
+export function PatientProfileDropdown ({ id, firstName, middleName, dob, cccNo, phoneNo }: InputProps) {
   // const [] = useState()
   // const router = useRouter()
   // const { data: session } = useSession()
@@ -40,23 +43,41 @@ export function PatientProfileDropdown ({ firstName, middleName, dob, cccNo, pho
           <ChevronDownIcon className="" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent align="center" className="shadow-none">
         <DropdownMenuLabel>
           {firstName} {middleName}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="flex flex-col p-2  w-[200px] rounded-lg space-y-2">
           {/*  */}
-          <p className="text-slate-500 font-bold text-[12px]">
-            Age: {calculateAge(dob)} yrs
-          </p>
-
-          <p className="text-[12px] text-slate-500">CCC No.{cccNo} </p>
-          <div className="text-slate-500 text-[12px]">
-            <p>
-              Phone No: <span>{phoneNo} </span>
+          <DropdownMenuItem>
+            <p className="text-slate-500 font-bold text-[12px]">
+              Age: {calculateAge(dob)} yrs
             </p>
-          </div>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <p className="text-[12px] text-slate-500">CCC No.{cccNo} </p>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem>
+            {phoneNo && phoneNo?.length > 0
+              ? (
+              <p className="text-[12px] text-slate-500">
+                Phone No: <span className='font-semibold' >{phoneNo} </span>
+              </p>
+                )
+              : (
+              <Link
+                href={`/users/patients/tab/settings/${id}`}
+                className="text-[12px] text-blue-500 font-semibold"
+              >
+                Update phone number
+              </Link>
+                )}
+          </DropdownMenuItem>
+
           {/* <Button>Update   Profile</Button> */}
         </div>
       </DropdownMenuContent>
