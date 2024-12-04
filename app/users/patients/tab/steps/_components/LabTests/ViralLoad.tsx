@@ -22,16 +22,14 @@ interface ViralLoadInputProps {
   justificationOptions: JustificationOptions[]
 }
 
-
-
 const ViralLoad = ({ vlResults, setVLResults, dateOfVL, setDateOfVL, dateOfNextVL, setDateOfNextVL, setVLJustification, vlJustification, justificationOptions }: ViralLoadInputProps) => {
-    const { data: vlJustificationData } = useGetAllVlJustificationQuery();
-    const vlReasonOptions = useCallback(() => {
-      return vlJustificationData?.map((item: any) => ({
-        id: item?.justification,
-        label: item?.justification,
-      }));
-    }, []);
+  const { data: vlJustificationData } = useGetAllVlJustificationQuery()
+  const vlReasonOptions = useCallback(() => {
+    return vlJustificationData?.map((item: any) => ({
+      id: item?.justification,
+      label: item?.justification
+    }))
+  }, [vlJustificationData])
   return (
     <div className="flex flex-col space-y-4 p-4 border border-dashed border-s-slate-200 rounded-lg">
       <CustomInput

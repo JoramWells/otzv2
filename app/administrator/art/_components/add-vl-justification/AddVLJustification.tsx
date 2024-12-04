@@ -3,38 +3,10 @@
 'use client'
 // import { Button } from '@chakra-ui/react'
 import { useState } from 'react'
-import CustomSelect from '@/components/forms/CustomSelect'
-import { useAddArtRegimenCategoryMutation } from '@/api/art/artRegimenCategory.api'
 import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import { useAddVLJustificationMutation } from '@/api/viraload/vlJustification.api'
 import { Loader2 } from 'lucide-react'
-
-const ageLineOptions = [
-  {
-    id: 'Adults',
-    label: 'Adults'
-  },
-  {
-    id: 'Pediatric',
-    label: 'Pediatric'
-  }
-]
-
-const artPhaseOptions = [
-  {
-    id: 'first line',
-    label: 'First Line'
-  },
-  {
-    id: 'second line',
-    label: 'Second Line'
-  },
-  {
-    id: 'third line',
-    label: 'Third Line'
-  }
-]
 
 const AddVLJustification = () => {
   const [justification, setJustification] = useState('')
@@ -43,7 +15,7 @@ const AddVLJustification = () => {
     useAddVLJustificationMutation()
 
   const inputValues = {
-    justification,
+    justification
 
   }
 
@@ -59,7 +31,6 @@ const AddVLJustification = () => {
           value={justification}
           onChange={setJustification}
         />
-
 
         <Button
         className='w-full shadow-none text-black'

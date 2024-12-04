@@ -29,84 +29,84 @@ const dataList2 = [
 ]
 
 const TrackPage = () => {
-    const searchParams = useSearchParams();
-  const [pageSize, setPageSize] = useState(1);
-  const [total, setTotal] = useState(1);
+  const searchParams = useSearchParams()
+  const [pageSize, setPageSize] = useState(1)
+  const [total, setTotal] = useState(1)
 
-    const page = searchParams.get("page");
-  const tab = searchParams.get('tab')
-  const [value, setValue] = useState<string | null>(tab)
-  const [search, setSearch] = useState("");
+  const page = searchParams.get('page')
+  // const tab = searchParams.get('tab')
+  // const [value, setValue] = useState<string | null>(tab)
+  const [search, setSearch] = useState('')
 
-const [viralData, setViralData] = useState<ExtendedViralLoadInterface[]>([])
+  const [viralData, setViralData] = useState<ExtendedViralLoadInterface[]>([])
 
-  const {authUser} = useUserContext()
+  const { authUser } = useUserContext()
   const debounceSearch = useMemo(() => {
     // setSearch(value)
     if (page !== null) {
       return debounce(async (value: string) => {
-        setSearch(value);
-      }, 500);
+        setSearch(value)
+      }, 500)
     }
-  }, [page]);
+  }, [page])
 
   useEffect(() => {
-    debounceSearch?.(search);
-    return () => debounceSearch?.cancel();
-  }, [debounceSearch, search]);
+    debounceSearch?.(search)
+    return () => debounceSearch?.cancel()
+  }, [debounceSearch, search])
   const { data: vlData, isLoading } = useGetAllViralLoadTestsQuery(
     {
       hospitalID: authUser?.hospitalID as string,
       page: Number(page) ?? 1,
       pageSize: 10,
-      searchQuery: search,
+      searchQuery: search
     },
     {
-      skip: !authUser?.hospitalID,
+      skip: !authUser?.hospitalID
     }
-  );
+  )
 
-  useEffect(()=>{
-    if(vlData){
+  useEffect(() => {
+    if (vlData) {
       setViralData(vlData.data)
       setTotal(vlData.total)
     }
-  },[vlData])
+  }, [vlData])
 
-    const pageNumber = (count: number, pageSize: number) => {
-      return Math.ceil(count / pageSize);
-    };
-    const [vl, setVLResults] = useState('')
+  const pageNumber = (count: number, pageSize: number) => {
+    return Math.ceil(count / pageSize)
+  }
+  const [vl, setVLResults] = useState('')
 
-   function AgeFilter() {
-     return (
+  function AgeFilter () {
+    return (
        <div className="flex flex-row space-x-2 items-center">
          <CustomSelectParams
            label="VL Results"
            onChange={setVLResults}
            paramValue="vl"
-           value={vl as string}
+           value={vl}
            data={[
              {
-               id: "All",
-               label: "All",
+               id: 'All',
+               label: 'All'
              },
              {
-               id: "LDL",
-               label: "LDL",
+               id: 'LDL',
+               label: 'LDL'
              },
              {
-               id: "Low Risk LLV",
-               label: "Low Risk LLV",
+               id: 'Low Risk LLV',
+               label: 'Low Risk LLV'
              },
              {
-               id: "High Risk LLV",
-               label: "High Risk LLV",
+               id: 'High Risk LLV',
+               label: 'High Risk LLV'
              },
              {
-               id: "Suspected Treatment Failure",
-               label: "Suspected Treatment Failure",
-             },
+               id: 'Suspected Treatment Failure',
+               label: 'Suspected Treatment Failure'
+             }
            ]}
            placeholder="VL Results"
          />
@@ -116,44 +116,44 @@ const [viralData, setViralData] = useState<ExtendedViralLoadInterface[]>([])
            label="Reason"
            onChange={setVLResults}
            paramValue="vl"
-           value={vl as string}
+           value={vl}
            data={[
              {
-               id: "All",
-               label: "All",
+               id: 'All',
+               label: 'All'
              },
              {
-               id: "Clinical failure",
-               label: "Clinical failure",
+               id: 'Clinical failure',
+               label: 'Clinical failure'
              },
              {
-               id: "Routine",
-               label: "Routine",
+               id: 'Routine',
+               label: 'Routine'
              },
              {
-               id: "Confirmation of TF",
-               label: "Confirmation of TF",
+               id: 'Confirmation of TF',
+               label: 'Confirmation of TF'
              },
              {
-               id: "Simple Drug Substitution",
-               label: "Simple Drug Substitution",
+               id: 'Simple Drug Substitution',
+               label: 'Simple Drug Substitution'
              },
              {
-               id: "Breastfeeding",
-               label: "Breastfeeding",
+               id: 'Breastfeeding',
+               label: 'Breastfeeding'
              },
              {
-               id: "Suspected TF",
-               label: "Suspected TF",
+               id: 'Suspected TF',
+               label: 'Suspected TF'
              },
              {
-               id: "PLLV",
-               label: "PLLV",
+               id: 'PLLV',
+               label: 'PLLV'
              },
              {
-               id: "Pregnancy",
-               label: "Pregnancy",
-             },
+               id: 'Pregnancy',
+               label: 'Pregnancy'
+             }
            ]}
            placeholder="Reason"
          />
@@ -165,7 +165,7 @@ const [viralData, setViralData] = useState<ExtendedViralLoadInterface[]>([])
            value={`${pageSize}`}
            data={Array.from({ length: pageNumber(total, 10) }, (_, index) => ({
              id: `${index + 1}`,
-             label: `${index + 1}`,
+             label: `${index + 1}`
            }))}
            placeholder="Page"
          />
@@ -178,25 +178,25 @@ const [viralData, setViralData] = useState<ExtendedViralLoadInterface[]>([])
            placeholder="Case Manager"
          /> */}
        </div>
-     );
-   }
+    )
+  }
 
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className='mt-2 mb-2 ' >
- 
+
       </div>
       <div className="p-2 bg-white">
         <CustomTable columns={columns}
         isLoading={isLoading}
-        data={viralData || []} 
+        data={viralData || []}
         search={search}
         setSearch={setSearch}
         filter={<AgeFilter />}
         />
-        
+
       </div>
     </>
   )

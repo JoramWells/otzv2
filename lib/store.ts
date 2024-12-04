@@ -158,12 +158,12 @@ export const store = configureStore({
     [postDisclosureApi.reducerPath]: postDisclosureApi.reducer,
     [importantPatientApi.reducerPath]: importantPatientApi.reducer,
     [userSessionLogsApi.reducerPath]: userSessionLogsApi.reducer,
-    [hospitalApi.reducerPath]: hospitalApi.reducer,
+    [hospitalApi.reducerPath]: hospitalApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,
-      serializableCheck: false,
+      serializableCheck: false
     })
       .concat(patientsApi.middleware)
       .concat(nextOfKinApi.middleware)
@@ -241,5 +241,5 @@ export const store = configureStore({
       .concat(postDisclosureApi.middleware)
       .concat(importantPatientApi.middleware)
       .concat(userSessionLogsApi.middleware)
-      .concat(hospitalApi.middleware),
-});
+      .concat(hospitalApi.middleware)
+})

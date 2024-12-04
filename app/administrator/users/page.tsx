@@ -50,7 +50,6 @@ const Users = () => {
     hospitalName
   })
 
-
   const [userData, setUserData] = useState<ExtendedUserInterface[]>([])
   const [total, setTotal] = useState(0)
 
