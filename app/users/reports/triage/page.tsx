@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { useGetAllVitalSignsQuery } from '@/api/lab/vitalSigns.api'
@@ -10,13 +11,13 @@ const Page = () => {
   console.log(data, 'userData')
   return (
     <div>
-      <CustomTable
+      {/* <CustomTable
         columns={columns}
         data={data ?? []}
         // isLoading={isLoading}
         // filter={<FilterComponent />}
         // isSearch
-      />
+      /> */}
     </div>
   )
 }

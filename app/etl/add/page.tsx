@@ -99,7 +99,11 @@ const requiredHeaders = [
   'Self Visit Date',
   'Months of Prescription',
   'Refill Date',
-  'NCDs status',
+  'NCDs status'
+
+]
+
+const optionalHeaders = [
   'Last risk score',
   'Risk categorization',
   'Evaluation date'
@@ -258,10 +262,10 @@ const AddEtlPage = () => {
           const csvHeaders = res.meta.fields ?? []
 
           const missingHeaders = requiredHeaders.filter(
-            (header) => !csvHeaders.includes(header)
+            (header) => !csvHeaders.includes(header) || optionalHeaders.filter(header => !csvHeaders.includes(header))
           )
           const extraHeaders = csvHeaders.filter(
-            (header) => !requiredHeaders.includes(header)
+            (header) => !requiredHeaders.includes(header) || csvHeaders.filter(header => !optionalHeaders.includes(header))
           )
 
           if (missingHeaders.length > 0 || extraHeaders.length > 0) {
