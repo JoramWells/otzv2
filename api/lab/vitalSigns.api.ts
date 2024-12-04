@@ -2,13 +2,21 @@
 import { type VitalSignsInterface } from '@/app/users/reports/triage/columns'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+export interface VitalSignsResponseInterface {
+  data: VitalSignsInterface[];
+  page: number;
+  total: number;
+  pageSize: number;
+  searchQuery: string;
+}
+
 export const vitalSignsApi = createApi({
   reducerPath: 'vitalSignsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/vital-signs`
   }),
   endpoints: (builder) => ({
-    getAllVitalSigns: builder.query<VitalSignsInterface[], void>({
+    getAllVitalSigns: builder.query<VitalSignsResponseInterface, void>({
       query: () => 'fetchAll'
     }),
     addVitalSign: builder.mutation({

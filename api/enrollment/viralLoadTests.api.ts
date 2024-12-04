@@ -7,6 +7,14 @@ export type ExtendedViralLoadInterface = ViralLoadInterface & {
   Patient: PatientAttributes
 }
 
+export interface ViralLoadResponseInterface {
+  data: ExtendedViralLoadInterface[];
+  page: number;
+  total: number;
+  pageSize: number;
+  searchQuery: string;
+}
+
 export interface ViralLoadInputParams {
   page?: number;
   pageSize?: number;
@@ -21,7 +29,7 @@ export const viralLoadApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllViralLoadTests: builder.query<
-    ExtendedViralLoadInterface[],ViralLoadInputParams
+    ViralLoadResponseInterface,ViralLoadInputParams
     >({
       query: (params) => {
         if (params) {

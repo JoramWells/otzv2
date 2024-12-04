@@ -4,7 +4,6 @@
 
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useLabContext } from '@/context/ViralLoadContext'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -45,7 +44,6 @@ const dataList2 = [
 
 const NotifyPage = () => {
   // const [user, setUser] = useState()
-  const { viralLoadData } = useLabContext()
   // console.log(viralLoadData, 'viralLoadData')
   // const { data: session } = useSession()
   // useEffect(() => {
@@ -95,7 +93,7 @@ const NotifyPage = () => {
           Analytics Appointments
         </h1>
         <div className="flex flex-row space-x-4 mt-2">
-          <VLBarChart data={viralLoadData ?? []} />
+          {/* <VLBarChart data={viralLoadData ?? []} /> */}
           <VLPieChart />
         </div>
       </div>

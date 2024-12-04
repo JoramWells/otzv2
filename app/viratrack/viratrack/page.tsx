@@ -38,7 +38,7 @@ const TrackPage = () => {
   const [value, setValue] = useState<string | null>(tab)
   const [search, setSearch] = useState("");
 
-const [viralData, setViralData] = useState()
+const [viralData, setViralData] = useState<ExtendedViralLoadInterface[]>([])
 
   const {authUser} = useUserContext()
   const debounceSearch = useMemo(() => {
