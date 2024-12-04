@@ -262,10 +262,13 @@ const AddEtlPage = () => {
           const csvHeaders = res.meta.fields ?? []
 
           const missingHeaders = requiredHeaders.filter(
-            (header) => !csvHeaders.includes(header) || optionalHeaders.filter(header => !csvHeaders.includes(header))
+            (header) => !csvHeaders.includes(header)
           )
+
+          // Calculate extra headers
           const extraHeaders = csvHeaders.filter(
-            (header) => !requiredHeaders.includes(header) || csvHeaders.filter(header => !optionalHeaders.includes(header))
+            (header) =>
+              !requiredHeaders.includes(header) && !optionalHeaders.includes(header)
           )
 
           if (missingHeaders.length > 0 || extraHeaders.length > 0) {
