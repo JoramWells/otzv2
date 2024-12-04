@@ -1,8 +1,9 @@
+import { useGetAllVlJustificationQuery } from '@/api/viraload/vlJustification.api'
 import CustomInput from '@/components/forms/CustomInput'
 import CustomSelect from '@/components/forms/CustomSelect'
 // import { Badge } from '@/components/ui/badge'
 import moment from 'moment'
-import React, { type Dispatch, type SetStateAction } from 'react'
+import React, { useCallback, type Dispatch, type SetStateAction } from 'react'
 
 interface JustificationOptions {
   label: string
@@ -21,9 +22,16 @@ interface ViralLoadInputProps {
   justificationOptions: JustificationOptions[]
 }
 
-// const currentDate = moment('YYYY-MM-DD')
+
 
 const ViralLoad = ({ vlResults, setVLResults, dateOfVL, setDateOfVL, dateOfNextVL, setDateOfNextVL, setVLJustification, vlJustification, justificationOptions }: ViralLoadInputProps) => {
+    const { data: vlJustificationData } = useGetAllVlJustificationQuery();
+    const vlReasonOptions = useCallback(() => {
+      return vlJustificationData?.map((item: any) => ({
+        id: item?.justification,
+        label: item?.justification,
+      }));
+    }, []);
   return (
     <div className="flex flex-col space-y-4 p-4 border border-dashed border-s-slate-200 rounded-lg">
       <CustomInput
@@ -72,7 +80,7 @@ const ViralLoad = ({ vlResults, setVLResults, dateOfVL, setDateOfVL, dateOfNextV
       <CustomSelect
         label="Reason"
         description='Select the main reason for this viral load.'
-        data={justificationOptions}
+        data={vlReasonOptions()}
         value={vlJustification}
         onChange={setVLJustification}
       />

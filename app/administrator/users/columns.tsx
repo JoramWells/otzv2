@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { type ExtendedUserInterface } from '@/api/users/users.api'
 import Avatar from '@/components/Avatar'
 import { Button } from '@/components/ui/button'
 import { type ColumnDef } from '@tanstack/react-table'
 import { ArrowRight } from 'lucide-react'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
-import { type UserInterface } from 'otz-types'
 // import { FaEdit } from 'react-icons/fa'
 
 export interface FullNameProps {
@@ -23,7 +23,7 @@ export interface UserProps {
   // action?: React.ReactNode
 }
 
-export const columns: Array<ColumnDef<UserInterface>> = [
+export const columns: Array<ColumnDef<ExtendedUserInterface>> = [
   {
     accessorKey: 'patient_name',
     header: 'Name',
@@ -70,6 +70,13 @@ export const columns: Array<ColumnDef<UserInterface>> = [
     }
   },
   {
+    accessorKey: 'hospitalName',
+    header: 'Hospital Name',
+    cell: ({ row }) => {
+      return <p className="text-[12px]">{row.original?.Hospital?.hospitalName}</p>
+    }
+  },
+  {
     // accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => {
@@ -79,7 +86,9 @@ export const columns: Array<ColumnDef<UserInterface>> = [
           size={'sm'}
           variant={'outline'}
           className="shadow-none rounded-full h-8 w-8 p-0"
-          onClick={() => { router.push(`/administrator/users/${row.original.id}`) }}
+          onClick={() => {
+            router.push(`/administrator/users/${row.original.id}`)
+          }}
         >
           <ArrowRight
             className="hover:cursor-pointer text-slate-500"

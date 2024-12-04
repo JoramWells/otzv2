@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -116,22 +117,30 @@ const fetchNotificationData = async (hospitalID: string): Promise<NotificationRe
   }
 }
 
-const fetchRecentData = async (id: string): Promise<ExtendedAppModuleSession[] | undefined> => {
-  try {
-    const { data } = await axios.get<ExtendedAppModuleSession[]>(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/root/app-module-session/detail/${id}`
-    )
-    return data
-  } catch (e) {
-    console.log(e)
-  }
-}
-
 export default function Home () {
   const { data: session, status } = useSession()
   const [user, setUser] = useState<UserInterface>()
   const [data, setData] = useState<AppModuleInterface[]>([])
   const [userNotifications, setUserNotifications] = useState<NotificationAttributes[]>()
+
+  const [recentDataLoading, setRecentDataLoading] = useState(false)
+
+  const fetchRecentData = async (
+    id: string
+  ): Promise<ExtendedAppModuleSession[] | undefined> => {
+    try {
+      setRecentDataLoading(true)
+      const { data } = await axios.get<ExtendedAppModuleSession[]>(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/root/app-module-session/detail/${id}`
+      )
+      setRecentDataLoading(false)
+      return data
+    } catch (e) {
+      setRecentDataLoading(false)
+
+      console.log(e)
+    }
+  }
 
   const [recentSession, setRecentSession] = useState<
   ExtendedAppModuleSession[] | undefined
@@ -227,96 +236,112 @@ export default function Home () {
               </Suspense>
 
               {/* recent session data */}
-              {recentSession && recentSession?.length > 0 && (
-                <div className="w-full ">
-                  <div className="flex items-center space-x-2 text-slate-700 border-b mb-4 pl-4 ">
-                    <History size={16} className="" />
-                    <p className="mb-2 mt-2 ml-2 font-bold">Quick Access</p>
-                  </div>
+              {recentDataLoading
+                ? (
+                <div className='flex flex-row space-x-2'>
+                {Array.from({ length: 4 }, (_, index) => <Skeleton key={index} className='p-4' />)}
+                </div>
+                  ) : (
+                <>
+                  {recentSession && recentSession?.length > 0 && (
+                    <div className="w-full ">
+                      <div className="flex items-center space-x-2 text-slate-700 border-b mb-4 pl-4 ">
+                        <History size={16} className="" />
+                        <p className="mb-2 mt-2 ml-2 font-bold">Quick Access</p>
+                      </div>
 
-                  <Carousel
-                    responsive={responsive}
-                    ssr={true}
-                    keyBoardControl
-                    renderButtonGroupOutside
-                  >
-                    {recentSession?.map((item: ExtendedAppModuleSession) => (
-                      <Suspense
-                        key={item.id}
-                        fallback={<Skeleton className="h-[120px]" />}
+                      <Carousel
+                        responsive={responsive}
+                        ssr={true}
+                        keyBoardControl
+                        renderButtonGroupOutside
                       >
-                        <div
-                          key={item.id}
-                          tabIndex={0}
-                          className="border-slate-100  hover:border-slate-200 border
+                        {recentSession?.map(
+                          (item: ExtendedAppModuleSession) => (
+                            <Suspense
+                              key={item.id}
+                              fallback={<Skeleton className="h-[120px]" />}
+                            >
+                              <div
+                                key={item.id}
+                                tabIndex={0}
+                                className="border-slate-100  hover:border-slate-200 border
                            hover:bg-slate-50 transition duration-300 ml-2 mr-2 mb-2 relative p-4 rounded-lg h-[120px] hover:cursor-pointer shadow-slate-50 shadow filter"
-                          onClick={() => {
-                            router.push(
-                              `${item.appModule.link}?moduleID=${item.id}`
-                            )
-                          }}
-                        >
-                          {/* <div className="w-full flex justify-end">
+                                onClick={() => {
+                                  router.push(
+                                    `${item.appModule.link}?moduleID=${item.id}`
+                                  )
+                                }}
+                              >
+                                {/* <div className="w-full flex justify-end">
                         <MenuSelect dataList={item.listItem} />
                       </div> */}
-                          <div className="w-full flex flex-row space-x-4 justify-start items-start">
-                            <div className="bg-white p-1 rounded-lg ">
-                              <Image
-                                src={`${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.appModule.img}`}
-                                alt="img"
-                                width={35}
-                                height={35}
-                                style={{
-                                  width: '35px',
-                                  height: '35px',
-                                  objectFit: 'contain'
-                                }}
+                                <div className="w-full flex flex-row space-x-4 justify-start items-start">
+                                  <div className="bg-white p-1 rounded-lg ">
+                                    <Image
+                                      src={`${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.appModule.img}`}
+                                      alt="img"
+                                      width={35}
+                                      height={35}
+                                      style={{
+                                        width: '35px',
+                                        height: '35px',
+                                        objectFit: 'contain'
+                                      }}
 
-                                // quality={100}
-                              />
-                            </div>
+                                      // quality={100}
+                                    />
+                                  </div>
 
-                            <div>
-                              <Link
-                                className="font-semibold text-[14px] hover:underline"
-                                href={item.appModule.link as unknown as Url}
-                              >
-                                {item.appModule.title}
-                              </Link>
-                              <p className="text-slate-500 text-[12px]">
-                                {item.appModule.description
-                                  ? item.appModule.description
-                                  : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
-                              </p>
-                            </div>
-                            <div
-                              className="absolute bottom-0 right-0 p-2 rounded-tl-2xl
+                                  <div>
+                                    <Link
+                                      className="font-semibold text-[14px] hover:underline"
+                                      href={
+                                        item.appModule.link as unknown as Url
+                                      }
+                                    >
+                                      {item.appModule.title}
+                                    </Link>
+                                    <p className="text-slate-500 text-[12px]">
+                                      {item.appModule.description
+                                        ? item.appModule.description
+                                        : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime'}
+                                    </p>
+                                  </div>
+                                  <div
+                                    className="absolute bottom-0 right-0 p-2 rounded-tl-2xl
                           flex flex-row items-center space-x-2 bg-slate-50
                           "
-                            >
-                              <Clock size={16} className="text-slate-500" />
-                              <p className="text-[12px] rounded-br-lg text-slate-500 font-semibold ">
-                                {Math.floor(
-                                  moment
-                                    .duration(
-                                      moment().diff(
-                                        moment(item.disconnectedAt).format(
-                                          'YYYY-MM-DD'
-                                        )
-                                      )
-                                    )
-                                    .asDays()
-                                )}{' '}
-                                day ago
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </Suspense>
-                    ))}
-                  </Carousel>
-                </div>
-              )}
+                                  >
+                                    <Clock
+                                      size={16}
+                                      className="text-slate-500"
+                                    />
+                                    <p className="text-[12px] rounded-br-lg text-slate-500 font-semibold ">
+                                      {Math.floor(
+                                        moment
+                                          .duration(
+                                            moment().diff(
+                                              moment(
+                                                item.disconnectedAt
+                                              ).format('YYYY-MM-DD')
+                                            )
+                                          )
+                                          .asDays()
+                                      )}{' '}
+                                      day ago
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </Suspense>
+                          )
+                        )}
+                      </Carousel>
+                    </div>
+                  )}
+                </>
+                  )}
 
               {/*  */}
               <div className="w-full mb-2">

@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetAllVitalSignsQuery } from '@/api/vitalsigns/vitalSigns.api'
+import { useGetAllVitalSignsQuery } from '@/api/lab/vitalSigns.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import React from 'react'
 import { columns } from './columns'

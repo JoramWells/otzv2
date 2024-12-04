@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const vitalSignsApi = createApi({
   reducerPath: 'vitalSignsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/lab/vital-sign`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/vital-signs`
   }),
   endpoints: (builder) => ({
     getAllVitalSigns: builder.query<VitalSignsInterface[], void>({
@@ -22,7 +22,7 @@ export const vitalSignsApi = createApi({
       query: (id) => `detail/${id}`
     }),
     getVitalSignByPatientID: builder.query({
-      query: (id) => `patient-detail/${id}`
+      query: (id) => `by-patient-id/${id}`
     }),
     getAllVitalSignByPatientID: builder.query({
       query: (id) => `all-details/${id}`

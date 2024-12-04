@@ -7,22 +7,31 @@ export type ExtendedViralLoadInterface = ViralLoadInterface & {
   Patient: PatientAttributes
 }
 
+export interface ViralLoadInputParams {
+  page?: number;
+  pageSize?: number;
+  searchQuery?: string;
+  hospitalID?: string;
+}
+
 export const viralLoadApi = createApi({
   reducerPath: 'viralLoadApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/lab/viral-load-tests`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/viral-load-tests`
   }),
   endpoints: (builder) => ({
     getAllViralLoadTests: builder.query<
-    ExtendedViralLoadInterface[],
-    { hospitalID: string }
+    ExtendedViralLoadInterface[],ViralLoadInputParams
     >({
       query: (params) => {
         if (params) {
-          const { hospitalID } = params
+          const { hospitalID, page,pageSize, searchQuery } = params
           let queryString = ''
           // queryString += `date=${date}`
           queryString += `hospitalID=${hospitalID}`
+                    queryString += `&page=${page}`;
+                    queryString += `&pageSize=${pageSize}`;
+                    queryString += `&searchQuery=${searchQuery}`;
           return `/fetchAll?${queryString}`
         }
         return 'fetchAll'

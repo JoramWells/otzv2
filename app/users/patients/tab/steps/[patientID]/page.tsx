@@ -9,7 +9,7 @@ import { type Dispatch, type SetStateAction, Suspense, useCallback, useEffect, u
 import MMASForm from '@/app/_components/treatement-plan/MMAS'
 import FormOne from '@/app/_components/treatement-plan/FormOne'
 import AddTriage from '../_components/AddTriage'
-import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
+import { useGetVitalSignQuery } from '@/api/lab/vitalSigns.api'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { calculateAge } from '@/utils/calculateAge'

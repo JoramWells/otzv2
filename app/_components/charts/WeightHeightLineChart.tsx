@@ -13,7 +13,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
-import { useGetAllVitalSignByPatientIDQuery } from '@/api/vitalsigns/vitalSigns.api'
+import { useGetAllVitalSignByPatientIDQuery } from '@/api/lab/vitalSigns.api'
 import moment from 'moment'
 import { calculateBMI } from '@/utils/calculateBMI'
 

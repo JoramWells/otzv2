@@ -12,7 +12,7 @@ import { useGetPriorityAppointmentDetailQuery } from '@/api/appointment/appointm
 import { useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
 import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
-import { useGetVitalSignByPatientIDQuery } from '@/api/vitalsigns/vitalSigns.api'
+import { useGetVitalSignByPatientIDQuery } from '@/api/lab/vitalSigns.api'
 import { Button } from '@/components/ui/button'
 import { secondaryColor } from '@/constants/color'
 import { ArrowRight, FileUser, InfoIcon, Loader2, MapPinOff } from 'lucide-react'

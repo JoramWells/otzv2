@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { type UserInterface } from 'otz-types'
+import { type HospitalAttributes, type UserInterface } from 'otz-types'
+
+export type ExtendedUserInterface = UserInterface & {
+  Hospital: HospitalAttributes
+}
 
 export interface UserResponseInterface {
-  data: UserInterface[]
+  data: ExtendedUserInterface[]
   page: number
   total: number
   pageSize: number
@@ -15,6 +19,7 @@ export interface UserInputParams {
   page?: number
   pageSize?: number
   searchQuery?: string
+  hospitalName?: string
 }
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -25,12 +30,13 @@ export const userApi = createApi({
     getAllUsers: builder.query<UserResponseInterface, UserInputParams>({
       query: (params) => {
         if (params) {
-          const { page, pageSize, searchQuery } =
+          const { page, pageSize, searchQuery, hospitalName } =
             params
           let queryString = ''
           queryString += `page=${page}`
           queryString += `&pageSize=${pageSize}`
           queryString += `&searchQuery=${searchQuery}`
+          queryString += `&hospitalName=${hospitalName}`
           return `/fetchAll/?${queryString}`
         }
         return 'fetchAll'

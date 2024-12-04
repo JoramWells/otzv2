@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
-import { useGetAllVitalSignDetailQuery } from '@/api/vitalsigns/vitalSigns.api'
+import { useGetAllVitalSignDetailQuery } from '@/api/lab/vitalSigns.api'
 import { Skeleton } from '@/components/ui/skeleton'
 import { calculateBMI } from '@/utils/calculateBMI'
 import { InfoIcon } from 'lucide-react'

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 'use client'
 
-import { useAddVitalSignMutation, useGetVitalSignByPatientIDQuery } from '@/api/vitalsigns/vitalSigns.api'
+import { useAddVitalSignMutation, useGetVitalSignByPatientIDQuery } from '@/api/lab/vitalSigns.api'
 // import CustomInput from '@/components/forms/CustomInput'
 import CustomInput2 from '@/components/forms/CustomInput2'
 import { Button } from '@/components/ui/button'

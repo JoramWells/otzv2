@@ -19,6 +19,9 @@ export const partialDisclosureApi = createApi({
     getPartialDisclosure: builder.query({
       query: (id) => `detail/${id}`
     }),
+    getPartialDisclosureByPatientID: builder.query({
+      query: (id) => `by-patient-id/${id}`
+    }),
     getAllPartialDisclosureByVisitId: builder.query({
       query: (id) => `details/${id}`
     }),
@@ -42,5 +45,5 @@ export const partialDisclosureApi = createApi({
 
 export const {
   useGetAllPartialDisclosureQuery, useAddPartialDisclosureMutation, useGetAllPartialDisclosureByVisitIdQuery,
-  useGetPartialDisclosureQuery
+  useGetPartialDisclosureQuery, useGetPartialDisclosureByPatientIDQuery
 } = partialDisclosureApi

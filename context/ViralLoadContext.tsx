@@ -42,33 +42,33 @@ export const LabProvider = ({ children }: { children: ReactNode }) => {
   //   }
   // }, [session])
 
-  const { data: vlData, isLoading } = useGetAllViralLoadTestsQuery(
-    {
-      hospitalID: authUser?.hospitalID as string
-    },
-    {
-      skip: !authUser?.hospitalID
-    }
-  )
+  // const { data: vlData, isLoading } = useGetAllViralLoadTestsQuery(
+  //   {
+  //     hospitalID: authUser?.hospitalID as string
+  //   },
+  //   {
+  //     skip: !authUser?.hospitalID
+  //   }
+  // )
 
   // console.log(vlData, 'datax')
 
-  useEffect(() => {
-    if (vlData) {
-      setViralLoadData(vlData)
-    }
-  }, [vlData])
+  // useEffect(() => {
+  //   if (vlData) {
+  //     setViralLoadData(vlData)
+  //   }
+  // }, [vlData])
 
   return (
     <LabContext.Provider
       value={{
-        viralLoadData,
-        isLoading
+        // isLoadinga
+        user,
       }}
     >
       {children}
     </LabContext.Provider>
-  )
+  );
 }
 
 export const useLabContext = () => useContext(LabContext)

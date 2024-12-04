@@ -5,7 +5,7 @@
 import { useAddArtPrescriptionMutation, useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 import { useGetAllArtRegimenQuery } from '@/api/art/artRegimen.api.'
 import { useGetPatientQuery } from '@/api/patient/patients.api'
-import { useGetVitalSignQuery } from '@/api/vitalsigns/vitalSigns.api'
+import { useGetVitalSignQuery } from '@/api/lab/vitalSigns.api'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import { Button } from '@/components/ui/button'
 import { calculateAge } from '@/utils/calculateAge'

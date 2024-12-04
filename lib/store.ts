@@ -7,7 +7,7 @@ import { appointmentAgendaApi } from '../api/appointment/appointmentAgenda.api'
 import { otzEnrollmentApi } from '../api/enrollment/otzEnrollment.api'
 import { caregiverApi } from '../api/caregiver/caregiver.api'
 import { patientsApi } from '../api/patient/patients.api'
-import { vitalSignsApi } from '../api/vitalsigns/vitalSigns.api'
+import { vitalSignsApi } from '../api/lab/vitalSigns.api'
 import { artRegimenApi } from '../api/art/artRegimen.api.'
 import { artRegimenPhaseApi } from '../api/art/artRegimenPhase.api'
 import { artRegimenCategoryApi } from '../api/art/artRegimenCategory.api'
@@ -76,6 +76,7 @@ import { importantPatientApi } from '@/api/patient/importantPatients.api'
 import { userSessionLogsApi } from '@/api/patient/userSessionLogs.api'
 import { appModulesApi } from '@/api/appModules/appModules.api'
 import { appModuleSessionApi } from '@/api/appModules/appModuleSession.api'
+import { vlJustificationApi } from '@/api/viraload/vlJustification.api'
 
 export const store = configureStore({
   reducer: {
@@ -112,6 +113,7 @@ export const store = configureStore({
     [wardApi.reducerPath]: wardApi.reducer,
     [schoolApi.reducerPath]: schoolApi.reducer,
     [viralLoadApi.reducerPath]: viralLoadApi.reducer,
+    [vlJustificationApi.reducerPath]: vlJustificationApi.reducer,
     [artSwitchReasonApi.reducerPath]: artSwitchReasonApi.reducer,
     [artRegimenSwitchApi.reducerPath]: artRegimenSwitchApi.reducer,
     [internalLabRequestApi.reducerPath]: internalLabRequestApi.reducer,
@@ -156,12 +158,12 @@ export const store = configureStore({
     [postDisclosureApi.reducerPath]: postDisclosureApi.reducer,
     [importantPatientApi.reducerPath]: importantPatientApi.reducer,
     [userSessionLogsApi.reducerPath]: userSessionLogsApi.reducer,
-    [hospitalApi.reducerPath]: hospitalApi.reducer
+    [hospitalApi.reducerPath]: hospitalApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,
-      serializableCheck: false
+      serializableCheck: false,
     })
       .concat(patientsApi.middleware)
       .concat(nextOfKinApi.middleware)
@@ -193,6 +195,7 @@ export const store = configureStore({
       .concat(wardApi.middleware)
       .concat(schoolApi.middleware)
       .concat(viralLoadApi.middleware)
+      .concat(vlJustificationApi.middleware)
       .concat(artSwitchReasonApi.middleware)
       .concat(appModulesApi.middleware)
       .concat(appModuleSessionApi.middleware)
@@ -238,5 +241,5 @@ export const store = configureStore({
       .concat(postDisclosureApi.middleware)
       .concat(importantPatientApi.middleware)
       .concat(userSessionLogsApi.middleware)
-      .concat(hospitalApi.middleware)
-})
+      .concat(hospitalApi.middleware),
+});

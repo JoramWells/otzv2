@@ -6,7 +6,6 @@ import AddArtCategory from './add-art-category/AddArtCategory'
 
 function ArtCategory () {
   const { data: artCategory } = useGetAllArtRegimenCategoriesQuery()
-  console.log(artCategory, 'cadrt')
   return (
     <div className="flex flex-row space-x-4 items-start mt-2">
       <div
