@@ -166,7 +166,7 @@ export default function Home () {
     return userNotifications?.filter(item => item?.moduleID === moduleID)?.length
   }
 
-  const filteredData = data?.filter(item => item.isActive)
+  const filteredData = data?.filter(item => item?.isActive)
 
   const router = useRouter()
   useEffect(() => {
@@ -236,12 +236,13 @@ export default function Home () {
               </Suspense>
 
               {/* recent session data */}
-              {recentDataLoading
-                ? (
-                <div className='flex flex-row space-x-2'>
-                {Array.from({ length: 4 }, (_, index) => <Skeleton key={index} className='p-4' />)}
+              {recentDataLoading ? (
+                <div className="grid px-2  w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2 mb-2 pb-4">
+                  {Array.from({ length: 4 }, (_, index) => (
+                    <Skeleton key={index} className="p-4 h-[120px]" />
+                  ))}
                 </div>
-                  ) : (
+              ) : (
                 <>
                   {recentSession && recentSession?.length > 0 && (
                     <div className="w-full ">
@@ -341,7 +342,7 @@ export default function Home () {
                     </div>
                   )}
                 </>
-                  )}
+              )}
 
               {/*  */}
               <div className="w-full mb-2">

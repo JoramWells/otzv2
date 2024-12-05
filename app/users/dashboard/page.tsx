@@ -14,6 +14,13 @@ import dynamic from 'next/dynamic'
 // import PopulationTypeChart from '@/components/Recharts/PopulationTypeChart'
 import { Button } from '@/components/ui/button'
 import PatientVisitActivitiesChart from '@/app/_components/charts/PatientVisitActivitiesChart'
+import { useGetPatientVisitByCountQuery } from '@/api/patient/patientVisits.api'
+import { useUserContext } from '@/context/UserContext'
+import { importantPatientColumn } from '../patients/_components/columns'
+import { CustomTable } from '@/app/_components/table/CustomTable'
+import { useGetCALHIVByHospitalIDQuery } from '@/api/patient/calhiv.api'
+// import { UserInterface } from 'otz-types'
+// import { useSession } from 'next-auth/react'
 
 // const UserDashboardCard = dynamic(
 //   async () => await import('@/app/_components/UserDasboard'),
@@ -43,6 +50,7 @@ const BreadcrumbComponent = dynamic(
 
 const UserDashboardPage = () => {
   // const [user, setUser] = useState<UserInterface>()
+  // const {} = useSession()
 
   // let { data } = useGetAllPatientsQuery({
   //   hospitalID: user?.hospitalID as string
@@ -76,7 +84,7 @@ const UserDashboardPage = () => {
     {
       id: '2',
       label: 'dashboard',
-      link: '/dashboard'
+      link: '#'
     }
   ]
 
@@ -109,7 +117,25 @@ const UserDashboardPage = () => {
 
   // uniqueYears.sort((a: number, b: number) => a - b)
 
-  // const { data: importantPatients } = useGetImportantPatientQuery(session?.user.id as string)
+  const { authUser } = useUserContext()
+
+  const { data: importantPatients } = useGetPatientVisitByCountQuery({
+    hospitalID: authUser?.hospitalID as string
+  },
+  {
+    skip: !authUser?.hospitalID
+  })
+
+  const { data: hospitalData } = useGetCALHIVByHospitalIDQuery({
+    hospitalID: authUser?.hospitalID as string
+  },
+  {
+    skip: !authUser?.hospitalID
+  }
+  )
+
+  console.log(hospitalData, 'hdata')
+
   const [value, setValue] = useState(1)
 
   return (
@@ -152,13 +178,13 @@ const UserDashboardPage = () => {
               </Button>
             ))}
           </div>
-          {/* {value === 1 && (
+          {value === 1 && (
             <CustomTable
               isSearch={false}
-              data={importantPatients || []}
+              data={importantPatients ?? []}
               columns={importantPatientColumn}
             />
-          )} */}
+          )}
 
           {/*
             {value === 2 && (

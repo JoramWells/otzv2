@@ -5,6 +5,7 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type PatientAttributes } from 'otz-types'
+import { type ExtendedImportantPatientInterface } from './importantPatients.api'
 
 export interface PatientResponseInterface {
   data: PatientAttributes[]
@@ -103,7 +104,7 @@ export const patientsApi = createApi({
     getPatientByUserID: builder.query<PatientAttributes, string>({
       query: (id) => `user-patient-detail/${id}`
     }),
-    getImportantPatients: builder.query<PatientAttributes[], any>({
+    getImportantPatients: builder.query<ExtendedImportantPatientInterface[], any>({
       query: (params) => {
         if (params) {
           const { limit } = params

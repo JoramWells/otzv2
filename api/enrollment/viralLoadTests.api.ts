@@ -8,18 +8,21 @@ export type ExtendedViralLoadInterface = ViralLoadInterface & {
 }
 
 export interface ViralLoadResponseInterface {
-  data: ExtendedViralLoadInterface[];
-  page: number;
-  total: number;
-  pageSize: number;
-  searchQuery: string;
+  data: ExtendedViralLoadInterface[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
 }
 
 export interface ViralLoadInputParams {
-  page?: number;
-  pageSize?: number;
-  searchQuery?: string;
-  hospitalID?: string;
+  page?: number
+  pageSize?: number
+  searchQuery?: string
+  hospitalID?: string
+  vlResults?: string
+  vlJustification?: string
+  status?: string
 }
 
 export const viralLoadApi = createApi({
@@ -29,17 +32,21 @@ export const viralLoadApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllViralLoadTests: builder.query<
-    ViralLoadResponseInterface,ViralLoadInputParams
+    ViralLoadResponseInterface,
+    ViralLoadInputParams
     >({
       query: (params) => {
         if (params) {
-          const { hospitalID, page,pageSize, searchQuery } = params
+          const { hospitalID, page, pageSize, searchQuery, vlResults, vlJustification, status } = params
           let queryString = ''
           // queryString += `date=${date}`
           queryString += `hospitalID=${hospitalID}`
-                    queryString += `&page=${page}`;
-                    queryString += `&pageSize=${pageSize}`;
-                    queryString += `&searchQuery=${searchQuery}`;
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          queryString += `&vlResults=${vlResults}`
+          queryString += `&vlJustification=${vlJustification}`
+          queryString += `&status=${status}`
           return `/fetchAll?${queryString}`
         }
         return 'fetchAll'
@@ -57,7 +64,23 @@ export const viralLoadApi = createApi({
         return 'fetchAllVLCategory'
       }
     }),
-    getVLSuppressionRate: builder.query<any, { hospitalID: string, startDate: string, endDate: string }>({
+    getVlReasons: builder.query<any, { hospitalID: string, dateQuery: string }>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID, dateQuery } = params
+          let queryString = ''
+          // queryString += `date=${date}`
+          queryString += `hospitalID=${hospitalID}`
+          queryString += `&dateQuery=${dateQuery}`
+          return `/group-by-vl-reasons?${queryString}`
+        }
+        return 'group-by-vl-reasons'
+      }
+    }),
+    getVLSuppressionRate: builder.query<
+    any,
+    { hospitalID: string, startDate: string, endDate: string }
+    >({
       query: (params) => {
         if (params) {
           const { hospitalID, endDate, startDate } = params
@@ -118,5 +141,6 @@ export const {
   useGetOTZPatientEnrollmentQuery,
   useGetAllVlCategoriesQuery,
   useGetViralLoadTestByPatientVisitIDQuery,
-  useGetVLSuppressionRateQuery
+  useGetVLSuppressionRateQuery,
+  useGetVlReasonsQuery
 } = viralLoadApi

@@ -58,6 +58,8 @@ const AppointmentDashboardPage = () => {
   }
   )
 
+  console.log(weeklyData, 'weekData')
+
   const statusCount = (appointments: Array<{ status: string }>): Array<{ status: string, count: number }> => {
   // Count each status dynamically
     const counts: Record<string, number> = appointments?.reduce<Record<string, number>>((acc, appointment) => {
@@ -125,7 +127,10 @@ const AppointmentDashboardPage = () => {
             </div>
           </div>
           <div className="flex space-x-2 bg-slate-50 p-2">
-            <AppointmentBarChart data={weeklyData ?? []} />
+            <AppointmentBarChart data={weeklyData ?? []}
+            label='agendaDescription'
+            dataKey='appointmentDate'
+            />
             <CustomPieChart
             data={statusCount(weeklyData) ?? []}
             />

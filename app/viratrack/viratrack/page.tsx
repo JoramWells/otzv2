@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
@@ -37,6 +38,9 @@ const TrackPage = () => {
   // const tab = searchParams.get('tab')
   // const [value, setValue] = useState<string | null>(tab)
   const [search, setSearch] = useState('')
+  const [vLResults, setVLResults] = useState('')
+  const [vLJustification, setVLJustification] = useState('')
+  const [status, setStatus] = useState('')
 
   const [viralData, setViralData] = useState<ExtendedViralLoadInterface[]>([])
 
@@ -59,7 +63,10 @@ const TrackPage = () => {
       hospitalID: authUser?.hospitalID as string,
       page: Number(page) ?? 1,
       pageSize: 10,
-      searchQuery: search
+      searchQuery: search,
+      status,
+      vlJustification: vLJustification,
+      vlResults: vLResults
     },
     {
       skip: !authUser?.hospitalID
@@ -76,7 +83,6 @@ const TrackPage = () => {
   const pageNumber = (count: number, pageSize: number) => {
     return Math.ceil(count / pageSize)
   }
-  const [vl, setVLResults] = useState('')
 
   function AgeFilter () {
     return (
@@ -84,8 +90,8 @@ const TrackPage = () => {
          <CustomSelectParams
            label="VL Results"
            onChange={setVLResults}
-           paramValue="vl"
-           value={vl}
+           paramValue="vlResults"
+           value={vLResults}
            data={[
              {
                id: 'All',
@@ -114,9 +120,9 @@ const TrackPage = () => {
          {/*  */}
          <CustomSelectParams
            label="Reason"
-           onChange={setVLResults}
-           paramValue="vl"
-           value={vl}
+           onChange={setVLJustification}
+           paramValue="vlJustification"
+           value={vLJustification}
            data={[
              {
                id: 'All',

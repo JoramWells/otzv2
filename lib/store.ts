@@ -77,10 +77,12 @@ import { userSessionLogsApi } from '@/api/patient/userSessionLogs.api'
 import { appModulesApi } from '@/api/appModules/appModules.api'
 import { appModuleSessionApi } from '@/api/appModules/appModuleSession.api'
 import { vlJustificationApi } from '@/api/viraload/vlJustification.api'
+import { CALHIVApi } from '@/api/patient/calhiv.api'
 
 export const store = configureStore({
   reducer: {
     [patientsApi.reducerPath]: patientsApi.reducer,
+    [CALHIVApi.reducerPath]: CALHIVApi.reducer,
     [nextOfKinApi.reducerPath]: nextOfKinApi.reducer,
     [enhancedAdherenceApi.reducerPath]: enhancedAdherenceApi.reducer,
     [patientVisitsApi.reducerPath]: patientVisitsApi.reducer,
@@ -166,6 +168,7 @@ export const store = configureStore({
       serializableCheck: false
     })
       .concat(patientsApi.middleware)
+      .concat(CALHIVApi.middleware)
       .concat(nextOfKinApi.middleware)
       .concat(patientVisitsApi.middleware)
       .concat(vitalSignsApi.middleware)

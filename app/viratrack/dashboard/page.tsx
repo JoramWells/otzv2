@@ -1,9 +1,16 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useGetVlReasonsQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useUserContext } from '@/context/UserContext'
+import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
+import CustomSelect from '@/components/forms/CustomSelect'
+import CustomSelectParams from '@/components/forms/CustomSelectParams'
+import { useState } from 'react'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -13,13 +20,13 @@ const BreadcrumbComponent = dynamic(
   }
 )
 
-const VLBarChart = dynamic(
-  async () => await import('../../_components/charts/VLBarChart'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="h-[300px] w-1/4 rounded-lg" />
-  }
-)
+// const VLBarChart = dynamic(
+//   async () => await import('../../_components/charts/VLBarChart'),
+//   {
+//     ssr: false,
+//     loading: () => <Skeleton className="h-[300px] w-1/4 rounded-lg" />
+//   }
+// )
 
 const VLPieChart = dynamic(
   async () => await import('../../_components/charts/VLPieChart'),
@@ -43,7 +50,7 @@ const dataList2 = [
 ]
 
 const NotifyPage = () => {
-  // const [user, setUser] = useState()
+  const [dateQuery, setDateQuery] = useState('')
   // console.log(viralLoadData, 'viralLoadData')
   // const { data: session } = useSession()
   // useEffect(() => {
@@ -60,7 +67,18 @@ const NotifyPage = () => {
   //   skip: !user?.hospitalID
   // })
 
-  // console.log(vlSuppression, 'vlSuppression')
+  const { authUser } = useUserContext()
+
+  const { data: vlReasonsData } = useGetVlReasonsQuery({
+    hospitalID: authUser?.hospitalID as string,
+    dateQuery
+  },
+  {
+    skip: (authUser?.hospitalID) == null
+  }
+  )
+
+  console.log(vlReasonsData, 'vReason')
 
   return (
     <div className="">
@@ -85,13 +103,47 @@ const NotifyPage = () => {
       </div> */}
 
       <div className=" p-4 bg-white">
-        <h1
-          className="font-semibold text-xl
+        <div>
+          <h1
+            className="font-semibold text-xl
         capitalize
         "
-        >
-          Analytics Appointments
-        </h1>
+          >
+            Analytics Appointments
+          </h1>
+          <CustomSelectParams
+            paramValue="dateQuery"
+            value={dateQuery}
+            onChange={setDateQuery}
+            data={[
+              {
+                id: 'All',
+                label: 'All'
+              },
+              {
+                id: '7D',
+                label: '7D'
+              },
+              {
+                id: '14D',
+                label: '14D'
+              },
+              {
+                id: '21D',
+                label: '21D'
+              },
+              {
+                id: '1 month',
+                label: '1 month'
+              }
+            ]}
+          />
+        </div>
+        <AppointmentBarChart
+          data={vlReasonsData ?? []}
+          dataKey="dateOfVl"
+          label="vlJustification"
+        />
         <div className="flex flex-row space-x-4 mt-2">
           {/* <VLBarChart data={viralLoadData ?? []} /> */}
           <VLPieChart />

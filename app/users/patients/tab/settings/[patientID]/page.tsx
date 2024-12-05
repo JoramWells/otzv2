@@ -16,19 +16,6 @@ import CustomSelect from '@/components/forms/CustomSelect'
 import moment from 'moment'
 import { useGetAllHospitalsQuery } from '@/api/hospital/hospital.api'
 
-const dataList2 = [
-  {
-    id: '1',
-    label: 'home',
-    link: '/'
-  },
-  {
-    id: '2',
-    label: 'Patients',
-    link: '/'
-  }
-]
-
 const roleData = [
   {
     id: 'clinician',
@@ -138,6 +125,29 @@ const ProfileSettings = ({ params }: { params: any }) => {
     {
       id: 'TG',
       label: 'TG'
+    }
+  ]
+
+  const dataList2 = [
+    {
+      id: '1',
+      label: 'home',
+      link: '/'
+    },
+    {
+      id: '2',
+      label: 'Patients',
+      link: '/users/patients'
+    },
+    {
+      id: '3',
+      label: `${firstName} ${middleName}`,
+      link: `/users/patients/tab/dashboard/${patientID}`
+    },
+    {
+      id: '4',
+      label: 'Settings',
+      link: '#'
     }
   ]
 

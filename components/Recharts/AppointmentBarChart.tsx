@@ -29,11 +29,18 @@ const getNextColor = () => {
   return `hsl(var(--chart-${nextColor}))`
 }
 
-export function AppointmentBarChart ({ data }: { data: AppointmentBarChartInputProps[] }) {
+interface BarChartInputParams {
+  data: AppointmentBarChartInputProps[]
+  label: string
+  dataKey: string
+
+}
+
+export function AppointmentBarChart ({ data, label, dataKey }: BarChartInputParams) {
   const chartConfig = useMemo(() => {
     const config: ChartConfig = {}
     data?.forEach((item) => {
-      const agendaDescription = item.agendaDescription
+      const agendaDescription = item[label as keyof AppointmentBarChartInputProps]
       if (!config[agendaDescription]) {
         config[agendaDescription] = {
           label: agendaDescription,
@@ -43,7 +50,7 @@ export function AppointmentBarChart ({ data }: { data: AppointmentBarChartInputP
     })
 
     return config
-  }, [data])
+  }, [data, label])
 
   // const chartData = transformDataToCart()
   // const chartData = groupAppointmentsByDay(data)
@@ -70,7 +77,7 @@ export function AppointmentBarChart ({ data }: { data: AppointmentBarChartInputP
         >
           <CartesianGrid vertical={false} />
           <XAxis
-            dataKey="appointmentDate"
+            dataKey={dataKey}
             tickLine={false}
             tickMargin={10}
             axisLine={false}
@@ -106,24 +113,6 @@ export function AppointmentBarChart ({ data }: { data: AppointmentBarChartInputP
               stackId={'a'}
             />
           ))}
-          {/* <Bar
-            dataKey="Refill"
-            fill="var(--color-refill)"
-            radius={[0, 0, 4, 4]}
-            stackId={"a"}
-          />
-          <Bar
-            dataKey="Clinic Day"
-            fill="var(--color-clinic)"
-            radius={[0, 0, 4, 4]}
-            stackId={"a"}
-          />
-          <Bar
-            dataKey="viral load"
-            fill="var(--color-vl)"
-            radius={[4, 4, 0, 0]}
-            stackId={"a"}
-          /> */}
         </BarChart>
       </ChartContainer>
     </div>

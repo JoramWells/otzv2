@@ -353,12 +353,12 @@ export const importantPatientColumn: Array<ColumnDef<ExtendedImportantPatientInt
         <Avatar
           size={'xs'}
           className="font-bold"
-          name={`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}
+          name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
         />
         <Link
           className="capitalize font-semibold text-slate-700 text-[12px] "
           href={`/users/patients/tab/dashboard/${row.original.id}`}
-        >{`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}</Link>
+        >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
       </div>
     )
   },
@@ -372,7 +372,7 @@ export const importantPatientColumn: Array<ColumnDef<ExtendedImportantPatientInt
   {
     accessorKey: 'dob',
     header: 'Age',
-    cell: ({ row }) => <p>{calculateAge(row.original?.Patient.dob)}</p>,
+    cell: ({ row }) => <p>{calculateAge(row.original?.Patient?.dob)}</p>,
     enableSorting: true
   },
   {
@@ -382,9 +382,9 @@ export const importantPatientColumn: Array<ColumnDef<ExtendedImportantPatientInt
       <div
       className='text-[12px]'
       >
-        {row.original.Patient.phoneNo
+        {row.original?.Patient?.phoneNo
           ? (
-              row.original.Patient.phoneNo
+              row.original?.Patient?.phoneNo
             )
           : (
           <Badge

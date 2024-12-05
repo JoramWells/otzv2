@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable react/prop-types */
+import { Chart, registerables } from 'chart.js'
+
 import { useGetAllVlCategoriesQuery } from '@/api/enrollment/viralLoadTests.api'
 // import { type Point, type ChartDataset, type BubbleDataPoint } from 'chart.js/auto'
 import { Pie } from 'react-chartjs-2'
@@ -11,6 +13,9 @@ import { useUserContext } from '@/context/UserContext'
 //   labels: string[]
 //   datasets: Array<ChartDataset<'pie', Array<number | Point | [number, number] | BubbleDataPoint | null>>>
 // }
+
+//
+Chart.register(...registerables)
 
 const VLPieChart = () => {
   const { authUser } = useUserContext()

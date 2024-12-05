@@ -4,6 +4,7 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type PatientAttributes, type UserInterface, type PatientVisitsInterface } from 'otz-types'
+import { type ExtendedImportantPatientInterface } from './importantPatients.api'
 
 export type ExtendedPatientVisitsInterface = PatientVisitsInterface & {
   Patient: PatientAttributes
@@ -72,6 +73,18 @@ export const patientVisitsApi = createApi({
     getAllUserPatientCount: builder.query<PatientVisitsInterface[], void>({
       query: (id) => 'user-patient-count/1'
     }),
+    getPatientVisitByCount: builder.query<ExtendedImportantPatientInterface[], { hospitalID: string }>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } = params
+          let queryString = ''
+          queryString += `hospitalID=${hospitalID}`
+
+          return `/by-patient-visit-count/?${queryString}`
+        }
+        return 'by-patient-visit-count'
+      }
+    }),
     getAllUserActivitiesCount: builder.query<UserActivityData[], void>({
       query: (id) => 'user-activities-count/1'
     }),
@@ -85,7 +98,10 @@ export const patientVisitsApi = createApi({
     getPatientVisit: builder.query<ExtendedPatientVisitsInterface, string>({
       query: (id) => `detail/${id}`
     }),
-    getHistoryPatientVisit: builder.query<PatientVisitResponseInterface, PatientVisitInputParams>({
+    getHistoryPatientVisit: builder.query<
+    PatientVisitResponseInterface,
+    PatientVisitInputParams
+    >({
       query: (params) => {
         if (params) {
           const { id, page, pageSize, searchQuery } = params
@@ -118,5 +134,5 @@ export const patientVisitsApi = createApi({
 
 export const {
   useGetAllPatientVisitsQuery, useUpdatePatientVisitMutation, useGetHistoryPatientVisitQuery, useGetAllUserActivitiesCountQuery,
-  useDeletePatientVisitMutation, useAddPatientVisitMutation, useGetPatientVisitQuery, useGetAllUserPatientCountQuery
+  useDeletePatientVisitMutation, useAddPatientVisitMutation, useGetPatientVisitQuery, useGetAllUserPatientCountQuery, useGetPatientVisitByCountQuery
 } = patientVisitsApi
