@@ -8,7 +8,7 @@ import { History, Pin } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { type ExtendedPrescriptionInterface, useGetAllPrescriptionsQuery, useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
-import { useGetAllArtPrescriptionQuery } from '@/api/art/artPrescription.api'
+import { useGetAllArtPrescriptionQuery, useGetArtPrescriptionByCategoryQuery } from '@/api/art/artPrescription.api'
 import { type UserInterface, type ARTPrescriptionInterface, type PrescriptionInterface } from 'otz-types'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
@@ -111,11 +111,25 @@ const NotifyPage = () => {
   // )
 
   const { data: artPrescriptionData, isLoading: loadingArtPrescription } =
-    useGetAllArtPrescriptionQuery({
-      hospitalID: user?.hospitalID as string
-    })
+    useGetAllArtPrescriptionQuery(
+      {
+        hospitalID: user?.hospitalID as string,
+      },
+      {
+        skip: !user?.hospitalID,
+      }
+    );
 
   const [value, setValue] = useState(1)
+
+  const { data: artP } = useGetArtPrescriptionByCategoryQuery({
+    hospitalID: user?.hospitalID as string
+  },
+  {
+    skip: !user?.hospitalID
+  })
+
+  console.log(artP, 'artDatax')
 
   return (
     <>
@@ -133,8 +147,10 @@ const NotifyPage = () => {
         {/*  */}
 
         <HorizontalLineChart
-          data={artPrescriptionData as ARTPrescriptionInterface[]}
+          data={artP as ARTPrescriptionInterface[]}
           isLoading={loadingArtPrescription}
+          dataKey={'count'}
+          label={'line'}
         />
 
         {/*  */}

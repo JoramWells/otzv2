@@ -8,7 +8,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useGetVlReasonsQuery } from '@/api/enrollment/viralLoadTests.api'
 import { useUserContext } from '@/context/UserContext'
 import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
-import CustomSelect from '@/components/forms/CustomSelect'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'
 import { useState } from 'react'
 
@@ -78,74 +77,58 @@ const NotifyPage = () => {
   }
   )
 
-  console.log(vlReasonsData, 'vReason')
-
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
 
-      {/* <div className="flex flex-row justify-between items-center bg-white p-4 mt-4">
-        <div>
-          <p className="text-lg font-bold">Welcome to ViraTrack</p>
-          <p>Scheduled the following appointments</p>
-        </div>
-        <Button
-          className="bg-teal-600 hover:bg-teal-700
-        font-bold shadow-none
-        "
-          onClick={() => {
-            router.push('/patients/add-patients')
-          }}
-        >
-          <PlusCircle size={18} className="mr-2" />
-          New Patient
-        </Button>
-      </div> */}
-
-      <div className=" p-4 bg-white">
-        <div>
-          <h1
-            className="font-semibold text-xl
+      <div className=" p-2">
+        <div className="flex flex-row
+        bg-white rounded-lg mb-1 p-2
+         justify-between items-center">
+          <h3
+            className="font-semibold
         capitalize
         "
           >
             Analytics Appointments
-          </h1>
-          <CustomSelectParams
-            paramValue="dateQuery"
-            value={dateQuery}
-            onChange={setDateQuery}
-            data={[
-              {
-                id: 'All',
-                label: 'All'
-              },
-              {
-                id: '7D',
-                label: '7D'
-              },
-              {
-                id: '14D',
-                label: '14D'
-              },
-              {
-                id: '21D',
-                label: '21D'
-              },
-              {
-                id: '1 month',
-                label: '1 month'
-              }
-            ]}
-          />
+          </h3>
+          <div className='w-1/4'>
+            <CustomSelectParams
+              paramValue="dateQuery"
+              value={dateQuery}
+              onChange={setDateQuery}
+              data={[
+                {
+                  id: 'All',
+                  label: 'All'
+                },
+                {
+                  id: '7D',
+                  label: '7D'
+                },
+                {
+                  id: '14D',
+                  label: '14D'
+                },
+                {
+                  id: '21D',
+                  label: '21D'
+                },
+                {
+                  id: '1 month',
+                  label: '1 month'
+                }
+              ]}
+            />
+          </div>
         </div>
-        <AppointmentBarChart
-          data={vlReasonsData ?? []}
-          dataKey="dateOfVl"
-          label="vlJustification"
-        />
-        <div className="flex flex-row space-x-4 mt-2">
-          {/* <VLBarChart data={viralLoadData ?? []} /> */}
+        <div className="flex flex-row space-x-2">
+          <AppointmentBarChart
+            data={vlReasonsData ?? []}
+            dataKey="dateOfVl"
+            label="vlJustification"
+          />
+
           <VLPieChart />
         </div>
       </div>

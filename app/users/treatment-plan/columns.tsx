@@ -9,6 +9,7 @@ import { useGetPostDisclosureByPatientIDQuery } from '@/api/treatmentplan/full/p
 import { useGetMmasEightByPatientIDQuery } from '@/api/treatmentplan/mmasEight.api'
 import { useGetChildCaregiverReadinessByPatientIDQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 import { useGetDisclosureEligibilityByPatientIDQuery } from '@/api/treatmentplan/partial/disclosureEligibility.api'
+import { useGetPartialDisclosureByPatientIDQuery } from '@/api/treatmentplan/partial/partialDisclosure.api'
 import Progress from '@/components/Progress'
 import { useUserContext } from '@/context/UserContext'
 import { type PatientProps } from '@/types'
@@ -193,6 +194,12 @@ export const columns: Array<ColumnDef<PatientAttributes>> = [
         const url = await generateHref()
         window.open(url, '_blank') // Open in a new tab
       }
+
+      const { data: pData } = useGetPartialDisclosureByPatientIDQuery(id, {
+        skip: !id
+      })
+
+      console.log(pData, 'pDatax')
 
       // skip if user is not ready for partial disclosure
       const { data } = useGetChildCaregiverReadinessByPatientIDQuery(

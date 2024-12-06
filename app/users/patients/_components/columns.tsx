@@ -340,7 +340,9 @@ const DropDownComponent = ({ id, userID }: { id: string, userID?: string }) => {
   )
 }
 
-export const importantPatientColumn: Array<ColumnDef<ExtendedImportantPatientInterface>> = [
+export const importantPatientColumn: Array<
+ColumnDef<ExtendedImportantPatientInterface>
+> = [
   {
     accessorKey: 'firstName',
     header: 'Name',
@@ -372,21 +374,17 @@ export const importantPatientColumn: Array<ColumnDef<ExtendedImportantPatientInt
   {
     accessorKey: 'dob',
     header: 'Age',
-    cell: ({ row }) => <p>{calculateAge(row.original?.Patient?.dob)}</p>,
+    cell: ({ row }) => <p className='text-[12px]' >{calculateAge(row.original?.Patient?.dob)}</p>,
     enableSorting: true
   },
   {
     accessorKey: 'phoneNo',
     header: 'Phone No',
     cell: ({ row }) => (
-      <div
-      className='text-[12px]'
-      >
-        {row.original?.Patient?.phoneNo
-          ? (
-              row.original?.Patient?.phoneNo
-            )
-          : (
+      <div className="text-[12px]">
+        {row.original?.Patient?.phoneNo ? (
+          row.original?.Patient?.phoneNo
+        ) : (
           <Badge
             className="rounded-full shadow-none bg-slate-100 hover:bg-slate-200 hover:cursor-pointer
       text-slate-500 text-[12px]
@@ -394,22 +392,20 @@ export const importantPatientColumn: Array<ColumnDef<ExtendedImportantPatientInt
           >
             Update
           </Badge>
-            )}
+        )}
+      </div>
+    )
+  },
+  {
+    accessorKey: 'visits',
+    header: 'Visits',
+    cell: ({ row }) => (
+      <div>
+        <p className="text-[12px] text-slate-500">
+          Count: <span>{row.original?.count}</span>
+        </p>
+        <p className='text-[12px] text-slate-500' >{moment(row.original?.createdAt).format('ll')}</p>
       </div>
     )
   }
-
-  // {
-  //   accessorKey: 'action',
-  //   header: 'Action',
-  //   cell: ({ row }) => (
-  //     <Button className="" variant={'outline'}>
-  //       <Link
-  //         href={`/patients/add-triage/${row.original?.Patient?.id}?appointmentID=${row.original?.id} `}
-  //       >
-  //         See Patient
-  //       </Link>
-  //     </Button>
-  //   )
-  // }
 ]

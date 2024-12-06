@@ -7,12 +7,10 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 // import { type UserDashboardCardDataListProps } from '@/app/_components/UserDasboard'
 // import PopulationTypeChart from '@/components/Recharts/PopulationTypeChart'
-import { Button } from '@/components/ui/button'
 import PatientVisitActivitiesChart from '@/app/_components/charts/PatientVisitActivitiesChart'
 import { useGetPatientVisitByCountQuery } from '@/api/patient/patientVisits.api'
 import { useUserContext } from '@/context/UserContext'
@@ -136,8 +134,6 @@ const UserDashboardPage = () => {
 
   console.log(hospitalData, 'hdata')
 
-  const [value, setValue] = useState(1)
-
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
@@ -157,34 +153,13 @@ const UserDashboardPage = () => {
       <div className="flex justify-between pl-2 pr-2 pb-2 space-x-2">
         {/* <PopulationTypeChart data={data || []} /> */}
         <div className="p-2 bg-white rounded-lg flex-1  ">
-          <h3 className="font-semibold ml-2 text-slate-700 ">Quick Access</h3>
-          <div className="flex flex-row space-x-2">
-            {[
-              { id: 1, label: 'Pinned' },
-              { id: 2, label: 'Recent' }
-            ].map((item) => (
-              <Button
-                size={'sm'}
-                key={item.id}
-                onClick={() => setValue(item.id)}
-                className={`text-slate-700 hover:bg-slate-50 bg-transparent hover:text-teal-600 rounded-none
-                      ${
-                        value === item.id &&
-                        'border-b-2 border-teal-600 text-teal-600'
-                      }
-                      `}
-              >
-                {item.label}
-              </Button>
-            ))}
-          </div>
-          {value === 1 && (
+          <h3 className="font-semibold ml-2 text-slate-700 mb-2 ">Frequently Accessed</h3>
+
             <CustomTable
               isSearch={false}
               data={importantPatients ?? []}
               columns={importantPatientColumn}
             />
-          )}
 
           {/*
             {value === 2 && (

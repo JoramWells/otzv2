@@ -5,7 +5,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type PatientAttributes, type ImportantPatientsInterface } from 'otz-types'
 
-export type ExtendedImportantPatientInterface = ImportantPatientsInterface & { Patient: PatientAttributes }
+export type ExtendedImportantPatientInterface = ImportantPatientsInterface & { Patient: PatientAttributes } & { count?: string }
 
 export const importantPatientApi = createApi({
   reducerPath: 'importantPatientApi',

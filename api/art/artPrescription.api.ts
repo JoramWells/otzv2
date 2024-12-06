@@ -9,7 +9,10 @@ export const artPrescriptionApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/art-prescription`
   }),
   endpoints: (builder) => ({
-    getAllArtPrescription: builder.query<ARTPrescriptionInterface[], { hospitalID: string }>({
+    getAllArtPrescription: builder.query<
+    ARTPrescriptionInterface[],
+    { hospitalID: string }
+    >({
       query: (params) => {
         if (params) {
           const { hospitalID } = params
@@ -31,6 +34,18 @@ export const artPrescriptionApi = createApi({
     getArtPrescription: builder.query({
       query: (id) => `detail/${id}`
     }),
+    getArtPrescriptionByCategory: builder.query<any, { hospitalID: string }>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } = params
+          let queryString = ''
+          // queryString += `date=${date}`
+          queryString += `hospitalID=${hospitalID}`
+          return `/by-prescription-category?${queryString}`
+        }
+        return 'by-prescription-category'
+      }
+    }),
     deleteArtPrescription: builder.mutation({
       query (id) {
         return {
@@ -44,6 +59,6 @@ export const artPrescriptionApi = createApi({
 
 export const {
   useGetAllArtPrescriptionQuery, useAddArtPrescriptionMutation,
-  useGetArtPrescriptionQuery,
+  useGetArtPrescriptionQuery, useGetArtPrescriptionByCategoryQuery,
   useDeleteArtPrescriptionMutation
 } = artPrescriptionApi
