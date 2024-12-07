@@ -6,7 +6,6 @@ import {
   ChartTooltipContent
 } from '@/components/ui/chart'
 import { Bar, BarChart, LabelList, XAxis, YAxis } from 'recharts'
-import { type ARTPrescriptionInterface } from 'otz-types'
 import { Skeleton } from '../ui/skeleton'
 
 // const chartConfig = {
@@ -30,6 +29,12 @@ import { Skeleton } from '../ui/skeleton'
 // const colorSet = [1, 2, 3, 4, 5]
 // let colorIndex = 0
 
+export interface HorizontalLineChartParams {
+  line: string
+  count: number
+  label?: string
+}
+
 const getNextColor = () => {
   // const nextColor = colorSet[colorIndex % colorSet.length]
   // colorIndex++
@@ -37,9 +42,9 @@ const getNextColor = () => {
 }
 
 interface HorizontalLineChartInputProps {
-  data: ARTPrescriptionInterface[]
-  isLoading: boolean
-  label: keyof ARTPrescriptionInterface
+  data: HorizontalLineChartParams[]
+  isLoading?: boolean
+  label: keyof HorizontalLineChartParams
   dataKey: string
 }
 
@@ -51,27 +56,26 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey }: HorizontalLine
       }
     }
     data?.forEach(item => {
-      const labelDescription = item[label] as string
-      const formattedLine = labelDescription?.split(' ')[0]
-      // if (!config[formattedLine]) {
-      config[formattedLine] = {
-        label: formattedLine,
-        color: getNextColor()
+      const formattedLine = item.label?.split(' ')[0]
+      if (formattedLine != null) {
+        config[formattedLine] = {
+          label: formattedLine,
+          color: getNextColor()
+        }
       }
-      // }
     })
     return config
-  }, [data, label])
+  }, [data])
 
   const tempData = useMemo(() => {
     return data?.length > 0 ? [...data] : []
   }, [data])
 
   const fData = useCallback(() => {
-    return tempData.filter(item => item[label] !== null) satisfies ARTPrescriptionInterface[] & { count?: number }
+    return tempData.filter(item => item[label] !== null)
   }, [label, tempData])()
 
-  const transformData = () => fData?.reduce((acc: any[], { line, count }: { line: string, count?: number | string }) => {
+  const transformData = () => fData?.reduce((acc: any[], { line, count }) => {
     const formattedLine = line.split(' ')[0]
     const colorVar = `var(--color-${line?.split(' ')[0]})`
 
@@ -88,7 +92,7 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey }: HorizontalLine
     // console.log(!Object.values(acc).some((value) => Number.isNaN(value)))
     return acc
   }, [])
-  if (isLoading) {
+  if (isLoading ?? false) {
     return <Skeleton className='max-h-[200px] flex-1 rounded-lg'/>
   }
   return (
