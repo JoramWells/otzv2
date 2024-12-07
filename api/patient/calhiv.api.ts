@@ -36,7 +36,7 @@ export const CALHIVApi = createApi({
       query: (id) => `detail/${id}`
     }),
     getCALHIVByHospitalID: builder.query<
-    ExtendedImportantPatientInterface,
+    any,
     { hospitalID: string }
     >({
       query: (params) => {

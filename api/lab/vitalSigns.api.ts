@@ -1,13 +1,22 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { type VitalSignsInterface } from '@/app/users/reports/triage/columns'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type ExtendedViralLoadInterface } from '../enrollment/viralLoadTests.api'
 
 export interface VitalSignsResponseInterface {
-  data: VitalSignsInterface[];
-  page: number;
-  total: number;
-  pageSize: number;
-  searchQuery: string;
+  data: ExtendedViralLoadInterface[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
+
+//
+export interface VitalSignsInputParams {
+  page?: number
+  pageSize?: number
+  searchQuery?: string
+  hospitalID?: string
 }
 
 export const vitalSignsApi = createApi({
@@ -16,8 +25,25 @@ export const vitalSignsApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/vital-signs`
   }),
   endpoints: (builder) => ({
-    getAllVitalSigns: builder.query<VitalSignsResponseInterface, void>({
-      query: () => 'fetchAll'
+    getAllVitalSigns: builder.query<VitalSignsResponseInterface, VitalSignsInputParams>({
+      query: (params) => {
+        if (params) {
+          const {
+            hospitalID,
+            page,
+            pageSize,
+            searchQuery
+          } = params
+          let queryString = ''
+          // queryString += `date=${date}`
+          queryString += `hospitalID=${hospitalID}`
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          return `/fetchAll?${queryString}`
+        }
+        return 'fetchAll'
+      }
     }),
     addVitalSign: builder.mutation({
       query: (newUser) => ({

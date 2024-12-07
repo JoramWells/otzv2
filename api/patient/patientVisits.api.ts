@@ -70,7 +70,7 @@ export const patientVisitsApi = createApi({
         return 'fetchAll'
       }
     }),
-    getAllUserPatientCount: builder.query<PatientVisitsInterface[], void>({
+    getAllUserPatientCount: builder.query<Array<{ date?: string, count?: string | number }>, void>({
       query: (id) => 'user-patient-count/1'
     }),
     getPatientVisitByCount: builder.query<ExtendedImportantPatientInterface[], { hospitalID: string }>({

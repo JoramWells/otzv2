@@ -6,7 +6,7 @@ import { CustomTable } from '../../_components/table/CustomTable'
 import { useEffect, useMemo, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
-import { useGetAllViralLoadTestsQuery, type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
+import { useGetAllViralLoadTestsQuery, useGetStarredVitalLoadQuery, type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 import { useUserContext } from '@/context/UserContext'
 import debounce from 'lodash/debounce'
@@ -58,7 +58,7 @@ const TrackPage = () => {
     debounceSearch?.(search)
     return () => debounceSearch?.cancel()
   }, [debounceSearch, search])
-  const { data: vlData, isLoading } = useGetAllViralLoadTestsQuery(
+  const { data: vlData, isLoading } = useGetStarredVitalLoadQuery(
     {
       hospitalID: authUser?.hospitalID as string,
       page: Number(page) ?? 1,

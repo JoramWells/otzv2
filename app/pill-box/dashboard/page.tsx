@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic'
 import { type ExtendedPrescriptionInterface, useGetAllPrescriptionsQuery, useGetFacilityAdherenceQuery } from '@/api/pillbox/prescription.api'
 import { useGetAllArtPrescriptionQuery, useGetArtPrescriptionByCategoryQuery } from '@/api/art/artPrescription.api'
 import { type UserInterface, type ARTPrescriptionInterface, type PrescriptionInterface } from 'otz-types'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 // import { CustomTable } from '@/app/_components/table/CustomTable'
 // import { importantPrescription } from '../prescription/columns'
@@ -129,7 +129,13 @@ const NotifyPage = () => {
     skip: !user?.hospitalID
   })
 
-  console.log(artP, 'artDatax')
+  const formatData = useCallback(()=>{
+    return artP?.map(item=>({
+      line: item?.line,
+      count: Number(item?.count)
+    }))
+  },[artP])
+
 
   return (
     <>
@@ -147,7 +153,7 @@ const NotifyPage = () => {
         {/*  */}
 
         <HorizontalLineChart
-          data={artP as ARTPrescriptionInterface[]}
+          data={formatData() as ARTPrescriptionInterface[]}
           isLoading={loadingArtPrescription}
           dataKey={'count'}
           label={'line'}

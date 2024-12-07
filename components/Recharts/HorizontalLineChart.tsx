@@ -5,7 +5,7 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart'
-import { Bar, BarChart, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, LabelList, XAxis, YAxis } from 'recharts'
 import { type ARTPrescriptionInterface } from 'otz-types'
 import { Skeleton } from '../ui/skeleton'
 
@@ -27,45 +27,49 @@ import { Skeleton } from '../ui/skeleton'
 //   }
 // } satisfies ChartConfig
 
-const colorSet = [1, 2, 3, 4, 5]
-let colorIndex = 0
+// const colorSet = [1, 2, 3, 4, 5]
+// let colorIndex = 0
 
 const getNextColor = () => {
-  const nextColor = colorSet[colorIndex % colorSet.length]
-  colorIndex++
-  return `hsl(var(--chart-${nextColor}))`;
+  // const nextColor = colorSet[colorIndex % colorSet.length]
+  // colorIndex++
+  return 'hsl(210, 20%, 70%)'
 }
 
-const HorizontalLineChart = ({ data, isLoading, label, dataKey }: { data: ARTPrescriptionInterface[], isLoading: boolean,
-  label: keyof ARTPrescriptionInterface, dataKey: string
- }) => {
+interface HorizontalLineChartInputProps {
+  data: ARTPrescriptionInterface[]
+  isLoading: boolean
+  label: keyof ARTPrescriptionInterface
+  dataKey: string
+}
+
+const HorizontalLineChart = ({ data, isLoading, label, dataKey }: HorizontalLineChartInputProps) => {
   const chartConfig = useMemo(() => {
     const config: ChartConfig = {
-      count:{
-        label:'Count'
+      count: {
+        label: 'Count'
       }
-     }
+    }
     data?.forEach(item => {
       const labelDescription = item[label] as string
-          const formattedLine = labelDescription?.split(" ")[0];
-      if (!config[formattedLine]) {
-        config[formattedLine] = {
-          label: formattedLine,
-          color:getNextColor()
-        }
+      const formattedLine = labelDescription?.split(' ')[0]
+      // if (!config[formattedLine]) {
+      config[formattedLine] = {
+        label: formattedLine,
+        color: getNextColor()
       }
+      // }
     })
     return config
   }, [data, label])
-
 
   const tempData = useMemo(() => {
     return data?.length > 0 ? [...data] : []
   }, [data])
 
   const fData = useCallback(() => {
-    return tempData.filter(item => item[label] !== null) satisfies ARTPrescriptionInterface[] & {count?: number}
-  }, [tempData])()
+    return tempData.filter(item => item[label] !== null) satisfies ARTPrescriptionInterface[] & { count?: number }
+  }, [label, tempData])()
 
   const transformData = () => fData?.reduce((acc: any[], { line, count }: { line: string, count?: number | string }) => {
     const formattedLine = line.split(' ')[0]
@@ -75,26 +79,26 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey }: { data: ARTPre
     // if (existingEntry != null) {
     //   existingEntry.count += 1
     // } else {
-      acc.push({
-        line: formattedLine,
-        count: count,
-        fill: colorVar
-      })
+    acc.push({
+      line: formattedLine,
+      count,
+      fill: colorVar
+    })
     // }
     // console.log(!Object.values(acc).some((value) => Number.isNaN(value)))
     return acc
   }, [])
   if (isLoading) {
-    return <Skeleton className='max-h-[350px] flex-1 rounded-lg'/>
+    return <Skeleton className='max-h-[200px] flex-1 rounded-lg'/>
   }
   return (
-      <div className="w-full flex-1 p-2 rounded-lg border-slate-100 bg-white ">
-        <div className="ml-1 ">
-          <h3 className="font-semibold text-slate-700">Regimen Line Count</h3>
-        </div>
+    <div className="flex-1 rounded-lg  border-slate-100 bg-white ">
+      <div className="p-2 bg-slate-100 rounded-t-lg border-b ">
+        <h3 className="font-semibold text-[14px]">Regimen Line Count</h3>
+      </div>
         <ChartContainer
           config={chartConfig}
-          className="aspect-square max-h-[250px] w-full bg-white rounded-lg"
+          className="aspect-square h-[215px] ml-2 flex-1 w-full rounded-lg"
         >
           <BarChart
             accessibilityLayer
@@ -110,22 +114,31 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey }: { data: ARTPre
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value: number) =>
-                chartConfig[value]?.label as string
+              tickFormatter={(value: string) =>
+                value.slice(0, 3)
               }
+              hide
             />
 
             <XAxis dataKey={dataKey} type="number" hide />
 
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent indicator="line" />}
             />
 
-            <Bar dataKey={dataKey} layout="vertical" radius={5} />
+            <Bar dataKey={dataKey} layout="vertical" radius={5} height={200}>
+              <LabelList
+                dataKey={label}
+                position="insideLeft"
+                offset={8}
+                className={'fill-[--color-label]'}
+                fontSize={12}
+              />
+            </Bar>
           </BarChart>
         </ChartContainer>
-      </div>
+    </div>
   )
 }
 

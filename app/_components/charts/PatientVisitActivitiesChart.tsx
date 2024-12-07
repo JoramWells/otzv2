@@ -25,8 +25,15 @@ const chartConfig = {
 export default function PatientVisitActivitiesChart () {
   const { data: dtm } = useGetAllUserPatientCountQuery()
 
+  const formatData = React.useCallback(()=>{
+    return dtm?.map(item=>({
+      date:item?.date,
+      count: Number(item?.count)
+    }))
+  },[dtm])
+
   return (
-    <div className="bg-white rounded-lg pb-4 pt-2">
+    <div className="bg-white rounded-lg pb-4 pt-2 w-full">
       <div className="p-2 pt-0">
         <p className="font-semibold text-slate-700">Recent Patient Visits</p>
       </div>
@@ -36,10 +43,10 @@ export default function PatientVisitActivitiesChart () {
       >
         <BarChart
           accessibilityLayer
-          data={dtm}
+          data={formatData()??[]}
           margin={{
             left: 12,
-            right: 12
+            right: 12,
           }}
         >
           <CartesianGrid vertical={false} />
@@ -50,11 +57,11 @@ export default function PatientVisitActivitiesChart () {
             tickMargin={8}
             minTickGap={32}
             tickFormatter={(value) => {
-              const date = new Date(value as Date)
-              return date.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric'
-              })
+              const date = new Date(value as Date);
+              return date.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              });
             }}
           />
           <ChartTooltip
@@ -63,18 +70,18 @@ export default function PatientVisitActivitiesChart () {
                 className="w-[150px]"
                 nameKey="visits"
                 labelFormatter={(value) => {
-                  return new Date(value as Date).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric'
-                  })
+                  return new Date(value as Date).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  });
                 }}
               />
             }
           />
-          <Bar dataKey="count" fill={'var(--color-count)'} />
+          <Bar dataKey="count" fill={"var(--color-count)"} />
         </BarChart>
       </ChartContainer>
     </div>
-  )
+  );
 }

@@ -17,6 +17,8 @@ import { useUserContext } from '@/context/UserContext'
 import { importantPatientColumn } from '../patients/_components/columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useGetCALHIVByHospitalIDQuery } from '@/api/patient/calhiv.api'
+import { useCallback } from 'react'
+import HorizontalLineChart from '@/components/Recharts/HorizontalLineChart'
 // import { UserInterface } from 'otz-types'
 // import { useSession } from 'next-auth/react'
 
@@ -134,6 +136,15 @@ const UserDashboardPage = () => {
 
   console.log(hospitalData, 'hdata')
 
+  const formattedData = useCallback(() => {
+    return Object.entries(hospitalData || {}).filter(([key]) => key.startsWith('age_'))?.map(([category, count]) => ({
+      count: Number(count),
+      line: category
+    }))
+  }, [hospitalData])()
+
+  console.log(formattedData, 'Fdata')
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
@@ -144,22 +155,30 @@ const UserDashboardPage = () => {
 
         <PieChart data={pieChartData} />
       </div> */}
-      <div
-      className='p-2'
-      >
+      <div className="p-2 flex flex-row items-center justify-between space-x-2">
         <PatientVisitActivitiesChart />
+
+        <div className='w-1/3'>
+          <HorizontalLineChart
+            data={formattedData ?? []}
+            dataKey="count"
+            label="line"
+          />
+        </div>
       </div>
 
       <div className="flex justify-between pl-2 pr-2 pb-2 space-x-2">
         {/* <PopulationTypeChart data={data || []} /> */}
         <div className="p-2 bg-white rounded-lg flex-1  ">
-          <h3 className="font-semibold ml-2 text-slate-700 mb-2 ">Frequently Accessed</h3>
+          <h3 className="font-semibold ml-2 text-slate-700 mb-2 ">
+            Frequently Accessed
+          </h3>
 
-            <CustomTable
-              isSearch={false}
-              data={importantPatients ?? []}
-              columns={importantPatientColumn}
-            />
+          <CustomTable
+            isSearch={false}
+            data={importantPatients ?? []}
+            columns={importantPatientColumn}
+          />
 
           {/*
             {value === 2 && (
