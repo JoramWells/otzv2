@@ -113,12 +113,12 @@ const NotifyPage = () => {
   const { data: artPrescriptionData, isLoading: loadingArtPrescription } =
     useGetAllArtPrescriptionQuery(
       {
-        hospitalID: user?.hospitalID as string,
+        hospitalID: user?.hospitalID as string
       },
       {
-        skip: !user?.hospitalID,
+        skip: !user?.hospitalID
       }
-    );
+    )
 
   const [value, setValue] = useState(1)
 
@@ -129,13 +129,12 @@ const NotifyPage = () => {
     skip: !user?.hospitalID
   })
 
-  const formatData = useCallback(()=>{
-    return artP?.map(item=>({
+  const formatData = useCallback(() => {
+    return artP?.map(item => ({
       line: item?.line,
       count: Number(item?.count)
     }))
-  },[artP])
-
+  }, [artP])
 
   return (
     <>
@@ -153,7 +152,7 @@ const NotifyPage = () => {
         {/*  */}
 
         <HorizontalLineChart
-          data={formatData() as ARTPrescriptionInterface[]}
+          data={formatData() ?? []}
           isLoading={loadingArtPrescription}
           dataKey={'count'}
           label={'line'}
