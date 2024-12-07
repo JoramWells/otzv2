@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { type HorizontalLineChartParams } from '@/components/Recharts/HorizontalLineChart'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type ARTPrescriptionInterface } from 'otz-types'
 
@@ -34,7 +35,7 @@ export const artPrescriptionApi = createApi({
     getArtPrescription: builder.query({
       query: (id) => `detail/${id}`
     }),
-    getArtPrescriptionByCategory: builder.query<any, { hospitalID: string }>({
+    getArtPrescriptionByCategory: builder.query<HorizontalLineChartParams[], { hospitalID: string }>({
       query: (params) => {
         if (params) {
           const { hospitalID } = params

@@ -134,16 +134,12 @@ const UserDashboardPage = () => {
   }
   )
 
-  console.log(hospitalData, 'hdata')
-
   const formattedData = useCallback(() => {
     return Object.entries(hospitalData || {}).filter(([key]) => key.startsWith('age_'))?.map(([category, count]) => ({
       count: Number(count),
       line: category
     }))
   }, [hospitalData])()
-
-  console.log(formattedData, 'Fdata')
 
   return (
     <>
