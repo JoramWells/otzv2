@@ -1,12 +1,11 @@
 'use client'
 
-import { useGetAllVitalSignsQuery } from '@/api/lab/vitalSigns.api'
+import { type ExtendedVitalSignsInterface, useGetAllVitalSignsQuery } from '@/api/lab/vitalSigns.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useUserContext } from '@/context/UserContext'
 import React, { useEffect, useState } from 'react'
 import { columns } from './columns'
 import dynamic from 'next/dynamic'
-import { type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
 import { Skeleton } from '@/components/ui/skeleton'
 
 const BreadcrumbComponent = dynamic(
@@ -34,7 +33,7 @@ const VitalSignsPage = () => {
   const { authUser } = useUserContext()
   const [total, setTotal] = useState(0)
   const [search, setSearch] = useState('')
-  const [vlData, setVLData] = useState<ExtendedViralLoadInterface[]>([])
+  const [vlData, setVLData] = useState<ExtendedVitalSignsInterface[]>([])
   const { data, isLoading } = useGetAllVitalSignsQuery({
     hospitalID: authUser?.hospitalID,
     page: 1,

@@ -26,8 +26,8 @@ import { Skeleton } from '../ui/skeleton'
 //   }
 // } satisfies ChartConfig
 
-// const colorSet = [1, 2, 3, 4, 5]
-// let colorIndex = 0
+const colorSet = [1, 2, 3, 4, 5]
+let colorIndex = 0
 
 export interface HorizontalLineChartParams {
   line: string
@@ -36,9 +36,9 @@ export interface HorizontalLineChartParams {
 }
 
 const getNextColor = () => {
-  // const nextColor = colorSet[colorIndex % colorSet.length]
-  // colorIndex++
-  return 'hsl(210, 20%, 70%)'
+  const nextColor = colorSet[colorIndex % colorSet.length]
+  colorIndex++
+  return `hsl(var(--chart-${nextColor}))`
 }
 
 interface HorizontalLineChartInputProps {
@@ -56,7 +56,7 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey }: HorizontalLine
       }
     }
     data?.forEach(item => {
-      const formattedLine = item.label?.split(' ')[0]
+      const formattedLine = item.label?.split(' ')[0]?.toLowerCase()
       if (formattedLine != null) {
         config[formattedLine] = {
           label: formattedLine,
@@ -76,8 +76,8 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey }: HorizontalLine
   }, [label, tempData])()
 
   const transformData = () => fData?.reduce((acc: any[], { line, count }) => {
-    const formattedLine = line.split(' ')[0]
-    const colorVar = `var(--color-${line?.split(' ')[0]})`
+    const formattedLine = line.split(' ')[0]?.toLowerCase()
+    const colorVar = `var(--color-${formattedLine})`
 
     // const existingEntry = acc.find(item => item.line === formattedLine)
     // if (existingEntry != null) {
@@ -89,7 +89,7 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey }: HorizontalLine
       fill: colorVar
     })
     // }
-    // console.log(!Object.values(acc).some((value) => Number.isNaN(value)))
+    // console.log(!Object .values(acc).some((value) => Number.isNaN(value)))
     return acc
   }, [])
   if (isLoading ?? false) {

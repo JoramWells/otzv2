@@ -213,7 +213,7 @@ const AppointmentHomepage = () => {
            flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
           >
             <div className="flex flex-row space-x-2 items-center">
-              <p className="text-slate-700 text-[16px] ">
+              <p className="text-slate-700 text-[16px] capitalize ">
                 {value} appointments
               </p>
               <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">

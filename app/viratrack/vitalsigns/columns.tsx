@@ -3,12 +3,11 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import moment from 'moment'
 import Link from 'next/link'
-import { Badge } from '@/components/ui/badge'
 import Avatar from '@/components/Avatar'
-import { type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
+import { type ExtendedVitalSignsInterface } from '@/api/lab/vitalSigns.api'
 // import { FaEdit } from 'react-icons/fa'
 
-export const columns: Array<ColumnDef<ExtendedViralLoadInterface>> = [
+export const columns: Array<ColumnDef<ExtendedVitalSignsInterface>> = [
   {
     accessorKey: 'patient',
     header: 'Name',
@@ -27,46 +26,22 @@ export const columns: Array<ColumnDef<ExtendedViralLoadInterface>> = [
     )
   },
   {
-    accessorKey: 'vlResults',
-    header: 'Viral Load',
+    accessorKey: 'height',
+    header: 'Height',
     cell: ({ row }) => (
-      <p className="text-slate-500 text-[12px] ">
-        {row.original.vlResults}
-      </p>
+      <p className="text-slate-500 text-[12px] ">{row.original.height}</p>
     )
   },
   {
-    accessorKey: 'vlJustification',
-    header: 'Justification',
-    cell: ({ row }) => (
-      <p className="text-[12px]">{row.original.vlJustification}</p>
-    )
-  },
-  {
-    accessorKey: 'dateOfVL',
-    header: 'Date',
-    cell: ({ row }) => (
-      <p className="text-[12px]">
-        {' '}
-        {moment(row.original.dateOfVL).format('ll')}{' '}
-      </p>
-    )
-  },
-  {
-    accessorKey: 'isVLValid',
-    header: 'Status',
-    cell: ({ row }) => (
-      <>
-        {(row.original.isVLValid === true) ? (
-          <Badge className="rounded-full text-[12px] bg-teal-50 text-teal-600 shadow-none hover:bg-gray-50 ">
-           Valid
-          </Badge>
-        ) : (
-          <Badge className="bg-red-50 text-[12px] text-red-500 shadow-none rounded-full hover:bg-red-50 ">
-            Invalid
-          </Badge>
-        )}
-      </>
-    )
+    accessorKey: 'weight',
+    header: 'Weight',
+    cell: ({ row }) => <p className="text-[12px]">{row.original.weight}</p>
+  }, {
+    accessorKey: 'createdAt',
+    header: 'Created At',
+    cell: ({ row }) => <p
+    className='text-[12px] text-slate-500'
+    >{moment(row.original.createdAt).format('ll')}</p>
   }
+
 ]

@@ -109,7 +109,7 @@ export function AppointmentBarChart ({ data, label, dataKey }: BarChartInputPara
               key={key}
               dataKey={key}
               fill={chartConfig[key].color}
-              // radius={[4, 4, 0, 0]}
+              radius={5}
               stackId={'a'}
             />
           ))}

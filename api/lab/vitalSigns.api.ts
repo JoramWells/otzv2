@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { type ExtendedViralLoadInterface } from '../enrollment/viralLoadTests.api'
+import { type PatientAttributes, type VitalSignsInterface } from 'otz-types'
 
 export interface VitalSignsResponseInterface {
-  data: ExtendedViralLoadInterface[]
+  data: ExtendedVitalSignsInterface[]
   page: number
   total: number
   pageSize: number
@@ -18,6 +18,8 @@ export interface VitalSignsInputParams {
   searchQuery?: string
   hospitalID?: string
 }
+
+export type ExtendedVitalSignsInterface = VitalSignsInterface & { Patient: PatientAttributes }
 
 export const vitalSignsApi = createApi({
   reducerPath: 'vitalSignsApi',
