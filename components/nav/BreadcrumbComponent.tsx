@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 import { useGetHospitalQuery } from '@/api/hospital/hospital.api'
 import {
   Breadcrumb,
@@ -19,9 +20,9 @@ interface DataListProps {
 }
 
 export default function BreadcrumbComponent ({ dataList }: DataListProps) {
-  const { authUser } = useUserContext()
-  const { data } = useGetHospitalQuery(authUser?.hospitalID, {
-    skip: (authUser?.hospitalID) == null
+  const { hospitalID } = useUserContext()
+  const { data } = useGetHospitalQuery(hospitalID as string, {
+    skip: hospitalID == null
   })
   return (
     <Breadcrumb className="pl-4 pr-4 pt-2 pb-2 bg-white flex justify-between items-center ">
