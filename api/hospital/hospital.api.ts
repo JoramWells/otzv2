@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type HospitalAttributes } from 'otz-types'
@@ -31,6 +32,20 @@ export const hospitalApi = createApi({
     getHospital: builder.query<ExtendedHospitalInterface, string>({
       query: (id) => `detail/${id}`
     }),
+    getAllSearchedHospital: builder.query<
+    ExtendedHospitalInterface[],
+    { searchQuery: string }
+    >({
+      query: (params) => {
+        if (params) {
+          const { searchQuery } = params
+          let queryString = ''
+          queryString += `searchQuery=${searchQuery}`
+          return `/search-hospital/?${queryString}`
+        }
+        return 'search-hospital'
+      }
+    }),
     updateHospital: builder.mutation<void, any>({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
@@ -58,5 +73,5 @@ export const hospitalApi = createApi({
 
 export const {
   useGetAllHospitalsQuery, useAddHospitalsMutation, useGetHospitalQuery, useUpdateHospitalMutation,
-  useDeleteHospitalMutation, useUpdateHospitalLocationMutation
+  useDeleteHospitalMutation, useUpdateHospitalLocationMutation, useGetAllSearchedHospitalQuery
 } = hospitalApi

@@ -12,12 +12,16 @@ import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { type PatientAttributes, type UserInterface } from 'otz-types'
-import React, { type ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import TaskOne from '@/app/_components/home-visit/forms/TaskOne'
-import { Input } from '@/components/ui/input'
 import { useGetAllSearchedPatientsQuery } from '@/api/patient/patients.api'
-import debounce from 'lodash/debounce'
+import SearchInputDropDown, { type SelectInputProps } from '@/components/forms/SearchInputDropDown'
 
 const dataList2 = [
   {
@@ -54,17 +58,7 @@ const HomeVisitAdd = () => {
   // const { data: patientData } = useGetAllPatientsQuery({
   //   hospitalID: user?.hospitalID as string
   // })
-  const [patientID, setPatientID] = useState('')
-  // const patientDataOptions = useCallback(() => {
-  //   return (
-  //     patientData?.map((item: PatientAttributes) => ({
-  //       id: item.id as string,
-  //       label: `${item.firstName} ${item.middleName}`
-  //     })) ?? []
-  //   )
-  // }, [patientData])()
 
-  //
   const [homeVisitReason, setHomeVisitReason] = useState('')
   const [dateRequested, setDateRequested] = useState('')
   const [frequency, setFrequency] = useState('')
@@ -75,34 +69,17 @@ const HomeVisitAdd = () => {
     useAddPatientVisitMutation()
 
   //
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState<SelectInputProps>({ id: '', label: '' })
 
-  const { data } = useGetAllSearchedPatientsQuery({
-    hospitalID: user?.hospitalID as string,
-    searchQuery: search
-  }, {
-    skip: !user?.hospitalID
-  })
-
-  const debounceSearch = useMemo(() => {
-    // setSearch(value)
-    return debounce(async (value: string) => {
-      setSearch(value)
-    }, 500)
-  }, [])
-
-  console.log(data, 'datam')
-
-  useEffect(() => {
-    debounceSearch?.(search)
-    return () => debounceSearch?.cancel()
-  }, [debounceSearch, search])
-
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearch && setSearch(value)
-    // debounceSearch && debounceSearch(value)
-  }
+  const { data } = useGetAllSearchedPatientsQuery(
+    {
+      hospitalID: user?.hospitalID as string,
+      searchQuery: search?.label as string
+    },
+    {
+      skip: !user?.hospitalID
+    }
+  )
 
   const inputValues = useMemo(
     () => [
@@ -123,45 +100,35 @@ const HomeVisitAdd = () => {
     const newVisitID = uuidv4()
     const visitInputValues = {
       userID,
-      patientID,
+      patientID: search?.id,
       id: newVisitID
     }
-    await addPatientVisit(visitInputValues).then(async (res) => {
-      await addHomeVisitConfig({
-        ...inputValues[0],
-        patientVisitID: res.data.id
+    if (search?.id) {
+      await addPatientVisit(visitInputValues).then(async (res) => {
+        await addHomeVisitConfig({
+          ...inputValues[0],
+          patientVisitID: res.data.id
+        })
       })
-    })
+    }
 
     //
     // if (visitData?.id) {
     //   // setPatientVisitID(visitData.id)
     //   await addHomeVisitConfig(inputValues[0])
     // }
-  }, [addHomeVisitConfig, addPatientVisit, inputValues, patientID, userID])
+  }, [addHomeVisitConfig, addPatientVisit, inputValues, search?.id, userID])
 
   const router = useRouter()
 
   useEffect(() => {
     if (homeData) {
       router.push(
-        `/home-visit/config/visit/${homeData?.id}?patientID=${patientID}`
+        `/home-visit/config/visit/${homeData?.id}?patientID=${search?.id}`
       )
     }
-  }, [homeData, patientID, router])
-  const [isOpen, setIsOpen] = useState(false)
+  }, [homeData, search?.id, router])
   const [visitData, setVisitData] = useState<PatientAttributes[]>([])
-
-  const dropDownRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const handleMouseClickOutside = (e: MouseEvent) => {
-      if (dropDownRef.current && !dropDownRef.current.contains(e.target as Node)) {
-        setIsOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleMouseClickOutside)
-    return () => document.removeEventListener('mousedown', handleMouseClickOutside)
-  }, [])
 
   useEffect(() => {
     if (data) {
@@ -195,80 +162,50 @@ const HomeVisitAdd = () => {
                 </p>
               </div>
             </div>
-            <div className="relative w-full p-2" ref={dropDownRef}>
-  <form action="">
-    <label htmlFor="" className='text-slate-700 text-[14px] font-semibold ' >Search user</label>
-  <Input
-              placeholder="Identify client..."
-              className="shadow-none"
-              value={search}
-              onChange={handleSearch}
-              onFocus={() => setIsOpen(true)}
+            <SearchInputDropDown
+              data={visitData}
+              search={search}
+              setSearch={setSearch}
             />
-                        {isOpen && <div className="absolute bg-white shadow-lg left-0 right-4 rounded-lg border max-h-[200px] overflow-y-auto border-slate-200 flex-1 w-full mt-1">
-              { visitData?.length > 0
-                ? <>
-            {visitData?.map(item => <div
-            key={item?.id}
-            className='p-2 hover:bg-slate-50'
-            onClick={() => {
-              setIsOpen(false)
-              setPatientID(item?.id as string)
-              setSearch(item?.firstName as string)
-            }}
-            >
-              {item?.firstName}
-            </div>)}
-            </>
-                : <div
-                className='p-2'
-                >
-                  <p>No results</p>
+            {/*  */}
+            {search?.id
+              ? (
+              <div>
+                <div className="w-full rounded-lg bg-white mt-2 ">
+                  <TaskOne
+                    homeVisitReason={homeVisitReason}
+                    setHomeVisitReason={setHomeVisitReason}
+                    dateRequested={dateRequested}
+                    setDateRequested={setDateRequested}
+                    frequency={frequency}
+                    setFrequency={setFrequency}
+                  />
+                  <Button
+                    className="m-4 mt-0"
+                    size={'sm'}
+                    onClick={async () => {
+                      await handleStartVisit()
+                    }}
+                  >
+                    {(isLoadingVisit || isLoading) && (
+                      <Loader2 className="mr-2 animate-spin " size={18} />
+                    )}
+                    Continue
+                    <ArrowRight className="ml-2" size={18} />
+                  </Button>
                 </div>
-            }
-              </div>}
-  </form>
-
-          </div>
-          {/*  */}
-          {patientID
-            ? (
-            <div>
-              <div className="w-full rounded-lg bg-white mt-2 ">
-                <TaskOne
-                  homeVisitReason={homeVisitReason}
-                  setHomeVisitReason={setHomeVisitReason}
-                  dateRequested={dateRequested}
-                  setDateRequested={setDateRequested}
-                  frequency={frequency}
-                  setFrequency={setFrequency}
-                />
-                <Button
-                  className="m-4 mt-0"
-                  size={'sm'}
-                  onClick={async () => {
-                    await handleStartVisit()
-                  }}
-                >
-                  {(isLoadingVisit || isLoading) && (
-                    <Loader2 className="mr-2 animate-spin " size={18} />
-                  )}
-                  Continue
-                  <ArrowRight className="ml-2" size={18} />
-                </Button>
               </div>
-            </div>
-              )
-            : <div
-          className='border-dashed border-slate-200 p-2 bg-gray-50 rounded-lg m-2 border'
-          >
-            <p className='text-slate-700 font-semibold' >Select client</p>
-            <p className='text-[12px] text-slate-500' >No client has been selected. Please search and select if you want to perform a homevisit</p>
+                )
+              : (
+              <div className="border-dashed border-slate-200 p-2 bg-gray-50 rounded-lg m-2 border">
+                <p className="text-slate-700 font-semibold">Select client</p>
+                <p className="text-[12px] text-slate-500">
+                  No client has been selected. Please search and select if you
+                  want to perform a homevisit
+                </p>
+              </div>
+                )}
           </div>
-          }
-
-          </div>
-
         </div>
       </div>
     </div>

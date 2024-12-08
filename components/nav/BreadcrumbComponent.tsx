@@ -1,3 +1,4 @@
+import { useGetHospitalQuery } from '@/api/hospital/hospital.api'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -5,6 +6,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
+import { useUserContext } from '@/context/UserContext'
 import { Fragment } from 'react'
 
 interface DataListProps {
@@ -17,8 +19,12 @@ interface DataListProps {
 }
 
 export default function BreadcrumbComponent ({ dataList }: DataListProps) {
+  const { authUser } = useUserContext()
+  const { data } = useGetHospitalQuery(authUser?.hospitalID, {
+    skip: (authUser?.hospitalID) == null
+  })
   return (
-    <Breadcrumb className="p-4 bg-white  ">
+    <Breadcrumb className="pl-4 pr-4 pt-2 pb-2 bg-white flex justify-between items-center ">
       <BreadcrumbList>
         {dataList.map((item, index) => (
           <Fragment key={item.id}>
@@ -32,6 +38,20 @@ export default function BreadcrumbComponent ({ dataList }: DataListProps) {
           </Fragment>
         ))}
       </BreadcrumbList>
+      <div
+      className='flex space-x-2 items-center'
+      >
+        <p
+        className='text-[12px] font-semibold text-slate-700'
+        >
+          {data?.hospitalName}
+        </p>
+        <p
+        className='text-slate-500 text-[12px]'
+        >
+          {data?.mflCode}
+        </p>
+      </div>
     </Breadcrumb>
   )
 }

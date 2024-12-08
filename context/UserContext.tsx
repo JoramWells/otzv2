@@ -21,21 +21,25 @@ import { useGetPatientByUserIDQuery } from '@/api/patient/patients.api'
 
 export interface AppContext {
   user: PatientAttributes | undefined
+  hospitalID: string | undefined
   authUser: UserInterface | undefined
   onlineUsers: PatientAttributes[]
   userSocket: Socket | undefined
   // setAuthUser: Dispatch<SetStateAction<UserInterface | undefined>>;
   setUser: Dispatch<SetStateAction<PatientAttributes | undefined>>
   setModuleID: Dispatch<SetStateAction<string | undefined | null>>
+  setHospitalID: Dispatch<SetStateAction<string | undefined>>
 }
 
 const initialState: AppContext = {
   user: undefined,
   authUser: undefined,
+  hospitalID: undefined,
   userSocket: undefined,
   onlineUsers: [],
   setUser: () => {},
-  setModuleID: () => {}
+  setModuleID: () => {},
+  setHospitalID: () => {}
 }
 
 export const UserContext = createContext(initialState)
@@ -50,6 +54,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { data: patientData } = useGetPatientByUserIDQuery(session?.user.id as string)
   const [userSocket, setUserSocket] = useState<Socket>()
   const [moduleID, setModuleID] = useState<string | undefined | null>()
+  const [hospitalID, setHospitalID] = useState<string | undefined>('')
   useEffect(() => {
     if (status === 'loading') {
       return
@@ -61,6 +66,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       router.push('/login')
     }
   }, [status, router])
+
+  useEffect(() => {
+    if ((authUser?.hospitalID) != null) {
+      setHospitalID(authUser?.hospitalID)
+    }
+  }, [authUser?.hospitalID])
 
   useEffect(() => {
     if (session != null) {
@@ -110,7 +121,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         onlineUsers,
         userSocket,
         setModuleID,
-        authUser
+        authUser,
+        hospitalID,
+        setHospitalID
       }}
     >
       {children}

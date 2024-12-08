@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -9,16 +10,36 @@ import Image from 'next/image'
 import { type UserInterface } from 'otz-types'
 import { useCallback, useEffect, useState } from 'react'
 import { UserProfile } from '../users/UserProfile'
-import { useUpdateHospitalLocationMutation } from '@/api/hospital/hospital.api'
+import { useGetAllSearchedHospitalQuery, useUpdateHospitalLocationMutation } from '@/api/hospital/hospital.api'
 import { useUserContext } from '@/context/UserContext'
 import { Loader2, Locate } from 'lucide-react'
 import { useToast } from '../ui/use-toast'
+import { Input } from '../ui/input'
+import SearchInputDropDown, { type SelectInputProps } from '../forms/SearchInputDropDown'
 // import { BellIcon } from 'lucide-react'
 export const Sidebar = ({ children, isSearchable = true }: { children: React.ReactNode, isSearchable?: boolean }) => {
   const { isSidebarOpen } = useSidebar()
   const { data: session } = useSession()
   const [user, setUser] = useState<Partial<UserInterface>>()
-  const { authUser } = useUserContext()
+  const [search, setSearch] = useState<SelectInputProps>({ id: '', label: '' })
+  const { setHospitalID } = useUserContext()
+  const { data: hData } = useGetAllSearchedHospitalQuery({
+    searchQuery: search?.label as string
+  })
+
+  useEffect(() => {
+    if (search?.id) {
+      setHospitalID(search?.id)
+    }
+  }, [search?.id, setHospitalID])
+
+  const hospitalOptions = useCallback(() => {
+    return hData?.map(item => ({
+      id: item?.id,
+      label: item?.hospitalName
+    }))
+  }, [hData])
+
   useEffect(() => {
     if (session) {
       const transformedUser: Partial<UserInterface> = {
@@ -89,6 +110,11 @@ export const Sidebar = ({ children, isSearchable = true }: { children: React.Rea
           // quality={100}
         />
       </div>
+  <SearchInputDropDown
+  data={hospitalOptions() ?? []}
+  setSearch={setSearch}
+  search={search}
+  />
 
       {children}
       {/* <div className="absolute w-full bottom-0 flex flex-col items-center p-2">

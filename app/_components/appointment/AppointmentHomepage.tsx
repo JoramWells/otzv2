@@ -8,10 +8,9 @@ import { columns } from '@/app/appointments/columns'
 import { useGetAllAppointmentsQuery, type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import debounce from 'lodash/debounce'
-import { useSession } from 'next-auth/react'
-import { type UserInterface } from 'otz-types'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'
 import { Badge } from '@/components/ui/badge'
+import { useUserContext } from '@/context/UserContext'
 export interface AppointmentResponseInterface {
   data: ExtendedAppointmentInputProps[]
   page: number
@@ -30,21 +29,13 @@ const AppointmentHomepage = () => {
   const [search, setSearch] = useState('')
   const [value, setValue] = useState<string | null>(tab)
   const [agendaValue, setAgenda] = useState<string | null>()
-  const [user, setUser] = useState<UserInterface>()
   const [pageSize, setPageSize] = useState(1)
-
-  const { data: session } = useSession()
-
-  useEffect(() => {
-    if (session) {
-      setUser(session.user as UserInterface)
-    }
-  }, [session])
+  const { hospitalID, authUser } = useUserContext()
 
   const { data, isLoading } = useGetAllAppointmentsQuery({
     mode: 'all',
     date: '2022-01-01',
-    hospitalID: user?.hospitalID as string,
+    hospitalID: (authUser?.role !== 'admin') ? hospitalID as string : '',
     page: Number(page) ?? 1,
     pageSize: 10,
     searchQuery: search,
@@ -52,7 +43,7 @@ const AppointmentHomepage = () => {
     agenda: agendaValue
   },
   {
-    skip: !user?.hospitalID
+    skip: !hospitalID
   }
   )
 
