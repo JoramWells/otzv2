@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
-import { useGetHospitalQuery } from '@/api/hospital/hospital.api'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,7 +6,6 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
-import { useUserContext } from '@/context/UserContext'
 import { Fragment } from 'react'
 
 interface DataListProps {
@@ -20,17 +18,16 @@ interface DataListProps {
 }
 
 export default function BreadcrumbComponent ({ dataList }: DataListProps) {
-  const { hospitalID } = useUserContext()
-  const { data } = useGetHospitalQuery(hospitalID as string, {
-    skip: hospitalID == null
-  })
+  // const { data } = useGetHospitalQuery(hospitalID as string, {
+  //   skip: hospitalID == null
+  // })
   return (
-    <Breadcrumb className="pl-4 pr-4 pt-2 pb-2 bg-white flex justify-between items-center ">
+    <Breadcrumb className="p-4 bg-white flex justify-between items-center ">
       <BreadcrumbList>
         {dataList.map((item, index) => (
           <Fragment key={item.id}>
             <BreadcrumbItem>
-              <BreadcrumbLink href={item.link} className={`capitalize text-[12px] ${index === dataList.length - 1 && 'text-blue-500'} `}>
+              <BreadcrumbLink href={item.link} className={`capitalize text-[12px] ${index === dataList.length - 1 && 'text-cyan-500'} `}>
                 {item.label}
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -39,7 +36,7 @@ export default function BreadcrumbComponent ({ dataList }: DataListProps) {
           </Fragment>
         ))}
       </BreadcrumbList>
-      <div
+      {/* <div
       className='flex space-x-2 items-center'
       >
         <p
@@ -52,7 +49,7 @@ export default function BreadcrumbComponent ({ dataList }: DataListProps) {
         >
           {data?.mflCode}
         </p>
-      </div>
+      </div> */}
     </Breadcrumb>
   )
 }

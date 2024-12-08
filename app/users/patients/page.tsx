@@ -20,6 +20,7 @@ import { patientColumns } from './_components/columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Badge } from '@/components/ui/badge'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
+import { useUserContext } from '@/context/UserContext'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -94,6 +95,8 @@ const Patients = () => {
   const [pageSize, setPageSize] = useState(1)
   const [caseManager, setCaseManager] = useState('')
 
+  const { authUser, hospitalID } = useUserContext()
+
   const [tabValue, setTabValue] = useState(tab)
 
   useEffect(() => {
@@ -118,7 +121,7 @@ const Patients = () => {
 
   const { data, isLoading } = useGetAllPatientsQuery(
     {
-      hospitalID: user?.hospitalID as string,
+      hospitalID: (authUser?.role !== 'admin') ? (hospitalID as string) : '',
       page: Number(page) ?? 1,
       pageSize: 10,
       searchQuery: search,
@@ -126,7 +129,7 @@ const Patients = () => {
       casemanager: casemanagerParam
     },
     {
-      skip: !user?.hospitalID && !tabValue && tabValue === tab
+      skip: !hospitalID && !tabValue && tabValue === tab
     }
   )
 
