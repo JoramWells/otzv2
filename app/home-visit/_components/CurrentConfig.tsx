@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Settings } from 'lucide-react'
+import { Settings } from 'lucide-react'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -16,50 +16,52 @@ interface CurrentCOnfigInputProps {
 const CurrentConfig = ({ homeVisitReasonDescription, frequency, dateRequested, id, patientID, isConfig = false }: CurrentCOnfigInputProps) => {
   const router = useRouter()
   return (
-    <div className="w-1/4 bg-white rounded-lg">
-      <div className="bg-slate-200 p-3 rounded-t-lg flex items-center space-x-2 ">
-        <Settings size={20} className='text-slate-500' />
-        <h3
-        className='font-semibold text-slate-700 '
-        >Config</h3>
+    <div className="w-1/3 bg-white rounded-lg border ring-1 ring-slate-100">
+      <div className="border-b p-2 rounded-t-lg flex items-center space-x-2 ">
+        <Settings size={14} className="text-slate-500" />
+        <h3 className="font-semibold text-slate-700 text-[14px] ">Config</h3>
       </div>
 
       {/*  */}
-      <div className="p-2">
-        <div className="flex justify-between p-2">
-          <h3>Reason</h3>
-          {homeVisitReasonDescription}
+      <div className="p-2 pt-0 ">
+        <div className="flex justify-between p-2 text-[12px]">
+          <h3 className="text-slate-500">Reason</h3>
+          <p className="font-semibold">{homeVisitReasonDescription}</p>
         </div>
 
         {/*  */}
         <hr />
 
-        <div className="flex justify-between p-2">
-          <h3>Frequency</h3>
-          <p>{frequency}</p>
+        <div className="flex justify-between p-2 text-[12px] ">
+          <h3 className="text-slate-500">Frequency</h3>
+          <p className="font-semibold">{frequency}</p>
         </div>
         <hr />
 
-        <div className="flex justify-between p-2">
-          <h3>Date Requested</h3>
-          <h4>{moment(dateRequested).format('ll')}</h4>
+        <div className="flex justify-between p-2 text-[12px] ">
+          <h3 className="text-slate-500">Date Requested</h3>
+          <h4 className="font-semibold">
+            {moment(dateRequested).format('ll')}
+          </h4>
         </div>
       </div>
 
       {/*  */}
       {isConfig && (
-        <Button
-          className="space-x-4 justify-between flex text-blue-500 m-4 mt-0 shadow-none "
-          variant={'outline'}
-          onClick={() => {
-            router.push(
-              `/home-visit/add-home-visit/${id}?patientID=${patientID}`
-            )
-          }}
-        >
-          Use This Config
-          <ArrowRight className='ml-2' size={18} />
-        </Button>
+        <div className='border-t p-2' >
+          <Button
+            className="text-cyan-500"
+            variant={'link'}
+            onClick={() => {
+              router.push(
+                `/home-visit/add-home-visit/${id}?patientID=${patientID}`
+              )
+            }}
+            size={'sm'}
+          >
+            Use this configuration
+          </Button>
+        </div>
       )}
     </div>
   )

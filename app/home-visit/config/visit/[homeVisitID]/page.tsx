@@ -51,7 +51,7 @@ const Page = ({ params }: { params: any }) => {
           firstName={data?.PatientVisit?.Patient.firstName}
           middleName={data?.PatientVisit?.Patient.middleName}
         />
-        <div className="p-2 flex flex-row space-x-4 items-start ">
+        <div className="p-2 flex flex-row space-x-2 items-start ">
           {/*  */}
           <CurrentConfig
             dateRequested={data?.dateRequested}
@@ -64,13 +64,13 @@ const Page = ({ params }: { params: any }) => {
             isConfig
           />
           <div className="w-1/2  rounded-lg bg-white ">
-            <div className="p-3 font-semibold flex space-x-2 items-center ">
+            <div className="p-2 font-semibold flex space-x-2 items-center ">
               <Clock
-              size={20}
+              size={14}
               className='text-slate-500'
               />
               <h4
-              className='text-slate-700'
+              className='text-slate-700 text-[14px] '
               >Recent Home Visits</h4>
             </div>
             <hr />
@@ -112,7 +112,7 @@ const Page = ({ params }: { params: any }) => {
                 ))}
               </div>
             ) : (
-              <div className="p-4 text-center text-slate-500 ">
+              <div className="p-4 text-center text-slate-500 text-[12px] ">
                 No Recent Visits
               </div>
             )}

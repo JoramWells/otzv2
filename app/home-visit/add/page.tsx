@@ -1,23 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
 import { useAddHomeVisitConfigMutation } from '@/api/homevisit/homeVisitConfig.api'
-import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
 import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
-import CustomSelect from '@/components/forms/CustomSelect'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ArrowRight, Info, Loader2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
-import { type UserInterface, type PatientAttributes } from 'otz-types'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { type PatientAttributes, type UserInterface } from 'otz-types'
+import React, { type ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import TaskOne from '@/app/_components/home-visit/forms/TaskOne'
+import { Input } from '@/components/ui/input'
+import { useGetAllSearchedPatientsQuery } from '@/api/patient/patients.api'
+import debounce from 'lodash/debounce'
 
 const dataList2 = [
   {
@@ -54,7 +54,7 @@ const HomeVisitAdd = () => {
   // const { data: patientData } = useGetAllPatientsQuery({
   //   hospitalID: user?.hospitalID as string
   // })
-  const [patientID, setPatientID] = useState()
+  const [patientID, setPatientID] = useState('')
   // const patientDataOptions = useCallback(() => {
   //   return (
   //     patientData?.map((item: PatientAttributes) => ({
@@ -75,6 +75,34 @@ const HomeVisitAdd = () => {
     useAddPatientVisitMutation()
 
   //
+  const [search, setSearch] = useState('')
+
+  const { data } = useGetAllSearchedPatientsQuery({
+    hospitalID: user?.hospitalID as string,
+    searchQuery: search
+  }, {
+    skip: !user?.hospitalID
+  })
+
+  const debounceSearch = useMemo(() => {
+    // setSearch(value)
+    return debounce(async (value: string) => {
+      setSearch(value)
+    }, 500)
+  }, [])
+
+  console.log(data, 'datam')
+
+  useEffect(() => {
+    debounceSearch?.(search)
+    return () => debounceSearch?.cancel()
+  }, [debounceSearch, search])
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSearch && setSearch(value)
+    // debounceSearch && debounceSearch(value)
+  }
 
   const inputValues = useMemo(
     () => [
@@ -121,22 +149,41 @@ const HomeVisitAdd = () => {
       )
     }
   }, [homeData, patientID, router])
+  const [isOpen, setIsOpen] = useState(false)
+  const [visitData, setVisitData] = useState<PatientAttributes[]>([])
+
+  const dropDownRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const handleMouseClickOutside = (e: MouseEvent) => {
+      if (dropDownRef.current && !dropDownRef.current.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleMouseClickOutside)
+    return () => document.removeEventListener('mousedown', handleMouseClickOutside)
+  }, [])
+
+  useEffect(() => {
+    if (data) {
+      setVisitData(data?.data)
+    }
+  }, [data])
 
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="p-2">
         <div className="bg-white rounded-lg">
-          <div className="w-1/2 p-4">
-            <div className="p-2 border-b border-slate-200 ">
+          <div className="w-1/2 border border-slate-200 rounded-lg">
+            <div className="p-2 border-b border-slate-300 bg-slate-200 rounded-t-lg ">
               <h2 className="font-semibold text-slate-700 text-[16px]  ">
                 Patient Home visit Configuration
               </h2>
             </div>
 
-            <div className="mt-4 mb-4 p-4 flex flex-row space-x-4 border border-blue-200 rounded-lg bg-blue-50 ">
+            <div className="m-2 p-4 flex flex-row space-x-4 border border-blue-200 rounded-lg bg-blue-50 ">
               <div className="bg-white rounded-full p-2 flex items-center justify-center h-10 w-10 ">
-                <Info className='text-blue-500' size={16} />
+                <Info className="text-blue-500" size={16} />
               </div>
               <div>
                 <h3 className="font-semibold text-blue-500 text-[14px]  ">
@@ -148,19 +195,46 @@ const HomeVisitAdd = () => {
                 </p>
               </div>
             </div>
-            {/* <CustomSelect
-              label="Select Patient"
-              onChange={setPatientID}
-              value={patientID as unknown as string }
-              data={patientDataOptions ?? []}
-            /> */}
+            <div className="relative w-full p-2" ref={dropDownRef}>
+  <form action="">
+    <label htmlFor="" className='text-slate-700 text-[14px] font-semibold ' >Search user</label>
+  <Input
+              placeholder="Identify client..."
+              className="shadow-none"
+              value={search}
+              onChange={handleSearch}
+              onFocus={() => setIsOpen(true)}
+            />
+                        {isOpen && <div className="absolute bg-white shadow-lg left-0 right-4 rounded-lg border max-h-[200px] overflow-y-auto border-slate-200 flex-1 w-full mt-1">
+              { visitData?.length > 0
+                ? <>
+            {visitData?.map(item => <div
+            key={item?.id}
+            className='p-2 hover:bg-slate-50'
+            onClick={() => {
+              setIsOpen(false)
+              setPatientID(item?.id as string)
+              setSearch(item?.firstName as string)
+            }}
+            >
+              {item?.firstName}
+            </div>)}
+            </>
+                : <div
+                className='p-2'
+                >
+                  <p>No results</p>
+                </div>
+            }
+              </div>}
+  </form>
+
           </div>
-
           {/*  */}
-          {patientID && (
+          {patientID
+            ? (
             <div>
-
-              <div className="w-1/2 rounded-lg bg-white mt-2 ">
+              <div className="w-full rounded-lg bg-white mt-2 ">
                 <TaskOne
                   homeVisitReason={homeVisitReason}
                   setHomeVisitReason={setHomeVisitReason}
@@ -184,7 +258,17 @@ const HomeVisitAdd = () => {
                 </Button>
               </div>
             </div>
-          )}
+              )
+            : <div
+          className='border-dashed border-slate-200 p-2 bg-gray-50 rounded-lg m-2 border'
+          >
+            <p className='text-slate-700 font-semibold' >Select client</p>
+            <p className='text-[12px] text-slate-500' >No client has been selected. Please search and select if you want to perform a homevisit</p>
+          </div>
+          }
+
+          </div>
+
         </div>
       </div>
     </div>

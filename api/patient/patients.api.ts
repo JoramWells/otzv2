@@ -32,8 +32,8 @@ export interface PatientResponseInterface {
 
 export interface PatientInputParams {
   hospitalID: string
-  page: number
-  pageSize: number
+  page?: number
+  pageSize?: number
   searchQuery: string
   casemanager?: string | null
   calHIVQuery?: string
@@ -59,8 +59,14 @@ export const patientsApi = createApi({
     >({
       query: (params) => {
         if (params) {
-          const { hospitalID, page, pageSize, searchQuery, calHIVQuery, casemanager } =
-            params
+          const {
+            hospitalID,
+            page,
+            pageSize,
+            searchQuery,
+            calHIVQuery,
+            casemanager
+          } = params
           let queryString = ''
           queryString += `hospitalID=${hospitalID}`
           queryString += `&page=${page}`
@@ -76,11 +82,13 @@ export const patientsApi = createApi({
     getAllPMTCTPatients: builder.query<any, void>({
       query: () => 'fetchAllPMTCT'
     }),
-    getAllEligibleOTZPatients: builder.query<PatientResponseInterface, PatientInputParams>({
+    getAllEligibleOTZPatients: builder.query<
+    PatientResponseInterface,
+    PatientInputParams
+    >({
       query: (params) => {
         if (params) {
-          const { hospitalID, page, pageSize, searchQuery } =
-            params
+          const { hospitalID, page, pageSize, searchQuery } = params
           let queryString = ''
           queryString += `hospitalID=${hospitalID}`
           queryString += `&page=${page}`
@@ -89,6 +97,21 @@ export const patientsApi = createApi({
           return `/fetchAllOTZ/?${queryString}`
         }
         return 'fetchAllOTZ'
+      }
+    }),
+    getAllSearchedPatients: builder.query<
+    PatientResponseInterface,
+    PatientInputParams
+    >({
+      query: (params) => {
+        if (params) {
+          const { hospitalID, searchQuery } = params
+          let queryString = ''
+          queryString += `hospitalID=${hospitalID}`
+          queryString += `&searchQuery=${searchQuery}`
+          return `/search-patients/?${queryString}`
+        }
+        return 'search-patients'
       }
     }),
     addPatient: builder.mutation({
@@ -104,7 +127,10 @@ export const patientsApi = createApi({
     getPatientByUserID: builder.query<PatientAttributes, string>({
       query: (id) => `user-patient-detail/${id}`
     }),
-    getImportantPatients: builder.query<ExtendedImportantPatientInterface[], any>({
+    getImportantPatients: builder.query<
+    ExtendedImportantPatientInterface[],
+    any
+    >({
       query: (params) => {
         if (params) {
           const { limit } = params
@@ -142,5 +168,5 @@ export const patientsApi = createApi({
 export const {
   useGetAllPatientsQuery, useUpdatePatientMutation, useGetAllPMTCTPatientsQuery, useGetAllEligibleOTZPatientsQuery,
   useDeletePatientMutation, useAddPatientMutation, useGetPatientQuery, useMarkPatientAsImportantMutation, useGetImportantPatientsQuery,
-  useGetPatientByUserIDQuery
+  useGetPatientByUserIDQuery, useGetAllSearchedPatientsQuery
 } = patientsApi
