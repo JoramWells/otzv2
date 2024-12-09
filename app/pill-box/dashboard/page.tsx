@@ -156,6 +156,7 @@ const NotifyPage = () => {
           isLoading={loadingArtPrescription}
           dataKey={'count'}
           label={'line'}
+          title='Regimen Count'
         />
 
         {/*  */}

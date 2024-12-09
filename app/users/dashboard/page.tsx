@@ -117,7 +117,7 @@ const UserDashboardPage = () => {
 
   // uniqueYears.sort((a: number, b: number) => a - b)
 
-  const { authUser } = useUserContext()
+  const { authUser, hospitalID } = useUserContext()
 
   const { data: importantPatients } = useGetPatientVisitByCountQuery({
     hospitalID: authUser?.hospitalID as string
@@ -126,12 +126,13 @@ const UserDashboardPage = () => {
     skip: !authUser?.hospitalID
   })
 
-  const { data: hospitalData } = useGetCALHIVByHospitalIDQuery({
-    hospitalID: authUser?.hospitalID as string
-  },
-  {
-    skip: !authUser?.hospitalID
-  }
+  const { data: hospitalData } = useGetCALHIVByHospitalIDQuery(
+    {
+      hospitalID: authUser?.role !== 'admin' ? (hospitalID as string) : ''
+    },
+    {
+      skip: !hospitalID
+    }
   )
 
   const formattedData = useCallback(() => {
@@ -159,6 +160,7 @@ const UserDashboardPage = () => {
             data={formattedData ?? []}
             dataKey="count"
             label="line"
+            title='CALHIV'
           />
         </div>
       </div>

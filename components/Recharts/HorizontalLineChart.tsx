@@ -46,26 +46,27 @@ interface HorizontalLineChartInputProps {
   isLoading?: boolean
   label: keyof HorizontalLineChartParams
   dataKey: string
+  title: string
 }
 
-const HorizontalLineChart = ({ data, isLoading, label, dataKey }: HorizontalLineChartInputProps) => {
+const HorizontalLineChart = ({ data, isLoading, label, dataKey, title }: HorizontalLineChartInputProps) => {
   const chartConfig = useMemo(() => {
     const config: ChartConfig = {
-      count: {
-        label: 'Count'
-      }
+      // count: {
+      //   label: 'Count'
+      // }
     }
     data?.forEach(item => {
-      const formattedLine = item.label?.split(' ')[0]?.toLowerCase()
-      if (formattedLine != null) {
-        config[formattedLine] = {
-          label: formattedLine,
-          color: getNextColor()
-        }
+      const formattedLine = typeof item[label] === 'string' ? item[label]?.split(' ')[0] : ''
+      // if (formattedLine?.toLowerCase() != null) {
+      config[formattedLine?.toLowerCase()] = {
+        label: formattedLine,
+        color: getNextColor()
       }
+      // }
     })
     return config
-  }, [data])
+  }, [data, label])
 
   const tempData = useMemo(() => {
     return data?.length > 0 ? [...data] : []
@@ -92,13 +93,16 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey }: HorizontalLine
     // console.log(!Object .values(acc).some((value) => Number.isNaN(value)))
     return acc
   }, [])
+
+  console.log(chartConfig, transformData())
+
   if (isLoading ?? false) {
     return <Skeleton className='max-h-[200px] flex-1 rounded-lg'/>
   }
   return (
     <div className="flex-1 rounded-lg  border-slate-100 bg-white ">
       <div className="p-2 bg-slate-100 rounded-t-lg border-b ">
-        <h3 className="font-semibold text-[14px]">Regimen Line Count</h3>
+        <h3 className="font-semibold text-[14px]">{title}</h3>
       </div>
         <ChartContainer
           config={chartConfig}

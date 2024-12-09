@@ -60,7 +60,7 @@ const PageVisits = () => {
     }
   }, [page])
 
-  const { authUser } = useUserContext()
+  const { authUser, hospitalID } = useUserContext()
 
   useEffect(() => {
     debounceSearch?.(search)
@@ -69,13 +69,13 @@ const PageVisits = () => {
 
   const { data, isLoading } = useGetAllPatientVisitsQuery(
     {
-      hospitalID: authUser?.hospitalID!,
+      hospitalID: authUser?.role !== 'admin' ? (hospitalID!) : '',
       page: Number(page) ?? 1,
       pageSize: 5,
       searchQuery: search
     },
     {
-      skip: !authUser?.hospitalID && !tabValue && tabValue === tab
+      skip: !hospitalID && !tabValue && tabValue === tab
     }
   )
 

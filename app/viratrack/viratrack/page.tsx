@@ -201,6 +201,7 @@ const TrackPage = () => {
             data={viralData || []}
             search={search}
             setSearch={setSearch}
+            total={total}
             filter={<AgeFilter />}
           />
         </div>

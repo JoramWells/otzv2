@@ -24,7 +24,7 @@ export type ExtendedVitalSignsInterface = VitalSignsInterface & { Patient: Patie
 export const vitalSignsApi = createApi({
   reducerPath: 'vitalSignsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/vital-signs`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/lab/vital-signs`
   }),
   endpoints: (builder) => ({
     getAllVitalSigns: builder.query<VitalSignsResponseInterface, VitalSignsInputParams>({

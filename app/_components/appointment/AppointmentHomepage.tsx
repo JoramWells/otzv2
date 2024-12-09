@@ -11,6 +11,7 @@ import debounce from 'lodash/debounce'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'
 import { Badge } from '@/components/ui/badge'
 import { useUserContext } from '@/context/UserContext'
+import useSearch from '@/hooks/useSearch'
 export interface AppointmentResponseInterface {
   data: ExtendedAppointmentInputProps[]
   page: number
@@ -43,24 +44,11 @@ const AppointmentHomepage = () => {
     agenda: agendaValue
   },
   {
-    skip: !hospitalID
+    skip: !hospitalID && authUser?.role !== 'admin'
   }
   )
 
-  const debounceSearch = useMemo(() => {
-    // setSearch(value)
-
-    if (page != null) {
-      return debounce(async (value: string) => {
-        setSearch(value)
-      }, 500)
-    }
-  }, [page])
-
-  useEffect(() => {
-    debounceSearch?.(search)
-    return () => debounceSearch?.cancel()
-  }, [debounceSearch, search])
+  useSearch({ search, setSearch })
 
   useEffect(() => {
     if (data) {
