@@ -39,14 +39,20 @@ export default function CustomPieChart ({ data }: { data: any[] }) {
   )
 
   return (
-    <div className="w-1/4 bg-white rounded-lg">
-      <p className='text-[14px] font-bold ml-4 mt-4' >Appointment Status</p>
+    <div className="w-1/4 bg-white rounded-lg border border-slate-200 ring ring-slate-100">
+      <div
+      className='p-2 bg-slate-50 rounded-t-lg border-b border-slate-100'
+      >
+        <p className="text-[14px] text-slate-900 font-semibold">
+          Appointment Status
+        </p>
+      </div>
       <ChartContainer
         config={chartConfig}
         className="mx-auto aspect-square max-h-[250px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
       >
         <PieChart>
-          <ChartTooltip content={<ChartTooltipContent hideLabel/>} />
+          <ChartTooltip content={<ChartTooltipContent hideLabel />} />
           <Pie data={chartData} dataKey="visitors" nameKey="browser">
             <LabelList
               dataKey="browser"

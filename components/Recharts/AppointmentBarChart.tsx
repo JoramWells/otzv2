@@ -59,13 +59,13 @@ export function AppointmentBarChart ({ data, label, dataKey }: BarChartInputPara
   // const chartConfig = generateChartConfig(data)
 
   return (
-    <div className="h-[300px] flex-1 bg-white p-2">
+    <div className="h-[300px] flex-1 bg-white border ring ring-slate-100 rounded-lg border-slate-200">
       <div
-        className="flex flex-row items-center justify-between
-      pl-4 pr-4 pt-2
+        className="flex flex-row items-center justify-between bg-slate-50 border-b border-slate-100
+      p-2 rounded-t-lg
       "
       >
-        <h4 className="font-semibold text-slate-700">Trend</h4>
+        <h4 className="font-semibold text-slate-900 text-[14px]">Upcoming Analysis Distribution</h4>
       </div>
       <ChartContainer config={chartConfig} className="aspect-auto h-[250px] ">
         <BarChart

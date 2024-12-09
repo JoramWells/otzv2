@@ -79,7 +79,7 @@ export default function PatientVisitActivitiesChart () {
               />
             }
           />
-          <Bar dataKey="count" fill={'var(--color-count)'} />
+          <Bar dataKey="count" fill={'var(--color-count)'} radius={5} />
         </BarChart>
       </ChartContainer>
     </div>
