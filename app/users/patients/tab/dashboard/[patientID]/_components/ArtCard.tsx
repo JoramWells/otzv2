@@ -10,7 +10,7 @@ interface ArtCardProps {
 const ArtCard = ({ artPrescription, regimen }: ArtCardProps) => {
   return (
     <div
-      className={`bg-white p-2 flex-1 justify-between relative border-l-4 rounded
+      className={`bg-white p-2 flex-1 justify-between ring-1 ring-slate-100 relative border-l-4 rounded
     ${
       artPrescription &&
       (artPrescription?.expectedNoOfPills as unknown as number) < 0 &&
@@ -19,7 +19,7 @@ const ArtCard = ({ artPrescription, regimen }: ArtCardProps) => {
     `}
     >
       <div className="flex justify-between w-full items-center text-[14px]  ">
-        <p className="text-[14px] font-semibold text-slate-500">
+        <p className="text-[12px] font-semibold text-slate-800">
           Prescriptions
         </p>
         <p className=" text-slate-500 text-[12px] flex space-x-2 items-center">
@@ -27,7 +27,7 @@ const ArtCard = ({ artPrescription, regimen }: ArtCardProps) => {
         </p>
       </div>
       <div className="mt-2">
-        <p className="font-extrabold text-slate-700">{regimen}</p>
+        <p className="font-bold text-slate-700">{regimen}</p>
 
         {artPrescription?.expectedNoOfPills
           ? <p className="text-[12px] text-red-500 font-semibold">

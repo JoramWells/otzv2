@@ -155,13 +155,31 @@ const PatientDetails = ({ params }: any) => {
     <>
       <div className="relative">
         <BreadcrumbComponent dataList={dataList2} />
-        <div className="absolute flex flex-row space-x-2 items-center right-2 top-2">
+      </div>
+      <div className="flex flex-row space-x-2 justify-between mt-2 p-2 bg-white ">
+        {isLoadingPatientData ? (
+          <Skeleton className="w-[100px] h-8" />
+        ) : isError ? (
+          <div>error...</div>
+        ) : (
+          <PatientProfileDropdown
+            id={patientData?.id}
+            cccNo={patientData?.cccNo}
+            dob={patientData?.dob}
+            firstName={patientData?.firstName}
+            middleName={patientData?.middleName}
+            phoneNo={patientData?.phoneNo}
+          />
+        )}
+        <div
+        className='flex flex-row items-center space-x-2'
+        >
           <Button
-          className='text-slate-500 flex flex-row space-x-1 shadow-none'
-          variant={'outline'}
-          size={'sm'}
+            className="text-slate-500 flex flex-row space-x-1 shadow-none"
+            variant={"outline"}
+            size={"sm"}
           >
-            <Star size={16} className='mr-1' />
+            <Star size={16} className="mr-1" />
             Star
           </Button>
           <Button
@@ -171,33 +189,22 @@ const PatientDetails = ({ params }: any) => {
                 `/users/patients/tab/steps/${patientID}?appointmentID=`
               )
             }}
-            className="shadow-none font-bold flex items-center justify-center text-white bg-teal-500 hover:bg-teal-600"
+            className="shadow-none flex items-center justify-center text-white bg-teal-500 hover:bg-teal-600"
             // variant={'outline'}
             size={"sm"}
           >
-            {isLoading ? <Loader2 className="mr-1 animate-spin" size={16} /> : <Plus size={16} className='mr-1' />}
+            {isLoading ? (
+              <Loader2 className="mr-1 animate-spin" size={16} />
+            ) : (
+              <Plus size={16} className="mr-1" />
+            )}
             <>
               New Visit
               {/* <ArrowRight size={16} className="ml-2" /> */}
             </>
           </Button>
-          {isLoadingPatientData ? (
-            <Skeleton className="w-[100px] h-8" />
-          ) : isError ? (
-            <div>error...</div>
-          ) : (
-            <PatientProfileDropdown
-            id={patientData?.id}
-              cccNo={patientData?.cccNo}
-              dob={patientData?.dob}
-              firstName={patientData?.firstName}
-              middleName={patientData?.middleName}
-              phoneNo={patientData?.phoneNo}
-            />
-          )}
         </div>
       </div>
-
       {/*  */}
 
       {!childCareGiveReadinessData &&

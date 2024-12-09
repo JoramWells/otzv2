@@ -14,13 +14,13 @@ const BodyMassIndex = ({ createdAt, weight, height }: { createdAt: Date, weight?
   }, [height, weight])
   return (
     <div
-      className={`bg-white p-2 flex-1 justify-between relative border-l-4 rounded
+      className={`bg-white p-2 flex-1 justify-between relative border-l-4 rounded ring-1 ring-slate-100
     ${bmi > 30 && 'bg-red-50  border-red-400'}
     `}
     >
       <div className="flex justify-between w-full items-center text-[14px]  ">
         <p
-          className={`text-[14px] font-semibold text-slate-500
+          className={`text-[12px] font-semibold text-slate-800
                   ${bmi > 30 && 'text-red-500'}
                   `}
         >
@@ -34,13 +34,13 @@ const BodyMassIndex = ({ createdAt, weight, height }: { createdAt: Date, weight?
       <div className="mt-1 flex items-center justify-between">
         <div className="mt-2 flex items-center space-x-4">
           <div>
-            <p className=" font-extrabold text-slate-700">{height}</p>
-            <p className="text-[12px] text-slate-500 font-semibold">Height</p>
+            <p className=" font-bold text-slate-700">{height}</p>
+            <p className="text-[12px] text-muted-foreground">Height</p>
           </div>
           <div className="text-slate-500">/</div>
           <div>
-            <p className=" font-extrabold text-slate-700">{weight}</p>
-            <p className="text-[12px] text-slate-500 font-semibold">Weight</p>
+            <p className=" font-bold text-slate-700">{weight}</p>
+            <p className="text-[12px] text-muted-foreground">Weight</p>
           </div>
         </div>
         {/*  */}
@@ -48,7 +48,7 @@ const BodyMassIndex = ({ createdAt, weight, height }: { createdAt: Date, weight?
         className='text-slate-500'
         >=</p>
         <p
-          className={` font-extrabold text-slate-700
+          className={` font-bold text-slate-700
                   ${bmi > 30 && 'text-red-500'}
                   `}
         >
