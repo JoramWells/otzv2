@@ -11,8 +11,8 @@ interface JustificationOptions {
 }
 
 interface ViralLoadInputProps {
-  vlResults: string
-  setVLResults: Dispatch<SetStateAction<string>>
+  vlResults: number
+  setVLResults: Dispatch<SetStateAction<number>>
   dateOfVL: string
   setDateOfVL: Dispatch<SetStateAction<string>>
   dateOfNextVL: string

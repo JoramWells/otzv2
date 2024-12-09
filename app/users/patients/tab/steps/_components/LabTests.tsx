@@ -61,7 +61,7 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
 
   const [dateOfVL, setDateOfVL] = useState('')
   const [dateOfNextVL, setDateOfNextVL] = useState('')
-  const [vlResults, setVLResults] = useState('')
+  const [vlResults, setVLResults] = useState(0)
   const [vlJustification, setVLJustification] = useState('')
 
   // const calculateValidity = () => {
