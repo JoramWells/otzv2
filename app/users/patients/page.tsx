@@ -7,7 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { Button } from '@/components/ui/button'
-import { ListFilter, PlusCircle } from 'lucide-react'
+import { ListFilter, PlusCircle, XIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
@@ -21,6 +21,7 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Badge } from '@/components/ui/badge'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useUserContext } from '@/context/UserContext'
+import { useGetHospitalQuery } from '@/api/hospital/hospital.api'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -94,8 +95,18 @@ const Patients = () => {
   const casemanagerParam = searchParams.get('casemanager')
   const [pageSize, setPageSize] = useState(1)
   const [caseManager, setCaseManager] = useState('')
-
   const { authUser, hospitalID } = useUserContext()
+
+  const { data: hData } = useGetHospitalQuery(authUser?.hospitalID as string, {
+    skip: !authUser?.hospitalID
+  })
+
+  const [hospitalName, setHospitalName] = useState('')
+  useEffect(() => {
+    if (hData) {
+      setHospitalName(hData?.hospitalName)
+    }
+  }, [hData])
 
   const [tabValue, setTabValue] = useState(tab)
 
@@ -136,8 +147,13 @@ const Patients = () => {
   const { data: userData } = useGetAllUsersQuery({
     // page: Number(page) ?? 1,
     // pageSize: 10,
+    hospitalName,
     searchQuery: search
-  })
+  },
+  {
+    skip: !(hospitalName.length > 0)
+  }
+  )
 
   const caseManagerOptions = useCallback(() => {
     return userData?.data?.map((item) => ({
@@ -206,7 +222,7 @@ const Patients = () => {
           placeholder="Page"
         />
         <CustomSelectParams
-          label={`Page No :- ${pageNumber(patientTotal, 10)}`}
+          label={`Case Managers :- ${pageNumber(patientTotal, 10)}`}
           paramValue="casemanager"
           onChange={setCaseManager}
           value={caseManager}
@@ -227,39 +243,49 @@ const Patients = () => {
 
   return (
     <>
-      <div className="relative">
         <BreadcrumbComponent dataList={dataList2} />
-
-        <Button
-          className="bg-teal-600 hover:bg-teal-700
-        font-bold shadow-none absolute right-2 top-2
-        "
-          onClick={() => {
-            router.push('/users/patients/add-patients')
-          }}
-          size={'sm'}
-        >
-          <PlusCircle size={15} className="mr-2" />
-          New
-        </Button>
-      </div>
 
       <div className="w-full p-2 pt-0 rounded-lg mt-2">
         <div className="bg-white rounded-lg border border-slate-200">
           <div
-            className="p-4 pb-2 pt-2 flex
+            className="p-2 pb-1 pt-1 flex
            flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
           >
-            <div className='flex flex-row space-x-2 items-center' >
+            <div className="flex flex-row space-x-2 items-center">
               <p className="text-slate-700 text-[16px] ">{tabValue}</p>
               <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
                 {patientTotal}
               </Badge>
             </div>
-            {caseManager && <Badge
-            className='hover: cursor-pointer bg-slate-50 border border-slate-200 hover:bg-slate-100 shadow-none text-black'
-            onClick={() => clearCaseManager()}
-            >{caseManager}</Badge>}
+            <div className="flex flex-row items-center space-x-2">
+              {caseManager
+                ? (
+                <Badge
+                  className="hover: cursor-pointer flex flex-row space-x-1 items-center bg-purple-100
+              border border-purple-200 hover:bg-purple-100 shadow-none text-purple-500 rounded-full"
+                  onClick={() => clearCaseManager()}
+                >
+                  <XIcon size={12} />
+                  <p>{caseManager}</p>
+                </Badge>
+                  )
+                : (
+                <p className="text-[12px] font-bold text-slate-500">
+                  No Filters
+                </p>
+                  )}
+              <Button
+                className="shadow-none"
+                size={'sm'}
+                variant={'outline'}
+                onClick={() => {
+                  router.push('/users/patients/add-patients')
+                }}
+              >
+                <PlusCircle size={14} className="mr-2" />
+                New
+              </Button>
+            </div>
           </div>
           <CustomTable
             columns={patientColumns}

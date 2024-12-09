@@ -53,8 +53,6 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
     ) || []
   }, [agendaData])
 
-  console.log(agendaDataOptions(), 'agData')
-
   //
   const { data: vlData } = useGetViralLoadTestQuery(patientID)
   const { authUser } = useUserContext()
@@ -112,7 +110,9 @@ const LabTests = ({ handleBack, handleNext, patientID, patientVisitID }: InputPr
   )
 
   //
-  const { data: allPatientVLData } = useGetAllViralLoadByPatientIDQuery(patientID)
+  const { data: allPatientVLData } = useGetAllViralLoadByPatientIDQuery(patientID, {
+    skip: !patientID
+  })
   const [average, setAverage] = useState('')
 
   const calculateAverage = (data: ViralLoadInterface[]) => {

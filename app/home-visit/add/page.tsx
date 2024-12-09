@@ -136,6 +136,13 @@ const HomeVisitAdd = () => {
     }
   }, [data])
 
+  const searchPatientsOptions = useCallback(() => {
+    return visitData?.map(item => ({
+      id: item?.id,
+      label: `${item?.firstName} ${item?.middleName}`
+    }))
+  }, [visitData])
+
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -163,7 +170,7 @@ const HomeVisitAdd = () => {
               </div>
             </div>
             <SearchInputDropDown
-              data={visitData}
+              data={searchPatientsOptions() ?? []}
               search={search}
               setSearch={setSearch}
             />
