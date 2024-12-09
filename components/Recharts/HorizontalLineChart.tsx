@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useMemo } from 'react'
 import {
   type ChartConfig,
@@ -38,7 +39,7 @@ export interface HorizontalLineChartParams {
 const getNextColor = () => {
   const nextColor = colorSet[colorIndex % colorSet.length]
   colorIndex++
-  return `hsl(var(--chart-${nextColor}))`
+  return 'hsl(var(--chart-4))'
 }
 
 interface HorizontalLineChartInputProps {
@@ -94,19 +95,17 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey, title }: Horizon
     return acc
   }, [])
 
-  console.log(chartConfig, transformData())
-
   if (isLoading ?? false) {
     return <Skeleton className='max-h-[200px] flex-1 rounded-lg'/>
   }
   return (
-    <div className="flex-1 rounded-lg  border-slate-100 bg-white ">
-      <div className="p-2 bg-slate-100 rounded-t-lg border-b ">
+    <div className="flex-1 rounded-lg ring ring-slate-100  border-slate-200 border bg-white ">
+      <div className="p-2 bg-slate-50 rounded-t-lg border-b border-slate-100 ">
         <h3 className="font-semibold text-[14px]">{title}</h3>
       </div>
         <ChartContainer
           config={chartConfig}
-          className="aspect-square h-[215px] ml-2 flex-1 w-full rounded-lg"
+          className="aspect-square h-[200px] ml-2 flex-1 w-full rounded-lg"
         >
           <BarChart
             accessibilityLayer

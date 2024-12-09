@@ -155,22 +155,26 @@ const UserDashboardPage = () => {
       <div className="p-2 flex flex-row items-center justify-between space-x-2">
         <PatientVisitActivitiesChart />
 
-        <div className='w-1/3'>
+        <div className="w-1/3">
           <HorizontalLineChart
             data={formattedData ?? []}
             dataKey="count"
             label="line"
-            title='CALHIV'
+            title="CALHIV"
           />
         </div>
       </div>
 
       <div className="flex justify-between pl-2 pr-2 pb-2 space-x-2">
         {/* <PopulationTypeChart data={data || []} /> */}
-        <div className="p-2 bg-white rounded-lg flex-1  ">
-          <h3 className="font-semibold ml-2 text-slate-700 mb-2 ">
-            Frequently Accessed
-          </h3>
+        <div className="bg-white rounded-lg flex-1  ">
+          <div
+          className='p-2'
+          >
+            <h3 className="font-semibold  text-slate-700 text-[14px] ">
+              Frequently Accessed
+            </h3>
+          </div>
 
           <CustomTable
             isSearch={false}

@@ -33,9 +33,9 @@ export default function PatientVisitActivitiesChart () {
   }, [dtm])
 
   return (
-    <div className="bg-white rounded-lg pb-4 pt-2 w-full">
-      <div className="p-2 pt-0">
-        <p className="font-semibold text-slate-700">Recent Patient Visits</p>
+    <div className="bg-white rounded-lg w-full ring ring-slate-100 border border-slate-200">
+      <div className="p-2 bg-slate-50 border-b rounded-t-lg border-slate-100">
+        <p className="font-semibold text-slate-900 text-[14px] ">Recent Patient Visits</p>
       </div>
       <ChartContainer
         config={chartConfig}
