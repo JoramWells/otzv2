@@ -156,7 +156,7 @@ const PatientDetails = ({ params }: any) => {
       <div className="relative">
         <BreadcrumbComponent dataList={dataList2} />
       </div>
-      <div className="flex flex-row space-x-2 justify-between mt-2 p-2 bg-white ">
+      <div className="flex flex-row space-x-2 justify-between mt-1 p-1 bg-white ">
         {isLoadingPatientData ? (
           <Skeleton className="w-[100px] h-8" />
         ) : isError ? (

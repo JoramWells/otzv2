@@ -27,7 +27,7 @@ const ArtCard = ({ artPrescription, regimen }: ArtCardProps) => {
         </p>
       </div>
       <div className="mt-2">
-        <p className="font-bold text-slate-700">{regimen}</p>
+        <p className="font-bold text-slate-700 text-[14px] ">{regimen}</p>
 
         {artPrescription?.expectedNoOfPills
           ? <p className="text-[12px] text-red-500 font-semibold">

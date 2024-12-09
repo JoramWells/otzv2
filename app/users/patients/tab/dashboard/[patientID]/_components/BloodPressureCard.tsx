@@ -19,7 +19,7 @@ const BloodPressureCard = ({ createdAt, systolic, diastolic }: { createdAt: Date
       </div>
       <div className="mt-2 flex items-center space-x-4">
         <div>
-          <p className=" font-bold text-slate-700">{systolic}</p>
+          <p className=" font-bold text-slate-700 text-[14px]">{systolic}</p>
           <p
           className='text-[12px] text-slate-500'
           >Systolic</p>
@@ -28,7 +28,7 @@ const BloodPressureCard = ({ createdAt, systolic, diastolic }: { createdAt: Date
         className='text-slate-500'
         >/</div>
         <div>
-          <p className=" font-bold text-slate-700">{diastolic}</p>
+          <p className=" font-bold text-slate-700 text-[14px]">{diastolic}</p>
           <p
           className='text-[12px] text-slate-500'
           >Diastolic</p>
