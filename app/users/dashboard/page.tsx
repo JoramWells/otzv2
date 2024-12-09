@@ -138,7 +138,7 @@ const UserDashboardPage = () => {
   const formattedData = useCallback(() => {
     return Object.entries(hospitalData || {}).filter(([key]) => key.startsWith('age_'))?.map(([category, count]) => ({
       count: Number(count),
-      line: category
+      line: category?.replace('age_', '')?.replace('_', '-')
     }))
   }, [hospitalData])()
 
@@ -165,14 +165,14 @@ const UserDashboardPage = () => {
         </div>
       </div>
 
-      <div className="flex justify-between pl-2 pr-2 pb-2 space-x-2">
+      <div className="flex justify-between p-2 pt-0 space-x-2">
         {/* <PopulationTypeChart data={data || []} /> */}
-        <div className="bg-white rounded-lg flex-1  ">
+        <div className="bg-white rounded-lg flex-1 border ring ring-slate-100  ">
           <div
-          className='p-2'
+          className='p-2 bg-slate-50 border-b border-slate-100 rounded-t-lg mb-2 '
           >
-            <h3 className="font-semibold  text-slate-700 text-[14px] ">
-              Frequently Accessed
+            <h3 className="font-semibold  text-slate-800 text-[14px] ">
+              Frequent Visits
             </h3>
           </div>
 

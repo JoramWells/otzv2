@@ -8,7 +8,6 @@
 import { Badge } from '@/components/ui/badge'
 // import { Button } from '@/components/ui/button'
 import { calculateAge } from '@/utils/calculateAge'
-import { Avatar } from '@chakra-ui/react'
 import { type ColumnDef } from '@tanstack/react-table'
 import { Edit, Ellipsis, Star, StarOff, TrashIcon } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
@@ -29,6 +28,7 @@ import { useSession } from 'next-auth/react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { useGetCaseManagerByPatientIDQuery } from '@/api/patient/casemanager.api'
+import Avatar from '@/components/Avatar'
 //
 interface CaregiverColumnsProps {
   id: string
@@ -177,8 +177,6 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
             />
           ) : (
             <Avatar
-              size={'xs'}
-              className="font-bold"
               name={`${firstName} ${middleName}`}
             />
           )}
@@ -353,8 +351,6 @@ ColumnDef<ExtendedImportantPatientInterface>
       "
       >
         <Avatar
-          size={'xs'}
-          className="font-bold"
           name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
         />
         <Link

@@ -8,6 +8,8 @@ import {
 } from '@/components/ui/chart'
 import { Bar, BarChart, LabelList, XAxis, YAxis } from 'recharts'
 import { Skeleton } from '../ui/skeleton'
+import moment from 'moment'
+import { Calendar } from 'lucide-react'
 
 // const chartConfig = {
 //   count: {
@@ -39,7 +41,7 @@ export interface HorizontalLineChartParams {
 const getNextColor = () => {
   const nextColor = colorSet[colorIndex % colorSet.length]
   colorIndex++
-  return 'hsl(var(--chart-4))'
+  return '  #d6d6c2'
 }
 
 interface HorizontalLineChartInputProps {
@@ -100,51 +102,59 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey, title }: Horizon
   }
   return (
     <div className="flex-1 rounded-lg ring ring-slate-100  border-slate-200 border bg-white ">
-      <div className="p-2 bg-slate-50 rounded-t-lg border-b border-slate-100 ">
+      <div className="p-2 bg-slate-50 rounded-t-lg border-b border-slate-100 flex justify-between items-center ">
         <h3 className="font-semibold text-[14px]">{title}</h3>
+        <div className="flex flex-row items-center space-x-1 text-slate-500">
+          <Calendar size={12} />
+          <p className="text-[12px] text-slate-500">{moment().format('ll')}</p>
+        </div>
       </div>
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-square h-[200px] ml-2 flex-1 w-full rounded-lg"
+      <ChartContainer
+        config={chartConfig}
+        className="aspect-square h-[200px] p-2 ml-2 flex-1 w-full rounded-lg"
+      >
+        <BarChart
+          accessibilityLayer
+          data={transformData()}
+          layout="vertical"
+          margin={{
+            left: 0
+          }}
         >
-          <BarChart
-            accessibilityLayer
-            data={transformData()}
-            layout="vertical"
-            margin={{
-              left: 0
-            }}
-          >
-            <YAxis
+          <YAxis
+            dataKey={label}
+            type="category"
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+            tickFormatter={(value: string) => value}
+            hide
+          />
+
+          <XAxis dataKey={dataKey} type="number" hide />
+
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent indicator="dot" />}
+          />
+
+          <Bar dataKey={dataKey} layout="vertical" radius={5}>
+            <LabelList
               dataKey={label}
-              type="category"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value: string) =>
-                value.slice(0, 3)
-              }
-              hide
+              position="insideLeft"
+              offset={8}
+              className={'fill-[--color-label]'}
+              fontSize={12}
+              fontWeight={'600'}
+              color="gray"
+              style={{
+                color: 'gray',
+                fill: '#4d4d33'
+              }}
             />
-
-            <XAxis dataKey={dataKey} type="number" hide />
-
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-
-            <Bar dataKey={dataKey} layout="vertical" radius={5} height={200}>
-              <LabelList
-                dataKey={label}
-                position="insideLeft"
-                offset={8}
-                className={'fill-[--color-label]'}
-                fontSize={12}
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
+          </Bar>
+        </BarChart>
+      </ChartContainer>
     </div>
   )
 }
