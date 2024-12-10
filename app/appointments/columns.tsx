@@ -8,6 +8,7 @@ import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
+import { Calendar, Clock } from 'lucide-react'
 // import { FaEdit } from 'react-icons/fa'
 
 const days = [
@@ -49,8 +50,8 @@ export interface PatientProps {
 
 export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
   {
-    accessorKey: 'patient',
-    header: 'Name',
+    accessorKey: "patient",
+    header: "Name",
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2">
         <Avatar
@@ -58,9 +59,12 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           // className="font-bold"
           name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
-        <p className="capitalize font-semibold text-[12px] ">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+        <Link
+          className="capitalize text-blue-500 text-[12px] hover:underline hover:cursor-pointer "
+          href={`/users/patients/tab/dashboard/${row.original.patientID}`}
+        >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
       </div>
-    )
+    ),
   },
   // {
   //   accessorKey: 'user',
@@ -70,46 +74,37 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
   //   )
   // },
   {
-    accessorKey: 'appointmentDate',
-    header: 'Date',
+    accessorKey: "appointmentDate",
+    header: "Date",
     cell: ({ row }) => (
-      <div className="flex flex-col gap-y-2 pt-1.5 pb-1.5 text-[12px]">
-        <p>{moment(row.original.appointmentDate).format('ll')}</p>
-        {/*
-          <p className="text-sm text-slate-500">
-            {moment
-              .duration(moment(row.original.appointmentDate).diff(moment()))
-              .days()}{' '}
-            days remaining
-          </p> */}
+      <div className="flex flex-col text-[12px]">
+        <div className="flex flex-row space-x-1 items-center">
+          <Calendar size={14} className='text-slate-400' />
+          <p>{moment(row.original.appointmentDate).format("ll")}</p>
+        </div>
+        <div className='flex-row flex space-x-1 items-center'>
+          <Clock size={14} className='text-slate-400' />
+          <p className="text-slate-500 text-[12px]">
+            {moment(row.original.appointmentTime, "HH:mm ss").format("HH:mm a")}
+          </p>
+        </div>
       </div>
-    )
+    ),
   },
   {
-    accessorKey: 'appointmentTime',
-    header: 'Time',
+    accessorKey: "appointmentAgenda",
+    header: "Agenda",
     cell: ({ row }) => (
-      <p className="text-slate-500 text-[12px]">
-        {moment(row.original.appointmentTime, 'HH:mm ss').format('HH:mm a')}
-      </p>
-    )
+      <p className="capitalize text-[12px] ">{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
+    ),
   },
   {
-    accessorKey: 'appointmentAgenda',
-    header: 'Agenda',
-    cell: ({ row }) => (
-      <p
-      className='capitalize text-[12px] '
-      >{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
-    )
-  },
-  {
-    accessorKey: 'appointmentStatus',
-    header: 'Status',
+    accessorKey: "appointmentStatus",
+    header: "Status",
     cell: ({ row }) => {
       const appointmentStatus =
-        row.original.AppointmentStatus?.statusDescription
-      if (appointmentStatus === 'Missed' as string) {
+        row.original.AppointmentStatus?.statusDescription;
+      if (appointmentStatus === ("Missed" as string)) {
         return (
           <Badge
             // colorScheme="red"
@@ -118,8 +113,8 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
-      } else if (appointmentStatus === 'Upcoming') {
+        );
+      } else if (appointmentStatus === "Upcoming") {
         return (
           <Badge
             // colorScheme="blue"
@@ -128,8 +123,8 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
-      } else if (appointmentStatus === 'Completed') {
+        );
+      } else if (appointmentStatus === "Completed") {
         return (
           <Badge
             // colorScheme="blue"
@@ -138,8 +133,8 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
-      } else if (appointmentStatus === 'Pending') {
+        );
+      } else if (appointmentStatus === "Pending") {
         return (
           <Badge
             // colorScheme="orange"
@@ -148,8 +143,8 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
-      } else if (appointmentStatus === 'Rescheduled') {
+        );
+      } else if (appointmentStatus === "Rescheduled") {
         return (
           <Badge
             // colorScheme="teal"
@@ -158,46 +153,42 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
+        );
       } else {
         <Badge
           // rounded={'full'}
           className="rounded-full"
         >
           {appointmentStatus}
-        </Badge>
+        </Badge>;
       }
-    }
+    },
   },
   {
-    accessorKey: 'updatedAt',
-    header: 'Updated',
+    accessorKey: "updatedAt",
+    header: "Updated",
     cell: ({ row }) => (
-      <div
-      className='flex items-center space-x-2 text-[12px] '
-      >
-        <p>{moment(row.original.updatedAt).format('ll')}</p>
-        <span className='text-[10px] text-slate-400 ' >|</span>
-        <span className="text-[12px] text-slate-500 ">
-          {calculateTimeDuration(row.original.updatedAt)}
-        </span>{' '}
+      <div className="flex items-center space-x-2 text-[12px] ">
+        <p>{moment(row.original.updatedAt).format("ll")}</p>
       </div>
-    )
+    ),
   },
   {
     // accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => <Link href={`/appointments/${row.original.id}`}
-    className='text-[12px]'
-    >Edit </Link>
-  }
-]
+    header: "Action",
+    cell: ({ row }) => (
+      <Link href={`/appointments/${row.original.id}`} className="text-[12px]">
+        Edit{" "}
+      </Link>
+    ),
+  },
+];
 
 //
 export const rescheduledColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
   {
-    accessorKey: 'patient',
-    header: 'Patient Name',
+    accessorKey: "patient",
+    header: "Patient Name",
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2">
         <Avatar
@@ -205,9 +196,12 @@ export const rescheduledColumns: Array<ColumnDef<ExtendedAppointmentInputProps>>
           // className="font-bold"
           name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+        <Link
+          className="capitalize text-blue-500 text-[12px] hover:underline hover:cursor-pointer "
+          href={`/users/patients/tab/dashboard/${row.original.patientID}`}
+        >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>{" "}
       </div>
-    )
+    ),
   },
   // {
   //   accessorKey: 'user',
@@ -217,11 +211,11 @@ export const rescheduledColumns: Array<ColumnDef<ExtendedAppointmentInputProps>>
   //   )
   // },
   {
-    accessorKey: 'appointmentDate',
-    header: 'Appointment Date',
+    accessorKey: "appointmentDate",
+    header: "Appointment Date",
     cell: ({ row }) => (
       <div className="flex flex-col gap-y-2 pt-1.5 pb-1.5">
-        <p>{moment(row.original.appointmentDate).format('ll')}</p>
+        <p>{moment(row.original.appointmentDate).format("ll")}</p>
         {/*
           <p className="text-sm text-slate-500">
             {moment
@@ -230,71 +224,71 @@ export const rescheduledColumns: Array<ColumnDef<ExtendedAppointmentInputProps>>
             days remaining
           </p> */}
       </div>
-    )
+    ),
   },
   {
-    accessorKey: 'appointmentTime',
-    header: 'Appointment Time',
+    accessorKey: "appointmentTime",
+    header: "Appointment Time",
     cell: ({ row }) => (
       <p className="text-slate-500">
-        {moment(row.original.appointmentTime, 'HH:mm ss').format('HH:mm a')}
+        {moment(row.original.appointmentTime, "HH:mm ss").format("HH:mm a")}
       </p>
-    )
+    ),
   },
   {
-    accessorKey: 'appointmentAgenda',
-    header: 'Appointment agenda',
+    accessorKey: "appointmentAgenda",
+    header: "Appointment agenda",
     cell: ({ row }) => (
       <p>{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
-    )
+    ),
   },
 
   {
-    accessorKey: 'rescheduledReason',
-    header: 'Reason',
+    accessorKey: "rescheduledReason",
+    header: "Reason",
     cell: ({ row }) => (
       <p className="text-slate-500">{row.original.rescheduledReason}</p>
-    )
+    ),
   },
   {
-    accessorKey: 'rescheduledDate',
-    header: 'Rescheduled Date',
+    accessorKey: "rescheduledDate",
+    header: "Rescheduled Date",
     cell: ({ row }) => {
       return (
-        <div
-        className='flex flex-col space-y-1 items-start'
-        >
+        <div className="flex flex-col space-y-1 items-start">
           <div className="flex items-center space-x-2">
-            <p>{moment(row.original.rescheduledDate).format('ll')}</p>
+            <p>{moment(row.original.rescheduledDate).format("ll")}</p>
             <span className="text-[10px] text-slate-400 ">|</span>
             <span className="text-[12px] text-slate-500 ">
               {calculateTimeDuration(row.original.rescheduledDate)}
-            </span>{' '}
+            </span>{" "}
           </div>
           <Badge className="text-[12px] rounded-full shadow-none bg-slate-200 hover:bg-slate-100 text-slate-500 ">
             {
               days.map((item) => item.day)[
-                new Date(row.original.rescheduledDate as unknown as Date).getDay()
+                new Date(
+                  row.original.rescheduledDate as unknown as Date
+                ).getDay()
               ]
             }
           </Badge>
         </div>
-      )
-    }
+      );
+    },
   },
   {
     // accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => <Link href={`/notify/${row.original.id}`}>Edit </Link>
-  }
-]
+    header: "Action",
+    cell: ({ row }) => <Link href={`/notify/${row.original.id}`}>Edit </Link>,
+  },
+];
 
 //
 
 export const pinnedColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
   {
-    accessorKey: 'firstName',
-    header: 'Name',
+    accessorKey: "firstName",
+    header: "Name",
     cell: ({ row }) => (
       <div className="flex flex-row items-center gap-x-2 text-[12px] ">
         <Avatar
@@ -302,9 +296,12 @@ export const pinnedColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           // className="font-bold"
           name={`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}
         />
-        <p className="capitalize font-semibold">{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</p>
+        <Link
+          className="capitalize text-blue-500 text-[12px] hover:underline hover:cursor-pointer "
+          href={`/users/patients/tab/dashboard/${row.original.patientID}`}
+        >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
       </div>
-    )
+    ),
   },
   // {
   //   accessorKey: 'user',
@@ -315,21 +312,19 @@ export const pinnedColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
   // },
 
   {
-    accessorKey: 'appointmentAgenda',
-    header: 'Agenda',
+    accessorKey: "appointmentAgenda",
+    header: "Agenda",
     cell: ({ row }) => (
-      <p
-      className='capitalize text-[12px] '
-      >{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
-    )
+      <p className="capitalize text-[12px] ">{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
+    ),
   },
   {
-    accessorKey: 'appointmentStatus',
-    header: 'Status',
+    accessorKey: "appointmentStatus",
+    header: "Status",
     cell: ({ row }) => {
       const appointmentStatus =
-        row.original.AppointmentStatus?.statusDescription
-      if (appointmentStatus === 'Missed' as string) {
+        row.original.AppointmentStatus?.statusDescription;
+      if (appointmentStatus === ("Missed" as string)) {
         return (
           <Badge
             // colorScheme="red"
@@ -338,8 +333,8 @@ export const pinnedColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
-      } else if (appointmentStatus === 'Upcoming') {
+        );
+      } else if (appointmentStatus === "Upcoming") {
         return (
           <Badge
             // colorScheme="blue"
@@ -348,8 +343,8 @@ export const pinnedColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
-      } else if (appointmentStatus === 'Completed') {
+        );
+      } else if (appointmentStatus === "Completed") {
         return (
           <Badge
             // colorScheme="blue"
@@ -358,8 +353,8 @@ export const pinnedColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
-      } else if (appointmentStatus === 'Pending') {
+        );
+      } else if (appointmentStatus === "Pending") {
         return (
           <Badge
             // colorScheme="orange"
@@ -368,8 +363,8 @@ export const pinnedColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
-      } else if (appointmentStatus === 'Rescheduled') {
+        );
+      } else if (appointmentStatus === "Rescheduled") {
         return (
           <Badge
             // colorScheme="teal"
@@ -378,32 +373,24 @@ export const pinnedColumns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           >
             {appointmentStatus}
           </Badge>
-        )
+        );
       } else {
         <Badge
           // rounded={'full'}
           className="rounded-full"
         >
           {appointmentStatus}
-        </Badge>
+        </Badge>;
       }
-    }
+    },
   },
   {
-    accessorKey: 'appointmentDate',
-    header: 'Date',
+    accessorKey: "appointmentDate",
+    header: "Date",
     cell: ({ row }) => (
       <div className="flex flex-row text-[12px] ">
-        <p>{moment(row.original.appointmentDate).format('ll')}</p>, {' '}
-
-          <p className=" text-slate-500">
-            {' '}
-            {moment
-              .duration(moment(row.original.appointmentDate).diff(moment()))
-              .days()}{' '}
-            days remaining
-          </p>
+        <p>{moment(row.original.appointmentDate).format("ll")}</p>,{" "}
       </div>
-    )
-  }
-]
+    ),
+  },
+];

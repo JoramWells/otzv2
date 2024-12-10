@@ -99,85 +99,56 @@ const AppointmentDashboardPage = () => {
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
-          <div className="flex justify-between items-center w-full bg-white p-2 mt-2 ">
-              <h3
-                className="font-semibold capitalize ml-2
+      <div className="flex justify-between items-center w-full bg-white p-2 mt-2 ">
+        <h3
+          className="font-semibold capitalize ml-2
         "
-              >
-                Appointments
-              </h3>
+        >
+          Appointments
+        </h3>
 
-            <div className="flex space-x-2">
-              {[
-                { id: 'all', label: 'All' },
-                { id: 'weekly', label: 'This week' },
-                { id: 'monthly', label: 'This month' }
-              ].map((item, idx) => (
-                <Button
-                  key={item.id}
-                  size={'sm'}
-                  className={`rounded-full border bg-transparent text-black hover:bg-slate-100 ${
-                    item.id === value && 'bg-slate-200'
-                  } `}
-                  onClick={() => handleSelectChange(item.id.toLowerCase())}
-                >
-                  {item.label}
-                </Button>
-              ))}
-            </div>
-          </div>
-          <div className="flex space-x-2 bg-slate-50 p-2">
-            <AppointmentBarChart data={weeklyData ?? []}
-            label='agendaDescription'
-            dataKey='appointmentDate'
-            />
-            <CustomPieChart
-            data={statusCount(weeklyData) ?? []}
-            />
-            {/* <AppointmentPieChart data={weeklyData ?? []} /> */}
-
-          </div>
-        <div className="bg-white p-4">
-          <div className="flex flex-row space-x-2 mb-2 border-b border-slate-200">
-            {[
-              {
-                id: 1,
-                label: 'Pinned',
-                icon: <Pin size={18} className="mr-2" />
-              },
-              {
-                id: 2,
-                label: 'Recent',
-                icon: <History size={18} className="mr-2" />
-              }
-            ].map((item) => (
-              <Button
-              size={'sm'}
-                key={item.id}
-                onClick={() => setTab(item.id)}
-                className={`text-slate-700 hover:bg-slate-50 bg-transparent hover:text-teal-600 rounded-none
-                      ${
-                        tab === item.id &&
-                        'border-b-2 border-teal-600 text-teal-600'
-                      }
-                      `}
-              >
-                {item.icon}
-                {item.label}
-              </Button>
-            ))}
+        <div className="flex space-x-2">
+          {[
+            { id: "all", label: "All" },
+            { id: "weekly", label: "This week" },
+            { id: "monthly", label: "This month" },
+          ].map((item, idx) => (
+            <Button
+              key={item.id}
+              size={"sm"}
+              className={`rounded-full border bg-transparent text-black hover:bg-slate-100 ${
+                item.id === value && "bg-slate-200"
+              } `}
+              onClick={() => handleSelectChange(item.id.toLowerCase())}
+            >
+              {item.label}
+            </Button>
+          ))}
+        </div>
+      </div>
+      <div className="flex space-x-2 bg-slate-50 p-2">
+        <AppointmentBarChart
+          data={weeklyData ?? []}
+          label="agendaDescription"
+          dataKey="appointmentDate"
+        />
+        <CustomPieChart data={statusCount(weeklyData) ?? []} />
+        {/* <AppointmentPieChart data={weeklyData ?? []} /> */}
+      </div>
+      <div className='p-2' >
+        <div className="bg-white rounded-lg border border-slate-200 ring ring-slate-100">
+          <div className="p-2 bg-slate-50 border-b border-slate-200 mb-2 rounded-t-lg">
+            <p className='text-[14px] font-semibold text-slate-800' >Priority Appointment</p>
           </div>
           {/* <div className="p-2"> */}
-            {tab === 1 && (
-              <CustomTable
-                isSearch={false}
-                data={priorityAppointmentData ?? []}
-                columns={pinnedColumns}
-              />
-            )}
+          <CustomTable
+            isSearch={false}
+            data={priorityAppointmentData ?? []}
+            columns={pinnedColumns}
+          />
 
-            {/*  */}
-            {/* {tab === 2 && (
+          {/*  */}
+          {/* {tab === 2 && (
               <CustomTable
                 isSearch={false}
                 data={priorityAppointmentData || []}
@@ -186,9 +157,9 @@ const AppointmentDashboardPage = () => {
             )} */}
           {/* </div> */}
         </div>
-
+      </div>
     </>
-  )
+  );
 }
 
 export default AppointmentDashboardPage

@@ -22,7 +22,7 @@ const chartConfig = {
 
 type CountMap = Record<string, number>
 
-const RadarARTChart = ({ data }: { data: ARTPrescriptionInterface[] }) => {
+const RadarARTChart = ({ data, title }: { data: ARTPrescriptionInterface[], title: string }) => {
   const countMap = useCallback(() => {
     const tempData = data ? [...data] : []
 
@@ -55,13 +55,13 @@ const RadarARTChart = ({ data }: { data: ARTPrescriptionInterface[] }) => {
   }))
 
   return (
-    <div className="bg-white p-2 rounded-lg flex-1 border-slate-100 ">
-      <div className="ml-1 max-h-full ">
-        <h3 className="text-slate-700 font-semibold">Key Population</h3>
+    <div className="bg-white rounded-lg flex-1 border-slate-200 border ring ring-slate-100 ">
+      <div className="p-2 bg-slate-50 border-b border-slate-200 max-h-full rounded-t-lg ">
+        <h3 className="text-slate-800 font-semibold text-[14px]">{title}</h3>
       </div>
       <ChartContainer
         config={chartConfig}
-        className="aspect-square max-h-[250px] w-full bg-white rounded-lg"
+        className="aspect-square max-h-[210px] w-full bg-white rounded-lg"
       >
         {chartDatam && (
           <RadarChart data={chartDatam} cx="50%" cy={'50%'} outerRadius={'80%'}>
@@ -71,7 +71,7 @@ const RadarARTChart = ({ data }: { data: ARTPrescriptionInterface[] }) => {
             />
             <PolarAngleAxis
               dataKey={'regimen'}
-              tickFormatter={(value) => `${value.slice(0, 15)}...`}
+              tickFormatter={(value) => `${value.slice(0, 10)}...`}
             />
             <PolarGrid className="fill-[--color-desktop] opacity-20 " />
             <Radar

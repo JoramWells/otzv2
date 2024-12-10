@@ -1,4 +1,26 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type PatientAttributes, type PartialDisclosureAttributes } from 'otz-types'
+
+interface PartialDisclosurePostInterface {
+  hospitalID: string
+  page: number
+  pageSize: number
+  searchQuery: string
+
+}
+
+export type ExtendedPartialDisclosureInterface = PartialDisclosureAttributes & {
+  Patient: PatientAttributes
+}
+
+export interface PartialDisclosureResponseInterface {
+  data: ExtendedPartialDisclosureInterface[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
 
 export const partialDisclosureApi = createApi({
   reducerPath: 'partialDisclosureApi',
@@ -6,8 +28,21 @@ export const partialDisclosureApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/partial-disclosure`
   }),
   endpoints: (builder) => ({
-    getAllPartialDisclosure: builder.query({
-      query: () => 'fetchAll'
+    getAllPartialDisclosure: builder.query<PartialDisclosureResponseInterface, PartialDisclosurePostInterface >({
+      query: (params) => {
+        if (params) {
+          const { hospitalID, page, pageSize, searchQuery } =
+            params
+          let queryString = ''
+
+          queryString += `page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          queryString += `&hospitalID=${hospitalID}`
+          return `/fetchAll/?${queryString}`
+        }
+        return '/fetchAll'
+      }
     }),
     addPartialDisclosure: builder.mutation({
       query: (response) => ({

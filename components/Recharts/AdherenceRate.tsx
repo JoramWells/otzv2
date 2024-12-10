@@ -36,56 +36,60 @@ function AdherenceRate ({ data = [] }: { data: Array<{ adherenceRate: string, da
     }))
 
   return (
-    <div className="flex-1 mt-2 mb-2 bg-white p-4">
-        <p className='mb-2 font-semibold text-slate-700' >Adherence Rates</p>
-
-      <ChartContainer
-        config={chartConfig}
-        className="aspect-auto h-[200px] w-full  rounded-lg"
-      >
-
-        <LineChart
-          accessibilityLayer
-          data={chartData}
-          margin={{
-            left: 12,
-            right: 12
-          }}
+    <div
+    className='p-2'
+    >
+      <div className="flex-1 bg-white border border-slate-200 rounded-lg ">
+        <div className="p-2 bg-slate-50 border-b border-slate-200 rounded-t-lg">
+          <p className="font-semibold text-slate-800 text-[14px] ">Adherence Rates</p>
+        </div>
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-auto h-[200px] w-full  rounded-lg"
         >
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="month"
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-            minTickGap={32}
-            tickFormatter={(value: Date) => {
-              const date = new Date(value)
-              return date.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric'
-              })
+          <LineChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              left: 12,
+              right: 12
             }}
-          />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent hideLabel />}
-            labelFormatter={(value: Date) => {
-              return new Date(value).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric'
-              })
-            }}
-          />
-          <Line
-            dataKey="desktop"
-            type="natural"
-            stroke="var(--color-desktop)"
-            strokeWidth={2}
-            dot={false}
-          />
-        </LineChart>
-      </ChartContainer>
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              minTickGap={32}
+              tickFormatter={(value: Date) => {
+                const date = new Date(value)
+                return date.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric'
+                })
+              }}
+            />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+              labelFormatter={(value: Date) => {
+                return new Date(value).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric'
+                })
+              }}
+            />
+            <Line
+              dataKey="desktop"
+              type="natural"
+              stroke="var(--color-desktop)"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
+      </div>
     </div>
   )
 }

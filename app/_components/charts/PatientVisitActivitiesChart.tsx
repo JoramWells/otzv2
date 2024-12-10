@@ -39,7 +39,7 @@ export default function PatientVisitActivitiesChart () {
       </div>
       <ChartContainer
         config={chartConfig}
-        className="aspect-auto h-[200px] w-full"
+        className="aspect-auto h-[210px] w-full"
       >
         <BarChart
           accessibilityLayer

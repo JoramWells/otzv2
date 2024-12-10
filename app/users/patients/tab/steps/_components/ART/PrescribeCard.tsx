@@ -8,8 +8,8 @@ import { ChevronsLeft, ChevronsRight, Loader2 } from 'lucide-react'
 import React, { type Dispatch, type SetStateAction } from 'react'
 
 interface PrescriptionCardProps {
-  noOfPill: string
-  setNoOfPills: Dispatch<SetStateAction<string>>
+  noOfPill: number
+  setNoOfPills: Dispatch<SetStateAction<number>>
 
   //   no of times in a day
   frequency: string

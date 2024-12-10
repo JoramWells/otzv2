@@ -11,6 +11,7 @@ import CustomSelectParams from '@/components/forms/CustomSelectParams'
 import { Badge } from '@/components/ui/badge'
 import { useUserContext } from '@/context/UserContext'
 import useSearch from '@/hooks/useSearch'
+import { XIcon } from 'lucide-react'
 export interface AppointmentResponseInterface {
   data: ExtendedAppointmentInputProps[]
   page: number
@@ -27,7 +28,7 @@ const AppointmentHomepage = () => {
   const [total, setTotal] = useState<number | undefined>(0)
   const page = searchParams.get('page')
   const [search, setSearch] = useState('')
-  const [value, setValue] = useState<string | null>(tab)
+  const [appointmentStatus, setStatus] = useState<string | null>(tab)
   const [agendaValue, setAgenda] = useState<string | null>()
   const [pageSize, setPageSize] = useState(1)
   const { hospitalID, authUser } = useUserContext()
@@ -39,7 +40,7 @@ const AppointmentHomepage = () => {
     page: Number(page) ?? 1,
     pageSize: 10,
     searchQuery: search,
-    status: value as string,
+    status: appointmentStatus as string,
     agenda: agendaValue
   },
   {
@@ -86,7 +87,7 @@ const AppointmentHomepage = () => {
   useEffect(() => {
     if (tab === null) {
       updateQueryParams('all')
-      setValue('all')
+      setStatus('all')
     }
   }, [tab, updateQueryParams])
 
@@ -102,14 +103,20 @@ const AppointmentHomepage = () => {
     router.replace(`${pathname}?${params.toString()}`)
   }
 
+    const clearStatus = () => {
+      setStatus("");
+      params.set("status", "");
+      router.replace(`${pathname}?${params.toString()}`);
+    };
+
   function StatusFilter () {
     return (
       <div className="flex flex-row space-x-2 items-center">
         <CustomSelectParams
           label="Status"
-          onChange={setValue}
+          onChange={setStatus}
           paramValue="tab"
-          value={value as string}
+          value={appointmentStatus as string}
           data={[
             {
               id: 'all',
@@ -185,27 +192,43 @@ const AppointmentHomepage = () => {
   return (
     <>
       <div className="w-full p-2">
-        <div className="bg-white rounded-lg border border-slate-200">
+        <div className="bg-white rounded-lg border border-slate-200 ring ring-slate-100">
           <div
             className="p-4 pb-2 pt-2 flex
            flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
           >
             <div className="flex flex-row space-x-2 items-center">
               <p className="text-slate-700 text-[16px] capitalize ">
-                {value} appointments
+                {appointmentStatus} appointments
               </p>
               <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
                 {total}
               </Badge>
             </div>
-            {agendaValue && (
-              <Badge
-                className="hover: cursor-pointer bg-slate-50 border border-slate-200 hover:bg-slate-100 shadow-none text-black"
-                onClick={() => clearAgenda()}
-              >
-                {agendaValue}
-              </Badge>
-            )}
+            <div
+            className='flex flex-row space-x-2 items-center'
+            >
+              {appointmentStatus && (
+                <Badge
+                  className="hover: cursor-pointer flex flex-row space-x-1 capitalize bg-purple-50 border-purple-200 text-purple-500 rounded-full border shadow-none hover:bg-purple-50"
+                  onClick={() => clearStatus()}
+                >
+                  <XIcon size={12} />
+                  <p>{appointmentStatus}</p>
+                </Badge>
+              )}
+              {agendaValue && (
+                <Badge
+                  className="hover: cursor-pointer flex flex-row space-x-1 capitalize bg-purple-50 border-purple-200 text-purple-500 rounded-full border shadow-none hover:bg-purple-50"
+                  onClick={() => clearAgenda()}
+                >
+                  <XIcon size={12} />
+                  <p>{agendaValue}</p>
+                </Badge>
+              )}
+
+
+            </div>
           </div>
 
           <CustomTable
@@ -220,7 +243,7 @@ const AppointmentHomepage = () => {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export default AppointmentHomepage

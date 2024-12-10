@@ -99,7 +99,7 @@ interface AddArtProps {
 }
 
 const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
-  const [noOfPill, setNoOfPills] = useState<string>('')
+  const [noOfPill, setNoOfPills] = useState<number>(0)
   const [frequency, setFrequency] = useState<string>('')
   const [refillDate, setRefillDate] = useState<string>(new Date().toISOString().split('T')[0])
 

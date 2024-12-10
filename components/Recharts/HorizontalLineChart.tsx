@@ -98,7 +98,7 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey, title }: Horizon
   }, [])
 
   if (isLoading ?? false) {
-    return <Skeleton className='max-h-[200px] flex-1 rounded-lg'/>
+    return <Skeleton className='max-h-[210px] flex-1 rounded-lg'/>
   }
   return (
     <div className="flex-1 rounded-lg ring ring-slate-100  border-slate-200 border bg-white ">
@@ -111,7 +111,7 @@ const HorizontalLineChart = ({ data, isLoading, label, dataKey, title }: Horizon
       </div>
       <ChartContainer
         config={chartConfig}
-        className="aspect-square h-[200px] p-2 ml-2 flex-1 w-full rounded-lg"
+        className="aspect-square h-[210px] p-2 ml-2 flex-1 w-full rounded-lg"
       >
         <BarChart
           accessibilityLayer

@@ -11,7 +11,7 @@ import { type UserInterface } from 'otz-types'
 import { createContext, type Dispatch, type SetStateAction, useContext, useEffect, useState, type ReactNode } from 'react'
 import io from 'socket.io-client'
 
-interface UptakeCountInterface {
+export interface UptakeCountInterface {
   morningTrue: number
   morningFalse: number
   eveningTrue: number

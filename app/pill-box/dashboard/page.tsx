@@ -18,14 +18,7 @@ import { usePharmacyContext } from '@/context/PharmacyContext'
 import AdherenceRate from '@/components/Recharts/AdherenceRate'
 // import { useGetImportantPatientQuery } from '@/api/patient/importantPatients.api'
 import { useSession } from 'next-auth/react'
-
-const DoubleARTUptakeBarChart = dynamic(
-  async () => await import('../../_components/charts/DoubleARTUptakeBarChart'),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="h-[250px] flex-1 rounded" />
-  }
-)
+import { DailyPillUptake } from '@/components/Recharts/DailyPillUptake'
 
 //
 const HorizontalLineChart = dynamic(
@@ -142,11 +135,14 @@ const NotifyPage = () => {
 
       <AdherenceRate data={facilityData} />
       <div className="flex flex-row justify-between items-start w-full space-x-2 p-2 pt-0 ">
-        <DoubleARTUptakeBarChart
+        {/* <DoubleARTUptakeBarChart
           morningTrueCount={uptakeCount.morningTrue}
           morningFalseCount={uptakeCount.morningFalse}
           eveningTrueCount={uptakeCount?.eveningTrue}
           eveningFalseCount={uptakeCount?.eveningFalse}
+        /> */}
+        <DailyPillUptake
+        data={uptakeCount}
         />
 
         {/*  */}
@@ -156,12 +152,13 @@ const NotifyPage = () => {
           isLoading={loadingArtPrescription}
           dataKey={'count'}
           label={'line'}
-          title='Regimen Count'
+          title='Regimen line count'
         />
 
         {/*  */}
         <RadarARTChart
           data={artPrescriptionData as ARTPrescriptionInterface[]}
+          title='Active ART'
         />
       </div>
 
