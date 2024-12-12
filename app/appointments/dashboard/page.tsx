@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 'use client'
 
-import { History, Pin } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 
@@ -58,8 +57,6 @@ const AppointmentDashboardPage = () => {
   }
   )
 
-  console.log(weeklyData, 'weekData')
-
   const statusCount = (appointments: Array<{ status: string }>): Array<{ status: string, count: number }> => {
   // Count each status dynamically
     const counts: Record<string, number> = appointments?.reduce<Record<string, number>>((acc, appointment) => {
@@ -93,8 +90,6 @@ const AppointmentDashboardPage = () => {
     setValue(val)
   }
 
-  const [tab, setTab] = useState(1)
-
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
@@ -109,15 +104,15 @@ const AppointmentDashboardPage = () => {
 
         <div className="flex space-x-2">
           {[
-            { id: "all", label: "All" },
-            { id: "weekly", label: "This week" },
-            { id: "monthly", label: "This month" },
+            { id: 'all', label: 'All' },
+            { id: 'weekly', label: 'This week' },
+            { id: 'monthly', label: 'This month' }
           ].map((item, idx) => (
             <Button
               key={item.id}
-              size={"sm"}
+              size={'sm'}
               className={`rounded-full border bg-transparent text-black hover:bg-slate-100 ${
-                item.id === value && "bg-slate-200"
+                item.id === value && 'bg-slate-200'
               } `}
               onClick={() => handleSelectChange(item.id.toLowerCase())}
             >
@@ -159,7 +154,7 @@ const AppointmentDashboardPage = () => {
         </div>
       </div>
     </>
-  );
+  )
 }
 
 export default AppointmentDashboardPage

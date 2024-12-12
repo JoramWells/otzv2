@@ -6,7 +6,6 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useUserContext } from '@/context/UserContext'
 import React, { useEffect, useState } from 'react'
 import { partialDisclosureColumn } from './columns'
-import { useGetAllFullDisclosureQuery } from '@/api/treatmentplan/full/fullDisclosure.api.ts'
 
 const DisclosurePage = () => {
   const { hospitalID } = useUserContext()

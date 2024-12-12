@@ -103,11 +103,11 @@ const AppointmentHomepage = () => {
     router.replace(`${pathname}?${params.toString()}`)
   }
 
-    const clearStatus = () => {
-      setStatus("");
-      params.set("status", "");
-      router.replace(`${pathname}?${params.toString()}`);
-    };
+  const clearStatus = () => {
+    setStatus('')
+    params.set('status', '')
+    router.replace(`${pathname}?${params.toString()}`)
+  }
 
   function StatusFilter () {
     return (
@@ -227,7 +227,6 @@ const AppointmentHomepage = () => {
                 </Badge>
               )}
 
-
             </div>
           </div>
 
@@ -243,7 +242,7 @@ const AppointmentHomepage = () => {
         </div>
       </div>
     </>
-  );
+  )
 }
 
 export default AppointmentHomepage
