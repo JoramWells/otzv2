@@ -106,80 +106,81 @@ const TaskFour = ({
 
   return (
     <div className="flex flex-row justify-between space-x-2 w-full items-start">
-      <div className="p-4 flex-1 bg-white">
-        <div className="flex flex-col border border-slate-200 rounded-lg ">
-          <div className="border-b border-slate-200 p-2 flex items-center justify-between">
-            <p className="capitalize font-semibold text-[14px] ">
-              Task 4 : Post Disclosure Assessment
-            </p>
-            <Progress percentage={percentage} />
-          </div>
-          <CustomCheckbox
-            label="Assessed family, social and peer relationship and support after disclose?"
-            value={isPeerRelationshipAssessed}
-            onChange={setIsPeerRelationshipAssessed}
-          />
-          <hr />
+      <div className="flex-1 bg-white border rind ring-slate-100 border-slate-200 rounded-lg">
+        <div className="border-b bg-slate-50 rounded-t-lg border-slate-200 p-2 flex items-center justify-between">
+          <p className="capitalize font-semibold text-[14px] text-slate-800 ">
+            Task 4 : Post Disclosure Assessment
+          </p>
+          <Progress percentage={percentage} />
+        </div>
+        <CustomCheckbox
+          label="Assessed family, social and peer relationship and support after disclose?"
+          value={isPeerRelationshipAssessed}
+          onChange={setIsPeerRelationshipAssessed}
+        />
+        <hr />
 
-          {/*  */}
-          <CustomCheckbox
-            label="Assessed the child interest and engagement in children activities like playing?"
-            value={isAssessedChildEngagement}
-            onChange={setIsAssessedChildEngagement}
-          />
+        {/*  */}
+        <CustomCheckbox
+          label="Assessed the child interest and engagement in children activities like playing?"
+          value={isAssessedChildEngagement}
+          onChange={setIsAssessedChildEngagement}
+        />
+        <hr />
+        {/*  */}
+        <CustomCheckbox
+          label="Allowed questions from the child and assessed self-perception and outlook?"
+          value={isChildQuestionsAllowed}
+          onChange={setIsChildQuestionsAllowed}
+        />
+        <hr />
 
-          {/*  */}
-          <CustomCheckbox
-            label="Allowed questions from the child and assessed self-perception and outlook?"
-            value={isChildQuestionsAllowed}
-            onChange={setIsChildQuestionsAllowed}
-          />
-          <hr />
+        {/*  */}
+        <CustomCheckbox
+          label="Addressed negative body or self-image issues?"
+          value={isAddressedNegativeSelfImage}
+          onChange={setIsAddressedNegativeImage}
+        />
+        <hr />
 
-          {/*  */}
-          <CustomCheckbox
-            label="Addressed negative body or self-image issues?"
-            value={isAddressedNegativeSelfImage}
-            onChange={setIsAddressedNegativeImage}
-          />
-          <hr />
+        {/*  */}
+        <CustomCheckbox
+          label="Have you assessed the child for moodiness and negative behaviors?"
+          value={isAssessedMoodiness}
+          onChange={setIsAssessedMoodiness}
+        />
+        <hr />
 
-          {/*  */}
-          <CustomCheckbox
-            label="Have you assessed the child for moodiness and negative behaviors?"
-            value={isAssessedMoodiness}
-            onChange={setIsAssessedMoodiness}
-          />
-          <hr />
-
-          {/*  */}
-          <CustomCheckbox
-            label="Referred appropriately for psychiatrical and other
+        {/*  */}
+        <CustomCheckbox
+          label="Referred appropriately for psychiatrical and other
           complications developed post disclosure if indicated?"
-            value={isReferredForPsychiatric}
-            onChange={setIsReferredForPhysic}
-          />
-          <hr />
+          value={isReferredForPsychiatric}
+          onChange={setIsReferredForPhysic}
+        />
+        <hr />
 
-          {/*  */}
-          <CustomCheckbox
-            label="Given age appropriate adherence information?"
-            value={isGivenAppropriateInfo}
-            onChange={setIsGivenAppropriateInfo}
-          />
-          <hr />
+        {/*  */}
+        <CustomCheckbox
+          label="Given age appropriate adherence information?"
+          value={isGivenAppropriateInfo}
+          onChange={setIsGivenAppropriateInfo}
+        />
+        <hr />
 
+        <div
+        className='p-2'
+        >
           <p
-            style={{
-              color: '#434343',
-              fontSize: '16px'
-            }}
-            className="ml-6"
+
+            className='text-slate-500 text-[12px] ml-4 font-semibold'
           >
             How ofter do you find difficulty remembering to take all your
             medications
           </p>
-          {/*
+        </div>
+        <hr />
+        {/*
     <Select
       style={{
         width: '100%',
@@ -190,8 +191,7 @@ const TaskFour = ({
     >
       <Select.Option>Rarely</Select.Option>
     </Select> */}
-        </div>
-        <div className="flex justify-end w-full space-x-4 items-center mt-2">
+        <div className="flex justify-end w-full space-x-2 p-2 items-center mt-2">
           <Button
             className="shadow-none  text-slate-500
                "
@@ -201,7 +201,7 @@ const TaskFour = ({
               handleBack()
             }}
           >
-            <ChevronsLeft className="mr-2" size={18} />
+            <ChevronsLeft className="mr-1" size={16} />
             Prev
           </Button>
 

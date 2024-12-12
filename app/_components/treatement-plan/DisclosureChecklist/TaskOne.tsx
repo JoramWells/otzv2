@@ -65,7 +65,7 @@ const TaskOne = ({
       )
       ?.map(([_, value]) => value)
     const trueCount = booleanValues?.filter((item) => item).length
-    console.log(booleanValues, 'booleanValues')
+    // console.log(booleanValues, 'booleanValues')
     const percentag = (trueCount / Object?.keys(booleanValues).length) * 100
     setPercentage(customRound(percentag))
   }, [isCorrectAge, isKnowledgeable, isWillingToDisclose])
@@ -97,41 +97,49 @@ const TaskOne = ({
 
   return (
     <div className="flex flex-row justify-between space-x-2 w-full items-start">
-      <div className="p-4 flex-1 bg-white">
-        <div className="flex flex-1 flex-col border border-slate-200 bg-white rounded-lg ">
-          <div className="border-b border-slate-200 p-2 flex flex-row justify-between items-center">
-            <p className="capitalize font-bold text-[14px] ">
-              Task 1: Assess Child for disclosure eligibility.
-            </p>
-            <Progress percentage={percentage} />
-          </div>
-          <CustomCheckbox
-            label="Child has met age criteria (between 6 and 10 years)?"
-            onChange={setIsCorrectAge}
-            value={isCorrectAge}
-          />
-
-          <CustomCheckbox
-            label="Child and caregiver knowledgeable on the benefits of disclosure?"
-            value={isWillingToDisclose}
-            onChange={setIsWillingToDisclose}
-          />
-
-          <CustomCheckbox
-            label="Caregiver willing to disclose to the child?"
-            value={isKnowledgeable}
-            onChange={setIsKnowledgeable}
-          />
-
-          <div className="p-2 w-full">
-            <CustomInput
-              label="Task 1 comments."
-              value={taskOneComments}
-              onChange={setTaskOneComments}
-            />
-          </div>
+      <div className="flex-1 bg-white border rounded-lg border-slate-200 ring ring-slate-100">
+        <div
+          className="border-b border-slate-200 p-2 flex flex-row justify-between items-center
+          bg-slate-50 rounded-t-lg
+          "
+        >
+          <p className="capitalize font-semibold text-[14px] text-slate-800 ">
+            Task 1: Assess Child for disclosure eligibility.
+          </p>
+          <Progress percentage={percentage} />
         </div>
-        <div className="flex justify-end w-full space-x-4 items-center mt-2">
+        <CustomCheckbox
+          label="Child has met age criteria (between 6 and 10 years)?"
+          onChange={setIsCorrectAge}
+          value={isCorrectAge}
+        />
+        <hr className="text-slate-100" />
+        <CustomCheckbox
+          label="Child and caregiver knowledgeable on the benefits of disclosure?"
+          value={isWillingToDisclose}
+          onChange={setIsWillingToDisclose}
+        />
+
+        <hr className="text-slate-100" />
+
+        <CustomCheckbox
+          label="Caregiver willing to disclose to the child?"
+          value={isKnowledgeable}
+          onChange={setIsKnowledgeable}
+        />
+
+        <hr className="text-slate-100" />
+
+        <div className="p-2 w-full">
+          <CustomInput
+            label="Task 1 comments."
+            value={taskOneComments}
+            onChange={setTaskOneComments}
+          />
+        </div>
+        <hr className="text-slate-100" />
+
+        <div className="flex justify-end w-full space-x-2 items-center p-2">
           {handleBack && (
             <Button
               className="shadow-none  text-slate-500
@@ -142,7 +150,7 @@ const TaskOne = ({
                 handleBack()
               }}
             >
-              <ChevronsLeft className="mr-2" size={18} />
+              <ChevronsLeft className="mr-1" size={16} />
               Prev
             </Button>
           )}
@@ -153,10 +161,10 @@ const TaskOne = ({
             onClick={() => {
               addDisclosureEligibility(inputValues)
             }}
-            disabled={isLoadingAddDisclosure}
+            disabled={isLoadingAddDisclosure || !patientID || !patientVisitID}
           >
             {isLoadingAddDisclosure && (
-              <Loader2 className="animate-spin mr-2" size={18} />
+              <Loader2 className="animate-spin mr-1" size={16} />
             )}
             Save
           </Button>
@@ -165,13 +173,14 @@ const TaskOne = ({
             <Button
               size={'sm'}
               // className="bg-slate-200 text-slate-500 hover:bg-slate-100 "
+              className="shadow-none text-slate-500"
               variant={'outline'}
               onClick={() => {
                 handleNext()
               }}
             >
               Next
-              <ChevronsRight className="ml-2" size={18} />
+              <ChevronsRight className="ml-1" size={16} />
             </Button>
           )}
         </div>

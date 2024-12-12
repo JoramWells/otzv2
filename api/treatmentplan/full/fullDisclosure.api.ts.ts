@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { type PatientAttributes, type PartialDisclosureAttributes } from 'otz-types'
+import { type PatientAttributes, type FullDisclosureAttributes } from 'otz-types'
 
-interface PartialDisclosurePostInterface {
+interface FullDisclosurePostInterface {
   hospitalID: string
   page: number
   pageSize: number
@@ -10,34 +10,34 @@ interface PartialDisclosurePostInterface {
 
 }
 
-export type ExtendedPartialDisclosureInterface = PartialDisclosureAttributes & {
-  Patient: PatientAttributes
-}
-
-export interface PartialDisclosureResponseInterface {
-  data: ExtendedPartialDisclosureInterface[]
-  page: number
-  total: number
-  pageSize: number
-  searchQuery: string
-}
-
-interface PartialDisclosureScoreCategoryInterface {
+interface FullDisclosureScoreCategoryInterface {
   id: string
   count?: string | number
   status?: string
   latestCreatedAt?: string | Date
 }
 
-export const partialDisclosureApi = createApi({
-  reducerPath: 'partialDisclosureApi',
+export type ExtendedFullDisclosureInterface = FullDisclosureAttributes & {
+  Patient: PatientAttributes
+}
+
+export interface FullDisclosureResponseInterface {
+  data: ExtendedFullDisclosureInterface[]
+  page: number
+  total: number
+  pageSize: number
+  searchQuery: string
+}
+
+export const fullDisclosureApi = createApi({
+  reducerPath: 'fullDisclosureApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/partial-disclosure`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/full-disclosure`
   }),
   endpoints: (builder) => ({
-    getAllPartialDisclosure: builder.query<
-    PartialDisclosureResponseInterface,
-    PartialDisclosurePostInterface
+    getAllFullDisclosure: builder.query<
+    FullDisclosureResponseInterface,
+    FullDisclosurePostInterface
     >({
       query: (params) => {
         if (params) {
@@ -53,31 +53,31 @@ export const partialDisclosureApi = createApi({
         return '/fetchAll'
       }
     }),
-    addPartialDisclosure: builder.mutation({
+    addFullDisclosure: builder.mutation({
       query: (response) => ({
         url: 'add',
         method: 'POST',
         body: response
       })
     }),
-    getPartialDisclosure: builder.query({
+    getFullDisclosure: builder.query({
       query: (id) => `detail/${id}`
     }),
-    getPartialDisclosureByPatientID: builder.query({
+    getFullDisclosureByPatientID: builder.query({
       query: (id) => `by-patient-id/${id}`
     }),
-    getAllPartialDisclosureByVisitId: builder.query({
+    getAllFullDisclosureByVisitId: builder.query({
       query: (id) => `details/${id}`
     }),
-    updatePartialDisclosure: builder.mutation({
+    updateFullDisclosure: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `update${id}`,
         method: 'PUT',
         body: patch
       })
     }),
-    getPartialDisclosureCategoryScore: builder.query<
-    PartialDisclosureScoreCategoryInterface[],
+    getFullDisclosureCategoryScore: builder.query<
+    FullDisclosureScoreCategoryInterface[],
     { hospitalID: string }
     >({
       query: (params) => {
@@ -91,7 +91,7 @@ export const partialDisclosureApi = createApi({
         return '/score'
       }
     }),
-    deletePartialDisclosure: builder.mutation({
+    deleteFullDisclosure: builder.mutation({
       query (id) {
         return {
           url: `delete${id}`,
@@ -103,6 +103,6 @@ export const partialDisclosureApi = createApi({
 })
 
 export const {
-  useGetAllPartialDisclosureQuery, useAddPartialDisclosureMutation, useGetAllPartialDisclosureByVisitIdQuery,
-  useGetPartialDisclosureQuery, useGetPartialDisclosureByPatientIDQuery, useGetPartialDisclosureCategoryScoreQuery
-} = partialDisclosureApi
+  useGetAllFullDisclosureQuery, useAddFullDisclosureMutation, useGetAllFullDisclosureByVisitIdQuery,
+  useGetFullDisclosureQuery, useGetFullDisclosureByPatientIDQuery, useGetFullDisclosureCategoryScoreQuery
+} = fullDisclosureApi

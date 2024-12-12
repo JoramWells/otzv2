@@ -5,7 +5,8 @@ import { type ExtendedPartialDisclosureInterface, useGetAllPartialDisclosureQuer
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useUserContext } from '@/context/UserContext'
 import React, { useEffect, useState } from 'react'
-import { patientColumns } from './columns'
+import { partialDisclosureColumn } from './columns'
+import { useGetAllFullDisclosureQuery } from '@/api/treatmentplan/full/fullDisclosure.api.ts'
 
 const DisclosurePage = () => {
   const { hospitalID } = useUserContext()
@@ -20,7 +21,20 @@ const DisclosurePage = () => {
     skip: hospitalID == null
   }
   )
-  console.log(data)
+
+  // const { data: fullData } = useGetAllFullDisclosureQuery(
+  //   {
+  //     hospitalID: hospitalID as string,
+  //     page: 1,
+  //     pageSize: 10,
+  //     searchQuery: ''
+  //   },
+  //   {
+  //     skip: hospitalID == null
+  //   }
+  // )
+
+  // console.log(fullData)
 
   useEffect(() => {
     if (data != null) {
@@ -28,13 +42,11 @@ const DisclosurePage = () => {
     }
   }, [data])
   return (
-    <div>DisclosurePage
-
-<CustomTable
-columns={patientColumns}
-data={partialData ?? []}
-/>
-
+    <div>
+      DisclosurePage
+      <CustomTable columns={partialDisclosureColumn} data={partialData ?? []} />
+      {/*  */}
+      {/* <CustomTable columns={partialDisclosureColumn} data={fullData?.data ?? []} /> */}
     </div>
   )
 }

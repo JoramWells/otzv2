@@ -23,7 +23,7 @@ const CustomCheckbox = ({ onChange, value, label, description }: CheckboxProps) 
       <div className="flex flex-col">
         <label
           htmlFor="checkedBox"
-          className={`capitalize text-[14px] font-semibold ${
+          className={`capitalize text-[12px] font-semibold ${
             value && 'text-slate-700'
           } text-slate-500 `}
         >

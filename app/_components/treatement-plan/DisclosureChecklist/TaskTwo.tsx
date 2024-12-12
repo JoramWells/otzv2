@@ -111,91 +111,89 @@ const TaskTwo = ({
 
   return (
     <div className="flex flex-row justify-between space-x-2 w-full items-start">
-      <div className="p-4 flex-1 bg-white">
-        <div className="flex flex-1 flex-col border border-slate-200 bg-white rounded-lg ">
-          <div className="border-b border-slate-200 p-2 flex flex-row justify-between items-center">
-            <p className="capitalize font-bold text-[14px]">
-              Task 2: Assess child and caregiver for readiness.
-            </p>
-            <Progress percentage={percentage} />
-          </div>
-          <CustomCheckbox
-            label="Child/ caregiver free from severe
-          physical illness, trauma, psychological illness or psychiatric illness?"
-            value={isFreeChildCaregiverFromSevereIllness}
-            onChange={setIsFreeFromSevereIllness}
-          />
-          <hr />
-
-          {/*  */}
-          <CustomCheckbox
-            label="Child has consistent family, peer or social support?"
-            value={isConsistentSocialSupport}
-            onChange={setIsConsistentSocialSupport}
-          />
-          <hr />
-
-          {/*  */}
-          <CustomCheckbox
-            label="Child demonstrates interest in the environment and playing activities?"
-            value={isInterestInEnvironmentAndPlaying}
-            onChange={setIsInterestInEnvironmentAndPlaying}
-          />
-          <hr />
-
-          {/*  */}
-          <CustomCheckbox
-            label="Assessed what the child already
-          knows about the medicines and illness and addressed needs and concerns?"
-            value={isChildKnowsMedicineAndIllness}
-            onChange={setIsChildKnowsMedicineAndIllness}
-          />
-
-          {/*  */}
-          <hr />
-
-          {/*  */}
-          <CustomCheckbox
-            label=" Assessed functional school engagement by the child consistent, attendance, interacts well with the school community, able to freely discuss school activities?"
-            value={isChildSchoolEngagement}
-            onChange={setIsChildSchoolEngagement}
-          />
-          <hr />
-
-          {/*  */}
-          <CustomCheckbox
-            label="Assessed caregiver readiness for disclosure to the child?"
-            value={isAssessedCaregiverReadinessToDisclose}
-            onChange={setIsAssessedCaregiverReadinessToDisclose}
-          />
-          <hr />
-
-          {/*  */}
-          <CustomCheckbox
-            label="Assessed what the caregiver has communicated to the child?"
-            value={isCaregiverCommunicatedToChild}
-            onChange={setIsCaregiverCommunicatedToChild}
-          />
-          <hr />
-
-          {/*  */}
-          <CustomCheckbox
-            label="Discussed management of confidentiality of information regarding one
-          health with the child and caregiver?"
-            value={isSecuredPatientInfo}
-            onChange={setIsSecuredPatientInfo}
-          />
-          <hr />
-
-          <div className="p-2 w-full">
-            <CustomInput
-              label="Task 2 comments."
-              value={taskTwoComments}
-              onChange={setTaskTwoComments}
-            />
-          </div>
+      <div className="flex flex-1 flex-col border border-slate-200 bg-white rounded-lg ">
+        <div className="border-b border-slate-200 p-2 flex flex-row justify-between items-center bg-slate-50 rounded-t-lg">
+          <p className="capitalize font-bold text-[12px] text-slate-800">
+            Task 2: Assess child and caregiver for readiness.
+          </p>
+          <Progress percentage={percentage} />
         </div>
-        <div className="flex justify-end w-full space-x-4 items-center mt-2">
+        <CustomCheckbox
+          label="Child/ caregiver free from severe
+          physical illness, trauma, psychological illness or psychiatric illness?"
+          value={isFreeChildCaregiverFromSevereIllness}
+          onChange={setIsFreeFromSevereIllness}
+        />
+        <hr />
+
+        {/*  */}
+        <CustomCheckbox
+          label="Child has consistent family, peer or social support?"
+          value={isConsistentSocialSupport}
+          onChange={setIsConsistentSocialSupport}
+        />
+        <hr />
+
+        {/*  */}
+        <CustomCheckbox
+          label="Child demonstrates interest in the environment and playing activities?"
+          value={isInterestInEnvironmentAndPlaying}
+          onChange={setIsInterestInEnvironmentAndPlaying}
+        />
+        <hr />
+
+        {/*  */}
+        <CustomCheckbox
+          label="Assessed what the child already
+          knows about the medicines and illness and addressed needs and concerns?"
+          value={isChildKnowsMedicineAndIllness}
+          onChange={setIsChildKnowsMedicineAndIllness}
+        />
+
+        {/*  */}
+        <hr />
+
+        {/*  */}
+        <CustomCheckbox
+          label=" Assessed functional school engagement by the child consistent, attendance, interacts well with the school community, able to freely discuss school activities?"
+          value={isChildSchoolEngagement}
+          onChange={setIsChildSchoolEngagement}
+        />
+        <hr />
+
+        {/*  */}
+        <CustomCheckbox
+          label="Assessed caregiver readiness for disclosure to the child?"
+          value={isAssessedCaregiverReadinessToDisclose}
+          onChange={setIsAssessedCaregiverReadinessToDisclose}
+        />
+        <hr />
+
+        {/*  */}
+        <CustomCheckbox
+          label="Assessed what the caregiver has communicated to the child?"
+          value={isCaregiverCommunicatedToChild}
+          onChange={setIsCaregiverCommunicatedToChild}
+        />
+        <hr />
+
+        {/*  */}
+        <CustomCheckbox
+          label="Discussed management of confidentiality of information regarding one
+          health with the child and caregiver?"
+          value={isSecuredPatientInfo}
+          onChange={setIsSecuredPatientInfo}
+        />
+        <hr />
+
+        <div className="p-2 w-full">
+          <CustomInput
+            label="Task 2 comments."
+            value={taskTwoComments}
+            onChange={setTaskTwoComments}
+          />
+        </div>
+        <div className="flex justify-end w-full space-x-2 items-center p-2">
           {handleBack && (
             <Button
               className="shadow-none  text-slate-500
@@ -206,7 +204,7 @@ const TaskTwo = ({
                 handleBack()
               }}
             >
-              <ChevronsLeft className="mr-2" size={18} />
+              <ChevronsLeft className="mr-1" size={16} />
               Prev
             </Button>
           )}
@@ -219,11 +217,12 @@ const TaskTwo = ({
             }}
             disabled={isLoading}
           >
-            {isLoading && <Loader2 className="animate-spin mr-2" size={18} />}
+            {isLoading && <Loader2 className="animate-spin mr-1" size={16} />}
             Save
           </Button>
         </div>
       </div>
+
       {handleBack && (
         <div className="w-1/3 p-4 bg-white">Recent Disclosure</div>
       )}

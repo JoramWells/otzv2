@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { BookOpen, BookOpenCheck, CalendarCheck, CalendarDays, ClockIcon, LayoutDashboard, Radar, Tally4, Tally5 } from 'lucide-react'
+import { BookOpenCheck, ClockIcon, LayoutDashboard, Tally5 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -22,7 +22,7 @@ const DL: SidebarListItemsProps[] = [
   {
     id: '1',
     label: 'Dashboard',
-    link: '/appointments/dashboard',
+    link: '/treatment-plan/dashboard',
     icon: <LayoutDashboard size={17} />
   },
   {

@@ -77,7 +77,7 @@ export const caregiverColumns: Array<ColumnDef<CaregiverColumnsProps>> = [
   }
 ]
 
-export const patientColumns: Array<ColumnDef<ExtendedPartialDisclosureInterface>> = [
+export const partialDisclosureColumn: Array<ColumnDef<ExtendedPartialDisclosureInterface>> = [
   {
     accessorKey: 'firstName',
     header: 'Name',

@@ -113,9 +113,17 @@ const TaskThree = ({
 
   return (
     <div className="flex flex-row justify-between space-x-2 w-full items-start">
-      <div className="p-4 flex-1 bg-white">
-        <div className="border-b border-slate-200 p-2 flex items-center justify-between">
-          <p className="capitalize font-semibold text-[14px] ">
+      <div
+        className="flex-1 bg-white border border-slate-200 rounded-lg
+      ring ring-slate-100
+      "
+      >
+        <div
+          className="border-b border-slate-200 p-2 flex items-center justify-between
+        bg-slate-50 rounded-t-lg
+        "
+        >
+          <p className="capitalize font-semibold text-[14px] text-slate-800 ">
             Task 3: Execute Disclosure
           </p>
           <Progress percentage={percentage} />
@@ -195,17 +203,20 @@ const TaskThree = ({
           value={isConcludedSessionReassured}
           onChange={setIsConcludedSessionReassured}
         />
-
-        <p
-          style={{
-            color: '#434343',
-            fontSize: '16px'
-          }}
-          className="ml-6"
+        <hr />
+        <div
+        className='p-2'
         >
-          How ofter do you find difficulty remembering to take all your
-          medications
-        </p>
+          <p
+            style={{
+              color: '#434343'
+            }}
+            className="ml-4 text-[12px] font-semibold "
+          >
+            How ofter do you find difficulty remembering to take all your
+            medications
+          </p>
+        </div>
         {/*
     <Select
       style={{
@@ -217,7 +228,8 @@ const TaskThree = ({
     >
       <Select.Option>Rarely</Select.Option>
     </Select> */}
-        <div className="flex justify-end w-full space-x-4 items-center mt-2">
+        <hr />
+        <div className="flex justify-end w-full space-x-2 p-2 items-center mt-2">
           <Button
             className="shadow-none  text-slate-500
                "
@@ -227,7 +239,7 @@ const TaskThree = ({
               handleBack()
             }}
           >
-            <ChevronsLeft className="mr-2" size={18} />
+            <ChevronsLeft className="mr-1" size={18} />
             Prev
           </Button>
 
@@ -252,7 +264,7 @@ const TaskThree = ({
             }}
           >
             Skip
-            <ChevronsRight className="ml-2" size={18} />
+            <ChevronsRight className="ml-1" size={18} />
           </Button>
         </div>
       </div>

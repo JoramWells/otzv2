@@ -78,6 +78,7 @@ import { appModulesApi } from '@/api/appModules/appModules.api'
 import { appModuleSessionApi } from '@/api/appModules/appModuleSession.api'
 import { vlJustificationApi } from '@/api/viraload/vlJustification.api'
 import { CALHIVApi } from '@/api/patient/calhiv.api'
+import { fullDisclosureApi } from '@/api/treatmentplan/full/fullDisclosure.api.ts'
 
 export const store = configureStore({
   reducer: {
@@ -146,6 +147,7 @@ export const store = configureStore({
     [childCaregiverReadinessApi.reducerPath]:
       childCaregiverReadinessApi.reducer,
     [partialDisclosureApi.reducerPath]: partialDisclosureApi.reducer,
+    [fullDisclosureApi.reducerPath]: fullDisclosureApi.reducer,
     [disclosureEligibilityApi.reducerPath]: disclosureEligibilityApi.reducer,
     [chaptersApi.reducerPath]: chaptersApi.reducer,
     [userAvailabilityApi.reducerPath]: userAvailabilityApi.reducer,
@@ -227,6 +229,7 @@ export const store = configureStore({
       .concat(mmasFourApi.middleware)
       .concat(mmasEightApi.middleware)
       .concat(partialDisclosureApi.middleware)
+      .concat(fullDisclosureApi.middleware)
       .concat(disclosureEligibilityApi.middleware)
       .concat(childCaregiverReadinessApi.middleware)
       .concat(pamaEnrollmentApi.middleware)
