@@ -14,7 +14,7 @@ export type ChildCaregiverReadinessProps = ChildCaregiverReadinessAttributes & {
 export const childCaregiverReadinessApi = createApi({
   reducerPath: 'childCaregiverReadinessApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/child-readiness`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/child-readiness`
   }),
   endpoints: (builder) => ({
     getAllChildCaregiverReadiness: builder.query<

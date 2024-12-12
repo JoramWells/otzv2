@@ -14,7 +14,7 @@ export type MMASEightInterface = MMASEightAttributes & {
 export const mmasEightApi = createApi({
   reducerPath: 'mmasEightApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/mmas-8`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/mmas-8`
   }),
   endpoints: (builder) => ({
     getAllMmasEight: builder.query<MMASEightInterface[], void>({

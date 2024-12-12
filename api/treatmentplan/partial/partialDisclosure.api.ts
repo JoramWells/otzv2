@@ -32,7 +32,7 @@ interface PartialDisclosureScoreCategoryInterface {
 export const partialDisclosureApi = createApi({
   reducerPath: 'partialDisclosureApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/partial-disclosure`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/partial-disclosure`
   }),
   endpoints: (builder) => ({
     getAllPartialDisclosure: builder.query<

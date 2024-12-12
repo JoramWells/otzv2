@@ -14,7 +14,7 @@ export type ChildDisclosureEligibilityProps = ChildDisclosureEligibilityAttribut
 export const disclosureEligibilityApi = createApi({
   reducerPath: 'disclosureEligibilityApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/disclosure-eligibility`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/disclosure-eligibility`
   }),
   endpoints: (builder) => ({
     getAllDisclosureEligibility: builder.query<

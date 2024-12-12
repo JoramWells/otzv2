@@ -14,7 +14,7 @@ export type PostDisclosureInputProps = PostDisclosureAttributes & {
 export const postDisclosureApi = createApi({
   reducerPath: 'postDisclosureApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/post-disclosure`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/post-disclosure`
   }),
   endpoints: (builder) => ({
     getAllPostDisclosure: builder.query<PostDisclosureInputProps[], void>({

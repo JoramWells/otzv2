@@ -32,7 +32,7 @@ export interface FullDisclosureResponseInterface {
 export const fullDisclosureApi = createApi({
   reducerPath: 'fullDisclosureApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/full-disclosure`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/full-disclosure`
   }),
   endpoints: (builder) => ({
     getAllFullDisclosure: builder.query<

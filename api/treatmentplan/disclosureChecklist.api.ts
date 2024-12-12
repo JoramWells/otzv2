@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const disclosureChecklistApi = createApi({
   reducerPath: 'disclosureChecklistApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/disclosure-checklist`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/disclosure-checklist`
   }),
   endpoints: (builder) => ({
     getAllDisclosureChecklist: builder.query({

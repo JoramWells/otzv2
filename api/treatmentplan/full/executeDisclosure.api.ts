@@ -10,7 +10,7 @@ export type ExecuteDisclosureInputProps = ExecuteDisclosureAttributes & {
 export const executeDisclosureApi = createApi({
   reducerPath: 'executeDisclosureApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/appointment/execute-disclosure`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/execute-disclosure`
   }),
   endpoints: (builder) => ({
     getAllExecuteDisclosure: builder.query<ExecuteDisclosureInputProps[], void>(
