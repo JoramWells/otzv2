@@ -115,12 +115,12 @@ const OTZEnrollmentLayout = ({ children }: { children: React.ReactNode }) => {
 
 export default function WrappedOTZEnrollmentLayout (props: any) {
   return <Suspense>
-    <Provider
-    store={store}
-    >
-      <UserProvider>
+      <Provider
+      store={store}
+      >
+        <UserProvider>
         <OTZEnrollmentLayout {...props} />
-      </UserProvider>
-    </Provider>
-  </Suspense>
+        </UserProvider>
+      </Provider>
+    </Suspense>
 }

@@ -82,9 +82,9 @@ const HomeVisitLayout = ({ children }: { children: React.ReactNode }) => {
 export default function WrappedHomeVisitLayout (props: any) {
   return (
     <Suspense>
-        <Provider store={store}>
+      <Provider store={store}>
           <HomeVisitLayout {...props} />
-        </Provider>
+      </Provider>
     </Suspense>
   )
 }

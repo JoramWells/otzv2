@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -52,17 +52,17 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.446.0",
     "moment": "^2.30.1",
-    "next": "^14.2.3",
+    "next": "15.1.0",
     "next-auth": "^4.24.7",
     "node-fetch": "^3.3.2",
     "npm": "^10.8.0",
     "papaparse": "^5.4.1",
-    "react": "^18",
+    "react": "19.0.0",
     "react-chartjs-2": "^5.2.0",
     "react-countup": "^6.5.3",
     "react-csv": "^2.2.2",
     "react-day-picker": "^8.10.1",
-    "react-dom": "^18",
+    "react-dom": "19.0.0",
     "react-google-autocomplete": "^2.7.3",
     "react-hook-form": "^7.51.4",
     "react-icons": "^5.0.1",
@@ -80,7 +80,7 @@
     "@eslint/compat": "^1.1.0",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.5.0",
-    "@next/eslint-plugin-next": "^14.1.2",
+    "@next/eslint-plugin-next": "15.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.0",
@@ -90,14 +90,14 @@
     "@types/node": "^22.7.2",
     "@types/node-fetch": "^2.6.11",
     "@types/papaparse": "^5.3.14",
-    "@types/react": "^18",
+    "@types/react": "19.0.1",
     "@types/react-csv": "^1.1.10",
-    "@types/react-dom": "^18",
+    "@types/react-dom": "19.0.2",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "autoprefixer": "^10.0.1",
     "eslint": "8.x",
-    "eslint-config-next": "14.1.0",
+    "eslint-config-next": "15.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
@@ -118,5 +118,11 @@
     "ts-node": "^10.9.2",
     "typescript": "*",
     "typescript-eslint": "^7.13.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.0.1",
+      "@types/react-dom": "19.0.2"
+    }
   }
 }

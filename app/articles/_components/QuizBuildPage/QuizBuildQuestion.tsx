@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -139,7 +140,7 @@ const QuizBuildQuestion = () => {
       articleID
     }
     setQuizQuestions([...quizQuestions, newQuestion])
-    textRefs.current = [...textRefs.current, createRef<HTMLInputElement>()]
+    textRefs.current = [...textRefs.current, createRef<HTMLInputElement | null>()]
   }
 
   function deleteQuestion (singleQuestion: QuestionsInterface) {
@@ -160,8 +161,8 @@ const QuizBuildQuestion = () => {
     setQuizQuestions(updateQuestions)
   }
 
-  const textRefs = useRef<Array<RefObject<HTMLInputElement>>>(
-    quizQuestions.map(() => createRef<HTMLInputElement>())
+  const textRefs = useRef<Array<RefObject<HTMLInputElement | null> | undefined>>(
+    quizQuestions.map(() => createRef<HTMLInputElement | null>())
   )
 
   function updateChoicesArray (
@@ -265,14 +266,14 @@ const QuizBuildQuestion = () => {
                 >
                   <div className="p-4 flex flex-col space-y-4 ">
                     <div className="p-4 border border-s-slate-200 rounded-lg">
-                      <Question
+                      {/* <Question
                         questionIndex={(questionIndex + 1).toString()}
                         value={singleQuestion.question}
                         ref={textRefs.current[questionIndex]}
                         onChange={(e) => {
                           handleInputChange(questionIndex, e.target.value)
                         }}
-                      />
+                      /> */}
                     </div>
                     <div className="p-4 border ">
                       {questionIndex !== 0 && (

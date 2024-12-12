@@ -15,6 +15,7 @@ import ChatList from '../components/ChatList'
 import MessageArea from '../components/MessageArea'
 import ChatInput from '../components/ChatInput'
 import { useChatSocket } from '@/context/ChatContext'
+import { useUserContext } from '@/context/UserContext'
 
 export interface TextChatInputProps {
   type: string
@@ -32,7 +33,7 @@ export default function Page () {
 
   const { data: session } = useSession()
 
-  const userID = session?.user?.id
+  const { authUser } = useUserContext()
   // useEffect(() => {
   //   if (session) {
   //     const { user } = session
@@ -40,8 +41,8 @@ export default function Page () {
   //     setUserName(`${user.firstName} ${user.middleName}`)
   //   }
   // }, [session])
-  const { data: patientData } = useGetPatientByUserIDQuery(userID as string)
-  const lastMessageRef = useRef(null)
+  const { data: patientData } = useGetPatientByUserIDQuery(authUser?.id as string)
+  const lastMessageRef = useRef<HTMLDivElement>(null)
 
   // const { data: usersData } = useGetAllUsersQuery()
 
@@ -60,9 +61,9 @@ export default function Page () {
         {/*  */}
 
         <div className="w-3/4 flex flex-col h-screen">
-          <MessageArea data={messages}
+          {/* <MessageArea data={messages}
           lastMessageRef={lastMessageRef}
-          />
+          /> */}
           <ChatInput
           userName={userName}
           avatar={avatar}

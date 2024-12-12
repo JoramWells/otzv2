@@ -42,7 +42,6 @@ export function NotificationDropDown ({ data }: { data: NotificationAttributes[]
 
         <div className="h-[200px] w-auto overflow-y-auto">
           {data?.map((item) => (
-            <>
               <DropdownMenuItem
                 className="capitalize hover:cursor-pointer hover:text-slate-700"
                 key={item.id}
@@ -51,7 +50,6 @@ export function NotificationDropDown ({ data }: { data: NotificationAttributes[]
                   {item?.notificationDescription?.substring(0, 50)}...
                 </p>
               </DropdownMenuItem>
-            </>
           ))}
         </div>
       </DropdownMenuContent>
