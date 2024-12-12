@@ -6,8 +6,7 @@
     "extends": [
         "next",
         "standard-with-typescript",
-        "plugin:react/recommended",
-        "plugin:react-hooks/recommended"
+        "plugin:react/recommended"
 
     ],
     "parserOptions": {

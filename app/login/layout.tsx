@@ -11,7 +11,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
     <Provider
     store={store}
     >
-      <div className="flex flex-row">{children}</div>
+      <div >{children}</div>
     </Provider>
   )
 }
