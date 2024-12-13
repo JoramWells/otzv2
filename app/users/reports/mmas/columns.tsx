@@ -6,6 +6,7 @@
 // import { Button } from '@/components/ui/button'
 
 import { type MMASEightInterface } from '@/api/treatmentplan/mmasEight.api'
+import { type ExtendedMMASFourInterface } from '@/api/treatmentplan/mmasFour.api'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 import { type ColumnDef } from '@tanstack/react-table'
@@ -47,7 +48,7 @@ export type MMASInterface = MMASFourAttributes & {
   }
 }
 
-export const columns: Array<ColumnDef<MMASInterface>> = [
+export const columns: Array<ColumnDef<ExtendedMMASFourInterface>> = [
   {
     accessorKey: 'firstName',
     header: 'Name',

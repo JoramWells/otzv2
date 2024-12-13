@@ -239,6 +239,7 @@ export function CustomTable<TData, TValue> ({
                     {headerGroup.headers.map((header) => (
                       <TableHead
                         key={header.id}
+                        onClick={header.column.getToggleSortingHandler()}
                         {...{
                           colSpan: header.colSpan,
                           style: {
@@ -246,6 +247,15 @@ export function CustomTable<TData, TValue> ({
                           }
                         }}
                         className="text-[12px] text-slate-700 capitalize overflow-hidden whitespace-nowrap overflow-ellipsis "
+                        title={
+                          header.column.getCanSort()
+                            ? header.column.getNextSortingOrder() === 'asc'
+                              ? 'Sort ascending'
+                              : header.column.getNextSortingOrder() === 'desc'
+                                ? 'Sort descending'
+                                : 'Clear sort'
+                            : undefined
+                        }
                       >
                         {header.isPlaceholder
                           ? null

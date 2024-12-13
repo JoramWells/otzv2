@@ -67,8 +67,8 @@ const CustomSelectParams = ({
                 )
               : (
               <>
-                {data.map((item) => (
-                  <SelectItem key={item.id} value={item.id}>
+                {data.map((item, idx) => (
+                  <SelectItem key={item.id + idx} value={item.id}>
                     {item.label}
                   </SelectItem>
                 ))}

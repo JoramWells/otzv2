@@ -191,7 +191,9 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'sex',
     header: 'Sex',
-    cell: ({ row }) => <p className="text-[12px]">{row.original.sex}</p>
+    cell: ({ row }) => <p className="text-[12px]">{row.original.sex}</p>,
+    enableSorting: true,
+    sortingFn: 'basic'
   },
   {
     accessorKey: 'dob',
@@ -199,7 +201,8 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
     cell: ({ row }) => (
       <p className="text-[12px]">{calculateAge(row.original?.dob)}</p>
     ),
-    enableSorting: true
+    enableSorting: true,
+    sortingFn: 'datetime'
   },
   {
     accessorKey: 'phoneNo',
