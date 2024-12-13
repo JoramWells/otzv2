@@ -149,12 +149,13 @@ export function CustomTable<TData, TValue> ({
                 value={search}
                 onChange={handleSearch}
               />
-      { search && search?.length > 0 &&
-
-                <X size={16} className='text-slate-500 mr-2'
-                onClick={() => setSearch && setSearch('')}
+              {search && search?.length > 0 && (
+                <X
+                  size={16}
+                  className="text-slate-500 mr-2"
+                  onClick={() => setSearch && setSearch('')}
                 />
-      }
+              )}
             </div>
             {filter && filter}
           </div>
@@ -252,6 +253,10 @@ export function CustomTable<TData, TValue> ({
                             header.column.columnDef.header,
                             header.getContext()
                           )}
+                        {{
+                          asc: ' 🔼',
+                          desc: ' 🔽'
+                        }[header.column.getIsSorted() as string] ?? null}
                         <div
                           className={` absolute right-0 bg-black cursor-col-resize select-none touch-none ${
                             header.column.getIsResizing() ? 'bg-blue-500' : ''
@@ -273,6 +278,15 @@ export function CustomTable<TData, TValue> ({
                                   }px)`
                                 : ''
                           }}
+                          title={
+                            header.column.getCanSort()
+                              ? header.column.getNextSortingOrder() === 'asc'
+                                ? 'Sort ascending'
+                                : header.column.getNextSortingOrder() === 'desc'
+                                  ? 'Sort descending'
+                                  : 'Clear sort'
+                              : undefined
+                          }
                         />
                       </TableHead>
                     ))}
