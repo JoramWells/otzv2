@@ -16,7 +16,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN npm cache clean --force
 RUN npm cache clear --force
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --no-frozen-lockfile
 
 COPY . .
 
