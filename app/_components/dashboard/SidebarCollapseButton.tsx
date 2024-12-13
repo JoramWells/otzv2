@@ -61,7 +61,7 @@ export const SidebarCollapseButton = ({ label = 'Dashboard', link, itemList, ico
         {/* ceck if item list is more tan 1 */}
         {itemList != null && itemList?.length > 0 && (
           <>
-            {visible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+            {visible ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
           </>
         )}
       </Button>

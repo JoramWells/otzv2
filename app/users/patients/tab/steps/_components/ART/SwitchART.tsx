@@ -58,7 +58,7 @@ const SwitchART = ({
   }
 
   return (
-    <div className="flex flex-col space-y-4 border border-s-slate-200 rounded-lg p-4">
+    <div className="flex flex-col space-y-2 ">
       {/*  */}
       <CustomSelect
         label="Regimen Line"
@@ -112,6 +112,7 @@ const SwitchART = ({
       <Button
         className="bg-slate-200 hover:bg-slate-100 shadow-none text-black"
         onClick={async () => await addArtPrescription(inputValues)}
+        size={'sm'}
       >
         {isLoading && <Loader2 className="mr-2 animate-spin" size={18} />}
         Switch Regimen

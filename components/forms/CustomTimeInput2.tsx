@@ -13,9 +13,9 @@ interface CustomInputProps {
 
 const CustomTimeInput2 = ({ label, onChange, value, description }: CustomInputProps) => {
   return (
-    <div className="w-full flex flex-col space-y-2">
+    <div className="w-full flex flex-col space-y-1">
       {label && (
-        <p className="text-slate-700 font-bold text-[14px] ">{label}</p>
+        <p className="text-slate-700 font-semibold text-[14px] ">{label}</p>
       )}
       {description && (
         <p className="mb-1 text-slate-500 text-[12px]">{description}</p>

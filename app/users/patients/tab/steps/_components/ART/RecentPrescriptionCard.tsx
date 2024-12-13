@@ -15,7 +15,7 @@ interface PrescriptionCardProps {
 
 const RecentPrescriptionCard = ({ isLoading, isError, data }: PrescriptionCardProps) => {
   return (
-    <div className="w-1/3 rounded-lg bg-white">
+    <div className="w-1/3 rounded-lg bg-white border border-slate-200">
       <RecentTestHeader title="Recent Prescription" date={data?.createdAt} />
 
       <div>

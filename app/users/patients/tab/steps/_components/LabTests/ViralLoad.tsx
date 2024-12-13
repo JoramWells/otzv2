@@ -31,7 +31,7 @@ const ViralLoad = ({ vlResults, setVLResults, dateOfVL, setDateOfVL, dateOfNextV
     }))
   }, [vlJustificationData])
   return (
-    <div className="flex flex-col space-y-4 p-4 border border-dashed border-s-slate-200 rounded-lg">
+    <div className="flex flex-col space-y-4 rounded-lg">
       <CustomInput
         label="Results"
         placeholder="Enter VL Results"

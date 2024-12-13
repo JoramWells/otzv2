@@ -48,9 +48,9 @@ const MmasFour = ({
     <div className="flex flex-col bg-white rounded-lg border border-slate-200 ">
       <div
         className="flex justify-between items-center w-full
-    border-b border-slate-200 pr-4 pl-4 p-2"
+    border-b border-slate-200  p-2"
       >
-        <p className="font-bold ">MMAS-4</p>
+        <p className="text-[14px] text-slate-800 ">MMAS-4</p>
         <div className="flex space-x-4 justify-between  items-center text-[12px] ">
           {mmassFourScore === 0 && (
             <Badge

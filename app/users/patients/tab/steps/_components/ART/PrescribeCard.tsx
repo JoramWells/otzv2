@@ -42,7 +42,7 @@ const PrescribeCard = ({
   addPrescriptionData
 }: PrescriptionCardProps) => {
   return (
-    <div className="flex flex-col space-y-4  border  rounded-lg p-4">
+    <div className="flex flex-col space-y-2  rounded-lg">
       <CustomInput
         label="Pills"
         description='The number of pills prescribed.'
@@ -76,7 +76,7 @@ const PrescribeCard = ({
       />
 
       {/*  */}
-      <div className="flex justify-end mt-4 space-x-4 w-full absolute bottom-2 right-0.5 ">
+      <div className="flex justify-end mt-4 space-x-4 w-full  ">
         <Button
           onClick={() => {
             handleBack()

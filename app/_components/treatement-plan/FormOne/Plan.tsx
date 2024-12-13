@@ -22,7 +22,7 @@ const Plan = ({
 
 }: PlanProps) => {
   return (
-    <div className="flex-1 border p-4 rounded-lg">
+    <div className="flex-1 flex flex-col space-y-2  rounded-lg">
 
       {/*  */}
       <div>

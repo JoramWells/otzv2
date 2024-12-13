@@ -48,7 +48,7 @@ const ScheduleAndTime = ({
   const [tabValue, setTabValue] = useState('Morning')
 
   return (
-    <div className="flex-1 border p-4 rounded-lg">
+    <div className="flex-1  rounded-lg">
       <div>
         <p className="mb-2 text-slate-500">
           Based on your schedule, what is the best time and place to take

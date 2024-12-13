@@ -38,7 +38,7 @@ const InitiateART = ({
 
 }: InitiateARTProps) => {
   return (
-    <div className="flex flex-col pt-2 space-y-2 p-4 border border-dashed border-slate-200 rounded-lg">
+    <div className="flex flex-col pt-2 space-y-2 rounded-lg">
       <CustomSelect
         label="Regimen Line"
         description="Select the patient treatment phase."

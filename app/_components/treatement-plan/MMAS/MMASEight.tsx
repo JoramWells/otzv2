@@ -72,8 +72,8 @@ const MmasEight = ({
 
   return (
     <div className="bg-white rounded-lg border border-slate-200">
-      <div className="flex justify-between items-center w-full border-b border-slate-200 pl-4 pr-4 p-2">
-        <p className="font-bold ">MMAS-8</p>
+      <div className="flex justify-between items-center w-full border-b border-slate-200  p-2">
+        <p className="text-[14px] text-slate-800 ">MMAS-8</p>
         <div className="flex space-x-4 justify-between  items-center text-[12px] ">
           {mmassEightScore === 0 && (
             <Badge
@@ -117,8 +117,8 @@ const MmasEight = ({
         />
         <hr />
 
-        <div>
-          <p className="font-bold text-[14px] ">
+        <div className='p-2' >
+          <p className="font-bold text-[14px] text-slate-800 ">
             How ofter do you find difficulty remembering to take all your
             medications ?
           </p>

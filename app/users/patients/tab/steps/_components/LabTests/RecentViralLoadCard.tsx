@@ -11,7 +11,7 @@ interface RecentViralLoadCardProps {
 
 const RecentViralLoadCard = ({ data, average }: RecentViralLoadCardProps) => {
   return (
-    <div className="w-1/3 bg-white rounded-lg">
+    <div className="w-1/3 bg-white rounded-lg border border-slate-200">
       <RecentTestHeader title="Recent Test" date={data?.createdAt} />
       <div className="p-4 flex flex-col space-y-2">
         <div className="flex justify-between items-center w-full text-[12px] ">

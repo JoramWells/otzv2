@@ -34,7 +34,7 @@ const TimeAndWork = ({
 
 }: TimeAndWorkProps) => {
   return (
-    <div className="flex-1 flex flex-col space-y-2 border p-4 rounded-lg bg-white">
+    <div className="flex-1 flex flex-col space-y-2  rounded-lg bg-white">
       <CustomTimeInput2
         label="What time do you wake up mostly?"
         onChange={setWakeUpTime}

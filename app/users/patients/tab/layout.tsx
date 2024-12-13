@@ -5,6 +5,7 @@
 'use client'
 
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '@/app/_components/patient/SidebarListItemsComponent'
+import AppList from '@/components/nav/AppList/AppList'
 // import Footer from '@/components/Footer'
 // import Footer from '@/components/Footer'
 import { Sidebar } from '@/components/sidebar/Sidebar'
@@ -81,6 +82,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             {children}
             <Toaster />
           </div>
+          <AppList />
         </ChakraProvider>
       </Provider>
     )
@@ -99,6 +101,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           <Toaster />
         </div>
         {/* <Footer /> */}
+        <AppList />
       </div>
     </ChakraProvider>
   )

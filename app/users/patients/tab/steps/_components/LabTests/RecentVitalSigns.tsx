@@ -7,7 +7,7 @@ interface RecentVitalSignsProps { createdAt: Date, temperature?: number, pulseRa
 
 const RecentVitalSigns = ({ createdAt, temperature, pulseRate, respiratoryRate, systolic, diastolic, weight, height }: RecentVitalSignsProps) => {
   return (
-    <div className="w-1/3 bg-white rounded-lg">
+    <div className="w-1/3 bg-white rounded-lg border border-slate-200 ring ring-slate-100">
       <RecentTestHeader title="Recent Vitals" date={createdAt} />
 
       <div className="p-2">

@@ -127,7 +127,7 @@ const AddTriage = ({
   const { handleSubmit } = methods
 
   return (
-    <div className="flex items-start justify-between space-x-4 w-full ">
+    <div className="flex items-start justify-between space-x-2 w-full ">
       <Suspense fallback={<Skeleton className="w-3/4 h-[400px] " />}>
         <div className="w-3/4 bg-white rounded-lg border border-slate-200 ">
           <CardHeader
@@ -149,10 +149,9 @@ const AddTriage = ({
             }
           />
 
-          <div className="p-4 relative pb-[68px]">
             <FormProvider {...methods}>
               <form
-                className="p-4 rounded-lg flex flex-col space-y-4 border"
+                className="p-4 rounded-lg flex flex-col space-y-4"
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <CustomInput2
@@ -182,7 +181,7 @@ const AddTriage = ({
                 </div>
 
                 <div className='mt-2'>
-                  <p className="font-bold">Blood Pressure (mmHg)</p>
+                  <p className="font-semibold text-[14px] mb-1 ">Blood Pressure (mmHg)</p>
                   <div className="flex flex-row w-full p-4 rounded-lg border border-slate-200 space-x-4 items-center">
                     <CustomInput2
                       label="Systolic"
@@ -267,7 +266,7 @@ const AddTriage = ({
           Save
         </Button>
           )} */}
-                <div className="flex w-full justify-end absolute bottom-4 right-4 ">
+                <div className="flex w-full justify-end  ">
                   {vsData || vlData ? (
                     <Button
                       className="bg-slate-200 hover:bg-slate-100 shadow-none text-black"
@@ -295,7 +294,6 @@ const AddTriage = ({
                 </div>
               </form>
             </FormProvider>
-          </div>
         </div>
       </Suspense>
       {/*  */}

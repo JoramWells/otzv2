@@ -34,7 +34,7 @@ export const SidebarSubButton = ({
     `}
     >
       <Link href={link}
-      className='text-sm'
+      className='text-[12px]'
       >{label}</Link>
     </div>
   )

@@ -263,7 +263,7 @@ const AddART = ({ patientID, handleBack, handleNext }: AddArtProps) => {
           {prescriptionData || addArtPrescriptionData ? (
             <div className="rounded-lg flex flex-col justify-between items-center w-full p-4">
               {/* <p>{prescriptionData?.regimen}</p> */}
-              <div className="w-full flex flex-col space-y-2 relative pb-[60px] ">
+              <div className="w-full flex flex-col space-y-2 relative  ">
                 <div className="flex flex-row space-x-4">
                   {dataList.map((item) => (
                     <Button
