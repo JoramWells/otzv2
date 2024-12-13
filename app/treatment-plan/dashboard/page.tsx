@@ -3,7 +3,6 @@
 
 import { useGetFullDisclosureCategoryScoreQuery } from '@/api/treatmentplan/full/fullDisclosure.api.ts'
 import { useGetPartialDisclosureCategoryScoreQuery } from '@/api/treatmentplan/partial/partialDisclosure.api'
-// import AppList from '@/components/nav/AppList/AppList'
 import { useUserContext } from '@/context/UserContext'
 import { Trophy } from 'lucide-react'
 import moment from 'moment'
@@ -96,7 +95,6 @@ const TreatmentPlanDashboard = () => {
           ))}
         </div>
       </div>
-{/* <AppList /> */}
     </div>
   )
 }

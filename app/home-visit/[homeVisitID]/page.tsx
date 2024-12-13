@@ -45,7 +45,6 @@ const HomeVisit = ({ params }: { params: any }) => {
   const [currentPosition, setCurrentPosition] = useState<google.maps.LatLngLiteral>()
 
   const { data } = useGetHomeVisitQuery(homeVisitID)
-  console.log(data, 'datax')
   const { data: locationData } = useGetUserLocationQuery(patientID)
   // useEffect(() => {
   //   if (data != null) {

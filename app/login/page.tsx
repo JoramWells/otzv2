@@ -96,7 +96,7 @@ const LoginPage = () => {
         rounded-lg gap-y-4 mx-auto ml-auto bg-white border-t-4 border-teal-500"
         onSubmit={handleSubmit}
       >
-        <Image
+        {/* <Image
           src={'/img/xmas.png'}
           alt="img"
           width={90}
@@ -105,7 +105,7 @@ const LoginPage = () => {
           style={{ width: '90px', height: '90px' }}
           objectFit='contain'
           // quality={100}
-        />
+        /> */}
         <div>
           <h2 className="text-slate-700 text-[16px]">Sign In</h2>
           <h3 className="text-muted-foreground text-[12px] ">
