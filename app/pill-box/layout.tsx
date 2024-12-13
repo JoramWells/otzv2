@@ -16,6 +16,7 @@ import { Suspense, useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { PharmacyProvider } from '@/context/PharmacyContext'
 import { UserProvider, useUserContext } from '@/context/UserContext'
+import AppList from '@/components/nav/AppList/AppList'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -71,6 +72,7 @@ const PillLayout = ({ children }: { children: React.ReactNode }) => {
 
                   {children}
                 </div>
+                <AppList />
               </div>
             </SidebarProvider>
           </PharmacyProvider>

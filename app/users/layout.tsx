@@ -23,6 +23,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { UserProvider, useUserContext } from '@/context/UserContext'
 import { PharmacyProvider } from '@/context/PharmacyContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import AppList from '@/components/nav/AppList/AppList'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -160,6 +161,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
                     <Footer />
                   </div>
                   <Toaster />
+                  <AppList />
                 </div>
               </PharmacyProvider>
           </SidebarProvider>

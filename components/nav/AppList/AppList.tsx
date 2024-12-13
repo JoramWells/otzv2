@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
 
 import { type AppModuleResponseInterface } from '@/api/appModules/appModules.api'
@@ -5,8 +6,11 @@ import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import { LayoutPanelLeft, X } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { type AppModuleInterface } from 'otz-types'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { type Url } from 'url'
 
 const fetchData = async (): Promise<AppModuleResponseInterface | undefined> => {
   try {
@@ -58,43 +62,51 @@ const AppList = () => {
       document.removeEventListener('mousedown', handleMouseClickOutside)
   }, [])
 
+  const pathname = usePathname()
+  console.log(pathname, 'PName')
+
   return (
-    <div className="absolute bottom-14 right-2 w-[200px]" ref={dropDownRef}>
+    <div className="absolute bottom-2 right-2 w-[200px]" ref={dropDownRef}>
       {visible && (
-        <div className=" rounded-lg bg-white shadow-lg flex flex-col space-y-2 border border-slate-200">
-          <div className="p-2 border-b border-slate-200 flex flex-row justify-between items-center">
-            <p className="text-[14px] font-semibold ">Quick App Access</p>
+        <div className=" rounded-lg bg-slate-300 flex flex-col space-y-2 border border-slate-300">
+          <div className="p-2 border-b border-slate-300 flex flex-row justify-between items-center bg-white rounded-t-lg">
+            <p className="text-[12px] font-semibold ">Quick App Access</p>
             {/* <Button size={'sm'} variant={'ghost'}>
               <X className="" size={16} />
             </Button> */}
           </div>
 
-          <div className="grid grid-cols-2 p-2">
+          <div className="grid grid-cols-2 p-2 pt-0 gap-2">
             {filterData?.map((item, idx) => (
               <div
                 key={item.id}
-                className="p-2 flex flex-col items-center justify-center space-y-1 rounded-lg hover:cursor-pointer hover:bg-slate-50
-                rounded-br-full
-
-              "
+                className={`p-2 flex flex-col bg-slate-100 items-center justify-center space-y-1 rounded-lg hover:cursor-pointer hover:bg-slate-50
+                  ${pathname.includes(item?.title?.toLowerCase() as string) && 'bg-white text-cyan-500 border-cyan-200'}
+                  `}
                 title={item.title}
               >
                 <Image
                   src={`${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.img}`}
                   alt="img"
-                  width={30}
-                  height={30}
+                  width={35}
+                  height={35}
                   style={{
-                    width: '30px',
-                    height: '30px',
+                    width: '35px',
+                    height: '35px',
                     objectFit: 'contain'
                   }}
 
                   // quality={100}
                 />
-                <p className="text-[10px] text-center font-semibold text-slate-700">
+                <Link
+                href={item.link as unknown as Url}
+                className='text-[10px] text-center hover:underline hover:text-blue-500 font-semibold'
+                >
+                {item.title}
+                </Link>
+                {/* <p className="text-[10px] text-center font-semibold text-slate-700">
                   {item.title}
-                </p>
+                </p> */}
               </div>
             ))}
           </div>

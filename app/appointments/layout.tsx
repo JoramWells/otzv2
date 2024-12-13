@@ -17,6 +17,7 @@ import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { PharmacyProvider } from '@/context/PharmacyContext'
 import io from 'socket.io-client'
 import { UserProvider } from '@/context/UserContext'
+import AppList from '@/components/nav/AppList/AppList'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -88,6 +89,7 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
                 {children}
                 <Footer />
               </div>
+              <AppList />
             </div>
           </PharmacyProvider>
         </SidebarProvider>

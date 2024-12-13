@@ -15,6 +15,7 @@ import { useSession } from 'next-auth/react'
 import { Suspense, useEffect } from 'react'
 import AuthenticateLoader from '@/components/AuthenticateLoader'
 import { UserProvider, useUserContext } from '@/context/UserContext'
+import AppList from '@/components/nav/AppList/AppList'
 
 const DL: SidebarListItemsProps[] = [
   {
@@ -83,6 +84,7 @@ const ViratrackLayout = ({ children }: { children: React.ReactNode }) => {
 
             {children}
           </div>
+          <AppList/>
         </div>
       </SidebarProvider>
     )
