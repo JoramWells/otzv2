@@ -54,7 +54,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { data: patientData } = useGetPatientByUserIDQuery(session?.user.id as string)
   const [userSocket, setUserSocket] = useState<Socket>()
   const [moduleID, setModuleID] = useState<string | undefined | null>()
-  const [hospitalID, setHospitalID] = useState<string | undefined>('')
+  const [hospitalID, setHospitalID] = useState<string | undefined>()
   useEffect(() => {
     if (status === 'loading') {
       return

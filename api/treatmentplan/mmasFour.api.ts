@@ -1,6 +1,15 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { type MMASInterface } from '@/app/users/reports/mmas/columns'
+import { type PaginatedResponseInterface, type DefaultParamsInterface } from '@/dtos/PaginatedResponseInterface'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type MMASFourAttributes, type PatientAttributes } from 'otz-types'
+
+export type ExtendedMMASFourInterface = MMASFourAttributes & {
+  Patient: PatientAttributes
+}
+
+export type MMASFourResponseInterface = PaginatedResponseInterface<ExtendedMMASFourInterface>
 
 export const mmasFourApi = createApi({
   reducerPath: 'mmasFourApi',
@@ -8,8 +17,23 @@ export const mmasFourApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/mmas-4`
   }),
   endpoints: (builder) => ({
-    getAllMmasFour: builder.query<MMASInterface[], void>({
-      query: () => 'fetchAll'
+    getAllMmasFour: builder.query<
+    MMASFourResponseInterface,
+    DefaultParamsInterface
+    >({
+      query: (params) => {
+        if (params) {
+          const { hospitalID, page, pageSize, searchQuery } =
+            params
+          let queryString = ''
+          queryString += `page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          queryString += `&hospitalID=${hospitalID}`
+          return `/fetchAll?${queryString}`
+        }
+        return 'fetchAll'
+      }
     }),
     addMmasFour: builder.mutation({
       query: (newUser) => ({

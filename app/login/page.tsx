@@ -91,9 +91,21 @@ const LoginPage = () => {
       </div>
 
       <form
-        className="flex flex-col w-[500px] p-8 rounded-lg gap-y-4 mx-auto ml-auto bg-white border-t-4 border-teal-500"
+        className="flex flex-col w-[500px] p-8
+        relative
+        rounded-lg gap-y-4 mx-auto ml-auto bg-white border-t-4 border-teal-500"
         onSubmit={handleSubmit}
       >
+        <Image
+          src={'/img/xmas.png'}
+          alt="img"
+          width={90}
+          height={90}
+          className='absolute -top-9 -right-8'
+          style={{ width: '90px', height: '90px' }}
+          objectFit='contain'
+          // quality={100}
+        />
         <div>
           <h2 className="text-slate-700 text-[16px]">Sign In</h2>
           <h3 className="text-muted-foreground text-[12px] ">

@@ -6,7 +6,7 @@
 import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import React, { type FormEvent, useEffect, useState } from 'react'
+import React, { type FormEvent, type Usable, useEffect, useState } from 'react'
 import axios from 'axios'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 import { useGetAppModulesQuery } from '@/api/appModules/appModules.api'
@@ -27,15 +27,15 @@ const dataList2 = [
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/api/root/app-modules/edit`
 
-const AddApp = ({ params }: { params: any }) => {
-  const { appModuleID } = params
+const AddApp = (props: { params: Usable<any> }) => {
+  const { appModuleID } = React.use(props.params)
 
   const { data } = useGetAppModulesQuery(appModuleID as string)
 
   const [file, setFile] = useState<File | undefined>()
-  const [title, setTitle] = useState<string>()
-  const [link, setLink] = useState<string>()
-  const [description, setDescription] = useState<string>()
+  const [title, setTitle] = useState<string | undefined>('')
+  const [link, setLink] = useState<string | undefined>('')
+  const [description, setDescription] = useState<string | undefined>('')
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {

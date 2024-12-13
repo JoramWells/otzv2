@@ -58,7 +58,7 @@ const dataList = [
     link: '/'
   },
   {
-    id: '1',
+    id: '2',
     label: 'Dashboard',
     link: '/administrator/dashboard'
   }

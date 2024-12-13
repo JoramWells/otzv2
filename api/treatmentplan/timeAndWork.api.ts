@@ -1,9 +1,17 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { type DefaultParamsInterface, type PaginatedResponseInterface } from '@/dtos/PaginatedResponseInterface'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type PatientAttributes, type TimeAndWorkAttributes } from 'otz-types'
 
-interface AppointmentProps {
+type AppointmentProps = {
   medicationsDue?: boolean
+} & DefaultParamsInterface
+
+export type ExtendedTimeAndWorkInterface = TimeAndWorkAttributes & {
+  Patient: PatientAttributes
 }
+
+export type TimeAndWorkResponseInterface = PaginatedResponseInterface<ExtendedTimeAndWorkInterface>
 
 export const timeAndWorkApi = createApi({
   reducerPath: 'timeAndWorkApi',
@@ -11,12 +19,16 @@ export const timeAndWorkApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/time-and-work`
   }),
   endpoints: (builder) => ({
-    getAllTimeAndWork: builder.query<any, AppointmentProps>({
+    getAllTimeAndWork: builder.query<TimeAndWorkResponseInterface, AppointmentProps>({
       query: (params) => {
         if (params) {
-          const { medicationsDue } = params
+          const { medicationsDue, hospitalID, page, pageSize, searchQuery } = params
           let queryString = ''
           queryString += `medicationsDue=${medicationsDue}`
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          queryString += `&hospitalID=${hospitalID}`
           return `/fetchAll?${queryString}`
         }
         return 'fetchAll'

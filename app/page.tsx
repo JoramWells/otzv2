@@ -80,7 +80,7 @@ const fetchData = async (): Promise<AppModuleResponseInterface | undefined> => {
         {
           params: {
             page: 1,
-            pageSize: 10,
+            pageSize: 100,
             searchQuery: ''
           }
         }

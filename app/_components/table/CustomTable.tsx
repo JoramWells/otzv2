@@ -311,13 +311,13 @@ export function CustomTable<TData, TValue> ({
           gap-x-2
           "
               >
-                <BookOpen size={15} />
+                <BookOpen size={14} />
                 <p className="text-[12px]">
                   Page {table.getState().pagination.pageIndex + 1} of{' '}
                   {table.getPageCount()}
                 </p>
               </div>
-              <div className="flex flex-row items-center space-x-4">
+              <div className="flex flex-row items-center space-x-2">
                 <Button
                   onClick={() => {
                     table.previousPage()
@@ -325,13 +325,15 @@ export function CustomTable<TData, TValue> ({
                   }}
                   disabled={!table.getCanPreviousPage()}
                   size={'sm'}
-                  className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
+                  // className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
+                  variant={'outline'}
                 >
-                  <ChevronsLeft size={15} />
+                  <ChevronsLeft size={14} />
                   Prev
                 </Button>
                 <Button
-                  className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
+                  // className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
+                  variant={'outline'}
                   onClick={() => {
                     table.nextPage()
                     updateQueryParams(pageNo + 1)
@@ -340,7 +342,7 @@ export function CustomTable<TData, TValue> ({
                   size={'sm'}
                 >
                   Next
-                  <ChevronsRight size={15} />
+                  <ChevronsRight size={14} />
                 </Button>
               </div>
             </div>

@@ -27,18 +27,16 @@ const TreatmentPlanDashboard = () => {
     }
   )
 
-  console.log(data, fData, 'data')
-
   return (
     <div>
       <div className="p-2">
         <div className="rounded-lg bg-white">
           <p>Partial Disclosure</p>
-          {data?.map((item) => (
+          {data?.map((item, idx) => (
             <div
               className="border border-slate-200 rounded-lg w-1/4 bg-white flex flex-row m-2 p-2 items-center justify-between
             "
-              key={item.id}
+              key={idx}
             >
               <div className="flex flex-row space-x-2 items-center">
                 <Trophy size={16} />
