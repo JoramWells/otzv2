@@ -63,12 +63,45 @@ const AppList = () => {
   }, [])
 
   const pathname = usePathname()
-  console.log(pathname, 'PName')
+  const [isDragging, setIsDragging] = useState(false)
+  const [position, setPosition] = useState({ x: 100, y: 100 })
+
+  const handleMouseDown = (e: { preventDefault: () => void, clientX: number, clientY: number }) => {
+    e.preventDefault()
+    setIsDragging(true)
+    const offsetX = e.clientX - position.x
+    const offsetY = e.clientY - position.y
+    const handleMouseMove = () => {
+      if (isDragging) {
+        setPosition({
+          x: e.clientX - offsetX,
+          y: e.clientY - offsetY
+        })
+      }
+    }
+
+    const handleMouseUp = () => {
+      setIsDragging(false)
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+  }
 
   return (
-    <div className="absolute bottom-2 right-2 w-[200px]" ref={dropDownRef}>
+    <div className={` absolute bottom-2 right-2 cursor-grab w-[200px] ${isDragging ? 'cursor-grabbing' : ''} `} ref={dropDownRef}
+    onMouseDown={handleMouseDown}
+    // style={{
+    //   position: 'absolute',
+    //   top: `${position.y}px`,
+    //   left: `${position.x}px`
+    // }}
+    >
       {visible && (
-        <div className=" rounded-lg bg-slate-300 flex flex-col space-y-2 border border-slate-300">
+        <div className=" rounded-lg
+        bg-white/[.2] backdrop-blur-md
+         flex flex-col space-y-2 border border-slate-300">
           <div className="p-2 border-b border-slate-300 flex flex-row justify-between items-center bg-white rounded-t-lg">
             <p className="text-[12px] font-semibold ">Quick App Access</p>
             {/* <Button size={'sm'} variant={'ghost'}>
