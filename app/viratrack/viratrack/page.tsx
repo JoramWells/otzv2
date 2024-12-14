@@ -12,6 +12,7 @@ import { useUserContext } from '@/context/UserContext'
 import debounce from 'lodash/debounce'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'
 import { columns } from './columns'
+import { Badge } from '@/components/ui/badge'
 // interface ItemsProps {
 //   dob: MomentInput
 // }
@@ -191,10 +192,14 @@ const TrackPage = () => {
     <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div
-      className='p-2'
-      >
+      <div className="p-2">
         <div className="border border-slate-200 rounded-lg bg-white">
+          <div className="p-2 rounded-t-lg bg-slate-50 border-b text-[16px] text-slate-700 border-slate-200 flex flex-row items-center space-x-2">
+            <p className="text-slate-700 text-[16px]">Viral Load Records</p>
+            <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
+              {total}
+            </Badge>
+          </div>
           <CustomTable
             columns={columns}
             isLoading={isLoading}

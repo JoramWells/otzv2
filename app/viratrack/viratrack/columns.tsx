@@ -19,9 +19,9 @@ export const columns: Array<ColumnDef<ExtendedViralLoadInterface>> = [
         />
         <div className="flex flex-col space-y-1">
           <Link
-            className="capitalize"
-            href={`/patients/${row.original.id}`}
-          >{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</Link>
+            className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
+            href={`/users/patients/tab/dashboard/${row.original.patientID}`}
+          >{`${row.original.Patient.firstName} ${row.original.Patient.middleName}`}</Link>
         </div>
       </div>
     )
@@ -30,9 +30,7 @@ export const columns: Array<ColumnDef<ExtendedViralLoadInterface>> = [
     accessorKey: 'vlResults',
     header: 'Viral Load',
     cell: ({ row }) => (
-      <p className="text-slate-500 text-[12px] ">
-        {row.original.vlResults}
-      </p>
+      <p className="text-slate-500 text-[12px] ">{row.original.vlResults}</p>
     )
   },
   {
@@ -57,9 +55,9 @@ export const columns: Array<ColumnDef<ExtendedViralLoadInterface>> = [
     header: 'Status',
     cell: ({ row }) => (
       <>
-        {(row.original.isVLValid === true) ? (
+        {row.original.isVLValid === true ? (
           <Badge className="rounded-full text-[12px] bg-teal-50 text-teal-600 shadow-none hover:bg-gray-50 ">
-           Valid
+            Valid
           </Badge>
         ) : (
           <Badge className="bg-red-50 text-[12px] text-red-500 shadow-none rounded-full hover:bg-red-50 ">

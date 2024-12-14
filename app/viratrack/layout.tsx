@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { ChartNoAxesColumn, LayoutDashboardIcon, Radar, Thermometer } from 'lucide-react'
+import { ChartNoAxesColumn, LayoutDashboardIcon, Pin, Thermometer } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { Suspense, useEffect } from 'react'
@@ -22,25 +22,25 @@ const DL: SidebarListItemsProps[] = [
     id: '1',
     label: 'Dashboard',
     link: '/viratrack/dashboard',
-    icon: <LayoutDashboardIcon size={17} />
-  },
-  {
-    id: '4',
-    label: 'Track',
-    link: '/viratrack/track',
-    icon: <Radar size={17} />
+    icon: <LayoutDashboardIcon size={16} />
   },
   {
     id: '2',
     label: 'Vira Track',
     link: '/viratrack/viratrack',
-    icon: <ChartNoAxesColumn size={17} />
+    icon: <ChartNoAxesColumn size={16} />
   },
   {
     id: '3',
     label: 'Vital Signs',
     link: '/viratrack/vitalsigns',
-    icon: <Thermometer size={17} />
+    icon: <Thermometer size={16} />
+  },
+  {
+    id: '4',
+    label: 'Pinned',
+    link: '/viratrack/pinned',
+    icon: <Pin size={16} />
   }
   // {
   //   id: '4',
