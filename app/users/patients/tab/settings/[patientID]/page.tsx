@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDeletePatientMutation, useGetPatientQuery, useUpdatePatientMutation } from '@/api/patient/patients.api'
 import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
@@ -232,8 +232,8 @@ const ProfileSettings = ({ params }: { params: any }) => {
   // ]
 
   const [educationLevel, setEducationLevel] = useState('')
-  const [gradeLevel, setGradeLevel] = useState([])
-  const [grade, setGrade] = useState([])
+  const [gradeLevel, setGradeLevel] = useState<Array<{ id: string, label: string }>>([])
+  const [grade, setGrade] = useState('')
   useEffect(() => {
     if (educationLevel === 'primary') {
       setGradeLevel(primary)
@@ -249,7 +249,7 @@ const ProfileSettings = ({ params }: { params: any }) => {
   }, [educationLevel])
 
   const { data } = useGetSchoolSearchQuery({
-    searchQuery: search.label
+    searchQuery: search.label as string
   })
 
   const searchPatientsOptions = useCallback(() => {
