@@ -77,7 +77,9 @@ export const caregiverColumns: Array<ColumnDef<CaregiverColumnsProps>> = [
   }
 ]
 
-export const partialDisclosureColumn: Array<ColumnDef<ExtendedPartialDisclosureInterface>> = [
+export const partialDisclosureColumn: Array<
+ColumnDef<ExtendedPartialDisclosureInterface>
+> = [
   {
     accessorKey: 'firstName',
     header: 'Name',
@@ -88,10 +90,9 @@ export const partialDisclosureColumn: Array<ColumnDef<ExtendedPartialDisclosureI
       pt-1 pb-1 text-[12px]
       "
         >
-
-            <Avatar
-              name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
-            />
+          <Avatar
+            name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
+          />
           <Link
             className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
             href={`/users/patients/tab/dashboard/${row.original?.Patient?.id}`}
@@ -102,14 +103,26 @@ export const partialDisclosureColumn: Array<ColumnDef<ExtendedPartialDisclosureI
   },
   {
     accessorKey: 'score',
-    header: 'Score',
-    cell: ({ row }) => <p className="text-[12px]">{row.original?.score}</p>
+    header: 'Full',
+    cell: ({ row }) => (
+      <p className="text-[12px]">{row.original?.FullDisclosure?.score}</p>
+    )
   },
-
+  {
+    accessorKey: 'partial',
+    header: 'Partial',
+    cell: ({ row }) => (
+      <p className="text-[12px]">{row.original?.PartialDisclosure?.score}</p>
+    )
+  },
   {
     accessorKey: 'updatedAt',
     header: 'Updated At',
-    cell: ({ row }) => <p className="text-[12px]">{moment(row.original.updatedAt).format('ll')}</p>
+    cell: ({ row }) => (
+      <p className="text-[12px]">
+        {moment(row.original.updatedAt).format('ll')}
+      </p>
+    )
   },
 
   {

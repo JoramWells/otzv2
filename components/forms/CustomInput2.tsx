@@ -42,7 +42,7 @@ const CustomInput2 = ({
 
   return (
     <div className='w-full'>
-      <div className="w-full flex flex-col space-y-2 relative">
+      <div className="w-full flex flex-col space-y-1 relative">
         <div>
           {label && (
             <p className="text-slate-800 font-semibold text-[14px] ">{label}</p>

@@ -19,10 +19,14 @@ export const timeAndWorkApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/time-and-work`
   }),
   endpoints: (builder) => ({
-    getAllTimeAndWork: builder.query<TimeAndWorkResponseInterface, AppointmentProps>({
+    getAllTimeAndWork: builder.query<
+    TimeAndWorkResponseInterface,
+    AppointmentProps
+    >({
       query: (params) => {
         if (params) {
-          const { medicationsDue, hospitalID, page, pageSize, searchQuery } = params
+          const { medicationsDue, hospitalID, page, pageSize, searchQuery } =
+            params
           let queryString = ''
           queryString += `medicationsDue=${medicationsDue}`
           queryString += `&page=${page}`
@@ -72,6 +76,21 @@ export const timeAndWorkApi = createApi({
         body: patch
       })
     }),
+    getRecentTimeAndWork: builder.query<
+    TimeAndWorkResponseInterface,
+    { hospitalID: string }
+    >({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } =
+            params
+          let queryString = ''
+          queryString += `hospitalID=${hospitalID}`
+          return `/find-recent?${queryString}`
+        }
+        return 'find-recent'
+      }
+    }),
     updateSchedule: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `/update-schedule/${id}`,
@@ -97,5 +116,5 @@ export const {
   useGetTimeAndWorkQuery, useGetTimeAndWorkByVisitIDQuery,
   useUpdateTimeAndWorkMorningScheduleMutation,
   useUpdateTimeAndWorkEveningScheduleMutation,
-  useUpdateScheduleMutation, useDeleteTimeAndWorkMutation
+  useUpdateScheduleMutation, useDeleteTimeAndWorkMutation, useGetRecentTimeAndWorkQuery
 } = timeAndWorkApi

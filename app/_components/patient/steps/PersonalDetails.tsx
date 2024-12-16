@@ -28,22 +28,24 @@ const PersonalDetail = () => {
   // },[val])
   return (
     <>
-      <div className="flex flex-row w-full justify-between space-x-4">
+      <div className="flex flex-row w-full justify-between space-x-2">
         <CustomInput2
           label="First Name"
           name="firstName"
+          placeholder='Enter first name'
           // onChange={setFirstName}
         />
         <CustomInput2
           label="Second Name"
           name="middleName"
+          placeholder='Enter middle name'
           // onChange={setMiddleName}
         />
-        <CustomInput2
+        {/* <CustomInput2
           label="Last Name"
           name="lastName"
           // onChange={setLastName}
-        />
+        /> */}
       </div>
       <CustomInput2
         label="DOB"
@@ -57,11 +59,13 @@ const PersonalDetail = () => {
         label="Select Gender"
         data={genderOptions}
         name="sex"
+        placeholder='Gender'
         // onChange={setGender}
       />
       <CustomSelect2
         label="Marital Status"
         name="maritalStatus"
+        placeholder='Marital Status'
         // onChange={setMaritalStatus}
         data={[
           {

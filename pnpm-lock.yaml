@@ -129,9 +129,6 @@ importers:
       i:
         specifier: ^0.3.7
         version: 0.3.7
-      import-in-the-middle:
-        specifier: ^1.11.3
-        version: 1.11.3
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -308,8 +305,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       otz-types:
-        specifier: ^1.1.78
-        version: 1.1.78
+        specifier: ^1.1.80
+        version: 1.1.80
       postcss:
         specifier: ^8
         version: 8.4.49
@@ -4399,8 +4396,8 @@ packages:
   orderedmap@2.1.1:
     resolution: {integrity: sha512-TvAWxi0nDe1j/rtMcWcIj94+Ffe6n7zhow33h40SKxmsmozs6dz/e+EajymfoFcHd7sxNn8yHM8839uixMOV6g==}
 
-  otz-types@1.1.78:
-    resolution: {integrity: sha512-tc3i8Jg50b3F4aYfLpTlmlWLkwYB0NRCoFTge/WCr15YSQv+ID/7yKcGA/zceFteJApArIMgXtkT7yfSZ0+faQ==}
+  otz-types@1.1.80:
+    resolution: {integrity: sha512-KwmimuVMOrscmOw5v3ZGveM0D3NTTE6SUnlu/rGpawSij11c772H9Hf6iAnejnMyjfNB9Nma6N+meJnjyfmqMQ==}
 
   p-limit@2.3.0:
     resolution: {integrity: sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==}
@@ -10403,7 +10400,7 @@ snapshots:
 
   orderedmap@2.1.1: {}
 
-  otz-types@1.1.78: {}
+  otz-types@1.1.80: {}
 
   p-limit@2.3.0:
     dependencies:

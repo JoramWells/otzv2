@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
 
+import { useGetFullDisclosureTrackerByStatusQuery, useGetPartialDisclosureTrackerByStatusQuery } from '@/api/treatmentplan/disclosureTracker.api'
 import { useGetFullDisclosureCategoryScoreQuery } from '@/api/treatmentplan/full/fullDisclosure.api.ts'
 import { useGetPartialDisclosureCategoryScoreQuery } from '@/api/treatmentplan/partial/partialDisclosure.api'
 import { useUserContext } from '@/context/UserContext'
@@ -26,6 +27,23 @@ const TreatmentPlanDashboard = () => {
       skip: hospitalID == null
     }
   )
+
+  const { data: groupCount } = useGetFullDisclosureTrackerByStatusQuery({
+    hospitalID: hospitalID as string
+  }, {
+    skip: hospitalID == null
+  })
+
+  const { data: pData } = useGetPartialDisclosureTrackerByStatusQuery(
+    {
+      hospitalID: hospitalID as string
+    },
+    {
+      skip: hospitalID == null
+    }
+  )
+
+  console.log(pData, groupCount, 'gCount')
 
   return (
     <div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
 
@@ -9,6 +10,9 @@ import { partialDisclosureColumn } from './columns'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
+import { useGetAllDisclosureTrackerQuery } from '@/api/treatmentplan/disclosureTracker.api'
+import { useSearchParams } from 'next/navigation'
+import CustomSelectParams from '@/components/forms/CustomSelectParams'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -37,19 +41,30 @@ const dataList2 = [
 ]
 
 const DisclosurePage = () => {
-  const { hospitalID } = useUserContext()
-  const [partialData, setPartialData] = useState<ExtendedPartialDisclosureInterface[]>([])
-  const [total, setTotal] = useState<number | undefined>(0)
+  const searchParams = useSearchParams()
+  const page = searchParams.get('page')
 
-  const { data } = useGetAllPartialDisclosureQuery({
-    hospitalID: hospitalID as string,
-    page: 1,
-    pageSize: 10,
-    searchQuery: ''
-  },
-  {
-    skip: hospitalID == null
-  }
+  const { hospitalID } = useUserContext()
+  const [partialData, setPartialData] = useState<
+  ExtendedPartialDisclosureInterface[]
+  >([])
+  const [total, setTotal] = useState<number | undefined>(0)
+  const [hasPartialDisclosure, setHasPartialDisclosure] = useState<boolean | undefined>()
+  const [hasFullDisclosure, setHasFullDisclosure] = useState<boolean | undefined>()
+  const [pageSize, setPageSize] = useState(1)
+
+  const { data } = useGetAllDisclosureTrackerQuery(
+    {
+      hospitalID: hospitalID as string,
+      page: Number(page) ?? 1,
+      pageSize: 10,
+      searchQuery: '',
+      hasPartialDisclosure: hasPartialDisclosure!,
+      hasFullDisclosure: hasFullDisclosure!
+    },
+    {
+      skip: hospitalID == null
+    }
   )
 
   // const { data: fullData } = useGetAllFullDisclosureQuery(
@@ -72,6 +87,103 @@ const DisclosurePage = () => {
       setTotal(data.total)
     }
   }, [data])
+
+  //
+  const pageNumber = (count: number, pageSize: number) => {
+    return Math.ceil(count / pageSize)
+  }
+
+  function StatusFilter () {
+    return (
+      <div className="flex flex-row space-x-2 items-center">
+        {/* <CustomSelectParams
+          label="Status"
+          onChange={setStatus}
+          paramValue="tab"
+          value={appointmentStatus as string}
+          data={[
+            {
+              id: 'all',
+              label: 'All'
+            },
+            {
+              id: 'completed',
+              label: 'Completed'
+            },
+            {
+              id: 'missed',
+              label: 'Missed'
+            },
+            {
+              id: 'upcoming',
+              label: 'Upcoming'
+            },
+            {
+              id: 'pending',
+              label: 'Pending'
+            },
+            {
+              id: 'rescheduled',
+              label: 'Rescheduled'
+            }
+          ]}
+          placeholder="Status"
+        /> */}
+
+        {/*  */}
+        <CustomSelectParams
+          label="Full Disclosure"
+          onChange={setHasFullDisclosure}
+          paramValue="hasFullDisclosure"
+          value={hasFullDisclosure}
+          data={[
+            {
+              id: 'true',
+              label: 'Completed'
+            },
+            {
+              id: 'false',
+              label: 'Not Completed'
+            }
+          ]}
+          placeholder="Full Disclosure"
+        />
+
+        {/*  */}
+        <CustomSelectParams
+          label="Partial Disclosure"
+          onChange={setHasPartialDisclosure}
+          paramValue="hasPartialDisclosure"
+          value={hasPartialDisclosure}
+          data={[
+            {
+              id: 'true',
+              label: 'Completed'
+            },
+            {
+              id: 'false',
+              label: 'Not Completed'
+            }
+          ]}
+          placeholder="Partial Disclosure"
+        />
+
+        {/*  */}
+        <CustomSelectParams
+          label={`Page No :- ${pageNumber(total!, 10)}`}
+          paramValue="page"
+          onChange={setPageSize}
+          value={`${pageSize}`}
+          data={Array.from({ length: pageNumber(total!, 10) }, (_, index) => ({
+            id: `${index + 1}`,
+            label: `${index + 1}`
+          }))}
+          placeholder="Page"
+        />
+      </div>
+    )
+  }
+
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -92,6 +204,8 @@ const DisclosurePage = () => {
           <CustomTable
             columns={partialDisclosureColumn}
             data={partialData ?? []}
+            total={total}
+            filter={<StatusFilter />}
           />
         </div>
       </div>

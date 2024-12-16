@@ -8,7 +8,6 @@
 import { useEffect, useState } from 'react'
 import {
   Box,
-  Button,
   Step,
   StepDescription,
   StepIcon,
@@ -30,10 +29,12 @@ import { redirect } from 'next/navigation'
 import { FormProvider, useForm } from 'react-hook-form'
 import { type ZodType, z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 const steps = [
   { title: 'Personal Details', description: 'Personal Information' },
-  { title: 'Contact/Location', description: 'Contact, Location, Occupation' },
+  { title: 'Contact/Location', description: 'Contact, Location..' },
   { title: 'Next of Kin', description: 'Next of Kin Details' }
 ]
 const BreadcrumbComponent = dynamic(
@@ -189,11 +190,8 @@ const AddPatient = () => {
       </div>
 
       <div className="w-full flex flex-col items-center">
-        <div
-
-          className=" p-2 bg-white rounded-xl w-3/4 "
-        >
-          <Stepper index={activeStep} colorScheme="teal">
+        <div className=" p-2 bg-white rounded-xl w-1/2 ">
+          <Stepper index={activeStep} colorScheme="teal" size={'sm'}>
             {steps.map((step, index) => (
               <Step key={index}>
                 <StepIndicator>
@@ -205,10 +203,12 @@ const AddPatient = () => {
                 </StepIndicator>
 
                 <Box flexShrink="0">
-                  <StepTitle>{step.title}</StepTitle>
-                  <StepDescription className="text-[10px] ">
-                    {step.description}
-                  </StepDescription>
+                  <StepTitle>
+                    <p className="text-[12px] text-slate-800 font-semibold ">
+                      {step.title}
+                    </p>
+                  </StepTitle>
+                  <StepDescription>{step.description}</StepDescription>
                 </Box>
 
                 <StepSeparator />
@@ -218,7 +218,7 @@ const AddPatient = () => {
         </div>
         <FormProvider {...methods}>
           <form
-            className="w-3/4 bg-white p-4 rounded-lg mt-2 flex flex-col space-y-4"
+            className="w-1/2 bg-white p-4 rounded-lg mt-2 flex flex-col space-y-4"
             onSubmit={handleSubmit(onSubmit)}
           >
             {activeStep === 1 && <PersonalDetail />}
@@ -227,32 +227,39 @@ const AddPatient = () => {
             )}
             {activeStep === 3 && <NextOfKin />}
 
-            <div className="flex justify-end pt-2 gap-x-4">
+            <div className="flex justify-end gap-x-4">
               <Button
                 size={'sm'}
                 onClick={handleBack}
-                isDisabled={activeStep === 1}
+                disabled={activeStep === 1}
                 type="button"
+                variant={'outline'}
+                className="shadow-none"
               >
                 Back
               </Button>
               {activeStep === 3 ? (
                 <Button
-                  colorScheme="teal"
+                  // colorScheme="teal"
                   size={'sm'}
                   type="submit"
                   // onClick={ () => { handleSubmit(onSubmit) }}
-                  isLoading={isLoading}
+                  disabled={isLoading}
+                  variant={'outline'}
+                  className="shadow-none"
                 >
+                  {isLoading && <Loader2 className="animate-spin mr-1" />}
                   Submit
                 </Button>
               ) : (
                 <Button
-                  colorScheme="teal"
+                  // colorScheme="teal"
                   size={'sm'}
                   type="button"
                   onClick={handleNext}
                   // isLoading={isLoading}
+                  variant={'outline'}
+                  className="shadow-none"
                 >
                   Next
                 </Button>

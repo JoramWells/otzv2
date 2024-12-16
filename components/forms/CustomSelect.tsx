@@ -60,7 +60,7 @@ const CustomSelect = ({
               : (
               <>
                 {data.map((item) => (
-                  <SelectItem key={item.id} value={item.id}>
+                  <SelectItem key={item.id} value={item.id} className='capitalize' >
                     {item.label}
                   </SelectItem>
                 ))}

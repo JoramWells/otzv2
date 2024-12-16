@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDeletePatientMutation, useGetPatientQuery, useUpdatePatientMutation } from '@/api/patient/patients.api'
 import CustomInput from '@/components/forms/CustomInput'
 import { Button } from '@/components/ui/button'
@@ -15,6 +15,8 @@ import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 import CustomSelect from '@/components/forms/CustomSelect'
 import moment from 'moment'
 import { useGetAllHospitalsQuery } from '@/api/hospital/hospital.api'
+import SearchInputDropDown, { type SelectInputProps } from '@/components/forms/SearchInputDropDown'
+import { useGetSchoolSearchQuery } from '@/api/school/school.api'
 
 const roleData = [
   {
@@ -39,6 +41,78 @@ const roleData = [
   }
 ]
 
+const primary = [
+  {
+    id: 'grade 1',
+    label: 'grade 1'
+  },
+  {
+    id: 'grade 2',
+    label: 'grade 2'
+  },
+  {
+    id: 'grade 3',
+    label: 'grade 3'
+  },
+  {
+    id: 'grade 4',
+    label: 'grade 4'
+  },
+  {
+    id: 'grade 5',
+    label: 'grade 5'
+  },
+  {
+    id: 'grade 6',
+    label: 'grade 6'
+  }
+]
+
+const junior = [
+  {
+    id: 'grade 7',
+    label: 'grade 7'
+  },
+  {
+    id: 'grade 8',
+    label: 'grade 8'
+  },
+  {
+    id: 'grade 9',
+    label: 'grade 9'
+  }
+]
+
+const senior = [
+  {
+    id: 'grade 10',
+    label: 'grade 10'
+  },
+  {
+    id: 'grade 11',
+    label: 'grade 11'
+  },
+  {
+    id: 'grade 12',
+    label: 'grade 12'
+  }
+]
+
+const tertiary = [
+  {
+    id: 'college',
+    label: 'college'
+  },
+  {
+    id: 'university',
+    label: 'university'
+  },
+  {
+    id: 'vocational training',
+    label: 'vocational training'
+  }
+]
+
 const ProfileSettings = ({ params }: { params: any }) => {
   const [phoneNo, setPhoneNo] = useState<string | undefined>('')
   const [firstName, setFirstName] = useState<string | undefined>('')
@@ -49,6 +123,8 @@ const ProfileSettings = ({ params }: { params: any }) => {
   const [populationType, setPopulationType] = useState<string | undefined>('')
   const [password, setPassword] = useState<string | undefined>('')
   const [hospitalID, setHospitalID] = useState<string>()
+  const [search, setSearch] = useState<SelectInputProps>({ id: '', label: '' })
+
   const [role, setRole] = useState('')
   const { patientID } = params
 
@@ -151,6 +227,40 @@ const ProfileSettings = ({ params }: { params: any }) => {
     }
   ]
 
+  // const preprimary = [
+
+  // ]
+
+  const [educationLevel, setEducationLevel] = useState('')
+  const [gradeLevel, setGradeLevel] = useState([])
+  const [grade, setGrade] = useState([])
+  useEffect(() => {
+    if (educationLevel === 'primary') {
+      setGradeLevel(primary)
+    } else if (educationLevel === 'junior') {
+      setGradeLevel(junior)
+    } else if (educationLevel === 'senior') {
+      setGradeLevel(senior)
+    } else if (educationLevel === 'tertiary') {
+      setGradeLevel(tertiary)
+    } else {
+      setGradeLevel([])
+    }
+  }, [educationLevel])
+
+  const { data } = useGetSchoolSearchQuery({
+    searchQuery: search.label
+  })
+
+  const searchPatientsOptions = useCallback(() => {
+    return data?.map(item => ({
+      id: item?.id,
+      label: `${item?.schoolName}`
+    }))
+  }, [data])
+
+  console.log(data, 'school')
+
   return (
     <>
       <BreadcrumbComponent dataList={dataList2} />
@@ -220,6 +330,54 @@ const ProfileSettings = ({ params }: { params: any }) => {
             value={hospitalID as string}
             data={hospitalOptions() ?? []}
           />
+
+          <div>
+            {/* School details */}
+            <CustomSelect
+              value={educationLevel}
+              onChange={setEducationLevel}
+              label="Education Level"
+              data={[
+                {
+                  id: 'pre-primary',
+                  label: 'Pre-primary'
+                },
+                {
+                  id: 'primary',
+                  label: 'Primary'
+                },
+                {
+                  id: 'junior',
+                  label: 'Junior secondary'
+                },
+                {
+                  id: 'senior',
+                  label: 'Senior secondary'
+                },
+                {
+                  id: 'tertiary',
+                  label: 'Tertiary secondary'
+                }
+              ]}
+            />
+
+            {gradeLevel.length > 0 && educationLevel !== 'pre-primary' && (
+              <CustomSelect
+                label="Level"
+                placeholder="Select Level"
+                data={gradeLevel}
+                onChange={setGrade}
+                value={grade}
+              />
+            )}
+
+            {/*  */}
+            <SearchInputDropDown
+              data={searchPatientsOptions() ?? []}
+              search={search}
+              setSearch={setSearch}
+            />
+          </div>
 
           <div className="flex pt-4 space-x-4 justify-end border-t mt-2">
             <Button
