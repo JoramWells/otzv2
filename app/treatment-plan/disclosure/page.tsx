@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
 
-import { type ExtendedPartialDisclosureInterface, useGetAllPartialDisclosureQuery } from '@/api/treatmentplan/partial/partialDisclosure.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useUserContext } from '@/context/UserContext'
 import React, { useEffect, useState } from 'react'
@@ -10,7 +9,7 @@ import { partialDisclosureColumn } from './columns'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
-import { useGetAllDisclosureTrackerQuery } from '@/api/treatmentplan/disclosureTracker.api'
+import { type ExtendedDisclosureTracker, useGetAllDisclosureTrackerQuery } from '@/api/treatmentplan/disclosureTracker.api'
 import { useSearchParams } from 'next/navigation'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'
 
@@ -46,9 +45,9 @@ const DisclosurePage = () => {
 
   const { hospitalID } = useUserContext()
   const [partialData, setPartialData] = useState<
-  ExtendedPartialDisclosureInterface[]
+  ExtendedDisclosureTracker[]
   >([])
-  const [total, setTotal] = useState<number | undefined>(0)
+  const [total, setTotal] = useState<number | string | undefined>(0)
   const [hasPartialDisclosure, setHasPartialDisclosure] = useState<boolean | undefined>()
   const [hasFullDisclosure, setHasFullDisclosure] = useState<boolean | undefined>()
   const [pageSize, setPageSize] = useState(1)
@@ -135,7 +134,7 @@ const DisclosurePage = () => {
           label="Full Disclosure"
           onChange={setHasFullDisclosure}
           paramValue="hasFullDisclosure"
-          value={hasFullDisclosure}
+          value={hasFullDisclosure as unknown as string}
           data={[
             {
               id: 'true',
@@ -154,7 +153,7 @@ const DisclosurePage = () => {
           label="Partial Disclosure"
           onChange={setHasPartialDisclosure}
           paramValue="hasPartialDisclosure"
-          value={hasPartialDisclosure}
+          value={hasPartialDisclosure as unknown as string}
           data={[
             {
               id: 'true',
@@ -170,11 +169,11 @@ const DisclosurePage = () => {
 
         {/*  */}
         <CustomSelectParams
-          label={`Page No :- ${pageNumber(total!, 10)}`}
+          label={`Page No :- ${pageNumber(total as number, 10)}`}
           paramValue="page"
           onChange={setPageSize}
           value={`${pageSize}`}
-          data={Array.from({ length: pageNumber(total!, 10) }, (_, index) => ({
+          data={Array.from({ length: pageNumber(total as number, 10) }, (_, index) => ({
             id: `${index + 1}`,
             label: `${index + 1}`
           }))}
@@ -204,7 +203,7 @@ const DisclosurePage = () => {
           <CustomTable
             columns={partialDisclosureColumn}
             data={partialData ?? []}
-            total={total}
+            total={total as number}
             filter={<StatusFilter />}
           />
         </div>

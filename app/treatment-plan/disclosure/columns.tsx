@@ -23,7 +23,7 @@ import {
 import { type ExtendedImportantPatientInterface, useAddImportantPatientMutation } from '@/api/patient/importantPatients.api'
 import { useSession } from 'next-auth/react'
 import Avatar from '@/components/Avatar'
-import { type ExtendedPartialDisclosureInterface } from '@/api/treatmentplan/partial/partialDisclosure.api'
+import { type ExtendedDisclosureTracker } from '@/api/treatmentplan/disclosureTracker.api'
 //
 interface CaregiverColumnsProps {
   id: string
@@ -78,7 +78,7 @@ export const caregiverColumns: Array<ColumnDef<CaregiverColumnsProps>> = [
 ]
 
 export const partialDisclosureColumn: Array<
-ColumnDef<ExtendedPartialDisclosureInterface>
+ColumnDef<ExtendedDisclosureTracker>
 > = [
   {
     accessorKey: 'firstName',

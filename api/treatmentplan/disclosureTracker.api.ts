@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type PaginatedResponseInterface, type DisclosureTrackerInterface, type PatientAttributes, type FullDisclosureAttributes, type PartialDisclosureAttributes } from 'otz-types'
 
 interface AppointmentTypeProps {
   date?: string
@@ -11,14 +12,18 @@ interface AppointmentTypeProps {
   hasFullDisclosure: boolean
   hasPartialDisclosure: boolean
 }
-
+export type ExtendedDisclosureTracker = DisclosureTrackerInterface & {
+  Patient?: PatientAttributes
+  FullDisclosure?: FullDisclosureAttributes
+  PartialDisclosure: PartialDisclosureAttributes
+}
 export const disclosureTrackerApi = createApi({
   reducerPath: 'disclosureTrackerApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/disclosure-tracker`
   }),
   endpoints: (builder) => ({
-    getAllDisclosureTracker: builder.query<any, AppointmentTypeProps>({
+    getAllDisclosureTracker: builder.query<PaginatedResponseInterface<ExtendedDisclosureTracker>, AppointmentTypeProps>({
       query: (params) => {
         if (params) {
           const {
