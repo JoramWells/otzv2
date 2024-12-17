@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/breadcrumb'
 import { useUserContext } from '@/context/UserContext'
 import { Fragment } from 'react'
+import { Button } from '../ui/button'
+import { Bell } from 'lucide-react'
 
 interface DataListProps {
   dataList: Array<{
@@ -25,33 +27,41 @@ export default function BreadcrumbComponent ({ dataList }: DataListProps) {
     skip: hospitalID == null
   })
   return (
-    <Breadcrumb className="p-4 bg-white flex justify-between items-center ">
+    <Breadcrumb className="p-2 pl-4 pr-4 bg-white flex justify-between items-center ">
       <BreadcrumbList>
         {dataList.map((item, index) => (
           <Fragment key={item.id}>
             <BreadcrumbItem>
-              <BreadcrumbLink href={item.link} className={`capitalize text-[12px] ${index === dataList.length - 1 && 'text-cyan-500'} `}>
+              <BreadcrumbLink
+                href={item.link}
+                className={`capitalize text-[12px] ${
+                  index === dataList.length - 1 && 'text-cyan-500'
+                } `}
+              >
                 {item.label}
               </BreadcrumbLink>
             </BreadcrumbItem>
             {index !== dataList.length - 1 && <BreadcrumbSeparator />}
-
           </Fragment>
         ))}
       </BreadcrumbList>
-      <div
-      className='flex space-x-2 items-center'
-      >
-        <p
-        className='text-[12px] font-semibold text-slate-700'
+      <div className='flex flex-row space-x-2'>
+        <Button
+        className='shadow-none'
+        variant={'ghost'}
+        size={'sm'}
         >
-          {data?.hospitalName}
-        </p>
-        <p
-        className='text-slate-500 text-[12px]'
+          <Bell size={16} className='text-slate-500' />
+        </Button>
+        <Button
+          className="flex space-x-2 items-center shadow-none"
+          size={'sm'}
+          variant={'outline'}
         >
-          {data?.mflCode}
-        </p>
+          <p className="text-[12px] font-semibold text-slate-700">
+            {data?.hospitalName?.substring(0, 10)}..
+          </p>
+        </Button>
       </div>
     </Breadcrumb>
   )

@@ -60,7 +60,7 @@ export const viralLoadApi = createApi({
         return 'fetchAll'
       }
     }),
-    getAllVlCategories: builder.query<any, { hospitalID: string }>({
+    getAllVlCategories: builder.query<Array<{ count: string, category: string }>, { hospitalID: string }>({
       query: (params) => {
         if (params) {
           const { hospitalID } = params
@@ -152,6 +152,21 @@ export const viralLoadApi = createApi({
     getOTZPatientEnrollment: builder.query({
       query: (id) => `patient/${id}`
     }),
+    getRecentVL: builder.query<
+    any,
+    { hospitalID: string }
+    >({
+      query: (params) => {
+        if (params) {
+          const { hospitalID } = params
+          let queryString = ''
+          // queryString += `date=${date}`
+          queryString += `hospitalID=${hospitalID}`
+          return `/recent-viral-load?${queryString}`
+        }
+        return 'recent-viral-load'
+      }
+    }),
     updateViralLoadTest: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: `edit/${id}`,
@@ -181,5 +196,6 @@ export const {
   useGetAllVlCategoriesQuery,
   useGetViralLoadTestByPatientVisitIDQuery,
   useGetVLSuppressionRateQuery,
-  useGetVlReasonsQuery, useGetStarredVitalLoadQuery
+  useGetVlReasonsQuery, useGetStarredVitalLoadQuery,
+  useGetRecentVLQuery
 } = viralLoadApi

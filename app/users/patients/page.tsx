@@ -275,9 +275,9 @@ const Patients = () => {
                 </p>
                   )}
               <Button
-                className="shadow-none"
+                className="shadow-none bg-teal-600 hover:bg-teal-500"
                 size={'sm'}
-                variant={'outline'}
+                // variant={'outline'}
                 onClick={() => {
                   router.push('/users/patients/add-patients')
                 }}
