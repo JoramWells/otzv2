@@ -19,7 +19,7 @@ export const columns: Array<ColumnDef<ExtendedVitalSignsInterface>> = [
         <div className="flex flex-col space-y-1">
           <Link
             className="capitalize"
-            href={`/patients/${row.original.id}`}
+            href={`/patients/${row.original.patientID}`}
           >{`${row.original.Patient?.firstName} ${row.original.Patient?.middleName}`}</Link>
         </div>
       </div>

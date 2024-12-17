@@ -127,7 +127,9 @@ const AppointmentDashboardPage = () => {
           label="agendaDescription"
           dataKey="appointmentDate"
         />
-        <CustomPieChart data={statusCount(weeklyData) ?? []} />
+        <CustomPieChart data={statusCount(weeklyData) ?? []}
+        title='Appointment Status'
+        />
         {/* <AppointmentPieChart data={weeklyData ?? []} /> */}
       </div>
       <div className='p-2' >

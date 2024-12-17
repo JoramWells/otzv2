@@ -38,6 +38,7 @@ import { BookOpen, ChevronsLeft, ChevronsRight, FileDown, Search, X } from 'luci
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { type ChangeEvent, type Dispatch, type ReactNode, type SetStateAction, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
+import TableSkeleton from './TableSkeleton'
 export interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
@@ -131,7 +132,7 @@ export function CustomTable<TData, TValue> ({
   }, [page, table, updateQueryParams])
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<TableSkeleton isSearch={true} />}>
       {isSearch && (
         <div
           className="flex flex-row justify-between items-center
@@ -214,19 +215,7 @@ export function CustomTable<TData, TValue> ({
     "
       >
         {isLoading ? (
-          <Table>
-            <TableBody>
-              {Array.from({ length: 10 }).map((item, i) => (
-                <TableRow key={i}>
-                  {Array.from({ length: 10 }).map((item, i) => (
-                    <TableCell key={i}>
-                      <Skeleton className="p-2" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+<TableSkeleton />
         ) : (
           <>
             <Table>

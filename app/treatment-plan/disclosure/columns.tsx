@@ -8,8 +8,8 @@ import { Badge } from '@/components/ui/badge'
 // import { Button } from '@/components/ui/button'
 import { calculateAge } from '@/utils/calculateAge'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Edit, Ellipsis, TrashIcon } from 'lucide-react'
-import moment, { type MomentInput } from 'moment'
+import { Edit, Ellipsis } from 'lucide-react'
+import moment from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
 import {
@@ -25,57 +25,6 @@ import { useSession } from 'next-auth/react'
 import Avatar from '@/components/Avatar'
 import { type ExtendedDisclosureTracker } from '@/api/treatmentplan/disclosureTracker.api'
 //
-interface CaregiverColumnsProps {
-  id: string
-  firstName?: string
-  middleName?: string
-  phoneNo?: string
-  AppointmentStatus: {
-    statusDescription?: string
-  }
-  appointmentDate: MomentInput
-}
-
-export const caregiverColumns: Array<ColumnDef<CaregiverColumnsProps>> = [
-  {
-    accessorKey: 'firstName',
-    header: 'Name',
-    cell: ({ row }) => (
-      <Link
-        className="capitalize font-bold text-slate-700"
-        href={`/patients/${row.original.id}`}
-      >{`${row.original.firstName} ${row.original.middleName}`}</Link>
-    )
-  },
-  {
-    accessorKey: 'phoneNo',
-    header: 'Phone No',
-    cell: ({ row }) => <p>{row.original.phoneNo}</p>
-  },
-  {
-    accessorKey: 'maritalStatus',
-    header: 'Marital Status'
-    // cell: ({ row }) => (
-    //   <p>{moment(row.original.appointmentDate).format('LL')}</p>
-    // )
-  },
-  {
-    accessorKey: 'relationship',
-    header: 'Relationship'
-    // cell: ({ row }) => (
-    //   <p>{moment(row.original.appointmentDate).format('LL')}</p>
-    // )
-  },
-  {
-    // accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => (
-      <div>
-        <TrashIcon />
-      </div>
-    )
-  }
-]
 
 export const partialDisclosureColumn: Array<
 ColumnDef<ExtendedDisclosureTracker>
@@ -95,7 +44,7 @@ ColumnDef<ExtendedDisclosureTracker>
           />
           <Link
             className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
-            href={`/users/patients/tab/dashboard/${row.original?.Patient?.id}`}
+            href={`/users/patients/tab/dashboard/${row.original?.patientID}`}
           >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
         </div>
       )

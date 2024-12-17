@@ -41,7 +41,7 @@ export const columns: Array<ColumnDef<ExtendedTimeAndWorkInterface>> = [
           />
           <Link
             className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
-            href={`/users/patients/tab/dashboard/${row.original?.Patient?.id}`}
+            href={`/users/patients/tab/dashboard/${row.original?.patientID}`}
           >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
         </div>
       )

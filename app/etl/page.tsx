@@ -47,6 +47,28 @@ const fetchData = async (taskID: string) => {
   return data
 }
 
+const fetchStatuses = async (data: any[]) => {
+  try {
+    const validatedItems = data.filter((item) => item.taskID)
+    const statusData = await Promise.all(
+      validatedItems?.map(async (item) => {
+        if (item.taskID) {
+          const response = await fetchData(item.taskID)
+          return { [item.taskID]: response }
+        }
+      })
+    )
+
+    const statuses = statusData.reduce(
+      (acc, curr) => ({ ...acc, ...curr }),
+      {}
+    )
+    return statuses
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const ETL = () => {
   const [user, setUser] = useState<UserInterface>()
   const { data: session } = useSession()
@@ -84,25 +106,8 @@ const ETL = () => {
       setEtlData(data.data)
       setTotal(data.total)
       //
-      const fetchStatuses = async () => {
-        try {
-          const validatedItems = data.data.filter(item => item.taskID)
-          const statusData = await Promise.all(
-            validatedItems?.map(async (item) => {
-              if (item.taskID) {
-                const response = await fetchData(item.taskID)
-                return { [item.taskID]: response }
-              }
-            })
-          )
 
-          const statuses = statusData.reduce((acc, curr) => ({ ...acc, ...curr }), {})
-          setStatuses(statuses!)
-        } catch (error) {
-          console.log(error)
-        }
-      }
-      fetchStatuses()
+      setStatuses(fetchStatuses(data.data))
     }
   }, [data])
 
@@ -131,34 +136,38 @@ const ETL = () => {
   // const [dragFiles, setDraggedFiles] = useState<File[]>()
   const router = useRouter()
   return (
-    <div>
-      <div className="flex justify-between w-full items-center bg-white relative">
+    <>
         <BreadcrumbComponent dataList={dataList} />
-
-        <Button
-          size={'sm'}
-          onClick={() => {
-            router.push('/etl/add')
-          }}
-          className="absolute top-2 right-2"
-        >
-          Add
-        </Button>
-      </div>
 
       <>
         <div className="p-2">
-          <div className="bg-white rounded-lg">
+          <div className="bg-white rounded-lg border">
+            {/*  */}
             <div
-            className='flex space-x-2 items-center p-4 pb-0'
+            className='flex items-center justify-between mb-2 p-1 pl-2 pr-2 border-b bg-slate-50 rounded-t-lg'
             >
-              <p className=" text-[16px] text-slate-700 ">Uploaded Linelist </p>
-              <Badge
-              className='bg-slate-200 text-black shadow-none'
-              >{total}</Badge>
+              <div className="flex space-x-2 items-center">
+                <p className=" text-[16px] text-slate-700 ">
+                  Uploaded Linelist{' '}
+                </p>
+                <Badge className="bg-slate-200 text-black shadow-none">
+                  {total}
+                </Badge>
+              </div>
+              <Button
+                size={'sm'}
+                onClick={() => {
+                  router.push('/etl/add')
+                }}
+                // className="absolute top-2 right-2"
+              >
+                Add
+              </Button>
             </div>
+
+            {/*  */}
             <CustomTable
-            isSearch={false}
+              isSearch={false}
               columns={linelistColumn(statuses)}
               isLoading={isLoading}
               data={filteredArray ?? []}
@@ -171,7 +180,7 @@ const ETL = () => {
       </>
 
       {/* <DragNDrop onFileSelected={setDraggedFiles} /> */}
-    </div>
+    </>
   )
 }
 

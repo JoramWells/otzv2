@@ -158,32 +158,42 @@ const TreatmentPlanDashboard = () => {
   // console.log(pData, statusCountPie(pData), 'recent')
 
   return (
-    <div>
+    <>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="p-2">
-        <div className="rounded-lg bg-white p-2">
-          <div className="flex flex-row space-x-2 p-2">
-            {/*  */}
-            <div
-            className='flex flex-col space-y-2'
-            >
+        <div className="rounded-lg bg-white p-4">
+          <div className="flex flex-row space-x-4 items-start mb-4">
+            {pData && (
+              <CustomPieChart
+                data={statusCountPie(pData) ?? []}
+                title="Partial Disclosure"
+              />
+            )}
+
+            {groupCount && (
+              <CustomPieChart
+                data={statusCountPie(groupCount) ?? []}
+                title="Full Disclosure"
+              />
+            )}
+            <div className="flex flex-col space-y-4 p-2">
+              {/*  */}
               <DisclosureComponent
                 title={'Partial Disclosure'}
                 completed={partialStatusCount?.Completed}
                 inProgress={partialStatusCount?.['In Progress']}
                 notBegan={partialStatusCount?.['Not Began']}
               />
-              {/* <CustomPieChart data={statusCountPie(pData) ?? []} /> */}
-            </div>
 
-            {/*  */}
-            <DisclosureComponent
-              title={'Full Disclosure'}
-              completed={fullStatusCount?.Completed}
-              inProgress={fullStatusCount?.['In Progress']}
-              notBegan={fullStatusCount?.['Not Began']}
-            />
-            {/*  */}
+              {/*  */}
+              <DisclosureComponent
+                title={'Full Disclosure'}
+                completed={fullStatusCount?.Completed}
+                inProgress={fullStatusCount?.['In Progress']}
+                notBegan={fullStatusCount?.['Not Began']}
+              />
+              {/*  */}
+            </div>
           </div>
           {/* {data?.map((item, idx) => (
             <div
@@ -249,7 +259,7 @@ const TreatmentPlanDashboard = () => {
           ))}
         </div> */}
       </div>
-    </div>
+    </>
   )
 }
 

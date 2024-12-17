@@ -17,7 +17,7 @@ interface ChartDataItem {
   name?: string
 }
 
-export default function CustomPieChart ({ data }: { data: any[] }) {
+export default function CustomPieChart ({ data, title }: { data: any[], title: string }) {
   // const { data } = useGetAllUserActivitiesCountQuery()
   const chartData: ChartDataItem[] =
     data?.map((item: { status: string, count: string }, index: number) => ({
@@ -44,7 +44,7 @@ export default function CustomPieChart ({ data }: { data: any[] }) {
       className='p-2 bg-slate-50 rounded-t-lg border-b border-slate-100'
       >
         <p className="text-[14px] text-slate-900 font-semibold">
-          Appointment Status
+          {title ?? ''}
         </p>
       </div>
       <ChartContainer
