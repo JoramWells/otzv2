@@ -63,7 +63,7 @@ const statusCountPie = (
   return Object.values(resultCount)
 }
 
-export function DisclosureComponent ({ completed, inProgress, notBegan, title }: {
+function DisclosureComponent ({ completed, inProgress, notBegan, title }: {
   completed: string
   inProgress: string
   notBegan: string

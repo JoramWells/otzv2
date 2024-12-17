@@ -61,7 +61,7 @@ export const disclosureTrackerApi = createApi({
       query: (id) => `details/${id}`
     }),
     getFullDisclosureTrackerByStatus: builder.query<
-    any[],
+    Array<{ count: string, status: string, score?: string }>,
     { hospitalID: string }
     >({
       query: (params) => {
@@ -76,7 +76,7 @@ export const disclosureTrackerApi = createApi({
       }
     }),
     getPartialDisclosureTrackerByStatus: builder.query<
-    any[],
+    Array<{ count: string, status: string, score?: string }>,
     { hospitalID: string }
     >({
       query: (params) => {
