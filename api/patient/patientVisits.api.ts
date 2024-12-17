@@ -11,11 +11,6 @@ export type ExtendedPatientVisitsInterface = PatientVisitsInterface & {
   User: UserInterface
 }
 
-interface Post {
-  id: number
-  name: string
-}
-
 export interface UserActivityData {
   count: string
   User: {
@@ -70,10 +65,16 @@ export const patientVisitsApi = createApi({
         return 'fetchAll'
       }
     }),
-    getAllUserPatientCount: builder.query<Array<{ date?: string, count?: string | number }>, void>({
+    getAllUserPatientCount: builder.query<
+    Array<{ date?: string, count?: string | number }>,
+    void
+    >({
       query: (id) => 'user-patient-count/1'
     }),
-    getPatientVisitByCount: builder.query<ExtendedImportantPatientInterface[], { hospitalID: string }>({
+    getPatientVisitByCount: builder.query<
+    ExtendedImportantPatientInterface[],
+    { hospitalID: string }
+    >({
       query: (params) => {
         if (params) {
           const { hospitalID } = params
@@ -97,6 +98,9 @@ export const patientVisitsApi = createApi({
     }),
     getPatientVisit: builder.query<ExtendedPatientVisitsInterface, string>({
       query: (id) => `detail/${id}`
+    }),
+    getPatientVisitCount: builder.query<number, string>({
+      query: (id) => `patient-visit-count/${id}`
     }),
     getHistoryPatientVisit: builder.query<
     PatientVisitResponseInterface,
@@ -134,5 +138,6 @@ export const patientVisitsApi = createApi({
 
 export const {
   useGetAllPatientVisitsQuery, useUpdatePatientVisitMutation, useGetHistoryPatientVisitQuery, useGetAllUserActivitiesCountQuery,
-  useDeletePatientVisitMutation, useAddPatientVisitMutation, useGetPatientVisitQuery, useGetAllUserPatientCountQuery, useGetPatientVisitByCountQuery
+  useDeletePatientVisitMutation, useAddPatientVisitMutation, useGetPatientVisitQuery, useGetAllUserPatientCountQuery, useGetPatientVisitByCountQuery,
+  useGetPatientVisitCountQuery
 } = patientVisitsApi

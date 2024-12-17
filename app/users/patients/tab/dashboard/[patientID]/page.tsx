@@ -11,7 +11,7 @@
 import { useGetPriorityAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
 import { useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
 import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
-import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
+import { useAddPatientVisitMutation, useGetPatientVisitCountQuery } from '@/api/patient/patientVisits.api'
 import { useGetVitalSignByPatientIDQuery } from '@/api/lab/vitalSigns.api'
 import { Button } from '@/components/ui/button'
 import { secondaryColor } from '@/constants/color'
@@ -39,6 +39,7 @@ import PatientSessionLogsChart from '@/components/Recharts/PatientSessionLogsCha
 import { useGetChildCaregiverReadinessQuery } from '@/api/treatmentplan/partial/childCaregiverReadiness.api'
 import { calculateAge } from '@/utils/calculateAge'
 import dynamic from 'next/dynamic'
+import NavigationHeader from './_components/NavigationHeader'
 
 const BreadcrumbComponent = dynamic(
   async () => await import("@/components/nav/BreadcrumbComponent"),
@@ -151,61 +152,28 @@ const PatientDetails = ({ params }: any) => {
     }
   ]
 
+  const { data: visitCount } = useGetPatientVisitCountQuery(patientID, {
+    skip: !patientID
+  })
+
   return (
     <>
-      <div className="relative">
-        <BreadcrumbComponent dataList={dataList2} />
-      </div>
-      <div className="flex flex-row space-x-2 justify-between mt-1 p-1 bg-white ">
-        {isLoadingPatientData ? (
-          <Skeleton className="w-[100px] h-8" />
-        ) : isError ? (
-          <div>error...</div>
-        ) : (
-          <PatientProfileDropdown
-            id={patientData?.id}
-            cccNo={patientData?.cccNo}
-            dob={patientData?.dob}
-            firstName={patientData?.firstName}
-            middleName={patientData?.middleName}
-            phoneNo={patientData?.phoneNo}
-          />
-        )}
-        <div
-        className='flex flex-row items-center space-x-2'
-        >
-          <Button
-            className="text-slate-500 flex flex-row space-x-1 shadow-none"
-            variant={"outline"}
-            size={"sm"}
-          >
-            <Star size={16} className="mr-1" />
-            Star
-          </Button>
-          <Button
-            disabled={isLoading}
-            onClick={async () => {
-              await handleStartVisit(
-                `/users/patients/tab/steps/${patientID}?appointmentID=`
-              )
-            }}
-            className="shadow-none flex items-center justify-center text-white bg-teal-500 hover:bg-teal-600"
-            // variant={'outline'}
-            size={"sm"}
-          >
-            {isLoading ? (
-              <Loader2 className="mr-1 animate-spin" size={16} />
-            ) : (
-              <Plus size={16} className="mr-1" />
-            )}
-            <>
-              New Visit
-              {/* <ArrowRight size={16} className="ml-2" /> */}
-            </>
-          </Button>
-        </div>
-      </div>
-      {/*  */}
+      <BreadcrumbComponent dataList={dataList2} />
+
+      <NavigationHeader
+        cccNo={patientData?.cccNo}
+        dob={patientData?.dob}
+        firstName={patientData?.firstName}
+        handleClick={handleStartVisit}
+        id={patientData?.id}
+        isErrorFetchingPatient={isError}
+        isFetchingPatient={isLoadingPatientData}
+        isSavingVisit={isLoading}
+        link= {`/users/patients/tab/steps/${patientID}?appointmentID=`}
+        middleName={patientData?.middleName}
+        phoneNo={patientData?.phoneNo}
+        noOfVisits = {visitCount}
+      />
 
       {!childCareGiveReadinessData &&
         !isLoadingCareData &&

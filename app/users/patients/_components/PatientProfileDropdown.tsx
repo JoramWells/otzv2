@@ -40,7 +40,7 @@ export function PatientProfileDropdown ({ id, firstName, middleName, dob, cccNo,
           <p>
             {firstName} {middleName}
           </p>
-          <ChevronDownIcon className="" />
+          <ChevronDownIcon className="text-slate-500" size={16} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" className="shadow-none">
