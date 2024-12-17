@@ -77,7 +77,7 @@ export const timeAndWorkApi = createApi({
       })
     }),
     getRecentTimeAndWork: builder.query<
-    TimeAndWorkResponseInterface,
+    ExtendedTimeAndWorkInterface[],
     { hospitalID: string }
     >({
       query: (params) => {

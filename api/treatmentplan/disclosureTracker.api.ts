@@ -61,7 +61,7 @@ export const disclosureTrackerApi = createApi({
       query: (id) => `details/${id}`
     }),
     getFullDisclosureTrackerByStatus: builder.query<
-    any,
+    any[],
     { hospitalID: string }
     >({
       query: (params) => {
@@ -76,7 +76,7 @@ export const disclosureTrackerApi = createApi({
       }
     }),
     getPartialDisclosureTrackerByStatus: builder.query<
-    any,
+    any[],
     { hospitalID: string }
     >({
       query: (params) => {
@@ -85,7 +85,7 @@ export const disclosureTrackerApi = createApi({
           let queryString = ''
 
           queryString += `hospitalID=${hospitalID}`
-          return `/fetch-by-full-status/?${queryString}`
+          return `/fetch-by-partial-status/?${queryString}`
         }
         return '/fetch-by-partial-status'
       }
