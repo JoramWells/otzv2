@@ -130,21 +130,21 @@ const TreatmentPlanDashboard = () => {
 
   const { data: groupCount } = useGetFullDisclosureTrackerByStatusQuery(
     {
-      hospitalID: authUser?.role !== "admin" ? (hospitalID as string) : "",
+      hospitalID: authUser?.role !== 'admin' ? (hospitalID as string) : ''
     },
     {
-      skip: hospitalID == null,
+      skip: hospitalID == null
     }
-  );
+  )
 
   const { data: pData } = useGetPartialDisclosureTrackerByStatusQuery(
     {
-      hospitalID: authUser?.role !== "admin" ? (hospitalID as string) : "",
+      hospitalID: authUser?.role !== 'admin' ? (hospitalID as string) : ''
     },
     {
-      skip: hospitalID == null,
+      skip: hospitalID == null
     }
-  );
+  )
 
   const partialStatusCount = countStatus(pData)
 
@@ -154,12 +154,12 @@ const TreatmentPlanDashboard = () => {
   //
   const { data: recentTimeAndData } = useGetRecentTimeAndWorkQuery(
     {
-      hospitalID: authUser?.role !== "admin" ? (hospitalID as string) : "",
+      hospitalID: authUser?.role !== 'admin' ? (hospitalID as string) : ''
     },
     {
-      skip: hospitalID == null,
+      skip: hospitalID == null
     }
-  );
+  )
 
   // console.log(pData, statusCountPie(pData), 'recent')
 

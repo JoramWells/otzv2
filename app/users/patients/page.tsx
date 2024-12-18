@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -10,10 +11,8 @@ import { ListFilter, PlusCircle, XIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { CaseManagerDialog } from '@/components/CaseManagerDialog'
 import CustomCheckbox from '@/components/forms/CustomCheckbox'
-import { type UserInterface, type PatientAttributes } from 'otz-types'
 import debounce from 'lodash/debounce'
 import { useGetAllPatientsQuery } from '@/api/patient/patients.api'
-import { useSession } from 'next-auth/react'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'
 import { patientColumns } from './_components/columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
@@ -82,7 +81,6 @@ const FilterComponent = () => {
 const Patients = () => {
   // const datax = await getPatients()
 
-
   const [search, setSearch] = useState('')
 
   const searchParams = useSearchParams()
@@ -105,8 +103,6 @@ const Patients = () => {
   }, [hData])
 
   const [tabValue, setTabValue] = useState(tab)
-
-
 
   const debounceSearch = useMemo(() => {
     // setSearch(value)
