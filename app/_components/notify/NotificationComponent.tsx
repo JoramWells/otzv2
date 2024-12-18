@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button'
 import CustomInput from '../../../components/forms/CustomInput'
 import { useCallback, useState } from 'react'
 import { useGetAllNotificationSubCategoriesQuery } from '@/api/notifications/notificationSubCategory.api'
-import { useAddNotificationMutation, useGetAllNotificationsQuery } from '@/api/notifications/notification.api'
-import { Loader2, Trash2 } from 'lucide-react'
-import moment, { type MomentInput } from 'moment'
+import { useAddNotificationMutation } from '@/api/notifications/notification.api'
+import { Loader2 } from 'lucide-react'
+import { type MomentInput } from 'moment'
 import { type NotifySubCategoryProps } from './NotifySubCategory'
 import CustomSelect from '../../../components/forms/CustomSelect'
 
@@ -22,7 +22,7 @@ const NotificationComponent = () => {
   const [notificationSubCategoryID, setNotificationSubCategoryID] = useState('')
 
   const { data: subCatData } = useGetAllNotificationSubCategoriesQuery()
-  const { data } = useGetAllNotificationsQuery()
+  // const { data } = useGetAllNotificationsQuery()
   const [addNotification, { isLoading: isNotificationLoading }] = useAddNotificationMutation()
   const subCatOptions = useCallback(() => {
     return subCatData?.map((item: any) => ({
@@ -36,7 +36,7 @@ const NotificationComponent = () => {
     notificationDescription
   }
 
-  console.log(data, 'dr')
+  // console.log(data, 'dr')
 
   return (
     <div className="flex flex-row space-x-4 w-full">
@@ -53,7 +53,7 @@ const NotificationComponent = () => {
             <Loader2 className="animate-spin" />
           )} */}
         </div>
-        {data?.map((item: NotificationProps, index: number) => (
+        {/* {data?.map((item: NotificationProps, index: number) => (
           <div
             key={item.id}
             className="border-b border-slate-100 p-4
@@ -79,7 +79,7 @@ const NotificationComponent = () => {
               // onClick={() => deleteNotificationCategory(item.id)}
             />
           </div>
-        ))}
+        ))} */}
       </div>
       <div
         className="w-1/2 border border-slate-200 rounded-lg p-4
