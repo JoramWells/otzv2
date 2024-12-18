@@ -44,7 +44,7 @@ const Settings = ({ patientID }: InputProps) => {
     setNotificationID(id)
   }
 
-  const { data: notificationCategoryData } = useGetAllNotificationsQuery()
+  // const { data: notificationCategoryData } = useGetAllNotificationsQuery()
 
   console.log(userNotificationData, 'dtx')
 
@@ -77,7 +77,7 @@ const Settings = ({ patientID }: InputProps) => {
 
       <div className="flex flex-row w-full space-x-4">
         <div className="flex flex-col space-y-4 w-1/2">
-          {notificationCategoryData?.map((item: NotificationProps) => (
+          {/* {notificationCategoryData?.map((item: NotificationProps) => (
             <div
               key={item.id}
               className={`border border-slate-200 p-2
@@ -97,7 +97,7 @@ const Settings = ({ patientID }: InputProps) => {
               </p>
               <p className="font-bold">{item.notificationDescription}</p>
             </div>
-          ))}
+          ))} */}
         </div>
 
         {/*  */}
