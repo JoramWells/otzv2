@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 'use client'
 
-import { useGetAllNotificationsQuery } from '@/api/notifications/notification.api'
 import { useGetUserNotificationQuery } from '@/api/notifications/userNotification.api'
 import { type NotificationProps } from '@/app/_components/notify/NotificationComponent'
 import AddNotificationDialog from '@/app/_components/patient/settings/AddNotificationDialog'
@@ -69,7 +69,7 @@ const Settings = ({ params }: any) => {
     setNotificationID(id)
   }
 
-  const { data: notificationCategoryData } = useGetAllNotificationsQuery()
+  // const { data: notificationCategoryData } = useGetAllNotificationsQuery()
 
   console.log(userNotificationData, 'dtx')
 
@@ -93,7 +93,7 @@ const Settings = ({ params }: any) => {
 
       <div className="flex flex-row w-full space-x-4">
         <div className="flex flex-col space-y-4 w-1/2">
-          {notificationCategoryData?.map((item: NotificationProps) => (
+          {/* {notificationCategoryData?.map((item: NotificationProps) => (
             <div
               key={item.id}
               className={`border border-slate-200 p-2
@@ -114,7 +114,7 @@ const Settings = ({ params }: any) => {
               </p>
               <p className="font-bold">{item.notificationDescription}</p>
             </div>
-          ))}
+          ))} */}
         </div>
 
         {/*  */}
