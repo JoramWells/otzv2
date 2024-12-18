@@ -71,7 +71,7 @@ const Settings = ({ params }: any) => {
     setNotificationID(id)
   }
 
-  const { data: notificationCategoryData } = useGetAllNotificationsQuery()
+  // const { data: notificationCategoryData } = useGetAllNotificationsQuery()
 
   console.log(userNotificationData, 'dtx')
 
