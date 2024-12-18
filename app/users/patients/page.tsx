@@ -22,6 +22,7 @@ import { Badge } from '@/components/ui/badge'
 import { useGetAllUsersQuery } from '@/api/users/users.api'
 import { useUserContext } from '@/context/UserContext'
 import { useGetHospitalQuery } from '@/api/hospital/hospital.api'
+import usePreprocessData from '@/hooks/usePreprocessData'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -88,8 +89,6 @@ const Patients = () => {
   const [search, setSearch] = useState('')
 
   const searchParams = useSearchParams()
-  const [patientData, setPatientData] = useState<PatientAttributes[] | undefined>([])
-  const [patientTotal, setPatientTotal] = useState<number>(0)
   const page = searchParams.get('page')
   const tab = searchParams.get('tab')
   const casemanagerParam = searchParams.get('casemanager')
@@ -130,7 +129,7 @@ const Patients = () => {
     return () => debounceSearch?.cancel()
   }, [debounceSearch, search])
 
-  const { data, isLoading } = useGetAllPatientsQuery(
+  const { data: responseData, isLoading } = useGetAllPatientsQuery(
     {
       hospitalID: (authUser?.role !== 'admin') ? (hospitalID as string) : '',
       page: Number(page) ?? 1,
@@ -162,11 +161,9 @@ const Patients = () => {
     }))
   }, [userData])()
 
+  const { data, total } = usePreprocessData(responseData)
+
   useEffect(() => {
-    if (data) {
-      setPatientData(data?.data)
-      setPatientTotal(data?.total)
-    }
     if (tab === null) {
       setTabValue('All')
     }
@@ -211,18 +208,18 @@ const Patients = () => {
           placeholder="Age"
         />
         <CustomSelectParams
-          label={`Page No :- ${pageNumber(patientTotal, 10)}`}
+          label={`Page No :- ${pageNumber(total as number, 10)}`}
           paramValue="page"
           onChange={setPageSize}
           value={`${pageSize}`}
           data={Array.from(
-            { length: pageNumber(patientTotal, 10) },
+            { length: pageNumber(total as number, 10) },
             (_, index) => ({ id: `${index + 1}`, label: `${index + 1}` })
           )}
           placeholder="Page"
         />
         <CustomSelectParams
-          label={`Case Managers :- ${pageNumber(patientTotal, 10)}`}
+          label={`Case Managers :- ${pageNumber(total as number, 10)}`}
           paramValue="casemanager"
           onChange={setCaseManager}
           value={caseManager}
@@ -254,7 +251,7 @@ const Patients = () => {
             <div className="flex flex-row space-x-2 items-center">
               <p className="text-slate-700 text-[16px] ">{tabValue}</p>
               <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
-                {patientTotal}
+                {total}
               </Badge>
             </div>
             <div className="flex flex-row items-center space-x-2">
@@ -289,8 +286,8 @@ const Patients = () => {
           </div>
           <CustomTable
             columns={patientColumns}
-            data={patientData ?? []}
-            total={patientTotal}
+            data={data ?? []}
+            total={total as number}
             isLoading={isLoading}
             search={search}
             setSearch={setSearch}

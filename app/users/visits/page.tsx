@@ -89,6 +89,8 @@ const PageVisits = () => {
     // }
   }, [data, tab])
 
+  console.log(data)
+
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />

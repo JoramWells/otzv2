@@ -7,6 +7,7 @@ import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
+import { type NotificationInterface } from '@/api/notifications/notification.api'
 // import { FaEdit } from 'react-icons/fa'
 
 // {
@@ -171,5 +172,42 @@ export const sentMessagesColumns: Array<ColumnDef<ColumnProps>> = [
         </div>
       )
     }
+  }
+]
+
+export const notificationColumns: Array<ColumnDef<NotificationInterface>> = [
+  {
+    accessorKey: 'AppModule.title',
+    header: 'Module',
+    cell: ({ row }) => (
+      <div className="flex flex-row items-center gap-x-2 pt-1 pb-1">
+
+        <p className="capitalize font-semibold">{`${row.original?.AppModule?.title}`}</p>
+      </div>
+    )
+  },
+  // <X />
+  {
+    accessorKey: 'count',
+    header: 'Notifications',
+    cell: ({ row }) => (
+      <div className="flex flex-col space-y-2">
+{row.original?.count}
+      </div>
+    )
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Created',
+    cell: ({ row }) => (
+      <div>{moment(row.original.createdAt).format('ll')}</div>
+    )
+  },
+  {
+    // accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => (
+      <Link href={`/pill-box/daily-uptake/${row.original.id}`}>Edit </Link>
+    )
   }
 ]

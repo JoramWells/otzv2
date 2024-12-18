@@ -1,37 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
-import { useGetAllUserNotificationsQuery } from '@/api/notifications/userNotification.api'
+
+import { useGetAllNotificationsQuery } from '@/api/notifications/notification.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { columns, sentMessagesColumns } from './columns'
-import { useGetAllPatientNotificationsQuery } from '../../../api/notifications/patientNotification.api'
-import { Button } from '@/components/ui/button'
-import { useEffect, useState } from 'react'
-import socketIOClient, { type Socket } from 'socket.io-client'
-import { NotificationProps } from '@/context/NotificationContext'
-import useNotification from '@/hooks/useNotification'
+import { useUserContext } from '@/context/UserContext'
+import usePreprocessData from '@/hooks/usePreprocessData'
+import React from 'react'
+import { notificationColumns } from './columns'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-[52px] rounded-lg" />
+    loading: () => <Skeleton className="w-full h-[52px] rounded-none" />
   }
 )
-
-const dataList = [
-  {
-    id: 1,
-    label: 'Patient Settings'
-  },
-  {
-    id: 2,
-    label: 'Sent Messages'
-  }
-
-]
 
 const dataList2 = [
   {
@@ -41,80 +26,42 @@ const dataList2 = [
   },
   {
     id: '2',
-    label: 'dashboard',
-    link: 'dashboard'
+    label: 'Patients',
+    link: '/'
   }
 ]
 
-const NotificationPage = () => {
-  const [value, setValue] = useState(1)
-  // const showNotification = useNotification()
-
-  const { data } = useGetAllUserNotificationsQuery()
-
-  const { data: patientNotificationData } =
-    useGetAllPatientNotificationsQuery()
-  // const socket: Socket = socketIOClient("/api/appointment");
-
-  // const filterData = data?.map(item => item.notifications?.filter(notification => Object.values(notification.notifications).some(value => value === true)))
-  const dtx = data?.filter((item: any) => {
-    const notificationValue = Object.values(item.notifications)
-    return notificationValue.includes(true)
+const NotificationsPage = () => {
+  const { hospitalID } = useUserContext()
+  const { data: notificationData } = useGetAllNotificationsQuery({
+    hospitalID: hospitalID as string,
+    page: 1,
+    pageSize: 10,
+    searchQuery: ''
+  },
+  {
+    skip: hospitalID == null
   })
-
-  // useEffect(() => {
-  // if (data) {
-  // setAppointments(data)
-  // }
-  // const socket: Socket = socketIOClient(`${process.env.NEXT_PUBLIC_API_URL}/api/appointment:`)
-
-  //   socket.on("notificationCreated", (socketData: NotificationProps) => {
-  //     showNotification();
-  //     // setAppointments(socketData)
-  //     console.log(socketData);
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [ showNotification]);
+  const { data } = usePreprocessData(notificationData)
+  console.log(notificationData)
   return (
-    <div className="">
+    <div>
       <BreadcrumbComponent dataList={dataList2} />
-
-      <div className="w-full flex-row flex space-x-4 mb-2 p-2 mt-2">
-        {dataList.map((item) => (
-          <Button
-            key={item.id}
-            className={`rounded-full shadow-none bg-slate-200 text-slate-500
-          hover:bg-slate-100 ${item.id === value && 'bg-black text-white'}
-          `}
-            onClick={() => {
-              setValue(item.id)
-            }}
+      <div className="p-2">
+        <div className="bg-white rounded-lg border border-slate-200">
+          <div
+          className=' flex flex-row items-center space-x-2'
           >
-            {item.label}
-          </Button>
-        ))}
-      </div>
-
-      <div className='p-2'>
-        <div className='bg-white rounded-lg w-full p-2'>
-          {value === 1
-            ? (
-            <CustomTable columns={columns} data={dtx || []} isSearch={false} />
-              )
-            : (
-            <CustomTable
-              columns={sentMessagesColumns}
-              data={patientNotificationData || []}
-              isSearch={false}
-            />
-              )}
+            <p>Notifications</p>
+            {/* <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
+              {total}
+            </Badge> */}
+          </div>
+          <CustomTable columns={notificationColumns} data={data ?? []} />
         </div>
       </div>
     </div>
   )
 }
 
-export default NotificationPage
+export default NotificationsPage

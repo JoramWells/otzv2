@@ -12,6 +12,7 @@ import { useGetTimeAndWorkByVisitIDQuery } from '@/api/treatmentplan/timeAndWork
 import Avatar from '@/components/Avatar'
 import { type ColumnDef } from '@tanstack/react-table'
 import { ArrowRight, CircleCheckBig, CircleX } from 'lucide-react'
+import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -29,8 +30,8 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
           name={`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}
         />
         <Link
-          className="capitalize font-semibold text-slate-700 text-[12px] "
-          href={`/users/patients/tab/dashboard/${row.original.id}`}
+          className="capitalize text-blue-500 text-[12px] hover:underline "
+          href={`/users/patients/tab/dashboard/${row.original.patientID}`}
         >{`${row.original?.Patient.firstName} ${row.original?.Patient.middleName}`}</Link>
       </div>
     )
@@ -45,7 +46,7 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
       "
       >
         <Link
-          className="capitalize font-semibold text-slate-700 text-[12px] "
+          className="capitalize text-slate-500 text-[12px] "
           href={`/users/patients/tab/dashboard/${row.original.id}`}
         >{`${row.original?.User?.firstName} ${row.original?.User?.middleName}`}</Link>
       </div>
@@ -141,6 +142,15 @@ export const patientVisitColumns: Array<ColumnDef<ExtendedPatientVisitsInterface
               )}
         </div>
       )
+    }
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: 'Modified',
+    cell: ({ row }) => {
+      return <p
+      className='text-[12px] text-slate-500'
+      >{moment(row.original?.updatedAt).format('ll')}</p>
     }
   },
   {
