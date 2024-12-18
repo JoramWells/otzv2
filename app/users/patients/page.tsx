@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -83,9 +82,7 @@ const FilterComponent = () => {
 const Patients = () => {
   // const datax = await getPatients()
 
-  const { data: session } = useSession()
 
-  const [user, setUser] = useState<UserInterface>()
   const [search, setSearch] = useState('')
 
   const searchParams = useSearchParams()
@@ -109,11 +106,7 @@ const Patients = () => {
 
   const [tabValue, setTabValue] = useState(tab)
 
-  useEffect(() => {
-    if (session) {
-      setUser(session?.user as UserInterface)
-    }
-  }, [session])
+
 
   const debounceSearch = useMemo(() => {
     // setSearch(value)

@@ -357,8 +357,8 @@ ColumnDef<ExtendedImportantPatientInterface>
           name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
         />
         <Link
-          className="capitalize font-semibold text-slate-700 text-[12px] "
-          href={`/users/patients/tab/dashboard/${row.original.id}`}
+          className="capitalize  text-blue-500 text-[12px]  hover:cursor-pointer hover:underline "
+          href={`/users/patients/tab/dashboard/${row.original?.Patient?.id}`}
         >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
       </div>
     )
@@ -373,7 +373,9 @@ ColumnDef<ExtendedImportantPatientInterface>
   {
     accessorKey: 'dob',
     header: 'Age',
-    cell: ({ row }) => <p className='text-[12px]' >{calculateAge(row.original?.Patient?.dob)}</p>,
+    cell: ({ row }) => (
+      <p className="text-[12px]">{calculateAge(row.original?.Patient?.dob)}</p>
+    ),
     enableSorting: true
   },
   {
@@ -403,7 +405,9 @@ ColumnDef<ExtendedImportantPatientInterface>
         <p className="text-[12px] text-slate-500">
           Count: <span>{row.original?.count}</span>
         </p>
-        <p className='text-[12px] text-slate-500' >{moment(row.original?.createdAt).format('ll')}</p>
+        <p className="text-[12px] text-slate-500">
+          {moment(row.original?.createdAt).format('ll')}
+        </p>
       </div>
     )
   }

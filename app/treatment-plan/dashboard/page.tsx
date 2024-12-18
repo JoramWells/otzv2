@@ -110,7 +110,7 @@ function DisclosureComponent ({ completed, inProgress, notBegan, title }: {
 }
 
 const TreatmentPlanDashboard = () => {
-  const { hospitalID } = useUserContext()
+  const { hospitalID, authUser } = useUserContext()
   // const { data } = useGetPartialDisclosureCategoryScoreQuery({
   //   hospitalID: hospitalID as string
   // },
@@ -128,20 +128,23 @@ const TreatmentPlanDashboard = () => {
   //   }
   // )
 
-  const { data: groupCount } = useGetFullDisclosureTrackerByStatusQuery({
-    hospitalID: hospitalID as string
-  }, {
-    skip: hospitalID == null
-  })
+  const { data: groupCount } = useGetFullDisclosureTrackerByStatusQuery(
+    {
+      hospitalID: authUser?.role !== "admin" ? (hospitalID as string) : "",
+    },
+    {
+      skip: hospitalID == null,
+    }
+  );
 
   const { data: pData } = useGetPartialDisclosureTrackerByStatusQuery(
     {
-      hospitalID: hospitalID as string
+      hospitalID: authUser?.role !== "admin" ? (hospitalID as string) : "",
     },
     {
-      skip: hospitalID == null
+      skip: hospitalID == null,
     }
-  )
+  );
 
   const partialStatusCount = countStatus(pData)
 
@@ -149,11 +152,14 @@ const TreatmentPlanDashboard = () => {
   const fullStatusCount = countStatus(groupCount)
 
   //
-  const { data: recentTimeAndData } = useGetRecentTimeAndWorkQuery({
-    hospitalID: hospitalID as string
-  }, {
-    skip: hospitalID == null
-  })
+  const { data: recentTimeAndData } = useGetRecentTimeAndWorkQuery(
+    {
+      hospitalID: authUser?.role !== "admin" ? (hospitalID as string) : "",
+    },
+    {
+      skip: hospitalID == null,
+    }
+  );
 
   // console.log(pData, statusCountPie(pData), 'recent')
 

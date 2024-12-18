@@ -11,7 +11,6 @@ import { useUserContext } from '@/context/UserContext'
 import { Fragment } from 'react'
 import { Button } from '../ui/button'
 import { Bell } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 
 interface DataListProps {
   dataList: Array<{
@@ -27,7 +26,7 @@ export default function BreadcrumbComponent ({ dataList }: DataListProps) {
   const { data } = useGetHospitalQuery(hospitalID as string, {
     skip: hospitalID == null
   })
-  const router = useRouter()
+  // const router = useRouter()
   return (
     <Breadcrumb className="p-2 pl-4 pr-4 bg-white flex justify-between items-center ">
       <BreadcrumbList>
@@ -52,7 +51,7 @@ export default function BreadcrumbComponent ({ dataList }: DataListProps) {
         className='shadow-none'
         variant={'ghost'}
         size={'sm'}
-        onClick={() => router.push('/notify/notifications')}
+        // onClick={() => router.push('/notify/notifications')}
         >
           <Bell size={16} className='text-slate-500' />
         </Button>

@@ -19,16 +19,6 @@ import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useGetCALHIVByHospitalIDQuery } from '@/api/patient/calhiv.api'
 import { useCallback } from 'react'
 import HorizontalLineChart from '@/components/Recharts/HorizontalLineChart'
-// import { UserInterface } from 'otz-types'
-// import { useSession } from 'next-auth/react'
-
-// const UserDashboardCard = dynamic(
-//   async () => await import('@/app/_components/UserDasboard'),
-//   {
-//     ssr: false,
-//     loading: () => <Skeleton className="h-[110px] rounded-lg flex-1 p-4" />
-//   }
-// )
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -38,43 +28,7 @@ const BreadcrumbComponent = dynamic(
   }
 )
 
-//
-
-// const PieChart = dynamic(
-//   async () => await import('../../_components/charts/PieChart'),
-//   {
-//     ssr: false,
-//     loading: () => <Skeleton className="w-full h-[300px] md:w-1/4" />
-//   }
-// )
-
 const UserDashboardPage = () => {
-  // const [user, setUser] = useState<UserInterface>()
-  // const {} = useSession()
-
-  // let { data } = useGetAllPatientsQuery({
-  //   hospitalID: user?.hospitalID as string
-  // })
-
-  // data = data?.filter(item => calculateAge(item.dob) < 25)
-
-  // const dataList: UserDashboardCardDataListProps[] =
-  // const filteredArray: PatientAttributes[] = data ? [...data] : []
-  // filteredArray.sort(
-  //   (a, b) =>
-  //     new Date(b.createdAt as unknown as string).getTime() -
-  //     new Date(a.createdAt as unknown as string).getTime()
-  // )
-
-  // useEffect(() => {
-  //   if (session) {
-  //     const { user } = session
-  //     setUser(user as UserInterface)
-  //   }
-  // }, [session])
-
-  // const recentPatients = filteredArray?.slice(0, 3)
-
   const dataList2 = [
     {
       id: '1',
@@ -125,6 +79,8 @@ const UserDashboardPage = () => {
   {
     skip: !authUser?.hospitalID
   })
+
+  console.log(importantPatients)
 
   const { data: hospitalData } = useGetCALHIVByHospitalIDQuery(
     {

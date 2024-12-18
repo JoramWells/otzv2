@@ -1,16 +1,9 @@
-/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 'use client'
 
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent
-} from '@/components/ui/dropdown-menu'
-import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -19,8 +12,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
-import { ChevronDownIcon } from '@radix-ui/react-icons'
+
 import {
   useReactTable,
   type ColumnDef,
@@ -34,11 +26,11 @@ import {
   type SortingState,
   type ColumnResizeMode
 } from '@tanstack/react-table'
-import { BookOpen, ChevronsLeft, ChevronsRight, FileDown, Search, X } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { type ChangeEvent, type Dispatch, type ReactNode, type SetStateAction, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
-import { CSVLink } from 'react-csv'
 import TableSkeleton from './TableSkeleton'
+import TableSearchInput from './TableSearchInput'
+import TableFooter from './TableFooter'
 export interface CustomTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
@@ -134,78 +126,15 @@ export function CustomTable<TData, TValue> ({
   return (
     <Suspense fallback={<TableSkeleton isSearch={true} />}>
       {isSearch && (
-        <div
-          className="flex flex-row justify-between items-center
-        p-4 pl-0 pr-0
-        "
-        >
-          <div className="flex flex-row space-x-2 items-center pl-2 pr-2">
-            <div className="flex items-center flex-row  border border-slate-200 rounded-lg focus-within:ring focus-within:border focus-within:ring-slate-50">
-              <Search size={16} className="ml-2 text-slate-500" />
-              <input
-                placeholder="Search.."
-                className="border-none outline-none h-8 rounded-lg p-2
-            text-[12px] flex-1 ml-2
-            "
-                value={search}
-                onChange={handleSearch}
-              />
-              {search && search?.length > 0 && (
-                <X
-                  size={16}
-                  className="text-slate-500 mr-2"
-                  onClick={() => setSearch && setSearch('')}
-                />
-              )}
-            </div>
-            {filter && filter}
-          </div>
-
-          <div className="flex flex-row space-x-4 items-center">
-            <CSVLink data={data as object[]}>
-              <Button
-                className="bg-slate-100 text-slate-600 hover:bg-slate-200
-                shadow-none font-bold
-                "
-                size={'sm'}
-              >
-                <FileDown size={15} className="mr-2" />
-                Export
-              </Button>
-            </CSVLink>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="ml-auto shadow-none"
-                  size={'sm'}
-                >
-                  Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {table
-                  .getAllColumns()
-                  .filter((column) => column.getCanHide())
-                  .map((column) => {
-                    return (
-                      <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className="capitalize"
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) => {
-                          column.toggleVisibility(!!value)
-                        }}
-                      >
-                        {column.id}
-                      </DropdownMenuCheckboxItem>
-                    )
-                  })}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
+        <TableSearchInput
+          columns={columns}
+          data={data}
+          handleSearch={handleSearch}
+          setSearch={setSearch}
+          table={table}
+          filter={filter}
+          search={search}
+        />
       )}
 
       {/*  */}
@@ -215,7 +144,7 @@ export function CustomTable<TData, TValue> ({
     "
       >
         {isLoading ? (
-<TableSkeleton />
+          <TableSkeleton />
         ) : (
           <>
             <Table>
@@ -318,47 +247,11 @@ export function CustomTable<TData, TValue> ({
               </TableBody>
               {/* } */}
             </Table>
-            <div className="flex gap-x-4 justify-between p-4 pt-2 pb-2 border-t border-slate-100 ">
-              <div
-                className="flex flex-row items-center text-slate-500
-          gap-x-2
-          "
-              >
-                <BookOpen size={14} />
-                <p className="text-[12px]">
-                  Page {table.getState().pagination.pageIndex + 1} of{' '}
-                  {table.getPageCount()}
-                </p>
-              </div>
-              <div className="flex flex-row items-center space-x-2">
-                <Button
-                  onClick={() => {
-                    table.previousPage()
-                    updateQueryParams(pageNo - 1)
-                  }}
-                  disabled={!table.getCanPreviousPage()}
-                  size={'sm'}
-                  // className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
-                  variant={'outline'}
-                >
-                  <ChevronsLeft size={14} />
-                  Prev
-                </Button>
-                <Button
-                  // className="bg-slate-100 text-slate-500 hover:bg-slate-50 shadow-none"
-                  variant={'outline'}
-                  onClick={() => {
-                    table.nextPage()
-                    updateQueryParams(pageNo + 1)
-                  }}
-                  disabled={!table.getCanNextPage()}
-                  size={'sm'}
-                >
-                  Next
-                  <ChevronsRight size={14} />
-                </Button>
-              </div>
-            </div>
+            <TableFooter
+              pageNo={pageNo}
+              table={table}
+              updateQueryParams={updateQueryParams}
+            />
           </>
         )}
       </div>

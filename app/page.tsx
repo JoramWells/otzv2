@@ -60,7 +60,7 @@ const responsive = {
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 4,
+    items: 5,
     partialVisibilityGutter: 40
   },
   tablet: {
@@ -261,13 +261,13 @@ export default function Home () {
                           (item: ExtendedAppModuleSession) => (
                             <Suspense
                               key={item.id}
-                              fallback={<Skeleton className="h-[120px]" />}
+                              fallback={<Skeleton className="h-[100px]" />}
                             >
                               <div
                                 key={item.id}
                                 tabIndex={0}
                                 className="border-slate-100  hover:border-slate-200 border
-                           hover:bg-slate-50 transition duration-300 ml-2 mr-2 mb-2 relative p-4 rounded-lg h-[120px] hover:cursor-pointer shadow-slate-50 shadow filter"
+                           hover:bg-slate-50 transition duration-300 ml-1 mr-1 mb-1 relative p-4 rounded-lg h-[100px] hover:cursor-pointer shadow-slate-50 shadow filter"
                                 onClick={() => {
                                   router.push(
                                     `${item.appModule.link}?moduleID=${item.id}`
@@ -282,11 +282,11 @@ export default function Home () {
                                     <Image
                                       src={`${process.env.NEXT_PUBLIC_API_URL}/api/root/${item.appModule.img}`}
                                       alt="img"
-                                      width={35}
-                                      height={35}
+                                      width={30}
+                                      height={30}
                                       style={{
-                                        width: '35px',
-                                        height: '35px',
+                                        width: '30px',
+                                        height: '30px',
                                         objectFit: 'contain'
                                       }}
 
@@ -315,10 +315,10 @@ export default function Home () {
                           "
                                   >
                                     <Clock
-                                      size={16}
+                                      size={14}
                                       className="text-slate-500"
                                     />
-                                    <p className="text-[12px] rounded-br-lg text-slate-500 font-semibold ">
+                                    <p className="text-[10px] rounded-br-lg text-slate-500 font-semibold ">
                                       {Math.floor(
                                         moment
                                           .duration(
@@ -372,18 +372,18 @@ export default function Home () {
                     </Button>
                   </div>
                 </div>
-                <div className="grid px-2  w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2 mb-2 pb-4">
+                <div className="grid px-2  w-full grid-cols-1 gap-2 lg:grid-cols-5 md:grid-cols-2 mb-2 pb-4">
                   {filteredData?.map((item: AppModuleInterface) => (
                     <Suspense
                       key={item.id}
-                      fallback={<Skeleton className="h-[120px]" />}
+                      fallback={<Skeleton className="h-[100px]" />}
                     >
                       <div
                         key={item.id}
                         tabIndex={0}
                         className="border-slate-100  hover:border-slate-200 border
                                                   transform hover:scale-105 ease-in-out
-                         hover:bg-slate-50 transition duration-300 relative p-4 rounded-lg h-[120px] hover:cursor-pointer shadow-slate-50 shadow filter"
+                         hover:bg-slate-50 transition duration-300 relative p-4 rounded-lg h-[100px] hover:cursor-pointer shadow-slate-50 shadow filter"
                         onClick={() => {
                           router.push(`${item.link}?moduleID=${item.id}`)
                         }}
@@ -400,12 +400,12 @@ export default function Home () {
                                   : (item.img as string)
                               }
                               alt="img"
-                              width={35}
-                              height={35}
+                              width={25}
+                              height={25}
                               style={{
-                                width: '35px',
-                                height: '35px',
-                                objectFit: 'contain'
+                                width: '25px',
+                                height: '25px',
+                                objectFit: 'cover'
                               }}
 
                               // quality={100}
