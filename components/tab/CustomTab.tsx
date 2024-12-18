@@ -43,10 +43,7 @@ const CustomTab = ({ categoryList, setValue, value }: CustomTabProps) => {
     if (tab === value && (page != null)) {
       params.set('page', '1')
     }
-    if (tab === null) {
-      params.set('tab', categoryList[0].label)
-    }
-  }, [categoryList, page, params, tab, value])
+  }, [page, params, tab, value])
 
   return (
     <nav
