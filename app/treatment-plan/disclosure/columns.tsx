@@ -26,7 +26,7 @@ import Avatar from '@/components/Avatar'
 import { type ExtendedDisclosureTracker } from '@/api/treatmentplan/disclosureTracker.api'
 //
 
-export const partialDisclosureColumn: Array<
+export const fullDisclosureColumn: Array<
 ColumnDef<ExtendedDisclosureTracker>
 > = [
   {
@@ -52,14 +52,66 @@ ColumnDef<ExtendedDisclosureTracker>
   },
   {
     accessorKey: 'score',
-    header: 'Full',
+    header: 'Score',
     cell: ({ row }) => (
       <p className="text-[12px]">{row.original?.FullDisclosure?.score}</p>
     )
   },
   {
-    accessorKey: 'partial',
-    header: 'Partial',
+    accessorKey: 'updatedAt',
+    header: 'Updated At',
+    cell: ({ row }) => (
+      <p className="text-[12px]">
+        {moment(row.original.updatedAt).format('ll')}
+      </p>
+    )
+  },
+
+  {
+    accessorKey: 'action',
+    header: 'Action',
+    cell: ({ row }) => {
+      // const patientID = row.original.id
+
+      const { data: session } = useSession()
+      return (
+        <div className="flex flex-row space-x-2 items-center">
+          {/* <PinnedCell patientID={patientID} /> */}
+          <DropDownComponent id={row.original.id!} userID={session?.user.id} />
+        </div>
+      )
+    }
+  }
+]
+//
+
+export const partialDisclosureColumn: Array<
+ColumnDef<ExtendedDisclosureTracker>
+> = [
+  {
+    accessorKey: 'firstName',
+    header: 'Name',
+    cell: ({ row }) => {
+      return (
+        <div
+          className="flex flex-row gap-x-3 items-center
+      pt-1 pb-1 text-[12px]
+      "
+        >
+          <Avatar
+            name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
+          />
+          <Link
+            className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
+            href={`/users/patients/tab/dashboard/${row.original?.patientID}`}
+          >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: 'PartialDisclosure.score',
+    header: 'Score',
     cell: ({ row }) => (
       <p className="text-[12px]">{row.original?.PartialDisclosure?.score}</p>
     )

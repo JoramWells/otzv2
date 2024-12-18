@@ -9,8 +9,8 @@ interface AppointmentTypeProps {
   page: number
   pageSize: number
   searchQuery: string
-  hasFullDisclosure: boolean
-  hasPartialDisclosure: boolean
+  hasFullDisclosure: boolean | undefined
+  hasPartialDisclosure: boolean | undefined
 }
 export type ExtendedDisclosureTracker = DisclosureTrackerInterface & {
   Patient?: PatientAttributes
@@ -23,7 +23,10 @@ export const disclosureTrackerApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/treatmentplan/disclosure-tracker`
   }),
   endpoints: (builder) => ({
-    getAllDisclosureTracker: builder.query<PaginatedResponseInterface<ExtendedDisclosureTracker>, AppointmentTypeProps>({
+    getAllFullDisclosureTracker: builder.query<
+    PaginatedResponseInterface<ExtendedDisclosureTracker>,
+    AppointmentTypeProps
+    >({
       query: (params) => {
         if (params) {
           const {
@@ -31,8 +34,7 @@ export const disclosureTrackerApi = createApi({
             page,
             pageSize,
             searchQuery,
-            hasFullDisclosure,
-            hasPartialDisclosure
+            hasFullDisclosure
           } = params
           let queryString = ''
 
@@ -41,10 +43,34 @@ export const disclosureTrackerApi = createApi({
           queryString += `&searchQuery=${searchQuery}`
           queryString += `&hospitalID=${hospitalID}`
           queryString += `&hasFullDisclosure=${hasFullDisclosure}`
-          queryString += `&hasPartialDisclosure=${hasPartialDisclosure}`
-          return `/fetchAll/?${queryString}`
+          return `/fetch-all-full/?${queryString}`
         }
-        return '/fetchAll'
+        return '/fetch-all-full'
+      }
+    }),
+    getAllPartialDisclosureTracker: builder.query<
+    PaginatedResponseInterface<ExtendedDisclosureTracker>,
+    AppointmentTypeProps
+    >({
+      query: (params) => {
+        if (params) {
+          const {
+            hospitalID,
+            page,
+            pageSize,
+            searchQuery,
+            hasPartialDisclosure
+          } = params
+          let queryString = ''
+
+          queryString += `page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          queryString += `&hospitalID=${hospitalID}`
+          queryString += `&hasPartialDisclosure=${hasPartialDisclosure}`
+          return `/fetch-all-partial/?${queryString}`
+        }
+        return '/fetch-all-partial'
       }
     }),
     addDisclosureTracker: builder.mutation({
@@ -109,6 +135,7 @@ export const disclosureTrackerApi = createApi({
 })
 
 export const {
-  useGetAllDisclosureTrackerQuery, useAddDisclosureTrackerMutation, useGetAllDisclosureTrackerByVisitIdQuery,
-  useGetDisclosureTrackerQuery, useGetFullDisclosureTrackerByStatusQuery, useGetPartialDisclosureTrackerByStatusQuery
+  useGetAllFullDisclosureTrackerQuery, useAddDisclosureTrackerMutation, useGetAllDisclosureTrackerByVisitIdQuery,
+  useGetDisclosureTrackerQuery, useGetFullDisclosureTrackerByStatusQuery, useGetPartialDisclosureTrackerByStatusQuery,
+  useGetAllPartialDisclosureTrackerQuery
 } = disclosureTrackerApi
