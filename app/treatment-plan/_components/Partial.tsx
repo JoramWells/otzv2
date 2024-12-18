@@ -15,12 +15,12 @@ const Partial = () => {
 
   const [pageSize, setPageSize] = useState(1)
   const [hasPartialDisclosure, setHasPartialDisclosure] = useState<boolean | undefined>()
-  const { hospitalID } = useUserContext()
+  const { hospitalID, authUser } = useUserContext()
   const page = searchParams.get('page')
 
   const { data: fullData } = useGetAllPartialDisclosureTrackerQuery(
     {
-      hospitalID: hospitalID!,
+      hospitalID: authUser?.role !== 'admin' ? (hospitalID!) : '',
       page: Number(page) ?? 1,
       pageSize: 10,
       searchQuery: '',
