@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -39,6 +39,10 @@ const dataList2 = [
 const DisclosurePage = () => {
   const [tab, setTab] = useState('Full Disclosure')
 
+  useEffect(() => {
+    setTab('Full Disclosure')
+  }, [])
+
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
@@ -56,6 +60,7 @@ const DisclosurePage = () => {
           }
         ]}
       />
+      {/* {tab} */}
       <div className="p-2">
         {tab === 'Full Disclosure'.toLowerCase() && (
 <Full />
