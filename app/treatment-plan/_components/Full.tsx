@@ -77,21 +77,21 @@ const Full = () => {
 
         {/*  */}
         <CustomSelectParams
-          label="Full Disclosure"
+          label="Status"
           onChange={setHasFullDisclosure}
           paramValue="hasFullDisclosure"
           value={hasFullDisclosure as unknown as string}
           data={[
             {
               id: 'true',
-              label: 'Completed'
+              label: 'Began'
             },
             {
               id: 'false',
-              label: 'Not Completed'
+              label: 'Not Began'
             }
           ]}
-          placeholder="Full Disclosure"
+          placeholder="Status"
         />
 
         {/*  */}
@@ -133,13 +133,13 @@ const Full = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg border border-slate-200 ring ring-slate-100">
+    <div className="bg-white rounded-lg border border-slate-200">
       <div
-        className="p-2 pb-1 pt-1 flex
+        className="p-2 pb-1 flex
            flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
       >
         <div className="flex flex-row space-x-2 items-center">
-          <p className="text-slate-700 text-[16px] ">Partial Disclosure</p>
+          <p className="text-slate-700 text-[16px] ">Full Disclosure</p>
           <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
             {total}
           </Badge>

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -39,16 +39,15 @@ const dataList2 = [
 const DisclosurePage = () => {
   const [tab, setTab] = useState('full disclosure')
 
-  useEffect(() => {
-    setTab('full disclosure')
-  }, [])
-
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
-      <div
-      className='mt-2'
-      >
+      <div className="mt-2 bg-white">
+        <div
+        className='p-2 pb-0'
+        >
+          <p className="font-semibold">Disclosure Stage</p>
+        </div>
         <CustomTab
           setValue={setTab}
           value={tab}

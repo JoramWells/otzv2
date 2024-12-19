@@ -372,18 +372,18 @@ export default function Home () {
                     </Button>
                   </div>
                 </div>
-                <div className="grid px-2  w-full grid-cols-1 gap-2 lg:grid-cols-5 md:grid-cols-2 mb-2 pb-4">
+                <div className="grid  w-full grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2 mb-2 p-4">
                   {filteredData?.map((item: AppModuleInterface) => (
                     <Suspense
                       key={item.id}
-                      fallback={<Skeleton className="h-[100px]" />}
+                      fallback={<Skeleton className="h-[110px]" />}
                     >
                       <div
                         key={item.id}
                         tabIndex={0}
                         className="border-slate-100  hover:border-slate-200 border
                                                   transform hover:scale-105 ease-in-out
-                         hover:bg-slate-50 transition duration-300 relative p-4 rounded-lg h-[100px] hover:cursor-pointer shadow-slate-50 shadow filter"
+                         hover:bg-slate-50 transition duration-300 relative p-4 rounded-lg h-[110px] hover:cursor-pointer shadow-slate-50 shadow filter"
                         onClick={() => {
                           router.push(`${item.link}?moduleID=${item.id}`)
                         }}

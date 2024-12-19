@@ -77,21 +77,21 @@ const Partial = () => {
 
         {/*  */}
         <CustomSelectParams
-             label="Partial Disclosure"
+             label="Status"
              onChange={setHasPartialDisclosure}
              paramValue="hasPartialDisclosure"
              value={hasPartialDisclosure as unknown as string}
              data={[
                {
                  id: 'true',
-                 label: 'Completed'
+                 label: 'Began'
                },
                {
                  id: 'false',
-                 label: 'Not Completed'
+                 label: 'Not Began'
                }
              ]}
-             placeholder="Partial Disclosure"
+             placeholder="Status"
            />
 
         {/*  */}
@@ -114,9 +114,9 @@ const Partial = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg border border-slate-200 ring ring-slate-100">
+    <div className="bg-white rounded-lg border border-slate-200">
       <div
-        className="p-2 pb-1 pt-1 flex
+        className="p-2 flex
            flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
       >
         <div className="flex flex-row space-x-2 items-center">

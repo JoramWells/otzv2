@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
-import { type ExtendedMMASFourInterface, useGetAllMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
+import { useGetAllMmasFourQuery } from '@/api/treatmentplan/mmasFour.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { useUserContext } from '@/context/UserContext'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { columns } from './columns'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import { Badge } from '@/components/ui/badge'
+import usePreprocessData from '@/hooks/usePreprocessData'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -29,17 +30,15 @@ const dataList2 = [
   },
   {
     id: '3',
-    label: 'Reminder',
-    link: '/reminder'
+    label: 'MMAS',
+    link: ''
   }
 ]
 
 const MMASPage = () => {
   const { hospitalID } = useUserContext()
   //   const [] = useState()
-  const [mmasFourData, setMMASFourData] = useState<ExtendedMMASFourInterface[]>([])
-  const [total, setTotal] = useState<number | undefined>(0)
-  const { data } = useGetAllMmasFourQuery({
+  const { data: mmasFour } = useGetAllMmasFourQuery({
     hospitalID: hospitalID as string,
     page: 1,
     pageSize: 10,
@@ -50,21 +49,16 @@ const MMASPage = () => {
   }
   )
 
-  useEffect(() => {
-    if (data != null) {
-      setMMASFourData(data.data)
-      setTotal(data?.total)
-    }
-  }, [data])
+  const { data, total } = usePreprocessData(mmasFour)
 
   return (
     <div>
       <BreadcrumbComponent dataList={dataList2} />
 
       <div className="p-2">
-        <div className="bg-white rounded-lg border border-slate-200 ring ring-slate-100">
+        <div className="bg-white rounded-lg border border-slate-200 ">
           <div
-            className="p-2 pb-1 pt-1 flex
+            className="p-2 flex
            flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
           >
             <div className="flex flex-row space-x-2 items-center">
@@ -77,8 +71,8 @@ const MMASPage = () => {
           </div>
           <CustomTable
             columns={columns}
-            data={mmasFourData ?? []}
-            total={total}
+            data={data ?? []}
+            total={total as number}
           />
         </div>
       </div>

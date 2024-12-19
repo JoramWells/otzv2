@@ -8,22 +8,14 @@ import { Badge } from '@/components/ui/badge'
 // import { Button } from '@/components/ui/button'
 import { calculateAge } from '@/utils/calculateAge'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Edit, Ellipsis } from 'lucide-react'
 import moment from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { type ExtendedImportantPatientInterface, useAddImportantPatientMutation } from '@/api/patient/importantPatients.api'
-import { useSession } from 'next-auth/react'
+
+import { type ExtendedImportantPatientInterface } from '@/api/patient/importantPatients.api'
 import Avatar from '@/components/Avatar'
 import { type ExtendedDisclosureTracker } from '@/api/treatmentplan/disclosureTracker.api'
+import Progress from '@/components/Progress'
 //
 
 export const fullDisclosureColumn: Array<
@@ -34,18 +26,26 @@ ColumnDef<ExtendedDisclosureTracker>
     header: 'Name',
     cell: ({ row }) => {
       return (
-        <div
-          className="flex flex-row gap-x-3 items-center
-      pt-1 pb-1 text-[12px]
+        <div>
+          <div
+            className="flex flex-row gap-x-2 items-center
+      text-[12px]
       "
-        >
-          <Avatar
-            name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
-          />
-          <Link
-            className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
-            href={`/users/patients/tab/dashboard/${row.original?.patientID}`}
-          >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
+          >
+            <Avatar
+              name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
+            />
+            <Link
+              className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
+              href={`/users/patients/tab/dashboard/${row.original?.patientID}`}
+            >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
+          </div>
+          <div
+          className='flex flex-row space-x-2 items-center text-center ml-7 text-[12px] text-slate-500 font-semibold'
+          >
+            <p>{row.original.Patient?.sex}</p> <p>~</p>
+            <p>{calculateAge(row.original.Patient?.dob)} yrs</p>
+          </div>
         </div>
       )
     }
@@ -53,58 +53,72 @@ ColumnDef<ExtendedDisclosureTracker>
   {
     accessorKey: 'score',
     header: 'Score',
-    cell: ({ row }) => (
-      <p className="text-[12px]">{row.original?.FullDisclosure?.score}</p>
-    )
+    cell: ({ row }) => {
+      const score = row.original?.FullDisclosure?.score
+      return (
+        <>
+        {score
+          ? <p className="text-[12px] text-slate-500">{score} of 23</p>
+          : <Badge
+          className='rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 shadow-none'
+          >None</Badge>
+      }
+        </>
+      )
+    }
+  },
+  {
+    accessorKey: 'progress',
+    header: 'Progress',
+    cell: ({ row }) => {
+      const score = row.original?.FullDisclosure?.score
+
+      const percentage = score && Math.floor(score / 23 * 100)
+      return (
+        percentage && (
+
+            <Progress percentage={percentage} />
+        )
+      )
+    }
   },
   {
     accessorKey: 'updatedAt',
     header: 'Updated At',
     cell: ({ row }) => (
-      <p className="text-[12px]">
+      <p className="text-[12px] text-slate-500">
         {moment(row.original.updatedAt).format('ll')}
       </p>
     )
-  },
-
-  {
-    accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => {
-      // const patientID = row.original.id
-
-      const { data: session } = useSession()
-      return (
-        <div className="flex flex-row space-x-2 items-center">
-          {/* <PinnedCell patientID={patientID} /> */}
-          <DropDownComponent id={row.original.id!} userID={session?.user.id} />
-        </div>
-      )
-    }
   }
+
 ]
 //
 
-export const partialDisclosureColumn: Array<
-ColumnDef<ExtendedDisclosureTracker>
-> = [
+export const partialDisclosureColumn: Array<ColumnDef<ExtendedDisclosureTracker>> = [
   {
     accessorKey: 'firstName',
     header: 'Name',
     cell: ({ row }) => {
       return (
-        <div
-          className="flex flex-row gap-x-3 items-center
-      pt-1 pb-1 text-[12px]
+        <div>
+          <div
+            className="flex flex-row gap-x-2 items-center
+      text-[12px]
       "
-        >
-          <Avatar
-            name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
-          />
-          <Link
-            className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
-            href={`/users/patients/tab/dashboard/${row.original?.patientID}`}
-          >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
+          >
+            <Avatar
+              name={`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}
+            />
+            <Link
+              className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
+              href={`/users/patients/tab/dashboard/${row.original?.patientID}`}
+            >{`${row.original?.Patient?.firstName} ${row.original?.Patient?.middleName}`}</Link>
+          </div>
+          <div className="flex flex-row space-x-2 items-center text-center ml-7 text-[12px] text-slate-500 font-semibold">
+            <p>{row.original.Patient?.sex}</p> <p>~</p>
+            <p>{calculateAge(row.original.Patient?.dob)} yrs</p>
+          </div>
         </div>
       )
     }
@@ -112,79 +126,43 @@ ColumnDef<ExtendedDisclosureTracker>
   {
     accessorKey: 'PartialDisclosure.score',
     header: 'Score',
-    cell: ({ row }) => (
-      <p className="text-[12px]">{row.original?.PartialDisclosure?.score}</p>
-    )
+    cell: ({ row }) => {
+      const score = row.original?.PartialDisclosure?.score
+      return (
+        <>
+          {score ? (
+            <p className="text-[12px] text-slate-500">
+              {score} of 13
+            </p>
+          ) : (
+            <Badge className="rounded-full bg-slate-50 text-slate-500 hover:bg-slate-100 shadow-none">
+              None
+            </Badge>
+          )}
+        </>
+      )
+    }
+  },
+  {
+    accessorKey: 'progress',
+    header: 'Progress',
+    cell: ({ row }) => {
+      const score = row.original?.PartialDisclosure?.score
+
+      const percentage = score && Math.floor((score / 23) * 100)
+      return percentage && <Progress percentage={percentage} />
+    }
   },
   {
     accessorKey: 'updatedAt',
     header: 'Updated At',
     cell: ({ row }) => (
-      <p className="text-[12px]">
+      <p className="text-[12px] text-slate-500">
         {moment(row.original.updatedAt).format('ll')}
       </p>
     )
-  },
-
-  {
-    accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => {
-      // const patientID = row.original.id
-
-      const { data: session } = useSession()
-      return (
-        <div className="flex flex-row space-x-2 items-center">
-          {/* <PinnedCell patientID={patientID} /> */}
-          <DropDownComponent id={row.original.id!} userID={session?.user.id} />
-        </div>
-      )
-    }
   }
 ]
-
-const DropDownComponent = ({ id, userID }: { id: string, userID?: string }) => {
-  const [addImportantPatient] = useAddImportantPatientMutation()
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Ellipsis className="hover:cursor-pointer text-slate-500" size={15} />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Upcoming Appointments</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuCheckboxItem
-          onClick={async () =>
-            await addImportantPatient({
-              patientID: id,
-              userID
-            })
-          }
-        >
-          <p>Pin</p>
-
-          {/* <div className="flex justify-between items-center w-full">
-            {isImportant ? (
-              <p className="text-yellow-500">Unpin</p>
-            ) : (
-              <p>Pin</p>
-            )}
-            <Pin
-              size={18}
-              className={`text-slate-500 ${isImportant && "text-yellow-500"} `}
-            />
-          </div> */}
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem>
-          <div className="flex justify-between items-center w-full">
-            <Link href={`/users/patients/tab/settings/${id}`}>Edit</Link>
-            <Edit size={18} className="text-slate-500" />
-          </div>
-        </DropdownMenuCheckboxItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
 
 export const importantPatientColumn: Array<
 ColumnDef<ExtendedImportantPatientInterface>

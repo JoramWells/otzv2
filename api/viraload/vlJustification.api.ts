@@ -9,7 +9,7 @@ export interface ARTCategoryProps {
 export const vlJustificationApi = createApi({
   reducerPath: 'vlJustificationApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/vl-justification`
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/lab/vl-justification`
   }),
   endpoints: (builder) => ({
     getAllVlJustification: builder.query<any, void>({

@@ -29,11 +29,6 @@ const dataList2 = [
   {
     id: '2',
     label: 'dashboard',
-    link: '/dashboard'
-  },
-  {
-    id: '3',
-    label: 'Disclosure',
     link: ''
   }
 ]

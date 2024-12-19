@@ -8,20 +8,11 @@ import { Badge } from '@/components/ui/badge'
 // import { Button } from '@/components/ui/button'
 import { calculateAge } from '@/utils/calculateAge'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Edit, Ellipsis } from 'lucide-react'
 import moment from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { type ExtendedImportantPatientInterface, useAddImportantPatientMutation } from '@/api/patient/importantPatients.api'
-import { useSession } from 'next-auth/react'
+
+import { type ExtendedImportantPatientInterface } from '@/api/patient/importantPatients.api'
 import Avatar from '@/components/Avatar'
 import { type ExtendedTimeAndWorkInterface } from '@/api/treatmentplan/timeAndWork.api'
 
@@ -72,9 +63,10 @@ export const columns: Array<ColumnDef<ExtendedTimeAndWorkInterface>> = [
   {
     accessorKey: 'toolsAndCues',
     header: 'Tools',
-    cell: ({ row }) => (
-      <p className="text-[12px]">{row.original?.toolsAndCues}</p>
-    )
+    cell: ({ row }) => {
+      const tools = row.original?.toolsAndCues
+      return <p className="text-[12px] text-slate-500">{tools || 'No Tools'}</p>
+    }
   },
   {
     accessorKey: 'updatedAt',
@@ -84,67 +76,8 @@ export const columns: Array<ColumnDef<ExtendedTimeAndWorkInterface>> = [
         {moment(row.original.updatedAt).format('ll')}
       </p>
     )
-  },
-
-  {
-    accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => {
-      // const patientID = row.original.id
-
-      const { data: session } = useSession()
-      return (
-        <div className="flex flex-row space-x-2 items-center">
-          {/* <PinnedCell patientID={patientID} /> */}
-          <DropDownComponent id={row.original.id} userID={session?.user.id} />
-        </div>
-      )
-    }
   }
 ]
-
-const DropDownComponent = ({ id, userID }: { id: string, userID?: string }) => {
-  const [addImportantPatient] = useAddImportantPatientMutation()
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Ellipsis className="hover:cursor-pointer text-slate-500" size={15} />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Upcoming Appointments</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuCheckboxItem
-          onClick={async () =>
-            await addImportantPatient({
-              patientID: id,
-              userID
-            })
-          }
-        >
-          <p>Pin</p>
-
-          {/* <div className="flex justify-between items-center w-full">
-            {isImportant ? (
-              <p className="text-yellow-500">Unpin</p>
-            ) : (
-              <p>Pin</p>
-            )}
-            <Pin
-              size={18}
-              className={`text-slate-500 ${isImportant && "text-yellow-500"} `}
-            />
-          </div> */}
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem>
-          <div className="flex justify-between items-center w-full">
-            <Link href={`/users/patients/tab/settings/${id}`}>Edit</Link>
-            <Edit size={18} className="text-slate-500" />
-          </div>
-        </DropdownMenuCheckboxItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
 
 export const importantPatientColumn: Array<
 ColumnDef<ExtendedImportantPatientInterface>
