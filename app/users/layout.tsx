@@ -12,7 +12,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { Book, BookCopy, History, LayoutDashboardIcon, Users } from 'lucide-react'
+import { Book, History, LayoutDashboardIcon, Users } from 'lucide-react'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { type JSX, Suspense, useEffect } from 'react'
@@ -61,12 +61,6 @@ const DL: SidebarListItemsProps[] = [
     label: 'Visits',
     link: '/users/visits',
     icon: <History size={17} />
-  },
-  {
-    id: '7',
-    label: 'Reports',
-    link: '/users/reports',
-    icon: <BookCopy size={17} />
   }
 ]
 
