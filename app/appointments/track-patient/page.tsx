@@ -6,7 +6,7 @@ import { type ExtendedAppointmentInputProps, useGetStarredPatientAppointmentsQue
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 import { useUserContext } from '@/context/UserContext'
 import React, { useEffect, useMemo, useState } from 'react'
-import { columns } from '../columns'
+import { columns } from '../appointments/columns'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Badge } from '@/components/ui/badge'
 import debounce from 'lodash/debounce'

@@ -16,7 +16,7 @@ import { useGetAppointmentAgendaCountQuery, useGetRecentAppointmentsQuery } from
 import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
 import CustomPieChart from '@/app/_components/charts/CustomPieChart'
 import { CustomTable } from '@/app/_components/table/CustomTable'
-import { pinnedColumns } from '../columns'
+import { pinnedColumns } from '../appointments/columns'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {

@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { type DefaultParamsInterface } from '@/dtos/PaginatedResponseInterface'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { type HomeVisitConfigAttributes } from 'otz-types'
+import { type PaginatedResponseInterface, type HomeVisitConfigAttributes } from 'otz-types'
 
 export type HomVisitConfigInputProps = HomeVisitConfigAttributes & {
   HomeVisitReason: {
@@ -26,8 +28,20 @@ export const homeVisitConfigApi = createApi({
     baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/pharmacy/home-visit-config`
   }),
   endpoints: (builder) => ({
-    getAllHomeVisitConfig: builder.query<HomVisitConfigInputProps[], void>({
-      query: () => 'fetchAll'
+    getAllHomeVisitConfig: builder.query<PaginatedResponseInterface<HomVisitConfigInputProps>, DefaultParamsInterface>({
+      query: (params) => {
+        if (params) {
+          const { hospitalID, page, pageSize, searchQuery } = params
+          let queryString = ''
+
+          queryString += `page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          queryString += `&hospitalID=${hospitalID}`
+          return `/fetchAll/?${queryString}`
+        }
+        return '/fetchAll'
+      }
     }),
     addHomeVisitConfig: builder.mutation({
       query: (response) => ({

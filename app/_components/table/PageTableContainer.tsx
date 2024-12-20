@@ -9,7 +9,7 @@ interface PageContainerInputProps<TData, TValue> {
   rightLabel?: ReactNode
   columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
-  filter: ReactNode
+  filter?: ReactNode
   search: string
   setSearch: Dispatch<SetStateAction<string>> | undefined
   isLoading: boolean
@@ -17,32 +17,36 @@ interface PageContainerInputProps<TData, TValue> {
 
 function PageTableContainer<TData, Tvalue> ({ rightLabel, title, total, columns, data, filter, search, setSearch, isLoading }: PageContainerInputProps<TData, Tvalue>) {
   return (
-    <div className="bg-white rounded-lg border border-slate-200">
-      <div
-        className="p-2 pb-1 pt-1 flex
+    <div
+    className='p-2'
+    >
+      <div className="bg-white rounded-lg border border-slate-200">
+        <div
+          className="p-2 flex
            flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg justify-between"
-      >
-        <div className="flex flex-row space-x-2 items-center">
-          <p className="text-slate-700 text-[16px] ">{title}</p>
-          <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
-            {total}
-          </Badge>
+        >
+          <div className="flex flex-row space-x-2 items-center">
+            <p className="text-slate-700 text-[16px] capitalize">{title}</p>
+            <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
+              {total}
+            </Badge>
+          </div>
+          <div className="flex flex-row items-center space-x-2">
+            {rightLabel}
+          </div>
         </div>
-        <div className="flex flex-row items-center space-x-2">
- {rightLabel}
-        </div>
-      </div>
-      <CustomTable
-        columns={columns}
-        data={data ?? []}
-        total={total}
-        isLoading={isLoading}
-        search={search}
-        setSearch={setSearch}
-        filter={filter}
+        <CustomTable
+          columns={columns}
+          data={data ?? []}
+          total={total}
+          isLoading={isLoading}
+          search={search}
+          setSearch={setSearch}
+          filter={filter}
 
-        // isSearch
-      />
+          // isSearch
+        />
+      </div>
     </div>
   )
 }

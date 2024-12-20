@@ -8,7 +8,8 @@ import Avatar from '@/components/Avatar'
 import { Badge } from '@/components/ui/badge'
 import { calculateTimeDuration } from '@/utils/calculateTimeDuration'
 import { type ExtendedAppointmentInputProps } from '@/api/appointment/appointment.api.'
-import { Calendar, Clock } from 'lucide-react'
+import { ArrowRight, Calendar, Clock } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 // import { FaEdit } from 'react-icons/fa'
 
 const days = [
@@ -73,29 +74,12 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
   //     <p>{`${row.original.user?.firstName} ${row.original.user?.middleName}`}</p>
   //   )
   // },
-  {
-    accessorKey: 'appointmentDate',
-    header: 'Date',
-    cell: ({ row }) => (
-      <div className="flex flex-col text-[12px]">
-        <div className="flex flex-row space-x-1 items-center">
-          <Calendar size={14} className='text-slate-400' />
-          <p>{moment(row.original.appointmentDate).format('ll')}</p>
-        </div>
-        <div className='flex-row flex space-x-1 items-center'>
-          <Clock size={14} className='text-slate-400' />
-          <p className="text-slate-500 text-[12px]">
-            {moment(row.original.appointmentTime, 'HH:mm ss').format('HH:mm a')}
-          </p>
-        </div>
-      </div>
-    )
-  },
+
   {
     accessorKey: 'appointmentAgenda',
     header: 'Agenda',
     cell: ({ row }) => (
-      <p className="capitalize text-[12px] ">{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
+      <p className="capitalize text-[12px] text-slate-500 ">{`${row.original.AppointmentAgenda?.agendaDescription}`}</p>
     )
   },
   {
@@ -109,7 +93,7 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           <Badge
             // colorScheme="red"
             // rounded={'full'}
-            className="rounded-full bg-red-50 text-red-500 shadow-none text-[12px] "
+            className="rounded-full border border-red-200 hover:bg-red-50 bg-red-50 text-red-500 shadow-none text-[12px] "
           >
             {appointmentStatus}
           </Badge>
@@ -119,7 +103,7 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           <Badge
             // colorScheme="blue"
             // rounded={'full'}
-            className="rounded-full bg-blue-50 text-blue-500 hover:bg-blue-50 shadow-none"
+            className="rounded-full bg-blue-50 border border-slate-200 text-blue-500 hover:bg-blue-50 shadow-none"
           >
             {appointmentStatus}
           </Badge>
@@ -129,7 +113,7 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           <Badge
             // colorScheme="blue"
             // rounded={'full'}
-            className="rounded-full bg-emerald-50 text-emerald-500 hover:bg-emerald-50 shadow-none"
+            className="rounded-full border border-slate-200 bg-emerald-50 text-emerald-500 hover:bg-emerald-50 shadow-none"
           >
             {appointmentStatus}
           </Badge>
@@ -139,7 +123,7 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           <Badge
             // colorScheme="orange"
             // rounded={'full'}
-            className="rounded-full shadow-none bg-orange-50 text-orange-500 hover:bg-orange-50"
+            className="rounded-full border border-orange-200 shadow-none bg-orange-50 text-orange-500 hover:bg-orange-50"
           >
             {appointmentStatus}
           </Badge>
@@ -149,7 +133,7 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
           <Badge
             // colorScheme="teal"
             // rounded={'full'}
-            className="rounded-full bg-teal-50 text-teal-600 shadow-none  hover:bg-teal-50"
+            className="rounded-full bg-teal-50 border border-teal-200 text-teal-600 shadow-none  hover:bg-teal-50"
           >
             {appointmentStatus}
           </Badge>
@@ -165,22 +149,41 @@ export const columns: Array<ColumnDef<ExtendedAppointmentInputProps>> = [
     }
   },
   {
-    accessorKey: 'updatedAt',
-    header: 'Updated',
+    accessorKey: 'appointmentDate',
+    header: 'Date',
     cell: ({ row }) => (
-      <div className="flex items-center space-x-2 text-[12px] ">
-        <p>{moment(row.original.updatedAt).format('ll')}</p>
+      <div className="flex flex-col text-[12px]">
+        <div className="flex flex-row space-x-1 items-center font-semibold text-slate-500">
+          <Calendar size={14} className="text-slate-400" />
+          <p>{moment(row.original.appointmentDate).format('ll')}</p>
+        </div>
+        <div className="flex-row flex space-x-1 items-center">
+          <Clock size={14} className="text-slate-400" />
+          <p className="text-slate-500 text-[12px]">
+            {moment(row.original.appointmentTime, 'HH:mm ss').format('HH:mm a')}
+          </p>
+        </div>
       </div>
     )
   },
   {
     // accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => (
-      <Link href={`/appointments/${row.original.id}`} className="text-[12px]">
-        Edit{' '}
-      </Link>
-    )
+    cell: ({ row }) => {
+      const router = useRouter()
+      return (
+      <>
+
+        <ArrowRight
+          size={18}
+          className="hover:cursor-pointer hover:text-slate-500 text-slate-400 "
+          onClick={() => {
+            router.push(`/appointments/${row.original.id}`)
+          }}
+        />
+      </>
+      )
+    }
   }
 ]
 

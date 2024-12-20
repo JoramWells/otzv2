@@ -107,7 +107,7 @@ export const configColumns: Array<ColumnDef<HomVisitConfigInputProps>> = [
           name={`${row.original?.PatientVisit?.Patient?.firstName} ${row.original?.PatientVisit?.Patient?.middleName}`}
         />
         <div>
-          <p className="capitalize font-semibold">{`${row.original?.PatientVisit.Patient?.firstName} ${row.original?.PatientVisit?.Patient?.middleName}`}</p>
+          <p className="capitalize font-semibold">{`${row.original?.PatientVisit?.Patient?.firstName} ${row.original?.PatientVisit?.Patient?.middleName}`}</p>
         </div>
       </div>
     )

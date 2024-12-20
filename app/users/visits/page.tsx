@@ -1,19 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client'
 
-import { type ExtendedPatientVisitsInterface, useGetAllPatientVisitsQuery } from '@/api/patient/patientVisits.api'
+import { useGetAllPatientVisitsQuery } from '@/api/patient/patientVisits.api'
 import { useSearchParams } from 'next/navigation'
-import React, { useEffect, useMemo, useState } from 'react'
-import debounce from 'lodash/debounce'
-import { CustomTable } from '@/app/_components/table/CustomTable'
+import React, { useState } from 'react'
 import { patientVisitColumns } from './column'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUserContext } from '@/context/UserContext'
-import { Badge } from '@/components/ui/badge'
+import usePreprocessData from '@/hooks/usePreprocessData'
+import PageTableContainer from '@/app/_components/table/PageTableContainer'
+import useSearch from '@/hooks/useSearch'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -31,8 +30,13 @@ const dataList2 = [
   },
   {
     id: '2',
-    label: 'Patients',
-    link: '/'
+    label: 'Dashboard',
+    link: '/users/dashboard'
+  },
+  {
+    id: '3',
+    label: 'Visits',
+    link: ''
   }
 ]
 
@@ -42,32 +46,12 @@ const PageVisits = () => {
   const [search, setSearch] = useState('')
 
   const searchParams = useSearchParams()
-  const [patientData, setPatientData] = useState<
-  ExtendedPatientVisitsInterface[] | undefined
-  >([])
-  const [patientTotal, setPatientTotal] = useState<number>(0)
+
   const page = searchParams.get('page')
-  const tab = searchParams.get('tab')
-
-  const [tabValue, setTabValue] = useState(tab)
-
-  const debounceSearch = useMemo(() => {
-    // setSearch(value)
-    if (page !== null) {
-      return debounce(async (value: string) => {
-        setSearch(value)
-      }, 500)
-    }
-  }, [page])
 
   const { authUser, hospitalID } = useUserContext()
 
-  useEffect(() => {
-    debounceSearch?.(search)
-    return () => debounceSearch?.cancel()
-  }, [debounceSearch, search])
-
-  const { data, isLoading } = useGetAllPatientVisitsQuery(
+  const { data: patientVisitData, isLoading } = useGetAllPatientVisitsQuery(
     {
       hospitalID: authUser?.role !== 'admin' ? (hospitalID!) : '',
       page: Number(page) ?? 1,
@@ -75,51 +59,30 @@ const PageVisits = () => {
       searchQuery: search
     },
     {
-      skip: !hospitalID && !tabValue && tabValue === tab
+      skip: !hospitalID
     }
   )
 
-  useEffect(() => {
-    if (data) {
-      setPatientData(data?.data)
-      setPatientTotal(data?.total)
-    }
-    // if (tab === null) {
-    //   setTabValue("All");
-    // }
-  }, [data, tab])
-
-  console.log(data)
+  const { data, total } = usePreprocessData(patientVisitData)
+  useSearch({ search, setSearch })
 
   return (
-    <div>
+    <>
       <BreadcrumbComponent dataList={dataList2} />
 
-      <div className="p-2">
-        <div className="bg-white border rounded-lg">
-          <div
-            className="p-4 pb-2 pt-2 flex
-           flex-row space-x-2 items-center bg-slate-50 border-b rounded-t-lg"
-          >
-            <p className="text-slate-700 text-[16px] ">Patient Visits</p>
-            <Badge className="bg-slate-200 hover:bg-slate-100 text-slate-700 shadow-none">
-              {patientTotal}
-            </Badge>
-          </div>
-          <CustomTable
-            columns={patientVisitColumns}
-            data={patientData ?? []}
-            total={patientTotal}
-            isLoading={isLoading}
-            search={search}
-            setSearch={setSearch}
-            // filter={<AgeFilter />}
+      <PageTableContainer
+        title="Patient Visits"
+        columns={patientVisitColumns}
+        data={data ?? []}
+        total={total as number}
+        isLoading={isLoading}
+        search={search}
+        setSearch={setSearch}
+        // filter={<AgeFilter />}
 
-            // isSearch
-          />
-        </div>
-      </div>
-    </div>
+        // isSearch
+      />
+    </>
   )
 }
 
