@@ -147,22 +147,22 @@ const HomeVisitAdd = () => {
     <div>
       <BreadcrumbComponent dataList={dataList2} />
       <div className="p-2">
-        <div className="bg-white rounded-lg">
+        <div className="bg-white rounded-lg p-2">
           <div className="w-1/2 border border-slate-200 rounded-lg">
-            <div className="p-2 border-b border-slate-300 bg-slate-200 rounded-t-lg ">
-              <h2 className="font-semibold text-slate-700 text-[16px]  ">
+            <div className="p-2 border-b border-slate-300 bg-slate-50 rounded-t-lg ">
+              <p className="font-semibold text-slate-700 text-[14px]  ">
                 Patient Home visit Configuration
-              </h2>
+              </p>
             </div>
 
             <div className="m-2 p-4 flex flex-row space-x-4 border border-blue-200 rounded-lg bg-blue-50 ">
-              <div className="bg-white rounded-full p-2 flex items-center justify-center h-10 w-10 ">
-                <Info className="text-blue-500" size={16} />
+              <div className="bg-white rounded-full p-2 flex items-center justify-center h-7 w-h-7 ">
+                <Info className="text-blue-500" size={14} />
               </div>
               <div>
-                <h3 className="font-semibold text-blue-500 text-[14px]  ">
+                <p className="font-semibold text-blue-500 text-[14px]  ">
                   Create a reusable configuration for patient home visit
-                </h3>
+                </p>
                 <p className="text-muted-foreground text-[12px] ">
                   Configuration defines a reusable entity for a list of upcoming
                   home visit entries.

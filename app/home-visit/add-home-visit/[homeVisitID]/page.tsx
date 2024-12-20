@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
@@ -16,7 +17,6 @@ import {
 } from 'react'
 import {
   Box,
-  Button,
   Step,
   StepIcon,
   StepIndicator,
@@ -38,12 +38,13 @@ import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
 import { v4 as uuidv4 } from 'uuid'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useAddPatientVisitMutation } from '@/api/patient/patientVisits.api'
 import PatientProfileHomeVisit from '../../_components/PatientProfileHomeVisit'
 import { useGetHomeVisitConfigQuery } from '@/api/homevisit/homeVisitConfig.api'
 import CurrentConfig from '../../_components/CurrentConfig'
+import { Button } from '@/components/ui/button'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -230,12 +231,14 @@ const DisclosureChecklist = ({ params }: any) => {
   }, [addPatientVisit, patientID, userID])
 
   //
+  const router = useRouter()
   useEffect(() => {
     if (visitData?.id) {
       // setPatientVisitID(visitData?.id)
       void addHomeVisit(inputValues[0])
     }
-  }, [visitData, addHomeVisit, inputValues])
+    router.push(`home-visit/config/visit/${homeVisitID}?patientID=${patientID}`)
+  }, [visitData, addHomeVisit, inputValues, router, homeVisitID, patientID])
   const [name1, setName1] = useState<string | undefined>()
   const [name2, setName2] = useState<string | undefined>()
   const [DOB, setDOB] = useState<Date | string | undefined>()
@@ -268,8 +271,7 @@ const DisclosureChecklist = ({ params }: any) => {
   return (
     <div className="">
       <BreadcrumbComponent dataList={dataList2} />
-      <div className="p-2">
-        {/* profile */}
+      <div className="mt-2">
         <PatientProfileHomeVisit
           isLoading={isLoadingPersonalInfo}
           firstName={name1}
@@ -278,10 +280,11 @@ const DisclosureChecklist = ({ params }: any) => {
           phoneNo={NO}
           sex={gender}
         />
+      </div>
+      <div className="p-2 pt-0">
+        {/* profile */}
 
-        <div
-        className='flex flex-row space-x-2 p-2 items-start w-full'
-        >
+        <div className="flex flex-row space-x-2 p-2 items-start w-full">
           <CurrentConfig
             dateRequested={homeVisitConfigData?.dateRequested}
             frequency={homeVisitConfigData?.frequency}
@@ -293,8 +296,8 @@ const DisclosureChecklist = ({ params }: any) => {
           />
 
           <div className="flex items-center w-1/2 flex-col space-y-2">
-            <div className=" p-2 bg-white rounded-xl w-full">
-              <Stepper index={activeStep} colorScheme="teal">
+            <div className=" p-2 bg-white rounded-lg w-full">
+              <Stepper index={activeStep} colorScheme="teal" size={'sm'}>
                 {steps.map((step, index) => (
                   <Step key={index}>
                     <StepIndicator>
@@ -377,47 +380,48 @@ const DisclosureChecklist = ({ params }: any) => {
 
               <div className="flex justify-end pt-2 gap-x-2">
                 <Button
+                className='shadow-none'
                   size={'sm'}
                   onClick={handleBack}
-                  isDisabled={activeStep === 1}
+                  disabled={activeStep === 1}
+                  variant={'outline'}
                 >
                   Back
                 </Button>
-                {activeStep === 4
-                  ? (
+                {activeStep === 3 ? (
                   <Button
-                    colorScheme="teal"
+                    // colorScheme="teal"
+                    className='shadow-none'
                     size={'sm'}
                     onClick={() => {
                       handleStartVisit()
                     }}
-                    isLoading={isLoading || isLoadingVisit}
+                    disabled={isLoading || isLoadingVisit}
+                    variant={'outline'}
                   >
                     Complete
                   </Button>
-                    )
-                  : (
+                ) : (
                   <Button
-                    colorScheme="teal"
+                    // colorScheme="teal"
+                    className='shadow-none'
                     size={'sm'}
                     onClick={() => {
                       handleNext()
                     }}
-                    isLoading={isLoading}
+                    disabled={isLoading}
+                    variant={'outline'}
                   >
                     Next
                   </Button>
-                    )}
+                )}
               </div>
             </div>
           </div>
 
-<div
-className='w-1/4 bg-white rounded-lg p-4'
->
-  <h3>Recent Home Visit</h3>
-</div>
-
+          <div className="w-1/4 bg-white rounded-lg p-4">
+            <h3>Recent Home Visit</h3>
+          </div>
         </div>
       </div>
     </div>

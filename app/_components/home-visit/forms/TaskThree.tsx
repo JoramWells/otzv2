@@ -5,8 +5,8 @@
 import { useGetPrescriptionDetailQuery } from '@/api/pillbox/prescription.api'
 import CustomInput from '../../../../components/forms/CustomInput'
 import CustomSelect from '../../../../components/forms/CustomSelect'
-import { useEffect, useState } from 'react'
-import { Badge } from '@/components/ui/badge'
+// import { useEffect, useState } from 'react'
+// import { Badge } from '@/components/ui/badge'
 
 export interface TaskThreeProps {
   dateHomeVisitRequested: string
@@ -41,19 +41,19 @@ const TaskThree = ({
   const { data: pData } = useGetPrescriptionDetailQuery(patientID)
   console.log(pData, 'PDATA')
 
-  const [medicineCount, setMedicineCount] = useState<number | undefined>(0)
+  // const [medicineCount, setMedicineCount] = useState<number | undefined>(0)
 
-  useEffect(() => {
-    if (pData) {
-      setMedicineCount(pData?.expectedNoOfPills)
-    }
-  }, [pData])
+  // useEffect(() => {
+  //   if (pData) {
+  //     setMedicineCount(pData?.expectedNoOfPills)
+  //   }
+  // }, [pData])
 
   return (
     <div className="flex flex-col gap-y-4">
       {/* DOB */}
 
-      <div className="flex space-x-4 justify-between relative">
+      {/* <div className="flex space-x-4 justify-between relative">
         <div>
           Medicine Counted
           {medicineCount}
@@ -65,7 +65,7 @@ const TaskThree = ({
           Computed Medicine Count
           {pData?.computedNoOfPills}
         </div>
-      </div>
+      </div> */}
 
       <CustomInput
         label="Medicine Counted"
@@ -75,9 +75,9 @@ const TaskThree = ({
 
       {/*  */}
 
-      <div>
+      {/* <div>
         {parseInt(noOfMedicine, 10) === pData?.expectedNoOfPills ? 'Adequate' : 'Inadequate'}
-      </div>
+      </div> */}
       <CustomSelect
         label="Medicine Status"
         value={medicineStatus}

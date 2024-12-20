@@ -49,11 +49,11 @@ const TaskTwo = ({
   return (
     <div className="flex flex-col gap-y-4 rounded-lg ">
       <div
-        className="w-full flex-col border p-2 rounded-xl
+        className="w-full flex-col border p-2 rounded-lg
         border-slate-200 bg-slate-50
         "
       >
-        <p className="text-lg p-0 text-slate-500">ART Treatment</p>
+        <p className="p-0 text-slate-500 text-[12px] font-semibold">ART Treatment</p>
         <CustomCheckbox
           label="Patient on ARV (Yes/No)?"
           value={isARV}
@@ -96,11 +96,11 @@ const TaskTwo = ({
 
       <div
         className="flex flex-col border-t-gray-200 border p-2
-      rounded-xl
+      rounded-lg
       "
       >
         <p
-          className="text-lg
+          className="text-[12px] font-semibold
         "
         >
           TB Treatment

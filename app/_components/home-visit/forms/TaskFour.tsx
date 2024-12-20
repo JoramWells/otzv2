@@ -30,12 +30,13 @@ const TaskFour = ({
   isHouseholdTested,
   setIsHouseholdTested
 }: TaskFourProps) => (
-  <div className="flex flex-col gap-y-4">
+  <div className="flex flex-col">
     <CustomCheckbox
       value={isCountedPills}
       onChange={setIsCountedPills}
       label="Pill Counted(YES/NO)"
     />
+    <hr/>
 
     {/*  */}
 
@@ -45,6 +46,8 @@ const TaskFour = ({
       label="Clinic Visits(Yes/No)?"
     />
 
+    <hr />
+
     {/*  */}
     <CustomCheckbox
       value={isDisclosure}
@@ -52,26 +55,29 @@ const TaskFour = ({
       label="Disclosure (Yes/No)?"
     />
 
+    <hr />
+
     {/*  */}
     <CustomCheckbox
       value={isGuardianSupport}
       onChange={setIsGuardianSupport}
       label="Guardian Support (Yes/No)?"
     />
-
+<hr />
     {/*  */}
     <CustomCheckbox
       value={isSupportGroupAttendance}
       onChange={setIsSupportGroupAttendance}
       label="Support Group Attendance(Yes/No)?"
     />
-
+<hr />
     {/*  */}
     <CustomCheckbox
       value={isHouseholdTested}
       onChange={setIsHouseholdTested}
       label="Household members tested(Yes/No)?"
     />
+    <hr />
   </div>
 )
 

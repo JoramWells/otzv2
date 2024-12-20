@@ -16,14 +16,14 @@ interface CurrentCOnfigInputProps {
 const CurrentConfig = ({ homeVisitReasonDescription, frequency, dateRequested, id, patientID, isConfig = false }: CurrentCOnfigInputProps) => {
   const router = useRouter()
   return (
-    <div className="w-1/3 bg-white rounded-lg border ring-1 ring-slate-100">
-      <div className="border-b p-2 rounded-t-lg flex items-center space-x-2 ">
+    <div className="w-1/3 bg-white rounded-lg border border-slate-200">
+      <div className="border-b p-2 rounded-t-lg flex items-center space-x-2 bg-slate-50 ">
         <Settings size={14} className="text-slate-500" />
-        <h3 className="font-semibold text-slate-700 text-[14px] ">Config</h3>
+        <h3 className="font-semibold text-slate-700 text-[14px] ">Configuration</h3>
       </div>
 
       {/*  */}
-      <div className="p-2 pt-0 ">
+      <div className="p-2 pt-0 pb-0 ">
         <div className="flex justify-between p-2 text-[12px]">
           <h3 className="text-slate-500">Reason</h3>
           <p className="font-semibold">{homeVisitReasonDescription}</p>
