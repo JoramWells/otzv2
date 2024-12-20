@@ -24,7 +24,7 @@ const PatientProfileHomeVisit = ({ isLoading, firstName, middleName, dob, sex, p
             <Avatar
               name={`${firstName} ${middleName}`}
             />
-            <p className="font-bold capitalize ">
+            <p className="font-semibold capitalize text-[14px]">
               {firstName} {middleName}
             </p>
                </div>

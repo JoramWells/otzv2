@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 'use client'
 
 import { useGetAllHomeVisitConfigQuery } from '@/api/homevisit/homeVisitConfig.api'
@@ -10,6 +11,8 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { importConfigColumns } from '../columns'
 import { History, Pin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useUserContext } from '@/context/UserContext'
+import usePreprocessData from '@/hooks/usePreprocessData'
 
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
@@ -33,7 +36,15 @@ const dataList2 = [
 ]
 
 const Dashboard = () => {
-  const { data } = useGetAllHomeVisitConfigQuery()
+  const { hospitalID } = useUserContext()
+  const { data: configData } = useGetAllHomeVisitConfigQuery({
+    hospitalID: hospitalID as string,
+    page: 1,
+    pageSize: 10,
+    searchQuery: ''
+  })
+
+  const { data } = usePreprocessData(configData)
 
   const filteredHomeVisit = useMemo(() => (data != null ? [...data] : []), [data])
 

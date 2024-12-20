@@ -65,8 +65,8 @@ const Page = ({ params }: { params: any }) => {
           patientID={patientID!}
           isConfig
         />
-        <div className="w-1/2  rounded-lg bg-white ">
-          <div className="p-2 font-semibold flex space-x-2 items-center ">
+        <div className="w-1/2  rounded-lg bg-white border border-slate-200 ">
+          <div className="p-2 font-semibold flex space-x-2 items-center bg-slate-50 rounded-t-lg ">
             <Clock size={14} className="text-slate-500" />
             <h4 className="text-slate-700 text-[14px] ">Recent Home Visits</h4>
           </div>
@@ -80,15 +80,22 @@ const Page = ({ params }: { params: any }) => {
                 flex justify-between items-center
                 "
                 >
-                  <div>
+                  <div className='flex flex-col space-y-1' >
                     <div className="flex flex-row space-x-2 items-center">
-                      <p>{item?.artPrescription?.currentRegimen}</p>
+                      <p className="text-[12px] font-semibold text-slate-800">
+                        {item?.artPrescription?.currentRegimen}
+                      </p>
                       <Badge className="rounded-lg bg-white shadow-none text-slate-500 border border-slate-200 hover:bg-transparent ">
                         {item.medicineStatus}
                       </Badge>
                     </div>
-                    <h3>{item.noOfPills} </h3>
-                    <div className="flex flex-row space-x-2 text-slate-500 text-[14px] ">
+                    <div
+                    className='flex flex-row space-x-2 text-[12px] text-slate-500 '
+                    >
+                      <p>Pill Count: </p>
+                      <p>{item.noOfPills} </p>
+                    </div>
+                    <div className="flex flex-row space-x-2 text-slate-500 text-[12px] ">
                       <h3>Return to Clinic:</h3>
                       <h3>{moment(item.returnToClinic).calendar()} </h3>
                     </div>
@@ -103,7 +110,7 @@ const Page = ({ params }: { params: any }) => {
                       )
                     }}
                   >
-                    <ArrowRight className="text-slate-500 hover:text-slate-700 " />
+                    <ArrowRight size={16} className="text-blue-500 hover:text-blue-700 " />
                   </div>
                 </div>
               ))}
