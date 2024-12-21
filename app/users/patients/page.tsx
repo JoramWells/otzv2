@@ -35,7 +35,7 @@ const dataList2 = [
   {
     id: '2',
     label: 'Patients',
-    link: '/'
+    link: ''
   }
 ]
 
@@ -157,7 +157,7 @@ const Patients = () => {
                 </p>
                   )}
               <Button
-                className="shadow-none bg-teal-600 hover:bg-teal-500"
+                className="shadow-none bg-teal-600 hover:bg-teal-500 m-0"
                 size={'sm'}
                 // variant={'outline'}
                 onClick={() => {

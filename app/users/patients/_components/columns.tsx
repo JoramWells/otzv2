@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge'
 // import { Button } from '@/components/ui/button'
 import { calculateAge } from '@/utils/calculateAge'
 import { type ColumnDef } from '@tanstack/react-table'
-import { Edit, Ellipsis, Star, StarOff, TrashIcon } from 'lucide-react'
+import { Edit, Ellipsis, Eye, EyeOff, Star, StarOff, TrashIcon } from 'lucide-react'
 import moment, { type MomentInput } from 'moment'
 import Link from 'next/link'
 // import { FaEdit } from 'react-icons/fa'
@@ -29,6 +29,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { useGetCaseManagerByPatientIDQuery } from '@/api/patient/casemanager.api'
 import Avatar from '@/components/Avatar'
+import { obfuscatePhoneNumber } from '@/utils/pageNumber'
+import { useState } from 'react'
 //
 interface CaregiverColumnsProps {
   id: string
@@ -183,7 +185,7 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
           <Link
             className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
             href={`/users/patients/tab/dashboard/${id}`}
-          >{`${firstName} ${middleName}`}</Link>
+          >{`${firstName} ${middleName?.charAt(1)}.`}</Link>
         </div>
       )
     }
@@ -225,7 +227,21 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
   {
     accessorKey: 'cccNo',
     header: 'CCC No.',
-    cell: ({ row }) => <p className="text-[12px]">{row.original.cccNo}</p>
+    cell: ({ row }) => {
+      const cccNo = row.original?.cccNo
+      const [visible, setVisible] = useState(false)
+      const toggleVisibility = () => {
+        return setVisible(prev => !prev)
+      }
+      return (
+        <div className='flex flex-row space-x-2 items-center text-slate-500 ' >
+          <p className="text-[12px] text-slate-500">
+            {cccNo && (visible ? cccNo : obfuscatePhoneNumber(cccNo))}
+          </p>
+          <EyeOff size={14} onClick={toggleVisibility} />
+        </div>
+      )
+    }
   },
   {
     accessorKey: 'caseManager',

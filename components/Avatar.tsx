@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 const Avatar = ({ name, h = 6, w = 6 }: AvatarProps) => {
   const fullName = name.split(' ')
   const firstName = fullName[0].charAt(0)
-  const secondName = fullName[0].charAt(0)
+  const secondName = fullName[2]?.trim().charAt(0)
   const randomColors = useMemo(() => generateRandomColors(), [])
   return (
     <div
