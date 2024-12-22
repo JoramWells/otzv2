@@ -12,7 +12,7 @@ import { Sidebar } from '@/components/sidebar/Sidebar'
 import { Toaster } from '@/components/ui/toaster'
 import { store } from '@/lib/store'
 import { ChakraProvider } from '@chakra-ui/react'
-import { BookCopy, CalendarDays, History, Home, LayoutDashboardIcon, MessageSquare, Settings } from 'lucide-react'
+import { ArrowLeftRightIcon, BookCopy, CalendarDays, History, Home, LayoutDashboardIcon, MessageSquare, Settings } from 'lucide-react'
 import { useParams, usePathname } from 'next/navigation'
 import { type ReactNode } from 'react'
 import { Provider } from 'react-redux'
@@ -53,6 +53,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
       label: 'Messages',
       link: `/users/patients/tab/messages/${patientID}`,
       icon: <MessageSquare size={17} />
+    },
+    {
+      id: '12',
+      label: 'Transfer',
+      link: `/users/patients/tab/transfer/${patientID}`,
+      icon: <ArrowLeftRightIcon size={17} />
     },
     {
       id: '10',

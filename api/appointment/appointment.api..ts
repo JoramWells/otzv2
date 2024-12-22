@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { type AppointmentAgendaAttributes, type PatientAttributes, type AppointmentAttributes } from 'otz-types'
+import { type AppointmentAgendaAttributes, type PatientAttributes, type AppointmentAttributes, type PatientVisitsInterface } from 'otz-types'
 
 interface AppointmentTypeProps {
   date?: string
@@ -25,6 +25,7 @@ export type ExtendedAppointmentInputProps = AppointmentAttributes & {
     | 'Rescheduled'
     | 'Cancelled'
   }
+  PatientVisits?: PatientVisitsInterface
 }
 
 export interface AppointmentResponseInterface {
@@ -92,7 +93,10 @@ export const appointmentApi = createApi({
         return '/appointment-agenda-count'
       }
     }),
-    getStarredPatientAppointments: builder.query<AppointmentResponseInterface, AppointmentTypeProps>({
+    getStarredPatientAppointments: builder.query<
+    AppointmentResponseInterface,
+    AppointmentTypeProps
+    >({
       query: (params) => {
         if (params) {
           const { hospitalID, page, pageSize, searchQuery } = params
@@ -108,6 +112,9 @@ export const appointmentApi = createApi({
     }),
     getPriorityAppointmentDetail: builder.query({
       query: (id) => `priorityAppointmentDetail/${id}`
+    }),
+    getAppointmentByPatientID: builder.query<AppointmentAttributes, string>({
+      query: (id) => `by-patient-id/${id}`
     }),
     getRecentPatientAppointment: builder.mutation({
       query: ({ id, params }) => {
@@ -154,5 +161,5 @@ export const {
   useGetAllAppointmentsQuery, useAddAppointmentMutation, useGetPriorityAppointmentDetailQuery,
   useGetAppointmentQuery, useGetAppointmentDetailQuery, useGetRecentAppointmentsQuery,
   useUpdateAppointmentMutation, useDeleteAppointmentMutation, useGetRecentPatientAppointmentMutation,
-  useGetAllWeeklyAppointmentsQuery, useGetAppointmentAgendaCountQuery, useGetStarredPatientAppointmentsQuery
+  useGetAllWeeklyAppointmentsQuery, useGetAppointmentAgendaCountQuery, useGetStarredPatientAppointmentsQuery, useGetAppointmentByPatientIDQuery
 } = appointmentApi

@@ -80,6 +80,8 @@ import { vlJustificationApi } from '@/api/viraload/vlJustification.api'
 import { CALHIVApi } from '@/api/patient/calhiv.api'
 import { fullDisclosureApi } from '@/api/treatmentplan/full/fullDisclosure.api.ts'
 import { disclosureTrackerApi } from '@/api/treatmentplan/disclosureTracker.api'
+import { transferOutApi } from '@/api/users/transfer/transferOut.api'
+import { transferInApi } from '@/api/users/transfer/transferIn.api'
 
 export const store = configureStore({
   reducer: {
@@ -164,7 +166,9 @@ export const store = configureStore({
     [importantPatientApi.reducerPath]: importantPatientApi.reducer,
     [userSessionLogsApi.reducerPath]: userSessionLogsApi.reducer,
     [hospitalApi.reducerPath]: hospitalApi.reducer,
-    [disclosureTrackerApi.reducerPath]: disclosureTrackerApi.reducer
+    [disclosureTrackerApi.reducerPath]: disclosureTrackerApi.reducer,
+    [transferOutApi.reducerPath]: transferOutApi.reducer,
+    [transferInApi.reducerPath]: transferInApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -251,4 +255,6 @@ export const store = configureStore({
       .concat(userSessionLogsApi.middleware)
       .concat(hospitalApi.middleware)
       .concat(disclosureTrackerApi.middleware)
+      .concat(transferOutApi.middleware)
+      .concat(transferInApi.middleware)
 })

@@ -1,7 +1,8 @@
 import { PatientProfileDropdown } from '@/app/users/patients/_components/PatientProfileDropdown'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Loader2, Plus, Star } from 'lucide-react'
+import { ArrowLeftRight, Loader2, Plus, Star } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const NavigationHeader = ({
@@ -31,6 +32,7 @@ const NavigationHeader = ({
   link: string
   noOfVisits?: number
 }) => {
+  const router = useRouter()
   return (
     <div className="flex flex-row space-x-2 justify-between mt-1 p-1 pl-4 pr-4 bg-white ">
       {isFetchingPatient
@@ -52,6 +54,15 @@ const NavigationHeader = ({
         />
             )}
       <div className="flex flex-row items-center space-x-2">
+        <Button
+        size={'sm'}
+        className='shadow-none'
+        variant={'outline'}
+        onClick={() => router.push(`/users/patients/tab/transfer/${id}`)}
+        >
+          <ArrowLeftRight size={14} className='mr-2' />
+          Transfer
+        </Button>
         <p className='text-[12px] font-extrabold text-slate-500' >
             {noOfVisits ?? 0} visits
         </p>

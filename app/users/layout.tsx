@@ -12,7 +12,7 @@ import { Provider } from 'react-redux'
 import { store } from '@/lib/store'
 import { SidebarProvider } from '@/context/SidebarContext'
 import SidebarListItemsComponent, { type SidebarListItemsProps } from '../_components/patient/SidebarListItemsComponent'
-import { Book, History, LayoutDashboardIcon, Users } from 'lucide-react'
+import { ArrowRightLeft, Book, History, LayoutDashboardIcon, Users } from 'lucide-react'
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { type JSX, Suspense, useEffect } from 'react'
@@ -49,6 +49,12 @@ const DL: SidebarListItemsProps[] = [
     label: 'OTZ',
     link: '/users/otz',
     icon: <Users size={17} />
+  },
+  {
+    id: '5',
+    label: 'Transfers',
+    link: '/users/transfers',
+    icon: <ArrowRightLeft size={17} />
   },
   // {
   //   id: '5',
@@ -119,7 +125,9 @@ const PatientLayout = ({ children }: { children: React.ReactNode }) => {
       pathname === `/users/patients/tab/caregivers/${patientID}` ||
       pathname === `/users/patients/tab/casemanagers/${patientID}` ||
       pathname === `/users/patients/tab/homevisit/${patientID}` ||
-      pathname === `/users/patients/tab/lab/${patientID}` ||
+      pathname === `/users/patients/tab/visit-detail/mmas/${patientID}` ||
+      pathname === `/users/patients/tab/transfer/${patientID}` ||
+      pathname === `/users/patients/tab/transfer/out/${patientID}` ||
       pathname === `/users/patients/tab/pharmacy/${patientID}` ||
       pathname === `/users/patients/tab/medication/${patientID}` ||
       pathname === `/users/patients/tab/messages/${patientID}` ||
