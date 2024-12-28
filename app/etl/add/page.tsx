@@ -30,6 +30,7 @@ import UploadSection from '../_components/UploadSection'
 import UpdateUsers from '../_components/UpdateUsers'
 
 import UpdateMissingVLEntries from '../_components/UpdateMissingVLEntries'
+import usePreprocessData from '@/hooks/usePreprocessData'
 const BreadcrumbComponent = dynamic(
   async () => await import('@/components/nav/BreadcrumbComponent'),
   {
@@ -190,18 +191,16 @@ interface CheckUserInterface {
 
 const AddEtlPage = () => {
   const [headers, setHeaders] = useState<string[]>([])
-  const [users, setUsers] = useState<UserInterface[]>([])
   const [csvUsers, setCsvUsers] = useState<CheckUserInterface[]>([])
   const { data: usersData } = useGetAllUsersQuery({
     page: 1,
-    pageSize: 100,
-    searchQuery: ''
+    pageSize: 1000,
+    searchQuery: '',
+    hospitalName: ''
   })
-  useEffect(() => {
-    if (usersData) {
-      setUsers(usersData.data)
-    }
-  }, [usersData])
+
+  const { data: users } = usePreprocessData(usersData)
+  console.log(users, 'userx')
 
   const userName = users?.map(item => (`${item.firstName} ${item.middleName}`))
   const columns = useMemo<Array<ColumnDef<any>>>(

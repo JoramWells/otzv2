@@ -20,7 +20,10 @@ export const transferInApi = createApi({
     // }
   }),
   endpoints: (builder) => ({
-    getAllTransferIns: builder.query<PaginatedResponseInterface<TransferInInterface>, DefaultParamsInterface>({
+    getAllTransferIns: builder.query<
+    PaginatedResponseInterface<TransferInInterface>,
+    DefaultParamsInterface
+    >({
       query: (params) => {
         if (params) {
           const { hospitalID, page, pageSize, searchQuery } = params
@@ -34,7 +37,23 @@ export const transferInApi = createApi({
         return 'fetchAll'
       }
     }),
-
+    getAllTransferInsByPatientID: builder.query<
+    PaginatedResponseInterface<TransferInInterface>,
+    { patientID: string, page: number, pageSize: number, searchQuery: string }
+    >({
+      query: (params) => {
+        if (params) {
+          const { patientID, page, pageSize, searchQuery } = params
+          let queryString = ''
+          queryString += `patientID=${patientID}`
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          return `/all-by-patient-id/?${queryString}`
+        }
+        return 'all-by-patient-id'
+      }
+    }),
     addTransferIn: builder.mutation({
       query: (newUser) => ({
         url: 'add',
@@ -71,7 +90,10 @@ export const transferInApi = createApi({
         }
       }
     }),
-    verifyTransferIn: builder.mutation<TransferInInterface, { id: string, userID: string, hospitalID: string }>({
+    verifyTransferIn: builder.mutation<
+    TransferInInterface,
+    { id: string, userID: string, hospitalID: string }
+    >({
       query (params) {
         const { id, userID, hospitalID } = params
         // let queryString = ''
@@ -90,6 +112,6 @@ export const transferInApi = createApi({
 export const {
   useGetAllTransferInsQuery, useUpdateTransferInMutation,
   useDeleteTransferInMutation, useAddTransferInMutation, useGetTransferInQuery, useGetTransferInByHospitalIDQuery,
-  useVerifyTransferInMutation
+  useVerifyTransferInMutation, useGetAllTransferInsByPatientIDQuery
 
 } = transferInApi

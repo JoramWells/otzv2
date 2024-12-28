@@ -237,7 +237,7 @@ const DisclosureChecklist = ({ params }: any) => {
       // setPatientVisitID(visitData?.id)
       void addHomeVisit(inputValues[0])
     }
-    router.push(`home-visit/config/visit/${homeVisitID}?patientID=${patientID}`)
+    // router.push(`home-visit/config/visit/${homeVisitID}?patientID=${patientID}`)
   }, [visitData, addHomeVisit, inputValues, router, homeVisitID, patientID])
   const [name1, setName1] = useState<string | undefined>()
   const [name2, setName2] = useState<string | undefined>()
@@ -266,7 +266,6 @@ const DisclosureChecklist = ({ params }: any) => {
     }
     // setIsCountedPills(false)
   }, [patientData, noOfMedicine, personalData])
-  console.log(patientData, 'lop')
 
   return (
     <div className="">

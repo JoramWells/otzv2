@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import Avatar from '@/components/Avatar'
 import { type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
+import RowDetails from '@/components/RowDetails'
 // import { FaEdit } from 'react-icons/fa'
 
 export const columns: Array<ColumnDef<ExtendedViralLoadInterface>> = [
@@ -66,5 +67,10 @@ export const columns: Array<ColumnDef<ExtendedViralLoadInterface>> = [
         )}
       </>
     )
+  }, {
+    accessorKey: 'action',
+    cell: ({ row }) => <RowDetails
+    link={`/viratrack/viratrack/${row.original.id}`}
+    />
   }
 ]

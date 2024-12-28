@@ -121,13 +121,13 @@ const HomeVisitAdd = () => {
 
   const router = useRouter()
 
-  useEffect(() => {
-    if (homeData) {
-      router.push(
-        `/home-visit/config/visit/${homeData?.id}?patientID=${search?.id}`
-      )
-    }
-  }, [homeData, search?.id, router])
+  // useEffect(() => {
+  //   if (homeData) {
+  //     router.push(
+  //       `/home-visit/config/visit/${homeData?.id}?patientID=${search?.id}`
+  //     )
+  //   }
+  // }, [homeData, search?.id, router])
   const [visitData, setVisitData] = useState<PatientAttributes[]>([])
 
   useEffect(() => {

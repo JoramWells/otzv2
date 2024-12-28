@@ -153,39 +153,40 @@ export const patientColumns: Array<ColumnDef<PatientAttributes>> = [
     cell: ({ row }) => {
       const { id, firstName, middleName, avatar } = row.original
       return (
-        <div
-          className="flex flex-row gap-x-3 items-center
+        <div>
+          <div
+            className="flex flex-row gap-x-3 items-center
       pt-1 pb-1 text-[12px]
       "
-        >
-          {avatar ? (
-            <Image
-              // w={0}
-              alt="im"
-              // placeholder="data:image/..."
-              width={25}
-              height={25}
-              // quality={25}
-              // fill
-              // objectFit='contain'
-              // priority
-              className="rounded-full"
-              src={`${process.env.NEXT_PUBLIC_API_URL}/api/users/${avatar}`}
-              style={{
-                width: '25px',
-                height: '25px',
-                objectFit: 'cover'
-              }}
-            />
-          ) : (
-            <Avatar
-              name={`${firstName} ${middleName}`}
-            />
-          )}
-          <Link
-            className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
-            href={`/users/patients/tab/dashboard/${id}`}
-          >{`${firstName} ${middleName?.charAt(1)}.`}</Link>
+          >
+            {avatar ? (
+              <Image
+                // w={0}
+                alt="im"
+                // placeholder="data:image/..."
+                width={25}
+                height={25}
+                // quality={25}
+                // fill
+                // objectFit='contain'
+                // priority
+                className="rounded-full"
+                src={`${process.env.NEXT_PUBLIC_API_URL}/api/users/${avatar}`}
+                style={{
+                  width: '25px',
+                  height: '25px',
+                  objectFit: 'cover'
+                }}
+              />
+            ) : (
+              <Avatar name={`${firstName} ${middleName}`} />
+            )}
+            <Link
+              className="capitalize  text-blue-500  hover:cursor-pointer hover:underline "
+              href={`/users/patients/tab/dashboard/${id}`}
+            >{`${firstName} ${middleName?.charAt(1)}.`}</Link>
+          </div>
+          {moment(row.original.createdAt).isSame(new Date(), 'day') && <Badge>NEW</Badge>}
         </div>
       )
     }

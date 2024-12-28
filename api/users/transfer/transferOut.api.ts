@@ -20,7 +20,10 @@ export const transferOutApi = createApi({
     // }
   }),
   endpoints: (builder) => ({
-    getAllTransferOuts: builder.query<PaginatedResponseInterface<TransferOutInterface>, DefaultParamsInterface>({
+    getAllTransferOuts: builder.query<
+    PaginatedResponseInterface<TransferOutInterface>,
+    DefaultParamsInterface
+    >({
       query: (params) => {
         if (params) {
           const { hospitalID, page, pageSize, searchQuery } = params
@@ -34,7 +37,23 @@ export const transferOutApi = createApi({
         return 'fetchAll'
       }
     }),
-
+    getAllTransferOutByPatientID: builder.query<
+    PaginatedResponseInterface<TransferOutInterface>,
+    { patientID: string, page: number, pageSize: number, searchQuery: string }
+    >({
+      query: (params) => {
+        if (params) {
+          const { patientID, page, pageSize, searchQuery } = params
+          let queryString = ''
+          queryString += `patientID=${patientID}`
+          queryString += `&page=${page}`
+          queryString += `&pageSize=${pageSize}`
+          queryString += `&searchQuery=${searchQuery}`
+          return `/all-by-patient-id/?${queryString}`
+        }
+        return 'all-by-patient-id'
+      }
+    }),
     addTransferOut: builder.mutation({
       query: (newUser) => ({
         url: 'add',
@@ -76,6 +95,7 @@ export const transferOutApi = createApi({
 
 export const {
   useGetAllTransferOutsQuery, useUpdateTransferOutMutation,
-  useDeleteTransferOutMutation, useAddTransferOutMutation, useGetTransferOutQuery, useGetTransferOutByHospitalIDQuery
+  useDeleteTransferOutMutation, useAddTransferOutMutation, useGetTransferOutQuery, useGetTransferOutByHospitalIDQuery,
+  useGetAllTransferOutByPatientIDQuery
 
 } = transferOutApi
