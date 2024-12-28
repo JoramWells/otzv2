@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useGetViralLoadTestQuery } from '@/api/lab/viralLoadTests.api'
 // import { useGetPatientQuery } from '@/api/patient/patients.api'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'

@@ -5,7 +5,7 @@
 
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useGetAllVlCategoriesQuery, useGetRecentVLQuery, useGetVlReasonsQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useGetAllVlCategoriesQuery, useGetRecentVLQuery, useGetVlReasonsQuery } from '@/api/lab/viralLoadTests.api'
 import { useUserContext } from '@/context/UserContext'
 import { AppointmentBarChart } from '@/components/Recharts/AppointmentBarChart'
 import CustomSelectParams from '@/components/forms/CustomSelectParams'

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useGetAllAppointmentAgendaQuery } from '@/api/appointment/appointmentAgenda.api'
 import { useGetAllAppointmentStatusQuery } from '@/api/appointment/appointmentStatus.api'
-import { useAddViralLoadTestMutation, useGetAllViralLoadByPatientIDQuery, useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useAddViralLoadTestMutation, useGetAllViralLoadByPatientIDQuery, useGetViralLoadTestQuery } from '@/api/lab/viralLoadTests.api'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import moment from 'moment'

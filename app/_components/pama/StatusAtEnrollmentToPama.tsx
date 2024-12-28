@@ -6,7 +6,7 @@
 import { useEffect } from 'react'
 // import { Button } from '@chakra-ui/react'
 import CustomInput from '../../../components/forms/CustomInput'
-import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useGetViralLoadTestQuery } from '@/api/lab/viralLoadTests.api'
 import { useGetPrescriptionQuery } from '@/api/pillbox/prescription.api'
 import { type VLDataProps } from './PrimaryCaregiver'
 import ViralLoadStatusComponent from './ViralLoadStatusComponent'

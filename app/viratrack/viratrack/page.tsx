@@ -6,7 +6,7 @@ import { CustomTable } from '../../_components/table/CustomTable'
 import { useEffect, useMemo, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
-import { useGetAllViralLoadTestsQuery, type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
+import { useGetAllViralLoadTestsQuery, type ExtendedViralLoadInterface } from '@/api/lab/viralLoadTests.api'
 import BreadcrumbComponent from '@/components/nav/BreadcrumbComponent'
 import { useUserContext } from '@/context/UserContext'
 import debounce from 'lodash/debounce'

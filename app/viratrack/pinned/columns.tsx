@@ -5,7 +5,7 @@ import moment from 'moment'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import Avatar from '@/components/Avatar'
-import { type ExtendedViralLoadInterface } from '@/api/enrollment/viralLoadTests.api'
+import { type ExtendedViralLoadInterface } from '@/api/lab/viralLoadTests.api'
 // import { FaEdit } from 'react-icons/fa'
 
 export const columns: Array<ColumnDef<ExtendedViralLoadInterface>> = [

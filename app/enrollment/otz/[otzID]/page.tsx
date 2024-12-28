@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useGetViralLoadTestQuery } from '@/api/lab/viralLoadTests.api'
 import { CustomTable } from '@/app/_components/table/CustomTable'
 import { Avatar, Button } from '@chakra-ui/react'
 import Link from 'next/link'

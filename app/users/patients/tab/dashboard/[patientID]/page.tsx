@@ -10,7 +10,7 @@
 
 import { useGetPriorityAppointmentDetailQuery } from '@/api/appointment/appointment.api.'
 import { useGetArtPrescriptionQuery } from '@/api/art/artPrescription.api'
-import { useGetViralLoadTestQuery } from '@/api/enrollment/viralLoadTests.api'
+import { useGetViralLoadTestQuery } from '@/api/lab/viralLoadTests.api'
 import { useAddPatientVisitMutation, useGetPatientVisitCountQuery } from '@/api/patient/patientVisits.api'
 import { useGetVitalSignByPatientIDQuery } from '@/api/lab/vitalSigns.api'
 import { Button } from '@/components/ui/button'
